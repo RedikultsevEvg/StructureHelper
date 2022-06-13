@@ -1,0 +1,47 @@
+﻿<Window x:Class="StructureHelper.AddMaterialView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance local:AddMaterialViewModel}"
+        Title="Добавление материала" Height="350" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="{Binding RowHeight}"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="{Binding RowHeight}"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Группа материалов"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" Margin="10" ItemsSource="{Binding Materials}" DisplayMemberPath="Name" SelectedItem="{Binding MaterialCollection}"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Класс"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding MaterialClass}"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Модуль упругости" IsEnabled="{Binding IsNotConcrete}"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Margin="10"  IsEnabled="{Binding IsNotConcrete}" Text="{Binding YoungModulus}"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Нормативная прочность на сжатие"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Margin="10" Text="{Binding CompressiveStrengthCoef}"/>
+            <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Нормативная прочность на растяжение"  IsEnabled="{Binding IsNotConcrete}"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Margin="10" Text="{Binding TensileStrengthCoef}"  IsEnabled="{Binding IsNotConcrete}"/>
+            <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Коэффициент надежности при сжатии"/>
+            <TextBox Grid.Row="5" Grid.Column="1" Margin="10" Text="{Binding MaterialCoefInCompress}"/>
+            <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Коэффициент надежности при расширении"/>
+            <TextBox Grid.Row="6" Grid.Column="1" Margin="10" Text="{Binding MaterialCoefInTension}"/>
+        </Grid>
+        <Button Grid.Row="1" Grid.Column="0" Margin="10" HorizontalAlignment="Left" Content="Добавить материал" Command="{Binding AddMaterial}"/>
+    </Grid>
+</Window>

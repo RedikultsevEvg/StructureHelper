@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructureHelper", "StructureHelper.csproj", "{BAD27E27-4444-4300-ADF8-E21042C0781D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BAD27E27-4444-4300-ADF8-E21042C0781D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAD27E27-4444-4300-ADF8-E21042C0781D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAD27E27-4444-4300-ADF8-E21042C0781D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAD27E27-4444-4300-ADF8-E21042C0781D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A4F97ACA-7F64-4D3E-AB47-8EE61B5BAB9A}
+	EndGlobalSection
+EndGlobal
