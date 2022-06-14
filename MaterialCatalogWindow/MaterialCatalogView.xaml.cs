@@ -7,7 +7,7 @@ namespace StructureHelper
     /// </summary>
     public partial class MaterialCatalogView : Window
     {
-        public MaterialCatalogView(bool isMaterialCanBeSelected = false, PrimitiveDefinition primitive = null)
+        public MaterialCatalogView(bool isMaterialCanBeSelected = false, PrimitiveDefinitionBase primitive = null)
         {
             var materialCatalogModel = new MaterialCatalogModel();
             var materialCatalogViewModel = new MaterialCatalogViewModel(materialCatalogModel, this, isMaterialCanBeSelected, primitive);

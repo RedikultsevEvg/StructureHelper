@@ -54,7 +54,7 @@ namespace StructureHelper
         public Visibility SelectMaterialButtonVisibility => IsMaterialCanBeSelected ? Visibility.Visible : Visibility.Hidden;
         public MaterialCatalogViewModel() { }
 
-        public MaterialCatalogViewModel(MaterialCatalogModel materialCatalogModel, MaterialCatalogView materialCatalogView, bool isMaterialCanBeSelected, PrimitiveDefinition primitive = null)
+        public MaterialCatalogViewModel(MaterialCatalogModel materialCatalogModel, MaterialCatalogView materialCatalogView, bool isMaterialCanBeSelected, PrimitiveDefinitionBase primitive = null)
         {
             this.materialCatalogModel = materialCatalogModel;
             this.materialCatalogView = materialCatalogView;

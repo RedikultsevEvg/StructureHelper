@@ -7,7 +7,7 @@ namespace StructureHelper
     /// </summary>
     public partial class ColorPickerView : Window
     {
-        public ColorPickerView(PrimitiveDefinition primitive)
+        public ColorPickerView(PrimitiveDefinitionBase primitive)
         {
             var viewModel = new ColorPickerViewModel(primitive);
             DataContext = viewModel;
