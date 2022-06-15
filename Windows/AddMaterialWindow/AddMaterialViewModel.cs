@@ -17,7 +17,7 @@ namespace StructureHelper
             get => materialCollection;
             set
             {
-                OnPropertyChanged(value, materialCollection);
+                OnPropertyChanged(value, ref materialCollection);
                 OnPropertyChanged(nameof(IsNotConcrete));
                 OnPropertyChanged(nameof(RowHeight));
             }

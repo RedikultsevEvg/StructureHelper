@@ -294,7 +294,7 @@
                     </Canvas.Background>
                     <Line X1="0" X2="{Binding XX2}" Y1="{Binding XY1}" Y2="{Binding XY1}" Stroke="Red" StrokeThickness="1"/>
                     <Line X1="{Binding YX1}" X2="{Binding YX1}" Y1="0" Y2="{Binding YY2}" Stroke="ForestGreen" StrokeThickness="1"/>
-                    <ItemsControl ItemsSource="{Binding Primitives}" ItemTemplate="{Binding}">
+                    <ItemsControl ItemsSource="{Binding Rectangles}" ItemTemplate="{StaticResource rectangleTemplate}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <Canvas/>
@@ -303,8 +303,22 @@
                         <ItemsControl.ItemContainerStyle>
                             <Style TargetType="ContentPresenter">
                                 <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}"/>
-                                <Setter Property="Canvas.Left" Value="{Binding X}"/>
-                                <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                                <Setter Property="Canvas.Left" Value="{Binding RectX}"/>
+                                <Setter Property="Canvas.Top" Value="{Binding RectY}"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding Ellipses}" ItemTemplate="{StaticResource ellipseTemplate}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}"/>
+                                <Setter Property="Canvas.Left" Value="{Binding EllipseX}"/>
+                                <Setter Property="Canvas.Top" Value="{Binding EllipseY}"/>
                             </Style>
                         </ItemsControl.ItemContainerStyle>
                     </ItemsControl>
