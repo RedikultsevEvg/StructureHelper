@@ -1,4 +1,5 @@
 ﻿using StructureHelperLogics.Data.Shapes;
+using StructureHelperLogics.NdmCalculations.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,6 +24,15 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Rectangle = rectangle;
             NdmMaxSize = ndmMaxSize;
             NdmMinDivision = ndmMinDivision;
+        }
+
+        public RectangleTriangulationOptions(INdmPrimitive primitive)
+        {
+            if (! (primitive.Shape is IRectangle)) { throw new Exception("Shape type is not valid"); }
+            Center = primitive.Center;
+            Rectangle = primitive.Shape as IRectangle;
+            NdmMaxSize = primitive.NdmMaxSize;
+            NdmMinDivision = primitive.NdmMinDivision;
         }
     }
 }

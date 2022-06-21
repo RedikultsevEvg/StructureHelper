@@ -39,6 +39,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FunctionalTests\Ndms\RCSections\RCSectionTest.cs" />
+    <Compile Include="FunctionalTests\Ndms\SteelSections\ReinforcementTest.cs" />
     <Compile Include="Infrastructures\Logics\ExpectedProcessor.cs" />
     <Compile Include="LibrariesTests\Ndms\RCSections\RCSectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,9 +71,7 @@
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FunctionalTests\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\StructureHelperLogics\StructureHelperLogics.csproj">
       <Project>{330bef5b-15be-4d2c-a750-b1ae50fb2be3}</Project>

@@ -34,7 +34,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
         {
             //Arrange
             IMaterial material = new Material();
-            ICenter center = new Center() { CenterX = centerX, CenterY = centerY };
+            ICenter center = new Center() { X = centerX, Y = centerY };
             IRectangle rectangle = new Rectangle() { Width = width, Height = height, Angle = angle };
             IRectangleTriangulationOptions options = new RectangleTriangulationOptions(center, rectangle, ndmMaxSize, ndmMinDivision);
             IRectangleTriangulationLogic logic = new StructureHelperLogics.NdmCalculations.Triangulations.RectangleTriangulationLogic(options);

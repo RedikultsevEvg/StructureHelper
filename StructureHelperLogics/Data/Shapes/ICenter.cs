@@ -14,11 +14,11 @@ namespace StructureHelperLogics.Data.Shapes
         /// Coordinate of center of rectangle by local axis X, m
         /// Координата центра вдоль локальной оси X, м
         /// </summary>
-        double CenterX { get;}
+        double X { get;}
         /// <summary>
         /// Coordinate of center of rectangle by local axis Y, m
         /// Координата центра вдоль локальной оси Y, м
         /// </summary>
-        double CenterY { get;}
+        double Y { get;}
     }
 }

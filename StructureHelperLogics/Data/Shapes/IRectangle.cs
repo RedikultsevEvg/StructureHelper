@@ -4,7 +4,7 @@ using System.Text;
 
 namespace StructureHelperLogics.Data.Shapes
 {
-    public interface IRectangle
+    public interface IRectangle : IShape
     {
         /// <summary>
         /// Width of rectangle, m

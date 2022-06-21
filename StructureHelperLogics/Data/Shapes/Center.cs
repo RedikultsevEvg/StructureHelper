@@ -8,8 +8,8 @@ namespace StructureHelperLogics.Data.Shapes
     public class Center : ICenter
     {
         /// <inheritdoc />
-        public double CenterX { get; set; }
+        public double X { get; set; }
         /// <inheritdoc />
-        public double CenterY { get; set; }
+        public double Y { get; set; }
     }
 }

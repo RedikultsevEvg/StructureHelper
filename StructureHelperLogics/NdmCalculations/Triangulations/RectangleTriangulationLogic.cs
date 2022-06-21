@@ -21,8 +21,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             LoaderCalculator.Triangulations.RectangleTriangulationLogicOptions logicOptions = new LoaderCalculator.Triangulations.RectangleTriangulationLogicOptions(width, height, ndmMaxSize, ndmMinDivision);
             var logic = LoaderCalculator.Triangulations.Triangulation.GetLogicInstance(logicOptions);
             var ndmCollection = logic.GetNdmCollection(new LoaderCalculator.Data.Planes.RectangularPlane { Material = material });
-            double dX = rectangleOptions.Center.CenterX;
-            double dY = rectangleOptions.Center.CenterY;
+            double dX = rectangleOptions.Center.X;
+            double dY = rectangleOptions.Center.Y;
             NdmTransform.Move(ndmCollection, dX, dY);
             double angle = rectangleOptions.Rectangle.Angle;
             NdmTransform.Rotate(ndmCollection, angle);
