@@ -62,16 +62,22 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             IShape shape = primitive.Shape;
             if (shape is IRectangle)
             {
-                IRectangle rectangle = shape as IRectangle;
                 options = new RectangleTriangulationLogicOptions(primitive);
-                IRectangleTriangulationLogic logic = new RectangleTriangulationLogic(options);
+                ITriangulationLogic logic = new RectangleTriangulationLogic(options);
+                ndms.AddRange(logic.GetNdmCollection(material));
+            }
+            else if (shape is IPoint)
+            {
+                IPoint point = shape as IPoint;
+                options = new PointTriangulationLogicOptions(primitive.Center, point.Area);
+                IPointTriangulationLogic logic = new PointTriangulationLogic(options);
                 ndms.AddRange(logic.GetNdmCollection(material));
             }
             else { throw new Exception("Primitive type is not valid"); }
             return ndms;
         }
 
-        public static IMaterial GetMaterial(IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
+        private static IMaterial GetMaterial(IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
         {
             IMaterial material;
             if (primitiveMaterial.MaterialType == MaterialTypes.Concrete) { material = GetConcreteMaterial(primitiveMaterial, options); }

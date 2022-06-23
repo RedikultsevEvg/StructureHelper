@@ -7,11 +7,11 @@ using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
-    public class PointTriangulationLogic : IPointTiangulationLogic
+    public class PointTriangulationLogic : IPointTriangulationLogic
     {
         public ITriangulationLogicOptions Options { get; }
 
-        public PointTriangulationLogic(IPointTriangulationLogicOptions options)
+        public PointTriangulationLogic(ITriangulationLogicOptions options)
         {
             Options = options;
         }

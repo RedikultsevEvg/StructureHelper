@@ -4,7 +4,7 @@ using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
-    interface IPointTiangulationLogic : ITriangulationLogic
+    interface IPointTriangulationLogic : ITriangulationLogic
     {
     }
 }
