@@ -9,7 +9,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
     /// Parameter of triangulation of rectangle part of section
     /// Параметры триангуляции прямоугольного участка сечения
     /// </summary>
-    public interface IRectangleTriangulationOptions : ITriangulationLogicOptions
+    public interface IRectangleTriangulationLogicOptions : ITriangulationLogicOptions
     {
         /// <summary>
         /// 

@@ -13,7 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
         public IEnumerable<INdm> GetNdmCollection(IMaterial material)
         {
-            IRectangleTriangulationOptions rectangleOptions = Options as IRectangleTriangulationOptions;
+            IRectangleTriangulationLogicOptions rectangleOptions = Options as IRectangleTriangulationLogicOptions;
             double width = rectangleOptions.Rectangle.Width;
             double height = rectangleOptions.Rectangle.Height;
             double ndmMaxSize = rectangleOptions.NdmMaxSize;

@@ -63,7 +63,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             if (shape is IRectangle)
             {
                 IRectangle rectangle = shape as IRectangle;
-                options = new RectangleTriangulationOptions(primitive);
+                options = new RectangleTriangulationLogicOptions(primitive);
                 IRectangleTriangulationLogic logic = new RectangleTriangulationLogic(options);
                 ndms.AddRange(logic.GetNdmCollection(material));
             }
@@ -71,7 +71,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             return ndms;
         }
 
-        private static IMaterial GetMaterial(IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
+        public static IMaterial GetMaterial(IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
         {
             IMaterial material;
             if (primitiveMaterial.MaterialType == MaterialTypes.Concrete) { material = GetConcreteMaterial(primitiveMaterial, options); }

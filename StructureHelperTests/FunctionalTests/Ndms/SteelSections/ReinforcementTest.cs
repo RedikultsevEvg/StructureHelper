@@ -28,7 +28,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.SteelSections
             INdmPrimitive primitive = new NdmPrimitive() { Center = center, Shape = rectangle, PrimitiveMaterial = material, NdmMaxSize = 1, NdmMinDivision = 100 };
             List<INdmPrimitive> primitives = new List<INdmPrimitive>();
             primitives.Add(primitive);
-            var ndmList = Triangulation.GetNdms(primitives, options);
+            var ndmCollection = Triangulation.GetNdms(primitives, options);
             var loaderData = new LoaderOptions
             {
                 Preconditions = new Preconditions
@@ -37,7 +37,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.SteelSections
                     MaxIterationCount = 100,
                     StartForceMatrix = new ForceMatrix { Mx = mx, My = my, Nz = nz }
                 },
-                NdmCollection = ndmList
+                NdmCollection = ndmCollection
             };
             var calculator = new Calculator();
             //Act

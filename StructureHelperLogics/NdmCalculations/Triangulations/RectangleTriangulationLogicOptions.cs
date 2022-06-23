@@ -7,7 +7,7 @@ using System.Text;
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     /// <inheritdoc />
-    public class RectangleTriangulationOptions : IRectangleTriangulationOptions
+    public class RectangleTriangulationLogicOptions : IRectangleTriangulationLogicOptions
     {
         /// <inheritdoc />
         public ICenter Center { get; }
@@ -18,7 +18,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <inheritdoc />
         public int NdmMinDivision { get; }
 
-        public RectangleTriangulationOptions(ICenter center, IRectangle rectangle, double ndmMaxSize, int ndmMinDivision)
+        public RectangleTriangulationLogicOptions(ICenter center, IRectangle rectangle, double ndmMaxSize, int ndmMinDivision)
         {
             Center = center;
             Rectangle = rectangle;
@@ -26,7 +26,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             NdmMinDivision = ndmMinDivision;
         }
 
-        public RectangleTriangulationOptions(INdmPrimitive primitive)
+        public RectangleTriangulationLogicOptions(INdmPrimitive primitive)
         {
             if (! (primitive.Shape is IRectangle)) { throw new Exception("Shape type is not valid"); }
             Center = primitive.Center;
