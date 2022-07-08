@@ -157,5 +157,11 @@
   <ItemGroup>
     <Folder Include="Logics\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="StructureHelperLogics\StructureHelperLogics.csproj">
+      <Project>{330BEF5B-15BE-4D2C-A750-B1AE50FB2BE3}</Project>
+      <Name>StructureHelperLogics</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,6 +4,8 @@ using System.Windows.Media;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.MainWindow;
+using StructureHelperLogics.NdmCalculations.Entities;
+using StructureHelperLogics.NdmCalculations.Materials;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
@@ -253,6 +255,16 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         {
             if (Type == PrimitiveType.Rectangle) Y = -showedY + Xy1 - PrimitiveHeight;
             if (Type == PrimitiveType.Ellipse) Y = -showedY + Xy1 - PrimitiveWidth / 2;
+        }
+
+        public abstract INdmPrimitive GetNdmPrimitive();
+        public MaterialTypes GetMaterialTypes()
+        {
+            MaterialTypes materialTypes;
+            if (Material is ConcreteDefinition) { materialTypes = MaterialTypes.Concrete; }
+            else if (Material is RebarDefinition) { materialTypes = MaterialTypes.Reinforcement; }
+            else { throw new Exception("MaterialType is unknown"); }
+            return materialTypes;
         }
     }
 }
