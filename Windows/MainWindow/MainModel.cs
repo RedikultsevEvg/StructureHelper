@@ -1,4 +1,4 @@
-﻿namespace StructureHelper
+﻿namespace StructureHelper.Windows.MainWindow
 {
     public class MainModel
     {

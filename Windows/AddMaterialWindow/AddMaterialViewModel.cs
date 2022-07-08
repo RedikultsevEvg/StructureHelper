@@ -2,8 +2,10 @@
 using System.Linq;
 using System.Windows.Input;
 using StructureHelper.Infrastructure;
+using StructureHelper.MaterialCatalogWindow;
+using StructureHelper.Models.Materials;
 
-namespace StructureHelper
+namespace StructureHelper.Windows.AddMaterialWindow
 {
     public class AddMaterialViewModel : ViewModelBase
     {

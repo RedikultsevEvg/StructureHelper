@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace StructureHelper
+namespace StructureHelper.Infrastructure
 {
     public class RelayCommand : ICommand
     {

@@ -2,7 +2,7 @@
 using System.Windows;
 using EventTrigger = System.Windows.Interactivity.EventTrigger;
 
-namespace StructureHelper
+namespace StructureHelper.Infrastructure
 {
     public class EventTriggerBase<T> : EventTrigger where T : RoutedEventArgs
     {

@@ -3,16 +3,18 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.Extensions;
+using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.MaterialCatalogWindow;
+using StructureHelper.Windows.ColorPickerWindow;
 
-namespace StructureHelper
+namespace StructureHelper.Windows.MainWindow
 {
     public class MainViewModel : ViewModelBase
     {
         private MainModel rectanglesModel;
         private MainView rectanglesView;
-        public ObservableCollection<RectangleDefinition> Rectangles { get; set; }
-        public ObservableCollection<EllipseDefinition> Ellipses { get; set; }
-        public ObservableCollection<PrimitiveDefinitionBase> Primitives { get; set; }
+        public ObservableCollection<PrimitiveBase> Primitives { get; set; }
         public ICommand AddRectangle { get; }
 
         private double panelX, panelY, scrollPanelX, scrollPanelY;
@@ -157,19 +159,13 @@ namespace StructureHelper
             set => OnPropertyChanged(value, ref yY2);
         }
 
-        private double delta = 0.5;
-
         public ICommand LeftButtonDown { get; }
         public ICommand LeftButtonUp { get; }
         public ICommand PreviewMouseMove { get; }
-        public ICommand PrimitiveLeftButtonDown { get; }
-        public ICommand PrimitiveLeftButtonUp { get; }
-        public ICommand BorderPreviewMouseMove { get; }
-        public ICommand PrimitiveDoubleClick { get; }
+        
         public ICommand SetParameters { get; }
         public ICommand ClearSelection { get; }
-        public ICommand SetPopupCanBeClosedTrue { get; }
-        public ICommand SetPopupCanBeClosedFalse { get; }
+        
         public ICommand OpenMaterialCatalog { get; }
         public ICommand OpenMaterialCatalogWithSelection { get; }
         public ICommand SetColor { get; }
@@ -178,7 +174,11 @@ namespace StructureHelper
         public ICommand ScaleCanvasDown { get; }
         public ICommand ScaleCanvasUp { get; }
         public ICommand AddEllipse { get; }
-        public ICommand EllipsePreviewMouseMove { get; }
+        public ICommand SetPopupCanBeClosedTrue { get; }
+        public ICommand SetPopupCanBeClosedFalse { get; }
+
+        private double delta = 0.5;
+
 
         public MainViewModel() { }
         public MainViewModel(MainModel rectanglesModel, MainView rectanglesView)
@@ -193,67 +193,29 @@ namespace StructureHelper
             YX1 = CanvasWidth / 2;
             YY2 = CanvasHeight;
 
-            BorderPreviewMouseMove = new RelayCommand(o =>
-            {
-                if (!(o is RectangleDefinition rect)) return;
-                if (rect.Captured && !rect.BorderCaptured && !rect.ElementLock)
-                {
-                    var deltaX = rect.BorderWidth / 2;
-                    var deltaY = rect.BorderHeight / 2;
-
-                    if (rect.ShowedRectX % 10 <= delta || rect.ShowedRectX % 10 >= 10 - delta)
-                        rect.ShowedRectX = Math.Round((PanelX - deltaX - YX1) / 10) * 10;
-                    else
-                        rect.ShowedRectX = PanelX - deltaX - YX1;
-
-                    if (rect.ShowedRectY % 10 <= delta || rect.ShowedRectY % 10 >= 10 - delta)
-                        rect.ShowedRectY = -(Math.Round((PanelY - deltaY - XY1 + rect.BorderHeight) / 10) * 10);
-                    else
-                        rect.ShowedRectY = -(PanelY - deltaY - XY1 + rect.BorderHeight);
-                }
-                if (rect.ParameterCaptured)
-                {
-                    RectParameterX = rect.ShowedRectX;
-                    RectParameterY = rect.ShowedRectY;
-                    RectParameterWidth = rect.BorderWidth;
-                    RectParameterHeight = rect.BorderHeight;
-                    ParameterOpacity = rect.ShowedOpacity;
-                    ElementLock = rect.ElementLock;
-                }
-            });
-            PrimitiveLeftButtonUp = new RelayCommand(o =>
-            {
-                if (o is PrimitiveDefinitionBase primitive) primitive.Captured = false;
-            });
-            PrimitiveLeftButtonDown = new RelayCommand(o =>
-            {
-                if (!(o is PrimitiveDefinitionBase primitive)) return;
-                primitive.Captured = true;
-                foreach (var primitiveDefinition in Primitives)
-                    primitiveDefinition.ParameterCaptured = false;
-                primitive.ParameterCaptured = true;
-            });
+            
+            
             LeftButtonUp = new RelayCommand(o =>
             {
-                if (o is RectangleDefinition rect) rect.BorderCaptured = false;
+                if (o is Rectangle rect) rect.BorderCaptured = false;
             });
             LeftButtonDown = new RelayCommand(o =>
             {
-                if (o is RectangleDefinition rect) rect.BorderCaptured = true;
+                if (o is Rectangle rect) rect.BorderCaptured = true;
             });
             PreviewMouseMove = new RelayCommand(o =>
             {
-                if (o is RectangleDefinition rect && rect.BorderCaptured && rect.Captured && !rect.ElementLock)
+                if (o is Rectangle rect && rect.BorderCaptured && !rect.ElementLock)
                 {
-                    if (rect.BorderWidth % 10 < delta || rect.BorderWidth % 10 >= delta)
-                        rect.BorderWidth = Math.Round(PanelX / 10) * 10 - rect.RectX + 10;
+                    if (rect.PrimitiveWidth % 10 < delta || rect.PrimitiveWidth % 10 >= delta)
+                        rect.PrimitiveWidth = Math.Round(PanelX / 10) * 10 - rect.X + 10;
                     else
-                        rect.BorderWidth = PanelX - rect.RectX + 10;
+                        rect.PrimitiveWidth = PanelX - rect.X + 10;
 
-                    if (rect.BorderHeight % 10 < delta || rect.BorderHeight % 10 >= delta)
-                        rect.BorderHeight = Math.Round(PanelY / 10) * 10 - rect.RectY + 10;
+                    if (rect.PrimitiveHeight % 10 < delta || rect.PrimitiveHeight % 10 >= delta)
+                        rect.PrimitiveHeight = Math.Round(PanelY / 10) * 10 - rect.Y + 10;
                     else
-                        rect.BorderHeight = PanelY - rect.RectY + 10;
+                        rect.PrimitiveHeight = PanelY - rect.Y + 10;
                 }
             });
             SetParameters = new RelayCommand(o =>
@@ -269,16 +231,16 @@ namespace StructureHelper
 
                     switch (primitive)
                     {
-                        case RectangleDefinition rectangle:
-                            rectangle.ShowedRectX = RectParameterX;
-                            rectangle.ShowedRectY = RectParameterY;
-                            rectangle.BorderWidth = RectParameterWidth;
-                            rectangle.BorderHeight = RectParameterHeight;
+                        case Rectangle rectangle:
+                            rectangle.ShowedX = RectParameterX;
+                            rectangle.ShowedY = RectParameterY;
+                            rectangle.PrimitiveWidth = RectParameterWidth;
+                            rectangle.PrimitiveHeight = RectParameterHeight;
                             break;
-                        case EllipseDefinition ellipse:
+                        case Ellipse ellipse:
                             ellipse.Square = EllipseParameterSquare;
-                            ellipse.ShowedEllipseX = EllipseParameterX;
-                            ellipse.ShowedEllipseY = EllipseParameterY;
+                            ellipse.ShowedX = EllipseParameterX;
+                            ellipse.ShowedY = EllipseParameterY;
                             break;
                     }
                 }
@@ -289,26 +251,8 @@ namespace StructureHelper
                 if (primitive != null && primitive.PopupCanBeClosed)
                     primitive.ParamsPanelVisibilty = false;
             });
-            PrimitiveDoubleClick = new RelayCommand(o =>
-            {
-                if (!(o is PrimitiveDefinitionBase primitive)) return;
-                primitive.PopupCanBeClosed = false;
-                primitive.Captured = false;
-                primitive.ParamsPanelVisibilty = true;
-
-                if (primitive is RectangleDefinition rect)
-                    rect.BorderCaptured = false;
-            });
-            SetPopupCanBeClosedTrue = new RelayCommand(o =>
-            {
-                var primitiveParamsVisible = Primitives.FirstOrDefault(x => x.ParameterCaptured);
-                if (primitiveParamsVisible != null) primitiveParamsVisible.PopupCanBeClosed = true;
-            });
-            SetPopupCanBeClosedFalse = new RelayCommand(o =>
-            {
-                var primitiveParamsVisible = Primitives.FirstOrDefault(x => x.ParameterCaptured);
-                if (primitiveParamsVisible != null) primitiveParamsVisible.PopupCanBeClosed = false;
-            });
+            
+            
             OpenMaterialCatalog = new RelayCommand(o =>
             {
                 var materialCatalogView = new MaterialCatalogView();
@@ -316,19 +260,19 @@ namespace StructureHelper
             });
             OpenMaterialCatalogWithSelection = new RelayCommand(o =>
             {
-                var primitive = o as PrimitiveDefinitionBase;
+                var primitive = o as PrimitiveBase;
                 var materialCatalogView = new MaterialCatalogView(true, primitive);
                 materialCatalogView.ShowDialog();
             });
             SetColor = new RelayCommand(o =>
             {
-                var primitive = o as PrimitiveDefinitionBase;
+                var primitive = o as PrimitiveBase;
                 var colorPickerView = new ColorPickerView(primitive);
                 colorPickerView.ShowDialog();
             });
             SetInFrontOfAll = new RelayCommand(o =>
             {
-                if (!(o is PrimitiveDefinitionBase primitive)) return;
+                if (!(o is PrimitiveBase primitive)) return;
                 foreach (var primitiveDefinition in Primitives)
                     if (primitiveDefinition.ShowedZIndex > primitive.ShowedZIndex && primitiveDefinition != primitive)
                         primitiveDefinition.ShowedZIndex--;
@@ -337,7 +281,7 @@ namespace StructureHelper
             });
             SetInBackOfAll = new RelayCommand(o =>
             {
-                if (!(o is PrimitiveDefinitionBase primitive)) return;
+                if (!(o is PrimitiveBase primitive)) return;
                 foreach (var primitiveDefinition in Primitives)
                     if (primitiveDefinition.ShowedZIndex < primitive.ShowedZIndex && primitiveDefinition != primitive)
                         primitiveDefinition.ShowedZIndex++;
@@ -359,48 +303,29 @@ namespace StructureHelper
                 ScaleValue /= scaleRate;
             });
 
-            Primitives = new ObservableCollection<PrimitiveDefinitionBase>();
-            Rectangles = new ObservableCollection<RectangleDefinition>();
-            Ellipses = new ObservableCollection<EllipseDefinition>();
+            Primitives = new ObservableCollection<PrimitiveBase>();
             AddRectangle = new RelayCommand(o =>
             {
-                var rectangle = new RectangleDefinition(60, 40, YX1, XY1);
-                Rectangles.Add(rectangle);
+                var rectangle = new Rectangle(60, 40, YX1, XY1, this);
                 Primitives.Add(rectangle);
                 PrimitivesCount = Primitives.Count;
             });
             AddEllipse = new RelayCommand(o =>
             {
-                var ellipse = new EllipseDefinition(2000, YX1, XY1);
-                Ellipses.Add(ellipse);
+                var ellipse = new Ellipse(2000, YX1, XY1, this);
                 Primitives.Add(ellipse);
                 PrimitivesCount = Primitives.Count;
             });
-            EllipsePreviewMouseMove = new RelayCommand(o =>
+
+            SetPopupCanBeClosedTrue = new RelayCommand(o =>
             {
-                if (!(o is EllipseDefinition ellipse)) return;
-                if (ellipse.Captured && !ellipse.ElementLock)
-                {
-                    var ellipseDelta = ellipse.Diameter / 2;
-
-                    if (ellipse.ShowedEllipseX % 10 <= ellipseDelta || ellipse.ShowedEllipseX % 10 >= 10 - ellipseDelta)
-                        ellipse.ShowedEllipseX = Math.Round((PanelX - YX1) / 10) * 10;
-                    else
-                        ellipse.ShowedEllipseX = PanelX - ellipseDelta - YX1;
-
-                    if (ellipse.ShowedEllipseY % 10 <= ellipseDelta || ellipse.ShowedEllipseY % 10 >= 10 - ellipseDelta)
-                        ellipse.ShowedEllipseY = -(Math.Round((PanelY - XY1) / 10) * 10);
-                    else
-                        ellipse.ShowedEllipseY = -(PanelY - ellipseDelta - XY1);
-                }
-                if (ellipse.ParameterCaptured)
-                {
-                    EllipseParameterX = ellipse.ShowedEllipseX;
-                    EllipseParameterY = ellipse.ShowedEllipseY;
-                    EllipseParameterSquare = ellipse.Square;
-                    ParameterOpacity = ellipse.ShowedOpacity;
-                    ElementLock = ellipse.ElementLock;
-                }
+                if (!(o is PrimitiveBase primitive)) return;
+                primitive.PopupCanBeClosed = true;
+            });
+            SetPopupCanBeClosedFalse = new RelayCommand(o =>
+            {
+                if (!(o is PrimitiveBase primitive)) return;
+                primitive.PopupCanBeClosed = false;
             });
         }
     }

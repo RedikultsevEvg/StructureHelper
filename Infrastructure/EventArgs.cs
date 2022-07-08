@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StructureHelper
+namespace StructureHelper.Infrastructure
 {
     public class EventArgs<T> : EventArgs
     {

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using StructureHelper.Infrastructure;
+using StructureHelper.Models.Materials;
 
-namespace StructureHelper
+namespace StructureHelper.MaterialCatalogWindow
 {
     public class MaterialCatalogModel
     {

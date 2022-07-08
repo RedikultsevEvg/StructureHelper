@@ -1,11 +1,12 @@
-﻿<Window x:Class="StructureHelper.AddMaterialView"
+﻿<Window x:Class="StructureHelper.Windows.AddMaterialWindow.AddMaterialView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:StructureHelper"
+
+        xmlns:addMaterialWindow="clr-namespace:StructureHelper.Windows.AddMaterialWindow"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance local:AddMaterialViewModel}"
+        d:DataContext="{d:DesignInstance addMaterialWindow:AddMaterialViewModel}"
         Title="Добавление материала" Height="350" Width="400">
     <Grid>
         <Grid.RowDefinitions>
