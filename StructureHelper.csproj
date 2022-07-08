@@ -94,6 +94,9 @@
     <Compile Include="Windows\MainWindow\MainView.xaml.cs" />
     <Compile Include="Windows\MainWindow\MainViewModel.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
+    <Compile Include="Windows\NdmWindows\DataWindows\ForceMatrixWindows.xaml.cs">
+      <DependentUpon>ForceMatrixWindows.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\MouseEventTriggers\DoubleClickEventTrigger.cs" />
@@ -127,9 +130,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Windows\NdmWindows\DataWindows\ForceMatrixWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logics\" />
+    <Folder Include="Windows\NdmWindows\ResultWindows\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="StructureHelperLogics\StructureHelperLogics.csproj">
+      <Project>{330BEF5B-15BE-4D2C-A750-B1AE50FB2BE3}</Project>
+      <Name>StructureHelperLogics</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

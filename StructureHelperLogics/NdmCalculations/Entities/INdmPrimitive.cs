@@ -6,6 +6,9 @@ using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Entities
 {
+    /// <summary>
+    /// Interface of primitive with shape for furthee triangulation to Ndm
+    /// </summary>
     public interface INdmPrimitive
     {
         ICenter Center { get; set; }

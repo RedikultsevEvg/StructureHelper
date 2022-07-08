@@ -1,4 +1,7 @@
-﻿using System;
+﻿using StructureHelperLogics.Data.Shapes;
+using StructureHelperLogics.NdmCalculations.Entities;
+using StructureHelperLogics.NdmCalculations.Materials;
+using System;
 using System.Windows.Media;
 
 namespace StructureHelper
@@ -98,6 +101,20 @@ namespace StructureHelper
             var randomB = new Random().Next(30, 130);
             var color = Color.FromRgb((byte)randomR, (byte)randomG, (byte)randomB);
             Brush = new SolidColorBrush(color);
+        }
+
+        public override INdmPrimitive GetNdmPrimitive()
+        {
+            double strength = 0;
+            double centerX = 0;
+            double centerY = 0;
+            double area = 0;
+            string materialName = "s400";
+            ICenter center = new Center() { X = centerX, Y = centerY };
+            IShape shape = new Point() { Area = area };
+            IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial() { MaterialType = MaterialTypes.Reinforcement, ClassName = materialName, Strength = strength }; ;
+            INdmPrimitive ndmPrimitive = new NdmPrimitive() { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial};
+            return ndmPrimitive;
         }
     }
 }

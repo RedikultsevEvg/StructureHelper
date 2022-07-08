@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructureHelperLogics.NdmCalculations.Entities;
+using System;
 using System.Windows.Media;
 
 namespace StructureHelper
@@ -92,6 +93,11 @@ namespace StructureHelper
             var randomB = new Random().Next(30, 130);
             var color = Color.FromRgb((byte)randomR, (byte)randomG, (byte)randomB);
             Brush = new SolidColorBrush(color);
+        }
+
+        public override INdmPrimitive GetNdmPrimitive()
+        {
+            throw new NotImplementedException();
         }
     }
 }

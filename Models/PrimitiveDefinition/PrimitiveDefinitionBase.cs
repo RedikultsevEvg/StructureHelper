@@ -2,10 +2,11 @@
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using StructureHelper.Annotations;
+using StructureHelperLogics.NdmCalculations.Entities;
 
 namespace StructureHelper
 {
-    public class PrimitiveDefinitionBase : INotifyPropertyChanged
+    public abstract class PrimitiveDefinitionBase : INotifyPropertyChanged
     {
         private bool captured, parameterCaptured, elementLock;
 
@@ -133,6 +134,8 @@ namespace StructureHelper
                 OnPropertyChanged();
             }
         }
+
+        public abstract INdmPrimitive GetNdmPrimitive();
 
 
         public event PropertyChangedEventHandler PropertyChanged;

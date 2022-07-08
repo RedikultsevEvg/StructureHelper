@@ -1,0 +1,29 @@
+﻿<Window x:Class="StructureHelper.Windows.NdmWindows.DataWindows.ForceMatrixWindows"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.NdmWindows.DataWindows"
+        mc:Ignorable="d"
+        Title="ForceMatrixWindows" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Text="Bending moment, Mx"/>
+        <TextBlock Grid.Row="1" Text="Bending moment, My"/>
+        <TextBlock Grid.Row="2" Text="Longitudanal force, Nz"/>
+        <TextBox Name="tboxMx" Grid.Column="1" Grid.Row="0" Background="Gainsboro" Margin="5"/>
+        <TextBox Name="tboxMy" Grid.Column="1" Grid.Row="1" Background="Gainsboro" Margin="5"/>
+        <TextBox Name="tboxNz" Grid.Column="1" Grid.Row="2" Background="Gainsboro" Margin="5"/>
+        <Button Name="btnRun" Grid.Row="3" Margin="10"/>
+    </Grid>
+</Window>
