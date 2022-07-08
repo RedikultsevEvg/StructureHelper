@@ -6,11 +6,15 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Newtonsoft.Json;
-using StructureHelper.Annotations;
+using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.Models.Materials;
+using StructureHelper.Properties;
+using StructureHelper.Windows.AddMaterialWindow;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 
-namespace StructureHelper
+namespace StructureHelper.MaterialCatalogWindow
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class MaterialCatalogViewModel : INotifyPropertyChanged
@@ -54,7 +58,7 @@ namespace StructureHelper
         public Visibility SelectMaterialButtonVisibility => IsMaterialCanBeSelected ? Visibility.Visible : Visibility.Hidden;
         public MaterialCatalogViewModel() { }
 
-        public MaterialCatalogViewModel(MaterialCatalogModel materialCatalogModel, MaterialCatalogView materialCatalogView, bool isMaterialCanBeSelected, PrimitiveDefinitionBase primitive = null)
+        public MaterialCatalogViewModel(MaterialCatalogModel materialCatalogModel, MaterialCatalogView materialCatalogView, bool isMaterialCanBeSelected, PrimitiveBase primitive = null)
         {
             this.materialCatalogModel = materialCatalogModel;
             this.materialCatalogView = materialCatalogView;

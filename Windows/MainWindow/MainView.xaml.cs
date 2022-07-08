@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace StructureHelper
+namespace StructureHelper.Windows.MainWindow
 {
     public partial class MainView : Window
     {

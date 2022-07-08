@@ -65,6 +65,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\Enums\PrimitiveType.cs" />
+    <Compile Include="Infrastructure\UI\UserControls\PrimitivePopup.xaml.cs">
+      <DependentUpon>PrimitivePopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AddMaterialWindow\AddMaterialView.xaml.cs">
       <DependentUpon>AddMaterialView.xaml</DependentUpon>
     </Compile>
@@ -79,24 +83,30 @@
     <Compile Include="Windows\ColorPickerWindow\ColorPickerViewModel.cs" />
     <Compile Include="Infrastructure\Extensions\ObservableCollectionExtensions.cs" />
     <Compile Include="Infrastructure\EventTriggerBase.cs" />
-    <Compile Include="Infrastructure\MouseEventTriggers\MouseWheelUpEventTrigger.cs" />
-    <Compile Include="Infrastructure\MouseEventTriggers\MouseWheelDownEventTrigger.cs" />
+    <Compile Include="Infrastructure\UI\Triggers\MouseEventTriggers\MouseWheelUpEventTrigger.cs" />
+    <Compile Include="Infrastructure\UI\Triggers\MouseEventTriggers\MouseWheelDownEventTrigger.cs" />
     <Compile Include="Infrastructure\ViewModelBase.cs" />
-    <Compile Include="Models\MaterialDefinition\ConcreteDefinition.cs" />
+    <Compile Include="Models\Materials\ConcreteDefinition.cs" />
     <Compile Include="Infrastructure\NamedList.cs" />
-    <Compile Include="Models\MaterialDefinition\MaterialDefinitionBase.cs" />
-    <Compile Include="Models\PrimitiveDefinition\EllipseDefinition.cs" />
-    <Compile Include="Models\PrimitiveDefinition\PrimitiveDefinitionBase.cs" />
+    <Compile Include="Models\Materials\MaterialDefinitionBase.cs" />
+    <Compile Include="Infrastructure\UI\DataContexts\Ellipse.cs" />
+    <Compile Include="Infrastructure\UI\DataContexts\PrimitiveBase.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Models\MaterialDefinition\RebarDefinition.cs" />
-    <Compile Include="Models\PrimitiveDefinition\RectangleDefinition.cs" />
+    <Compile Include="Models\Materials\RebarDefinition.cs" />
+    <Compile Include="Infrastructure\UI\DataContexts\Rectangle.cs" />
+    <Compile Include="Infrastructure\UI\DataTemplates\EllipseTemplate.xaml.cs">
+      <DependentUpon>EllipseTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\MainWindow\MainModel.cs" />
     <Compile Include="Windows\MainWindow\MainView.xaml.cs" />
     <Compile Include="Windows\MainWindow\MainViewModel.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
+    <Compile Include="Infrastructure\UI\DataTemplates\RectangleTemplate.xaml.cs">
+      <DependentUpon>RectangleTemplate.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\MouseEventTriggers\DoubleClickEventTrigger.cs" />
+    <Compile Include="Infrastructure\UI\Triggers\MouseEventTriggers\DoubleClickEventTrigger.cs" />
     <Compile Include="Infrastructure\EventArgs.cs" />
     <Compile Include="MaterialCatalogWindow\MaterialCatalogModel.cs" />
     <Compile Include="MaterialCatalogWindow\MaterialCatalogView.xaml.cs" />
@@ -111,6 +121,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Infrastructure\UI\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Infrastructure\UI\UserControls\PrimitivePopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\AddMaterialWindow\AddMaterialView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -123,9 +141,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Infrastructure\UI\DataTemplates\EllipseTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MainWindow\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Infrastructure\UI\DataTemplates\RectangleTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
+using StructureHelper.MaterialCatalogWindow;
 
-namespace StructureHelper
+namespace StructureHelper.Windows.AddMaterialWindow
 {
     /// <summary>
     /// Логика взаимодействия для AddMaterialView.xaml

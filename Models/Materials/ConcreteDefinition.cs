@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StructureHelper
+namespace StructureHelper.Models.Materials
 {
     public class ConcreteDefinition : MaterialDefinitionBase
     {

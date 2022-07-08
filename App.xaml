@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:StructureHelper"
              StartupUri="Windows/MainWindow/MainView.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Infrastructure/UI/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

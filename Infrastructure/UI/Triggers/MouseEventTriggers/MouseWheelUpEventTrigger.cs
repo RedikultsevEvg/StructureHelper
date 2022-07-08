@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace StructureHelper.Infrastructure
+namespace StructureHelper.Infrastructure.UI.Triggers.MouseEventTriggers
 {
     public class MouseWheelUpEventTrigger : EventTriggerBase<MouseWheelEventArgs>
     {

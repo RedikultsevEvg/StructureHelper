@@ -1,4 +1,4 @@
-﻿namespace StructureHelper
+﻿namespace StructureHelper.Models.Materials
 {
     public class RebarDefinition : MaterialDefinitionBase
     {
