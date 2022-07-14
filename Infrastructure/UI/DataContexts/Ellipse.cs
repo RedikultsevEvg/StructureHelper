@@ -9,7 +9,7 @@ using StructureHelperLogics.NdmCalculations.Materials;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
-    public class Ellipse : PrimitiveBase
+    public class Ellipse : PrimitiveBase<Point>
     {
         private double square;
         public double Square
@@ -44,5 +44,8 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             INdmPrimitive ndmPrimitive = new NdmPrimitive() { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial };
             return ndmPrimitive;
         }
+
+        public override Point MapToShape()
+            => new Point {Area = Square};
     }
 }

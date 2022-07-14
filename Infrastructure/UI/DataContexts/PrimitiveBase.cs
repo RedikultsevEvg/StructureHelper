@@ -9,7 +9,7 @@ using StructureHelperLogics.NdmCalculations.Materials;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
-    public abstract class PrimitiveBase : ViewModelBase
+    public abstract class PrimitiveBase<T> : ViewModelBase where T : StructureHelperLogics.Data.Shapes.IShape
     {
         #region Поля
 
@@ -266,5 +266,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             else { throw new Exception("MaterialType is unknown"); }
             return materialTypes;
         }
+
+        public abstract T MapToShape();
     }
 }
