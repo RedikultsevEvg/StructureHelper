@@ -75,23 +75,23 @@ namespace StructureHelper.Windows.MainWindow
             }
         }
 
-        private double ellipseParameterX, ellipseParameterY, ellipseParameterSquare;
+        private double pointParameterX, pointParameterY, pointParameterSquare;
         public double EllipseParameterX
         {
-            get => ellipseParameterX;
-            set => OnPropertyChanged(value, ref ellipseParameterX);
+            get => pointParameterX;
+            set => OnPropertyChanged(value, ref pointParameterX);
         }
 
         public double EllipseParameterY
         {
-            get => ellipseParameterY;
-            set => OnPropertyChanged(value, ref ellipseParameterY);
+            get => pointParameterY;
+            set => OnPropertyChanged(value, ref pointParameterY);
         }
 
         public double EllipseParameterSquare
         {
-            get => ellipseParameterSquare;
-            set => OnPropertyChanged(value, ref ellipseParameterSquare);
+            get => pointParameterSquare;
+            set => OnPropertyChanged(value, ref pointParameterSquare);
         }
         private bool elementLock;
         public bool ElementLock
@@ -237,10 +237,10 @@ namespace StructureHelper.Windows.MainWindow
                             rectangle.PrimitiveWidth = RectParameterWidth;
                             rectangle.PrimitiveHeight = RectParameterHeight;
                             break;
-                        case Ellipse ellipse:
-                            ellipse.Square = EllipseParameterSquare;
-                            ellipse.ShowedX = EllipseParameterX;
-                            ellipse.ShowedY = EllipseParameterY;
+                        case Point point:
+                            point.Square = EllipseParameterSquare;
+                            point.ShowedX = EllipseParameterX;
+                            point.ShowedY = EllipseParameterY;
                             break;
                     }
                 }
@@ -312,8 +312,8 @@ namespace StructureHelper.Windows.MainWindow
             });
             AddEllipse = new RelayCommand(o =>
             {
-                var ellipse = new Ellipse(2000, YX1, XY1, this);
-                Primitives.Add(ellipse);
+                var point = new Point(2000, YX1, XY1, this);
+                Primitives.Add(point);
                 PrimitivesCount = Primitives.Count;
             });
 

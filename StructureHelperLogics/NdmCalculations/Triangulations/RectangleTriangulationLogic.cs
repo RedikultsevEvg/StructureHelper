@@ -2,7 +2,6 @@
 using LoaderCalculator.Data.Ndms;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using LoaderCalculator.Data.Ndms.Transformations;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations

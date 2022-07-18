@@ -9,7 +9,7 @@ using StructureHelperLogics.NdmCalculations.Materials;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
-    public abstract class PrimitiveBase<T> : ViewModelBase where T : StructureHelperLogics.Data.Shapes.IShape
+    public abstract class PrimitiveBase: ViewModelBase
     {
         #region Поля
 
@@ -163,7 +163,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         public ICommand PrimitiveLeftButtonDown { get; }
         public ICommand PrimitiveLeftButtonUp { get; }
         public ICommand RectanglePreviewMouseMove { get; }
-        public ICommand EllipsePreviewMouseMove { get; }
+        public ICommand PointPreviewMouseMove { get; }
         public ICommand PrimitiveDoubleClick { get; }
 
         #endregion
@@ -208,30 +208,30 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                     //ElementLock = rect.ElementLock;
                 }
             });
-            EllipsePreviewMouseMove = new RelayCommand(o =>
+            PointPreviewMouseMove = new RelayCommand(o =>
             {
-                if (!(o is Ellipse ellipse)) return;
-                if (ellipse.Captured && !ellipse.ElementLock)
+                if (!(o is Point point)) return;
+                if (point.Captured && !point.ElementLock)
                 {
-                    var ellipseDelta = ellipse.PrimitiveWidth / 2;
+                    var pointDelta = point.PrimitiveWidth / 2;
 
-                    if (ellipse.ShowedX % 10 <= ellipseDelta || ellipse.ShowedX % 10 >= 10 - ellipseDelta)
-                        ellipse.ShowedX = Math.Round((mainViewModel.PanelX - Yx1) / 10) * 10;
+                    if (point.ShowedX % 10 <= pointDelta || point.ShowedX % 10 >= 10 - pointDelta)
+                        point.ShowedX = Math.Round((mainViewModel.PanelX - Yx1) / 10) * 10;
                     else
-                        ellipse.ShowedX = mainViewModel.PanelX - ellipseDelta - Yx1;
+                        point.ShowedX = mainViewModel.PanelX - pointDelta - Yx1;
 
-                    if (ellipse.ShowedY % 10 <= ellipseDelta || ellipse.ShowedY % 10 >= 10 - ellipseDelta)
-                        ellipse.ShowedY = -(Math.Round((mainViewModel.PanelY - Xy1) / 10) * 10);
+                    if (point.ShowedY % 10 <= pointDelta || point.ShowedY % 10 >= 10 - pointDelta)
+                        point.ShowedY = -(Math.Round((mainViewModel.PanelY - Xy1) / 10) * 10);
                     else
-                        ellipse.ShowedY = -(mainViewModel.PanelY - ellipseDelta - Xy1);
+                        point.ShowedY = -(mainViewModel.PanelY - pointDelta - Xy1);
                 }
                 if (ParameterCaptured)
                 {
-                    //EllipseParameterX = ellipse.ShowedX;
-                    //EllipseParameterY = ellipse.ShowedY;
-                    //EllipseParameterSquare = ellipse.Square;
-                    //ParameterOpacity = ellipse.ShowedOpacity;
-                    //ElementLock = ellipse.ElementLock;
+                    //EllipseParameterX = point.ShowedX;
+                    //EllipseParameterY = point.ShowedY;
+                    //EllipseParameterSquare = point.Square;
+                    //ParameterOpacity = point.ShowedOpacity;
+                    //ElementLock = point.ElementLock;
                 }
             });
             PrimitiveDoubleClick = new RelayCommand(o =>
@@ -249,12 +249,12 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         private void UpdateCoordinatesX(double showedX)
         {
             if (Type == PrimitiveType.Rectangle) X = showedX + Yx1;
-            if (Type == PrimitiveType.Ellipse) X = showedX + Yx1 - PrimitiveWidth / 2;
+            if (Type == PrimitiveType.Point) X = showedX + Yx1 - PrimitiveWidth / 2;
         }
         private void UpdateCoordinatesY(double showedY)
         {
             if (Type == PrimitiveType.Rectangle) Y = -showedY + Xy1 - PrimitiveHeight;
-            if (Type == PrimitiveType.Ellipse) Y = -showedY + Xy1 - PrimitiveWidth / 2;
+            if (Type == PrimitiveType.Point) Y = -showedY + Xy1 - PrimitiveWidth / 2;
         }
 
         public abstract INdmPrimitive GetNdmPrimitive();
@@ -266,7 +266,5 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             else { throw new Exception("MaterialType is unknown"); }
             return materialTypes;
         }
-
-        public abstract T MapToShape();
     }
 }

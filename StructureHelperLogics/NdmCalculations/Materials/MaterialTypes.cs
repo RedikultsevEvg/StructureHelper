@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StructureHelperLogics.NdmCalculations.Materials
+﻿namespace StructureHelperLogics.NdmCalculations.Materials
 {
     public enum MaterialTypes
     {

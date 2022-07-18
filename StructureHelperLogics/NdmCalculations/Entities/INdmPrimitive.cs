@@ -1,8 +1,5 @@
 ﻿using StructureHelperLogics.Data.Shapes;
 using StructureHelperLogics.NdmCalculations.Materials;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Entities
 {

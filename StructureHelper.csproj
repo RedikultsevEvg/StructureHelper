@@ -89,7 +89,7 @@
     <Compile Include="Models\Materials\ConcreteDefinition.cs" />
     <Compile Include="Infrastructure\NamedList.cs" />
     <Compile Include="Models\Materials\MaterialDefinitionBase.cs" />
-    <Compile Include="Infrastructure\UI\DataContexts\Ellipse.cs" />
+    <Compile Include="Infrastructure\UI\DataContexts\Point.cs" />
     <Compile Include="Infrastructure\UI\DataContexts\PrimitiveBase.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Models\Materials\RebarDefinition.cs" />

@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using StructureHelper.Infrastructure.UI.DataContexts;
+﻿using StructureHelper.Infrastructure.UI.DataContexts;
+using System.Windows;
 
 namespace StructureHelper.MaterialCatalogWindow
 {

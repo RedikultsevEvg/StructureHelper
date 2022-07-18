@@ -19,7 +19,7 @@
         <DataTemplate DataType="{x:Type dataContexts:Rectangle}">
             <dataTemplates:RectangleTemplate/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type dataContexts:Ellipse}">
+        <DataTemplate DataType="{x:Type dataContexts:Point}">
             <dataTemplates:EllipseTemplate/>
         </DataTemplate>
     </Window.Resources>

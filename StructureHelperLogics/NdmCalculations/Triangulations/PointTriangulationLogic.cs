@@ -3,7 +3,6 @@ using LoaderCalculator.Data.Ndms;
 using StructureHelperLogics.Data.Shapes;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {

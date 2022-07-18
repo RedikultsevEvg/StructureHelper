@@ -4,15 +4,16 @@ using StructureHelperLogics.NdmCalculations.Materials;
 
 namespace StructureHelperLogics.Models.NdmPrimitives
 {
-    public class PointPrimitive : PrimitiveBase<IPoint>, IPoint
+    public class RectanglePrimitive : PrimitiveBase<IRectangle>, IRectangle
     {
-        public double Area
-        {
-            get => _shape.Area;
-            set => _shape.Area = value;
-        }
+        public RectanglePrimitive(ICenter center, IRectangle shape) : base(center, shape) { }
 
-        public PointPrimitive(ICenter center, IPoint shape) : base(center, shape) { }
+        public double Width => _shape.Width;
+
+        public double Height => _shape.Height;
+
+        public double Angle => _shape.Angle;
+
         public override INdmPrimitive GetNdmPrimitive()
         {
             double strength = 400;

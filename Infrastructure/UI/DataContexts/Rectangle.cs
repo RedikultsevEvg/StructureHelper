@@ -1,16 +1,12 @@
-﻿using System;
-using System.Windows.Input;
-using System.Windows.Media;
-using StructureHelper.Infrastructure.Enums;
+﻿using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.MainWindow;
 using StructureHelperLogics.Data.Shapes;
 using StructureHelperLogics.NdmCalculations.Entities;
 using StructureHelperLogics.NdmCalculations.Materials;
-using RectangleShape = StructureHelperLogics.Data.Shapes.Rectangle;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
-    public class Rectangle : PrimitiveBase<RectangleShape>
+    public class Rectangle : PrimitiveBase
     {
         public Rectangle(double primitiveWidth, double primitiveHeight, double rectX, double rectY, MainViewModel mainViewModel) : base(PrimitiveType.Rectangle, rectX, rectY, mainViewModel)
         {
@@ -34,8 +30,5 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             INdmPrimitive ndmPrimitive = new NdmPrimitive() { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial };
             return ndmPrimitive;
         }
-
-        public override RectangleShape MapToShape()
-            => new RectangleShape {Height = PrimitiveHeight, Width = PrimitiveWidth};
     }
 }

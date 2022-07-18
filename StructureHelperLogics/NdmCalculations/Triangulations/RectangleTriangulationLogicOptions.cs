@@ -1,8 +1,6 @@
 ﻿using StructureHelperLogics.Data.Shapes;
 using StructureHelperLogics.NdmCalculations.Entities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {

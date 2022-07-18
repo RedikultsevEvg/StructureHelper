@@ -75,7 +75,7 @@
             </Border>
         </local:PrimitivePopup>
         <!--Ellipse-->
-        <local:PrimitivePopup IsOpen="{Binding ParamsPanelVisibilty}" d:DataContext="{d:DesignInstance dataContexts:Ellipse}" Type="Ellipse">
+        <local:PrimitivePopup IsOpen="{Binding ParamsPanelVisibilty}" d:DataContext="{d:DesignInstance dataContexts:Point}" Type="Ellipse">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeave">
                     <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetPopupCanBeClosedTrue}" CommandParameter="{Binding}"/>
