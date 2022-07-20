@@ -39,6 +39,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FunctionalTests\Ndms\RCSections\RCSectionFromNdmPrimitiveTest.cs" />
     <Compile Include="FunctionalTests\Ndms\RCSections\RCSectionTest.cs" />
     <Compile Include="FunctionalTests\Ndms\SteelSections\ReinforcementTest.cs" />
     <Compile Include="Infrastructures\Logics\ExpectedProcessor.cs" />

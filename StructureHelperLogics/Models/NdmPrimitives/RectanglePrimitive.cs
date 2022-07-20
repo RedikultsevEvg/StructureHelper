@@ -16,16 +16,16 @@ namespace StructureHelperLogics.Models.NdmPrimitives
 
         public override INdmPrimitive GetNdmPrimitive()
         {
-            double strength = 400;
-            string materialName = "s400";
+            double strength = 40e6d;
+            string materialName = "C40/45";
             IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial() { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = strength }; ;
-            INdmPrimitive ndmPrimitive = new NdmPrimitive() { Center = _center, Shape = _shape, PrimitiveMaterial = primitiveMaterial };
+            INdmPrimitive ndmPrimitive = new NdmPrimitive() { Center = _center, Shape = _shape, PrimitiveMaterial = primitiveMaterial, NdmMaxSize = 1, NdmMinDivision = 20 };
             return ndmPrimitive;
         }
 
         private MaterialTypes GetMaterialTypes()
         {
-            return MaterialTypes.Reinforcement;
+            return MaterialTypes.Concrete;
         }
     }
 }

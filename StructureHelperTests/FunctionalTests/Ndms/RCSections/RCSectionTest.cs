@@ -64,7 +64,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
             ICenter center = new Center() { X = 0, Y = 0 };
             IRectangle rectangle = new Rectangle() { Width = width, Height = height, Angle = 0 };
             IPrimitiveMaterial material = new PrimitiveMaterial() { MaterialType = MaterialTypes.Concrete, ClassName = "С40", Strength = strength };
-            ITriangulationOptions options = new TriangulationOptions() { LimiteState = StructureHelperLogics.Infrastructures.CommonEnums.LimitStates.Collapse, CalcTerm = StructureHelperLogics.Infrastructures.CommonEnums.CalcTerms.ShortTerm };
+            //ITriangulationOptions options = new TriangulationOptions() { LimiteState = StructureHelperLogics.Infrastructures.CommonEnums.LimitStates.Collapse, CalcTerm = StructureHelperLogics.Infrastructures.CommonEnums.CalcTerms.ShortTerm };
             INdmPrimitive primitive = new NdmPrimitive() { Center = center, Shape = rectangle, PrimitiveMaterial = material, NdmMaxSize = 1, NdmMinDivision = 20 };
             List<INdmPrimitive> primitives = new List<INdmPrimitive> {primitive};
             return primitives;
@@ -77,7 +77,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
             IShape topReinforcement = new Point() { Area = topArea };
             IShape bottomReinforcement = new Point() { Area = bottomArea };
             IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial() { MaterialType = MaterialTypes.Reinforcement, ClassName = "S400", Strength = strength };
-            ITriangulationOptions options = new TriangulationOptions() { LimiteState = StructureHelperLogics.Infrastructures.CommonEnums.LimitStates.Collapse, CalcTerm = StructureHelperLogics.Infrastructures.CommonEnums.CalcTerms.ShortTerm };
+            //ITriangulationOptions options = new TriangulationOptions() { LimiteState = StructureHelperLogics.Infrastructures.CommonEnums.LimitStates.Collapse, CalcTerm = StructureHelperLogics.Infrastructures.CommonEnums.CalcTerms.ShortTerm };
             ICenter centerRT = new Center() { X = width / 2 - gap, Y = height / 2 - gap };
             ICenter centerLT = new Center() { X = - (width / 2 - gap), Y = height / 2 - gap };
             ICenter centerRB = new Center() { X = width / 2 - gap, Y = - (height / 2 - gap) };

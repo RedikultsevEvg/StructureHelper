@@ -15,7 +15,7 @@ namespace StructureHelperLogics.Models.NdmPrimitives
         public PointPrimitive(ICenter center, IPoint shape) : base(center, shape) { }
         public override INdmPrimitive GetNdmPrimitive()
         {
-            double strength = 400;
+            double strength = 400e6d;
             string materialName = "s400";
             IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial() { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = strength }; ;
             INdmPrimitive ndmPrimitive = new NdmPrimitive() { Center = _center, Shape = _shape, PrimitiveMaterial = primitiveMaterial };
