@@ -1,8 +1,8 @@
-﻿using StructureHelperLogics.Data.Shapes;
-using StructureHelperLogics.NdmCalculations.Entities;
-using StructureHelperLogics.NdmCalculations.Materials;
+﻿using StructureHelperCommon.Models.Entities;
+using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Shapes;
 
-namespace StructureHelperLogics.Models.NdmPrimitives
+namespace StructureHelperCommon.Models.NdmPrimitives
 {
     public class PointPrimitive : PrimitiveBase<IPoint>, IPoint
     {

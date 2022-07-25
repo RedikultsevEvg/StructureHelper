@@ -1,7 +1,7 @@
-﻿using StructureHelperLogics.Data.Shapes;
-using StructureHelperLogics.NdmCalculations.Entities;
+﻿using StructureHelperCommon.Models.Entities;
+using StructureHelperCommon.Models.Shapes;
 
-namespace StructureHelperLogics.Models.NdmPrimitives
+namespace StructureHelperCommon.Models.NdmPrimitives
 {
     public abstract class PrimitiveBase<T> : IPrimitive where T : IShape
     {
@@ -11,7 +11,7 @@ namespace StructureHelperLogics.Models.NdmPrimitives
         public ICenter Center => _center;
         public IShape Shape => _shape;
 
-        public PrimitiveBase(ICenter center, T shape)
+        protected PrimitiveBase(ICenter center, T shape)
         {
             _center = center;
             _shape = shape;

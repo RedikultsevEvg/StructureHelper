@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StructureHelper.csproj" />
+    <ProjectReference Include="..\StructureHelperCommon\StructureHelperCommon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="LoaderCalculator">
       <HintPath>..\..\StructureHelper\Libraries\LoaderCalculator.dll</HintPath>
     </Reference>

@@ -1,4 +1,4 @@
-﻿namespace StructureHelperLogics.Data.Shapes
+﻿namespace StructureHelperCommon.Models.Shapes
 {
     /// <summary>
     /// Interface for point of center of some shape

@@ -4,8 +4,8 @@ using System.Windows.Media;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.MainWindow;
-using StructureHelperLogics.NdmCalculations.Entities;
-using StructureHelperLogics.NdmCalculations.Materials;
+using StructureHelperCommon.Models.Entities;
+using StructureHelperCommon.Models.Materials;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {

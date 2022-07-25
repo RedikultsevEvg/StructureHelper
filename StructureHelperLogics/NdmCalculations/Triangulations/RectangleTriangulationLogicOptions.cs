@@ -1,6 +1,6 @@
-﻿using StructureHelperLogics.Data.Shapes;
-using StructureHelperLogics.NdmCalculations.Entities;
-using System;
+﻿using System;
+using StructureHelperCommon.Models.Entities;
+using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {

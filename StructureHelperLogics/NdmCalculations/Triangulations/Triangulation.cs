@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Materials.MaterialBuilders;
 using LoaderCalculator.Data.Ndms;
-using StructureHelperLogics.Data.Shapes;
-using StructureHelperLogics.NdmCalculations.Entities;
-using StructureHelperLogics.NdmCalculations.Materials;
+using StructureHelperCommon.Models.Entities;
+using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {

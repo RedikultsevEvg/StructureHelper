@@ -1,4 +1,4 @@
-﻿using StructureHelperLogics.Data.Shapes;
+﻿using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {

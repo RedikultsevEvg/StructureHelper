@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StructureHelperLogics.NdmCalculations.Materials
+namespace StructureHelperCommon.Models.Materials
 {
     public class PrimitiveMaterial : IPrimitiveMaterial
     {

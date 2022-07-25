@@ -1,13 +1,17 @@
 ﻿using System.Windows;
+using StructureHelper.Services;
 
 namespace StructureHelper.Windows.MainWindow
 {
     public partial class MainView : Window
     {
-        public MainView()
+        public IPrimitiveRepository PrimitiveRepository { get; }
+        public IPrimitiveService PrimitiveService { get; }
+
+        public MainView(IPrimitiveRepository primitiveRepository, IPrimitiveService primitiveService, MainViewModel viewModel)
         {
-            var model = new MainModel();
-            var viewModel = new MainViewModel(model, this);
+            PrimitiveRepository = primitiveRepository;
+            PrimitiveService = primitiveService;
             DataContext = viewModel;
             InitializeComponent();
         }

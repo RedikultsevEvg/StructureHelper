@@ -1,9 +1,9 @@
 ﻿using System;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.MainWindow;
-using StructureHelperLogics.Data.Shapes;
-using StructureHelperLogics.NdmCalculations.Entities;
-using StructureHelperLogics.NdmCalculations.Materials;
+using StructureHelperCommon.Models.Entities;
+using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
@@ -36,10 +36,10 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             double centerY = 0;
             double area = 0;
             string materialName = "s400";
-            ICenter center = new Center() { X = centerX, Y = centerY };
-            IShape shape = new StructureHelperLogics.Data.Shapes.Point() { Area = area };
-            IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial() { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = strength }; ;
-            INdmPrimitive ndmPrimitive = new NdmPrimitive() { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial };
+            ICenter center = new Center { X = centerX, Y = centerY };
+            IShape shape = new StructureHelperCommon.Models.Shapes.Point { Area = area };
+            IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = strength }; ;
+            INdmPrimitive ndmPrimitive = new NdmPrimitive { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial };
             return ndmPrimitive;
         }
     }

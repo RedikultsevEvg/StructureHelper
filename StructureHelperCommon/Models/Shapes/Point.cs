@@ -1,4 +1,4 @@
-﻿namespace StructureHelperLogics.Data.Shapes
+﻿namespace StructureHelperCommon.Models.Shapes
 {
     public class Point : IPoint
     {

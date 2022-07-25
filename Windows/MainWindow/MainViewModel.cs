@@ -6,14 +6,16 @@ using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Extensions;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.MaterialCatalogWindow;
+using StructureHelper.Services;
 using StructureHelper.Windows.ColorPickerWindow;
 
 namespace StructureHelper.Windows.MainWindow
 {
     public class MainViewModel : ViewModelBase
     {
-        private MainModel rectanglesModel;
-        private MainView rectanglesView;
+        private IPrimitiveService PrimitiveService { get; }
+        private IPrimitiveRepository PrimitiveRepository { get; }
+        private MainModel Model { get; }
         public ObservableCollection<PrimitiveBase> Primitives { get; set; }
         public ICommand AddRectangle { get; }
 
@@ -178,13 +180,12 @@ namespace StructureHelper.Windows.MainWindow
         public ICommand SetPopupCanBeClosedFalse { get; }
 
         private double delta = 0.5;
-
-
-        public MainViewModel() { }
-        public MainViewModel(MainModel rectanglesModel, MainView rectanglesView)
+        
+        public MainViewModel(MainModel model, IPrimitiveService primitiveService, IPrimitiveRepository primitiveRepository)
         {
-            this.rectanglesModel = rectanglesModel;
-            this.rectanglesView = rectanglesView;
+            PrimitiveService = primitiveService;
+            PrimitiveRepository = primitiveRepository;
+            Model = model;
 
             CanvasWidth = 1500;
             CanvasHeight = 1000;
@@ -304,17 +305,21 @@ namespace StructureHelper.Windows.MainWindow
             });
 
             Primitives = new ObservableCollection<PrimitiveBase>();
+            
             AddRectangle = new RelayCommand(o =>
             {
                 var rectangle = new Rectangle(60, 40, YX1, XY1, this);
                 Primitives.Add(rectangle);
                 PrimitivesCount = Primitives.Count;
+                PrimitiveRepository.Add(rectangle);
             });
+            
             AddEllipse = new RelayCommand(o =>
             {
                 var point = new Point(2000, YX1, XY1, this);
                 Primitives.Add(point);
                 PrimitivesCount = Primitives.Count;
+                PrimitiveRepository.Add(point);
             });
 
             SetPopupCanBeClosedTrue = new RelayCommand(o =>

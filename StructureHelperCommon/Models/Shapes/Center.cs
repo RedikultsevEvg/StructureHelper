@@ -1,4 +1,4 @@
-﻿namespace StructureHelperLogics.Data.Shapes
+﻿namespace StructureHelperCommon.Models.Shapes
 {
     /// <inheritdoc />
     public class Center : ICenter

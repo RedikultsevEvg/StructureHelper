@@ -1,8 +1,8 @@
 ﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Ndms;
-using StructureHelperLogics.Data.Shapes;
 using System;
 using System.Collections.Generic;
+using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {

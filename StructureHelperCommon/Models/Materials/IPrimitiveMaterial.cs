@@ -1,4 +1,4 @@
-﻿namespace StructureHelperLogics.NdmCalculations.Materials
+﻿namespace StructureHelperCommon.Models.Materials
 {
     public interface IPrimitiveMaterial
     {

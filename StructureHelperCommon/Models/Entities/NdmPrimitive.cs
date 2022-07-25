@@ -1,7 +1,7 @@
-﻿using StructureHelperLogics.Data.Shapes;
-using StructureHelperLogics.NdmCalculations.Materials;
+﻿using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Shapes;
 
-namespace StructureHelperLogics.NdmCalculations.Entities
+namespace StructureHelperCommon.Models.Entities
 {
     public class NdmPrimitive : INdmPrimitive
     {

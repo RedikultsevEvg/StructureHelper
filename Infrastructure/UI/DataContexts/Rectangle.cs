@@ -1,8 +1,8 @@
 ﻿using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.MainWindow;
-using StructureHelperLogics.Data.Shapes;
-using StructureHelperLogics.NdmCalculations.Entities;
-using StructureHelperLogics.NdmCalculations.Materials;
+using StructureHelperCommon.Models.Entities;
+using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
@@ -25,7 +25,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             ICenter center = new Center() { X = centerX, Y = centerY };
             double height = 0;
             double width = 0;
-            IShape shape = new StructureHelperLogics.Data.Shapes.Rectangle() { Height = height, Width = width, Angle = 0 };
+            IShape shape = new StructureHelperCommon.Models.Shapes.Rectangle() { Height = height, Width = width, Angle = 0 };
             IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial() { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = strength }; ;
             INdmPrimitive ndmPrimitive = new NdmPrimitive() { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial };
             return ndmPrimitive;
