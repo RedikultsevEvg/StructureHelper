@@ -1,17 +1,15 @@
 ﻿using LoaderCalculator;
-using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.SourceData;
 using LoaderCalculator.Tests.Infrastructures.Logics;
 using NUnit.Framework;
-using StructureHelperLogics.Data.Shapes;
-using StructureHelperLogics.NdmCalculations.Entities;
-using StructureHelperLogics.NdmCalculations.Materials;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using System.Collections.Generic;
 using System.Threading;
-using StructureHelperLogics.Models.NdmPrimitives;
+using StructureHelperCommon.Models.Entities;
+using StructureHelperCommon.Models.NdmPrimitives;
+using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
 {

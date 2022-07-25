@@ -5,14 +5,10 @@ using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.Ndms.Transformations;
 using LoaderCalculator.Data.Planes;
 using LoaderCalculator.Data.SourceData;
-using LoaderCalculator.Infrastructure;
 using LoaderCalculator.Tests.Infrastructures.Logics;
 using LoaderCalculator.Triangulations;
-using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 namespace LoaderCalculator.Tests.FunctionalTests.SectionTests
 {

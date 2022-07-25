@@ -3,12 +3,12 @@ using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.SourceData;
 using LoaderCalculator.Tests.Infrastructures.Logics;
 using NUnit.Framework;
-using StructureHelperLogics.Data.Shapes;
-using StructureHelperLogics.NdmCalculations.Entities;
-using StructureHelperLogics.NdmCalculations.Materials;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using System.Collections.Generic;
 using System.Threading;
+using StructureHelperCommon.Models.Entities;
+using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperTests.FunctionalTests.Ndms.SteelSections
 {
