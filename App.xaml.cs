@@ -11,23 +11,30 @@ namespace StructureHelper
     public partial class App : Application
     {
         public static IContainer Container { get; private set; }
+        public static ILifetimeScope Scope { get; private set; }
+
         protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
             var builder = new ContainerBuilder();
-            builder.RegisterType<PrimitiveRepository>().As<IPrimitiveRepository>();
-            builder.RegisterType<PrimitiveService>().As<IPrimitiveService>();
-            builder.RegisterType<MainModel>().AsSelf();
-            builder.RegisterType<MainViewModel>().AsSelf();
+            builder.RegisterType<PrimitiveRepository>().As<IPrimitiveRepository>().SingleInstance();
+            builder.RegisterType<PrimitiveService>().As<IPrimitiveService>().SingleInstance();
+            builder.RegisterType<MainModel>().AsSelf().SingleInstance();
+            builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
 
             builder.RegisterType<MainView>().AsSelf();
 
             Container = builder.Build();
-            
-            using (var scope = Container.BeginLifetimeScope())
-            {
-                var window = scope.Resolve<MainView>();
-                window.ShowDialog();
-            }
+            Scope = Container.Resolve<ILifetimeScope>();
+
+            var window = Scope.Resolve<MainView>();
+            window.Show();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            Scope.Dispose();
+            base.OnExit(e);
         }
     }
 }
