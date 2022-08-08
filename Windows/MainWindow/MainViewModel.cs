@@ -250,7 +250,10 @@ namespace StructureHelper.Windows.MainWindow
             {
                 var primitive = Primitives.FirstOrDefault(x => x.ParamsPanelVisibilty);
                 if (primitive != null && primitive.PopupCanBeClosed)
+                {
                     primitive.ParamsPanelVisibilty = false;
+                    primitive.ParameterCaptured = false;
+                }
             });
             
             

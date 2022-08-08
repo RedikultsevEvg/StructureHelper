@@ -7,7 +7,7 @@ namespace StructureHelper.Infrastructure.UI.UserControls
     /// <summary>
     /// Interaction logic for PrimitivePopup.xaml
     /// </summary>
-    public partial class PrimitivePopup : UserControl
+    public partial class PrimitivePopup : Popup
     {
         public static readonly DependencyProperty TypeProperty =
             DependencyProperty.Register("Type", typeof(PrimitiveType), typeof(PrimitivePopup));

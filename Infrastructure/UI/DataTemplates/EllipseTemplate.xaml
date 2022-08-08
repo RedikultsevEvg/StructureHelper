@@ -9,7 +9,23 @@
              xmlns:dataContexts="clr-namespace:StructureHelper.Infrastructure.UI.DataContexts"
              xmlns:userControls="clr-namespace:StructureHelper.Infrastructure.UI.UserControls"
              mc:Ignorable="d">
-    <Grid>
-        <ContentControl Content="{StaticResource EllipsePrimitive}"/>
-    </Grid>
+    <StackPanel>
+        <Ellipse Style="{StaticResource EllipseStyle}" d:DataContext="{d:DesignInstance dataContexts:Point}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseDown">
+                    <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonDown}" CommandParameter="{Binding}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="PreviewMouseUp">
+                    <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonUp}" CommandParameter="{Binding}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="PreviewMouseMove">
+                    <i:InvokeCommandAction Command="{Binding PointPreviewMouseMove}" CommandParameter="{Binding}"/>
+                </i:EventTrigger>
+                <mouseEventTriggers:DoubleClickEventTrigger EventName="MouseDown">
+                    <i:InvokeCommandAction Command="{Binding PrimitiveDoubleClick}" CommandParameter="{Binding}"/>
+                </mouseEventTriggers:DoubleClickEventTrigger>
+            </i:Interaction.Triggers>
+        </Ellipse>
+        <userControls:PrimitivePopup Type="Rectangle" IsOpen="{Binding ParamsPanelVisibilty}" d:DataContext="{d:DesignInstance dataContexts:PrimitiveBase}"/>
+    </StackPanel>
 </UserControl>

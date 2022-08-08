@@ -52,38 +52,4 @@
         <Setter Property="Width" Value="{Binding PrimitiveWidth}"/>
         <Setter Property="Height" Value="{Binding PrimitiveHeight}"/>
     </Style>
-
-    <Rectangle x:Key="RectanglePrimitive" Style="{StaticResource RectangleStyle}" d:DataContext="{d:DesignInstance dataContexts:PrimitiveBase}" >
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="PreviewMouseDown">
-                <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonDown}" CommandParameter="{Binding}"/>
-            </i:EventTrigger>
-            <i:EventTrigger EventName="PreviewMouseUp">
-                <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonUp}" CommandParameter="{Binding}"/>
-            </i:EventTrigger>
-            <i:EventTrigger EventName="PreviewMouseMove">
-                <i:InvokeCommandAction Command="{Binding RectanglePreviewMouseMove}" CommandParameter="{Binding}"/>
-            </i:EventTrigger>
-            <mouseEventTriggers:DoubleClickEventTrigger EventName="MouseDown">
-                <i:InvokeCommandAction Command="{Binding PrimitiveDoubleClick}" CommandParameter="{Binding}"/>
-            </mouseEventTriggers:DoubleClickEventTrigger>
-        </i:Interaction.Triggers>
-    </Rectangle>
-
-    <Ellipse x:Key="EllipsePrimitive" Style="{StaticResource EllipseStyle}" d:DataContext="{d:DesignInstance dataContexts:PrimitiveBase}">
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="PreviewMouseDown">
-                <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonDown}" CommandParameter="{Binding}"/>
-            </i:EventTrigger>
-            <i:EventTrigger EventName="PreviewMouseUp">
-                <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonUp}" CommandParameter="{Binding}"/>
-            </i:EventTrigger>
-            <i:EventTrigger EventName="PreviewMouseMove">
-                <i:InvokeCommandAction Command="{Binding EllipsePreviewMouseMove}" CommandParameter="{Binding}"/>
-            </i:EventTrigger>
-            <mouseEventTriggers:DoubleClickEventTrigger EventName="MouseDown">
-                <i:InvokeCommandAction Command="{Binding PrimitiveDoubleClick}" CommandParameter="{Binding}"/>
-            </mouseEventTriggers:DoubleClickEventTrigger>
-        </i:Interaction.Triggers>
-    </Ellipse>
 </ResourceDictionary>

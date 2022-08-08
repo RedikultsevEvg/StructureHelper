@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using StructureHelper.Infrastructure.Enums;
@@ -9,7 +10,7 @@ using StructureHelperCommon.Models.Materials;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
-    public abstract class PrimitiveBase: ViewModelBase
+    public abstract class PrimitiveBase : ViewModelBase
     {
         #region Поля
 
@@ -24,7 +25,18 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         #region Свойства
 
-        public PrimitiveType Type => type;
+        public PrimitiveType Type
+        {
+            get => type;
+            set
+            {
+                OnPropertyChanged(value, type);
+                OnPropertyChanged(nameof(RectangleFieldVisibility));
+                OnPropertyChanged(nameof(PrimitiveDimension));
+                OnPropertyChanged(nameof(HeightRowHeight));
+            }
+        }
+
         public bool Captured
         {
             set => OnPropertyChanged(value, ref captured);
@@ -157,6 +169,10 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             set => OnPropertyChanged(value, ref borderCaptured);
         }
 
+        public Visibility RectangleFieldVisibility => Type == PrimitiveType.Rectangle ? Visibility.Visible : Visibility.Hidden;
+        public string PrimitiveDimension => Type == PrimitiveType.Rectangle ? "Ширина" : "Диаметр";
+        public double HeightRowHeight => Type == PrimitiveType.Rectangle ? 40 : 0;
+
         #endregion
 
         #region Команды
@@ -239,6 +255,9 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                 PopupCanBeClosed = false;
                 Captured = false;
                 ParamsPanelVisibilty = true;
+                ParameterCaptured = true;
+
+
 
                 //if (primitive is Rectangle rect)
                 //    rect.BorderCaptured = false;

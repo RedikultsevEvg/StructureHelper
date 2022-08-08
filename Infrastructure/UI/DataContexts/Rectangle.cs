@@ -10,6 +10,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
     {
         public Rectangle(double primitiveWidth, double primitiveHeight, double rectX, double rectY, MainViewModel mainViewModel) : base(PrimitiveType.Rectangle, rectX, rectY, mainViewModel)
         {
+            Type = PrimitiveType.Rectangle;
             PrimitiveWidth = primitiveWidth;
             PrimitiveHeight = primitiveHeight;
             ShowedX = 0;

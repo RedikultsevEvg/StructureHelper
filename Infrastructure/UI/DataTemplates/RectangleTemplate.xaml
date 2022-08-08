@@ -8,21 +8,41 @@
              xmlns:infrastructure="clr-namespace:StructureHelper.Infrastructure"
              xmlns:mouseEventTriggers="clr-namespace:StructureHelper.Infrastructure.UI.Triggers.MouseEventTriggers"
              xmlns:userControls="clr-namespace:StructureHelper.Infrastructure.UI.UserControls"
-             mc:Ignorable="d">
-    <Grid>
-        <ContentControl Content="{StaticResource RectanglePrimitive}"/>
-        <Rectangle Cursor="SizeNWSE" Width="20" Height="20" Fill="{Binding Brush}" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="PreviewMouseDown">
-                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.LeftButtonDown}" CommandParameter="{Binding}"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="PreviewMouseUp">
-                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.LeftButtonUp}" CommandParameter="{Binding}"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="PreviewMouseMove">
-                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.PreviewMouseMove}" CommandParameter="{Binding}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </Rectangle>
-    </Grid>
+             xmlns:dataContexts="clr-namespace:StructureHelper.Infrastructure.UI.DataContexts"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance dataContexts:Rectangle}">
+    <StackPanel>
+        <Grid>
+            <Rectangle Style="{StaticResource RectangleStyle}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseDown">
+                        <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonDown}" CommandParameter="{Binding}"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="PreviewMouseUp">
+                        <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonUp}" CommandParameter="{Binding}"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="PreviewMouseMove">
+                        <i:InvokeCommandAction Command="{Binding RectanglePreviewMouseMove}" CommandParameter="{Binding}"/>
+                    </i:EventTrigger>
+                    <mouseEventTriggers:DoubleClickEventTrigger EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding PrimitiveDoubleClick}" CommandParameter="{Binding}"/>
+                    </mouseEventTriggers:DoubleClickEventTrigger>
+                </i:Interaction.Triggers>
+            </Rectangle>
+            <Rectangle Cursor="SizeNWSE" Width="20" Height="20" Fill="{Binding Brush}" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseDown">
+                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.LeftButtonDown}" CommandParameter="{Binding}"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="PreviewMouseUp">
+                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.LeftButtonUp}" CommandParameter="{Binding}"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="PreviewMouseMove">
+                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.PreviewMouseMove}" CommandParameter="{Binding}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Rectangle>
+        </Grid>
+        <userControls:PrimitivePopup IsOpen="{Binding ParamsPanelVisibilty}"/>
+    </StackPanel>
 </UserControl>

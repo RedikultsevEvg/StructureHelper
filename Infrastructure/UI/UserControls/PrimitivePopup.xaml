@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="StructureHelper.Infrastructure.UI.UserControls.PrimitivePopup"
+﻿<Popup x:Class="StructureHelper.Infrastructure.UI.UserControls.PrimitivePopup"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,137 +6,70 @@
              xmlns:local="clr-namespace:StructureHelper.Infrastructure.UI.UserControls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:dataContexts="clr-namespace:StructureHelper.Infrastructure.UI.DataContexts"
-             mc:Ignorable="d">
+             mc:Ignorable="d" IsOpen="{Binding ParamsPanelVisibilty}">
     <Grid>
-        <!--Rectangle-->
-        <local:PrimitivePopup IsOpen="{Binding ParamsPanelVisibilty}" d:DataContext="{d:DesignInstance dataContexts:Rectangle}" Type="Rectangle">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseLeave">
-                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetPopupCanBeClosedTrue}" CommandParameter="{Binding}"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseEnter">
-                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetPopupCanBeClosedFalse}" CommandParameter="{Binding}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <Border Background="White" BorderBrush="Black" BorderThickness="1">
-                <Grid Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="170"/>
-                        <ColumnDefinition Width="170"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Координата X" Margin="10"/>
-                    <TextBox Grid.Column="1" VerticalAlignment="Center" Margin="10" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.RectParameterX, Mode=TwoWay}"/>
-                    <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Координата Y" Margin="10"/>
-                    <TextBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="10" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.RectParameterY, Mode=TwoWay}"/>
-                    <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Ширина" Margin="10"/>
-                    <TextBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="10" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.RectParameterWidth, Mode=TwoWay}"/>
-                    <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Высота" Margin="10"/>
-                    <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="10" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.RectParameterHeight, Mode=TwoWay}"/>
-                    <TextBlock Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Материал" Margin="10"/>
-                    <Button Grid.Row="4" Grid.Column="1" Margin="10" Background="White" 
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseLeave">
+                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetPopupCanBeClosedTrue}" CommandParameter="{Binding}"/>
+            </i:EventTrigger>
+            <i:EventTrigger EventName="MouseEnter">
+                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetPopupCanBeClosedFalse}" CommandParameter="{Binding}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <Border Background="White" BorderBrush="Black" BorderThickness="1">
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="{Binding HeightRowHeight}"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="170"/>
+                    <ColumnDefinition Width="170"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Координата X" Margin="10"/>
+                <TextBox Grid.Column="1" VerticalAlignment="Center" Margin="10" Text="{Binding ShowedX, Mode=TwoWay}"/>
+                <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Координата Y" Margin="10"/>
+                <TextBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="10" Text="{Binding ShowedY, Mode=TwoWay}"/>
+                <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding PrimitiveDimension}" Margin="10"/>
+                <TextBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="10" Text="{Binding PrimitiveWidth, Mode=TwoWay}"/>
+                <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Высота" Margin="10" Visibility="{Binding RectangleFieldVisibility}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="10" Text="{Binding PrimitiveHeight, Mode=TwoWay}"  Visibility="{Binding RectangleFieldVisibility}"/>
+                <TextBlock Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Материал" Margin="10"/>
+                <Button Grid.Row="4" Grid.Column="1" Margin="10" Background="White" 
                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.OpenMaterialCatalogWithSelection}" CommandParameter="{Binding}"
                                     Content="{Binding MaterialName, Mode=TwoWay}"/>
-                    <TextBlock Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Цвет"/>
-                    <Button Grid.Row="5" Grid.Column="1" Margin="10" Background="{Binding Brush, Mode=TwoWay}"
+                <TextBlock Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Цвет"/>
+                <Button Grid.Row="5" Grid.Column="1" Margin="10" Background="{Binding Brush, Mode=TwoWay}"
                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetColor}" CommandParameter="{Binding}"/>
-                    <TextBlock Grid.Row="6" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Прозрачность"/>
-                    <TextBox Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" Margin="10,10,50,10" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.ParameterOpacity, Mode=TwoWay}"/>
-                    <TextBlock Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Text="%" Margin="25,10"/>
-                    <TextBlock Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Заблокировать объект" Grid.ColumnSpan="2"/>
-                    <CheckBox Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.ElementLock, Mode=TwoWay}"></CheckBox>
-                    <TextBlock Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Z-порядок"/>
-                    <StackPanel Grid.Row="8" Grid.Column="1" Orientation="Horizontal">
-                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" Margin="10"
-                                         Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.PrimitiveIndex, Mode=TwoWay}"/>
-                        <TextBlock VerticalAlignment="Center" Text="Max = "/>
-                        <TextBlock VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.PrimitivesCount, Mode=TwoWay}"/>
-                    </StackPanel>
-                    <Button Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Установить впереди всех" Margin="10"
+                <TextBlock Grid.Row="6" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Прозрачность"/>
+                <TextBox Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" Margin="10,10,50,10" Text="{Binding ShowedOpacity, Mode=TwoWay}"/>
+                <TextBlock Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Text="%" Margin="25,10"/>
+                <TextBlock Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Заблокировать объект" Grid.ColumnSpan="2"/>
+                <CheckBox Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" IsChecked="{Binding ElementLock, Mode=TwoWay}"/>
+                <TextBlock Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Z-порядок"/>
+                <StackPanel Grid.Row="8" Grid.Column="1" Orientation="Horizontal">
+                    <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" Margin="10"
+                                         Text="{Binding ShowedZIndex, Mode=TwoWay}"/>
+                    <TextBlock VerticalAlignment="Center" Text="Max = "/>
+                    <TextBlock VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.PrimitivesCount, Mode=TwoWay}"/>
+                </StackPanel>
+                <Button Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Установить впереди всех" Margin="10"
                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetInFrontOfAll}" CommandParameter="{Binding}"/>
-                    <Button Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Установить позади всех" Margin="10"
+                <Button Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Установить позади всех" Margin="10"
                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetInBackOfAll}" CommandParameter="{Binding}"/>
-                    <Button Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10" Content="Установить параметры" 
+                <Button Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10" Content="Установить параметры" 
                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetParameters}" CommandParameter="{Binding}"/>
-                </Grid>
-            </Border>
-        </local:PrimitivePopup>
-        <!--Ellipse-->
-        <local:PrimitivePopup IsOpen="{Binding ParamsPanelVisibilty}" d:DataContext="{d:DesignInstance dataContexts:Point}" Type="Ellipse">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseLeave">
-                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetPopupCanBeClosedTrue}" CommandParameter="{Binding}"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseEnter">
-                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetPopupCanBeClosedFalse}" CommandParameter="{Binding}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <Border Background="White" BorderBrush="Black" BorderThickness="1">
-                <Grid Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="170"/>
-                        <ColumnDefinition Width="170"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Координата центра X" Margin="10"/>
-                    <TextBox Grid.Column="1" VerticalAlignment="Center" Margin="10" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.EllipseParameterX, Mode=TwoWay}"/>
-                    <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Координата центра Y" Margin="10"/>
-                    <TextBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="10" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.EllipseParameterY, Mode=TwoWay}"/>
-                    <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Площадь" Margin="10"/>
-                    <TextBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="10" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.EllipseParameterSquare, Mode=TwoWay}"/>
-                    <TextBlock Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Материал" Margin="10"/>
-                    <Button Grid.Row="4" Grid.Column="1" Margin="10" Background="White" 
-                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.OpenMaterialCatalogWithSelection}" CommandParameter="{Binding}"
-                                    Content="{Binding MaterialName, Mode=TwoWay}"/>
-                    <TextBlock Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Цвет"/>
-                    <Button Grid.Row="5" Grid.Column="1" Margin="10" Background="{Binding Brush, Mode=TwoWay}"
-                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetColor}" CommandParameter="{Binding}"/>
-                    <TextBlock Grid.Row="6" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Прозрачность"/>
-                    <TextBox Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" Margin="10,10,50,10" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.ParameterOpacity, Mode=TwoWay}"/>
-                    <TextBlock Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Text="%" Margin="25,10"/>
-                    <TextBlock Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Заблокировать объект" Grid.ColumnSpan="2"/>
-                    <CheckBox Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.ElementLock, Mode=TwoWay}"></CheckBox>
-                    <TextBlock Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Z-порядок"/>
-                    <StackPanel Grid.Row="8" Grid.Column="1" Orientation="Horizontal">
-                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" Margin="10"
-                                         Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.PrimitiveIndex, Mode=TwoWay}"/>
-                        <TextBlock VerticalAlignment="Center" Text="Max = "/>
-                        <TextBlock VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.PrimitivesCount, Mode=TwoWay}"/>
-                    </StackPanel>
-                    <Button Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Установить впереди всех" Margin="10"
-                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetInFrontOfAll}" CommandParameter="{Binding}"/>
-                    <Button Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Установить позади всех" Margin="10"
-                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetInBackOfAll}" CommandParameter="{Binding}"/>
-                    <Button Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10" Content="Установить параметры" 
-                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetParameters}" CommandParameter="{Binding}"/>
-                </Grid>
-            </Border>
-        </local:PrimitivePopup>
+            </Grid>
+        </Border>
     </Grid>
-</UserControl>
+</Popup>
