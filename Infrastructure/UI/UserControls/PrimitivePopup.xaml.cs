@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using StructureHelper.Infrastructure.Enums;
 
 namespace StructureHelper.Infrastructure.UI.UserControls
