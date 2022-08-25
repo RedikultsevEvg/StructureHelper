@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Models.Materials;
+using StructureHelper.UnitSystem.Systems;
 using StructureHelper.Windows.MainWindow;
 using StructureHelperCommon.Models.Entities;
 using StructureHelperCommon.Models.Materials;
@@ -62,9 +63,12 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             get => material;
             set
             {
-                MaterialName = material.MaterialClass;
-                OnPropertyChanged(value, ref material);
-                OnPropertyChanged(nameof(MaterialName));
+                if (value != null)
+                {
+                    MaterialName = value.MaterialClass;
+                    OnPropertyChanged(value, ref material);
+                    OnPropertyChanged(nameof(MaterialName));
+                }
             }
         }
         private string materialName = string.Empty;
@@ -276,7 +280,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             if (Type == PrimitiveType.Point) Y = -showedY + Xy1 - PrimitiveWidth / 2;
         }
 
-        public abstract INdmPrimitive GetNdmPrimitive();
+        public abstract INdmPrimitive GetNdmPrimitive(IUnitSystem unitSystem);
         public MaterialTypes GetMaterialTypes()
         {
             MaterialTypes materialTypes;

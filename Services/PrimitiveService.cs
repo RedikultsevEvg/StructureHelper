@@ -52,24 +52,4 @@ namespace StructureHelper.Services
 
         public IEnumerable<Rectangle> GetRectangles() => rectangles;
     }
-
-    public class PrimitiveService : IPrimitiveService
-    {
-        IPrimitiveRepository primitiveRepository;
-
-        public PrimitiveService(IPrimitiveRepository primitiveRepository)
-        {
-            this.primitiveRepository = primitiveRepository;
-        }
-
-        public PointPrimitive[] GetInnerPoints(RectanglePrimitive rectanglePrimitive)
-        {
-            return new[] { new PointPrimitive(new Center(), new StructureHelperCommon.Models.Shapes.Point()) };
-        }
-    }
-
-    public interface IPrimitiveService
-    {
-        PointPrimitive[] GetInnerPoints(RectanglePrimitive rectanglePrimitive);
-    }
 }

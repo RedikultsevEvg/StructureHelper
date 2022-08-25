@@ -3,21 +3,25 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.Extensions;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.MaterialCatalogWindow;
 using StructureHelper.Services;
 using StructureHelper.Windows.ColorPickerWindow;
+using StructureHelper.UnitSystem;
 
 namespace StructureHelper.Windows.MainWindow
 {
     public class MainViewModel : ViewModelBase
     {
-        private IPrimitiveService PrimitiveService { get; }
+        private readonly double scaleRate = 1.1;
+
         private IPrimitiveRepository PrimitiveRepository { get; }
+        private readonly UnitSystemService unitSystemService;
+
         private MainModel Model { get; }
         public ObservableCollection<PrimitiveBase> Primitives { get; set; }
-        public ICommand AddRectangle { get; }
 
         private double panelX, panelY, scrollPanelX, scrollPanelY;
 
@@ -42,85 +46,9 @@ namespace StructureHelper.Windows.MainWindow
             set => OnPropertyChanged(value, ref scrollPanelY);
         }
 
-        private double rectParameterX, rectParameterY, rectParameterWidth, rectParameterHeight;
-
-        public double RectParameterX
-        {
-            get => rectParameterX;
-            set => OnPropertyChanged(value, ref rectParameterX);
-        }
-        public double RectParameterY
-        {
-            get => rectParameterY;
-            set => OnPropertyChanged(value, ref rectParameterY);
-        }
-        public double RectParameterWidth
-        {
-            get => rectParameterWidth;
-            set => OnPropertyChanged(value, ref rectParameterWidth);
-        }
-        public double RectParameterHeight
-        {
-            get => rectParameterHeight;
-            set => OnPropertyChanged(value, ref rectParameterHeight);
-        }
-
-        private double parameterOpacity = 0;
-
-        public double ParameterOpacity
-        {
-            get => parameterOpacity;
-            set
-            {
-                if (value >= 0 && value <= 100)
-                    OnPropertyChanged(value, ref parameterOpacity);
-            }
-        }
-
-        private double pointParameterX, pointParameterY, pointParameterSquare;
-        public double EllipseParameterX
-        {
-            get => pointParameterX;
-            set => OnPropertyChanged(value, ref pointParameterX);
-        }
-
-        public double EllipseParameterY
-        {
-            get => pointParameterY;
-            set => OnPropertyChanged(value, ref pointParameterY);
-        }
-
-        public double EllipseParameterSquare
-        {
-            get => pointParameterSquare;
-            set => OnPropertyChanged(value, ref pointParameterSquare);
-        }
-        private bool elementLock;
-        public bool ElementLock
-        {
-            get => elementLock;
-            set => OnPropertyChanged(value, ref elementLock);
-        }
-
-        private int primitivesCount;
-        public int PrimitivesCount
-        {
-            get => primitivesCount;
-            set => OnPropertyChanged(value, ref primitivesCount);
-        }
-
-        private int primitiveIndex = 1;
-        public int PrimitiveIndex
-        {
-            get => primitiveIndex;
-            set
-            {
-                if (value >= 0 && value <= primitivesCount)
-                    OnPropertyChanged(value, ref primitiveIndex);
-            }
-        }
-
+        public int PrimitivesCount => Primitives.Count;
         private double scaleValue = 1.0;
+
         public double ScaleValue
         {
             get => scaleValue;
@@ -160,42 +88,37 @@ namespace StructureHelper.Windows.MainWindow
             get => yY2;
             set => OnPropertyChanged(value, ref yY2);
         }
-
+        public ICommand AddPrimitive { get; }
         public ICommand LeftButtonDown { get; }
         public ICommand LeftButtonUp { get; }
         public ICommand PreviewMouseMove { get; }
-        
-        public ICommand SetParameters { get; }
         public ICommand ClearSelection { get; }
-        
         public ICommand OpenMaterialCatalog { get; }
         public ICommand OpenMaterialCatalogWithSelection { get; }
+        public ICommand OpenUnitsSystemSettings { get; }
         public ICommand SetColor { get; }
         public ICommand SetInFrontOfAll { get; }
         public ICommand SetInBackOfAll { get; }
         public ICommand ScaleCanvasDown { get; }
         public ICommand ScaleCanvasUp { get; }
-        public ICommand AddEllipse { get; }
+        public ICommand Calculate { get; }
         public ICommand SetPopupCanBeClosedTrue { get; }
         public ICommand SetPopupCanBeClosedFalse { get; }
+        public string UnitsSystemName => unitSystemService.GetCurrentSystem().Name;
 
         private double delta = 0.5;
-        
-        public MainViewModel(MainModel model, IPrimitiveService primitiveService, IPrimitiveRepository primitiveRepository)
+
+        public MainViewModel(MainModel model, IPrimitiveRepository primitiveRepository, UnitSystemService unitSystemService)
         {
-            PrimitiveService = primitiveService;
             PrimitiveRepository = primitiveRepository;
             Model = model;
-
+            this.unitSystemService = unitSystemService;
             CanvasWidth = 1500;
             CanvasHeight = 1000;
             XX2 = CanvasWidth;
             XY1 = CanvasHeight / 2;
             YX1 = CanvasWidth / 2;
             YY2 = CanvasHeight;
-
-            
-            
             LeftButtonUp = new RelayCommand(o =>
             {
                 if (o is Rectangle rect) rect.BorderCaptured = false;
@@ -219,44 +142,15 @@ namespace StructureHelper.Windows.MainWindow
                         rect.PrimitiveHeight = PanelY - rect.Y + 10;
                 }
             });
-            SetParameters = new RelayCommand(o =>
-            {
-                var primitive = Primitives.FirstOrDefault(x => x.ParameterCaptured);
-                if (primitive != null)
-                {
-                    primitive.ElementLock = ElementLock;
-                    primitive.ShowedOpacity = ParameterOpacity;
-                    Primitives.MoveElementToSelectedIndex(primitive, PrimitiveIndex);
-                    foreach (var primitiveDefinition in Primitives)
-                        primitiveDefinition.ShowedZIndex = Primitives.IndexOf(primitiveDefinition) + 1;
-
-                    switch (primitive)
-                    {
-                        case Rectangle rectangle:
-                            rectangle.ShowedX = RectParameterX;
-                            rectangle.ShowedY = RectParameterY;
-                            rectangle.PrimitiveWidth = RectParameterWidth;
-                            rectangle.PrimitiveHeight = RectParameterHeight;
-                            break;
-                        case Point point:
-                            point.Square = EllipseParameterSquare;
-                            point.ShowedX = EllipseParameterX;
-                            point.ShowedY = EllipseParameterY;
-                            break;
-                    }
-                }
-            });
             ClearSelection = new RelayCommand(o =>
             {
-                var primitive = Primitives.FirstOrDefault(x => x.ParamsPanelVisibilty);
+                var primitive = Primitives?.FirstOrDefault(x => x.ParamsPanelVisibilty);
                 if (primitive != null && primitive.PopupCanBeClosed)
                 {
                     primitive.ParamsPanelVisibilty = false;
                     primitive.ParameterCaptured = false;
                 }
             });
-            
-            
             OpenMaterialCatalog = new RelayCommand(o =>
             {
                 var materialCatalogView = new MaterialCatalogView();
@@ -267,6 +161,10 @@ namespace StructureHelper.Windows.MainWindow
                 var primitive = o as PrimitiveBase;
                 var materialCatalogView = new MaterialCatalogView(true, primitive);
                 materialCatalogView.ShowDialog();
+            });
+            OpenUnitsSystemSettings = new RelayCommand(o =>
+            {
+                OnPropertyChanged(nameof(UnitsSystemName));
             });
             SetColor = new RelayCommand(o =>
             {
@@ -287,21 +185,21 @@ namespace StructureHelper.Windows.MainWindow
             {
                 if (!(o is PrimitiveBase primitive)) return;
                 foreach (var primitiveDefinition in Primitives)
-                    if (primitiveDefinition.ShowedZIndex < primitive.ShowedZIndex && primitiveDefinition != primitive)
+                    if (primitiveDefinition != primitive && primitiveDefinition.ShowedZIndex < primitive.ShowedZIndex)
                         primitiveDefinition.ShowedZIndex++;
                 primitive.ShowedZIndex = 1;
                 OnPropertyChanged(nameof(primitive.ShowedZIndex));
             });
+            
             ScaleCanvasDown = new RelayCommand(o =>
             {
-                var scaleRate = 1.1;
                 ScrollPanelX = PanelX;
                 ScrollPanelY = PanelY;
                 ScaleValue *= scaleRate;
             });
+            
             ScaleCanvasUp = new RelayCommand(o =>
             {
-                var scaleRate = 1.1;
                 ScrollPanelX = PanelX;
                 ScrollPanelY = PanelY;
                 ScaleValue /= scaleRate;
@@ -309,20 +207,19 @@ namespace StructureHelper.Windows.MainWindow
 
             Primitives = new ObservableCollection<PrimitiveBase>();
             
-            AddRectangle = new RelayCommand(o =>
+            AddPrimitive = new RelayCommand(o =>
             {
-                var rectangle = new Rectangle(60, 40, YX1, XY1, this);
-                Primitives.Add(rectangle);
-                PrimitivesCount = Primitives.Count;
-                PrimitiveRepository.Add(rectangle);
+                if (!(o is PrimitiveType primitiveType)) return;
+                var primitive = primitiveType == PrimitiveType.Point 
+                    ? (PrimitiveBase) new Point(50, YX1, XY1, this) 
+                    : (PrimitiveBase) new Rectangle(60, 40, YX1, XY1, this);
+                Primitives.Add(primitive);
+                PrimitiveRepository.Add(primitive);
             });
-            
-            AddEllipse = new RelayCommand(o =>
+
+            Calculate = new RelayCommand(o =>
             {
-                var point = new Point(2000, YX1, XY1, this);
-                Primitives.Add(point);
-                PrimitivesCount = Primitives.Count;
-                PrimitiveRepository.Add(point);
+                model.Calculate(-50e3, 0d, 0d);
             });
 
             SetPopupCanBeClosedTrue = new RelayCommand(o =>
@@ -330,6 +227,7 @@ namespace StructureHelper.Windows.MainWindow
                 if (!(o is PrimitiveBase primitive)) return;
                 primitive.PopupCanBeClosed = true;
             });
+
             SetPopupCanBeClosedFalse = new RelayCommand(o =>
             {
                 if (!(o is PrimitiveBase primitive)) return;

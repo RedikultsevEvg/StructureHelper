@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper"
+        xmlns:colorPickerWindow="clr-namespace:StructureHelper.Windows.ColorPickerWindow"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance local:ColorPickerViewModel}"
+        d:DataContext="{d:DesignInstance colorPickerWindow:ColorPickerViewModel}"
         Title="Выбрать цвет" Height="200" Width="500" Topmost="True" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
@@ -27,6 +28,7 @@
         <Border Grid.Column="3" Grid.RowSpan="3" Margin="10" BorderBrush="Black" BorderThickness="1">
             <Rectangle Fill="{Binding SelectedColor}"/>
         </Border>
+
 
         <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Text="Зеленый"/>
         <Slider Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10" Value="{Binding Green}" Minimum="0" Maximum="255"/>

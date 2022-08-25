@@ -27,7 +27,7 @@ namespace StructureHelper.MaterialCatalogWindow
 
         private void InitializeRebarDefinitions()
         {
-            RebarDefinitions = new NamedList<MaterialDefinitionBase>()
+            RebarDefinitions = new NamedList<MaterialDefinitionBase>
             {
                 new RebarDefinition("S240", 2, 240, 240, 1.15, 1.15),
                 new RebarDefinition("S400", 2, 400, 400, 1.15, 1.15),
@@ -38,7 +38,7 @@ namespace StructureHelper.MaterialCatalogWindow
 
         private void InitializeConcreteDefinitions()
         {
-            ConcreteDefinitions = new NamedList<MaterialDefinitionBase>()
+            ConcreteDefinitions = new NamedList<MaterialDefinitionBase>
             {
                 new ConcreteDefinition("C10", 0, 10, 0, 1.3, 1.5),
                 new ConcreteDefinition("C15", 0, 15, 0, 1.3, 1.5),

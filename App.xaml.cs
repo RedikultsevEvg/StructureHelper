@@ -1,7 +1,9 @@
 ﻿using System.Windows;
 using Autofac;
 using StructureHelper.Services;
+using StructureHelper.UnitSystem;
 using StructureHelper.Windows.MainWindow;
+using StructureHelperLogics.Services;
 
 namespace StructureHelper
 {
@@ -18,7 +20,8 @@ namespace StructureHelper
             base.OnStartup(e);
             var builder = new ContainerBuilder();
             builder.RegisterType<PrimitiveRepository>().As<IPrimitiveRepository>().SingleInstance();
-            builder.RegisterType<PrimitiveService>().As<IPrimitiveService>().SingleInstance();
+            builder.RegisterType<UnitSystemService>().AsSelf().SingleInstance();
+            builder.RegisterType<CalculationService>().AsSelf().SingleInstance();
             builder.RegisterType<MainModel>().AsSelf().SingleInstance();
             builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
 

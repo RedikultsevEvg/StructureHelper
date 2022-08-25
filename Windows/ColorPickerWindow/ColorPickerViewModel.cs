@@ -31,7 +31,7 @@ namespace StructureHelper.Windows.ColorPickerWindow
         public Brush SelectedColor
         {
             get => selectedColor;
-            set => OnPropertyChanged(value, selectedColor);
+            set => OnPropertyChanged(value, ref selectedColor);
         }
         public ICommand SetColor { get; }
         public ColorPickerViewModel(PrimitiveBase primitive)

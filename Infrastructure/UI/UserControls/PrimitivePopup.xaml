@@ -29,8 +29,6 @@
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="170"/>
@@ -61,14 +59,12 @@
                     <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" Margin="10"
                                          Text="{Binding ShowedZIndex, Mode=TwoWay}"/>
                     <TextBlock VerticalAlignment="Center" Text="Max = "/>
-                    <TextBlock VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.PrimitivesCount, Mode=TwoWay}"/>
+                    <TextBlock VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.PrimitivesCount}"/>
                 </StackPanel>
                 <Button Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Установить впереди всех" Margin="10"
                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetInFrontOfAll}" CommandParameter="{Binding}"/>
                 <Button Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Установить позади всех" Margin="10"
                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetInBackOfAll}" CommandParameter="{Binding}"/>
-                <Button Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10" Content="Установить параметры" 
-                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SetParameters}" CommandParameter="{Binding}"/>
             </Grid>
         </Border>
     </Grid>

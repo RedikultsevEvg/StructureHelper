@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StructureHelper.csproj" />
     <ProjectReference Include="..\StructureHelperCommon\StructureHelperCommon.csproj" />
   </ItemGroup>
 

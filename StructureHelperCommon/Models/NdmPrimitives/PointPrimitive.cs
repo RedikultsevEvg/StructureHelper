@@ -17,8 +17,8 @@ namespace StructureHelperCommon.Models.NdmPrimitives
         {
             double strength = 400e6d;
             string materialName = "s400";
-            IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial() { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = strength }; ;
-            INdmPrimitive ndmPrimitive = new NdmPrimitive() { Center = _center, Shape = _shape, PrimitiveMaterial = primitiveMaterial };
+            IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = strength }; ;
+            INdmPrimitive ndmPrimitive = new NdmPrimitive { Center = _center, Shape = _shape, PrimitiveMaterial = primitiveMaterial };
             return ndmPrimitive;
         }
 

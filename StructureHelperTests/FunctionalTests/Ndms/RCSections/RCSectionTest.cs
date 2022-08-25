@@ -29,7 +29,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
             double width = 0.4;
             double height = 0.6;
             var ndmCollection = new List<INdm>();
-            ITriangulationOptions options = new TriangulationOptions() { LimiteState = StructureHelperLogics.Infrastructures.CommonEnums.LimitStates.Collapse, CalcTerm = StructureHelperLogics.Infrastructures.CommonEnums.CalcTerms.ShortTerm };
+            ITriangulationOptions options = new TriangulationOptions { LimiteState = StructureHelperLogics.Infrastructures.CommonEnums.LimitStates.Collapse, CalcTerm = StructureHelperLogics.Infrastructures.CommonEnums.CalcTerms.ShortTerm };
             var primitives = new List<INdmPrimitive>();
             primitives.AddRange(GetConcreteNdms(width, height));
             primitives.AddRange(GetReinforcementNdms(width, height, topArea, bottomArea));
@@ -60,11 +60,11 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
         private IEnumerable<INdmPrimitive> GetConcreteNdms(double width, double height)
         {
             double strength = 40e6;
-            ICenter center = new Center() { X = 0, Y = 0 };
-            IRectangle rectangle = new Rectangle() { Width = width, Height = height, Angle = 0 };
-            IPrimitiveMaterial material = new PrimitiveMaterial() { MaterialType = MaterialTypes.Concrete, ClassName = "С40", Strength = strength };
+            ICenter center = new Center { X = 0, Y = 0 };
+            IRectangle rectangle = new Rectangle { Width = width, Height = height, Angle = 0 };
+            IPrimitiveMaterial material = new PrimitiveMaterial { MaterialType = MaterialTypes.Concrete, ClassName = "С40", Strength = strength };
             //ITriangulationOptions options = new TriangulationOptions() { LimiteState = StructureHelperLogics.Infrastructures.CommonEnums.LimitStates.Collapse, CalcTerm = StructureHelperLogics.Infrastructures.CommonEnums.CalcTerms.ShortTerm };
-            INdmPrimitive primitive = new NdmPrimitive() { Center = center, Shape = rectangle, PrimitiveMaterial = material, NdmMaxSize = 1, NdmMinDivision = 20 };
+            INdmPrimitive primitive = new NdmPrimitive { Center = center, Shape = rectangle, PrimitiveMaterial = material, NdmMaxSize = 1, NdmMinDivision = 20 };
             List<INdmPrimitive> primitives = new List<INdmPrimitive> {primitive};
             return primitives;
         }
@@ -73,27 +73,27 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
         {
             double gap = 0.05d;
             double strength = 4e8;
-            IShape topReinforcement = new Point() { Area = topArea };
-            IShape bottomReinforcement = new Point() { Area = bottomArea };
-            IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial() { MaterialType = MaterialTypes.Reinforcement, ClassName = "S400", Strength = strength };
+            IShape topReinforcement = new Point { Area = topArea };
+            IShape bottomReinforcement = new Point { Area = bottomArea };
+            IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial { MaterialType = MaterialTypes.Reinforcement, ClassName = "S400", Strength = strength };
             //ITriangulationOptions options = new TriangulationOptions() { LimiteState = StructureHelperLogics.Infrastructures.CommonEnums.LimitStates.Collapse, CalcTerm = StructureHelperLogics.Infrastructures.CommonEnums.CalcTerms.ShortTerm };
-            ICenter centerRT = new Center() { X = width / 2 - gap, Y = height / 2 - gap };
-            ICenter centerLT = new Center() { X = - (width / 2 - gap), Y = height / 2 - gap };
-            ICenter centerRB = new Center() { X = width / 2 - gap, Y = - (height / 2 - gap) };
-            ICenter centerLB = new Center() { X = -(width / 2 - gap), Y = - (height / 2 - gap) };
+            ICenter centerRT = new Center { X = width / 2 - gap, Y = height / 2 - gap };
+            ICenter centerLT = new Center { X = - (width / 2 - gap), Y = height / 2 - gap };
+            ICenter centerRB = new Center { X = width / 2 - gap, Y = - (height / 2 - gap) };
+            ICenter centerLB = new Center { X = -(width / 2 - gap), Y = - (height / 2 - gap) };
             List<INdmPrimitive> primitives = new List<INdmPrimitive>();
             INdmPrimitive primitive;
             //Right top bar
-            primitive = new NdmPrimitive() { Center = centerRT, Shape = topReinforcement, PrimitiveMaterial = primitiveMaterial};
+            primitive = new NdmPrimitive { Center = centerRT, Shape = topReinforcement, PrimitiveMaterial = primitiveMaterial};
             primitives.Add(primitive);
             //Left top bar
-            primitive = new NdmPrimitive() { Center = centerLT, Shape = topReinforcement, PrimitiveMaterial = primitiveMaterial };
+            primitive = new NdmPrimitive { Center = centerLT, Shape = topReinforcement, PrimitiveMaterial = primitiveMaterial };
             primitives.Add(primitive);
             //Right bottom bar
-            primitive = new NdmPrimitive() { Center = centerRB, Shape = bottomReinforcement, PrimitiveMaterial = primitiveMaterial };
+            primitive = new NdmPrimitive { Center = centerRB, Shape = bottomReinforcement, PrimitiveMaterial = primitiveMaterial };
             primitives.Add(primitive);
             //Left bottom bar
-            primitive = new NdmPrimitive() { Center = centerLB, Shape = bottomReinforcement, PrimitiveMaterial = primitiveMaterial };
+            primitive = new NdmPrimitive { Center = centerLB, Shape = bottomReinforcement, PrimitiveMaterial = primitiveMaterial };
             primitives.Add(primitive);
             return primitives;
         }

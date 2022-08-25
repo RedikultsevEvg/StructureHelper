@@ -21,7 +21,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             ICenter center = options.Center;
             double area = options.Area;
             List<INdm> ndmCollection = new List<INdm>();
-            INdm ndm = new Ndm() { CenterX = center.X, CenterY = center.Y, Area = area, Material = material };
+            INdm ndm = new Ndm { CenterX = center.X, CenterY = center.Y, Area = area, Material = material };
             ndmCollection.Add(ndm);
             return ndmCollection;
         }

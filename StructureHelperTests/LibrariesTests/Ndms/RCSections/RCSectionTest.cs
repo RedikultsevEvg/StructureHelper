@@ -90,7 +90,7 @@ namespace LoaderCalculator.Tests.FunctionalTests.SectionTests
             double height = 0.6;
             ArrangeMaterial(LimitStates.Collapse, true);
             List<INdm> ndmList = new List<INdm>();
-            IStrainMatrix prestrainMatrix = new StrainMatrix() { Kx = prestrainKx, Ky = prestrainKy, EpsZ = prestrainEpsZ };
+            IStrainMatrix prestrainMatrix = new StrainMatrix { Kx = prestrainKx, Ky = prestrainKy, EpsZ = prestrainEpsZ };
             ndmList.AddRange(GetConcreteNdms(width, height));
             var reinforcement = GetReinforcementNdms(width, height, topArea, bottomArea);
             NdmTransform.SetPrestrain(reinforcement, prestrainMatrix);

@@ -100,6 +100,10 @@
       <DependentUpon>PrimitivePopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\PrimitiveService.cs" />
+    <Compile Include="UnitSystem\UnitSystemService.cs" />
+    <Compile Include="UnitSystem\Enums\SystemTypes.cs" />
+    <Compile Include="UnitSystem\Systems\SystemSi.cs" />
+    <Compile Include="UnitSystem\Systems\IUnitSystem.cs" />
     <Compile Include="Windows\AddMaterialWindow\AddMaterialView.xaml.cs">
       <DependentUpon>AddMaterialView.xaml</DependentUpon>
     </Compile>
@@ -192,6 +196,10 @@
     <ProjectReference Include="StructureHelperCommon\StructureHelperCommon.csproj">
       <Project>{5dfec3fd-9677-47bb-9e88-eb71828b5913}</Project>
       <Name>StructureHelperCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="StructureHelperLogics\StructureHelperLogics.csproj">
+      <Project>{330bef5b-15be-4d2c-a750-b1ae50fb2be3}</Project>
+      <Name>StructureHelperLogics</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

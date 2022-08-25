@@ -37,22 +37,22 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
             //Коллекция для хранения элементарных участков
             var ndmCollection = new List<INdm>();
             //Настройки триангуляции, пока опции могут быть только такие
-            ITriangulationOptions options = new TriangulationOptions() { LimiteState = StructureHelperLogics.Infrastructures.CommonEnums.LimitStates.Collapse, CalcTerm = StructureHelperLogics.Infrastructures.CommonEnums.CalcTerms.ShortTerm };
+            ITriangulationOptions options = new TriangulationOptions { LimiteState = StructureHelperLogics.Infrastructures.CommonEnums.LimitStates.Collapse, CalcTerm = StructureHelperLogics.Infrastructures.CommonEnums.CalcTerms.ShortTerm };
             var ndmPrimitives = new List<INdmPrimitive>();
             //Добавляем прямоугольник бетонного сечения
-            var concreteRectangle = new RectanglePrimitive(new Center() { X = 0, Y = 0 }, new Rectangle() { Width = width, Height = height, Angle = 0 });
+            var concreteRectangle = new RectanglePrimitive(new Center { X = 0, Y = 0 }, new Rectangle { Width = width, Height = height, Angle = 0 });
             ndmPrimitives.Add(concreteRectangle.GetNdmPrimitive());
             //Добавляем 4 точки для арматуры
             // 0.05 - величина защитного слоя (расстояние от грани прямоугольника до центра арматуры
             //С площадью нижней арматуры
-            var leftBottomReinforcementPoint = new PointPrimitive(new Center() { X = -width / 2 + 0.05d, Y = -height / 2 + 0.05 }, new Point() { Area = bottomArea });
+            var leftBottomReinforcementPoint = new PointPrimitive(new Center { X = -width / 2 + 0.05d, Y = -height / 2 + 0.05 }, new Point { Area = bottomArea });
             ndmPrimitives.Add(leftBottomReinforcementPoint.GetNdmPrimitive());
-            var rightBottomReinforcementPoint = new PointPrimitive(new Center() { X = width / 2 - 0.05d, Y = -height / 2 + 0.05 }, new Point() { Area = bottomArea });
+            var rightBottomReinforcementPoint = new PointPrimitive(new Center { X = width / 2 - 0.05d, Y = -height / 2 + 0.05 }, new Point { Area = bottomArea });
             ndmPrimitives.Add(rightBottomReinforcementPoint.GetNdmPrimitive());
             //С площадью верхней арматуры
-            var leftTopReinforcementPoint = new PointPrimitive(new Center() { X = -width / 2 + 0.05d, Y = height / 2 - 0.05 }, new Point() { Area = topArea });
+            var leftTopReinforcementPoint = new PointPrimitive(new Center { X = -width / 2 + 0.05d, Y = height / 2 - 0.05 }, new Point { Area = topArea });
             ndmPrimitives.Add(leftTopReinforcementPoint.GetNdmPrimitive());
-            var rightTopReinforcementPoint = new PointPrimitive(new Center() { X = width / 2 - 0.05d, Y = height / 2 - 0.05 }, new Point() { Area = topArea });
+            var rightTopReinforcementPoint = new PointPrimitive(new Center { X = width / 2 - 0.05d, Y = height / 2 - 0.05 }, new Point { Area = topArea });
             ndmPrimitives.Add(rightTopReinforcementPoint.GetNdmPrimitive());
             //Формируем коллекцию элементарных участков для расчета в библитеке (т.е. выполняем триангуляцию)
             ndmCollection.AddRange(Triangulation.GetNdms(ndmPrimitives, options));

@@ -21,11 +21,11 @@ namespace StructureHelperTests.FunctionalTests.Ndms.SteelSections
         public void Run_ShouldPass(double width, double height, double strength, double mx, double my, double nz, double expectedKx, double expectedKy, double expectedEpsilonZ)
         {
             //Arrange
-            ICenter center = new Center() { X = 0, Y = 0 };
-            IRectangle rectangle = new Rectangle() { Width = width, Height = height, Angle = 0 };
-            IPrimitiveMaterial material = new PrimitiveMaterial() { MaterialType = MaterialTypes.Reinforcement, ClassName = "S400", Strength = strength };
-            ITriangulationOptions options = new TriangulationOptions() { LimiteState = StructureHelperLogics.Infrastructures.CommonEnums.LimitStates.Collapse, CalcTerm = StructureHelperLogics.Infrastructures.CommonEnums.CalcTerms.ShortTerm };
-            INdmPrimitive primitive = new NdmPrimitive() { Center = center, Shape = rectangle, PrimitiveMaterial = material, NdmMaxSize = 1, NdmMinDivision = 100 };
+            ICenter center = new Center { X = 0, Y = 0 };
+            IRectangle rectangle = new Rectangle { Width = width, Height = height, Angle = 0 };
+            IPrimitiveMaterial material = new PrimitiveMaterial { MaterialType = MaterialTypes.Reinforcement, ClassName = "S400", Strength = strength };
+            ITriangulationOptions options = new TriangulationOptions { LimiteState = StructureHelperLogics.Infrastructures.CommonEnums.LimitStates.Collapse, CalcTerm = StructureHelperLogics.Infrastructures.CommonEnums.CalcTerms.ShortTerm };
+            INdmPrimitive primitive = new NdmPrimitive { Center = center, Shape = rectangle, PrimitiveMaterial = material, NdmMaxSize = 1, NdmMinDivision = 100 };
             List<INdmPrimitive> primitives = new List<INdmPrimitive>();
             primitives.Add(primitive);
             var ndmCollection = Triangulation.GetNdms(primitives, options);
