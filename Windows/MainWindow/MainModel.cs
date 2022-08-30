@@ -22,9 +22,9 @@ namespace StructureHelper.Windows.MainWindow
         public IStrainMatrix Calculate(double mx, double my, double nz)
         {
             var unitSystem = unitSystemService.GetCurrentSystem();
-            return calculationService.GetPrimitiveStrainMatrix(primitiveRepository.GetPoints()
+            return calculationService.GetPrimitiveStrainMatrix(primitiveRepository.GetRectangles()
                 .Select(x => x.GetNdmPrimitive(unitSystem))
-                .Concat(primitiveRepository.GetRectangles().Select(x => x.GetNdmPrimitive(unitSystem))).ToArray(), mx, my, nz);
+                .Concat(primitiveRepository.GetPoints().Select(x => x.GetNdmPrimitive(unitSystem))).ToArray(), mx, my, nz);
         }
     }
 }

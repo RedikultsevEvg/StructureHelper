@@ -22,7 +22,7 @@
                         <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonUp}" CommandParameter="{Binding}"/>
                     </i:EventTrigger>
                     <i:EventTrigger EventName="PreviewMouseMove">
-                        <i:InvokeCommandAction Command="{Binding RectanglePreviewMouseMove}" CommandParameter="{Binding}"/>
+                        <i:InvokeCommandAction Command="{Binding PreviewMouseMove}" CommandParameter="{Binding}"/>
                     </i:EventTrigger>
                     <mouseEventTriggers:DoubleClickEventTrigger EventName="MouseDown">
                         <i:InvokeCommandAction Command="{Binding PrimitiveDoubleClick}" CommandParameter="{Binding}"/>

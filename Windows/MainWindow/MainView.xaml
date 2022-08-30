@@ -94,6 +94,7 @@
             <Label VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="{Binding UnitsSystemName}"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button VerticalAlignment="Center" Margin="5" Content="Добавить тестовые примитивы" Command="{Binding AddTestCase}"/>
             <Button VerticalAlignment="Center" Margin="5" Content="Добавить прямоугольник" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
             <Button VerticalAlignment="Center" Margin="5" Content="Добавить точку" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
         </StackPanel>

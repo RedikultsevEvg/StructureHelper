@@ -19,7 +19,8 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         private bool captured, parameterCaptured, elementLock, paramsPanelVisibilty, popupCanBeClosed = true, borderCaptured;
         private Brush brush;
         private MaterialDefinitionBase material;
-        private double opacity = 1, showedOpacity = 0, x, y, xY1, yX1, primitiveWidth, primitiveHeight, showedX, showedY, delta = 0.5;
+        private double opacity = 1, showedOpacity = 0, x, y, xY1, yX1, primitiveWidth, primitiveHeight, showedX, showedY;
+        protected double delta = 0.5;
         private int showedZIndex = 1, zIndex;
 
         #endregion
@@ -182,102 +183,45 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         #region Команды
         public ICommand PrimitiveLeftButtonDown { get; }
         public ICommand PrimitiveLeftButtonUp { get; }
-        public ICommand RectanglePreviewMouseMove { get; }
-        public ICommand PointPreviewMouseMove { get; }
+        public ICommand PreviewMouseMove { get; protected set; }
         public ICommand PrimitiveDoubleClick { get; }
 
         #endregion
-        
-        protected PrimitiveBase(PrimitiveType type, double rectX, double rectY, MainViewModel mainViewModel)
+
+        protected PrimitiveBase(PrimitiveType type, double x, double y, MainViewModel ownerVM)
         {
             this.type = type;
-            Yx1 = rectX;
-            Xy1 = rectY;
-            var randomR = new Random().Next(150, 255);
-            var randomG = new Random().Next(0, 255);
-            var randomB = new Random().Next(30, 130);
+            X = ownerVM.YX1 + x;
+            Y = ownerVM.XY1 + y;
+            var randomR = new Random(new Random((int)DateTime.Now.Ticks % 1000).Next(50)).Next(0, 255);
+            var randomG = new Random(new Random((int)DateTime.Now.Ticks % 200).Next(100, 200)).Next(0, 255);
+            var randomB = new Random(new Random((int)DateTime.Now.Ticks % 50).Next(500, 1000)).Next(0, 255);
             var color = Color.FromRgb((byte)randomR, (byte)randomG, (byte)randomB);
             Brush = new SolidColorBrush(color);
             PrimitiveLeftButtonUp = new RelayCommand(o => Captured = false);
             PrimitiveLeftButtonDown = new RelayCommand(o => Captured = true);
-            RectanglePreviewMouseMove = new RelayCommand(o =>
-            {
-                if (!(o is Rectangle rect)) return;
-                if (Captured && !rect.BorderCaptured && !ElementLock)
-                {
-                    var deltaX = PrimitiveWidth / 2;
-                    var deltaY = PrimitiveHeight / 2;
-
-                    if (rect.ShowedX % 10 <= delta || rect.ShowedX % 10 >= 10 - delta)
-                        rect.ShowedX = Math.Round((mainViewModel.PanelX - deltaX - Yx1) / 10) * 10;
-                    else
-                        rect.ShowedX = mainViewModel.PanelX - deltaX - Yx1;
-
-                    if (rect.ShowedY % 10 <= delta || rect.ShowedY % 10 >= 10 - delta)
-                        rect.ShowedY = -(Math.Round((mainViewModel.PanelY - deltaY - Xy1 + rect.PrimitiveHeight) / 10) * 10);
-                    else
-                        rect.ShowedY = -(mainViewModel.PanelY - deltaY - Xy1 + rect.PrimitiveHeight);
-                }
-                if (ParameterCaptured)
-                {
-                    //RectParameterX = rect.ShowedX;
-                    //RectParameterY = rect.ShowedY;
-                    //RectParameterWidth = rect.PrimitiveWidth;
-                    //RectParameterHeight = rect.PrimitiveHeight;
-                    //ParameterOpacity = rect.ShowedOpacity;
-                    //ElementLock = rect.ElementLock;
-                }
-            });
-            PointPreviewMouseMove = new RelayCommand(o =>
-            {
-                if (!(o is Point point)) return;
-                if (point.Captured && !point.ElementLock)
-                {
-                    var pointDelta = point.PrimitiveWidth / 2;
-
-                    if (point.ShowedX % 10 <= pointDelta || point.ShowedX % 10 >= 10 - pointDelta)
-                        point.ShowedX = Math.Round((mainViewModel.PanelX - Yx1) / 10) * 10;
-                    else
-                        point.ShowedX = mainViewModel.PanelX - pointDelta - Yx1;
-
-                    if (point.ShowedY % 10 <= pointDelta || point.ShowedY % 10 >= 10 - pointDelta)
-                        point.ShowedY = -(Math.Round((mainViewModel.PanelY - Xy1) / 10) * 10);
-                    else
-                        point.ShowedY = -(mainViewModel.PanelY - pointDelta - Xy1);
-                }
-                if (ParameterCaptured)
-                {
-                    //EllipseParameterX = point.ShowedX;
-                    //EllipseParameterY = point.ShowedY;
-                    //EllipseParameterSquare = point.Square;
-                    //ParameterOpacity = point.ShowedOpacity;
-                    //ElementLock = point.ElementLock;
-                }
-            });
+            
             PrimitiveDoubleClick = new RelayCommand(o =>
             {
                 PopupCanBeClosed = false;
                 Captured = false;
                 ParamsPanelVisibilty = true;
                 ParameterCaptured = true;
-
-
-
-                //if (primitive is Rectangle rect)
-                //    rect.BorderCaptured = false;
             });
-            
+            OwnerVm = ownerVM;
         }
+
+        protected readonly MainViewModel OwnerVm;
 
         private void UpdateCoordinatesX(double showedX)
         {
-            if (Type == PrimitiveType.Rectangle) X = showedX + Yx1;
-            if (Type == PrimitiveType.Point) X = showedX + Yx1 - PrimitiveWidth / 2;
+            if (Type == PrimitiveType.Rectangle) X = showedX + OwnerVm.YX1;
+            if (Type == PrimitiveType.Point) X = showedX + OwnerVm.YX1 - PrimitiveWidth / 2;
         }
         private void UpdateCoordinatesY(double showedY)
         {
-            if (Type == PrimitiveType.Rectangle) Y = -showedY + Xy1 - PrimitiveHeight;
-            if (Type == PrimitiveType.Point) Y = -showedY + Xy1 - PrimitiveWidth / 2;
+            if (Type == PrimitiveType.Rectangle) Y = -showedY + OwnerVm.XY1 - PrimitiveHeight;
+            if (Type == PrimitiveType.Point) Y = -showedY + OwnerVm.XY1 - PrimitiveWidth / 2;
         }
 
         public abstract INdmPrimitive GetNdmPrimitive(IUnitSystem unitSystem);

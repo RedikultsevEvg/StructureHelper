@@ -18,7 +18,7 @@ namespace StructureHelperLogics.Services
             var ndmCollection = new List<INdm>();
             //Настройки триангуляции, пока опции могут быть только такие
             ITriangulationOptions options = new TriangulationOptions { LimiteState = LimitStates.Collapse, CalcTerm = CalcTerms.ShortTerm };
-           
+
             //Формируем коллекцию элементарных участков для расчета в библитеке (т.е. выполняем триангуляцию)
             ndmCollection.AddRange(Triangulation.GetNdms(ndmPrimitives, options));
             var loaderData = new LoaderOptions
@@ -32,7 +32,6 @@ namespace StructureHelperLogics.Services
                 NdmCollection = ndmCollection
             };
             var calculator = new Calculator();
-            //Act
             calculator.Run(loaderData, new CancellationToken());
             return calculator.Result.StrainMatrix;
         }

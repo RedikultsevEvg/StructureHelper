@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Forms;
 using System.Windows.Input;
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
@@ -10,6 +12,7 @@ using StructureHelper.MaterialCatalogWindow;
 using StructureHelper.Services;
 using StructureHelper.Windows.ColorPickerWindow;
 using StructureHelper.UnitSystem;
+using StructureHelper.Models.Materials;
 
 namespace StructureHelper.Windows.MainWindow
 {
@@ -89,6 +92,7 @@ namespace StructureHelper.Windows.MainWindow
             set => OnPropertyChanged(value, ref yY2);
         }
         public ICommand AddPrimitive { get; }
+        public ICommand AddTestCase { get; }
         public ICommand LeftButtonDown { get; }
         public ICommand LeftButtonUp { get; }
         public ICommand PreviewMouseMove { get; }
@@ -190,14 +194,14 @@ namespace StructureHelper.Windows.MainWindow
                 primitive.ShowedZIndex = 1;
                 OnPropertyChanged(nameof(primitive.ShowedZIndex));
             });
-            
+
             ScaleCanvasDown = new RelayCommand(o =>
             {
                 ScrollPanelX = PanelX;
                 ScrollPanelY = PanelY;
                 ScaleValue *= scaleRate;
             });
-            
+
             ScaleCanvasUp = new RelayCommand(o =>
             {
                 ScrollPanelX = PanelX;
@@ -206,20 +210,34 @@ namespace StructureHelper.Windows.MainWindow
             });
 
             Primitives = new ObservableCollection<PrimitiveBase>();
-            
+
             AddPrimitive = new RelayCommand(o =>
             {
                 if (!(o is PrimitiveType primitiveType)) return;
-                var primitive = primitiveType == PrimitiveType.Point 
-                    ? (PrimitiveBase) new Point(50, YX1, XY1, this) 
-                    : (PrimitiveBase) new Rectangle(60, 40, YX1, XY1, this);
+                var primitive = primitiveType == PrimitiveType.Point
+                    ? (PrimitiveBase)new Point(50, 0, 0, this)
+                    : (PrimitiveBase)new Rectangle(60, 40, 0, 0, this);
                 Primitives.Add(primitive);
                 PrimitiveRepository.Add(primitive);
             });
 
+            AddTestCase = new RelayCommand(o =>
+            {
+                foreach (var primitive in GetTestCasePrimitives())
+                {
+                    Primitives.Add(primitive);
+                    PrimitiveRepository.Add(primitive);
+                }
+            });
+
             Calculate = new RelayCommand(o =>
             {
-                model.Calculate(-50e3, 0d, 0d);
+                var matrix = model.Calculate(10e3, 0d, 0d);
+                MessageBox.Show(
+                    $"{nameof(matrix.EpsZ)} = {matrix.EpsZ};\n" +
+                        $"{nameof(matrix.Kx)} = {matrix.Kx};\n" +
+                        $"{nameof(matrix.Ky)} = {matrix.Ky}", 
+                    "StructureHelper");
             });
 
             SetPopupCanBeClosedTrue = new RelayCommand(o =>
@@ -233,6 +251,21 @@ namespace StructureHelper.Windows.MainWindow
                 if (!(o is PrimitiveBase primitive)) return;
                 primitive.PopupCanBeClosed = false;
             });
+        }
+
+        private IEnumerable<PrimitiveBase> GetTestCasePrimitives()
+        {
+            var width = 400;
+            var height = 600;
+            var d1 = 12;
+            var d2 = 25;
+            var rectMaterial = new ConcreteDefinition("C40", 0, 40, 0, 1.3, 1.5);
+            var pointMaterial = new RebarDefinition("S400", 2, 400, 400, 1.15, 1.15);
+            yield return new Rectangle(width, height, -width / 2, -height / 2, this) { Material = rectMaterial, MaterialName = rectMaterial.MaterialClass };
+            yield return new Point(d1, -width / 2 + 50, -height / 2 + 50, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
+            yield return new Point(d1, width / 2 - 50, -height / 2 + 50, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
+            yield return new Point(d2, -width / 2 + 50, height / 2 - 50, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
+            yield return new Point(d2, width / 2 - 50, height / 2 - 50, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
         }
     }
 }
