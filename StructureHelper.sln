@@ -14,6 +14,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StructureHelperLogics", "St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructureHelperCommon", "StructureHelperCommon\StructureHelperCommon.csproj", "{5DFEC3FD-9677-47BB-9E88-EB71828B5913}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FieldVisualizer", "FieldVisualizer\FieldVisualizer.csproj", "{87064B50-3B7C-4A91-AF4A-941C6F95D997}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiledVisualzerDemo", "FiledVisualzerDemo\FiledVisualzerDemo.csproj", "{C92A5F2E-567B-48C9-A524-5740DB03509D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +40,14 @@ Global
 		{5DFEC3FD-9677-47BB-9E88-EB71828B5913}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DFEC3FD-9677-47BB-9E88-EB71828B5913}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DFEC3FD-9677-47BB-9E88-EB71828B5913}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87064B50-3B7C-4A91-AF4A-941C6F95D997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87064B50-3B7C-4A91-AF4A-941C6F95D997}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87064B50-3B7C-4A91-AF4A-941C6F95D997}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87064B50-3B7C-4A91-AF4A-941C6F95D997}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C92A5F2E-567B-48C9-A524-5740DB03509D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C92A5F2E-567B-48C9-A524-5740DB03509D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C92A5F2E-567B-48C9-A524-5740DB03509D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C92A5F2E-567B-48C9-A524-5740DB03509D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
