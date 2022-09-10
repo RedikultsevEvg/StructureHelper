@@ -17,10 +17,10 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="RebuildButton" Content="Rebuild" Click="RebuildButton_Click"/>
-                <Button x:Name="ZoomInButton" Content="ZoomIn" Click="ZoomInButton_Click"/>
-                <Button x:Name="ZoomOutButton" Content="ZoomOut" Click="ZoomOutButton_Click"/>
-                <Button x:Name="ChangeColorMapButton" Content="ColorMap" Click="ChangeColorMapButton_Click"/>
+                <Button x:Name="RebuildButton" Content="Rebuild" Command="{Binding RebuildCommand}"/>
+                <Button x:Name="ZoomInButton" Content="ZoomIn" Command="{Binding ZoomInCommand}"/>
+                <Button x:Name="ZoomOutButton" Content="ZoomOut" Command="{Binding ZoomOutCommand}"/>
+                <Button x:Name="ChangeColorMapButton" Content="ColorMap" Command="{Binding ChangeColorMapCommand}"/>
             </StackPanel>
             <ScrollViewer Name="WorkPlaneViewer" Grid.Row="1" HorizontalScrollBarVisibility="Visible">
                 <ScrollViewer.Background>

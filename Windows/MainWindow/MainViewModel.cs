@@ -13,6 +13,9 @@ using StructureHelper.Services;
 using StructureHelper.Windows.ColorPickerWindow;
 using StructureHelper.UnitSystem;
 using StructureHelper.Models.Materials;
+using LoaderCalculator.Data.Matrix;
+using LoaderCalculator.Data.Ndms;
+using StructureHelper.Services.ResultViewers;
 
 namespace StructureHelper.Windows.MainWindow
 {
@@ -232,12 +235,13 @@ namespace StructureHelper.Windows.MainWindow
 
             Calculate = new RelayCommand(o =>
             {
-                var matrix = model.Calculate(10e3, 0d, 0d);
-                MessageBox.Show(
-                    $"{nameof(matrix.EpsZ)} = {matrix.EpsZ};\n" +
-                        $"{nameof(matrix.Kx)} = {matrix.Kx};\n" +
-                        $"{nameof(matrix.Ky)} = {matrix.Ky}", 
-                    "StructureHelper");
+                //var matrix = model.Calculate(10e3, 0d, 0d);
+                //MessageBox.Show(
+                //    $"{nameof(matrix.EpsZ)} = {matrix.EpsZ};\n" +
+                //        $"{nameof(matrix.Kx)} = {matrix.Kx};\n" +
+                //        $"{nameof(matrix.Ky)} = {matrix.Ky}", 
+                //    "StructureHelper");
+                CalculateResult();
             });
 
             SetPopupCanBeClosedTrue = new RelayCommand(o =>
@@ -251,6 +255,14 @@ namespace StructureHelper.Windows.MainWindow
                 if (!(o is PrimitiveBase primitive)) return;
                 primitive.PopupCanBeClosed = false;
             });
+        }
+
+        private void CalculateResult()
+        {
+            IForceMatrix forceMatrix = new ForceMatrix() { Mx = 10e3, My = 10e3, Nz = 0 };
+            IEnumerable<INdm> ndms = Model.GetNdms();
+            var loaderResult = Model.CalculateResult(ndms, forceMatrix);
+            ShowIsoFieldResult.ShowResult(loaderResult.StrainMatrix, ndms, ResultFuncFactory.GetResultFuncs());
         }
 
         private IEnumerable<PrimitiveBase> GetTestCasePrimitives()

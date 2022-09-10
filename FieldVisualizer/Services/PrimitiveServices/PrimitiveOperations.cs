@@ -1,5 +1,7 @@
 ﻿using FieldVisualizer.Entities.Values;
 using FieldVisualizer.Entities.Values.Primitives;
+using FieldVisualizer.InfraStructures.Exceptions;
+using FieldVisualizer.InfraStructures.Strings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,7 @@ namespace FieldVisualizer.Services.PrimitiveServices
 {
     public static class PrimitiveOperations
     {
-        public static IValueRange GetValuRange(IEnumerable<IValuePrimitive> valuePrimitives)
+        public static IValueRange GetValueRange(IEnumerable<IValuePrimitive> valuePrimitives)
         {
             double minVal =0d, maxVal = 0d;
             foreach (var primitive in valuePrimitives)
@@ -57,6 +59,13 @@ namespace FieldVisualizer.Services.PrimitiveServices
                     coords.Add(rectanglePrimitive.CenterX + rectanglePrimitive.Width / 2);
                     coords.Add(rectanglePrimitive.CenterX - rectanglePrimitive.Width / 2);
                 }
+                else if (primitive is ICirclePrimitive)
+                {
+                    ICirclePrimitive circlePrimitive = primitive as ICirclePrimitive;
+                    coords.Add(circlePrimitive.CenterX + circlePrimitive.Diameter / 2);
+                    coords.Add(circlePrimitive.CenterX - circlePrimitive.Diameter / 2);
+                }
+                else { throw new FieldVisulizerException(ErrorStrings.PrimitiveTypeIsUnknown);}
             }
             return coords;
         }
@@ -72,6 +81,13 @@ namespace FieldVisualizer.Services.PrimitiveServices
                     coords.Add(rectanglePrimitive.CenterY + rectanglePrimitive.Height / 2);
                     coords.Add(rectanglePrimitive.CenterY - rectanglePrimitive.Height / 2);
                 }
+                else if (primitive is ICirclePrimitive)
+                {
+                    ICirclePrimitive circlePrimitive = primitive as ICirclePrimitive;
+                    coords.Add(circlePrimitive.CenterY + circlePrimitive.Diameter / 2);
+                    coords.Add(circlePrimitive.CenterY - circlePrimitive.Diameter / 2);
+                }
+                else { throw new FieldVisulizerException(ErrorStrings.PrimitiveTypeIsUnknown); }
             }
             return coords;
         }

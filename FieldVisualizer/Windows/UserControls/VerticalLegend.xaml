@@ -8,6 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="grid">
         <StackPanel>
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF868686"></TextBlock>
             <ListBox Name="LegendBox" ItemsSource="{Binding}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -32,6 +33,7 @@
                                     </LinearGradientBrush>
                                 </Rectangle.Fill>
                             </Rectangle>
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF868686" Text="{Binding AverageValue}"/>
                             <Rectangle Grid.Column="3" Margin="0,2,0,2" ToolTip="{Binding Path=TopValue}">
                                 <Rectangle.Fill>
                                     <SolidColorBrush Color="{Binding Path=TopColor}"/>

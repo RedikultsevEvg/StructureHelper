@@ -49,7 +49,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             ICenter center = new Center { X = centerX, Y = centerY };
             IShape shape = new StructureHelperCommon.Models.Shapes.Rectangle { Height = height, Width = width, Angle = 0 };
             IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = Material.DesignCompressiveStrength };
-            INdmPrimitive ndmPrimitive = new NdmPrimitive { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial, NdmMaxSize = 1, NdmMinDivision = 20 };
+            INdmPrimitive ndmPrimitive = new NdmPrimitive { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial, NdmMaxSize = 0.01, NdmMinDivision = 20 };
             return ndmPrimitive;
         }
     }

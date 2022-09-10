@@ -7,6 +7,9 @@ using System.Windows.Media;
 
 namespace FieldVisualizer.Entities.ColorMaps.Factories
 {
+    /// <summary>
+    /// Factory for creating of different color maps
+    /// </summary>
     public static class ColorMapFactory
     {
         public static IColorMap GetColorMap(ColorMapsTypes mapsTypes)

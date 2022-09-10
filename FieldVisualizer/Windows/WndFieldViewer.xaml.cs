@@ -2,6 +2,7 @@
 using FieldVisualizer.Windows.UserControls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,20 +22,27 @@ namespace FieldVisualizer.Windows
     /// </summary>
     public partial class WndFieldViewer : Window
     {
+        public ObservableCollection<IPrimitiveSet> PrimitiveSets { get; private set; }
         public WndFieldViewer(IEnumerable<IPrimitiveSet> primitiveSets)
         {
             InitializeComponent();
-            this.DataContext = primitiveSets;
+            PrimitiveSets = new ObservableCollection<IPrimitiveSet>();
             foreach (var primitiveSet in primitiveSets)
             {
-                FieldViewerControl._PrimitiveSet = primitiveSet;
+                PrimitiveSets.Add(primitiveSet);
             }
+            this.DataContext = PrimitiveSets;
 
         }
 
         private void SetsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            FieldViewerControl.Refresh();
+            ListBox lb = sender as ListBox;
+            if (lb.SelectedItem != null)
+            {
+                FieldViewerControl.PrimitiveSet = lb.SelectedItem as IPrimitiveSet;
+                FieldViewerControl.Refresh();
+            }
         }
     }
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace FieldVisualizer.Entities.Values.Primitives
 {
-    public interface IValuePrimitive
+    /// <summary>
+    /// Represent circle primitive
+    /// </summary>
+    public interface ICirclePrimitive : IValuePrimitive
     {
-        double Value { get; }
-        double CenterX { get; }
-        double CenterY { get; }
-        double Area { get; }
+        double Diameter { get; set; }
     }
 }

@@ -100,6 +100,10 @@
       <DependentUpon>PrimitivePopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\PrimitiveService.cs" />
+    <Compile Include="Services\ResultViewers\IResultFunc.cs" />
+    <Compile Include="Services\ResultViewers\ResultFunc.cs" />
+    <Compile Include="Services\ResultViewers\ResultFuncFactory.cs" />
+    <Compile Include="Services\ResultViewers\ShowIsoFieldResult.cs" />
     <Compile Include="UnitSystem\UnitSystemService.cs" />
     <Compile Include="UnitSystem\Enums\SystemTypes.cs" />
     <Compile Include="UnitSystem\Systems\SystemSi.cs" />
@@ -193,6 +197,10 @@
     <Folder Include="Logics\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="FieldVisualizer\FieldVisualizer.csproj">
+      <Project>{87064B50-3B7C-4A91-AF4A-941C6F95D997}</Project>
+      <Name>FieldVisualizer</Name>
+    </ProjectReference>
     <ProjectReference Include="StructureHelperCommon\StructureHelperCommon.csproj">
       <Project>{5dfec3fd-9677-47bb-9e88-eb71828b5913}</Project>
       <Name>StructureHelperCommon</Name>

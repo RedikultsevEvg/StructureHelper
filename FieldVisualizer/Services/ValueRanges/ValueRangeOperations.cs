@@ -20,10 +20,11 @@ namespace FieldVisualizer.Services.ValueRanges
             else
             {
                 double dVal = (valueRange.TopValue - valueRange.BottomValue) / divisionNumber;
-                double currentBottom = valueRange.BottomValue;
+                double startBottom = valueRange.BottomValue;
                 for (int i = 0; i < divisionNumber; i++ )
                 {
-                    currentBottom = i * dVal;
+                    
+                    double currentBottom = startBottom + i * dVal;
                     var newRange = new ValueRange() { BottomValue = currentBottom, TopValue = currentBottom + dVal };
                     valueRanges.Add(newRange);
                 }
