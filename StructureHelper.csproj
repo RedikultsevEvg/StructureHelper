@@ -116,6 +116,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Windows\CalculationWindows\CalculationPropertyWindow\CalculationPropertyView.xaml.cs">
+      <DependentUpon>CalculationPropertyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ColorPickerWindow\ColorPickerView.xaml.cs">
       <DependentUpon>ColorPickerView.xaml</DependentUpon>
     </Compile>
@@ -143,6 +146,7 @@
     <Compile Include="Infrastructure\UI\DataTemplates\RectangleTemplate.xaml.cs">
       <DependentUpon>RectangleTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ViewModels\Calculations\CalculationProperies\CalculationPropertyViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\UI\Triggers\MouseEventTriggers\DoubleClickEventTrigger.cs" />
@@ -169,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\AddMaterialWindow\AddMaterialView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CalculationWindows\CalculationPropertyWindow\CalculationPropertyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

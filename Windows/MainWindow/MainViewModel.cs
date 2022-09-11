@@ -16,6 +16,10 @@ using StructureHelper.Models.Materials;
 using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Services.ResultViewers;
+using StructureHelper.Windows.ViewModels.Calculations.CalculationProperies;
+using StructureHelperLogics.Models.Calculations.CalculationProperties;
+using StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow;
+using StructureHelperLogics.Services;
 
 namespace StructureHelper.Windows.MainWindow
 {
@@ -30,6 +34,7 @@ namespace StructureHelper.Windows.MainWindow
         public ObservableCollection<PrimitiveBase> Primitives { get; set; }
 
         private double panelX, panelY, scrollPanelX, scrollPanelY;
+        private CalculationProperty calculationProperty;
 
         public double PanelX
         {
@@ -111,6 +116,7 @@ namespace StructureHelper.Windows.MainWindow
         public ICommand Calculate { get; }
         public ICommand SetPopupCanBeClosedTrue { get; }
         public ICommand SetPopupCanBeClosedFalse { get; }
+        public ICommand EditCalculationPropertyCommand { get; }
         public string UnitsSystemName => unitSystemService.GetCurrentSystem().Name;
 
         private double delta = 0.5;
@@ -126,6 +132,9 @@ namespace StructureHelper.Windows.MainWindow
             XY1 = CanvasHeight / 2;
             YX1 = CanvasWidth / 2;
             YY2 = CanvasHeight;
+            calculationProperty = new CalculationProperty();
+
+
             LeftButtonUp = new RelayCommand(o =>
             {
                 if (o is Rectangle rect) rect.BorderCaptured = false;
@@ -231,6 +240,7 @@ namespace StructureHelper.Windows.MainWindow
                     Primitives.Add(primitive);
                     PrimitiveRepository.Add(primitive);
                 }
+                AddTestLoads();
             });
 
             Calculate = new RelayCommand(o =>
@@ -243,6 +253,8 @@ namespace StructureHelper.Windows.MainWindow
                 //    "StructureHelper");
                 CalculateResult();
             });
+
+            EditCalculationPropertyCommand = new RelayCommand (o => EditCalculationProperty());
 
             SetPopupCanBeClosedTrue = new RelayCommand(o =>
             {
@@ -259,10 +271,14 @@ namespace StructureHelper.Windows.MainWindow
 
         private void CalculateResult()
         {
-            IForceMatrix forceMatrix = new ForceMatrix() { Mx = 10e3, My = 10e3, Nz = 0 };
             IEnumerable<INdm> ndms = Model.GetNdms();
-            var loaderResult = Model.CalculateResult(ndms, forceMatrix);
-            ShowIsoFieldResult.ShowResult(loaderResult.StrainMatrix, ndms, ResultFuncFactory.GetResultFuncs());
+            CalculationService calculationService = new CalculationService();
+            var loaderResults = calculationService.GetCalculationResults(calculationProperty, ndms);
+            if (loaderResults[0].IsValid)
+            {
+                IStrainMatrix strainMatrix = loaderResults[0].LoaderResults.ForceStrainPair.StrainMatrix;
+                ShowIsoFieldResult.ShowResult(strainMatrix, ndms, ResultFuncFactory.GetResultFuncs());
+            }        
         }
 
         private IEnumerable<PrimitiveBase> GetTestCasePrimitives()
@@ -278,6 +294,20 @@ namespace StructureHelper.Windows.MainWindow
             yield return new Point(d1, width / 2 - 50, -height / 2 + 50, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
             yield return new Point(d2, -width / 2 + 50, height / 2 - 50, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
             yield return new Point(d2, width / 2 - 50, height / 2 - 50, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
+        }
+        private void EditCalculationProperty()
+        {
+            CalculationPropertyViewModel viewModel = new CalculationPropertyViewModel(calculationProperty);
+            var view = new CalculationPropertyView(viewModel);
+            view.ShowDialog();
+        }
+        private void AddTestLoads()
+        {
+            calculationProperty.ForceCombinations.Clear();
+            calculationProperty.ForceCombinations.Add(new ForceCombination());
+            calculationProperty.ForceCombinations[0].ForceMatrix.Mx = 40e3d;
+            calculationProperty.ForceCombinations[0].ForceMatrix.My = 20e3d;
+            calculationProperty.ForceCombinations[0].ForceMatrix.Nz = 0d;
         }
     }
 }

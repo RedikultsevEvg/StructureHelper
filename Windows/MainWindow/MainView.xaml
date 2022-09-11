@@ -23,6 +23,7 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
@@ -30,7 +31,15 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border BorderBrush="Black" Background="White" BorderThickness="1" Margin="5" Grid.ColumnSpan="5">
+        <Menu x:Name="menu">
+            <MenuItem Header="File">
+
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <Button Content="Calculation properties" Command="{Binding Path=EditCalculationPropertyCommand}"/>
+            </MenuItem>
+        </Menu>
+        <Border BorderBrush="Black" Background="White" BorderThickness="1" Margin="5" Grid.ColumnSpan="5" Grid.Row="1">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="PreviewMouseDown">
                     <i:InvokeCommandAction Command="{Binding ClearSelection}" CommandParameter="{Binding}"/>

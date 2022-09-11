@@ -7,6 +7,7 @@ using StructureHelper.Services;
 using StructureHelper.UnitSystem;
 using StructureHelper.UnitSystem.Systems;
 using StructureHelperLogics.Infrastructures.CommonEnums;
+using StructureHelperLogics.Models.Calculations.CalculationProperties;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services;
 using System.Collections;
@@ -21,12 +22,16 @@ namespace StructureHelper.Windows.MainWindow
         private IPrimitiveRepository primitiveRepository;
         private CalculationService calculationService;
         private UnitSystemService unitSystemService;
+
+        public ICalculationProperty CalculationProperty { get; private set; }
         
         public MainModel(IPrimitiveRepository primitiveRepository, CalculationService calculationService, UnitSystemService unitSystemService)
         {
             this.primitiveRepository = primitiveRepository;
             this.calculationService = calculationService;
             this.unitSystemService = unitSystemService;
+
+            CalculationProperty = new CalculationProperty();
         }
         
         public IStrainMatrix Calculate(double mx, double my, double nz)
