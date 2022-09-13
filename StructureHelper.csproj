@@ -100,6 +100,9 @@
       <DependentUpon>PrimitivePopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\PrimitiveService.cs" />
+    <Compile Include="Services\Reports\CalculationReports\IIsoFieldReport.cs" />
+    <Compile Include="Services\Reports\CalculationReports\IsoFieldReport.cs" />
+    <Compile Include="Services\Reports\IReport.cs" />
     <Compile Include="Services\ResultViewers\IResultFunc.cs" />
     <Compile Include="Services\ResultViewers\ResultFunc.cs" />
     <Compile Include="Services\ResultViewers\ResultFuncFactory.cs" />
@@ -118,6 +121,9 @@
     </Compile>
     <Compile Include="Windows\CalculationWindows\CalculationPropertyWindow\CalculationPropertyView.xaml.cs">
       <DependentUpon>CalculationPropertyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\CalculationWindows\CalculationResultWindow\CalculationResultView.xaml.cs">
+      <DependentUpon>CalculationResultView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ColorPickerWindow\ColorPickerView.xaml.cs">
       <DependentUpon>ColorPickerView.xaml</DependentUpon>
@@ -147,6 +153,7 @@
       <DependentUpon>RectangleTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ViewModels\Calculations\CalculationProperies\CalculationPropertyViewModel.cs" />
+    <Compile Include="Windows\ViewModels\Calculations\CalculationResult\CalculationResultViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\UI\Triggers\MouseEventTriggers\DoubleClickEventTrigger.cs" />
@@ -177,6 +184,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\CalculationWindows\CalculationPropertyWindow\CalculationPropertyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CalculationWindows\CalculationResultWindow\CalculationResultView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -12,16 +12,16 @@ namespace FieldVisualizer.Services.ColorServices
         const byte Alpha = 0xff;
         public static Color GetColorByValue(IValueRange range, IColorMap map, double val)
         {
+            if (range.TopValue == range.BottomValue || map.Colors.Count == 0) { return map.Colors[0]; }
             double minVal = range.BottomValue - 1e-15d*(Math.Abs(range.BottomValue));
             double maxVal = range.TopValue + 1e-15d * (Math.Abs(range.TopValue));
-            if (range.TopValue == minVal || map.Colors.Count == 0) { return map.Colors[0]; }
             if (val > maxVal || val < minVal) { return Colors.Gray; }
             if (val == minVal) { return map.Colors[0]; }
             if (val == maxVal) { return map.Colors[map.Colors.Count - 1]; }
 
             double valPerc = (val - minVal) / (maxVal - minVal);// value%
-            //if (valPerc == 1d)
-            //{ return map.Colors[map.Colors.Count - 1]; }
+            if (valPerc >= 1d)
+            { return map.Colors[map.Colors.Count - 1]; }
             double colorPerc = 1d / (map.Colors.Count - 1d); // % of each block of color. the last is the "100% Color"
             double blockOfColor = valPerc / colorPerc;// the integer part repersents how many block to skip
             int blockIdx = (int)Math.Truncate(blockOfColor);// Idx of

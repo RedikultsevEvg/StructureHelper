@@ -41,6 +41,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="FieldsVisualizerTests\ColorOperationTests\GetColorByValueTest.cs" />
+    <Compile Include="FieldsVisualizerTests\WindowTests\ViewerTest.cs" />
     <Compile Include="FunctionalTests\Ndms\RCSections\RCSectionFromNdmPrimitiveTest.cs" />
     <Compile Include="FunctionalTests\Ndms\RCSections\RCSectionTest.cs" />
     <Compile Include="FunctionalTests\Ndms\SteelSections\ReinforcementTest.cs" />
@@ -48,6 +49,7 @@
     <Compile Include="LibrariesTests\Ndms\RCSections\RCSectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\Ndms\Triangulations\RectangleTriangulationTest.cs" />
+    <Compile Include="UnitTests\WindowTests\Calculations\CalculationProperties\CalculationPropertyWindowTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -67,6 +69,7 @@
       <HintPath>..\packages\NUnit.3.13.3\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -85,6 +88,10 @@
       <Project>{87064b50-3b7c-4a91-af4a-941c6f95d997}</Project>
       <Name>FieldVisualizer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StructureHelper.csproj">
+      <Project>{BAD27E27-4444-4300-ADF8-E21042C0781D}</Project>
+      <Name>StructureHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StructureHelperCommon\StructureHelperCommon.csproj">
       <Project>{5DFEC3FD-9677-47BB-9E88-EB71828B5913}</Project>
       <Name>StructureHelperCommon</Name>
@@ -94,9 +101,7 @@
       <Name>StructureHelperLogics</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FieldsVisualizerTests\WindowTests\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

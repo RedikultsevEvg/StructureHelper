@@ -14,7 +14,7 @@ namespace StructureHelper.Services.ResultViewers
             List<IResultFunc> resultFuncs = new List<IResultFunc>();
             IStressLogic stressLogic = new StressLogic();
             resultFuncs.Add(new ResultFunc() { Name = "Total Strain", ResultFunction = stressLogic.GetTotalStrain });
-            resultFuncs.Add(new ResultFunc() { Name = "Elastic Srtain", ResultFunction = stressLogic.GetElasticStrain });
+            resultFuncs.Add(new ResultFunc() { Name = "Elastic Strain", ResultFunction = stressLogic.GetElasticStrain });
             resultFuncs.Add(new ResultFunc() { Name = "Plastic Strain", ResultFunction = stressLogic.GetPlasticStrain });
             resultFuncs.Add(new ResultFunc() { Name = "Stress", ResultFunction = stressLogic.GetStress });
             return resultFuncs;

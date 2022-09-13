@@ -9,7 +9,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="220"/>
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
@@ -35,7 +35,12 @@
                 </Viewbox>
             </ScrollViewer>
         </Grid>
-
-        <local:VerticalLegend x:Name="LegendViewer" Grid.Column="2"/>
+        <StackPanel Grid.Column="2">
+            <CheckBox x:Name="cbMinValueEnabled" Margin="3" Content="Minimum Value"/>
+            <TextBox x:Name="tbMinValue" Margin="20,3,3,3" IsEnabled="{Binding IsChecked, ElementName=cbMinValueEnabled}" Text="{Binding Path=UserValueRange.BottomValue}"/>
+            <CheckBox x:Name="cbMaxValueEnabled" Margin="3" Content="Maximum Value"/>
+            <TextBox x:Name="tbMaxValue" Margin="20,3,3,3" IsEnabled="{Binding IsChecked, ElementName=cbMaxValueEnabled}" Text="{Binding Path=UserValueRange.TopValue}"/>
+            <local:VerticalLegend x:Name="LegendViewer" Margin="3" Grid.Column="2"/>
+        </StackPanel>
     </Grid>
 </UserControl>

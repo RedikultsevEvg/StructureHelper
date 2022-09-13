@@ -86,10 +86,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.CalculationProperies
         public ICommand AddForceCombinationCommand { get; private set; }
         public ICommand RemoveForceCombinationCommand { get; private set; }
 
-
-
         private readonly ICalculationProperty calculationProperty;
-
         public CalculationPropertyViewModel(ICalculationProperty calculationProperty)
         {
             this.calculationProperty = calculationProperty;
@@ -101,8 +98,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.CalculationProperies
             AddForceCombinationCommand = new RelayCommand(o => AddForceCombination());
             RemoveForceCombinationCommand = new RelayCommand(o => RemoveForceCombination(), o => SelectedCombination != null); 
         }
-
-
 
         public void SaveProperties()
         {

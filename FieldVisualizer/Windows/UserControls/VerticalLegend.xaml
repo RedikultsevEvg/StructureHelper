@@ -12,7 +12,7 @@
             <ListBox Name="LegendBox" ItemsSource="{Binding}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Height="30" Width="194" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
+                        <Grid Height="30" Width="190" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>
                                 <ColumnDefinition Width="10"/>

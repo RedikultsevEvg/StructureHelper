@@ -23,7 +23,7 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
@@ -33,10 +33,16 @@
         </Grid.ColumnDefinitions>
         <Menu x:Name="menu">
             <MenuItem Header="File">
-
             </MenuItem>
             <MenuItem Header="Edit">
+                <MenuItem Header="Primitives">
+                    <Button Content="Add Rectangle" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
+                    <Button Content="Add Point" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                </MenuItem>
                 <Button Content="Calculation properties" Command="{Binding Path=EditCalculationPropertyCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Analisys">
+                <Button Content="Solve problem" Command="{Binding Path=Calculate}"/>
             </MenuItem>
         </Menu>
         <Border BorderBrush="Black" Background="White" BorderThickness="1" Margin="5" Grid.ColumnSpan="5" Grid.Row="1">
@@ -97,16 +103,15 @@
                 </Canvas>
             </ScrollViewer>
         </Border>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="Справочник" Command="{Binding OpenMaterialCatalog}"/>
             <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="Система едениц" Command="{Binding OpenUnitsSystemSettings}"/>
             <Label VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="{Binding UnitsSystemName}"/>
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0.333,0.333,39.667" Grid.RowSpan="2" Width="519">
             <Button VerticalAlignment="Center" Margin="5" Content="Добавить тестовые примитивы" Command="{Binding AddTestCase}"/>
             <Button VerticalAlignment="Center" Margin="5" Content="Добавить прямоугольник" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
             <Button VerticalAlignment="Center" Margin="5" Content="Добавить точку" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
         </StackPanel>
-        <Button Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5" Content="Рассчитать" Command="{Binding Calculate}"/>
     </Grid>
 </Window>

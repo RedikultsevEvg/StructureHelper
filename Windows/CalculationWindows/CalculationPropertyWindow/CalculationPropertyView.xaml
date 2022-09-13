@@ -41,8 +41,8 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                             <StackPanel Grid.Column="1">
-                                <Button Content="Add" Command="{Binding Path=AddForceCombinationCommand}"/>
-                                <Button Content="Remove" Command="{Binding Path=RemoveForceCombinationCommand}"/>
+                                <Button Margin="3" Content="Add" Command="{Binding Path=AddForceCombinationCommand}"/>
+                                <Button Margin="3" Content="Remove" Command="{Binding Path=RemoveForceCombinationCommand}"/>
                             </StackPanel>
                         </Grid>
                     </GroupBox>

@@ -16,6 +16,12 @@ namespace StructureHelper.Services.ResultViewers
     {
         public static void ShowResult(IStrainMatrix strainMatrix, IEnumerable<INdm> ndms, IEnumerable<IResultFunc> resultFuncs)
         {
+            var primitiveSets = GetPrimitiveSets(strainMatrix, ndms, resultFuncs);
+            FieldViewerOperation.ShowViewer(primitiveSets);
+        }
+
+        public static List<IPrimitiveSet> GetPrimitiveSets(IStrainMatrix strainMatrix, IEnumerable<INdm> ndms, IEnumerable<IResultFunc> resultFuncs)
+        {
             List<IPrimitiveSet> primitiveSets = new List<IPrimitiveSet>();
             foreach (var valDelegate in resultFuncs)
             {
@@ -39,8 +45,7 @@ namespace StructureHelper.Services.ResultViewers
                 primitiveSet.ValuePrimitives = primitives;
                 primitiveSets.Add(primitiveSet);
             }
-
-            FieldViewerOperation.ShowViewer(primitiveSets);
+            return primitiveSets;
         }
     }
 }

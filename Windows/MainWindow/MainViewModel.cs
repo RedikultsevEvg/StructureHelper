@@ -20,6 +20,8 @@ using StructureHelper.Windows.ViewModels.Calculations.CalculationProperies;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
 using StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow;
 using StructureHelperLogics.Services;
+using StructureHelper.Windows.CalculationWindows.CalculationResultWindow;
+using StructureHelper.Windows.ViewModels.Calculations.CalculationResult;
 
 namespace StructureHelper.Windows.MainWindow
 {
@@ -274,11 +276,8 @@ namespace StructureHelper.Windows.MainWindow
             IEnumerable<INdm> ndms = Model.GetNdms();
             CalculationService calculationService = new CalculationService();
             var loaderResults = calculationService.GetCalculationResults(calculationProperty, ndms);
-            if (loaderResults[0].IsValid)
-            {
-                IStrainMatrix strainMatrix = loaderResults[0].LoaderResults.ForceStrainPair.StrainMatrix;
-                ShowIsoFieldResult.ShowResult(strainMatrix, ndms, ResultFuncFactory.GetResultFuncs());
-            }        
+            var wnd = new CalculationResultView(new CalculationResultViewModel(loaderResults, ndms));
+            wnd.ShowDialog();      
         }
 
         private IEnumerable<PrimitiveBase> GetTestCasePrimitives()
@@ -308,6 +307,14 @@ namespace StructureHelper.Windows.MainWindow
             calculationProperty.ForceCombinations[0].ForceMatrix.Mx = 40e3d;
             calculationProperty.ForceCombinations[0].ForceMatrix.My = 20e3d;
             calculationProperty.ForceCombinations[0].ForceMatrix.Nz = 0d;
+            calculationProperty.ForceCombinations.Add(new ForceCombination());
+            calculationProperty.ForceCombinations[1].ForceMatrix.Mx = 200e3d;
+            calculationProperty.ForceCombinations[1].ForceMatrix.My = 0d;
+            calculationProperty.ForceCombinations[1].ForceMatrix.Nz = 0d;
+            calculationProperty.ForceCombinations.Add(new ForceCombination());
+            calculationProperty.ForceCombinations[2].ForceMatrix.Mx = 50e3d;
+            calculationProperty.ForceCombinations[2].ForceMatrix.My = 50e3d;
+            calculationProperty.ForceCombinations[2].ForceMatrix.Nz = 0d;
         }
     }
 }
