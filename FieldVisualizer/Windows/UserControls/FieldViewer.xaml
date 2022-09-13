@@ -36,10 +36,11 @@
             </ScrollViewer>
         </Grid>
         <StackPanel Grid.Column="2">
-            <CheckBox x:Name="cbMinValueEnabled" Margin="3" Content="Minimum Value"/>
+            <CheckBox x:Name="cbMinValueEnabled" Margin="3" Content="Minimum Value" IsChecked="{Binding Path=SetMinValue}"/>
             <TextBox x:Name="tbMinValue" Margin="20,3,3,3" IsEnabled="{Binding IsChecked, ElementName=cbMinValueEnabled}" Text="{Binding Path=UserValueRange.BottomValue}"/>
-            <CheckBox x:Name="cbMaxValueEnabled" Margin="3" Content="Maximum Value"/>
+            <CheckBox x:Name="cbMaxValueEnabled" Margin="3" Content="Maximum Value" IsChecked="{Binding Path=SetMaxValue}"/>
             <TextBox x:Name="tbMaxValue" Margin="20,3,3,3" IsEnabled="{Binding IsChecked, ElementName=cbMaxValueEnabled}" Text="{Binding Path=UserValueRange.TopValue}"/>
+            <Button Margin="3" Content="Set custom colors" Command="{Binding SetUserColorsCommand}"/>
             <local:VerticalLegend x:Name="LegendViewer" Margin="3" Grid.Column="2"/>
         </StackPanel>
     </Grid>

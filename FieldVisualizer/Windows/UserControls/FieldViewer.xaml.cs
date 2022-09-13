@@ -29,9 +29,12 @@ namespace FieldVisualizer.Windows.UserControls
         public ICommand ZoomInCommand { get; }
         public ICommand ZoomOutCommand { get; }
         public ICommand ChangeColorMapCommand { get; }
+        public ICommand SetUserColorsCommand { get; }
 
         public IPrimitiveSet PrimitiveSet { get; set; }
         public IValueRange UserValueRange { get; set; }
+        public bool SetMinValue { get; set; }
+        public bool SetMaxValue { get; set; }
 
         private double dX, dY;
         private ColorMapsTypes _ColorMapType;
@@ -50,9 +53,12 @@ namespace FieldVisualizer.Windows.UserControls
             ZoomInCommand = new RelayCommand(o => Zoom(1.2), o => PrimitiveValidation());
             ZoomOutCommand = new RelayCommand(o => Zoom(0.8), o => PrimitiveValidation());
             ChangeColorMapCommand = new RelayCommand(o => ChangeColorMap(), o => PrimitiveValidation());
+            SetUserColorsCommand = new RelayCommand(o => ColorRefresh(), o => (SetMinValue || SetMaxValue));
             UserValueRange = new ValueRange() { BottomValue = 0, TopValue = 0 };
+            SetMinValue = false;
+            SetMaxValue = false;
         }
-        public void Refresh()
+        public void ColorRefresh()
         {
             if (PrimitiveValidation() == false) { return; }
             _ColorMap = ColorMapFactory.GetColorMap(_ColorMapType);
@@ -66,7 +72,6 @@ namespace FieldVisualizer.Windows.UserControls
         }
         private void ProcessPrimitives()
         {
-
             WorkPlaneCanvas.Children.Clear();
             double sizeX = PrimitiveOperations.GetSizeX(PrimitiveSet.ValuePrimitives);
             double sizeY = PrimitiveOperations.GetSizeY(PrimitiveSet.ValuePrimitives);
@@ -90,7 +95,7 @@ namespace FieldVisualizer.Windows.UserControls
                     Ellipse ellipse = ProcessCirclePrimitive(circlePrimitive);
                     WorkPlaneCanvas.Children.Add(ellipse);
                 }
-                else { throw new FieldVisulizerException(ErrorStrings.PrimitiveTypeIsUnknown);}
+                else { throw new FieldVisulizerException(ErrorStrings.PrimitiveTypeIsUnknown); }
             }
         }
         private Rectangle ProcessRectanglePrimitive(IRectanglePrimitive rectanglePrimitive)
@@ -133,7 +138,7 @@ namespace FieldVisualizer.Windows.UserControls
             shape.Tag = valuePrimitive;
             shape.Fill = brush;
             Canvas.SetLeft(shape, valuePrimitive.CenterX - addX - dX);
-            Canvas.SetTop(shape, - valuePrimitive.CenterY - addY - dY);
+            Canvas.SetTop(shape, -valuePrimitive.CenterY - addY - dY);
         }
         private void Zoom(double coefficient)
         {
@@ -149,7 +154,7 @@ namespace FieldVisualizer.Windows.UserControls
                 IColorMap colorMap = ColorMapFactory.GetColorMap(_ColorMapType);
             }
             catch (Exception ex) { _ColorMapType = 0; }
-            Refresh();
+            ColorRefresh();
         }
         private bool PrimitiveValidation()
         {
@@ -159,10 +164,24 @@ namespace FieldVisualizer.Windows.UserControls
         private void SetColor()
         {
             valueRange = PrimitiveOperations.GetValueRange(PrimitiveSet.ValuePrimitives);
-            if (cbMinValueEnabled.IsChecked == true) { valueRange.BottomValue = UserValueRange.BottomValue; } else { UserValueRange.BottomValue = valueRange.BottomValue; }
-            if (cbMaxValueEnabled.IsChecked == true) { valueRange.TopValue = UserValueRange.TopValue; } else { UserValueRange.TopValue = valueRange.TopValue; }
+            //if bottom value is greater than top value
+            if (SetMinValue
+                & SetMaxValue
+                & (UserValueRange.BottomValue > UserValueRange.TopValue))
+            {
+                UserValueRange.TopValue = UserValueRange.BottomValue;
+            }
+            if (SetMinValue) { valueRange.BottomValue = UserValueRange.BottomValue; } else { UserValueRange.BottomValue = valueRange.BottomValue; }
+            if (SetMaxValue) { valueRange.TopValue = UserValueRange.TopValue; } else { UserValueRange.TopValue = valueRange.TopValue; }
             _ValueRanges = ValueRangeOperations.DivideValueRange(valueRange, RangeNumber);
             _ValueColorRanges = ColorOperations.GetValueColorRanges(valueRange, _ValueRanges, _ColorMap);
+        }
+
+        public void Refresh()
+        {
+            SetMinValue = false;
+            SetMaxValue = false;
+            ColorRefresh();
         }
     }
 }
