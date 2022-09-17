@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FieldVisualizer.Windows.UserControls"
+             xmlns:vm="clr-namespace:FieldVisualizer.ViewModels.FieldViewerViewModels"
+             d:DataContext="{d:DesignInstance vm:FieldViewerViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -22,7 +24,7 @@
                 <Button x:Name="ZoomOutButton" Content="ZoomOut" Command="{Binding ZoomOutCommand}"/>
                 <Button x:Name="ChangeColorMapButton" Content="ColorMap" Command="{Binding ChangeColorMapCommand}"/>
             </StackPanel>
-            <ScrollViewer Name="WorkPlaneViewer" Grid.Row="1" HorizontalScrollBarVisibility="Visible">
+            <ScrollViewer Name="WorkPlaneViewer" Grid.Row="1" HorizontalScrollBarVisibility="Visible" SizeChanged="WorkPlaneViewer_SizeChanged">
                 <ScrollViewer.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black"/>
@@ -31,17 +33,60 @@
                     </LinearGradientBrush>
                 </ScrollViewer.Background>
                 <Viewbox Name="WorkPlaneBox" Margin="10">
-                    <Canvas Name="WorkPlaneCanvas"/>
+                    <Canvas Name="WorkPlaneCanvas">
+                    </Canvas>
                 </Viewbox>
             </ScrollViewer>
         </Grid>
-        <StackPanel Grid.Column="2">
-            <CheckBox x:Name="cbMinValueEnabled" Margin="3" Content="Minimum Value" IsChecked="{Binding Path=SetMinValue}"/>
-            <TextBox x:Name="tbMinValue" Margin="20,3,3,3" IsEnabled="{Binding IsChecked, ElementName=cbMinValueEnabled}" Text="{Binding Path=UserValueRange.BottomValue}"/>
-            <CheckBox x:Name="cbMaxValueEnabled" Margin="3" Content="Maximum Value" IsChecked="{Binding Path=SetMaxValue}"/>
-            <TextBox x:Name="tbMaxValue" Margin="20,3,3,3" IsEnabled="{Binding IsChecked, ElementName=cbMaxValueEnabled}" Text="{Binding Path=UserValueRange.TopValue}"/>
-            <Button Margin="3" Content="Set custom colors" Command="{Binding SetUserColorsCommand}"/>
-            <local:VerticalLegend x:Name="LegendViewer" Margin="3" Grid.Column="2"/>
-        </StackPanel>
+        <ScrollViewer Grid.Column="2">
+            <StackPanel>
+                <Expander Header="Color legend" IsExpanded="True">
+                    <StackPanel>
+                        <CheckBox x:Name="cbMinValueEnabled" Margin="3" Content="Minimum Value" IsChecked="{Binding Path=SetMinValue}"/>
+                        <TextBox x:Name="tbMinValue" Margin="20,3,3,3" IsEnabled="{Binding IsChecked, ElementName=cbMinValueEnabled}" Text="{Binding Path=UserMinValue, ValidatesOnDataErrors=True}"/>
+                        <CheckBox x:Name="cbMaxValueEnabled" Margin="3" Content="Maximum Value" IsChecked="{Binding Path=SetMaxValue}"/>
+                        <TextBox x:Name="tbMaxValue" Margin="20,3,3,3" IsEnabled="{Binding IsChecked, ElementName=cbMaxValueEnabled}" Text="{Binding Path=UserMaxValue, ValidatesOnDataErrors=True}"/>
+                        <Button Margin="3" Content="Set custom colors" Command="{Binding SetUserColorsCommand}"/>
+                        <local:VerticalLegend x:Name="LegendViewer" Margin="3" Grid.Column="2"/>
+                    </StackPanel>
+                </Expander>
+                <Expander Header="Summary information" IsExpanded="False">
+                    <StackPanel>
+                        <TextBlock Text="Total sum: "/>
+                        <TextBlock Text="{Binding SumTotal}"/>
+                        <TextBlock Text="Sum negative: "/>
+                        <TextBlock Text="{Binding SumNeg}"/>
+                        <TextBlock Text="Sum positive: "/>
+                        <TextBlock Text="{Binding SumPos}"/>
+                    </StackPanel>
+                </Expander>
+                <Expander Header="Summary section" IsExpanded="False">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="X-distance"/>
+                            <TextBox Grid.Column="1" Text="{Binding CrossLineX, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="1" Text="Y-distance"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding CrossLineY, ValidatesOnDataErrors=True}"/>
+                        </Grid>
+                        <Button Content="Set section line" Command="{Binding SetCrossLineCommand}"/>
+                        <TextBlock Text="Sum above line: "/>
+                        <TextBlock Text="{Binding SumAboveLine}"/>
+                        <TextBlock Text="Sum under line: "/>
+                        <TextBlock Text="{Binding SumUnderLine}"/>
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+
+        </ScrollViewer>
+        
+        
     </Grid>
 </UserControl>
