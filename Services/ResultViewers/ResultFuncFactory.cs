@@ -18,6 +18,8 @@ namespace StructureHelper.Services.ResultViewers
             resultFuncs.Add(new ResultFunc() { Name = "Elastic Strain", ResultFunction = stressLogic.GetElasticStrain });
             resultFuncs.Add(new ResultFunc() { Name = "Plastic Strain", ResultFunction = stressLogic.GetPlasticStrain });
             resultFuncs.Add(new ResultFunc() { Name = "Stress", ResultFunction = stressLogic.GetStress });
+            resultFuncs.Add(new ResultFunc() { Name = "Secant modulus", ResultFunction = stressLogic.GetSecantModulus });
+            resultFuncs.Add(new ResultFunc() { Name = "Modulus degradation", ResultFunction = stressLogic.GetModulusDegradation });
             resultFuncs.Add(new ResultFunc() { Name = "Force", ResultFunction = stressLogic.GetForce });
             resultFuncs.Add(new ResultFunc() { Name = "Moment X", ResultFunction = stressLogic.GetMomentX });
             resultFuncs.Add(new ResultFunc() { Name = "Moment Y", ResultFunction = stressLogic.GetMomentY });

@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructureHelperCommon", "St
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FieldVisualizer", "FieldVisualizer\FieldVisualizer.csproj", "{87064B50-3B7C-4A91-AF4A-941C6F95D997}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiledVisualzerDemo", "FiledVisualzerDemo\FiledVisualzerDemo.csproj", "{C92A5F2E-567B-48C9-A524-5740DB03509D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FieldVisualzerDemo", "FiledVisualzerDemo\FieldVisualzerDemo.csproj", "{C92A5F2E-567B-48C9-A524-5740DB03509D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

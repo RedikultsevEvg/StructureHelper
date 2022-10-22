@@ -45,64 +45,81 @@
                 <Button Content="Solve problem" Command="{Binding Path=Calculate}"/>
             </MenuItem>
         </Menu>
-        <Border BorderBrush="Black" Background="White" BorderThickness="1" Margin="5" Grid.ColumnSpan="5" Grid.Row="1">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="PreviewMouseDown">
-                    <i:InvokeCommandAction Command="{Binding ClearSelection}" CommandParameter="{Binding}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
-                <Canvas ClipToBounds="True" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}">
-                    <i:Interaction.Behaviors>
-                        <infrastructure:MouseBehaviour MouseX="{Binding PanelX, Mode=OneWayToSource}" MouseY="{Binding PanelY, Mode=OneWayToSource}"/>
-                    </i:Interaction.Behaviors>
-                    <i:Interaction.Triggers>
-                        <mouseEventTriggers:MouseWheelDownEventTrigger EventName="PreviewMouseWheel">
-                            <i:InvokeCommandAction Command="{Binding ScaleCanvasDown}"/>
-                        </mouseEventTriggers:MouseWheelDownEventTrigger>
-                        <mouseEventTriggers:MouseWheelUpEventTrigger EventName="PreviewMouseWheel">
-                            <i:InvokeCommandAction Command="{Binding ScaleCanvasUp}"/>
-                        </mouseEventTriggers:MouseWheelUpEventTrigger>
-                    </i:Interaction.Triggers>
-                    <Canvas.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleX="{Binding ScaleValue}" ScaleY="{Binding ScaleValue}"
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <Expander Header="Materials" ExpandDirection="Down" MinWidth="20" >
+
+                </Expander>
+                <Expander Header="Geometry" ExpandDirection="Down" MinWidth="20" >
+                    <ListBox ItemsSource="{Binding Primitives}">
+                        
+                    </ListBox>
+                </Expander>
+            </StackPanel>
+
+            <Border BorderBrush="Black" Background="White" BorderThickness="1" Margin="5" Grid.Column="1">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseDown">
+                        <i:InvokeCommandAction Command="{Binding ClearSelection}" CommandParameter="{Binding}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+                    <Canvas ClipToBounds="True" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}">
+                        <i:Interaction.Behaviors>
+                            <infrastructure:MouseBehaviour MouseX="{Binding PanelX, Mode=OneWayToSource}" MouseY="{Binding PanelY, Mode=OneWayToSource}"/>
+                        </i:Interaction.Behaviors>
+                        <i:Interaction.Triggers>
+                            <mouseEventTriggers:MouseWheelDownEventTrigger EventName="PreviewMouseWheel">
+                                <i:InvokeCommandAction Command="{Binding ScaleCanvasDown}"/>
+                            </mouseEventTriggers:MouseWheelDownEventTrigger>
+                            <mouseEventTriggers:MouseWheelUpEventTrigger EventName="PreviewMouseWheel">
+                                <i:InvokeCommandAction Command="{Binding ScaleCanvasUp}"/>
+                            </mouseEventTriggers:MouseWheelUpEventTrigger>
+                        </i:Interaction.Triggers>
+                        <Canvas.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="{Binding ScaleValue}" ScaleY="{Binding ScaleValue}"
                                             CenterX="{Binding ScrollPanelX}" CenterY="{Binding ScrollPanelY}"/>
-                        </TransformGroup>
-                    </Canvas.RenderTransform>
-                    <Canvas.Background>
-                        <DrawingBrush Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile">
-                            <DrawingBrush.Drawing>
-                                <GeometryDrawing Brush="Black">
-                                    <GeometryDrawing.Geometry>
-                                        <GeometryGroup FillRule="EvenOdd">
-                                            <RectangleGeometry Rect="0,0,50,50"/>
-                                            <RectangleGeometry Rect="0,0,49.5,49.5"/>
-                                        </GeometryGroup>
-                                    </GeometryDrawing.Geometry>
-                                </GeometryDrawing>
-                            </DrawingBrush.Drawing>
-                        </DrawingBrush>
-                    </Canvas.Background>
-                    <Line X1="0" X2="{Binding XX2}" Y1="{Binding XY1}" Y2="{Binding XY1}" Stroke="Red" StrokeThickness="1"/>
-                    <Line X1="{Binding YX1}" X2="{Binding YX1}" Y1="0" Y2="{Binding YY2}" Stroke="ForestGreen" StrokeThickness="1"/>
-                    <ItemsControl ItemsSource="{Binding Primitives}" d:DataContext="{d:DesignInstance dataContexts:PrimitiveBase}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <Canvas/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemContainerStyle>
-                            <Style TargetType="ContentPresenter">
-                                <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}"/>
-                                <Setter Property="Canvas.Left" Value="{Binding X}"/>
-                                <Setter Property="Canvas.Top" Value="{Binding Y}"/>
-                            </Style>
-                        </ItemsControl.ItemContainerStyle>
-                    </ItemsControl>
-                </Canvas>
-            </ScrollViewer>
-        </Border>
+                            </TransformGroup>
+                        </Canvas.RenderTransform>
+                        <Canvas.Background>
+                            <DrawingBrush Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile">
+                                <DrawingBrush.Drawing>
+                                    <GeometryDrawing Brush="Black">
+                                        <GeometryDrawing.Geometry>
+                                            <GeometryGroup FillRule="EvenOdd">
+                                                <RectangleGeometry Rect="0,0,50,50"/>
+                                                <RectangleGeometry Rect="0,0,49.5,49.5"/>
+                                            </GeometryGroup>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                        </Canvas.Background>
+                        <Line X1="0" X2="{Binding XX2}" Y1="{Binding XY1}" Y2="{Binding XY1}" Stroke="Red" StrokeThickness="1"/>
+                        <Line X1="{Binding YX1}" X2="{Binding YX1}" Y1="0" Y2="{Binding YY2}" Stroke="ForestGreen" StrokeThickness="1"/>
+                        <ItemsControl ItemsSource="{Binding Primitives}" d:DataContext="{d:DesignInstance dataContexts:PrimitiveBase}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="ContentPresenter">
+                                    <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}"/>
+                                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                                    <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+                        </ItemsControl>
+                    </Canvas>
+                </ScrollViewer>
+            </Border>
+        </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="Справочник" Command="{Binding OpenMaterialCatalog}"/>
             <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="Система едениц" Command="{Binding OpenUnitsSystemSettings}"/>

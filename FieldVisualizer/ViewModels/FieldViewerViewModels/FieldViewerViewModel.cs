@@ -32,6 +32,18 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
         public ICommand ZoomOutCommand { get; }
         public ICommand ChangeColorMapCommand { get; }
         public ICommand SetUserColorsCommand { get; }
+        public ICommand SetCrossLineCommand
+        {
+            get
+            {
+                if (setCrossLineCommand == null)
+                {
+                    setCrossLineCommand = new RelayCommand(SetCrossLine);
+                }
+
+                return setCrossLineCommand;
+            }
+        }
 
         public IPrimitiveSet PrimitiveSet
         { get
@@ -110,17 +122,19 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
                 }
             }
         }
-
         public double SumTotal { get; private set;}
         public double SumNeg { get; private set; }
         public double SumPos { get; private set; }
-
         public Viewbox WorkPlaneBox { get; set; }
         public VerticalLegend Legend { get; set; }
         public Canvas WorkPlaneCanvas { get; set; }
-
         public double ScrolWidth { get; set; }
         public double ScrolHeight { get; set; }
+        public double CrossLineX { get => crossLineX; set => SetProperty(ref crossLineX, value); }
+        public double CrossLineY { get => crossLineY; set => SetProperty(ref crossLineY, value); }
+
+        public double SumAboveLine { get => sumAboveLine; set => SetProperty(ref sumAboveLine, value); }
+        public double SumUnderLine { get => sumUnderLine; set => SetProperty(ref sumUnderLine, value); }
 
         public string Error { get; }
         public string this[string columnName]
@@ -132,6 +146,7 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             }
         }
 
+        private ICommand setCrossLineCommand;
         private IPrimitiveSet primitiveSet;
         private double dX, dY;
         private ColorMapsTypes _ColorMapType;
@@ -141,6 +156,10 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
         private IEnumerable<IValueColorRange> _ValueColorRanges;
         private bool setMinValue;
         private bool setMaxValue;
+        private double crossLineX;
+        private double crossLineY;
+        private double sumAboveLine;
+        private double sumUnderLine;
         const int RangeNumber = 16;
 
         public FieldViewerViewModel()
@@ -166,6 +185,12 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
                 Legend.ValueColorRanges = _ValueColorRanges;
                 Legend.Refresh();
             }
+        }
+        public void Refresh()
+        {
+            SetMinValue = false;
+            SetMaxValue = false;
+            ColorRefresh();
         }
         private void ProcessPrimitives()
         {
@@ -273,41 +298,11 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             _ValueRanges = ValueRangeOperations.DivideValueRange(valueRange, RangeNumber);
             _ValueColorRanges = ColorOperations.GetValueColorRanges(valueRange, _ValueRanges, _ColorMap);
         }
-
-        public void Refresh()
-        {
-            SetMinValue = false;
-            SetMaxValue = false;
-            ColorRefresh();
-        }
-
-        private double crossLineX;
-        private double crossLineY;
-
-        public double CrossLineX { get => crossLineX; set => SetProperty(ref crossLineX, value); }
-        public double CrossLineY { get => crossLineY; set => SetProperty(ref crossLineY, value); }
-
-        private ICommand setCrossLineCommand;
-
-        public ICommand SetCrossLineCommand
-        {
-            get
-            {
-                if (setCrossLineCommand == null)
-                {
-                    setCrossLineCommand = new RelayCommand(SetCrossLine);
-                }
-
-                return setCrossLineCommand;
-            }
-        }
-
         private void SetCrossLine(object commandParameter)
         {
             AddCrossLine();
             AddSummaryInfoCrossLine();
         }
-
         private void AddCrossLine()
         {
             double width = WorkPlaneCanvas.ActualWidth;
@@ -341,13 +336,6 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             line.StrokeThickness = (width + heigth) / 100;
             WorkPlaneCanvas.Children.Add(line);
         }
-
-        private double sumAboveLine;
-        private double sumUnderLine;
-
-        public double SumAboveLine { get => sumAboveLine; set => SetProperty(ref sumAboveLine, value); }
-        public double SumUnderLine { get => sumUnderLine; set => SetProperty(ref sumUnderLine, value); }
-
         private double GetPointOfCrossLine(double x)
         {
             double y;
@@ -361,7 +349,6 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             }
             return y;
         }
-
         private void AddSummaryInfoCrossLine()
         {
             SumAboveLine = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x=>x.CenterY >= GetPointOfCrossLine(x.CenterX)).Sum(x => x.Value);
