@@ -13,6 +13,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         public Rectangle(double primitiveWidth, double primitiveHeight, double x, double y, MainViewModel ownerVm) : base(PrimitiveType.Rectangle, x, y, ownerVm)
         {
             Type = PrimitiveType.Rectangle;
+            Name = "New rectangle";
             PrimitiveWidth = primitiveWidth;
             PrimitiveHeight = primitiveHeight;
             PreviewMouseMove = new RelayCommand(o =>
@@ -34,22 +35,23 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                         rect.ShowedY = -(OwnerVm.PanelY - deltaY - OwnerVm.XY1 + rect.PrimitiveHeight);
                 }
             });
-
-            ShowedX = x;
-            ShowedY = y;
+            CenterX = x;
+            CenterY = y;
+            MinElementDivision = 10;
+            MaxElementSize = Math.Min(Math.Min(PrimitiveWidth, PrimitiveHeight) / MinElementDivision, 0.01);
         }
 
         public override INdmPrimitive GetNdmPrimitive(IUnitSystem unitSystem)
         {
-            var width = unitSystem.ConvertLength(PrimitiveWidth);
-            var height = unitSystem.ConvertLength(PrimitiveHeight);
-            double centerX = unitSystem.ConvertLength(ShowedX) + width / 2;
-            double centerY = unitSystem.ConvertLength(ShowedY) + height / 2;
+            var width = PrimitiveWidth;
+            var height = PrimitiveHeight;
+            double centerX = CenterX;
+            double centerY = CenterY;
             string materialName = MaterialName;
             ICenter center = new Center { X = centerX, Y = centerY };
             IShape shape = new StructureHelperCommon.Models.Shapes.Rectangle { Height = height, Width = width, Angle = 0 };
             IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = Material.DesignCompressiveStrength };
-            INdmPrimitive ndmPrimitive = new NdmPrimitive { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial, NdmMaxSize = 0.01, NdmMinDivision = 20 };
+            INdmPrimitive ndmPrimitive = new NdmPrimitive { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial, NdmMaxSize = MaxElementSize, NdmMinDivision = MinElementDivision };
             return ndmPrimitive;
         }
     }

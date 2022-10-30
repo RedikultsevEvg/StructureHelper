@@ -15,6 +15,22 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +50,20 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>485E3BCF396A57578712F0EAAD11D48E4FE19BD6</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>StructureHelper_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=6.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
@@ -102,10 +132,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Infrastructure\Enums\PrimitiveType.cs" />
+    <Compile Include="Infrastructure\Exceptions\StructureHelperException.cs" />
+    <Compile Include="Infrastructure\Strings\ErrorStrings.cs" />
+    <Compile Include="Infrastructure\UI\Converters\Units\Area.cs" />
+    <Compile Include="Infrastructure\UI\Converters\Units\Length.cs" />
+    <Compile Include="Infrastructure\UI\Converters\Units\UnitBase.cs" />
+    <Compile Include="Infrastructure\UI\Converters\Units\UnitConstatnts.cs" />
     <Compile Include="Infrastructure\UI\UserControls\PrimitivePopup.xaml.cs">
       <DependentUpon>PrimitivePopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\PrimitiveService.cs" />
+    <Compile Include="Services\Primitives\PrimitiveRepository.cs" />
+    <Compile Include="Services\Primitives\IPrimitiveRepository.cs" />
     <Compile Include="Services\Reports\CalculationReports\IIsoFieldReport.cs" />
     <Compile Include="Services\Reports\CalculationReports\IsoFieldReport.cs" />
     <Compile Include="Services\Reports\IReport.cs" />
@@ -158,8 +195,12 @@
     <Compile Include="Infrastructure\UI\DataTemplates\RectangleTemplate.xaml.cs">
       <DependentUpon>RectangleTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PrimitiveProperiesWindow\PrimitivePropertiesView.xaml.cs">
+      <DependentUpon>PrimitivePropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ViewModels\Calculations\CalculationProperies\CalculationPropertyViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\CalculationResult\CalculationResultViewModel.cs" />
+    <Compile Include="Windows\ViewModels\PrimitiveProperties\PrimitivePropertiesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\UI\Triggers\MouseEventTriggers\DoubleClickEventTrigger.cs" />
@@ -172,6 +213,7 @@
       <SubType>Code</SubType>
     </Compile>
     <None Include="packages.config" />
+    <None Include="StructureHelper_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -217,6 +259,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\PrimitiveProperiesWindow\PrimitivePropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logics\" />
@@ -234,6 +280,18 @@
       <Project>{330bef5b-15be-4d2c-a750-b1ae50fb2be3}</Project>
       <Name>StructureHelperLogics</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,10 +10,14 @@
         xmlns:mouseEventTriggers="clr-namespace:StructureHelper.Infrastructure.UI.Triggers.MouseEventTriggers"
         xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow"
         xmlns:enums="clr-namespace:StructureHelper.Infrastructure.Enums"
+        xmlns:converters ="clr-namespace:StructureHelper.Infrastructure.UI.Converters.Units"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainViewModel}"
         Title="StructureHelper" Height="700" Width="1000">
     <Window.Resources>
+        <converters:Length x:Key="LengthConverter"/>
+        <converters:Area x:Key="AreaConverter"/>
+
         <DataTemplate DataType="{x:Type dataContexts:Rectangle}">
             <dataTemplates:RectangleTemplate/>
         </DataTemplate>
@@ -36,8 +40,12 @@
             </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem Header="Primitives">
-                    <Button Content="Add Rectangle" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
-                    <Button Content="Add Point" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                    <MenuItem Header="Add">
+                        <Button Content="Add Rectangle" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
+                        <Button Content="Add Point" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                    </MenuItem>
+                    <Button Content="Edit primitive" Command="{Binding EditPrimitive}"/>
+                    <Button Content="Delete primitive" Command="{Binding DeletePrimitive}"/>
                 </MenuItem>
                 <Button Content="Calculation properties" Command="{Binding Path=EditCalculationPropertyCommand}"/>
             </MenuItem>
@@ -55,8 +63,35 @@
 
                 </Expander>
                 <Expander Header="Geometry" ExpandDirection="Down" MinWidth="20" >
-                    <ListBox ItemsSource="{Binding Primitives}">
-                        
+                    <ListBox ItemsSource="{Binding Primitives}" SelectedItem="{Binding SelectedPrimitive}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Grid.Column="0" Margin="3" Fill="{Binding Brush}" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                </Grid>
+                                
+                                <!--<Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="20"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1"/>
+                                        <ColumnDefinition MinWidth="50"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Viewbox Grid.RowSpan="2">
+                                        
+                                    </Viewbox>
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                    <Button Grid.Column="1" Grid.Row="1" Content="..."/>
+                                </Grid>-->
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
                 </Expander>
             </StackPanel>
@@ -111,8 +146,8 @@
                             <ItemsControl.ItemContainerStyle>
                                 <Style TargetType="ContentPresenter">
                                     <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}"/>
-                                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
-                                    <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                                    <Setter Property="Canvas.Left" Value="{Binding X, Converter={StaticResource LengthConverter}}"/>
+                                    <Setter Property="Canvas.Top" Value="{Binding Y, Converter={StaticResource LengthConverter}}"/>
                                 </Style>
                             </ItemsControl.ItemContainerStyle>
                         </ItemsControl>
@@ -121,14 +156,12 @@
             </Border>
         </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="Справочник" Command="{Binding OpenMaterialCatalog}"/>
-            <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="Система едениц" Command="{Binding OpenUnitsSystemSettings}"/>
-            <Label VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="{Binding UnitsSystemName}"/>
+            <!--<Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="Справочник" Command="{Binding OpenMaterialCatalog}"/>
+            <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="Units" Command="{Binding OpenUnitsSystemSettings}"/>
+            <Label VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="{Binding UnitsSystemName}"/>-->
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0.333,0.333,39.667" Grid.RowSpan="2" Width="519">
-            <Button VerticalAlignment="Center" Margin="5" Content="Добавить тестовые примитивы" Command="{Binding AddTestCase}"/>
-            <Button VerticalAlignment="Center" Margin="5" Content="Добавить прямоугольник" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
-            <Button VerticalAlignment="Center" Margin="5" Content="Добавить точку" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+            <Button VerticalAlignment="Center" Margin="5" Content="Add test primitives" Command="{Binding AddTestCase}"/>
         </StackPanel>
     </Grid>
 </Window>

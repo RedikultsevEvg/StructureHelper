@@ -12,7 +12,7 @@
     <StackPanel>
         <Ellipse Style="{StaticResource EllipseStyle}" d:DataContext="{d:DesignInstance dataContexts:Point}">
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="PreviewMouseDown">
+                <!--<i:EventTrigger EventName="PreviewMouseDown">
                     <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonDown}" CommandParameter="{Binding}"/>
                 </i:EventTrigger>
                 <i:EventTrigger EventName="PreviewMouseUp">
@@ -20,10 +20,10 @@
                 </i:EventTrigger>
                 <i:EventTrigger EventName="PreviewMouseMove">
                     <i:InvokeCommandAction Command="{Binding PreviewMouseMove}" CommandParameter="{Binding}"/>
-                </i:EventTrigger>
-                <mouseEventTriggers:DoubleClickEventTrigger EventName="MouseDown">
+                </i:EventTrigger>-->
+                <!--<mouseEventTriggers:DoubleClickEventTrigger EventName="MouseDown">
                     <i:InvokeCommandAction Command="{Binding PrimitiveDoubleClick}" CommandParameter="{Binding}"/>
-                </mouseEventTriggers:DoubleClickEventTrigger>
+                </mouseEventTriggers:DoubleClickEventTrigger>-->
             </i:Interaction.Triggers>
         </Ellipse>
         <userControls:PrimitivePopup Type="Rectangle" IsOpen="{Binding ParamsPanelVisibilty}" d:DataContext="{d:DesignInstance dataContexts:PrimitiveBase}"/>

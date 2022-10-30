@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using StructureHelper.Services;
+using StructureHelper.Services.Primitives;
 
 namespace StructureHelper.Windows.MainWindow
 {

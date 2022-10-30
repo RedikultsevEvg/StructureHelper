@@ -24,7 +24,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.CalculationProperies
             set
             {
                 calculationProperty.IterationProperty.Accuracy = value;
-                OnPropertyChanged("Accuracy");
+                OnPropertyChanged(nameof(IterationAccuracy));
             }
         }
         public int MaxIterationCount
@@ -36,7 +36,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.CalculationProperies
             set
             {
                 calculationProperty.IterationProperty.MaxIterationCount = value;
-                OnPropertyChanged("MaxIterationCount");
+                OnPropertyChanged(nameof(MaxIterationCount));
             }
         }
         public IForceCombination SelectedCombination { get; set; }

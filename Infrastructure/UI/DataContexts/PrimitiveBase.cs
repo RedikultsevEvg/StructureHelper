@@ -3,6 +3,9 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using StructureHelper.Infrastructure.Enums;
+using StructureHelper.Infrastructure.Exceptions;
+using StructureHelper.Infrastructure.Strings;
+using StructureHelper.Infrastructure.UI.Converters.Units;
 using StructureHelper.Models.Materials;
 using StructureHelper.UnitSystem.Systems;
 using StructureHelper.Windows.MainWindow;
@@ -16,9 +19,14 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         #region Поля
 
         private readonly PrimitiveType type;
+        private string name;
+        private double centerX, centerY;
+        private int minElementDivision;
+        private double maxElementSize;
         private bool captured, parameterCaptured, elementLock, paramsPanelVisibilty, popupCanBeClosed = true, borderCaptured;
         private Brush brush;
         private MaterialDefinitionBase material;
+        private double prestrain_kx, prestrain_ky, prestrain_epsz;
         private double opacity = 1, showedOpacity = 0, x, y, xY1, yX1, primitiveWidth, primitiveHeight, showedX, showedY;
         protected double delta = 0.5;
         private int showedZIndex = 1, zIndex;
@@ -37,6 +45,61 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                 OnPropertyChanged(nameof(PrimitiveDimension));
                 OnPropertyChanged(nameof(HeightRowHeight));
             }
+        }
+
+        public string Name
+        {
+            get => name;
+            set
+            {
+                OnPropertyChanged(value, ref name);
+            }
+        }
+        public double CenterX
+        {
+            get => centerX;
+            set
+            {
+                if (this is Rectangle)
+                {
+                    ShowedX = value - primitiveWidth / 2d;
+                }
+                else if (this is Point)
+                {
+                    Point point = this as Point;
+                    ShowedX = value - point.Diameter / 2;
+                }
+                else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown); }
+                OnPropertyChanged(value, ref centerX);
+            }
+        }
+        public double CenterY
+        {
+            get => centerY;
+            set
+            {           
+                if (this is Rectangle)
+                {
+                    ShowedY = value - primitiveHeight / 2d;
+                }
+                else if (this is Point)
+                {
+                    Point point = this as Point;
+                    ShowedY = value - point.Diameter / 2;
+                }
+                else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown); }
+                OnPropertyChanged(value, ref centerY);            
+            }
+        }
+        public int MinElementDivision
+        {
+            get => minElementDivision;
+            set { OnPropertyChanged(value, ref minElementDivision); }
+        }
+        public double MaxElementSize
+        {
+            get => maxElementSize;
+            set { OnPropertyChanged(value, ref maxElementSize); }
         }
 
         public bool Captured
@@ -203,10 +266,11 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             
             PrimitiveDoubleClick = new RelayCommand(o =>
             {
-                PopupCanBeClosed = false;
-                Captured = false;
-                ParamsPanelVisibilty = true;
-                ParameterCaptured = true;
+                //PopupCanBeClosed = false;
+                //Captured = false;
+                //ParamsPanelVisibilty = true;
+                //ParameterCaptured = true;
+
             });
             OwnerVm = ownerVM;
         }
@@ -215,13 +279,29 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         private void UpdateCoordinatesX(double showedX)
         {
-            if (Type == PrimitiveType.Rectangle) X = showedX + OwnerVm.YX1;
-            if (Type == PrimitiveType.Point) X = showedX + OwnerVm.YX1 - PrimitiveWidth / 2;
+            if (this is Rectangle)
+            {
+                X = showedX + OwnerVm.YX1 / UnitConstatnts.LengthConstant;
+            }
+            else if (this is Point)
+            {
+                Point point = this as Point;
+                X = showedX + OwnerVm.YX1 / UnitConstatnts.LengthConstant;
+            }
+            else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown); }
         }
         private void UpdateCoordinatesY(double showedY)
         {
-            if (Type == PrimitiveType.Rectangle) Y = -showedY + OwnerVm.XY1 - PrimitiveHeight;
-            if (Type == PrimitiveType.Point) Y = -showedY + OwnerVm.XY1 - PrimitiveWidth / 2;
+            if (this is Rectangle)
+            {
+                Y = -showedY + OwnerVm.XY1 / UnitConstatnts.LengthConstant - PrimitiveHeight;
+            }
+            else if (this is Point)
+            {
+                Point point = this as Point;
+                Y = -showedY + OwnerVm.XY1 / UnitConstatnts.LengthConstant - point.Diameter;
+            }
+            else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown); }
         }
 
         public abstract INdmPrimitive GetNdmPrimitive(IUnitSystem unitSystem);
@@ -230,7 +310,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             MaterialTypes materialTypes;
             if (Material is ConcreteDefinition) { materialTypes = MaterialTypes.Concrete; }
             else if (Material is RebarDefinition) { materialTypes = MaterialTypes.Reinforcement; }
-            else { throw new Exception("MaterialType is unknown"); }
+            else { throw new StructureHelperException(ErrorStrings.MaterialTypeIsUnknown); }
             return materialTypes;
         }
     }

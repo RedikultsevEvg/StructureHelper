@@ -10,10 +10,11 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 {
     public class Point : PrimitiveBase
     {
-        public Point(double d, double x, double y, MainViewModel ownerVm) : base(PrimitiveType.Point, x, y, ownerVm)
+        public double Area { get; set; }
+        public Point(double area, double x, double y, MainViewModel ownerVm) : base(PrimitiveType.Point, x, y, ownerVm)
         {
-            PrimitiveWidth = d;
-            PrimitiveHeight = d;
+            Name = "New point";
+            Area = area;
             PreviewMouseMove = new RelayCommand(o =>
             {
                 if (!(o is Point point)) return;
@@ -32,17 +33,17 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                         point.ShowedY = -(ownerVm.PanelY - pointDelta - OwnerVm.XY1);
                 }
             });
-            ShowedX = x;
-            ShowedY = y;
+            CenterX = x;
+            CenterY = y;
         }
+
+        public double Diameter { get => Math.Sqrt(Area / Math.PI) * 2; }
 
         public override INdmPrimitive GetNdmPrimitive(IUnitSystem unitSystem)
         {
-            var diam = unitSystem.ConvertLength(PrimitiveWidth);
-            double area = diam * diam * Math.PI / 4;
             string materialName = MaterialName;
-            ICenter center = new Center { X = unitSystem.ConvertLength(ShowedX), Y = unitSystem.ConvertLength(ShowedY) };
-            IShape shape = new StructureHelperCommon.Models.Shapes.Point { Area = area };
+            ICenter center = new Center { X = CenterX, Y = CenterY };
+            IShape shape = new StructureHelperCommon.Models.Shapes.Point { Area = this.Area };
             IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = Material.DesignCompressiveStrength };
             INdmPrimitive ndmPrimitive = new NdmPrimitive { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial };
             return ndmPrimitive;

@@ -22,6 +22,10 @@ using StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow;
 using StructureHelperLogics.Services;
 using StructureHelper.Windows.CalculationWindows.CalculationResultWindow;
 using StructureHelper.Windows.ViewModels.Calculations.CalculationResult;
+using StructureHelper.Services.Primitives;
+using StructureHelper.Windows.PrimitiveProperiesWindow;
+using StructureHelper.Infrastructure.Exceptions;
+using StructureHelper.Infrastructure.Strings;
 
 namespace StructureHelper.Windows.MainWindow
 {
@@ -30,6 +34,8 @@ namespace StructureHelper.Windows.MainWindow
         private readonly double scaleRate = 1.1;
 
         private IPrimitiveRepository PrimitiveRepository { get; }
+        public PrimitiveBase SelectedPrimitive { get; set; }
+
         private readonly UnitSystemService unitSystemService;
 
         private MainModel Model { get; }
@@ -102,6 +108,10 @@ namespace StructureHelper.Windows.MainWindow
             set => OnPropertyChanged(value, ref yY2);
         }
         public ICommand AddPrimitive { get; }
+        public ICommand Calculate { get; }
+        public ICommand DeletePrimitive { get; }
+        public ICommand EditCalculationPropertyCommand { get; }
+        public ICommand EditPrimitive { get; }
         public ICommand AddTestCase { get; }
         public ICommand LeftButtonDown { get; }
         public ICommand LeftButtonUp { get; }
@@ -115,13 +125,12 @@ namespace StructureHelper.Windows.MainWindow
         public ICommand SetInBackOfAll { get; }
         public ICommand ScaleCanvasDown { get; }
         public ICommand ScaleCanvasUp { get; }
-        public ICommand Calculate { get; }
         public ICommand SetPopupCanBeClosedTrue { get; }
         public ICommand SetPopupCanBeClosedFalse { get; }
-        public ICommand EditCalculationPropertyCommand { get; }
+
         public string UnitsSystemName => unitSystemService.GetCurrentSystem().Name;
 
-        private double delta = 0.5;
+        private double delta = 0.0005;
 
         public MainViewModel(MainModel model, IPrimitiveRepository primitiveRepository, UnitSystemService unitSystemService)
         {
@@ -131,8 +140,8 @@ namespace StructureHelper.Windows.MainWindow
             CanvasWidth = 1500;
             CanvasHeight = 1000;
             XX2 = CanvasWidth;
-            XY1 = CanvasHeight / 2;
-            YX1 = CanvasWidth / 2;
+            XY1 = CanvasHeight / 2d;
+            YX1 = CanvasWidth / 2d;
             YY2 = CanvasHeight;
             calculationProperty = new CalculationProperty();
 
@@ -149,15 +158,15 @@ namespace StructureHelper.Windows.MainWindow
             {
                 if (o is Rectangle rect && rect.BorderCaptured && !rect.ElementLock)
                 {
-                    if (rect.PrimitiveWidth % 10 < delta || rect.PrimitiveWidth % 10 >= delta)
-                        rect.PrimitiveWidth = Math.Round(PanelX / 10) * 10 - rect.X + 10;
+                    if (rect.PrimitiveWidth % 10d < delta || rect.PrimitiveWidth % 10d >= delta)
+                        rect.PrimitiveWidth = Math.Round(PanelX / 10d) * 10d - rect.X + 10d;
                     else
-                        rect.PrimitiveWidth = PanelX - rect.X + 10;
+                        rect.PrimitiveWidth = PanelX - rect.X + 10d;
 
-                    if (rect.PrimitiveHeight % 10 < delta || rect.PrimitiveHeight % 10 >= delta)
-                        rect.PrimitiveHeight = Math.Round(PanelY / 10) * 10 - rect.Y + 10;
+                    if (rect.PrimitiveHeight % 10d < delta || rect.PrimitiveHeight % 10d >= delta)
+                        rect.PrimitiveHeight = Math.Round(PanelY / 10d) * 10d - rect.Y + 10d;
                     else
-                        rect.PrimitiveHeight = PanelY - rect.Y + 10;
+                        rect.PrimitiveHeight = PanelY - rect.Y + 10d;
                 }
             });
             ClearSelection = new RelayCommand(o =>
@@ -228,12 +237,29 @@ namespace StructureHelper.Windows.MainWindow
             AddPrimitive = new RelayCommand(o =>
             {
                 if (!(o is PrimitiveType primitiveType)) return;
-                var primitive = primitiveType == PrimitiveType.Point
-                    ? (PrimitiveBase)new Point(50, 0, 0, this)
-                    : (PrimitiveBase)new Rectangle(60, 40, 0, 0, this);
+                PrimitiveBase primitive;
+                if (primitiveType ==  PrimitiveType.Rectangle)
+                {
+                    primitive = new Rectangle(0.60, 0.40, 0, 0, this);
+                }
+                else if (primitiveType == PrimitiveType.Point)
+                {
+                    primitive = new Point(0.50, 0, 0, this);
+                }
+                else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType)); }
                 Primitives.Add(primitive);
                 PrimitiveRepository.Add(primitive);
             });
+
+            DeletePrimitive = new RelayCommand(
+                o=>DeleteSelectedPrimitive(),
+                o => SelectedPrimitive != null
+            );
+
+            EditPrimitive = new RelayCommand(
+                o => EditSelectedPrimitive(),
+                o => SelectedPrimitive != null
+            );
 
             AddTestCase = new RelayCommand(o =>
             {
@@ -247,12 +273,6 @@ namespace StructureHelper.Windows.MainWindow
 
             Calculate = new RelayCommand(o =>
             {
-                //var matrix = model.Calculate(10e3, 0d, 0d);
-                //MessageBox.Show(
-                //    $"{nameof(matrix.EpsZ)} = {matrix.EpsZ};\n" +
-                //        $"{nameof(matrix.Kx)} = {matrix.Kx};\n" +
-                //        $"{nameof(matrix.Ky)} = {matrix.Ky}", 
-                //    "StructureHelper");
                 CalculateResult();
             });
 
@@ -271,6 +291,30 @@ namespace StructureHelper.Windows.MainWindow
             });
         }
 
+        private void DeleteSelectedPrimitive()
+        {
+            if (! (SelectedPrimitive is null))
+            {
+                var dialogResult = MessageBox.Show("Delete primitive?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    Primitives.Remove(SelectedPrimitive);
+                    PrimitiveRepository.Delete(SelectedPrimitive);
+                }
+            }
+            else { MessageBox.Show("Selection is changed", "Please, select primitive", MessageBoxButtons.YesNo, MessageBoxIcon.Warning); }
+        }
+
+        private void EditSelectedPrimitive()
+        {
+            if (!(SelectedPrimitive is null))
+            {
+                var wnd = new PrimitiveProperties(SelectedPrimitive);
+                wnd.ShowDialog();
+            }
+            else { MessageBox.Show("Selection is changed", "Please, select primitive", MessageBoxButtons.YesNo, MessageBoxIcon.Warning); }
+        }
+
         private void CalculateResult()
         {
             IEnumerable<INdm> ndms = Model.GetNdms();
@@ -282,17 +326,18 @@ namespace StructureHelper.Windows.MainWindow
 
         private IEnumerable<PrimitiveBase> GetTestCasePrimitives()
         {
-            var width = 400;
-            var height = 600;
-            var d1 = 12;
-            var d2 = 25;
+            var width = 0.4d;
+            var height = 0.6d;
+            var area1 = Math.PI * 0.012d * 0.012d / 4d;
+            var area2 = Math.PI * 0.025d * 0.025d / 4d;
+            var gap = 0.05d;
             var rectMaterial = new ConcreteDefinition("C40", 0, 40, 0, 1.3, 1.5);
             var pointMaterial = new RebarDefinition("S400", 2, 400, 400, 1.15, 1.15);
-            yield return new Rectangle(width, height, -width / 2, -height / 2, this) { Material = rectMaterial, MaterialName = rectMaterial.MaterialClass };
-            yield return new Point(d1, -width / 2 + 50, -height / 2 + 50, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
-            yield return new Point(d1, width / 2 - 50, -height / 2 + 50, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
-            yield return new Point(d2, -width / 2 + 50, height / 2 - 50, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
-            yield return new Point(d2, width / 2 - 50, height / 2 - 50, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
+            yield return new Rectangle(width, height, 0, 0, this) { Material = rectMaterial, MaterialName = rectMaterial.MaterialClass };
+            yield return new Point(area1, -width / 2 + gap, -height / 2 + gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
+            yield return new Point(area1, width / 2 - gap, -height / 2 + gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
+            yield return new Point(area2, -width / 2 + gap, height / 2 - gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
+            yield return new Point(area2, width / 2 - gap, height / 2 - gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
         }
         private void EditCalculationProperty()
         {

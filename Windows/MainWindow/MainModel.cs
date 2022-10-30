@@ -4,6 +4,7 @@ using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.ResultData;
 using LoaderCalculator.Data.SourceData;
 using StructureHelper.Services;
+using StructureHelper.Services.Primitives;
 using StructureHelper.UnitSystem;
 using StructureHelper.UnitSystem.Systems;
 using StructureHelperLogics.Infrastructures.CommonEnums;
@@ -37,17 +38,13 @@ namespace StructureHelper.Windows.MainWindow
         public IStrainMatrix Calculate(double mx, double my, double nz)
         {
             var unitSystem = unitSystemService.GetCurrentSystem();
-            return calculationService.GetPrimitiveStrainMatrix(primitiveRepository.GetRectangles()
-                .Select(x => x.GetNdmPrimitive(unitSystem))
-                .Concat(primitiveRepository.GetPoints().Select(x => x.GetNdmPrimitive(unitSystem))).ToArray(), mx, my, nz);
+            return calculationService.GetPrimitiveStrainMatrix(primitiveRepository.Primitives.Select(x => x.GetNdmPrimitive(unitSystem)).ToArray(), mx, my, nz);
         }
 
         public IEnumerable<INdm> GetNdms()
         {
             var unitSystem = unitSystemService.GetCurrentSystem();
-            var ndmPrimitives = primitiveRepository.GetRectangles()
-                .Select(x => x.GetNdmPrimitive(unitSystem))
-                .Concat(primitiveRepository.GetPoints().Select(x => x.GetNdmPrimitive(unitSystem))).ToArray();
+            var ndmPrimitives = primitiveRepository.Primitives.Select(x => x.GetNdmPrimitive(unitSystem)).ToArray();
 
             //Настройки триангуляции, пока опции могут быть только такие
             ITriangulationOptions options = new TriangulationOptions { LimiteState = LimitStates.Collapse, CalcTerm = CalcTerms.ShortTerm };

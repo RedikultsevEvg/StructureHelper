@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Autofac;
 using StructureHelper.Services;
+using StructureHelper.Services.Primitives;
 using StructureHelper.UnitSystem;
 using StructureHelper.Windows.MainWindow;
 using StructureHelperLogics.Services;

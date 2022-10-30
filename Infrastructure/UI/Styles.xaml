@@ -5,12 +5,16 @@
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:dataContexts="clr-namespace:StructureHelper.Infrastructure.UI.DataContexts"
+                    xmlns:converters ="clr-namespace:StructureHelper.Infrastructure.UI.Converters.Units"
                     mc:Ignorable="d" >
+    
+    <converters:Length x:Key="LengthConverter"/>
+    <converters:Area x:Key="AreaConverter"/>
 
     <Style TargetType="Shape" x:Key="ShapeStyle">
         <Setter Property="Fill" Value="{Binding Brush, Mode=TwoWay}"/>
         <Setter Property="Opacity" Value="{Binding Opacity, Mode=TwoWay}"/>
-        <Setter Property="ToolTip">
+        <!--<Setter Property="ToolTip">
             <Setter.Value>
                 <ToolTip Background="White" BorderBrush="Black" BorderThickness="1">
                     <Grid>
@@ -38,18 +42,18 @@
                     </Grid>
                 </ToolTip>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
     </Style>
 
     <Style x:Key="EllipseStyle" TargetType="Ellipse" BasedOn="{StaticResource ShapeStyle}">
         <Style.Setters>
-            <Setter Property="Width" Value="{Binding PrimitiveWidth}"/>
-            <Setter Property="Height" Value="{Binding PrimitiveWidth}"/>
+            <Setter Property="Width" Value="{Binding Diameter, Converter={StaticResource LengthConverter}}"/>
+            <Setter Property="Height" Value="{Binding Diameter, Converter={StaticResource LengthConverter}}"/>
         </Style.Setters>
     </Style>
 
     <Style x:Key="RectangleStyle" TargetType="Rectangle" BasedOn="{StaticResource ShapeStyle}">
-        <Setter Property="Width" Value="{Binding PrimitiveWidth}"/>
-        <Setter Property="Height" Value="{Binding PrimitiveHeight}"/>
+        <Setter Property="Width" Value="{Binding PrimitiveWidth, Converter={StaticResource LengthConverter}}"/>
+        <Setter Property="Height" Value="{Binding PrimitiveHeight, Converter={StaticResource LengthConverter}}"/>
     </Style>
 </ResourceDictionary>

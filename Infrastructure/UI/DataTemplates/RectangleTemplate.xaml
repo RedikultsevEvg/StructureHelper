@@ -15,7 +15,7 @@
         <Grid>
             <Rectangle Style="{StaticResource RectangleStyle}">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="PreviewMouseDown">
+                    <!--<i:EventTrigger EventName="PreviewMouseDown">
                         <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonDown}" CommandParameter="{Binding}"/>
                     </i:EventTrigger>
                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -23,13 +23,13 @@
                     </i:EventTrigger>
                     <i:EventTrigger EventName="PreviewMouseMove">
                         <i:InvokeCommandAction Command="{Binding PreviewMouseMove}" CommandParameter="{Binding}"/>
-                    </i:EventTrigger>
-                    <mouseEventTriggers:DoubleClickEventTrigger EventName="MouseDown">
+                    </i:EventTrigger>-->
+                    <!--<mouseEventTriggers:DoubleClickEventTrigger EventName="MouseDown">
                         <i:InvokeCommandAction Command="{Binding PrimitiveDoubleClick}" CommandParameter="{Binding}"/>
-                    </mouseEventTriggers:DoubleClickEventTrigger>
+                    </mouseEventTriggers:DoubleClickEventTrigger>-->
                 </i:Interaction.Triggers>
             </Rectangle>
-            <Rectangle Cursor="SizeNWSE" Width="20" Height="20" Fill="{Binding Brush}" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Rectangle Cursor="SizeNWSE" Fill="{Binding Brush}" VerticalAlignment="Bottom" HorizontalAlignment="Right">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewMouseDown">
                         <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.LeftButtonDown}" CommandParameter="{Binding}"/>
