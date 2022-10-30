@@ -29,7 +29,7 @@
                     </mouseEventTriggers:DoubleClickEventTrigger>-->
                 </i:Interaction.Triggers>
             </Rectangle>
-            <Rectangle Cursor="SizeNWSE" Fill="{Binding Brush}" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Rectangle Cursor="SizeNWSE" VerticalAlignment="Bottom" HorizontalAlignment="Right">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewMouseDown">
                         <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.LeftButtonDown}" CommandParameter="{Binding}"/>
@@ -41,6 +41,9 @@
                         <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.PreviewMouseMove}" CommandParameter="{Binding}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+                <!--<Rectangle.Fill>
+                    <SolidColorBrush Color="{Binding Color}"/>
+                </Rectangle.Fill>-->
             </Rectangle>
         </Grid>
         <userControls:PrimitivePopup IsOpen="{Binding ParamsPanelVisibilty}"/>

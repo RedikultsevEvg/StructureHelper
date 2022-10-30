@@ -3,6 +3,7 @@ using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.ResultData;
 using LoaderCalculator.Data.SourceData;
+using StructureHelper.Models.Materials;
 using StructureHelper.Services;
 using StructureHelper.Services.Primitives;
 using StructureHelper.UnitSystem;
@@ -21,6 +22,7 @@ namespace StructureHelper.Windows.MainWindow
     public class MainModel
     {
         private IPrimitiveRepository primitiveRepository;
+        public List<IHeadMaterial> HeadMaterials { get; }
         private CalculationService calculationService;
         private UnitSystemService unitSystemService;
 
@@ -33,6 +35,7 @@ namespace StructureHelper.Windows.MainWindow
             this.unitSystemService = unitSystemService;
 
             CalculationProperty = new CalculationProperty();
+            HeadMaterials = new List<IHeadMaterial>();
         }
         
         public IStrainMatrix Calculate(double mx, double my, double nz)

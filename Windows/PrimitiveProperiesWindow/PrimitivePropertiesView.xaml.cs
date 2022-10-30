@@ -60,5 +60,10 @@ namespace StructureHelper.Windows.PrimitiveProperiesWindow
                 StpProperties.Children.Add(contentControl);
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.EditColor();
+        }
     }
 }

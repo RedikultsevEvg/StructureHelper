@@ -27,8 +27,8 @@ namespace StructureHelper.Windows.ColorPickerWindow
             set => OnColorItemChanged(value, ref blue);
         }
 
-        private Brush selectedColor;
-        public Brush SelectedColor
+        private Color selectedColor;
+        public Color SelectedColor
         {
             get => selectedColor;
             set => OnPropertyChanged(value, ref selectedColor);
@@ -38,12 +38,12 @@ namespace StructureHelper.Windows.ColorPickerWindow
         {
             if (primitive != null)
             {
-                var solidBrush = (SolidColorBrush)primitive.Brush;
-                Red = solidBrush.Color.R;
-                Green = solidBrush.Color.G;
-                Blue = solidBrush.Color.B;
+                var color = primitive.Color;
+                Red = color.R;
+                Green = color.G;
+                Blue = color.B;
 
-                SetColor = new RelayCommand(o => primitive.Brush = SelectedColor);
+                SetColor = new RelayCommand(o => primitive.Color = SelectedColor);
             }
         }
         private void OnColorItemChanged(int value, ref int colorItem, [CallerMemberName] string propertyName = null)
@@ -58,7 +58,7 @@ namespace StructureHelper.Windows.ColorPickerWindow
         private void UpdateSelectedColor()
         {
             var color = Color.FromRgb((byte)Red, (byte)Green, (byte)Blue);
-            SelectedColor = new SolidColorBrush(color);
+            SelectedColor = color;
             OnPropertyChanged(nameof(SelectedColor));
         }
     }

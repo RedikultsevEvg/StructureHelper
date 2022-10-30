@@ -1,0 +1,41 @@
+﻿<Window x:Class="StructureHelper.Windows.MainWindow.Materials.HeadMaterialsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow.Materials"
+        xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Materials"
+        d:DataContext="{d:DesignInstance vm:HeadMaterialsViewModel}"
+        mc:Ignorable="d"
+        Title="Materials" Height="350" Width="400" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="120"/>
+        </Grid.ColumnDefinitions>
+        <ListBox ItemsSource="{Binding HeadMaterials}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Rectangle Grid.Column="0" Margin="3">
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="{Binding Color}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Column="1">
+            <Button Content="New Concrete"  Command="{Binding AddHeadMaterial}"/>
+            <Button Content="New Reinforcement"  Command="{Binding AddHeadMaterial}"/>
+            <Button Content="Edit"  Command="{Binding EditHeadMaterial}"/>
+            <Button Content="Edit"  Command="{Binding DeleteHeadMaterial}"/>
+        </StackPanel>
+    </Grid>
+</Window>

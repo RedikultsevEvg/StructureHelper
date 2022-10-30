@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using StructureHelper.Infrastructure.Enums;
@@ -25,6 +27,9 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         private double maxElementSize;
         private bool captured, parameterCaptured, elementLock, paramsPanelVisibilty, popupCanBeClosed = true, borderCaptured;
         private Brush brush;
+        private bool setMaterialColor;
+        private Color color;
+        private IHeadMaterial headMaterial;
         private MaterialDefinitionBase material;
         private double prestrain_kx, prestrain_ky, prestrain_epsz;
         private double opacity = 1, showedOpacity = 0, x, y, xY1, yX1, primitiveWidth, primitiveHeight, showedX, showedY;
@@ -91,6 +96,30 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                 OnPropertyChanged(value, ref centerY);            
             }
         }
+
+        public IHeadMaterial HeadMaterial
+        {
+            get => headMaterial;
+            set
+            {
+                OnPropertyChanged(value, ref headMaterial);
+            }
+        }
+
+        public bool SetMaterialColor
+        {
+            get => setMaterialColor;
+            set { OnPropertyChanged(value, ref setMaterialColor);}
+        }
+        public Color Color
+        {
+            get => setMaterialColor? headMaterial.Color :color;
+            set
+            {
+                SetMaterialColor = false;
+                OnPropertyChanged(value, ref color);
+            }
+        }
         public int MinElementDivision
         {
             get => minElementDivision;
@@ -119,8 +148,8 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         }
         public Brush Brush
         {
-            get => brush;
-            set => OnPropertyChanged(value, ref brush);
+            get => new SolidColorBrush(Color);
+            set { }
         }
         public MaterialDefinitionBase Material
         {
@@ -259,8 +288,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             var randomR = new Random(new Random((int)DateTime.Now.Ticks % 1000).Next(50)).Next(0, 255);
             var randomG = new Random(new Random((int)DateTime.Now.Ticks % 200).Next(100, 200)).Next(0, 255);
             var randomB = new Random(new Random((int)DateTime.Now.Ticks % 50).Next(500, 1000)).Next(0, 255);
-            var color = Color.FromRgb((byte)randomR, (byte)randomG, (byte)randomB);
-            Brush = new SolidColorBrush(color);
+            color = Color.FromRgb((byte)randomR, (byte)randomG, (byte)randomB);
             PrimitiveLeftButtonUp = new RelayCommand(o => Captured = false);
             PrimitiveLeftButtonDown = new RelayCommand(o => Captured = true);
             
@@ -273,6 +301,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
             });
             OwnerVm = ownerVM;
+            SetMaterialColor = true;
         }
 
         protected readonly MainViewModel OwnerVm;

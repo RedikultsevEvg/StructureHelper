@@ -5,13 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.PrimitiveProperiesWindow"
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.PrimitiveProperties"
-        xmlns:converters ="clr-namespace:StructureHelper.Infrastructure.UI.Converters.Units"
+        xmlns:convertersCommon ="clr-namespace:StructureHelper.Infrastructure.UI.Converters.Common"
+        xmlns:convertersUnits ="clr-namespace:StructureHelper.Infrastructure.UI.Converters.Units"
         d:DataContext="{d:DesignInstance vm:PrimitivePropertiesViewModel}"
         mc:Ignorable="d"
         Title="PrimitiveProperties" Height="450" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <converters:Length x:Key="LengthConverter"/>
-        <converters:Area x:Key="AreaConverter"/>
+        <convertersCommon:InvertBoolConverter x:Key="InvertBoolConverter"/>
+        <convertersUnits:Length x:Key="LengthConverter"/>
+        <convertersUnits:Area x:Key="AreaConverter"/>
         <DataTemplate x:Key="RectangleProperties">
             <Expander Header="Rectangle" IsExpanded="True">
                 <Grid>
@@ -73,6 +75,7 @@
                         <RowDefinition Height="22"/>
                         <RowDefinition Height="22"/>
                         <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
@@ -82,6 +85,7 @@
                     <TextBlock Grid.Row="1" Text="Name of material"/>
                     <TextBlock Grid.Row="2" Text="Center X"/>
                     <TextBlock Grid.Row="3" Text="Center Y"/>
+                    <TextBlock Grid.Row="4" Text="Material color"/>
                     <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Name}"/>
                     <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                         <ComboBox HorizontalAlignment="Left"/>
@@ -90,6 +94,16 @@
                     </StackPanel>
                     <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding CenterX, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
                     <TextBox Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding CenterY, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <CheckBox IsChecked="{Binding SetMaterialColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                        <Rectangle Width="50" Margin="5,0,10,0">
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="{Binding Color}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Button Width="50" Content="..." Command="{Binding EditColorCommand}"/>
+                        <Button Width="50" Content="..." Click="Button_Click"/>
+                    </StackPanel>
                 </Grid>
             </Expander>
             <!--<Expander Header="Prestrain" IsExpanded="True">

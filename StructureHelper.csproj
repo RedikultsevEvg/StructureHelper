@@ -134,6 +134,7 @@
     <Compile Include="Infrastructure\Enums\PrimitiveType.cs" />
     <Compile Include="Infrastructure\Exceptions\StructureHelperException.cs" />
     <Compile Include="Infrastructure\Strings\ErrorStrings.cs" />
+    <Compile Include="Infrastructure\UI\Converters\Common\InvertBoolConverter.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\Area.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\Length.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\UnitBase.cs" />
@@ -141,6 +142,8 @@
     <Compile Include="Infrastructure\UI\UserControls\PrimitivePopup.xaml.cs">
       <DependentUpon>PrimitivePopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Materials\HeadMaterial.cs" />
+    <Compile Include="Models\Materials\IHeadMaterial.cs" />
     <Compile Include="Services\Primitives\PrimitiveRepository.cs" />
     <Compile Include="Services\Primitives\IPrimitiveRepository.cs" />
     <Compile Include="Services\Reports\CalculationReports\IIsoFieldReport.cs" />
@@ -195,11 +198,15 @@
     <Compile Include="Infrastructure\UI\DataTemplates\RectangleTemplate.xaml.cs">
       <DependentUpon>RectangleTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\MainWindow\Materials\HeadMaterialsView.xaml.cs">
+      <DependentUpon>HeadMaterialsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PrimitiveProperiesWindow\PrimitivePropertiesView.xaml.cs">
       <DependentUpon>PrimitivePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ViewModels\Calculations\CalculationProperies\CalculationPropertyViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\CalculationResult\CalculationResultViewModel.cs" />
+    <Compile Include="Windows\ViewModels\Materials\HeadMaterialsViewModel.cs" />
     <Compile Include="Windows\ViewModels\PrimitiveProperties\PrimitivePropertiesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +263,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Infrastructure\UI\DataTemplates\RectangleTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow\Materials\HeadMaterialsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

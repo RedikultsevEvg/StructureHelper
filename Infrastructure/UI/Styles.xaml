@@ -12,7 +12,11 @@
     <converters:Area x:Key="AreaConverter"/>
 
     <Style TargetType="Shape" x:Key="ShapeStyle">
-        <Setter Property="Fill" Value="{Binding Brush, Mode=TwoWay}"/>
+        <Setter Property="Fill">
+            <Setter.Value>
+                <SolidColorBrush Color="{Binding Color}"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Opacity" Value="{Binding Opacity, Mode=TwoWay}"/>
         <!--<Setter Property="ToolTip">
             <Setter.Value>

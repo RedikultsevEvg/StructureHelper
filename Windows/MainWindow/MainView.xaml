@@ -47,6 +47,7 @@
                     <Button Content="Edit primitive" Command="{Binding EditPrimitive}"/>
                     <Button Content="Delete primitive" Command="{Binding DeletePrimitive}"/>
                 </MenuItem>
+                <Button Content="Materials" Command="{Binding EditHeadMaterialsCommand}"/>
                 <Button Content="Calculation properties" Command="{Binding Path=EditCalculationPropertyCommand}"/>
             </MenuItem>
             <MenuItem Header="Analisys">
@@ -60,7 +61,24 @@
             </Grid.ColumnDefinitions>
             <StackPanel>
                 <Expander Header="Materials" ExpandDirection="Down" MinWidth="20" >
-
+                    <ListBox ItemsSource="{Binding HeadMaterials}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Grid.Column="0" Margin="3">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush Color="{Binding Color}"/>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </Expander>
                 <Expander Header="Geometry" ExpandDirection="Down" MinWidth="20" >
                     <ListBox ItemsSource="{Binding Primitives}" SelectedItem="{Binding SelectedPrimitive}">
@@ -71,7 +89,11 @@
                                         <ColumnDefinition Width="20"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <Rectangle Grid.Column="0" Margin="3" Fill="{Binding Brush}" />
+                                    <Rectangle Grid.Column="0" Margin="3">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush Color="{Binding Color}"/>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
                                     <TextBlock Grid.Column="1" Text="{Binding Name}"/>
                                 </Grid>
                                 

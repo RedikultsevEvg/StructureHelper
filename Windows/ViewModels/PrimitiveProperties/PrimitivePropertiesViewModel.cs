@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.Windows.ColorPickerWindow;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Xml.Linq;
 using Point = StructureHelper.Infrastructure.UI.DataContexts.Point;
 using Rectangle = StructureHelper.Infrastructure.UI.DataContexts.Rectangle;
@@ -16,6 +19,8 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
     public class PrimitivePropertiesViewModel : ViewModelBase, IDataErrorInfo
     {
         private PrimitiveBase primitive;
+
+        public ICommand EditColorCommand;
 
         public string Name
         {
@@ -48,7 +53,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             }
 
         }
-
         public double CenterY
         {
             get => primitive.CenterY;
@@ -59,11 +63,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 OnPropertyChanged(nameof(primitive.ShowedY));
                 OnPropertyChanged("Y");
             }
-        }
-
-        public double Prestrain_Kx
-        {
-            get => primitive.Pre
         }
 
         public int MinElementDivision
@@ -145,6 +144,26 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             }
         }
 
+        public Color Color
+        {
+            get => primitive.Color;
+            set
+            {
+                primitive.Color = value;
+                OnPropertyChanged(nameof(Color));
+            }
+        }
+
+        public bool SetMaterialColor
+        {
+            get => primitive.SetMaterialColor;
+            set
+            {
+                primitive.SetMaterialColor = value;
+                OnPropertyChanged(nameof(SetMaterialColor));
+            }
+        }
+
         public string this[string columnName]
         {
             get
@@ -169,6 +188,14 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
         public PrimitivePropertiesViewModel(PrimitiveBase primitive)
         {
             this.primitive = primitive;
+            EditColorCommand = new RelayCommand(o => EditColor(), o => !SetMaterialColor);
+        }
+
+        public void EditColor()
+        {
+            var wnd = new ColorPickerView(primitive);
+            wnd.ShowDialog();
+            OnPropertyChanged(nameof(Color));
         }
     }
 }

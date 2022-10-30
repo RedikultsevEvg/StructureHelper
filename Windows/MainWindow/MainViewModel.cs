@@ -26,6 +26,7 @@ using StructureHelper.Services.Primitives;
 using StructureHelper.Windows.PrimitiveProperiesWindow;
 using StructureHelper.Infrastructure.Exceptions;
 using StructureHelper.Infrastructure.Strings;
+using StructureHelper.Windows.MainWindow.Materials;
 
 namespace StructureHelper.Windows.MainWindow
 {
@@ -86,6 +87,7 @@ namespace StructureHelper.Windows.MainWindow
             get => canvasHeight;
             set => OnPropertyChanged(value, ref canvasHeight);
         }
+        public List<IHeadMaterial> HeadMaterials { get => Model.HeadMaterials; }
 
         public double XX2
         {
@@ -111,6 +113,7 @@ namespace StructureHelper.Windows.MainWindow
         public ICommand Calculate { get; }
         public ICommand DeletePrimitive { get; }
         public ICommand EditCalculationPropertyCommand { get; }
+        public ICommand EditHeadMaterialsCommand { get; }
         public ICommand EditPrimitive { get; }
         public ICommand AddTestCase { get; }
         public ICommand LeftButtonDown { get; }
@@ -178,6 +181,7 @@ namespace StructureHelper.Windows.MainWindow
                     primitive.ParameterCaptured = false;
                 }
             });
+            EditHeadMaterialsCommand = new RelayCommand(o => EditHeadMaterials());
             OpenMaterialCatalog = new RelayCommand(o =>
             {
                 var materialCatalogView = new MaterialCatalogView();
@@ -291,6 +295,12 @@ namespace StructureHelper.Windows.MainWindow
             });
         }
 
+        private void EditHeadMaterials()
+        {
+            var wnd = new HeadMaterialsView(HeadMaterials);
+            wnd.ShowDialog();
+        }
+
         private void DeleteSelectedPrimitive()
         {
             if (! (SelectedPrimitive is null))
@@ -331,13 +341,20 @@ namespace StructureHelper.Windows.MainWindow
             var area1 = Math.PI * 0.012d * 0.012d / 4d;
             var area2 = Math.PI * 0.025d * 0.025d / 4d;
             var gap = 0.05d;
+
             var rectMaterial = new ConcreteDefinition("C40", 0, 40, 0, 1.3, 1.5);
             var pointMaterial = new RebarDefinition("S400", 2, 400, 400, 1.15, 1.15);
-            yield return new Rectangle(width, height, 0, 0, this) { Material = rectMaterial, MaterialName = rectMaterial.MaterialClass };
-            yield return new Point(area1, -width / 2 + gap, -height / 2 + gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
-            yield return new Point(area1, width / 2 - gap, -height / 2 + gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
-            yield return new Point(area2, -width / 2 + gap, height / 2 - gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
-            yield return new Point(area2, width / 2 - gap, height / 2 - gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass };
+
+            IHeadMaterial concrete = new HeadMaterial() { Name = "Concrete C40", Material = rectMaterial };
+            HeadMaterials.Add(concrete);
+            IHeadMaterial reinforcement = new HeadMaterial() { Name = "Reinforcement S400", Material = pointMaterial };
+            HeadMaterials.Add(reinforcement);
+
+            yield return new Rectangle(width, height, 0, 0, this) { Material = rectMaterial, MaterialName = rectMaterial.MaterialClass, HeadMaterial = concrete };
+            yield return new Point(area1, -width / 2 + gap, -height / 2 + gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass, HeadMaterial = reinforcement };
+            yield return new Point(area1, width / 2 - gap, -height / 2 + gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass, HeadMaterial = reinforcement };
+            yield return new Point(area2, -width / 2 + gap, height / 2 - gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass, HeadMaterial = reinforcement };
+            yield return new Point(area2, width / 2 - gap, height / 2 - gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass, HeadMaterial = reinforcement };
         }
         private void EditCalculationProperty()
         {
