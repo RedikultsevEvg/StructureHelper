@@ -93,6 +93,7 @@
       <HintPath>packages\System.Diagnostics.DiagnosticSource.6.0.0\lib\net461\System.Diagnostics.DiagnosticSource.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
       <Private>True</Private>
@@ -132,8 +133,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Infrastructure\Enums\PrimitiveType.cs" />
-    <Compile Include="Infrastructure\Exceptions\StructureHelperException.cs" />
-    <Compile Include="Infrastructure\Strings\ErrorStrings.cs" />
     <Compile Include="Infrastructure\UI\Converters\Common\InvertBoolConverter.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\Area.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\Length.cs" />
@@ -142,8 +141,6 @@
     <Compile Include="Infrastructure\UI\UserControls\PrimitivePopup.xaml.cs">
       <DependentUpon>PrimitivePopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Materials\HeadMaterial.cs" />
-    <Compile Include="Models\Materials\IHeadMaterial.cs" />
     <Compile Include="Services\Primitives\PrimitiveRepository.cs" />
     <Compile Include="Services\Primitives\IPrimitiveRepository.cs" />
     <Compile Include="Services\Reports\CalculationReports\IIsoFieldReport.cs" />
@@ -276,7 +273,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Logics\" />
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="FieldVisualizer\FieldVisualizer.csproj">

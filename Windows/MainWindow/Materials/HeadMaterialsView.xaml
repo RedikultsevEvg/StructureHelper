@@ -13,29 +13,46 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="120"/>
         </Grid.ColumnDefinitions>
-        <ListBox ItemsSource="{Binding HeadMaterials}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Rectangle Grid.Column="0" Margin="3">
-                            <Rectangle.Fill>
-                                <SolidColorBrush Color="{Binding Color}"/>
-                            </Rectangle.Fill>
-                        </Rectangle>
-                        <TextBlock Grid.Column="1" Text="{Binding Name}"/>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <ListBox ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding SelectedMaterial}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Grid.Column="0" Margin="3">
+                                <Rectangle.Fill>
+                                    <SolidColorBrush Color="{Binding Color}"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBox Grid.Row="1" Text="{Binding SelectedMaterial.Name}"/>
+            <ComboBox Grid.Row="2" ItemsSource="{Binding LibMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+
         <StackPanel Grid.Column="1">
-            <Button Content="New Concrete"  Command="{Binding AddHeadMaterial}"/>
-            <Button Content="New Reinforcement"  Command="{Binding AddHeadMaterial}"/>
-            <Button Content="Edit"  Command="{Binding EditHeadMaterial}"/>
-            <Button Content="Edit"  Command="{Binding DeleteHeadMaterial}"/>
+            <Button Content="New Material"  Command="{Binding AddNewMaterialCommand}"/>
+            <Button Content="Edit color"  Command="{Binding EditColorCommand}"/>
+            <Button Content="Copy"  Command="{Binding CopyHeadMaterialCommand}"/>
+            <Button Content="Delete"  Command="{Binding DeleteMaterialCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

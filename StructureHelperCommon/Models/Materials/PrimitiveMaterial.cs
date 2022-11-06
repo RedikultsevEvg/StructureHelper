@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using System;
 
 namespace StructureHelperCommon.Models.Materials
 {
@@ -6,8 +7,10 @@ namespace StructureHelperCommon.Models.Materials
     {
         public string Id { get; }
         public MaterialTypes MaterialType { get; set; }
+        public CodeTypes CodeType { get; set; }
         public string ClassName { get; set; }
         public double Strength { get; set; }
+
 
         public PrimitiveMaterial()
         {

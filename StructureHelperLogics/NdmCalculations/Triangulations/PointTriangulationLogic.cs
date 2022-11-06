@@ -3,6 +3,8 @@ using LoaderCalculator.Data.Ndms;
 using System;
 using System.Collections.Generic;
 using StructureHelperCommon.Models.Shapes;
+using LoaderCalculator.Data.Matrix;
+using LoaderCalculator.Data.Ndms.Transformations;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
@@ -23,6 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             List<INdm> ndmCollection = new List<INdm>();
             INdm ndm = new Ndm { CenterX = center.X, CenterY = center.Y, Area = area, Material = material };
             ndmCollection.Add(ndm);
+            NdmTransform.SetPrestrain(ndmCollection, new StrainMatrix() { Kx = Options.PrestrainKx, Ky = Options.PrestrainKy, EpsZ = Options.PrestrainEpsZ });
             return ndmCollection;
         }
 

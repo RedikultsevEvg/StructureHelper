@@ -8,8 +8,11 @@ using StructureHelper.Services;
 using StructureHelper.Services.Primitives;
 using StructureHelper.UnitSystem;
 using StructureHelper.UnitSystem.Systems;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperLogics.Infrastructures.CommonEnums;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
+using StructureHelperLogics.Models.Materials;
+using StructureHelperLogics.Models.Materials.Factories;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services;
 using System.Collections;
@@ -21,10 +24,16 @@ namespace StructureHelper.Windows.MainWindow
 {
     public class MainModel
     {
+        //const CodeTypes code = CodeTypes.EuroCode_2_1990;
+        const CodeTypes code = CodeTypes.SP63_13330_2018;
+
         private IPrimitiveRepository primitiveRepository;
+        public IHeadMaterialRepository HeadMaterialRepository { get; }
         public List<IHeadMaterial> HeadMaterials { get; }
         private CalculationService calculationService;
         private UnitSystemService unitSystemService;
+
+        public IPrimitiveRepository PrimitiveRepository => primitiveRepository;
 
         public ICalculationProperty CalculationProperty { get; private set; }
         
@@ -36,6 +45,8 @@ namespace StructureHelper.Windows.MainWindow
 
             CalculationProperty = new CalculationProperty();
             HeadMaterials = new List<IHeadMaterial>();
+            HeadMaterialRepository = new HeadMaterialRepository(this);
+            HeadMaterialRepository.LibMaterials = LibMaterialFactory.GetLibMaterials(code);
         }
         
         public IStrainMatrix Calculate(double mx, double my, double nz)

@@ -24,16 +24,20 @@ using StructureHelper.Windows.CalculationWindows.CalculationResultWindow;
 using StructureHelper.Windows.ViewModels.Calculations.CalculationResult;
 using StructureHelper.Services.Primitives;
 using StructureHelper.Windows.PrimitiveProperiesWindow;
-using StructureHelper.Infrastructure.Exceptions;
-using StructureHelper.Infrastructure.Strings;
 using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Strings;
+using StructureHelperLogics.Models.Materials;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperLogics.Models.Materials.Factories;
 
 namespace StructureHelper.Windows.MainWindow
 {
     public class MainViewModel : ViewModelBase
     {
+        private List<IHeadMaterial> headMaterials;
         private readonly double scaleRate = 1.1;
-
+        
         private IPrimitiveRepository PrimitiveRepository { get; }
         public PrimitiveBase SelectedPrimitive { get; set; }
 
@@ -87,7 +91,19 @@ namespace StructureHelper.Windows.MainWindow
             get => canvasHeight;
             set => OnPropertyChanged(value, ref canvasHeight);
         }
-        public List<IHeadMaterial> HeadMaterials { get => Model.HeadMaterials; }
+   
+        public ObservableCollection<IHeadMaterial> HeadMaterials
+        {
+            get
+            {
+                var collection = new ObservableCollection<IHeadMaterial>();
+                foreach (var obj in headMaterials)
+                {
+                    collection.Add(obj);
+                }
+                return collection;
+            }
+        }
 
         public double XX2
         {
@@ -139,6 +155,7 @@ namespace StructureHelper.Windows.MainWindow
         {
             PrimitiveRepository = primitiveRepository;
             Model = model;
+            headMaterials = Model.HeadMaterialRepository.HeadMaterials;
             this.unitSystemService = unitSystemService;
             CanvasWidth = 1500;
             CanvasHeight = 1000;
@@ -147,7 +164,6 @@ namespace StructureHelper.Windows.MainWindow
             YX1 = CanvasWidth / 2d;
             YY2 = CanvasHeight;
             calculationProperty = new CalculationProperty();
-
 
             LeftButtonUp = new RelayCommand(o =>
             {
@@ -297,8 +313,10 @@ namespace StructureHelper.Windows.MainWindow
 
         private void EditHeadMaterials()
         {
-            var wnd = new HeadMaterialsView(HeadMaterials);
+            var wnd = new HeadMaterialsView(Model.HeadMaterialRepository);
             wnd.ShowDialog();
+            headMaterials = Model.HeadMaterialRepository.HeadMaterials;
+            OnPropertyChanged(nameof(headMaterials));
         }
 
         private void DeleteSelectedPrimitive()
@@ -319,19 +337,46 @@ namespace StructureHelper.Windows.MainWindow
         {
             if (!(SelectedPrimitive is null))
             {
-                var wnd = new PrimitiveProperties(SelectedPrimitive);
+                var wnd = new PrimitiveProperties(SelectedPrimitive, Model.HeadMaterialRepository);
                 wnd.ShowDialog();
+                OnPropertyChanged(nameof(headMaterials));
             }
             else { MessageBox.Show("Selection is changed", "Please, select primitive", MessageBoxButtons.YesNo, MessageBoxIcon.Warning); }
         }
 
         private void CalculateResult()
         {
-            IEnumerable<INdm> ndms = Model.GetNdms();
-            CalculationService calculationService = new CalculationService();
-            var loaderResults = calculationService.GetCalculationResults(calculationProperty, ndms);
-            var wnd = new CalculationResultView(new CalculationResultViewModel(loaderResults, ndms));
-            wnd.ShowDialog();      
+            bool check = CheckAnalisysOptions();
+            if (check == false)
+            {
+                MessageBox.Show(ErrorStrings.DataIsInCorrect, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            try
+            {
+                IEnumerable<INdm> ndms = Model.GetNdms();
+                CalculationService calculationService = new CalculationService();
+                var loaderResults = calculationService.GetCalculationResults(calculationProperty, ndms);
+                var wnd = new CalculationResultView(new CalculationResultViewModel(loaderResults, ndms));
+                wnd.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ErrorStrings.UnknownError}: {ex}", "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private bool CheckAnalisysOptions()
+        {
+            foreach (var item in PrimitiveRepository.Primitives)
+            {
+                if (item.HeadMaterial == null)
+                {
+                    MessageBox.Show($"Primitive {item.Name} does not has material", "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+            return true;
         }
 
         private IEnumerable<PrimitiveBase> GetTestCasePrimitives()
@@ -345,10 +390,13 @@ namespace StructureHelper.Windows.MainWindow
             var rectMaterial = new ConcreteDefinition("C40", 0, 40, 0, 1.3, 1.5);
             var pointMaterial = new RebarDefinition("S400", 2, 400, 400, 1.15, 1.15);
 
-            IHeadMaterial concrete = new HeadMaterial() { Name = "Concrete C40", Material = rectMaterial };
-            HeadMaterials.Add(concrete);
-            IHeadMaterial reinforcement = new HeadMaterial() { Name = "Reinforcement S400", Material = pointMaterial };
-            HeadMaterials.Add(reinforcement);
+            IHeadMaterial concrete = new HeadMaterial() { Name = "Concrete 40"};
+            concrete.HelperMaterial = Model.HeadMaterialRepository.LibMaterials.Where(x => (x.MaterialType == MaterialTypes.Concrete & x.Name.Contains("40"))).First();
+            IHeadMaterial reinforcement = new HeadMaterial() { Name = "Reinforcement 400"};
+            reinforcement.HelperMaterial = Model.HeadMaterialRepository.LibMaterials.Where(x => (x.MaterialType == MaterialTypes.Reinforcement & x.Name.Contains("400"))).First();
+            headMaterials.Add(concrete);
+            headMaterials.Add(reinforcement);
+            OnPropertyChanged(nameof(headMaterials));
 
             yield return new Rectangle(width, height, 0, 0, this) { Material = rectMaterial, MaterialName = rectMaterial.MaterialClass, HeadMaterial = concrete };
             yield return new Point(area1, -width / 2 + gap, -height / 2 + gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass, HeadMaterial = reinforcement };

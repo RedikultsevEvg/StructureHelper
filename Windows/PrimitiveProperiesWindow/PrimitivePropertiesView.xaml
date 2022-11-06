@@ -87,9 +87,26 @@
                     <TextBlock Grid.Row="3" Text="Center Y"/>
                     <TextBlock Grid.Row="4" Text="Material color"/>
                     <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Name}"/>
-                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <ComboBox HorizontalAlignment="Left"/>
-                        <Button Width="50" Content="...">
+                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <ComboBox Width="120" ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding PrimitiveMaterial}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Rectangle Grid.Column="0" Margin="3">
+                                            <Rectangle.Fill>
+                                                <SolidColorBrush Color="{Binding Color}"/>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Width="50" Content="..." Command="{Binding EditMaterialCommand}">
                         </Button>
                     </StackPanel>
                     <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding CenterX, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
@@ -102,11 +119,10 @@
                             </Rectangle.Fill>
                         </Rectangle>
                         <Button Width="50" Content="..." Command="{Binding EditColorCommand}"/>
-                        <Button Width="50" Content="..." Click="Button_Click"/>
                     </StackPanel>
                 </Grid>
             </Expander>
-            <!--<Expander Header="Prestrain" IsExpanded="True">
+            <Expander Header="Prestrain" IsExpanded="True">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="22"/>
@@ -120,11 +136,11 @@
                     <TextBlock Grid.Row="0" Text="k_x"/>
                     <TextBlock Grid.Row="1" Text="k_y"/>
                     <TextBlock Grid.Row="2" Text="epsilon_z"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Prestrain_kx, ValidatesOnDataErrors=True}"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding Prestrain_kx, ValidatesOnDataErrors=True}"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding Prestrain_kx, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding PrestrainKx, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding PrestrainKy, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding PrestrainEpsZ, ValidatesOnDataErrors=True}"/>
                 </Grid>
-            </Expander>-->
+            </Expander>
         </StackPanel>
     </ScrollViewer>
 </Window>

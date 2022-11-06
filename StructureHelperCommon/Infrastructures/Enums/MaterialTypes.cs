@@ -1,4 +1,5 @@
-﻿namespace StructureHelperCommon.Models.Materials
+﻿namespace StructureHelperCommon.Infrastructures.Enums
+
 {
     public enum MaterialTypes
     {

@@ -2,5 +2,8 @@
 {
     public interface ITriangulationLogicOptions
     {
+        double PrestrainKx { get;}
+        double PrestrainKy { get;}
+        double PrestrainEpsZ { get;}
     }
 }

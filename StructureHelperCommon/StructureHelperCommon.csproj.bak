@@ -32,12 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,14 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructures\Enums\CodeTypes.cs" />
     <Compile Include="Infrastructures\Exceptions\StructureHelperException.cs" />
-    <Compile Include="Infrastructures\Interfaces\IHasParent.cs" />
-    <Compile Include="Infrastructures\Strings\ErrorString.cs" />
+    <Compile Include="Infrastructures\Strings\ErrorStrings.cs" />
     <Compile Include="Models\Entities\INdmPrimitive.cs" />
     <Compile Include="Models\Entities\NdmPrimitive.cs" />
     <Compile Include="Models\Materials\IPrimitiveMaterial.cs" />
-    <Compile Include="Infrastructures\Enums\MaterialTypes.cs" />
+    <Compile Include="Models\Materials\MaterialTypes.cs" />
     <Compile Include="Models\Materials\PrimitiveMaterial.cs" />
     <Compile Include="Models\NdmPrimitives\IPrimitive.cs" />
     <Compile Include="Models\NdmPrimitives\PointPrimitive.cs" />
@@ -69,7 +63,7 @@
     <Compile Include="Models\Shapes\Point.cs" />
     <Compile Include="Models\Shapes\Rectangle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ColorServices\ColorProcessor.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

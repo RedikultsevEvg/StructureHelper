@@ -29,8 +29,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -49,6 +48,9 @@
                 </MenuItem>
                 <Button Content="Materials" Command="{Binding EditHeadMaterialsCommand}"/>
                 <Button Content="Calculation properties" Command="{Binding Path=EditCalculationPropertyCommand}"/>
+                <MenuItem Header="Templates">
+                    <Button Content="Concrete beam 400x600" Command="{Binding AddTestCase}"/>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Analisys">
                 <Button Content="Solve problem" Command="{Binding Path=Calculate}"/>
@@ -96,7 +98,7 @@
                                     </Rectangle>
                                     <TextBlock Grid.Column="1" Text="{Binding Name}"/>
                                 </Grid>
-                                
+
                                 <!--<Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="25"/>
@@ -177,13 +179,10 @@
                 </ScrollViewer>
             </Border>
         </Grid>
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <!--<Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="Справочник" Command="{Binding OpenMaterialCatalog}"/>
-            <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="Units" Command="{Binding OpenUnitsSystemSettings}"/>
-            <Label VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Content="{Binding UnitsSystemName}"/>-->
-        </StackPanel>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0.333,0.333,39.667" Grid.RowSpan="2" Width="519">
-            <Button VerticalAlignment="Center" Margin="5" Content="Add test primitives" Command="{Binding AddTestCase}"/>
-        </StackPanel>
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock Text="Structure Helper"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

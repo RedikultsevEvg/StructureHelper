@@ -5,21 +5,24 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using StructureHelper.Infrastructure.Enums;
-using StructureHelper.Infrastructure.Exceptions;
-using StructureHelper.Infrastructure.Strings;
 using StructureHelper.Infrastructure.UI.Converters.Units;
 using StructureHelper.Models.Materials;
+using StructureHelper.Services.Primitives;
 using StructureHelper.UnitSystem.Systems;
 using StructureHelper.Windows.MainWindow;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Entities;
 using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Services.ColorServices;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
     public abstract class PrimitiveBase : ViewModelBase
     {
         #region Поля
-
+        private IPrimitiveRepository primitiveRepository;
         private readonly PrimitiveType type;
         private string name;
         private double centerX, centerY;
@@ -31,7 +34,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         private Color color;
         private IHeadMaterial headMaterial;
         private MaterialDefinitionBase material;
-        private double prestrain_kx, prestrain_ky, prestrain_epsz;
+        private double prestrainKx, prestrainKy, prestrainEpsZ;
         private double opacity = 1, showedOpacity = 0, x, y, xY1, yX1, primitiveWidth, primitiveHeight, showedX, showedY;
         protected double delta = 0.5;
         private int showedZIndex = 1, zIndex;
@@ -51,6 +54,8 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                 OnPropertyChanged(nameof(HeightRowHeight));
             }
         }
+
+        public IPrimitiveRepository PrimitiveRepository => primitiveRepository;
 
         public string Name
         {
@@ -96,6 +101,9 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                 OnPropertyChanged(value, ref centerY);            
             }
         }
+        public double PrestrainKx { get; set; }
+        public double PrestrainKy { get; set; }
+        public double PrestrainEpsZ { get; set; }
 
         public IHeadMaterial HeadMaterial
         {
@@ -103,6 +111,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             set
             {
                 OnPropertyChanged(value, ref headMaterial);
+                OnPropertyChanged(nameof(Color));
             }
         }
 
@@ -113,7 +122,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         }
         public Color Color
         {
-            get => setMaterialColor? headMaterial.Color :color;
+            get => ((setMaterialColor == true) & (headMaterial !=null))?  headMaterial.Color :color;
             set
             {
                 SetMaterialColor = false;
@@ -285,10 +294,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             this.type = type;
             X = ownerVM.YX1 + x;
             Y = ownerVM.XY1 + y;
-            var randomR = new Random(new Random((int)DateTime.Now.Ticks % 1000).Next(50)).Next(0, 255);
-            var randomG = new Random(new Random((int)DateTime.Now.Ticks % 200).Next(100, 200)).Next(0, 255);
-            var randomB = new Random(new Random((int)DateTime.Now.Ticks % 50).Next(500, 1000)).Next(0, 255);
-            color = Color.FromRgb((byte)randomR, (byte)randomG, (byte)randomB);
+            color = ColorProcessor.GetRandomColor();
             PrimitiveLeftButtonUp = new RelayCommand(o => Captured = false);
             PrimitiveLeftButtonDown = new RelayCommand(o => Captured = true);
             
@@ -302,6 +308,9 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             });
             OwnerVm = ownerVM;
             SetMaterialColor = true;
+            PrestrainKx = 0;
+            PrestrainKy = 0;
+            PrestrainEpsZ = 0;
         }
 
         protected readonly MainViewModel OwnerVm;
@@ -341,6 +350,10 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             else if (Material is RebarDefinition) { materialTypes = MaterialTypes.Reinforcement; }
             else { throw new StructureHelperException(ErrorStrings.MaterialTypeIsUnknown); }
             return materialTypes;
+        }
+        public IPrimitiveMaterial GetPrimitiveMaterial()
+        {
+            return HeadMaterial.HelperMaterial.GetPrimitiveMaterial();
         }
     }
 }

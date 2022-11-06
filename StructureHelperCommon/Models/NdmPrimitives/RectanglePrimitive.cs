@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models.Entities;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Entities;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
 

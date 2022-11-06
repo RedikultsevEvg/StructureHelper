@@ -10,6 +10,7 @@ using System.Threading;
 using StructureHelperCommon.Models.Entities;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Infrastructures.Enums;
 
 namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
 {

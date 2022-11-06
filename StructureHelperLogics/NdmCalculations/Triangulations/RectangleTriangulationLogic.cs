@@ -3,6 +3,7 @@ using LoaderCalculator.Data.Ndms;
 using System;
 using System.Collections.Generic;
 using LoaderCalculator.Data.Ndms.Transformations;
+using LoaderCalculator.Data.Matrix;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
@@ -25,6 +26,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             NdmTransform.Move(ndmCollection, dX, dY);
             double angle = rectangleOptions.Rectangle.Angle;
             NdmTransform.Rotate(ndmCollection, angle);
+            NdmTransform.SetPrestrain(ndmCollection, new StrainMatrix() { Kx = Options.PrestrainKx, Ky = Options.PrestrainKy, EpsZ = Options.PrestrainEpsZ });
             return ndmCollection;
         }
 

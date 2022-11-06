@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Materials.MaterialBuilders;
 using LoaderCalculator.Data.Ndms;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Entities;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
@@ -67,12 +70,11 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             }
             else if (shape is IPoint)
             {
-                IPoint point = shape as IPoint;
-                options = new PointTriangulationLogicOptions(primitive.Center, point.Area);
+                options = new PointTriangulationLogicOptions(primitive);
                 IPointTriangulationLogic logic = new PointTriangulationLogic(options);
                 ndms.AddRange(logic.GetNdmCollection(material));
             }
-            else { throw new Exception("Primitive type is not valid"); }
+            else { throw new StructureHelperException($"{ErrorStrings.ShapeIsNotCorrect} :{nameof(primitive.Shape)}"); }
             return ndms;
         }
 
@@ -81,7 +83,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             IMaterial material;
             if (primitiveMaterial.MaterialType == MaterialTypes.Concrete) { material = GetConcreteMaterial(primitiveMaterial, options); }
             else if (primitiveMaterial.MaterialType == MaterialTypes.Reinforcement) { material = GetReinforcementMaterial(primitiveMaterial, options); }
-            else { throw new Exception("Material type is invalid"); }
+            else { throw new StructureHelperException(ErrorStrings.MaterialTypeIsUnknown); }
             return material;
         }
 
@@ -106,14 +108,22 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         private static void SetMaterialOptions(IMaterialOptions materialOptions, IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
         {
             materialOptions.Strength = primitiveMaterial.Strength;
-            materialOptions.CodesType = CodesType.EC2_1990;
+            if (primitiveMaterial.CodeType == CodeTypes.EuroCode_2_1990)
+            {
+                materialOptions.CodesType = CodesType.EC2_1990;
+            }
+            else if (primitiveMaterial.CodeType == CodeTypes.SP63_13330_2018)
+            {
+                materialOptions.CodesType = CodesType.SP63_2018;
+            }
+            else { throw new StructureHelperException($"{ErrorStrings.ObjectTypeIsUnknown} : {primitiveMaterial.CodeType}"); }
             if (options.LimiteState == Infrastructures.CommonEnums.LimitStates.Collapse) { materialOptions.LimitState = LimitStates.Collapse; }
             else if (options.LimiteState == Infrastructures.CommonEnums.LimitStates.ServiceAbility) { materialOptions.LimitState = LimitStates.ServiceAbility; }
             else if (options.LimiteState == Infrastructures.CommonEnums.LimitStates.Special) { materialOptions.LimitState = LimitStates.Special; }
-            else { throw new Exception("LimitStateType is not valid"); }
+            else { throw new StructureHelperException(ErrorStrings.LimitStatesIsNotValid); }
             if (options.CalcTerm == Infrastructures.CommonEnums.CalcTerms.ShortTerm) { materialOptions.IsShortTerm = true; }
             else if (options.CalcTerm == Infrastructures.CommonEnums.CalcTerms.LongTerm) { materialOptions.IsShortTerm = false; }
-            else { throw new Exception("Calculation term is not valid"); }
+            else { throw new StructureHelperException(ErrorStrings.LoadTermIsNotValid); }
         }
     }
 }

@@ -198,7 +198,7 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             double sizeX = PrimitiveOperations.GetSizeX(PrimitiveSet.ValuePrimitives);
             double sizeY = PrimitiveOperations.GetSizeY(PrimitiveSet.ValuePrimitives);
             dX = PrimitiveOperations.GetMinMaxX(PrimitiveSet.ValuePrimitives)[0];
-            dY = PrimitiveOperations.GetMinMaxY(PrimitiveSet.ValuePrimitives)[0];
+            dY = PrimitiveOperations.GetMinMaxY(PrimitiveSet.ValuePrimitives)[1];
             WorkPlaneCanvas.Width = Math.Abs(sizeX);
             WorkPlaneCanvas.Height = Math.Abs(sizeY);
             WorkPlaneBox.Width = ScrolWidth - 50;
@@ -260,7 +260,7 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             shape.Tag = valuePrimitive;
             shape.Fill = brush;
             Canvas.SetLeft(shape, valuePrimitive.CenterX - addX - dX);
-            Canvas.SetTop(shape, -valuePrimitive.CenterY - addY - dY);
+            Canvas.SetTop(shape, -valuePrimitive.CenterY - addY + dY);
         }
         private void Zoom(double coefficient)
         {

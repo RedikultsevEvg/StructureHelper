@@ -11,6 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructureHelperTests", "Str
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StructureHelperLogics", "StructureHelperLogics\StructureHelperLogics.csproj", "{330BEF5B-15BE-4D2C-A750-B1AE50FB2BE3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5DFEC3FD-9677-47BB-9E88-EB71828B5913} = {5DFEC3FD-9677-47BB-9E88-EB71828B5913}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructureHelperCommon", "StructureHelperCommon\StructureHelperCommon.csproj", "{5DFEC3FD-9677-47BB-9E88-EB71828B5913}"
 EndProject

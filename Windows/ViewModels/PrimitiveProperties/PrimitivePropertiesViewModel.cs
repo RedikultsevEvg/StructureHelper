@@ -1,9 +1,15 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.Models.Materials;
 using StructureHelper.Windows.ColorPickerWindow;
+using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelperCommon.Models.NdmPrimitives;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services.ColorServices;
+using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -19,8 +25,13 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
     public class PrimitivePropertiesViewModel : ViewModelBase, IDataErrorInfo
     {
         private PrimitiveBase primitive;
+        private IHeadMaterialRepository headMaterialRepository;
+        private List<IHeadMaterial> headMaterials;
 
-        public ICommand EditColorCommand;
+        public ICommand EditColorCommand { get; private set; }
+        public ICommand EditMaterialCommand { get; private set; }
+
+        public ObservableCollection<IHeadMaterial> HeadMaterials { get; private set; }
 
         public string Name
         {
@@ -38,6 +49,18 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             {
                 primitive.Name = value;
                 OnPropertyChanged(nameof(MaterialName));
+            }
+        }
+        public IHeadMaterial PrimitiveMaterial
+        { get => primitive.HeadMaterial;
+            set
+            {
+                primitive.HeadMaterial = value;
+                OnPropertyChanged(nameof(PrimitiveMaterial));
+                if (primitive.SetMaterialColor == true)
+                {
+                    OnPropertyChanged(nameof(Color));
+                }
             }
         }
 
@@ -63,6 +86,22 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 OnPropertyChanged(nameof(primitive.ShowedY));
                 OnPropertyChanged("Y");
             }
+        }
+
+        public double PrestrainKx
+        {
+            get => primitive.PrestrainKx;
+            set => primitive.PrestrainKx = value;
+        }
+        public double PrestrainKy
+        {
+            get => primitive.PrestrainKy;
+            set => primitive.PrestrainKy = value;
+        }
+        public double PrestrainEpsZ
+        {
+            get => primitive.PrestrainEpsZ;
+            set => primitive.PrestrainEpsZ = value;
         }
 
         public int MinElementDivision
@@ -99,6 +138,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                     var shape = primitive as Rectangle;
                     shape.PrimitiveWidth = value;
                 }
+                CenterX = CenterX;
             }
         }
 
@@ -120,8 +160,9 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                     var shape = primitive as Rectangle;
                     shape.PrimitiveHeight = value;
                 }
+                CenterY = CenterY; ;
             }
-        }
+    }
 
         public double Area
         {
@@ -160,6 +201,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             set
             {
                 primitive.SetMaterialColor = value;
+                OnPropertyChanged(nameof(Color));
                 OnPropertyChanged(nameof(SetMaterialColor));
             }
         }
@@ -185,17 +227,32 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
 
         public string Error => throw new NotImplementedException();
 
-        public PrimitivePropertiesViewModel(PrimitiveBase primitive)
+        public PrimitivePropertiesViewModel(PrimitiveBase primitive, IHeadMaterialRepository materialRepository)
         {
             this.primitive = primitive;
+            headMaterialRepository = materialRepository;
+            headMaterials = materialRepository.HeadMaterials;
+            HeadMaterials = new ObservableCollection<IHeadMaterial>();
+            foreach (var material in headMaterials)
+            {
+                HeadMaterials.Add(material);
+            }
             EditColorCommand = new RelayCommand(o => EditColor(), o => !SetMaterialColor);
+            EditMaterialCommand = new RelayCommand(o => EditMaterial());
+
+        }
+
+        private void EditMaterial()
+        {
+            var wnd = new HeadMaterialsView(headMaterialRepository);
+            wnd.ShowDialog();
         }
 
         public void EditColor()
         {
-            var wnd = new ColorPickerView(primitive);
-            wnd.ShowDialog();
-            OnPropertyChanged(nameof(Color));
+            Color color = Color;
+            ColorProcessor.EditColor(ref color);
+            Color = color;
         }
     }
 }

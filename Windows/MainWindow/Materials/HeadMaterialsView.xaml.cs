@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Models.Materials;
 using StructureHelper.Windows.ViewModels.Materials;
+using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,9 @@ namespace StructureHelper.Windows.MainWindow.Materials
     {
         private HeadMaterialsViewModel viewmodel;
 
-        public HeadMaterialsView(IEnumerable<IHeadMaterial> materials)
+        public HeadMaterialsView(IHeadMaterialRepository headMaterialRepository)
         {
-            viewmodel = new HeadMaterialsViewModel(materials);
+            viewmodel = new HeadMaterialsViewModel(headMaterialRepository);
             this.DataContext = viewmodel;
             InitializeComponent();
         }

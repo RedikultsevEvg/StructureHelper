@@ -47,11 +47,16 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             var height = PrimitiveHeight;
             double centerX = CenterX;
             double centerY = CenterY;
-            string materialName = MaterialName;
             ICenter center = new Center { X = centerX, Y = centerY };
             IShape shape = new StructureHelperCommon.Models.Shapes.Rectangle { Height = height, Width = width, Angle = 0 };
-            IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = Material.DesignCompressiveStrength };
-            INdmPrimitive ndmPrimitive = new NdmPrimitive { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial, NdmMaxSize = MaxElementSize, NdmMinDivision = MinElementDivision };
+            IPrimitiveMaterial primitiveMaterial = GetPrimitiveMaterial();
+            //IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = Material.DesignCompressiveStrength };
+            INdmPrimitive ndmPrimitive = new NdmPrimitive
+            { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial,
+                NdmMaxSize = MaxElementSize, NdmMinDivision = MinElementDivision,
+                PrestrainKx = PrestrainKx,
+                PrestrainKy = PrestrainKy,
+                PrestrainEpsZ = PrestrainEpsZ };
             return ndmPrimitive;
         }
     }

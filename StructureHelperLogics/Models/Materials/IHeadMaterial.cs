@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructureHelperLogics.Models.Materials;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +8,11 @@ using System.Windows.Media;
 
 namespace StructureHelper.Models.Materials
 {
-    public interface IHeadMaterial
+    public interface IHeadMaterial : ICloneable
     {
         string Name { get; set; }
         Color Color { get; set; }
-        MaterialDefinitionBase Material { get; set; }
+        IHelperMaterial HelperMaterial { get; set; }
+        //MaterialDefinitionBase Material { get; set; }
     }
 }

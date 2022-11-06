@@ -1,12 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.4.0" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\StructureHelperCommon\StructureHelperCommon.csproj" />
@@ -14,8 +11,10 @@
 
   <ItemGroup>
     <Reference Include="LoaderCalculator">
-      <HintPath>..\..\StructureHelper\Libraries\LoaderCalculator.dll</HintPath>
+      <HintPath>..\Libraries\LoaderCalculator.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System.Windows" />
   </ItemGroup>
 
 </Project>

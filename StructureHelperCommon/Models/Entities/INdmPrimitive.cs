@@ -10,5 +10,8 @@ namespace StructureHelperCommon.Models.Entities
         IPrimitiveMaterial PrimitiveMaterial {get;set;}
         double NdmMaxSize { get; set; }
         int NdmMinDivision { get; set; }
+        double PrestrainKx { get; set; }
+        double PrestrainKy { get; set; }
+        double PrestrainEpsZ { get; set; }
     }
 }
