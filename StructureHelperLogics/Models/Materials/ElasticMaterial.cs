@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Models.Materials;
+﻿using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -6,10 +6,9 @@ using NUnit.Framework;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using System.Collections.Generic;
 using System.Threading;
-using StructureHelperCommon.Models.Entities;
-using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperLogics.Models.Materials;
 
 namespace StructureHelperTests.FunctionalTests.Ndms.SteelSections
 {

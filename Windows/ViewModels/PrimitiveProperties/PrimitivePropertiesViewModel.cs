@@ -3,7 +3,6 @@ using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.ColorPickerWindow;
 using StructureHelper.Windows.MainWindow.Materials;
-using StructureHelperCommon.Models.NdmPrimitives;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.Materials;
@@ -181,6 +180,8 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 {
                     var shape = primitive as Point;
                     shape.Area = value;
+                    OnPropertyChanged(nameof(Area));
+                    OnPropertyChanged(nameof(shape.Diameter));
                 }
             }
         }
@@ -203,6 +204,14 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 primitive.SetMaterialColor = value;
                 OnPropertyChanged(nameof(Color));
                 OnPropertyChanged(nameof(SetMaterialColor));
+            }
+        }
+
+        public int ZIndex
+        {   get => primitive.ZIndex;
+            set
+            {
+                primitive.ZIndex = value;
             }
         }
 

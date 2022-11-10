@@ -13,9 +13,9 @@ using StructureHelper.Windows.MainWindow;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperCommon.Models.Entities;
-using StructureHelperCommon.Models.Materials;
+using StructureHelperLogics.Models.Materials;
 using StructureHelperCommon.Services.ColorServices;
+using StructureHelperLogics.Models.Primitives;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
@@ -37,6 +37,8 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         private double prestrainKx, prestrainKy, prestrainEpsZ;
         private double opacity = 1, showedOpacity = 0, x, y, xY1, yX1, primitiveWidth, primitiveHeight, showedX, showedY;
         protected double delta = 0.5;
+        private double stressValue;
+        private double strainValue;
         private int showedZIndex = 1, zIndex;
 
         #endregion
@@ -249,6 +251,22 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             get => primitiveHeight;
             set => OnPropertyChanged(value, ref primitiveHeight);
         }
+        public double StressValue
+        {
+            get { return stressValue; }
+            set
+            {
+                OnPropertyChanged(value, ref stressValue);
+            }
+        }
+        public double StrainValue
+        {
+            get { return strainValue; }
+            set
+            {
+                OnPropertyChanged(value, ref strainValue);
+            }
+        }   
         public double ShowedX
         {
             get => showedX;

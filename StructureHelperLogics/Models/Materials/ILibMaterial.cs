@@ -1,5 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Models.Materials;
+using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.Infrastructures.CommonEnums;
 using System;
 using System.Collections.Generic;

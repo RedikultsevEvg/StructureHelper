@@ -1,6 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 
-namespace StructureHelperCommon.Models.Materials
+namespace StructureHelperLogics.Models.Materials
 {
     public interface IPrimitiveMaterial
     {

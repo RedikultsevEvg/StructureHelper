@@ -7,10 +7,10 @@ using NUnit.Framework;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using System.Collections.Generic;
 using System.Threading;
-using StructureHelperCommon.Models.Entities;
-using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperLogics.Models.Calculations;
+using StructureHelperLogics.Models.Primitives;
 
 namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
 {

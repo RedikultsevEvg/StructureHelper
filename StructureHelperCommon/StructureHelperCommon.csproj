@@ -50,15 +50,7 @@
     <Compile Include="Infrastructures\Exceptions\StructureHelperException.cs" />
     <Compile Include="Infrastructures\Interfaces\IHasParent.cs" />
     <Compile Include="Infrastructures\Strings\ErrorString.cs" />
-    <Compile Include="Models\Entities\INdmPrimitive.cs" />
-    <Compile Include="Models\Entities\NdmPrimitive.cs" />
-    <Compile Include="Models\Materials\IPrimitiveMaterial.cs" />
     <Compile Include="Infrastructures\Enums\MaterialTypes.cs" />
-    <Compile Include="Models\Materials\PrimitiveMaterial.cs" />
-    <Compile Include="Models\NdmPrimitives\IPrimitive.cs" />
-    <Compile Include="Models\NdmPrimitives\PointPrimitive.cs" />
-    <Compile Include="Models\NdmPrimitives\PrimitiveBase.cs" />
-    <Compile Include="Models\NdmPrimitives\RectanglePrimitive.cs" />
     <Compile Include="Models\Shapes\Center.cs" />
     <Compile Include="Models\Shapes\ICenter.cs" />
     <Compile Include="Models\Shapes\ICenterShape.cs" />

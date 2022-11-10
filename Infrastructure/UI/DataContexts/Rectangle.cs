@@ -1,10 +1,10 @@
 ﻿using StructureHelper.Infrastructure.Enums;
 using StructureHelper.UnitSystem.Systems;
 using StructureHelper.Windows.MainWindow;
-using StructureHelperCommon.Models.Entities;
-using StructureHelperCommon.Models.Materials;
+using StructureHelperLogics.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
 using System;
+using StructureHelperLogics.Models.Primitives;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {

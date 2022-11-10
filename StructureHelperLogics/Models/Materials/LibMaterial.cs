@@ -2,7 +2,7 @@
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperCommon.Models.Materials;
+using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
 using System.Text;

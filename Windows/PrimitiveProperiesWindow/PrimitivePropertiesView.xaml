@@ -48,7 +48,7 @@
             </Expander>
         </DataTemplate>
         <DataTemplate x:Key="TriangulationProperties">
-            <Expander Header="Triangulation" IsExpanded="True">
+            <Expander Header="Triangulation" IsExpanded="False">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="22"/>
@@ -76,6 +76,7 @@
                         <RowDefinition Height="22"/>
                         <RowDefinition Height="22"/>
                         <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
@@ -86,6 +87,7 @@
                     <TextBlock Grid.Row="2" Text="Center X"/>
                     <TextBlock Grid.Row="3" Text="Center Y"/>
                     <TextBlock Grid.Row="4" Text="Material color"/>
+                    <TextBlock Grid.Row="5" Text="Z-index (integer)"/>
                     <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Name}"/>
                     <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
                         <ComboBox Width="120" ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding PrimitiveMaterial}">
@@ -111,6 +113,7 @@
                     </StackPanel>
                     <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding CenterX, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
                     <TextBox Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding CenterY, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Row="5" Grid.Column="1" Margin="1" Text="{Binding ZIndex}"/>
                     <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                         <CheckBox IsChecked="{Binding SetMaterialColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,20,0"/>
                         <Rectangle Width="50" Margin="5,0,10,0">
@@ -122,7 +125,7 @@
                     </StackPanel>
                 </Grid>
             </Expander>
-            <Expander Header="Prestrain" IsExpanded="True">
+            <Expander Header="Prestrain" IsExpanded="False">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="22"/>

@@ -264,7 +264,7 @@ namespace StructureHelper.Windows.MainWindow
                 }
                 else if (primitiveType == PrimitiveType.Point)
                 {
-                    primitive = new Point(0.50, 0, 0, this);
+                    primitive = new Point(0.0005d, 0d, 0d, this);
                 }
                 else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType)); }
                 Primitives.Add(primitive);

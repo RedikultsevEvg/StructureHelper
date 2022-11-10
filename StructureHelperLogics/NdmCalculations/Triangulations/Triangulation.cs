@@ -6,9 +6,9 @@ using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperCommon.Models.Entities;
-using StructureHelperCommon.Models.Materials;
+using StructureHelperLogics.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperLogics.Models.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
@@ -29,7 +29,11 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             }
             return ndms;
         }
-
+        /// <summary>
+        /// Returns dictionary of unique materials by collection of primitives
+        /// </summary>
+        /// <param name="ndmPrimitives"></param>
+        /// <returns></returns>
         private static Dictionary<string, IPrimitiveMaterial> GetPrimitiveMaterials(IEnumerable<INdmPrimitive> ndmPrimitives)
         {
             Dictionary<string, IPrimitiveMaterial> primitiveMaterials = new Dictionary<string, IPrimitiveMaterial>();
@@ -40,7 +44,13 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             }
             return primitiveMaterials;
         }
-
+        /// <summary>
+        /// Return dictionary of ndm-materials by dictionary of primirive materials
+        /// </summary>
+        /// <param name="PrimitiveMaterials"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="StructureHelperException"></exception>
         private static Dictionary<string, IMaterial> GetMaterials(Dictionary<string, IPrimitiveMaterial> PrimitiveMaterials, ITriangulationOptions options)
         {
             Dictionary<string, IMaterial> materials = new Dictionary<string, IMaterial>();
@@ -49,7 +59,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             foreach (string id in keyCollection)
             {
                 IPrimitiveMaterial primitiveMaterial;
-                if (PrimitiveMaterials.TryGetValue(id, out primitiveMaterial) == false) { throw new Exception("Material dictionary is not valid"); }
+                if (PrimitiveMaterials.TryGetValue(id, out primitiveMaterial) == false) { throw new StructureHelperException("Material dictionary is not valid"); }
                 material = GetMaterial(primitiveMaterial, options);
                 materials.Add(id, material);
             }

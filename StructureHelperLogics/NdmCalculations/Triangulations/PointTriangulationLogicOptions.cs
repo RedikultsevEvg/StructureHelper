@@ -1,8 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperCommon.Models.Entities;
-using StructureHelperCommon.Models.NdmPrimitives;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperLogics.Models.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {

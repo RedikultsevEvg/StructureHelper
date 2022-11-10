@@ -2,15 +2,24 @@
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.UnitSystem.Systems;
 using StructureHelper.Windows.MainWindow;
-using StructureHelperCommon.Models.Entities;
-using StructureHelperCommon.Models.Materials;
+using StructureHelperLogics.Models.Primitives;
+using StructureHelperLogics.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
     public class Point : PrimitiveBase
     {
-        public double Area { get; set; }
+        private double area;
+        public double Area
+        { get => area;
+          set
+            {
+                area = value;
+                OnPropertyChanged(nameof(Area));
+                OnPropertyChanged(nameof(Diameter));
+            }
+        }
         public Point(double area, double x, double y, MainViewModel ownerVm) : base(PrimitiveType.Point, x, y, ownerVm)
         {
             Name = "New point";
@@ -37,7 +46,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             CenterY = y;
         }
 
-        public double Diameter { get => Math.Sqrt(Area / Math.PI) * 2; }
+        public double Diameter { get => Math.Sqrt(area / Math.PI) * 2; }
 
         public override INdmPrimitive GetNdmPrimitive(IUnitSystem unitSystem)
         {
