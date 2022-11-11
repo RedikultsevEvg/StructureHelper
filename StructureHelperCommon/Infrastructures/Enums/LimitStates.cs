@@ -1,4 +1,4 @@
-﻿namespace StructureHelperLogics.Infrastructures.CommonEnums
+﻿namespace StructureHelperCommon.Infrastructures.Enums
 {
     public enum LimitStates
     {

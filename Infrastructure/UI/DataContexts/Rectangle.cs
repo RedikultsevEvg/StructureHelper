@@ -49,10 +49,8 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             double centerY = CenterY;
             ICenter center = new Center { X = centerX, Y = centerY };
             IShape shape = new StructureHelperCommon.Models.Shapes.Rectangle { Height = height, Width = width, Angle = 0 };
-            IPrimitiveMaterial primitiveMaterial = GetPrimitiveMaterial();
-            //IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = Material.DesignCompressiveStrength };
-            INdmPrimitive ndmPrimitive = new NdmPrimitive
-            { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial,
+            INdmPrimitive ndmPrimitive = new NdmPrimitive(HeadMaterial)
+            { Center = center, Shape = shape,
                 NdmMaxSize = MaxElementSize, NdmMinDivision = MinElementDivision,
                 PrestrainKx = PrestrainKx,
                 PrestrainKy = PrestrainKy,

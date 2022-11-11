@@ -1,4 +1,6 @@
-﻿using StructureHelperLogics.Models.Materials;
+﻿using LoaderCalculator.Data.Materials;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +13,14 @@ namespace StructureHelperLogics.Models.Materials
     {
         public double Modulus { get; set; }
 
+        public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        {
+            throw new NotImplementedException();
+        }
+
         public object Clone()
         {
             return new ElasticMaterial() { Modulus = Modulus };
-        }
-
-        public IPrimitiveMaterial GetPrimitiveMaterial()
-        {
-            throw new NotImplementedException();
         }
     }
 }

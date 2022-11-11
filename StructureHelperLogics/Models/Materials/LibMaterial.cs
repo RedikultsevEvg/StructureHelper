@@ -1,73 +1,85 @@
-﻿using LoaderCalculator.Data.Materials;
-using StructureHelperCommon.Infrastructures.Enums;
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperLogics.Models.Materials;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using LCM = LoaderCalculator.Data.Materials;
+using LCMB = LoaderCalculator.Data.Materials.MaterialBuilders;
 
 namespace StructureHelperLogics.Models.Materials
 {
     public class LibMaterial : ILibMaterial
     {
+        private LCMB.IMaterialOptions materialOptions;
+
         public MaterialTypes MaterialType { get; set; }
-        public CodeTypes CodeType { get; set; }
+        private CodeTypes codeType;
+
+        private LimitStates limitState;
+        private CalcTerms calcTerm;
         public string Name { get; set; }
         public double MainStrength { get; set; }
 
         public LibMaterial(MaterialTypes materialType, CodeTypes codeType, string name, double mainStrength)
         {
-            MaterialType = materialType;
-            CodeType = codeType;
+            this.MaterialType = materialType;
+            this.codeType = codeType;
             Name = name;
             MainStrength = mainStrength;
         }
 
-        public IPrimitiveMaterial GetPrimitiveMaterial()
+        public LCM.IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
-            if (MaterialType == MaterialTypes.Concrete & CodeType == CodeTypes.EuroCode_2_1990)
-            {   return GetConcreteEurocode();}
-            else if (MaterialType == MaterialTypes.Reinforcement & CodeType == CodeTypes.EuroCode_2_1990)
-            {   return GetReinfrocementeEurocode();}
-            if (MaterialType == MaterialTypes.Concrete & CodeType == CodeTypes.SP63_13330_2018)
-            {   return GetConcreteSP63(); }
-            else if (MaterialType == MaterialTypes.Reinforcement & CodeType == CodeTypes.SP63_13330_2018)
-            {   return GetReinfrocementeSP63(); }
-            else throw new StructureHelperException($"{ErrorStrings.ObjectTypeIsUnknown}: material type = {MaterialType}, code type = {CodeType}");
+            this.limitState = limitState;
+            this.calcTerm = calcTerm;
+            if (MaterialType == MaterialTypes.Concrete)
+            {   return GetConcrete();}
+            else if (MaterialType == MaterialTypes.Reinforcement)
+            {   return GetReinfrocemente();}
+            else throw new StructureHelperException($"{ErrorStrings.ObjectTypeIsUnknown}: material type = {MaterialType}, code type = {codeType}");
         }
 
-        private IPrimitiveMaterial GetReinfrocementeSP63()
+
+        private LCM.IMaterial GetReinfrocemente()
         {
-            IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial
-            { MaterialType = MaterialType, CodeType = CodeTypes.SP63_13330_2018, ClassName = $"Reinforcement {Name}", Strength = MainStrength };
-            return primitiveMaterial;
+            materialOptions = new LCMB.ReinforcementOptions();
+            SetMaterialOptions();
+            LCMB.IMaterialBuilder builder = new LCMB.ReinforcementBuilder(materialOptions);
+            LCMB.IBuilderDirector director = new LCMB.BuilderDirector(builder);
+            return director.BuildMaterial();
         }
 
-        private IPrimitiveMaterial GetConcreteSP63()
+        private LCM.IMaterial GetConcrete()
         {
-            IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial
-            { MaterialType = MaterialType, CodeType = CodeTypes.SP63_13330_2018, ClassName = $"Concrete {Name}", Strength = MainStrength };
-            return primitiveMaterial;
+            materialOptions = new LCMB.ConcreteOptions();
+            SetMaterialOptions();
+            LCMB.IMaterialBuilder builder = new LCMB.ConcreteBuilder(materialOptions);
+            LCMB.IBuilderDirector director = new LCMB.BuilderDirector(builder);
+            return director.BuildMaterial();
         }
 
-        private IPrimitiveMaterial GetReinfrocementeEurocode()
+        private void SetMaterialOptions()
         {
-            IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial
-            { MaterialType = MaterialType, CodeType = CodeTypes.EuroCode_2_1990, ClassName = $"Reinforcement {Name}", Strength = MainStrength };
-            return primitiveMaterial;
-        }
-
-        private IPrimitiveMaterial GetConcreteEurocode()
-        {
-            IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial
-            { MaterialType = MaterialType, CodeType = CodeTypes.EuroCode_2_1990, ClassName = $"Concrete {Name}", Strength = MainStrength };
-            return primitiveMaterial;
+            materialOptions.Strength = MainStrength;
+            if (codeType == CodeTypes.EuroCode_2_1990)
+            {
+                materialOptions.CodesType = LCMB.CodesType.EC2_1990;
+            }
+            else if (codeType == CodeTypes.SP63_13330_2018)
+            {
+                materialOptions.CodesType = LCMB.CodesType.SP63_2018;
+            }
+            else { throw new StructureHelperException($"{ErrorStrings.ObjectTypeIsUnknown} : {codeType}"); }
+            if (limitState == LimitStates.Collapse) { materialOptions.LimitState = LCMB.LimitStates.Collapse; }
+            else if (limitState == LimitStates.ServiceAbility) { materialOptions.LimitState = LCMB.LimitStates.ServiceAbility; }
+            else if (limitState == LimitStates.Special) { materialOptions.LimitState = LCMB.LimitStates.Special; }
+            else { throw new StructureHelperException(ErrorStrings.LimitStatesIsNotValid); }
+            if (calcTerm == CalcTerms.ShortTerm) { materialOptions.IsShortTerm = true; }
+            else if (calcTerm == CalcTerms.LongTerm) { materialOptions.IsShortTerm = false; }
+            else { throw new StructureHelperException(ErrorStrings.LoadTermIsNotValid); }
         }
 
         public object Clone()
         {
-            return new LibMaterial(this.MaterialType, this.CodeType, this.Name, this.MainStrength);
+            return new LibMaterial(this.MaterialType, this.codeType, this.Name, this.MainStrength);
         }
     }
 }

@@ -5,11 +5,11 @@ using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.SourceData;
 using StructureHelperLogics.NdmCalculations.Triangulations;
-using StructureHelperLogics.Infrastructures.CommonEnums;
 using StructureHelperLogics.Models.Calculations.CalculationsResults;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
 using System;
 using StructureHelperLogics.Models.Primitives;
+using StructureHelperCommon.Infrastructures.Enums;
 
 namespace StructureHelperLogics.Services
 {

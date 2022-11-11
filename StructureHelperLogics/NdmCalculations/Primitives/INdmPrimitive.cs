@@ -1,5 +1,6 @@
 ﻿using StructureHelperLogics.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelper.Models.Materials;
 
 namespace StructureHelperLogics.Models.Primitives
 {
@@ -7,7 +8,7 @@ namespace StructureHelperLogics.Models.Primitives
     {
         ICenter Center { get; set; }
         IShape Shape { get; set; }
-        IPrimitiveMaterial PrimitiveMaterial {get;set;}
+        IHeadMaterial HeadMaterial { get; }
         double NdmMaxSize { get; set; }
         int NdmMinDivision { get; set; }
         double PrestrainKx { get; set; }

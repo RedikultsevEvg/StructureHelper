@@ -53,9 +53,8 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             string materialName = MaterialName;
             ICenter center = new Center { X = CenterX, Y = CenterY };
             IShape shape = new StructureHelperCommon.Models.Shapes.Point { Area = this.Area };
-            IPrimitiveMaterial primitiveMaterial = GetPrimitiveMaterial();
-            //IPrimitiveMaterial primitiveMaterial = new PrimitiveMaterial { MaterialType = GetMaterialTypes(), ClassName = materialName, Strength = Material.DesignCompressiveStrength };
-            INdmPrimitive ndmPrimitive = new NdmPrimitive { Center = center, Shape = shape, PrimitiveMaterial = primitiveMaterial,
+            INdmPrimitive ndmPrimitive = new NdmPrimitive(HeadMaterial)
+            { Center = center, Shape = shape,
                 PrestrainKx = PrestrainKx,
                 PrestrainKy = PrestrainKy,
                 PrestrainEpsZ = PrestrainEpsZ

@@ -369,9 +369,5 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             else { throw new StructureHelperException(ErrorStrings.MaterialTypeIsUnknown); }
             return materialTypes;
         }
-        public IPrimitiveMaterial GetPrimitiveMaterial()
-        {
-            return HeadMaterial.HelperMaterial.GetPrimitiveMaterial();
-        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using LoaderCalculator.Data.Materials;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,6 @@ namespace StructureHelperLogics.Models.Materials
 {
     public interface IHelperMaterial : ICloneable
     {
-        IPrimitiveMaterial GetPrimitiveMaterial();
+        IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm);
     }
 }

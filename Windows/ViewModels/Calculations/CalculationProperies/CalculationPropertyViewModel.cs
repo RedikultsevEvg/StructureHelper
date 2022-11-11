@@ -1,5 +1,5 @@
 ﻿using StructureHelper.Infrastructure;
-using StructureHelperLogics.Infrastructures.CommonEnums;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
 using System;
 using System.Collections.Generic;

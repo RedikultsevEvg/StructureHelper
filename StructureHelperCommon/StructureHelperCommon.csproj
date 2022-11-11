@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructures\Enums\CalcTerms.cs" />
     <Compile Include="Infrastructures\Enums\CodeTypes.cs" />
+    <Compile Include="Infrastructures\Enums\LimitStates.cs" />
     <Compile Include="Infrastructures\Exceptions\StructureHelperException.cs" />
     <Compile Include="Infrastructures\Interfaces\IHasParent.cs" />
     <Compile Include="Infrastructures\Strings\ErrorString.cs" />

@@ -1,4 +1,4 @@
-﻿using StructureHelperLogics.Infrastructures.CommonEnums;
+﻿using StructureHelperCommon.Infrastructures.Enums;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {

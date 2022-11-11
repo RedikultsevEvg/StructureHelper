@@ -9,6 +9,7 @@ using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Primitives;
+using StructureHelper.Models.Materials;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
@@ -17,13 +18,13 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public static IEnumerable<INdm> GetNdms(IEnumerable<INdmPrimitive> ndmPrimitives, ITriangulationOptions options)
         {
             List<INdm> ndms = new List<INdm>();
-            Dictionary<string, IPrimitiveMaterial> primitiveMaterials = GetPrimitiveMaterials(ndmPrimitives);
-            Dictionary<string, IMaterial> materials = GetMaterials(primitiveMaterials, options);
+            var headMaterials = GetPrimitiveMaterials(ndmPrimitives);
+            Dictionary<string, IMaterial> materials = GetMaterials(headMaterials, options);
             foreach (var ndmPrimitive in ndmPrimitives)
             {
-                IPrimitiveMaterial primitiveMaterial = ndmPrimitive.PrimitiveMaterial;
+                IHeadMaterial headMaterial = ndmPrimitive.HeadMaterial;
                 IMaterial material;
-                if (materials.TryGetValue(primitiveMaterial.Id, out material) == false) { throw new Exception("Material dictionary is not valid"); }
+                if (materials.TryGetValue(headMaterial.Id, out material) == false) { throw new Exception("Material dictionary is not valid"); }
                 IEnumerable<INdm> localNdms = GetNdmsByPrimitive(ndmPrimitive, material);
                 ndms.AddRange(localNdms);
             }
@@ -34,15 +35,15 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// </summary>
         /// <param name="ndmPrimitives"></param>
         /// <returns></returns>
-        private static Dictionary<string, IPrimitiveMaterial> GetPrimitiveMaterials(IEnumerable<INdmPrimitive> ndmPrimitives)
+        private static Dictionary<string, IHeadMaterial> GetPrimitiveMaterials(IEnumerable<INdmPrimitive> ndmPrimitives)
         {
-            Dictionary<string, IPrimitiveMaterial> primitiveMaterials = new Dictionary<string, IPrimitiveMaterial>();
+            Dictionary<string, IHeadMaterial> headMaterials = new Dictionary<string, IHeadMaterial>();
             foreach (var ndmPrimitive in ndmPrimitives)
             {
-                IPrimitiveMaterial material = ndmPrimitive.PrimitiveMaterial;
-                if (!primitiveMaterials.ContainsKey(material.Id)) { primitiveMaterials.Add(material.Id, material); }
+                IHeadMaterial material = ndmPrimitive.HeadMaterial;
+                if (!headMaterials.ContainsKey(material.Id)) { headMaterials.Add(material.Id, material); }
             }
-            return primitiveMaterials;
+            return headMaterials;
         }
         /// <summary>
         /// Return dictionary of ndm-materials by dictionary of primirive materials
@@ -51,16 +52,16 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <param name="options"></param>
         /// <returns></returns>
         /// <exception cref="StructureHelperException"></exception>
-        private static Dictionary<string, IMaterial> GetMaterials(Dictionary<string, IPrimitiveMaterial> PrimitiveMaterials, ITriangulationOptions options)
+        private static Dictionary<string, IMaterial> GetMaterials(Dictionary<string, IHeadMaterial> PrimitiveMaterials, ITriangulationOptions options)
         {
             Dictionary<string, IMaterial> materials = new Dictionary<string, IMaterial>();
             IEnumerable<string> keyCollection = PrimitiveMaterials.Keys;
             IMaterial material;
             foreach (string id in keyCollection)
             {
-                IPrimitiveMaterial primitiveMaterial;
-                if (PrimitiveMaterials.TryGetValue(id, out primitiveMaterial) == false) { throw new StructureHelperException("Material dictionary is not valid"); }
-                material = GetMaterial(primitiveMaterial, options);
+                IHeadMaterial headMaterial;
+                if (PrimitiveMaterials.TryGetValue(id, out headMaterial) == false) { throw new StructureHelperException("Material dictionary is not valid"); }
+                material = headMaterial.GetLoaderMaterial(options.LimiteState, options.CalcTerm);
                 materials.Add(id, material);
             }
             return materials;
@@ -87,53 +88,49 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             else { throw new StructureHelperException($"{ErrorStrings.ShapeIsNotCorrect} :{nameof(primitive.Shape)}"); }
             return ndms;
         }
-
-        private static IMaterial GetMaterial(IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
-        {
-            IMaterial material;
-            if (primitiveMaterial.MaterialType == MaterialTypes.Concrete) { material = GetConcreteMaterial(primitiveMaterial, options); }
-            else if (primitiveMaterial.MaterialType == MaterialTypes.Reinforcement) { material = GetReinforcementMaterial(primitiveMaterial, options); }
-            else { throw new StructureHelperException(ErrorStrings.MaterialTypeIsUnknown); }
-            return material;
-        }
-
-        private static IMaterial GetConcreteMaterial(IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
-        {
-            IMaterialOptions materialOptions = new ConcreteOptions();
-            SetMaterialOptions(materialOptions, primitiveMaterial, options);
-            IMaterialBuilder builder = new ConcreteBuilder(materialOptions);
-            IBuilderDirector director = new BuilderDirector(builder);
-            return director.BuildMaterial();
-        }
-
-        private static IMaterial GetReinforcementMaterial(IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
-        {
-            IMaterialOptions materialOptions = new ReinforcementOptions();
-            SetMaterialOptions(materialOptions, primitiveMaterial, options);
-            IMaterialBuilder builder = new ReinforcementBuilder(materialOptions);
-            IBuilderDirector director = new BuilderDirector(builder);
-            return director.BuildMaterial();
-        }
-
-        private static void SetMaterialOptions(IMaterialOptions materialOptions, IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
-        {
-            materialOptions.Strength = primitiveMaterial.Strength;
-            if (primitiveMaterial.CodeType == CodeTypes.EuroCode_2_1990)
-            {
-                materialOptions.CodesType = CodesType.EC2_1990;
-            }
-            else if (primitiveMaterial.CodeType == CodeTypes.SP63_13330_2018)
-            {
-                materialOptions.CodesType = CodesType.SP63_2018;
-            }
-            else { throw new StructureHelperException($"{ErrorStrings.ObjectTypeIsUnknown} : {primitiveMaterial.CodeType}"); }
-            if (options.LimiteState == Infrastructures.CommonEnums.LimitStates.Collapse) { materialOptions.LimitState = LimitStates.Collapse; }
-            else if (options.LimiteState == Infrastructures.CommonEnums.LimitStates.ServiceAbility) { materialOptions.LimitState = LimitStates.ServiceAbility; }
-            else if (options.LimiteState == Infrastructures.CommonEnums.LimitStates.Special) { materialOptions.LimitState = LimitStates.Special; }
-            else { throw new StructureHelperException(ErrorStrings.LimitStatesIsNotValid); }
-            if (options.CalcTerm == Infrastructures.CommonEnums.CalcTerms.ShortTerm) { materialOptions.IsShortTerm = true; }
-            else if (options.CalcTerm == Infrastructures.CommonEnums.CalcTerms.LongTerm) { materialOptions.IsShortTerm = false; }
-            else { throw new StructureHelperException(ErrorStrings.LoadTermIsNotValid); }
-        }
+        //private static IMaterial GetMaterial(IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
+        //{
+        //    IMaterial material;
+        //    if (primitiveMaterial.MaterialType == MaterialTypes.Concrete) { material = GetConcreteMaterial(primitiveMaterial, options); }
+        //    else if (primitiveMaterial.MaterialType == MaterialTypes.Reinforcement) { material = GetReinforcementMaterial(primitiveMaterial, options); }
+        //    else { throw new StructureHelperException(ErrorStrings.MaterialTypeIsUnknown); }
+        //    return material;
+        //}
+        //private static IMaterial GetConcreteMaterial(IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
+        //{
+        //    IMaterialOptions materialOptions = new ConcreteOptions();
+        //    SetMaterialOptions(materialOptions, primitiveMaterial, options);
+        //    IMaterialBuilder builder = new ConcreteBuilder(materialOptions);
+        //    IBuilderDirector director = new BuilderDirector(builder);
+        //    return director.BuildMaterial();
+        //}
+        //private static IMaterial GetReinforcementMaterial(IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
+        //{
+        //    IMaterialOptions materialOptions = new ReinforcementOptions();
+        //    SetMaterialOptions(materialOptions, primitiveMaterial, options);
+        //    IMaterialBuilder builder = new ReinforcementBuilder(materialOptions);
+        //    IBuilderDirector director = new BuilderDirector(builder);
+        //    return director.BuildMaterial();
+        //}
+        //private static void SetMaterialOptions(IMaterialOptions materialOptions, IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
+        //{
+        //    materialOptions.Strength = primitiveMaterial.Strength;
+        //    if (primitiveMaterial.CodeType == CodeTypes.EuroCode_2_1990)
+        //    {
+        //        materialOptions.CodesType = CodesType.EC2_1990;
+        //    }
+        //    else if (primitiveMaterial.CodeType == CodeTypes.SP63_13330_2018)
+        //    {
+        //        materialOptions.CodesType = CodesType.SP63_2018;
+        //    }
+        //    else { throw new StructureHelperException($"{ErrorStrings.ObjectTypeIsUnknown} : {primitiveMaterial.CodeType}"); }
+        //    if (options.LimiteState == Infrastructures.CommonEnums.LimitStates.Collapse) { materialOptions.LimitState = LimitStates.Collapse; }
+        //    else if (options.LimiteState == Infrastructures.CommonEnums.LimitStates.ServiceAbility) { materialOptions.LimitState = LimitStates.ServiceAbility; }
+        //    else if (options.LimiteState == Infrastructures.CommonEnums.LimitStates.Special) { materialOptions.LimitState = LimitStates.Special; }
+        //    else { throw new StructureHelperException(ErrorStrings.LimitStatesIsNotValid); }
+        //    if (options.CalcTerm == Infrastructures.CommonEnums.CalcTerms.ShortTerm) { materialOptions.IsShortTerm = true; }
+        //    else if (options.CalcTerm == Infrastructures.CommonEnums.CalcTerms.LongTerm) { materialOptions.IsShortTerm = false; }
+        //    else { throw new StructureHelperException(ErrorStrings.LoadTermIsNotValid); }
+        //}
     }
 }
