@@ -33,12 +33,12 @@ namespace StructureHelperLogics.Models.Materials
             if (MaterialType == MaterialTypes.Concrete)
             {   return GetConcrete();}
             else if (MaterialType == MaterialTypes.Reinforcement)
-            {   return GetReinfrocemente();}
+            {   return GetReinfrocement();}
             else throw new StructureHelperException($"{ErrorStrings.ObjectTypeIsUnknown}: material type = {MaterialType}, code type = {codeType}");
         }
 
 
-        private LCM.IMaterial GetReinfrocemente()
+        private LCM.IMaterial GetReinfrocement()
         {
             materialOptions = new LCMB.ReinforcementOptions();
             SetMaterialOptions();

@@ -5,6 +5,7 @@ using StructureHelper.Services.Primitives;
 using StructureHelper.UnitSystem;
 using StructureHelper.Windows.MainWindow;
 using StructureHelperLogics.Services;
+using StructureHelperLogics.Services.NdmCalculations;
 
 namespace StructureHelper
 {

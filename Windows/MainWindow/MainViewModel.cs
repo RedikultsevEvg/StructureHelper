@@ -1,35 +1,32 @@
-﻿using System;
+﻿using LoaderCalculator.Data.Ndms;
+using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.Enums;
+using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.Infrastructure.UI.PrimitiveTemplates;
+using StructureHelper.MaterialCatalogWindow;
+using StructureHelper.Models.Materials;
+using StructureHelper.Services.Primitives;
+using StructureHelper.UnitSystem;
+using StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow;
+using StructureHelper.Windows.CalculationWindows.CalculationResultWindow;
+using StructureHelper.Windows.ColorPickerWindow;
+using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelper.Windows.PrimitiveProperiesWindow;
+using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
+using StructureHelper.Windows.ViewModels.Calculations.CalculationProperies;
+using StructureHelper.Windows.ViewModels.Calculations.CalculationResult;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Strings;
+using StructureHelperLogics.Models.Calculations.CalculationProperties;
+using StructureHelperLogics.Models.Templates.RCs;
+using StructureHelperLogics.Services.NdmCalculations;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
-using StructureHelper.Infrastructure;
-using StructureHelper.Infrastructure.Enums;
-using StructureHelper.Infrastructure.Extensions;
-using StructureHelper.Infrastructure.UI.DataContexts;
-using StructureHelper.MaterialCatalogWindow;
-using StructureHelper.Services;
-using StructureHelper.Windows.ColorPickerWindow;
-using StructureHelper.UnitSystem;
-using StructureHelper.Models.Materials;
-using LoaderCalculator.Data.Matrix;
-using LoaderCalculator.Data.Ndms;
-using StructureHelper.Services.ResultViewers;
-using StructureHelper.Windows.ViewModels.Calculations.CalculationProperies;
-using StructureHelperLogics.Models.Calculations.CalculationProperties;
-using StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow;
-using StructureHelperLogics.Services;
-using StructureHelper.Windows.CalculationWindows.CalculationResultWindow;
-using StructureHelper.Windows.ViewModels.Calculations.CalculationResult;
-using StructureHelper.Services.Primitives;
-using StructureHelper.Windows.PrimitiveProperiesWindow;
-using StructureHelper.Windows.MainWindow.Materials;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperLogics.Models.Materials;
-using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperLogics.Models.Materials.Factories;
 
 namespace StructureHelper.Windows.MainWindow
 {
@@ -131,7 +128,9 @@ namespace StructureHelper.Windows.MainWindow
         public ICommand EditCalculationPropertyCommand { get; }
         public ICommand EditHeadMaterialsCommand { get; }
         public ICommand EditPrimitive { get; }
-        public ICommand AddTestCase { get; }
+        public ICommand AddBeamCase { get; }
+        public ICommand AddColumnCase { get; }
+        public ICommand AddSlabCase { get; }
         public ICommand LeftButtonDown { get; }
         public ICommand LeftButtonUp { get; }
         public ICommand PreviewMouseMove { get; }
@@ -281,14 +280,34 @@ namespace StructureHelper.Windows.MainWindow
                 o => SelectedPrimitive != null
             );
 
-            AddTestCase = new RelayCommand(o =>
+            AddBeamCase = new RelayCommand(o =>
             {
-                foreach (var primitive in GetTestCasePrimitives())
+                foreach (var primitive in GetBeamCasePrimitives())
                 {
                     Primitives.Add(primitive);
                     PrimitiveRepository.Add(primitive);
                 }
-                AddTestLoads();
+                AddCaseLoads(50e3d, 50e3d, 0d);
+            });
+
+            AddColumnCase = new RelayCommand(o =>
+            {
+                foreach (var primitive in GetColumnCasePrimitives())
+                {
+                    Primitives.Add(primitive);
+                    PrimitiveRepository.Add(primitive);
+                }
+                AddCaseLoads(50e3d, 50e3d, -100e3d);
+            });
+
+            AddSlabCase = new RelayCommand(o =>
+            {
+                foreach (var primitive in GetSlabCasePrimitives())
+                {
+                    Primitives.Add(primitive);
+                    PrimitiveRepository.Add(primitive);
+                }
+                AddCaseLoads(-20e3d, 0d, 0d);
             });
 
             Calculate = new RelayCommand(o =>
@@ -354,9 +373,9 @@ namespace StructureHelper.Windows.MainWindow
             }
             try
             {
-                IEnumerable<INdm> ndms = Model.GetNdms();
-                CalculationService calculationService = new CalculationService();
-                var loaderResults = calculationService.GetCalculationResults(calculationProperty, ndms);
+                IEnumerable<INdm> ndms = Model.GetNdms(calculationProperty);
+                CalculationService calculationService = new CalculationService(calculationProperty);
+                var loaderResults = calculationService.GetCalculationResults(ndms);
                 var wnd = new CalculationResultView(new CalculationResultViewModel(loaderResults, ndms));
                 wnd.ShowDialog();
             }
@@ -379,52 +398,90 @@ namespace StructureHelper.Windows.MainWindow
             return true;
         }
 
-        private IEnumerable<PrimitiveBase> GetTestCasePrimitives()
+        private IEnumerable<PrimitiveBase> GetBeamCasePrimitives()
         {
-            var width = 0.4d;
-            var height = 0.6d;
-            var area1 = Math.PI * 0.012d * 0.012d / 4d;
-            var area2 = Math.PI * 0.025d * 0.025d / 4d;
-            var gap = 0.05d;
-
-            var rectMaterial = new ConcreteDefinition("C40", 0, 40, 0, 1.3, 1.5);
-            var pointMaterial = new RebarDefinition("S400", 2, 400, 400, 1.15, 1.15);
-
-            IHeadMaterial concrete = new HeadMaterial() { Name = "Concrete 40"};
-            concrete.HelperMaterial = Model.HeadMaterialRepository.LibMaterials.Where(x => (x.MaterialType == MaterialTypes.Concrete & x.Name.Contains("40"))).First();
-            IHeadMaterial reinforcement = new HeadMaterial() { Name = "Reinforcement 400"};
-            reinforcement.HelperMaterial = Model.HeadMaterialRepository.LibMaterials.Where(x => (x.MaterialType == MaterialTypes.Reinforcement & x.Name.Contains("400"))).First();
-            headMaterials.Add(concrete);
-            headMaterials.Add(reinforcement);
-            OnPropertyChanged(nameof(headMaterials));
-
-            yield return new Rectangle(width, height, 0, 0, this) { Material = rectMaterial, MaterialName = rectMaterial.MaterialClass, HeadMaterial = concrete };
-            yield return new Point(area1, -width / 2 + gap, -height / 2 + gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass, HeadMaterial = reinforcement };
-            yield return new Point(area1, width / 2 - gap, -height / 2 + gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass, HeadMaterial = reinforcement };
-            yield return new Point(area2, -width / 2 + gap, height / 2 - gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass, HeadMaterial = reinforcement };
-            yield return new Point(area2, width / 2 - gap, height / 2 - gap, this) { Material = pointMaterial, MaterialName = pointMaterial.MaterialClass, HeadMaterial = reinforcement };
+            var template = new RectangleBeamTemplate();
+            return GetCasePrimitives(template);
         }
+
+        private IEnumerable<PrimitiveBase> GetColumnCasePrimitives()
+        {
+            var template = new RectangleBeamTemplate(0.5d, 0.5d) { CoverGap = 0.05, WidthCount = 3, HeightCount = 3, TopDiameter = 0.025d, BottomDiameter = 0.025d };
+            return GetCasePrimitives(template);
+        }
+
+        private IEnumerable<PrimitiveBase> GetSlabCasePrimitives()
+        {
+            var template = new RectangleBeamTemplate(1d, 0.2d) { CoverGap = 0.04, WidthCount = 5, HeightCount = 2, TopDiameter = 0.012d, BottomDiameter = 0.012d };
+            return GetCasePrimitives(template);
+        }
+
         private void EditCalculationProperty()
         {
             CalculationPropertyViewModel viewModel = new CalculationPropertyViewModel(calculationProperty);
             var view = new CalculationPropertyView(viewModel);
             view.ShowDialog();
         }
-        private void AddTestLoads()
+        private void AddCaseLoads(double mx, double my, double nz)
         {
-            calculationProperty.ForceCombinations.Clear();
-            calculationProperty.ForceCombinations.Add(new ForceCombination());
-            calculationProperty.ForceCombinations[0].ForceMatrix.Mx = 40e3d;
-            calculationProperty.ForceCombinations[0].ForceMatrix.My = 20e3d;
-            calculationProperty.ForceCombinations[0].ForceMatrix.Nz = 0d;
-            calculationProperty.ForceCombinations.Add(new ForceCombination());
-            calculationProperty.ForceCombinations[1].ForceMatrix.Mx = 200e3d;
-            calculationProperty.ForceCombinations[1].ForceMatrix.My = 0d;
-            calculationProperty.ForceCombinations[1].ForceMatrix.Nz = 0d;
-            calculationProperty.ForceCombinations.Add(new ForceCombination());
-            calculationProperty.ForceCombinations[2].ForceMatrix.Mx = 50e3d;
-            calculationProperty.ForceCombinations[2].ForceMatrix.My = 50e3d;
-            calculationProperty.ForceCombinations[2].ForceMatrix.Nz = 0d;
+            ForceCombination combination = new ForceCombination();
+            combination.ForceMatrix.Mx = mx;
+            combination.ForceMatrix.My = my;
+            combination.ForceMatrix.Nz = nz;
+            calculationProperty.ForceCombinations.Add(combination);     
+        }
+        private IEnumerable<PrimitiveBase> GetCasePrimitives(RectangleBeamTemplate template)
+        {
+            var wnd = new RectangleBeamView(template);
+            wnd.ShowDialog();
+            if (wnd.DialogResult == true)
+            {
+                var rect = template.Shape as StructureHelperCommon.Models.Shapes.Rectangle;
+                var width = rect.Width;
+                var height = rect.Height;
+                var area1 = Math.PI * template.BottomDiameter * template.BottomDiameter / 4d;
+                var area2 = Math.PI * template.TopDiameter * template.TopDiameter / 4d;
+                var gap = template.CoverGap;
+
+                IHeadMaterial concrete = new HeadMaterial() { Name = "Concrete 40" };
+                concrete.HelperMaterial = Model.HeadMaterialRepository.LibMaterials.Where(x => (x.MaterialType == MaterialTypes.Concrete & x.Name.Contains("40"))).First();
+                IHeadMaterial reinforcement = new HeadMaterial() { Name = "Reinforcement 400" };
+                reinforcement.HelperMaterial = Model.HeadMaterialRepository.LibMaterials.Where(x => (x.MaterialType == MaterialTypes.Reinforcement & x.Name.Contains("400"))).First();
+                headMaterials.Add(concrete);
+                headMaterials.Add(reinforcement);
+                OnPropertyChanged(nameof(headMaterials));
+
+                double[] xs = new double[] { -width / 2 + gap, width / 2 - gap };
+                double[] ys = new double[] { -height / 2 + gap, height / 2 - gap };
+
+                yield return new Rectangle(width, height, 0, 0, this) { HeadMaterial = concrete };
+                yield return new Point(area1, xs[0], ys[0], this) { HeadMaterial = reinforcement };
+                yield return new Point(area1, xs[1], ys[0], this) { HeadMaterial = reinforcement };
+                yield return new Point(area2, xs[0], ys[1], this) { HeadMaterial = reinforcement };
+                yield return new Point(area2, xs[1], ys[1], this) { HeadMaterial = reinforcement };
+
+                if (template.WidthCount > 2)
+                {
+                    int count = template.WidthCount - 1;
+                    double dist = (xs[1] - xs[0]) / count;
+                    for (int i = 1; i < count; i++)
+                    {
+                        yield return new Point(area1, xs[0] + dist * i, ys[0], this) { HeadMaterial = reinforcement };
+                        yield return new Point(area2, xs[0] + dist * i, ys[1], this) { HeadMaterial = reinforcement };
+                    }
+                }
+
+                if (template.HeightCount > 2)
+                {
+                    int count = template.HeightCount - 1;
+                    double dist = (ys[1] - ys[0]) / count;
+                    for (int i = 1; i < count; i++)
+                    {
+                        yield return new Point(area1, xs[0], ys[0] + dist * i, this) { HeadMaterial = reinforcement };
+                        yield return new Point(area1, xs[1], ys[0] + dist * i, this) { HeadMaterial = reinforcement };
+                    }
+                }
+            }
         }
     }
 }

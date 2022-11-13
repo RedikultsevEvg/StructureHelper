@@ -30,13 +30,15 @@ namespace StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow
         private void LsCollapse_Checked(object sender, RoutedEventArgs e)
         {
             var chBox = sender as RadioButton;
-            if (chBox.IsChecked == true & viewModel != null) { viewModel.LimitState = LimitStates.Collapse; }
+            if (chBox.IsChecked == true & viewModel != null)
+            { viewModel.LimitState = LimitStates.Collapse; }
         }
 
         private void LsServiceability_Checked(object sender, RoutedEventArgs e)
         {
             var chBox = sender as RadioButton;
-            if (chBox.IsChecked == true & viewModel != null) { viewModel.LimitState = LimitStates.ServiceAbility; }
+            if (chBox.IsChecked == true & viewModel != null)
+            { viewModel.LimitState = LimitStates.ServiceAbility; }
         }
 
         private void ShortLoads_Checked(object sender, RoutedEventArgs e)

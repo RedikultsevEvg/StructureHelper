@@ -88,49 +88,5 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             else { throw new StructureHelperException($"{ErrorStrings.ShapeIsNotCorrect} :{nameof(primitive.Shape)}"); }
             return ndms;
         }
-        //private static IMaterial GetMaterial(IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
-        //{
-        //    IMaterial material;
-        //    if (primitiveMaterial.MaterialType == MaterialTypes.Concrete) { material = GetConcreteMaterial(primitiveMaterial, options); }
-        //    else if (primitiveMaterial.MaterialType == MaterialTypes.Reinforcement) { material = GetReinforcementMaterial(primitiveMaterial, options); }
-        //    else { throw new StructureHelperException(ErrorStrings.MaterialTypeIsUnknown); }
-        //    return material;
-        //}
-        //private static IMaterial GetConcreteMaterial(IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
-        //{
-        //    IMaterialOptions materialOptions = new ConcreteOptions();
-        //    SetMaterialOptions(materialOptions, primitiveMaterial, options);
-        //    IMaterialBuilder builder = new ConcreteBuilder(materialOptions);
-        //    IBuilderDirector director = new BuilderDirector(builder);
-        //    return director.BuildMaterial();
-        //}
-        //private static IMaterial GetReinforcementMaterial(IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
-        //{
-        //    IMaterialOptions materialOptions = new ReinforcementOptions();
-        //    SetMaterialOptions(materialOptions, primitiveMaterial, options);
-        //    IMaterialBuilder builder = new ReinforcementBuilder(materialOptions);
-        //    IBuilderDirector director = new BuilderDirector(builder);
-        //    return director.BuildMaterial();
-        //}
-        //private static void SetMaterialOptions(IMaterialOptions materialOptions, IPrimitiveMaterial primitiveMaterial, ITriangulationOptions options)
-        //{
-        //    materialOptions.Strength = primitiveMaterial.Strength;
-        //    if (primitiveMaterial.CodeType == CodeTypes.EuroCode_2_1990)
-        //    {
-        //        materialOptions.CodesType = CodesType.EC2_1990;
-        //    }
-        //    else if (primitiveMaterial.CodeType == CodeTypes.SP63_13330_2018)
-        //    {
-        //        materialOptions.CodesType = CodesType.SP63_2018;
-        //    }
-        //    else { throw new StructureHelperException($"{ErrorStrings.ObjectTypeIsUnknown} : {primitiveMaterial.CodeType}"); }
-        //    if (options.LimiteState == Infrastructures.CommonEnums.LimitStates.Collapse) { materialOptions.LimitState = LimitStates.Collapse; }
-        //    else if (options.LimiteState == Infrastructures.CommonEnums.LimitStates.ServiceAbility) { materialOptions.LimitState = LimitStates.ServiceAbility; }
-        //    else if (options.LimiteState == Infrastructures.CommonEnums.LimitStates.Special) { materialOptions.LimitState = LimitStates.Special; }
-        //    else { throw new StructureHelperException(ErrorStrings.LimitStatesIsNotValid); }
-        //    if (options.CalcTerm == Infrastructures.CommonEnums.CalcTerms.ShortTerm) { materialOptions.IsShortTerm = true; }
-        //    else if (options.CalcTerm == Infrastructures.CommonEnums.CalcTerms.LongTerm) { materialOptions.IsShortTerm = false; }
-        //    else { throw new StructureHelperException(ErrorStrings.LoadTermIsNotValid); }
-        //}
     }
 }

@@ -1,35 +1,36 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using LoaderCalculator;
-using LoaderCalculator.Data.Matrix;
+﻿using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.SourceData;
-using StructureHelperLogics.NdmCalculations.Triangulations;
-using StructureHelperLogics.Models.Calculations.CalculationsResults;
+using LoaderCalculator;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
-using System;
+using StructureHelperLogics.Models.Calculations.CalculationsResults;
 using StructureHelperLogics.Models.Primitives;
+using StructureHelperLogics.NdmCalculations.Triangulations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using StructureHelperCommon.Infrastructures.Enums;
 
-namespace StructureHelperLogics.Services
+namespace StructureHelperLogics.Services.NdmCalculations
 {
     public class CalculationService
     {
+        private ICalculationProperty calculationProperty;
+
         public IStrainMatrix GetPrimitiveStrainMatrix(INdmPrimitive[] ndmPrimitives, double mx, double my, double nz)
         {
-            //Коллекция для хранения элементарных участков
             var ndmCollection = new List<INdm>();
-            //Настройки триангуляции, пока опции могут быть только такие
-            ITriangulationOptions options = new TriangulationOptions { LimiteState = LimitStates.Collapse, CalcTerm = CalcTerms.ShortTerm };
-
-            //Формируем коллекцию элементарных участков для расчета в библитеке (т.е. выполняем триангуляцию)
+            ITriangulationOptions options = new TriangulationOptions { LimiteState = calculationProperty.LimitState, CalcTerm = calculationProperty.CalcTerm };
             ndmCollection.AddRange(Triangulation.GetNdms(ndmPrimitives, options));
             var loaderData = new LoaderOptions
             {
                 Preconditions = new Preconditions
                 {
-                    ConditionRate = 0.01,
-                    MaxIterationCount = 100,
+                    ConditionRate = calculationProperty.IterationProperty.Accuracy,
+                    MaxIterationCount = calculationProperty.IterationProperty.MaxIterationCount,
                     StartForceMatrix = new ForceMatrix { Mx = mx, My = my, Nz = nz }
                 },
                 NdmCollection = ndmCollection
@@ -39,7 +40,7 @@ namespace StructureHelperLogics.Services
             return calculator.Result.StrainMatrix;
         }
 
-        public List<ICalculationResult> GetCalculationResults(ICalculationProperty calculationProperty, IEnumerable<INdm> ndms)
+        public List<ICalculationResult> GetCalculationResults(IEnumerable<INdm> ndms)
         {
             List<ICalculationResult> results = new List<ICalculationResult>();
             foreach (var forceCombinations in calculationProperty.ForceCombinations)
@@ -67,13 +68,22 @@ namespace StructureHelperLogics.Services
                 var calculator = new Calculator();
                 calculator.Run(loaderData, new CancellationToken());
                 var result = calculator.Result;
-                if (result.AccuracyRate <= accuracyRate) { return new CalculationResult() { IsValid = true, Desctription = "Analisys is done succsefully", LoaderResults=result };}
+                if (result.AccuracyRate <= accuracyRate) { return new CalculationResult() { IsValid = true, Desctription = "Analisys is done succsefully", LoaderResults = result }; }
                 else { return new CalculationResult() { IsValid = false, Desctription = "Required accuracy rate has not achived", LoaderResults = result }; }
             }
             catch (Exception ex)
             {
                 return new CalculationResult() { IsValid = false, Desctription = $"Error is appeared due to analysis. Error: {ex}" };
             }
+        }
+
+        public CalculationService(ICalculationProperty property)
+        {
+            calculationProperty = property;
+        }
+        public CalculationService()
+        {
+
         }
     }
 }
