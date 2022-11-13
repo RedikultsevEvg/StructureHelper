@@ -337,12 +337,12 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         {
             if (this is Rectangle)
             {
-                X = showedX + OwnerVm.YX1 / UnitConstatnts.LengthConstant;
+                X = showedX + OwnerVm.YX1 / UnitConstatnts.Length;
             }
             else if (this is Point)
             {
                 Point point = this as Point;
-                X = showedX + OwnerVm.YX1 / UnitConstatnts.LengthConstant;
+                X = showedX + OwnerVm.YX1 / UnitConstatnts.Length;
             }
             else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown); }
         }
@@ -350,12 +350,12 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         {
             if (this is Rectangle)
             {
-                Y = -showedY + OwnerVm.XY1 / UnitConstatnts.LengthConstant - PrimitiveHeight;
+                Y = -showedY + OwnerVm.XY1 / UnitConstatnts.Length - PrimitiveHeight;
             }
             else if (this is Point)
             {
                 Point point = this as Point;
-                Y = -showedY + OwnerVm.XY1 / UnitConstatnts.LengthConstant - point.Diameter;
+                Y = -showedY + OwnerVm.XY1 / UnitConstatnts.Length - point.Diameter;
             }
             else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown); }
         }

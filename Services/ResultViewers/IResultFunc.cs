@@ -12,5 +12,6 @@ namespace StructureHelper.Services.ResultViewers
     {
         string Name { get; }
         Func<IStrainMatrix, INdm, double> ResultFunction { get; }
+        double UnitFactor { get; }
     }
 }

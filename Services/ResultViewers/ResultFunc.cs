@@ -12,5 +12,11 @@ namespace StructureHelper.Services.ResultViewers
     {
         public string Name { get; set; }
         public Func<IStrainMatrix, INdm, double> ResultFunction { get; set; }
+        public double UnitFactor { get; set; }
+
+        public ResultFunc()
+        {
+            UnitFactor = 1d;
+        }
     }
 }

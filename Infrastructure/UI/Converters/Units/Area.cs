@@ -17,7 +17,7 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
             double val;
             if (value != null) { val = (double)value; }
             else { throw new Exception($"{unitName} value is null"); }
-            val *= UnitConstatnts.LengthConstant * UnitConstatnts.LengthConstant;
+            val *= UnitConstatnts.Length * UnitConstatnts.Length;
             return val;
         }
 
@@ -30,7 +30,7 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
                 double.TryParse(strVal, out val);
             }
             else { throw new Exception($"{unitName} value is null"); }
-            val /= (UnitConstatnts.LengthConstant * UnitConstatnts.LengthConstant);
+            val /= (UnitConstatnts.Length * UnitConstatnts.Length);
             return val;
         }
     }

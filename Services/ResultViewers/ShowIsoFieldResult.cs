@@ -29,7 +29,7 @@ namespace StructureHelper.Services.ResultViewers
                 List<IValuePrimitive> primitives = new List<IValuePrimitive>();
                 foreach (INdm ndm in ndms)
                 {
-                    double val = valDelegate.ResultFunction.Invoke(strainMatrix, ndm);
+                    double val = valDelegate.ResultFunction.Invoke(strainMatrix, ndm) * valDelegate.UnitFactor;
                     IValuePrimitive valuePrimitive;
                     if (ndm is IRectangleNdm)
                     {

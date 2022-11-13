@@ -5,15 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.PrimitiveProperiesWindow"
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.PrimitiveProperties"
-        xmlns:convertersCommon ="clr-namespace:StructureHelper.Infrastructure.UI.Converters.Common"
-        xmlns:convertersUnits ="clr-namespace:StructureHelper.Infrastructure.UI.Converters.Units"
         d:DataContext="{d:DesignInstance vm:PrimitivePropertiesViewModel}"
         mc:Ignorable="d"
         Title="PrimitiveProperties" Height="450" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <convertersCommon:InvertBoolConverter x:Key="InvertBoolConverter"/>
-        <convertersUnits:Length x:Key="LengthConverter"/>
-        <convertersUnits:Area x:Key="AreaConverter"/>
         <DataTemplate x:Key="RectangleProperties">
             <Expander Header="Rectangle" IsExpanded="True">
                 <Grid>

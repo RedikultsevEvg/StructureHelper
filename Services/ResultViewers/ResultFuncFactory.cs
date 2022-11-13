@@ -1,4 +1,5 @@
 ﻿using LoaderCalculator.Logics;
+using StructureHelper.Infrastructure.UI.Converters.Units;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,12 @@ namespace StructureHelper.Services.ResultViewers
             resultFuncs.Add(new ResultFunc() { Name = "Total Strain with prestrain", ResultFunction = stressLogic.GetTotalStrainWithPresrain });
             resultFuncs.Add(new ResultFunc() { Name = "Elastic Strain", ResultFunction = stressLogic.GetElasticStrain });
             resultFuncs.Add(new ResultFunc() { Name = "Plastic Strain", ResultFunction = stressLogic.GetPlasticStrain });
-            resultFuncs.Add(new ResultFunc() { Name = "Stress", ResultFunction = stressLogic.GetStress });
-            resultFuncs.Add(new ResultFunc() { Name = "Secant modulus", ResultFunction = stressLogic.GetSecantModulus });
+            resultFuncs.Add(new ResultFunc() { Name = "Stress", ResultFunction = stressLogic.GetStress, UnitFactor = UnitConstatnts.Stress });
+            resultFuncs.Add(new ResultFunc() { Name = "Secant modulus", ResultFunction = stressLogic.GetSecantModulus, UnitFactor = UnitConstatnts.Stress });
             resultFuncs.Add(new ResultFunc() { Name = "Modulus degradation", ResultFunction = stressLogic.GetModulusDegradation });
-            resultFuncs.Add(new ResultFunc() { Name = "Force", ResultFunction = stressLogic.GetForce });
-            resultFuncs.Add(new ResultFunc() { Name = "Moment X", ResultFunction = stressLogic.GetMomentX });
-            resultFuncs.Add(new ResultFunc() { Name = "Moment Y", ResultFunction = stressLogic.GetMomentY });
+            resultFuncs.Add(new ResultFunc() { Name = "Force", ResultFunction = stressLogic.GetForce, UnitFactor = UnitConstatnts.Force });
+            resultFuncs.Add(new ResultFunc() { Name = "Moment X", ResultFunction = stressLogic.GetMomentX, UnitFactor = UnitConstatnts.Force });
+            resultFuncs.Add(new ResultFunc() { Name = "Moment Y", ResultFunction = stressLogic.GetMomentY, UnitFactor = UnitConstatnts.Force });
             return resultFuncs;
         }
     }

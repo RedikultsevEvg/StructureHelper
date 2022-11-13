@@ -8,6 +8,8 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
 {
     internal static class UnitConstatnts
     {
-        public static double LengthConstant = 1000d;
+        public static double Length = 1e3d;
+        public static double Force = 1e-3d;
+        public static double Stress = 1e-6d;
     }
 }

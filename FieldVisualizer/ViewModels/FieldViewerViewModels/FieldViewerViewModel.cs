@@ -160,6 +160,7 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
         private double crossLineY;
         private double sumAboveLine;
         private double sumUnderLine;
+        private Line previosLine;
         const int RangeNumber = 16;
 
         public FieldViewerViewModel()
@@ -311,16 +312,16 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             if (crossLineX == 0d)
             {
                 line.X1 = - width / 2d - dX;
-                line.Y1 = - crossLineY - dY;
+                line.Y1 = - crossLineY + dY;
                 line.X2 = width / 2d - dX;
-                line.Y2 = - crossLineY - dY;
+                line.Y2 = - crossLineY + dY;
             }
             else if (crossLineY == 0d)
             {
                 line.X1 = crossLineX - dX;
-                line.Y1 = heigth / 2 - dY;
+                line.Y1 = heigth / 2 + dY;
                 line.X2 = crossLineX - dX;
-                line.Y2 = -heigth / 2 - dY;
+                line.Y2 = -heigth / 2 + dY;
             }
             else
             {
@@ -334,6 +335,12 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             line.Fill = brush;
             line.Stroke = brush;
             line.StrokeThickness = (width + heigth) / 100;
+            if (previosLine != null)
+            {
+                try { WorkPlaneCanvas.Children.Remove(previosLine);}
+                catch (Exception) {}
+            }
+            previosLine = line;
             WorkPlaneCanvas.Children.Add(line);
         }
         private double GetPointOfCrossLine(double x)

@@ -25,12 +25,15 @@
             </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Valid" Binding="{Binding Path=IsValid}"/>
-                <DataGridTextColumn Header="Moment Mx" Width="90" Binding="{Binding Path=LoaderResults.ForceStrainPair.ForceMatrix.Mx}"/>
-                <DataGridTextColumn Header="Moment My" Width="90" Binding="{Binding Path=LoaderResults.ForceStrainPair.ForceMatrix.My}"/>
-                <DataGridTextColumn Header="Force Nz" Width="90" Binding="{Binding Path=LoaderResults.ForceStrainPair.ForceMatrix.Nz}"/>
+                <DataGridTextColumn Header="Moment Mx" Width="90" Binding="{Binding Path=LoaderResults.ForceStrainPair.ForceMatrix.Mx, Converter={StaticResource ForceConverter}}"/>
+                <DataGridTextColumn Header="Moment My" Width="90" Binding="{Binding Path=LoaderResults.ForceStrainPair.ForceMatrix.My, Converter={StaticResource ForceConverter}}"/>
+                <DataGridTextColumn Header="Force Nz" Width="90" Binding="{Binding Path=LoaderResults.ForceStrainPair.ForceMatrix.Nz, Converter={StaticResource ForceConverter}}"/>
                 <DataGridTextColumn Header="Accuracy" Width="90" Binding="{Binding Path=LoaderResults.AccuracyRate}"/>
                 <DataGridTextColumn Header="Max Iteration" Width="90" Binding="{Binding Path=LoaderResults.IterationCounter}"/>
                 <DataGridTextColumn Header="Description" Width="300" Binding="{Binding Path=Desctription}"/>
+                <DataGridTextColumn Header="Kx" Width="90" Binding="{Binding LoaderResults.ForceStrainPair.StrainMatrix.Kx}"/>
+                <DataGridTextColumn Header="Ky" Width="90" Binding="{Binding LoaderResults.ForceStrainPair.StrainMatrix.Ky}"/>
+                <DataGridTextColumn Header="EpsZ" Width="90" Binding="{Binding LoaderResults.ForceStrainPair.StrainMatrix.EpsZ}"/>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Column="1">

@@ -8,16 +8,18 @@ using System.Windows.Data;
 
 namespace StructureHelper.Infrastructure.UI.Converters.Units
 {
-    internal class Length : UnitBase
+    internal class Force : UnitBase
     {
-        public override string unitName { get => "Length"; }
+        private double coeffficient = UnitConstatnts.Force;
+
+        public override string unitName { get => "Force"; }
 
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             double val;
             if (value != null) { val = (double)value; }
             else { throw new Exception($"{unitName} value is null"); }
-            val *= UnitConstatnts.Length;
+            val *= coeffficient;
             return val;
         }
 
@@ -30,7 +32,7 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
                 double.TryParse(strVal, out val);
             }
             else { throw new Exception($"{unitName} value is null"); }
-            val /= UnitConstatnts.Length;
+            val /= coeffficient;
             return val;
         }
     }

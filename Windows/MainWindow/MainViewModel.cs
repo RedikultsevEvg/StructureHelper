@@ -287,7 +287,7 @@ namespace StructureHelper.Windows.MainWindow
                     Primitives.Add(primitive);
                     PrimitiveRepository.Add(primitive);
                 }
-                AddCaseLoads(50e3d, 50e3d, 0d);
+                AddCaseLoads(-50e3d, 50e3d, 0d);
             });
 
             AddColumnCase = new RelayCommand(o =>
@@ -454,11 +454,11 @@ namespace StructureHelper.Windows.MainWindow
                 double[] xs = new double[] { -width / 2 + gap, width / 2 - gap };
                 double[] ys = new double[] { -height / 2 + gap, height / 2 - gap };
 
-                yield return new Rectangle(width, height, 0, 0, this) { HeadMaterial = concrete };
-                yield return new Point(area1, xs[0], ys[0], this) { HeadMaterial = reinforcement };
-                yield return new Point(area1, xs[1], ys[0], this) { HeadMaterial = reinforcement };
-                yield return new Point(area2, xs[0], ys[1], this) { HeadMaterial = reinforcement };
-                yield return new Point(area2, xs[1], ys[1], this) { HeadMaterial = reinforcement };
+                yield return new Rectangle(width, height, 0, 0, this) { HeadMaterial = concrete, Name = "Concrete block" };
+                yield return new Point(area1, xs[0], ys[0], this) { HeadMaterial = reinforcement, Name = "Left bottom point" };
+                yield return new Point(area1, xs[1], ys[0], this) { HeadMaterial = reinforcement, Name = "Right bottom point" };
+                yield return new Point(area2, xs[0], ys[1], this) { HeadMaterial = reinforcement, Name = "Left top point" };
+                yield return new Point(area2, xs[1], ys[1], this) { HeadMaterial = reinforcement, Name = "Right top point" };
 
                 if (template.WidthCount > 2)
                 {
@@ -466,8 +466,8 @@ namespace StructureHelper.Windows.MainWindow
                     double dist = (xs[1] - xs[0]) / count;
                     for (int i = 1; i < count; i++)
                     {
-                        yield return new Point(area1, xs[0] + dist * i, ys[0], this) { HeadMaterial = reinforcement };
-                        yield return new Point(area2, xs[0] + dist * i, ys[1], this) { HeadMaterial = reinforcement };
+                        yield return new Point(area1, xs[0] + dist * i, ys[0], this) { HeadMaterial = reinforcement, Name = $"Bottom point {i}" };
+                        yield return new Point(area2, xs[0] + dist * i, ys[1], this) { HeadMaterial = reinforcement, Name = $"Top point {i}" };
                     }
                 }
 
@@ -477,8 +477,8 @@ namespace StructureHelper.Windows.MainWindow
                     double dist = (ys[1] - ys[0]) / count;
                     for (int i = 1; i < count; i++)
                     {
-                        yield return new Point(area1, xs[0], ys[0] + dist * i, this) { HeadMaterial = reinforcement };
-                        yield return new Point(area1, xs[1], ys[0] + dist * i, this) { HeadMaterial = reinforcement };
+                        yield return new Point(area1, xs[0], ys[0] + dist * i, this) { HeadMaterial = reinforcement, Name = $"Left point {i}" };
+                        yield return new Point(area1, xs[1], ys[0] + dist * i, this) { HeadMaterial = reinforcement, Name = $"Right point {i}" };
                     }
                 }
             }
