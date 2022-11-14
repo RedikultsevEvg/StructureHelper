@@ -52,6 +52,14 @@
                 </Expander>
                 <Expander Header="Summary information" IsExpanded="False">
                     <StackPanel>
+                        <TextBlock Text="Total area:"/>
+                        <TextBlock Text="{Binding AreaTotal}"/>
+                        <TextBlock Text="Negative value area:"/>
+                        <TextBlock Text="{Binding AreaNeg}"/>
+                        <TextBlock Text="Zero value area:"/>
+                        <TextBlock Text="{Binding AreaZero}"/>
+                        <TextBlock Text="Positive value area:"/>
+                        <TextBlock Text="{Binding AreaPos}"/>
                         <TextBlock Text="Total sum: "/>
                         <TextBlock Text="{Binding SumTotal}"/>
                         <TextBlock Text="Sum negative: "/>

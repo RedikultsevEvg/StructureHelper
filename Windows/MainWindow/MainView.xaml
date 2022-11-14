@@ -48,6 +48,7 @@
                 </MenuItem>
                 <Button Content="Materials" Command="{Binding EditHeadMaterialsCommand}"/>
                 <Button Content="Calculation properties" Command="{Binding Path=EditCalculationPropertyCommand}"/>
+                <Button Content="Move primitives to center" Command="{Binding Path=MovePrimitiveToGravityCenterCommand}"/>
                 <MenuItem Header="Templates">
                     <Button Content="Concrete beam" Command="{Binding AddBeamCase}"/>
                     <Button Content="Concrete column" Command="{Binding AddColumnCase}"/>

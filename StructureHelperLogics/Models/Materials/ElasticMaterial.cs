@@ -15,7 +15,17 @@ namespace StructureHelperLogics.Models.Materials
 
         public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
-            throw new NotImplementedException();
+            IMaterial material = new Material();
+            material.InitModulus = Modulus;
+            IEnumerable<double> parameters = new List<double>() { Modulus};
+            material.DiagramParameters = parameters;
+            material.Diagram = GetStress;
+            return material;
+        }
+
+        private double GetStress (IEnumerable<double> parameters, double strain)
+        {
+            return parameters.First() * strain;
         }
 
         public object Clone()

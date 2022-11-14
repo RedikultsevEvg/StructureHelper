@@ -54,11 +54,19 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             {
                 primitiveSet = value;
                 OnPropertyChanged(nameof(PrimitiveSet));
+                AreaTotal = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Sum(x => x.Area);
+                OnPropertyChanged(nameof(AreaTotal));
+                AreaNeg = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value < 0d).Sum(x => x.Area);
+                OnPropertyChanged(nameof(AreaNeg));
+                AreaZero = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value == 0d).Sum(x => x.Area);
+                OnPropertyChanged(nameof(AreaZero));
+                AreaPos = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value > 0d).Sum(x => x.Area);
+                OnPropertyChanged(nameof(AreaPos));
                 SumTotal = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Sum(x => x.Value);
                 OnPropertyChanged(nameof(SumTotal));
-                SumNeg = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value < 0).Sum(x => x.Value);
+                SumNeg = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value < 0d).Sum(x => x.Value);
                 OnPropertyChanged(nameof(SumNeg));
-                SumPos = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value > 0).Sum(x => x.Value);
+                SumPos = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value > 0d).Sum(x => x.Value);
                 OnPropertyChanged(nameof(SumPos));
 
             }
@@ -122,6 +130,10 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
                 }
             }
         }
+        public double AreaTotal { get; private set; }
+        public double AreaNeg { get; private set; }
+        public double AreaZero { get; private set; }
+        public double AreaPos { get; private set; }
         public double SumTotal { get; private set;}
         public double SumNeg { get; private set; }
         public double SumPos { get; private set; }

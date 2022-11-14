@@ -1,4 +1,5 @@
 ﻿using LoaderCalculator.Data.Ndms;
+using LoaderCalculator.Logics.Geometry;
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.UI.DataContexts;
@@ -25,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -133,6 +135,7 @@ namespace StructureHelper.Windows.MainWindow
         public ICommand AddSlabCase { get; }
         public ICommand LeftButtonDown { get; }
         public ICommand LeftButtonUp { get; }
+        public ICommand MovePrimitiveToGravityCenterCommand { get; }
         public ICommand PreviewMouseMove { get; }
         public ICommand ClearSelection { get; }
         public ICommand OpenMaterialCatalog { get; }
@@ -313,9 +316,24 @@ namespace StructureHelper.Windows.MainWindow
             Calculate = new RelayCommand(o =>
             {
                 CalculateResult();
-            });
+
+            },
+            o => Model.PrimitiveRepository.Primitives.Count() > 0);
 
             EditCalculationPropertyCommand = new RelayCommand (o => EditCalculationProperty());
+
+            MovePrimitiveToGravityCenterCommand = new RelayCommand(o =>
+            {
+                IEnumerable<INdm> ndms = Model.GetNdms(calculationProperty);
+                double[] center = GeometryOperations.GetGravityCenter(ndms);
+                foreach (var primitive in Model.PrimitiveRepository.Primitives)
+                {
+                    primitive.CenterX -= center[0];
+                    primitive.CenterY -= center[1];
+                }
+            },
+            o => Model.PrimitiveRepository.Primitives.Count() > 0
+            );
 
             SetPopupCanBeClosedTrue = new RelayCommand(o =>
             {
@@ -345,8 +363,8 @@ namespace StructureHelper.Windows.MainWindow
                 var dialogResult = MessageBox.Show("Delete primitive?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    Primitives.Remove(SelectedPrimitive);
                     PrimitiveRepository.Delete(SelectedPrimitive);
+                    Primitives.Remove(SelectedPrimitive);                   
                 }
             }
             else { MessageBox.Show("Selection is changed", "Please, select primitive", MessageBoxButtons.YesNo, MessageBoxIcon.Warning); }
