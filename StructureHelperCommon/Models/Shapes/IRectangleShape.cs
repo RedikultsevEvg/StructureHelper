@@ -1,18 +1,18 @@
 ﻿namespace StructureHelperCommon.Models.Shapes
 {
-    public interface IRectangle : IShape
+    public interface IRectangleShape : IShape
     {
         /// <summary>
         /// Width of rectangle, m
         /// </summary>
-        double Width { get; }
+        double Width { get; set; }
         /// <summary>
         /// Height of rectangle, m
         /// </summary>
-        double Height { get; }
+        double Height { get; set; }
         /// <summary>
         /// Angle of rotating rectangle, rad
         /// </summary>
-        double Angle { get; }
+        double Angle { get; set; }
     }
 }

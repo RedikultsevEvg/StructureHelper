@@ -54,10 +54,9 @@ namespace StructureHelper.Windows.PrimitiveProperiesWindow
             foreach (var name in names)
             {
                 ContentControl contentControl = new ContentControl();
-                contentControl.SetResourceReference(ContentControl.ContentTemplateProperty, name);
-                Binding binding = new Binding();
-                binding.Source = viewModel;
-                contentControl.SetBinding(ContentControl.ContentProperty, binding);
+                contentControl.SetResourceReference(ContentTemplateProperty, name);
+                Binding binding = new Binding {Source = viewModel};
+                contentControl.SetBinding(ContentProperty, binding);
                 StpProperties.Children.Add(contentControl);
             }
         }

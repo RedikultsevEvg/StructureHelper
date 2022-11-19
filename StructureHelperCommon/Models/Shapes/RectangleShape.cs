@@ -1,7 +1,7 @@
 ﻿namespace StructureHelperCommon.Models.Shapes
 {
     /// <inheritdoc />
-    public class Rectangle : IRectangle
+    public class RectangleShape : IRectangleShape
     {
         /// <inheritdoc />
         public double Width { get; set; }

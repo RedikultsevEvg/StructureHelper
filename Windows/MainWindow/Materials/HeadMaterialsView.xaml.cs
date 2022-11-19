@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace StructureHelper.Windows.MainWindow.Materials
 {
@@ -22,20 +23,47 @@ namespace StructureHelper.Windows.MainWindow.Materials
     /// </summary>
     public partial class HeadMaterialsView : Window
     {
-        private HeadMaterialsViewModel viewmodel;
+        private HeadMaterialsViewModel viewModel;
 
         public HeadMaterialsView(IHeadMaterialRepository headMaterialRepository)
         {
-            viewmodel = new HeadMaterialsViewModel(headMaterialRepository);
-            this.DataContext = viewmodel;
+            viewModel = new HeadMaterialsViewModel(headMaterialRepository);
+            this.DataContext = viewModel;
             InitializeComponent();
         }
 
         public HeadMaterialsView(HeadMaterialsViewModel vm)
         {
-            viewmodel = vm;
-            this.DataContext = viewmodel;
+            viewModel = vm;
+            this.DataContext = viewModel;
             InitializeComponent();
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            StpMaterialProperties.Children.Clear();
+            var selectedMaterial = viewModel.SelectedMaterial;
+            if (selectedMaterial == null) { return; }
+            var helperMaterial = selectedMaterial.HelperMaterial;
+            string dataTemplateName = string.Empty;
+            Binding binding = new Binding();
+            if (helperMaterial is ILibMaterial)
+            {
+                dataTemplateName = "LibMaterial";
+                binding.Source = viewModel;
+            }
+            if (helperMaterial is IElasticMaterial)
+            {
+                dataTemplateName = "ElasticMaterial";
+                binding.Source = viewModel.SelectedMaterial.HelperMaterial;
+            }
+            if (dataTemplateName != string.Empty)
+            {
+                ContentControl contentControl = new ContentControl();
+                contentControl.SetResourceReference(ContentTemplateProperty, dataTemplateName);
+                contentControl.SetBinding(ContentProperty, binding);
+                StpMaterialProperties.Children.Add(contentControl);
+            }
         }
     }
 }

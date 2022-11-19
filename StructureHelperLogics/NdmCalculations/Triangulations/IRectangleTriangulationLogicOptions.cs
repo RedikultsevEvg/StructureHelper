@@ -15,7 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <summary>
         /// 
         /// </summary>
-        IRectangle Rectangle { get; }
+        IRectangleShape Rectangle { get; }
         /// <summary>
         /// Maximum size (width or height) of ndm part after triangulation
         /// </summary>

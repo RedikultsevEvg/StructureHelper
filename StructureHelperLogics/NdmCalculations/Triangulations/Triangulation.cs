@@ -73,7 +73,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             ITriangulationLogicOptions options;
             ICenter center = primitive.Center;
             IShape shape = primitive.Shape;
-            if (shape is IRectangle)
+            if (shape is IRectangleShape)
             {
                 options = new RectangleTriangulationLogicOptions(primitive);
                 ITriangulationLogic logic = new RectangleTriangulationLogic(options);

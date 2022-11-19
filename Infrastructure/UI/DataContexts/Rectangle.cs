@@ -48,7 +48,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             double centerX = CenterX;
             double centerY = CenterY;
             ICenter center = new Center { X = centerX, Y = centerY };
-            IShape shape = new StructureHelperCommon.Models.Shapes.Rectangle { Height = height, Width = width, Angle = 0 };
+            IShape shape = new StructureHelperCommon.Models.Shapes.RectangleShape { Height = height, Width = width, Angle = 0 };
             INdmPrimitive ndmPrimitive = new NdmPrimitive(HeadMaterial)
             { Center = center, Shape = shape,
                 NdmMaxSize = MaxElementSize, NdmMinDivision = MinElementDivision,

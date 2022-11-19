@@ -52,7 +52,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         {
             string materialName = MaterialName;
             ICenter center = new Center { X = CenterX, Y = CenterY };
-            IShape shape = new StructureHelperCommon.Models.Shapes.Point { Area = this.Area };
+            IShape shape = new StructureHelperCommon.Models.Shapes.PointShape { Area = this.Area };
             INdmPrimitive ndmPrimitive = new NdmPrimitive(HeadMaterial)
             { Center = center, Shape = shape,
                 PrestrainKx = PrestrainKx,

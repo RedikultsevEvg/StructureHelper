@@ -17,7 +17,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveTemplates.RCs
     {
 		public IRectangleBeamTemplate Model;
 
-		private Rectangle rectangle => (Model.Shape as Rectangle);
+		private RectangleShape rectangle => (Model.Shape as RectangleShape);
 
 		public Window ParentWindow { get; set; }
 

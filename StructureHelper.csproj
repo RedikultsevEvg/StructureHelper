@@ -140,6 +140,7 @@
     <Compile Include="Infrastructure\UI\Converters\Units\Length.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\UnitBase.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\UnitConstatnts.cs" />
+    <Compile Include="Infrastructure\UI\DataContexts\LinePrimitive.cs" />
     <Compile Include="Infrastructure\UI\PrimitiveTemplates\IRectangleBeamProperties.cs" />
     <Compile Include="Infrastructure\UI\UserControls\PrimitivePopup.xaml.cs">
       <DependentUpon>PrimitivePopup.xaml</DependentUpon>

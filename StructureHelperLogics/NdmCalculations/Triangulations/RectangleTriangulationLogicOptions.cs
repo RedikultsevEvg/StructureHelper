@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Primitives;
+using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
@@ -12,7 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <inheritdoc />
         public ICenter Center { get; }
         /// <inheritdoc />
-        public IRectangle Rectangle { get; }
+        public IRectangleShape Rectangle { get; }
         /// <inheritdoc />
         public double NdmMaxSize { get; }
         /// <inheritdoc />
@@ -24,7 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <inheritdoc />
         public double PrestrainEpsZ { get;}
 
-        public RectangleTriangulationLogicOptions(ICenter center, IRectangle rectangle, double ndmMaxSize, int ndmMinDivision)
+        public RectangleTriangulationLogicOptions(ICenter center, IRectangleShape rectangle, double ndmMaxSize, int ndmMinDivision)
         {
             Center = center;
             Rectangle = rectangle;
@@ -34,11 +35,14 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
         public RectangleTriangulationLogicOptions(INdmPrimitive primitive)
         {
-            if (! (primitive.Shape is IRectangle)) { throw new StructureHelperException(ErrorStrings.ShapeIsNotCorrect); }
+            if (! (primitive.Shape is IRectangleShape)) { throw new StructureHelperException(ErrorStrings.ShapeIsNotCorrect); }
             Center = primitive.Center;
-            Rectangle = primitive.Shape as IRectangle;
-            NdmMaxSize = primitive.NdmMaxSize;
-            NdmMinDivision = primitive.NdmMinDivision;
+            Rectangle = primitive.Shape as IRectangleShape;
+            if (primitive is IHasDivisionSize)
+            {
+                NdmMaxSize = (primitive as IHasDivisionSize).NdmMaxSize;
+                NdmMinDivision = (primitive as IHasDivisionSize).NdmMinDivision;
+            }
             PrestrainKx = primitive.PrestrainKx;
             PrestrainKy = primitive.PrestrainKy;
             PrestrainEpsZ = primitive.PrestrainEpsZ;

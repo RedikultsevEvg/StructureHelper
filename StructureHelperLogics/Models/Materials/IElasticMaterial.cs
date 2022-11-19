@@ -9,5 +9,7 @@ namespace StructureHelperLogics.Models.Materials
     public interface IElasticMaterial : IHelperMaterial
     {
         double Modulus { get; set; }
+        double CompressiveStrength { get; set; }
+        double TensileStrength { get; set; }
     }
 }

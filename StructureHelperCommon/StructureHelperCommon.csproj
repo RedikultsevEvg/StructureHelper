@@ -51,19 +51,23 @@
     <Compile Include="Infrastructures\Enums\LimitStates.cs" />
     <Compile Include="Infrastructures\Exceptions\StructureHelperException.cs" />
     <Compile Include="Infrastructures\Interfaces\IHasParent.cs" />
+    <Compile Include="Infrastructures\Interfaces\ISaveable.cs" />
     <Compile Include="Infrastructures\Strings\ErrorString.cs" />
     <Compile Include="Infrastructures\Enums\MaterialTypes.cs" />
     <Compile Include="Models\Shapes\Center.cs" />
     <Compile Include="Models\Shapes\ICenter.cs" />
     <Compile Include="Models\Shapes\ICenterShape.cs" />
     <Compile Include="Models\Shapes\ICircle.cs" />
+    <Compile Include="Models\Shapes\ILineShape.cs" />
     <Compile Include="Models\Shapes\IPoint.cs" />
-    <Compile Include="Models\Shapes\IRectangle.cs" />
+    <Compile Include="Models\Shapes\IRectangleShape.cs" />
     <Compile Include="Models\Shapes\IShape.cs" />
-    <Compile Include="Models\Shapes\Point.cs" />
-    <Compile Include="Models\Shapes\Rectangle.cs" />
+    <Compile Include="Models\Shapes\LineShape.cs" />
+    <Compile Include="Models\Shapes\PointShape.cs" />
+    <Compile Include="Models\Shapes\RectangleShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ColorServices\ColorProcessor.cs" />
+    <Compile Include="Services\ShapeServices\ShapeService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

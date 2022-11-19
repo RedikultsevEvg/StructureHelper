@@ -7,19 +7,53 @@
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Materials"
         d:DataContext="{d:DesignInstance vm:HeadMaterialsViewModel}"
         mc:Ignorable="d"
-        Title="Materials" Height="350" Width="400" WindowStartupLocation="CenterScreen">
+        Title="Materials" Height="350" Width="680" MinHeight="350" MinWidth="680" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <DataTemplate x:Key="LibMaterial">
+            <StackPanel>
+                <TextBlock Text="Library material"/>
+                <ComboBox Grid.Row="2" Height="25" VerticalAlignment="Top" ItemsSource="{Binding LibMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ElasticMaterial">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="28"/>
+                    <RowDefinition Height="28"/>
+                    <RowDefinition Height="28"/>
+                    <RowDefinition Height="28"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Elastic material"/>
+                <TextBlock Grid.Row="1" Text="Young's modulus"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Modulus, Converter={StaticResource StressConverter}, ValidatesOnDataErrors=True}"/>
+                <TextBlock Grid.Row="2" Text="Compressive strength"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CompressiveStrength, Converter={StaticResource StressConverter}, ValidatesOnDataErrors=True}"/>
+                <TextBlock Grid.Row="3" Text="Tensile strength"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding TensileStrength, Converter={StaticResource StressConverter}, ValidatesOnDataErrors=True}"/>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="280"/>
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <ListBox ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding SelectedMaterial}">
+            <ListBox ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding SelectedMaterial}" SelectionChanged="ListBox_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -38,21 +72,19 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <TextBox Grid.Row="1" Text="{Binding SelectedMaterial.Name}"/>
-            <ComboBox Grid.Row="2" ItemsSource="{Binding LibMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
         </Grid>
-
         <StackPanel Grid.Column="1">
-            <Button Content="New Material"  Command="{Binding AddNewMaterialCommand}"/>
+            <Button Content="New Lib Material"  Command="{Binding AddNewMaterialCommand}"/>
+            <Button Content="New Elastic Material"  Command="{Binding AddElasticMaterialCommand}"/>
             <Button Content="Edit color"  Command="{Binding EditColorCommand}"/>
             <Button Content="Copy"  Command="{Binding CopyHeadMaterialCommand}"/>
             <Button Content="Delete"  Command="{Binding DeleteMaterialCommand}"/>
         </StackPanel>
+        <StackPanel  Grid.Column="2">
+            <TextBlock Text="Name"/>
+            <TextBox Text="{Binding SelectedMaterial.Name}"/>
+            <StackPanel x:Name="StpMaterialProperties"/>
+        </StackPanel>
+
     </Grid>
 </Window>

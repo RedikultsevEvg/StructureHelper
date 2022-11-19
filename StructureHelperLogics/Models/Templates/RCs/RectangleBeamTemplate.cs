@@ -18,7 +18,7 @@ namespace StructureHelperLogics.Models.Templates.RCs
 
         public RectangleBeamTemplate()
         {
-            Shape = new Rectangle() { Width = 0.4d, Height = 0.6d };
+            Shape = new RectangleShape() { Width = 0.4d, Height = 0.6d };
             CoverGap = 0.05d;
             TopDiameter = 0.016d;
             BottomDiameter = 0.025d;
@@ -28,7 +28,7 @@ namespace StructureHelperLogics.Models.Templates.RCs
 
         public RectangleBeamTemplate(double width, double height)
         {
-            Shape = new Rectangle() { Width = width, Height = height };
+            Shape = new RectangleShape() { Width = width, Height = height };
             CoverGap = 0.05d;
             TopDiameter = 0.016d;
             BottomDiameter = 0.025d;

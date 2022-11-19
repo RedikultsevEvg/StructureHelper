@@ -65,7 +65,12 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel>
-                <Expander Header="Materials" ExpandDirection="Down" MinWidth="20" >
+                <Expander Header="Materials" ExpandDirection="Down" MinWidth="20">
+                    <Expander.ContextMenu>
+                        <ContextMenu>
+                            <Button Content="Materials" Command="{Binding EditHeadMaterialsCommand}"/>
+                        </ContextMenu>
+                    </Expander.ContextMenu>
                     <ListBox ItemsSource="{Binding HeadMaterials}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -86,7 +91,21 @@
                     </ListBox>
                 </Expander>
                 <Expander Header="Geometry" ExpandDirection="Down" MinWidth="20" >
+                    <Expander.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add">
+                                <Button Content="Add Rectangle" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
+                                <Button Content="Add Point" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Expander.ContextMenu>
                     <ListBox ItemsSource="{Binding Primitives}" SelectedItem="{Binding SelectedPrimitive}">
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <Button Content="Edit" Command="{Binding EditPrimitive}"/>
+                                <Button Content="Delete" Command="{Binding DeletePrimitive}"/>
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -122,7 +141,6 @@
                     </ListBox>
                 </Expander>
             </StackPanel>
-
             <Border BorderBrush="Black" Background="White" BorderThickness="1" Margin="5" Grid.Column="1">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewMouseDown">

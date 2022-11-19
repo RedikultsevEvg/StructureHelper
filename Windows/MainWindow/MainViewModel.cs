@@ -324,6 +324,7 @@ namespace StructureHelper.Windows.MainWindow
 
             MovePrimitiveToGravityCenterCommand = new RelayCommand(o =>
             {
+                if (CheckMaterials() == false) { return;}
                 IEnumerable<INdm> ndms = Model.GetNdms(calculationProperty);
                 double[] center = GeometryOperations.GetGravityCenter(ndms);
                 foreach (var primitive in Model.PrimitiveRepository.Primitives)
@@ -405,6 +406,12 @@ namespace StructureHelper.Windows.MainWindow
 
         private bool CheckAnalisysOptions()
         {
+            if (CheckMaterials() == false) { return false; }
+            return true;
+        }
+
+        private bool CheckMaterials()
+        {
             foreach (var item in PrimitiveRepository.Primitives)
             {
                 if (item.HeadMaterial == null)
@@ -454,16 +461,16 @@ namespace StructureHelper.Windows.MainWindow
             wnd.ShowDialog();
             if (wnd.DialogResult == true)
             {
-                var rect = template.Shape as StructureHelperCommon.Models.Shapes.Rectangle;
+                var rect = template.Shape as StructureHelperCommon.Models.Shapes.RectangleShape;
                 var width = rect.Width;
                 var height = rect.Height;
                 var area1 = Math.PI * template.BottomDiameter * template.BottomDiameter / 4d;
                 var area2 = Math.PI * template.TopDiameter * template.TopDiameter / 4d;
                 var gap = template.CoverGap;
 
-                IHeadMaterial concrete = new HeadMaterial() { Name = "Concrete 40" };
+                IHeadMaterial concrete = new HeadMaterial() { Name = "Concrete" };
                 concrete.HelperMaterial = Model.HeadMaterialRepository.LibMaterials.Where(x => (x.MaterialType == MaterialTypes.Concrete & x.Name.Contains("40"))).First();
-                IHeadMaterial reinforcement = new HeadMaterial() { Name = "Reinforcement 400" };
+                IHeadMaterial reinforcement = new HeadMaterial() { Name = "Reinforcement" };
                 reinforcement.HelperMaterial = Model.HeadMaterialRepository.LibMaterials.Where(x => (x.MaterialType == MaterialTypes.Reinforcement & x.Name.Contains("400"))).First();
                 headMaterials.Add(concrete);
                 headMaterials.Add(reinforcement);

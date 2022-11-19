@@ -27,10 +27,32 @@ namespace StructureHelper.Windows.ViewModels.Materials
         ILibMaterial selectedLibMaterial;
 
         public ICommand AddNewMaterialCommand { get; set; }
+        public ICommand AddElasticMaterialCommand
+        {
+            get
+            {
+                return addElasticMaterialCommand ??
+                    (
+                    addElasticMaterialCommand = new RelayCommand(o => AddElasticMaterial())
+                    );
+            }
+        }
+
+        private void AddElasticMaterial()
+        {
+            IHeadMaterial material = new HeadMaterial() { Name = "New elastic material" };
+            material.HelperMaterial = new ElasticMaterial() { Modulus = 2e11d, CompressiveStrength = 4e8d, TensileStrength = 4e8d };
+            HeadMaterials.Add(material);
+            materialRepository.HeadMaterials.Add(material);
+            SelectedMaterial = material;
+        }
+
         public ICommand CopyHeadMaterialCommand { get; set; }
         public ICommand EditColorCommand { get; set; }
         public ICommand DeleteMaterialCommand { get; set; }
         public ICommand EditHeadMaterial;
+
+        private ICommand addElasticMaterialCommand;
 
         public ObservableCollection<IHeadMaterial> HeadMaterials { get; private set; }
         public IHeadMaterial SelectedMaterial
@@ -104,7 +126,6 @@ namespace StructureHelper.Windows.ViewModels.Materials
             HeadMaterials.Add(material);
             materialRepository.HeadMaterials.Add(material);
             SelectedMaterial = material;
-
         }
 
         private void DeleteMaterial()

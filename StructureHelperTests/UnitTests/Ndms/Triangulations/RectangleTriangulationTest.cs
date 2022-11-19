@@ -22,7 +22,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Arrange
             IMaterial material = new Material();
             ICenter center = new Center { X = centerX, Y = centerY };
-            IRectangle rectangle = new Rectangle { Width = width, Height = height, Angle = angle };
+            IRectangleShape rectangle = new RectangleShape { Width = width, Height = height, Angle = angle };
             IRectangleTriangulationLogicOptions options = new StructureHelperLogics.NdmCalculations.Triangulations.RectangleTriangulationLogicOptions(center, rectangle, ndmMaxSize, ndmMinDivision);
             IRectangleTriangulationLogic logic = new StructureHelperLogics.NdmCalculations.Triangulations.RectangleTriangulationLogic(options);
             //Act
