@@ -1,4 +1,5 @@
-﻿using StructureHelperLogics.Models.Primitives;
+﻿using StructureHelperCommon.Models.Shapes;
+using StructureHelperLogics.Models.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public interface IHasDivisionSize : INdmPrimitive
+    public interface IPointPrimitive : INdmPrimitive, IPointShape
     {
-        double NdmMaxSize { get; set; }
-        int NdmMinDivision { get; set; }
     }
 }

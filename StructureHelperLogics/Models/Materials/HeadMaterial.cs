@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,11 +14,21 @@ using StructureHelperLogics.Models.Materials;
 
 namespace StructureHelper.Models.Materials
 {
-    public class HeadMaterial : IHeadMaterial
+    public class HeadMaterial : IHeadMaterial, INotifyPropertyChanged
     {
+        private Color color;
+
         public string Id { get; }
         public string Name { get; set; }
-        public Color Color { get; set; }
+        public Color Color
+        {
+            get => color;
+            set
+            {
+                color = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Color)));
+            }
+        }
         public IHelperMaterial HelperMaterial {get; set;}
 
         public HeadMaterial()
@@ -25,6 +36,8 @@ namespace StructureHelper.Models.Materials
             Id = Convert.ToString(Guid.NewGuid());
             Color = ColorProcessor.GetRandomColor();
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {

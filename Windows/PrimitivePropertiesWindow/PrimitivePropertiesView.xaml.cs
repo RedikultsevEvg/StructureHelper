@@ -16,8 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Linq;
-using Point = StructureHelper.Infrastructure.UI.DataContexts.Point;
-using Rectangle = StructureHelper.Infrastructure.UI.DataContexts.Rectangle;
+using PointViewPrimitive = StructureHelper.Infrastructure.UI.DataContexts.PointViewPrimitive;
+using RectangleViewPrimitive = StructureHelper.Infrastructure.UI.DataContexts.RectangleViewPrimitive;
 
 namespace StructureHelper.Windows.PrimitiveProperiesWindow
 {
@@ -34,23 +34,16 @@ namespace StructureHelper.Windows.PrimitiveProperiesWindow
             viewModel = new PrimitivePropertiesViewModel(this.primitive, materialRepository);
             this.DataContext = viewModel;
             InitializeComponent();
-            if (primitive is Rectangle) { AddPrimitiveProperties(PrimitiveType.Rectangle); }
-            else if (primitive is Point) { AddPrimitiveProperties(PrimitiveType.Point); }
+            if (primitive is RectangleViewPrimitive) { AddPrimitiveProperties(PrimitiveType.Rectangle); }
+            else if (primitive is PointViewPrimitive) { AddPrimitiveProperties(PrimitiveType.Point); }
             else { throw new Exception("Type of object is unknown"); }   
         }
         private void AddPrimitiveProperties(PrimitiveType type)
         {
             List<string> names = new List<string>();
-            if (type == PrimitiveType.Rectangle)
-            {
-                names.Add("TriangulationProperties");
-                names.Add("RectangleProperties");
-            }
-            else if (type == PrimitiveType.Point)
-            {
-                names.Add("PointProperties");
-            }
-            else { throw new Exception("Type of object is unknown"); }
+            if (primitive is IHasDivision) { names.Add("TriangulationProperties");}
+            if (primitive is RectangleViewPrimitive) { names.Add("RectangleProperties"); }
+            else if (primitive is PointViewPrimitive) { names.Add("PointProperties"); }
             foreach (var name in names)
             {
                 ContentControl contentControl = new ContentControl();

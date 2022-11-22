@@ -140,11 +140,14 @@
     <Compile Include="Infrastructure\UI\Converters\Units\Length.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\UnitBase.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\UnitConstatnts.cs" />
-    <Compile Include="Infrastructure\UI\DataContexts\LinePrimitive.cs" />
+    <Compile Include="Infrastructure\UI\DataContexts\IHasCenter.cs" />
+    <Compile Include="Infrastructure\UI\DataContexts\IHasDivision.cs" />
+    <Compile Include="Infrastructure\UI\DataContexts\LineViewPrimitive.cs" />
     <Compile Include="Infrastructure\UI\PrimitiveTemplates\IRectangleBeamProperties.cs" />
     <Compile Include="Infrastructure\UI\UserControls\PrimitivePopup.xaml.cs">
       <DependentUpon>PrimitivePopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Primitives\Factories\PrimitiveFactory.cs" />
     <Compile Include="Services\Primitives\PrimitiveRepository.cs" />
     <Compile Include="Services\Primitives\IPrimitiveRepository.cs" />
     <Compile Include="Services\Reports\CalculationReports\IIsoFieldReport.cs" />
@@ -184,11 +187,11 @@
     <Compile Include="Models\Materials\ConcreteDefinition.cs" />
     <Compile Include="Infrastructure\NamedList.cs" />
     <Compile Include="Models\Materials\MaterialDefinitionBase.cs" />
-    <Compile Include="Infrastructure\UI\DataContexts\Point.cs" />
+    <Compile Include="Infrastructure\UI\DataContexts\PointViewPrimitive.cs" />
     <Compile Include="Infrastructure\UI\DataContexts\PrimitiveBase.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Models\Materials\RebarDefinition.cs" />
-    <Compile Include="Infrastructure\UI\DataContexts\Rectangle.cs" />
+    <Compile Include="Infrastructure\UI\DataContexts\RectangleViewPrimitive.cs" />
     <Compile Include="Infrastructure\UI\DataTemplates\EllipseTemplate.xaml.cs">
       <DependentUpon>EllipseTemplate.xaml</DependentUpon>
     </Compile>
@@ -202,7 +205,7 @@
     <Compile Include="Windows\MainWindow\Materials\HeadMaterialsView.xaml.cs">
       <DependentUpon>HeadMaterialsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\PrimitiveProperiesWindow\PrimitivePropertiesView.xaml.cs">
+    <Compile Include="Windows\PrimitivePropertiesWindow\PrimitivePropertiesView.xaml.cs">
       <DependentUpon>PrimitivePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PrimitiveTemplates\RCs\RectangleBeam\RectangleBeamView.xaml.cs">
@@ -212,6 +215,7 @@
     <Compile Include="Windows\ViewModels\Calculations\CalculationResult\CalculationResultViewModel.cs" />
     <Compile Include="Windows\ViewModels\Materials\HeadMaterialsViewModel.cs" />
     <Compile Include="Windows\ViewModels\PrimitiveProperties\PrimitivePropertiesViewModel.cs" />
+    <Compile Include="Windows\ViewModels\Primitives\RectangleControlViewModel.cs" />
     <Compile Include="Windows\ViewModels\PrimitiveTemplates\RCs\RectangleBeamViewModel.cs" />
     <Compile Include="Infrastructure\UI\PrimitiveTemplates\TemplateFactory.cs" />
   </ItemGroup>
@@ -233,6 +237,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Infrastructure\UI\Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Infrastructure\UI\Resources\PrimitiveToolTips.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -284,7 +292,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\PrimitiveProperiesWindow\PrimitivePropertiesView.xaml">
+    <Page Include="Windows\PrimitivePropertiesWindow\PrimitivePropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

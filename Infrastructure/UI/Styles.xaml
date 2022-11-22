@@ -26,35 +26,6 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Opacity" Value="{Binding Opacity, Mode=TwoWay}"/>
-        <!--<Setter Property="ToolTip">
-            <Setter.Value>
-                <ToolTip Background="White" BorderBrush="Black" BorderThickness="1">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="30"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="50"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="3" BorderThickness="0" Text="Координата X:"/>
-                        <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="3" BorderThickness="0" Text="{Binding ShowedX}"/>
-                        <TextBox Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="3" BorderThickness="0" Text="Координата Y:"/>
-                        <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="3" BorderThickness="0" Text="{Binding ShowedY}"/>
-                        <TextBox Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="3" BorderThickness="0" Text="Ширина:"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="3" BorderThickness="0" Text="{Binding PrimitiveWidth}"/>
-                        <TextBox Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="3" BorderThickness="0" Text="Высота:"/>
-                        <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="3" BorderThickness="0" Text="{Binding PrimitiveHeight}"/>
-                        <TextBox Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="3" BorderThickness="0" Text="Материал:"/>
-                        <TextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="3" BorderThickness="0" Text="{Binding MaterialName, Mode=TwoWay}"/>
-                    </Grid>
-                </ToolTip>
-            </Setter.Value>
-        </Setter>-->
     </Style>
 
     <Style x:Key="EllipseStyle" TargetType="Ellipse" BasedOn="{StaticResource ShapeStyle}">
@@ -67,5 +38,12 @@
     <Style x:Key="RectangleStyle" TargetType="Rectangle" BasedOn="{StaticResource ShapeStyle}">
         <Setter Property="Width" Value="{Binding PrimitiveWidth, Converter={StaticResource LengthConverter}}"/>
         <Setter Property="Height" Value="{Binding PrimitiveHeight, Converter={StaticResource LengthConverter}}"/>
+    </Style>
+
+    <Style x:Key="LinePrimitiveStyle" TargetType="Line" BasedOn="{StaticResource ShapeStyle}">
+        <Setter Property="X1" Value="{Binding StartPoinX, Converter={StaticResource LengthConverter}}"/>
+        <Setter Property="Y1" Value="{Binding StartPoinY, Converter={StaticResource LengthConverter}}"/>
+        <Setter Property="X2" Value="{Binding EndPoinX, Converter={StaticResource LengthConverter}}"/>
+        <Setter Property="Y2" Value="{Binding EndPoinY, Converter={StaticResource LengthConverter}}"/>
     </Style>
 </ResourceDictionary>

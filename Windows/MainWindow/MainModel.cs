@@ -60,7 +60,7 @@ namespace StructureHelper.Windows.MainWindow
         public IEnumerable<INdm> GetNdms(ICalculationProperty calculationProperty)
         {
             var unitSystem = unitSystemService.GetCurrentSystem();
-            var ndmPrimitives = primitiveRepository.Primitives.Select(x => x.GetNdmPrimitive(unitSystem)).ToArray();
+            var ndmPrimitives = primitiveRepository.Primitives.Select(x => x.GetNdmPrimitive()).ToArray();
 
             //Настройки триангуляции, пока опции могут быть только такие
             ITriangulationOptions options = new TriangulationOptions { LimiteState = calculationProperty.LimitState, CalcTerm = calculationProperty.CalcTerm };

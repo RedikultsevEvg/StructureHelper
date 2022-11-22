@@ -70,22 +70,23 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         private static IEnumerable<INdm> GetNdmsByPrimitive(INdmPrimitive primitive, IMaterial material)
         {
             List<INdm> ndms = new List<INdm>();
-            ITriangulationLogicOptions options;
-            ICenter center = primitive.Center;
-            IShape shape = primitive.Shape;
-            if (shape is IRectangleShape)
-            {
-                options = new RectangleTriangulationLogicOptions(primitive);
-                ITriangulationLogic logic = new RectangleTriangulationLogic(options);
-                ndms.AddRange(logic.GetNdmCollection(material));
-            }
-            else if (shape is IPoint)
-            {
-                options = new PointTriangulationLogicOptions(primitive);
-                IPointTriangulationLogic logic = new PointTriangulationLogic(options);
-                ndms.AddRange(logic.GetNdmCollection(material));
-            }
-            else { throw new StructureHelperException($"{ErrorStrings.ShapeIsNotCorrect} :{nameof(primitive.Shape)}"); }
+            //ITriangulationLogicOptions options;
+            //ICenter center = primitive.Center;
+            //IShape shape = primitive.Shape;
+            ndms.AddRange(primitive.GetNdms(material));
+            //if (shape is IRectangleShape)
+            //{
+            //    options = new RectangleTriangulationLogicOptions(primitive);
+            //    ITriangulationLogic logic = new RectangleTriangulationLogic(options);
+            //    ndms.AddRange(logic.GetNdmCollection(material));
+            //}
+            //else if (shape is IPoint)
+            //{
+            //    options = new PointTriangulationLogicOptions(primitive);
+            //    IPointTriangulationLogic logic = new PointTriangulationLogic(options);
+            //    ndms.AddRange(logic.GetNdmCollection(material));
+            //}
+            //else { throw new StructureHelperException($"{ErrorStrings.ShapeIsNotCorrect} :{nameof(primitive.Shape)}"); }
             return ndms;
         }
     }

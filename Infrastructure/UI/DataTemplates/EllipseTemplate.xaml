@@ -10,21 +10,38 @@
              xmlns:userControls="clr-namespace:StructureHelper.Infrastructure.UI.UserControls"
              mc:Ignorable="d">
     <StackPanel>
-        <Ellipse Style="{StaticResource EllipseStyle}" d:DataContext="{d:DesignInstance dataContexts:Point}">
-            <i:Interaction.Triggers>
-                <!--<i:EventTrigger EventName="PreviewMouseDown">
-                    <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonDown}" CommandParameter="{Binding}"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="PreviewMouseUp">
-                    <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonUp}" CommandParameter="{Binding}"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="PreviewMouseMove">
-                    <i:InvokeCommandAction Command="{Binding PreviewMouseMove}" CommandParameter="{Binding}"/>
-                </i:EventTrigger>-->
-                <!--<mouseEventTriggers:DoubleClickEventTrigger EventName="MouseDown">
-                    <i:InvokeCommandAction Command="{Binding PrimitiveDoubleClick}" CommandParameter="{Binding}"/>
-                </mouseEventTriggers:DoubleClickEventTrigger>-->
-            </i:Interaction.Triggers>
+        <Ellipse Style="{StaticResource EllipseStyle}" d:DataContext="{d:DesignInstance dataContexts:PointViewPrimitive}">
+            <Ellipse.ToolTip>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Name: "/>
+                    <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                    <TextBlock Grid.Row="1" Text="Material Name: "/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding HeadMaterial.Name}"/>
+                    <TextBlock Grid.Row="2" Text="Center X: "/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CenterX, Converter={StaticResource LengthConverter}}"/>
+                    <TextBlock Grid.Row="3" Text="Center Y: "/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding CenterY, Converter={StaticResource LengthConverter}}"/>
+                    <TextBlock Grid.Row="4" Text="Diameter: "/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Diameter, Converter={StaticResource LengthConverter}}"/>
+                </Grid>
+            </Ellipse.ToolTip>
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform X="{Binding CenterX, Converter={StaticResource LengthConverter}}" Y="{Binding InvertedCenterY, Converter={StaticResource LengthConverter}}"/>
+                    <RotateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
         </Ellipse>
         <userControls:PrimitivePopup Type="Rectangle" IsOpen="{Binding ParamsPanelVisibilty}" d:DataContext="{d:DesignInstance dataContexts:PrimitiveBase}"/>
     </StackPanel>

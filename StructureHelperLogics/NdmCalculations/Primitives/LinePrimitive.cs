@@ -14,13 +14,12 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public class LinePrimitive : INdmPrimitive, ILineShape, IHasDivisionSize, ISaveable, ICloneable
+    public class LinePrimitive : ILinePrimitive
     {
-        public ICenter Center { get; set; }
-        public IShape Shape { get; set; }
-
         public int Id { get; set; }
         public string Name { get; set; }
+        public double CenterX { get; set; }
+        public double CenterY { get; set; }
         public double NdmMaxSize { get; set; }
         public int NdmMinDivision { get; set; }
         public IHeadMaterial HeadMaterial { get; set; }
@@ -31,6 +30,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public ICenter StartPoint { get; set; }
         public ICenter EndPoint { get; set; }
         public double Thickness { get; set; }
+        
 
         public LinePrimitive()
         {
@@ -44,8 +44,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public object Clone()
         {
-            LinePrimitive primitive = new LinePrimitive();
-            NdmPrimitivesService.CopyNdmProperties(this, primitive);
+            var primitive = new LinePrimitive();
             NdmPrimitivesService.CopyDivisionProperties(this, primitive);
             ShapeService.CopyLineProperties(this, primitive);
             return primitive;

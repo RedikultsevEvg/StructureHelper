@@ -16,6 +16,7 @@ using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.Primitives;
+using System.Windows.Controls;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
@@ -23,96 +24,84 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
     {
         #region Поля
         private IPrimitiveRepository primitiveRepository;
-        private readonly PrimitiveType type;
-        private string name;
-        private double centerX, centerY;
-        private int minElementDivision;
-        private double maxElementSize;
+        private INdmPrimitive primitive;
         private bool captured, parameterCaptured, elementLock, paramsPanelVisibilty, popupCanBeClosed = true, borderCaptured;
-        private Brush brush;
         private bool setMaterialColor;
         private Color color;
-        private IHeadMaterial headMaterial;
-        private MaterialDefinitionBase material;
-        private double prestrainKx, prestrainKy, prestrainEpsZ;
-        private double opacity = 1, showedOpacity = 0, x, y, xY1, yX1, primitiveWidth, primitiveHeight, showedX, showedY;
+        private double opacity = 1, showedOpacity = 0, x, y, xY1, yX1, primitiveWidth, primitiveHeight;
         protected double delta = 0.5;
-        private double stressValue;
-        private double strainValue;
         private int showedZIndex = 1, zIndex;
 
         #endregion
 
         #region Свойства
-
-        public PrimitiveType Type
+        public INdmPrimitive NdmPrimitive
         {
-            get => type;
-            set
-            {
-                OnPropertyChanged(value, type);
-                OnPropertyChanged(nameof(RectangleFieldVisibility));
-                OnPropertyChanged(nameof(PrimitiveDimension));
-                OnPropertyChanged(nameof(HeightRowHeight));
-            }
+            get => primitive;
         }
-
         public IPrimitiveRepository PrimitiveRepository => primitiveRepository;
-
+        
         public string Name
         {
-            get => name;
+            get => primitive.Name;
             set
             {
-                OnPropertyChanged(value, ref name);
+                primitive.Name = value;
+                OnPropertyChanged(nameof(Name));
             }
         }
         public double CenterX
         {
-            get => centerX;
+            get => primitive.CenterX;
             set
             {
-                if (this is Rectangle)
-                {
-                    ShowedX = value - primitiveWidth / 2d;
-                }
-                else if (this is Point)
-                {
-                    Point point = this as Point;
-                    ShowedX = value - point.Diameter / 2;
-                }
-                else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown); }
-                OnPropertyChanged(value, ref centerX);
+                primitive.CenterX = value;
+                OnPropertyChanged(nameof(CenterX));
             }
         }
         public double CenterY
         {
-            get => centerY;
+            get => primitive.CenterY;
             set
-            {           
-                if (this is Rectangle)
-                {
-                    ShowedY = value - primitiveHeight / 2d;
-                }
-                else if (this is Point)
-                {
-                    Point point = this as Point;
-                    ShowedY = value - point.Diameter / 2;
-                }
-                else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown); }
-                OnPropertyChanged(value, ref centerY);            
+            {
+                primitive.CenterY = value;
+                OnPropertyChanged(nameof(CenterY));
+                OnPropertyChanged(nameof(InvertedCenterY));
             }
         }
-        public double PrestrainKx { get; set; }
-        public double PrestrainKy { get; set; }
-        public double PrestrainEpsZ { get; set; }
+        public double InvertedCenterY => - CenterY;
+        public double PrestrainKx
+        {   get => primitive.PrestrainKx;
+            set
+            {
+                primitive.PrestrainKx = value;
+                OnPropertyChanged(nameof(PrestrainKx));
+            }
+        }
+        public double PrestrainKy
+        {   get => primitive.PrestrainKy;
+            set
+            {
+                primitive.PrestrainKy = value;
+                OnPropertyChanged(nameof(PrestrainKy));
+            }
+        }
+        public double PrestrainEpsZ
+        {   get => primitive.PrestrainEpsZ;
+            set
+            {
+                primitive.PrestrainEpsZ = value;
+                OnPropertyChanged(nameof(PrestrainEpsZ));
+            }
+        }
 
         public IHeadMaterial HeadMaterial
         {
-            get => headMaterial;
+            get => primitive.HeadMaterial;
             set
             {
-                OnPropertyChanged(value, ref headMaterial);
+                primitive.HeadMaterial = value;
+                OnPropertyChanged(nameof(HeadMaterial));
                 OnPropertyChanged(nameof(Color));
             }
         }
@@ -120,26 +109,21 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         public bool SetMaterialColor
         {
             get => setMaterialColor;
-            set { OnPropertyChanged(value, ref setMaterialColor);}
+            set
+            {
+                OnPropertyChanged(value, ref setMaterialColor);
+                OnPropertyChanged(nameof(Color));
+            }
+
         }
         public Color Color
         {
-            get => ((setMaterialColor == true) & (headMaterial !=null))?  headMaterial.Color :color;
+            get => ((setMaterialColor == true) & (primitive.HeadMaterial !=null))? primitive.HeadMaterial.Color : color;
             set
             {
                 SetMaterialColor = false;
                 OnPropertyChanged(value, ref color);
             }
-        }
-        public int MinElementDivision
-        {
-            get => minElementDivision;
-            set { OnPropertyChanged(value, ref minElementDivision); }
-        }
-        public double MaxElementSize
-        {
-            get => maxElementSize;
-            set { OnPropertyChanged(value, ref maxElementSize); }
         }
 
         public bool Captured
@@ -162,25 +146,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             get => new SolidColorBrush(Color);
             set { }
         }
-        public MaterialDefinitionBase Material
-        {
-            get => material;
-            set
-            {
-                if (value != null)
-                {
-                    MaterialName = value.MaterialClass;
-                    OnPropertyChanged(value, ref material);
-                    OnPropertyChanged(nameof(MaterialName));
-                }
-            }
-        }
-        private string materialName = string.Empty;
-        public string MaterialName
-        {
-            get => materialName;
-            set => OnPropertyChanged(value, ref materialName);
-        }
+
         public bool ParamsPanelVisibilty
         {
             get => paramsPanelVisibilty;
@@ -221,16 +187,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             get => zIndex;
             set => OnPropertyChanged(value, ref zIndex);
         }
-        public double X
-        {
-            get => x;
-            set => OnPropertyChanged(value, ref x);
-        }
-        public double Y
-        {
-            get => y;
-            set => OnPropertyChanged(value, ref y);
-        }
+
         public double Xy1
         {
             get => xY1;
@@ -241,62 +198,13 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             get => yX1;
             set => OnPropertyChanged(value, ref yX1);
         }
-        public double PrimitiveWidth
-        {
-            get => primitiveWidth;
-            set => OnPropertyChanged(value, ref primitiveWidth);
-        }
-        public double PrimitiveHeight
-        {
-            get => primitiveHeight;
-            set => OnPropertyChanged(value, ref primitiveHeight);
-        }
-        public double StressValue
-        {
-            get { return stressValue; }
-            set
-            {
-                OnPropertyChanged(value, ref stressValue);
-            }
-        }
-        public double StrainValue
-        {
-            get { return strainValue; }
-            set
-            {
-                OnPropertyChanged(value, ref strainValue);
-            }
-        }   
-        public double ShowedX
-        {
-            get => showedX;
-            set
-            {
-                UpdateCoordinatesX(value);
-                OnPropertyChanged(value, ref showedX);
-                OnPropertyChanged(nameof(X));
-            }
-        }
-        public double ShowedY
-        {
-            get => showedY;
-            set
-            {
-                UpdateCoordinatesY(value);
-                OnPropertyChanged(value, ref showedY);
-                OnPropertyChanged(nameof(Y));
-            }
-        }
+        public virtual double PrimitiveWidth { get; set; }
+        public virtual double PrimitiveHeight { get;set; }  
         public bool BorderCaptured
         {
             get => borderCaptured;
             set => OnPropertyChanged(value, ref borderCaptured);
         }
-
-        public Visibility RectangleFieldVisibility => Type == PrimitiveType.Rectangle ? Visibility.Visible : Visibility.Hidden;
-        public string PrimitiveDimension => Type == PrimitiveType.Rectangle ? "Ширина" : "Диаметр";
-        public double HeightRowHeight => Type == PrimitiveType.Rectangle ? 40 : 0;
-
         #endregion
 
         #region Команды
@@ -307,67 +215,33 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         #endregion
 
-        protected PrimitiveBase(PrimitiveType type, double x, double y, MainViewModel ownerVM)
+        public PrimitiveBase(INdmPrimitive primitive)
         {
-            this.type = type;
-            X = ownerVM.YX1 + x;
-            Y = ownerVM.XY1 + y;
             color = ColorProcessor.GetRandomColor();
-            PrimitiveLeftButtonUp = new RelayCommand(o => Captured = false);
-            PrimitiveLeftButtonDown = new RelayCommand(o => Captured = true);
-            
-            PrimitiveDoubleClick = new RelayCommand(o =>
-            {
-                //PopupCanBeClosed = false;
-                //Captured = false;
-                //ParamsPanelVisibilty = true;
-                //ParameterCaptured = true;
-
-            });
-            OwnerVm = ownerVM;
             SetMaterialColor = true;
-            PrestrainKx = 0;
-            PrestrainKy = 0;
-            PrestrainEpsZ = 0;
+            this.primitive = primitive;
         }
 
-        protected readonly MainViewModel OwnerVm;
-
-        private void UpdateCoordinatesX(double showedX)
+        public void RegisterDeltas(double dx, double dy)
         {
-            if (this is Rectangle)
-            {
-                X = showedX + OwnerVm.YX1 / UnitConstatnts.Length;
-            }
-            else if (this is Point)
-            {
-                Point point = this as Point;
-                X = showedX + OwnerVm.YX1 / UnitConstatnts.Length;
-            }
-            else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown); }
-        }
-        private void UpdateCoordinatesY(double showedY)
-        {
-            if (this is Rectangle)
-            {
-                Y = -showedY + OwnerVm.XY1 / UnitConstatnts.Length - PrimitiveHeight;
-            }
-            else if (this is Point)
-            {
-                Point point = this as Point;
-                Y = -showedY + OwnerVm.XY1 / UnitConstatnts.Length - point.Diameter;
-            }
-            else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown); }
+            DeltaX = dx;
+            DeltaY = dy;
         }
 
-        public abstract INdmPrimitive GetNdmPrimitive(IUnitSystem unitSystem);
-        public MaterialTypes GetMaterialTypes()
+        public MainViewModel OwnerVM { get; private set; }
+
+        public double DeltaX { get; private set; }
+        public double DeltaY { get; private set; }
+
+        public virtual INdmPrimitive GetNdmPrimitive()
         {
-            MaterialTypes materialTypes;
-            if (Material is ConcreteDefinition) { materialTypes = MaterialTypes.Concrete; }
-            else if (Material is RebarDefinition) { materialTypes = MaterialTypes.Reinforcement; }
-            else { throw new StructureHelperException(ErrorStrings.MaterialTypeIsUnknown); }
-            return materialTypes;
+            RefreshNdmPrimitive();
+            return primitive;
+        }
+
+        public virtual void RefreshNdmPrimitive()
+        {
+
         }
     }
 }

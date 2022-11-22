@@ -21,6 +21,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
 
         public static void CopyDivisionProperties(IHasDivisionSize source, IHasDivisionSize target)
         {
+            CopyNdmProperties(source, target);
             target.NdmMaxSize = source.NdmMaxSize;
             target.NdmMinDivision = source.NdmMinDivision;
         }

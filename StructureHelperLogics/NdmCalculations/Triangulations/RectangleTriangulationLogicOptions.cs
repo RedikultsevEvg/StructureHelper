@@ -33,16 +33,12 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             NdmMinDivision = ndmMinDivision;
         }
 
-        public RectangleTriangulationLogicOptions(INdmPrimitive primitive)
+        public RectangleTriangulationLogicOptions(IRectanglePrimitive primitive)
         {
-            if (! (primitive.Shape is IRectangleShape)) { throw new StructureHelperException(ErrorStrings.ShapeIsNotCorrect); }
-            Center = primitive.Center;
-            Rectangle = primitive.Shape as IRectangleShape;
-            if (primitive is IHasDivisionSize)
-            {
-                NdmMaxSize = (primitive as IHasDivisionSize).NdmMaxSize;
-                NdmMinDivision = (primitive as IHasDivisionSize).NdmMinDivision;
-            }
+            Center = new Center() { X = primitive.CenterX, Y = primitive.CenterY };
+            Rectangle = primitive;
+            NdmMaxSize = primitive.NdmMaxSize;
+            NdmMinDivision = primitive.NdmMinDivision;
             PrestrainKx = primitive.PrestrainKx;
             PrestrainKy = primitive.PrestrainKy;
             PrestrainEpsZ = primitive.PrestrainEpsZ;

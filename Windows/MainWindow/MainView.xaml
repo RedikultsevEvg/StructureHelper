@@ -7,21 +7,18 @@
         xmlns:infrastructure="clr-namespace:StructureHelper.Infrastructure"
         xmlns:dataTemplates="clr-namespace:StructureHelper.Infrastructure.UI.DataTemplates"
         xmlns:dataContexts="clr-namespace:StructureHelper.Infrastructure.UI.DataContexts"
+        xmlns:vm="clr-namespace:StructureHelper.Windows.MainWindow"
         xmlns:mouseEventTriggers="clr-namespace:StructureHelper.Infrastructure.UI.Triggers.MouseEventTriggers"
         xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow"
         xmlns:enums="clr-namespace:StructureHelper.Infrastructure.Enums"
-        xmlns:converters ="clr-namespace:StructureHelper.Infrastructure.UI.Converters.Units"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainViewModel}"
         Title="StructureHelper" Height="700" Width="1000" MinHeight="400" MinWidth="600">
     <Window.Resources>
-        <converters:Length x:Key="LengthConverter"/>
-        <converters:Area x:Key="AreaConverter"/>
-
-        <DataTemplate DataType="{x:Type dataContexts:Rectangle}">
+        <DataTemplate DataType="{x:Type dataContexts:RectangleViewPrimitive}">
             <dataTemplates:RectangleTemplate/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type dataContexts:Point}">
+        <DataTemplate DataType="{x:Type dataContexts:PointViewPrimitive}">
             <dataTemplates:EllipseTemplate/>
         </DataTemplate>
     </Window.Resources>
@@ -148,7 +145,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
-                    <Canvas ClipToBounds="True" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}">
+                    <Canvas Name="WorkPlane" ClipToBounds="True" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}">
                         <i:Interaction.Behaviors>
                             <infrastructure:MouseBehaviour MouseX="{Binding PanelX, Mode=OneWayToSource}" MouseY="{Binding PanelY, Mode=OneWayToSource}"/>
                         </i:Interaction.Behaviors>
@@ -180,9 +177,9 @@
                                 </DrawingBrush.Drawing>
                             </DrawingBrush>
                         </Canvas.Background>
-                        <Line X1="0" X2="{Binding XX2}" Y1="{Binding XY1}" Y2="{Binding XY1}" Stroke="Red" StrokeThickness="1"/>
-                        <Line X1="{Binding YX1}" X2="{Binding YX1}" Y1="0" Y2="{Binding YY2}" Stroke="ForestGreen" StrokeThickness="1"/>
-                        <ItemsControl ItemsSource="{Binding Primitives}" d:DataContext="{d:DesignInstance dataContexts:PrimitiveBase}">
+                        <Line X1="0" X2="{Binding XX2}" Y1="{Binding XY1}" Y2="{Binding XY1}" Stroke="Red" StrokeThickness="{Binding AxisLineThickness}"/>
+                        <Line X1="{Binding YX1}" X2="{Binding YX1}" Y1="0" Y2="{Binding YY2}" Stroke="ForestGreen" StrokeThickness="{Binding AxisLineThickness}"/>
+                        <ItemsControl ItemsSource="{Binding Primitives}" d:DataContext="{d:DesignInstance vm:MainViewModel}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <Canvas/>
@@ -191,8 +188,8 @@
                             <ItemsControl.ItemContainerStyle>
                                 <Style TargetType="ContentPresenter">
                                     <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}"/>
-                                    <Setter Property="Canvas.Left" Value="{Binding X, Converter={StaticResource LengthConverter}}"/>
-                                    <Setter Property="Canvas.Top" Value="{Binding Y, Converter={StaticResource LengthConverter}}"/>
+                                    <Setter Property="Canvas.Left" Value="{Binding PrimitiveLeft}"/>
+                                    <Setter Property="Canvas.Top" Value="{Binding PrimitiveTop}"/>
                                 </Style>
                             </ItemsControl.ItemContainerStyle>
                         </ItemsControl>

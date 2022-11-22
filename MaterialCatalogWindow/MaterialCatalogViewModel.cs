@@ -103,11 +103,6 @@ namespace StructureHelper.MaterialCatalogWindow
                     OnPropertyChanged(nameof(RebarDefinitions));
                 }
             });
-            SelectMaterial = new RelayCommand(o =>
-            {
-                if (primitive != null)
-                    primitive.Material = SelectedMaterial;
-            });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

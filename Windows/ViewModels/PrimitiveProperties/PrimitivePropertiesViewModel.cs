@@ -16,8 +16,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Linq;
-using Point = StructureHelper.Infrastructure.UI.DataContexts.Point;
-using Rectangle = StructureHelper.Infrastructure.UI.DataContexts.Rectangle;
+using PointViewPrimitive = StructureHelper.Infrastructure.UI.DataContexts.PointViewPrimitive;
+using RectangleViewPrimitive = StructureHelper.Infrastructure.UI.DataContexts.RectangleViewPrimitive;
 
 namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
 {
@@ -41,15 +41,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 OnPropertyChanged(nameof(Name));
             }
         }
-        public string MaterialName
-        {
-            get => primitive.MaterialName;
-            set
-            {
-                primitive.Name = value;
-                OnPropertyChanged(nameof(MaterialName));
-            }
-        }
+
         public IHeadMaterial PrimitiveMaterial
         { get => primitive.HeadMaterial;
             set
@@ -70,8 +62,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             {
                 primitive.CenterX = value;
                 OnPropertyChanged(nameof(CenterX));
-                OnPropertyChanged(nameof(primitive.ShowedX));
-                OnPropertyChanged(nameof(primitive.X));
             }
 
         }
@@ -82,8 +72,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             {
                 primitive.CenterY = value;
                 OnPropertyChanged(nameof(CenterY));
-                OnPropertyChanged(nameof(primitive.ShowedY));
-                OnPropertyChanged("Y");
             }
         }
 
@@ -105,36 +93,40 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
 
         public int MinElementDivision
         {
-            get => primitive.MinElementDivision;
+            get => (primitive as IHasDivision).NdmMinDivision;
             set
             {
-                primitive.MinElementDivision = value; 
+                (primitive as IHasDivision).NdmMinDivision = value; 
                 OnPropertyChanged(nameof(MinElementDivision));
             }
         }
 
         public double MaxElementSize
         {
-            get => primitive.MaxElementSize;
-            set { primitive.MaxElementSize = value; }
+            get => (primitive as IHasDivision).NdmMaxSize;
+            set
+            {
+                (primitive as IHasDivision).NdmMaxSize = value;
+                OnPropertyChanged(nameof(MaxElementSize));
+            }
         }
 
         public double Width
         {
             get
             {
-                if (primitive is Rectangle)
+                if (primitive is RectangleViewPrimitive)
                 {
-                    var shape = primitive as Rectangle;
+                    var shape = primitive as RectangleViewPrimitive;
                     return shape.PrimitiveWidth;
                 }
                 return 0d;
             }
             set
             {
-                if (primitive is Rectangle)
+                if (primitive is RectangleViewPrimitive)
                 {
-                    var shape = primitive as Rectangle;
+                    var shape = primitive as RectangleViewPrimitive;
                     shape.PrimitiveWidth = value;
                 }
                 CenterX = CenterX;
@@ -145,18 +137,18 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
         {
             get
             {
-                if (primitive is Rectangle)
+                if (primitive is RectangleViewPrimitive)
                 {
-                    var shape = primitive as Rectangle;
+                    var shape = primitive as RectangleViewPrimitive;
                     return shape.PrimitiveHeight;
                 }
                 return 0d;
             }
             set
             {
-                if (primitive is Rectangle)
+                if (primitive is RectangleViewPrimitive)
                 {
-                    var shape = primitive as Rectangle;
+                    var shape = primitive as RectangleViewPrimitive;
                     shape.PrimitiveHeight = value;
                 }
                 CenterY = CenterY; ;
@@ -167,18 +159,18 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
         {
             get
             {
-                if (primitive is Point)
+                if (primitive is PointViewPrimitive)
                 {
-                    var shape = primitive as Point;
+                    var shape = primitive as PointViewPrimitive;
                     return shape.Area;
                 }
                 return 0d;
             }
             set
             {
-                if (primitive is Point)
+                if (primitive is PointViewPrimitive)
                 {
-                    var shape = primitive as Point;
+                    var shape = primitive as PointViewPrimitive;
                     shape.Area = value;
                     OnPropertyChanged(nameof(Area));
                     OnPropertyChanged(nameof(shape.Diameter));

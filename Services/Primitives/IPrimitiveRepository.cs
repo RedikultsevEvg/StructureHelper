@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelperCommon.Models.Shapes;
-using Point = StructureHelper.Infrastructure.UI.DataContexts.Point;
-using Rectangle = StructureHelper.Infrastructure.UI.DataContexts.Rectangle;
+using Point = StructureHelper.Infrastructure.UI.DataContexts.PointViewPrimitive;
+using Rectangle = StructureHelper.Infrastructure.UI.DataContexts.RectangleViewPrimitive;
 
 namespace StructureHelper.Services.Primitives
 {

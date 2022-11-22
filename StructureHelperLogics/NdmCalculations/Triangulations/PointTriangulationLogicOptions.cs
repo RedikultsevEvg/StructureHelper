@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Primitives;
+using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
@@ -29,13 +30,10 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Area = area;
         }
 
-        public PointTriangulationLogicOptions(INdmPrimitive primitive)
+        public PointTriangulationLogicOptions(IPointPrimitive primitive)
         {
-            if (!(primitive.Shape is IPoint)) { throw new StructureHelperException(ErrorStrings.ShapeIsNotCorrect); }
-            Center = primitive.Center;
-            IPoint point = primitive.Shape as IPoint;
-            Center = primitive.Center;
-            Area = point.Area;
+            Center = new Center() { X = primitive.CenterX, Y = primitive.CenterY };
+            Area = primitive.Area;
             PrestrainKx = primitive.PrestrainKx;
             PrestrainKy = primitive.PrestrainKy;
             PrestrainEpsZ = primitive.PrestrainEpsZ;

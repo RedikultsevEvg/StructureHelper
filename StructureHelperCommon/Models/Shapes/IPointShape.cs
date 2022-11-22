@@ -1,6 +1,6 @@
 ﻿namespace StructureHelperCommon.Models.Shapes
 {
-    public interface IPoint : IShape
+    public interface IPointShape : IShape
     {
         double Area { get; set; }
     }

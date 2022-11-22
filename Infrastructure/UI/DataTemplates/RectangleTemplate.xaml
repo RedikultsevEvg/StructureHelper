@@ -10,40 +10,46 @@
              xmlns:userControls="clr-namespace:StructureHelper.Infrastructure.UI.UserControls"
              xmlns:dataContexts="clr-namespace:StructureHelper.Infrastructure.UI.DataContexts"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance dataContexts:Rectangle}">
+             d:DataContext="{d:DesignInstance dataContexts:RectangleViewPrimitive}">
+    <UserControl.Resources>
+    </UserControl.Resources>
     <StackPanel>
         <Grid>
-            <Rectangle Style="{StaticResource RectangleStyle}">
-                <i:Interaction.Triggers>
-                    <!--<i:EventTrigger EventName="PreviewMouseDown">
-                        <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonDown}" CommandParameter="{Binding}"/>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="PreviewMouseUp">
-                        <i:InvokeCommandAction Command="{Binding PrimitiveLeftButtonUp}" CommandParameter="{Binding}"/>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="PreviewMouseMove">
-                        <i:InvokeCommandAction Command="{Binding PreviewMouseMove}" CommandParameter="{Binding}"/>
-                    </i:EventTrigger>-->
-                    <!--<mouseEventTriggers:DoubleClickEventTrigger EventName="MouseDown">
-                        <i:InvokeCommandAction Command="{Binding PrimitiveDoubleClick}" CommandParameter="{Binding}"/>
-                    </mouseEventTriggers:DoubleClickEventTrigger>-->
-                </i:Interaction.Triggers>
-            </Rectangle>
-            <Rectangle Cursor="SizeNWSE" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="PreviewMouseDown">
-                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.LeftButtonDown}" CommandParameter="{Binding}"/>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="PreviewMouseUp">
-                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.LeftButtonUp}" CommandParameter="{Binding}"/>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="PreviewMouseMove">
-                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.PreviewMouseMove}" CommandParameter="{Binding}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <!--<Rectangle.Fill>
-                    <SolidColorBrush Color="{Binding Color}"/>
-                </Rectangle.Fill>-->
+            <Rectangle x:Name="Rect" Style="{StaticResource RectangleStyle}" Tag="{Binding}">
+                <Rectangle.ToolTip>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Name: "/>
+                        <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                        <TextBlock Grid.Row="1" Text="Material Name: "/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding HeadMaterial.Name}"/>
+                        <TextBlock Grid.Row="2" Text="Center X: "/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CenterX, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="3" Text="Center Y: "/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding CenterY, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="4" Text="Width: "/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding PrimitiveWidth, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="5" Text="Height: "/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding PrimitiveHeight, Converter={StaticResource LengthConverter}}"/>
+                    </Grid>
+                </Rectangle.ToolTip>
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <TranslateTransform X="{Binding CenterX, Converter={StaticResource LengthConverter}}" Y="{Binding InvertedCenterY, Converter={StaticResource LengthConverter}}"/>
+                        <RotateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
             </Rectangle>
         </Grid>
         <userControls:PrimitivePopup IsOpen="{Binding ParamsPanelVisibilty}"/>

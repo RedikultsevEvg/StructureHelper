@@ -5,14 +5,16 @@ using System.Collections;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.Materials;
 using System.Collections.Generic;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using System;
 
 namespace StructureHelperLogics.Models.Primitives
 {
-    public interface INdmPrimitive
+    public interface INdmPrimitive : ISaveable, ICloneable
     {
         string Name { get; set; }
-        ICenter Center { get; set; }
-        IShape Shape { get; set; }
+        double CenterX { get; set; }
+        double CenterY { get; set; }
         IHeadMaterial HeadMaterial { get; set; }
         double PrestrainKx { get; set; }
         double PrestrainKy { get; set; }

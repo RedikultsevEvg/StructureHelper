@@ -59,7 +59,7 @@
     <Compile Include="Models\Shapes\ICenterShape.cs" />
     <Compile Include="Models\Shapes\ICircle.cs" />
     <Compile Include="Models\Shapes\ILineShape.cs" />
-    <Compile Include="Models\Shapes\IPoint.cs" />
+    <Compile Include="Models\Shapes\IPointShape.cs" />
     <Compile Include="Models\Shapes\IRectangleShape.cs" />
     <Compile Include="Models\Shapes\IShape.cs" />
     <Compile Include="Models\Shapes\LineShape.cs" />
