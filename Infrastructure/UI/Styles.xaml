@@ -30,20 +30,20 @@
 
     <Style x:Key="EllipseStyle" TargetType="Ellipse" BasedOn="{StaticResource ShapeStyle}">
         <Style.Setters>
-            <Setter Property="Width" Value="{Binding Diameter, Converter={StaticResource LengthConverter}}"/>
-            <Setter Property="Height" Value="{Binding Diameter, Converter={StaticResource LengthConverter}}"/>
+            <Setter Property="Width" Value="{Binding Diameter}"/>
+            <Setter Property="Height" Value="{Binding Diameter}"/>
         </Style.Setters>
     </Style>
 
     <Style x:Key="RectangleStyle" TargetType="Rectangle" BasedOn="{StaticResource ShapeStyle}">
-        <Setter Property="Width" Value="{Binding PrimitiveWidth, Converter={StaticResource LengthConverter}}"/>
-        <Setter Property="Height" Value="{Binding PrimitiveHeight, Converter={StaticResource LengthConverter}}"/>
+        <Setter Property="Width" Value="{Binding PrimitiveWidth}"/>
+        <Setter Property="Height" Value="{Binding PrimitiveHeight}"/>
     </Style>
 
     <Style x:Key="LinePrimitiveStyle" TargetType="Line" BasedOn="{StaticResource ShapeStyle}">
-        <Setter Property="X1" Value="{Binding StartPoinX, Converter={StaticResource LengthConverter}}"/>
-        <Setter Property="Y1" Value="{Binding StartPoinY, Converter={StaticResource LengthConverter}}"/>
-        <Setter Property="X2" Value="{Binding EndPoinX, Converter={StaticResource LengthConverter}}"/>
-        <Setter Property="Y2" Value="{Binding EndPoinY, Converter={StaticResource LengthConverter}}"/>
+        <Setter Property="X1" Value="{Binding StartPoinX}"/>
+        <Setter Property="Y1" Value="{Binding StartPoinY}"/>
+        <Setter Property="X2" Value="{Binding EndPoinX}"/>
+        <Setter Property="Y2" Value="{Binding EndPoinY}"/>
     </Style>
 </ResourceDictionary>

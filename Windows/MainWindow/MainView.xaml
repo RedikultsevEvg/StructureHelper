@@ -157,25 +157,32 @@
                                 <i:InvokeCommandAction Command="{Binding ScaleCanvasUp}"/>
                             </mouseEventTriggers:MouseWheelUpEventTrigger>
                         </i:Interaction.Triggers>
-                        <Canvas.RenderTransform>
+                        <Canvas.LayoutTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleX="{Binding ScaleValue}" ScaleY="{Binding ScaleValue}"
                                             CenterX="{Binding ScrollPanelX}" CenterY="{Binding ScrollPanelY}"/>
                             </TransformGroup>
-                        </Canvas.RenderTransform>
+                        </Canvas.LayoutTransform>
                         <Canvas.Background>
-                            <DrawingBrush Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile">
+                            <VisualBrush TileMode="Tile"
+                                Viewport="0,0,0.050,0.050" ViewportUnits="Absolute" 
+                                Viewbox="0,0,0.050,0.050" ViewboxUnits="Absolute">
+                                <VisualBrush.Visual>
+                                    <Rectangle StrokeThickness="{Binding GridLineThickness}" Height="0.050" Width="0.050" Stroke="Darkgray"/>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                            <!--<DrawingBrush Viewport="0,0,0.05,0.05" ViewportUnits="Absolute" TileMode="Tile">
                                 <DrawingBrush.Drawing>
                                     <GeometryDrawing Brush="Black">
                                         <GeometryDrawing.Geometry>
                                             <GeometryGroup FillRule="EvenOdd">
-                                                <RectangleGeometry Rect="0,0,50,50"/>
-                                                <RectangleGeometry Rect="0,0,49.5,49.5"/>
+                                                <RectangleGeometry Rect="0,0,0.050,0.050"/>
+                                                <RectangleGeometry Rect="0,0,0.0499,0.0499"/>
                                             </GeometryGroup>
                                         </GeometryDrawing.Geometry>
                                     </GeometryDrawing>
                                 </DrawingBrush.Drawing>
-                            </DrawingBrush>
+                            </DrawingBrush>-->
                         </Canvas.Background>
                         <Line X1="0" X2="{Binding XX2}" Y1="{Binding XY1}" Y2="{Binding XY1}" Stroke="Red" StrokeThickness="{Binding AxisLineThickness}"/>
                         <Line X1="{Binding YX1}" X2="{Binding YX1}" Y1="0" Y2="{Binding YY2}" Stroke="ForestGreen" StrokeThickness="{Binding AxisLineThickness}"/>

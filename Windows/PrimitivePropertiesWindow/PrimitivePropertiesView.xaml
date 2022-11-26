@@ -22,8 +22,8 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0" Text="Width"/>
                     <TextBlock Grid.Row="1" Text="Height"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Width, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding Height, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Width, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding Height, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
                 </Grid>
             </Expander>
         </DataTemplate>
@@ -38,7 +38,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0" Text="Area"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Area, Converter={StaticResource AreaConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Area, Converter={StaticResource AreaConverter}, ValidatesOnExceptions=True}"/>
                 </Grid>
             </Expander>
         </DataTemplate>
@@ -55,8 +55,8 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0" Text="Minimum element division"/>
                     <TextBlock Grid.Row="1" Text="Maximum element size"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding MinElementDivision, ValidatesOnDataErrors=True}"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding MaxElementSize, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding MinElementDivision, ValidatesOnExceptions=True}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding MaxElementSize, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
                 </Grid>
             </Expander>
         </DataTemplate>
@@ -106,8 +106,8 @@
                         <Button Width="50" Content="..." Command="{Binding EditMaterialCommand}">
                         </Button>
                     </StackPanel>
-                    <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding CenterX, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
-                    <TextBox Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding CenterY, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding CenterX, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding CenterY, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
                     <TextBox Grid.Row="5" Grid.Column="1" Margin="1" Text="{Binding ZIndex}"/>
                     <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                         <CheckBox IsChecked="{Binding SetMaterialColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,20,0"/>

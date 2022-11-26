@@ -46,7 +46,7 @@
                 </Rectangle.ToolTip>
                 <Rectangle.RenderTransform>
                     <TransformGroup>
-                        <TranslateTransform X="{Binding CenterX, Converter={StaticResource LengthConverter}}" Y="{Binding InvertedCenterY, Converter={StaticResource LengthConverter}}"/>
+                        <TranslateTransform X="{Binding CenterX}" Y="{Binding InvertedCenterY}"/>
                         <RotateTransform/>
                     </TransformGroup>
                 </Rectangle.RenderTransform>

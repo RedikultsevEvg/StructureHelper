@@ -14,6 +14,8 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
 
         public override string unitName { get => "Force"; }
 
+        public override string MeasureUnit => throw new NotImplementedException();
+
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             double val;
@@ -26,12 +28,15 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             double val;
-            if (value != null)
+            try
             {
                 var strVal = value as string;
-                double.TryParse(strVal, out val);
+                val = CommonOperation.ConvertToDoubleChangeComma(strVal);
             }
-            else { throw new Exception($"{unitName} value is null"); }
+            catch
+            {
+                return null;
+            }
             val /= coeffficient;
             return val;
         }

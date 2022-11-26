@@ -11,8 +11,6 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 {
     public class PointViewPrimitive : PrimitiveBase, IHasCenter
     {
-        const double lengthUnit = 1000d;
-
         IPointPrimitive primitive;
 
         public double Area
@@ -27,11 +25,11 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         public double PrimitiveLeft
         {
-            get => DeltaX - Diameter / 2d * lengthUnit;
+            get => DeltaX - Diameter / 2d;
         }
         public double PrimitiveTop
         {
-            get => DeltaY - Diameter / 2d * lengthUnit;
+            get => DeltaY - Diameter / 2d;
         }
 
         public PointViewPrimitive(IPointPrimitive _primitive) : base(_primitive)

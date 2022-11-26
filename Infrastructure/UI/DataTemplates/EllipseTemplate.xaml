@@ -32,13 +32,13 @@
                     <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CenterX, Converter={StaticResource LengthConverter}}"/>
                     <TextBlock Grid.Row="3" Text="Center Y: "/>
                     <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding CenterY, Converter={StaticResource LengthConverter}}"/>
-                    <TextBlock Grid.Row="4" Text="Diameter: "/>
-                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Diameter, Converter={StaticResource LengthConverter}}"/>
+                    <TextBlock Grid.Row="4" Text="Area: "/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Area, Converter={StaticResource AreaConverter}}"/>
                 </Grid>
             </Ellipse.ToolTip>
             <Ellipse.RenderTransform>
                 <TransformGroup>
-                    <TranslateTransform X="{Binding CenterX, Converter={StaticResource LengthConverter}}" Y="{Binding InvertedCenterY, Converter={StaticResource LengthConverter}}"/>
+                    <TranslateTransform X="{Binding CenterX}" Y="{Binding InvertedCenterY}"/>
                     <RotateTransform/>
                 </TransformGroup>
             </Ellipse.RenderTransform>

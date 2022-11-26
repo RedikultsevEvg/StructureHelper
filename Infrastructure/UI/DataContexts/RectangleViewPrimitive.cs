@@ -11,8 +11,6 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 {
     public class RectangleViewPrimitive : PrimitiveBase, IHasDivision, IHasCenter
     {
-        const double lengthUnit = 1000d; 
-
         private IRectanglePrimitive primitive;
 
         public override double PrimitiveWidth
@@ -38,11 +36,11 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         public double PrimitiveLeft
         {
-            get => DeltaX - primitive.Width / 2 * lengthUnit;
+            get => DeltaX - primitive.Width / 2d;
         }
         public double PrimitiveTop
         {
-            get => DeltaY - primitive.Height / 2  * lengthUnit;
+            get => DeltaY - primitive.Height / 2d;
         }
         public int NdmMinDivision
         {

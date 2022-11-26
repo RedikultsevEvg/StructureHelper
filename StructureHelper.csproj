@@ -133,7 +133,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Infrastructure\Enums\PrimitiveType.cs" />
+    <Compile Include="Infrastructure\UI\Converters\CommonOperation.cs" />
     <Compile Include="Infrastructure\UI\Converters\Common\InvertBoolConverter.cs" />
+    <Compile Include="Infrastructure\UI\Converters\IStringDoublePair.cs" />
+    <Compile Include="Infrastructure\UI\Converters\StringDoublePair.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\Area.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\Stress.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\Force.cs" />

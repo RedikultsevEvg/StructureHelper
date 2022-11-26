@@ -9,6 +9,7 @@ using StructureHelper.Services.Primitives;
 using StructureHelper.UnitSystem;
 using StructureHelper.UnitSystem.Systems;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.Models.Materials.Factories;

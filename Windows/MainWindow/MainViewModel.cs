@@ -37,10 +37,12 @@ namespace StructureHelper.Windows.MainWindow
 {
     public class MainViewModel : ViewModelBase
     {
-        const double ConstAxisLineThickness = 2d;
-        
+        const double scale = 1d;
+        private double ConstAxisLineThickness = 2d * scale;
+        private double ConstGridLineThickness = 0.25d * scale;
+
         private List<IHeadMaterial> headMaterials;
-        private readonly double scaleRate = 1.1;
+        private readonly double scaleRate = 1.1d;
         
         private IPrimitiveRepository PrimitiveRepository { get; }
         public PrimitiveBase SelectedPrimitive { get; set; }
@@ -73,7 +75,7 @@ namespace StructureHelper.Windows.MainWindow
         }
 
         public int PrimitivesCount => Primitives.Count;
-        private double scaleValue = 1.0;
+        private double scaleValue;
 
         public double ScaleValue
         {
@@ -83,13 +85,19 @@ namespace StructureHelper.Windows.MainWindow
                 OnPropertyChanged(value, ref scaleValue);
                 axisLineThickness = ConstAxisLineThickness / scaleValue;
                 OnPropertyChanged(nameof(AxisLineThickness));
+                gridLineThickness = ConstGridLineThickness / scaleValue;
+                OnPropertyChanged(nameof(GridLineThickness));
             }
         }
 
         public double AxisLineThickness
         { 
-            get =>axisLineThickness == 0d? ConstAxisLineThickness: axisLineThickness;
-            set { axisLineThickness = value; }
+            get => axisLineThickness;
+        }
+
+        public double GridLineThickness
+        {
+            get => gridLineThickness;
         }
 
         private double canvasWidth, canvasHeight, xX2, xY1, yX1, yY2;
@@ -165,18 +173,22 @@ namespace StructureHelper.Windows.MainWindow
 
         private double delta = 0.0005;
         private double axisLineThickness;
+        private double gridLineThickness;
 
         public MainViewModel(MainModel model, IPrimitiveRepository primitiveRepository, UnitSystemService unitSystemService)
         {
             PrimitiveRepository = primitiveRepository;
             Model = model;
             headMaterials = Model.HeadMaterialRepository.HeadMaterials;
-            CanvasWidth = 1500;
-            CanvasHeight = 1000;
+            CanvasWidth = 2d * scale;
+            CanvasHeight = 1.5d * scale;
             XX2 = CanvasWidth;
             XY1 = CanvasHeight / 2d;
             YX1 = CanvasWidth / 2d;
             YY2 = CanvasHeight;
+            scaleValue = 1000d / scale;
+            axisLineThickness = ConstAxisLineThickness / scaleValue;
+            gridLineThickness = ConstGridLineThickness / scaleValue;
             calculationProperty = new CalculationProperty();
 
             LeftButtonUp = new RelayCommand(o =>

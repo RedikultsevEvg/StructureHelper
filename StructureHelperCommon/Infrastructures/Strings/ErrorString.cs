@@ -15,5 +15,6 @@ namespace StructureHelperCommon.Infrastructures.Strings
         public static string ShapeIsNotCorrect => "#0004: Shape is not valid";
         public static string LimitStatesIsNotValid => "#0005: Type of limite state is not valid";
         public static string LoadTermIsNotValid => "#0006: Load term is not valid";
+        public static string IncorrectValue => "#0007: value is not valid";
     }
 }

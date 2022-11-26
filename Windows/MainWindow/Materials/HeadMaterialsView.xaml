@@ -35,11 +35,11 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Elastic material"/>
                 <TextBlock Grid.Row="1" Text="Young's modulus"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Modulus, Converter={StaticResource StressConverter}, ValidatesOnDataErrors=True}"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Modulus, Converter={StaticResource StressConverter}, ValidatesOnExceptions=True}"/>
                 <TextBlock Grid.Row="2" Text="Compressive strength"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CompressiveStrength, Converter={StaticResource StressConverter}, ValidatesOnDataErrors=True}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CompressiveStrength, Converter={StaticResource StressConverter}, ValidatesOnExceptions=True}"/>
                 <TextBlock Grid.Row="3" Text="Tensile strength"/>
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding TensileStrength, Converter={StaticResource StressConverter}, ValidatesOnDataErrors=True}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding TensileStrength, Converter={StaticResource StressConverter}, ValidatesOnExceptions=True}"/>
             </Grid>
         </DataTemplate>
     </Window.Resources>
