@@ -18,12 +18,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
           set
             {
                 primitive.Area = value;
-                OnPropertyChanged(nameof(Area));
-                OnPropertyChanged(nameof(Diameter));
-                OnPropertyChanged(nameof(CenterX));
-                OnPropertyChanged(nameof(CenterY));
-                OnPropertyChanged(nameof(PrimitiveLeft));
-                OnPropertyChanged(nameof(PrimitiveTop));
+                RefreshPlacement();
             }
         }
 
@@ -46,6 +41,16 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         public override INdmPrimitive GetNdmPrimitive()
         {
             return primitive;
+        }
+
+        private void RefreshPlacement()
+        {
+            OnPropertyChanged(nameof(Area));
+            OnPropertyChanged(nameof(Diameter));
+            OnPropertyChanged(nameof(CenterX));
+            OnPropertyChanged(nameof(CenterY));
+            OnPropertyChanged(nameof(PrimitiveLeft));
+            OnPropertyChanged(nameof(PrimitiveTop));
         }
     }
 }

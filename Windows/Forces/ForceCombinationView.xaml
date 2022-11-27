@@ -1,0 +1,40 @@
+﻿<Window x:Class="StructureHelper.Windows.Forces.ForceCombinationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.Forces"
+        mc:Ignorable="d"
+        Title="Force Combination" Height="250" Width="450" MinHeight="300" MinWidth="400">
+    <TabControl>
+        <TabItem Header="Forces">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="25"/>
+                    <RowDefinition Height="Auto" MinHeight="25"/>
+                    <RowDefinition Height="Auto" MinHeight="25"/>
+                    <RowDefinition Height="Auto" MinHeight="25"/>
+                    <RowDefinition Height="Auto" MinHeight="25"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.RowSpan="2" Text="Ultimate limit state"/>
+                <TextBlock Grid.Column="1" Text="Short term"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="Long term"/>
+                <TextBlock Grid.Row="2" Grid.RowSpan="2" Text="Ultimate limit state"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="Short term"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="Long term"/>
+                <local:ForceTupleControl Grid.Column="2"/>
+                <local:ForceTupleControl Grid.Row="1" Grid.Column="2"/>
+                <local:ForceTupleControl Grid.Row="2" Grid.Column="2"/>
+                <local:ForceTupleControl Grid.Row="3" Grid.Column="2"/>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Additional">
+
+        </TabItem>
+    </TabControl>
+</Window>

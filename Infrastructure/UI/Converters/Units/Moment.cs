@@ -10,8 +10,8 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
 {
     internal class Moment : UnitBase
     {
-        public override UnitTypes unitType { get => UnitTypes.Moment; }
-        public override IUnit currentUnit { get => CommonOperation.GetUnit(unitType, "kNm"); }
-        public override string unitName { get => "Moment"; }
+        public override UnitTypes UnitType { get => UnitTypes.Moment; }
+        public override IUnit CurrentUnit { get => CommonOperation.GetUnit(UnitType, "kNm"); }
+        public override string UnitName { get => "Moment"; }
     }
 }

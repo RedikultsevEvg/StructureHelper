@@ -153,6 +153,7 @@
     <Compile Include="Infrastructure\UI\UserControls\PrimitivePopup.xaml.cs">
       <DependentUpon>PrimitivePopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Forces\ForceTupleViewObject.cs" />
     <Compile Include="Models\Primitives\Factories\PrimitiveFactory.cs" />
     <Compile Include="Services\Primitives\PrimitiveRepository.cs" />
     <Compile Include="Services\Primitives\IPrimitiveRepository.cs" />
@@ -200,6 +201,12 @@
     <Compile Include="Infrastructure\UI\DataContexts\RectangleViewPrimitive.cs" />
     <Compile Include="Infrastructure\UI\DataTemplates\EllipseTemplate.xaml.cs">
       <DependentUpon>EllipseTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Forces\ForceCombinationView.xaml.cs">
+      <DependentUpon>ForceCombinationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Forces\ForceTupleControl.xaml.cs">
+      <DependentUpon>ForceTupleControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\MainWindow\MainModel.cs" />
     <Compile Include="Windows\MainWindow\MainView.xaml.cs" />
@@ -286,6 +293,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\Forces\ForceCombinationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Forces\ForceTupleControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MainWindow\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -336,5 +351,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

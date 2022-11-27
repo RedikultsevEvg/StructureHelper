@@ -12,8 +12,8 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
 {
     internal class Stress : UnitBase
     {
-        public override UnitTypes unitType { get => UnitTypes.Stress; }
-        public override IUnit currentUnit { get => CommonOperation.GetUnit(unitType, "MPa"); }
-        public override string unitName { get => "Stress"; }
+        public override UnitTypes UnitType { get => UnitTypes.Stress; }
+        public override IUnit CurrentUnit { get => CommonOperation.GetUnit(UnitType, "MPa"); }
+        public override string UnitName { get => "Stress"; }
     }
 }

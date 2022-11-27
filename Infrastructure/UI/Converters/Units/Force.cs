@@ -12,8 +12,8 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
 {
     internal class Force : UnitBase
     {
-        public override UnitTypes unitType { get => UnitTypes.Force; }
-        public override IUnit currentUnit { get => CommonOperation.GetUnit(unitType, "kN"); }
-        public override string unitName { get => "Force"; }
+        public override UnitTypes UnitType { get => UnitTypes.Force; }
+        public override IUnit CurrentUnit { get => CommonOperation.GetUnit(UnitType, "kN"); }
+        public override string UnitName { get => "Force"; }
     }
 }

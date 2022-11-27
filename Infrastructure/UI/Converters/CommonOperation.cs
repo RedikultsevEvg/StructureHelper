@@ -33,7 +33,7 @@ namespace StructureHelper.Infrastructure.UI.Converters
         public static IStringDoublePair DivideIntoStringDoublePair(string s)
         {
             s = s.Replace(" ", "");
-            string digitPattern = @"\d+(\.?|\,?)\d+";
+            string digitPattern = @"\d+(\.?|\,?)\d*";
             string textPattern = @"[0-9]|\.|\,";
             string caracterPattern = "[a-z]+$";
             string target = "";
