@@ -4,7 +4,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     public interface IPointTriangulationLogicOptions : ITriangulationLogicOptions
     {
-        ICenter Center { get; }
+        IPoint2D Center { get; }
         double Area { get; }
     }
 }

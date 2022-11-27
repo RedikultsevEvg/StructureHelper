@@ -2,7 +2,7 @@
 {
     public interface ICenterShape
     {
-        ICenter Center {get;}
+        IPoint2D Center {get;}
         IShape Shape { get;}
     }
 }

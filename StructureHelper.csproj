@@ -138,6 +138,9 @@
     <Compile Include="Infrastructure\UI\Converters\IStringDoublePair.cs" />
     <Compile Include="Infrastructure\UI\Converters\StringDoublePair.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\Area.cs" />
+    <Compile Include="Infrastructure\UI\Converters\Units\Curvature.cs" />
+    <Compile Include="Infrastructure\UI\Converters\Units\Moment.cs" />
+    <Compile Include="Infrastructure\UI\Converters\Units\PlainDouble.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\Stress.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\Force.cs" />
     <Compile Include="Infrastructure\UI\Converters\Units\Length.cs" />

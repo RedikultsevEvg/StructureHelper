@@ -11,7 +11,7 @@ namespace StructureHelperLogics.Models.Primitives
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICenter Center { get; set; }
+        public IPoint2D Center { get; set; }
         public IShape Shape { get; }   
 
         public LinePrimitive()

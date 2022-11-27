@@ -1,4 +1,6 @@
-﻿using System;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services.Units;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,9 +12,17 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
 {
     internal abstract class UnitBase : IValueConverter
     {
+        public abstract UnitTypes unitType { get; }
+        public abstract IUnit currentUnit { get; }
         public abstract string unitName { get;}
-        public abstract string MeasureUnit { get; }
-        public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
-        public abstract object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture);
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return CommonOperation.Convert(currentUnit, unitName, value);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return CommonOperation.ConvertBack(unitType, currentUnit, value);
+        }
     }
 }

@@ -134,9 +134,9 @@
                     <TextBlock Grid.Row="0" Text="k_x"/>
                     <TextBlock Grid.Row="1" Text="k_y"/>
                     <TextBlock Grid.Row="2" Text="epsilon_z"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding PrestrainKx, ValidatesOnDataErrors=True}"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding PrestrainKy, ValidatesOnDataErrors=True}"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding PrestrainEpsZ, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding PrestrainKx, Converter={StaticResource Curvature}, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding PrestrainKy, Converter={StaticResource Curvature}, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding PrestrainEpsZ, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
                 </Grid>
             </Expander>
         </StackPanel>

@@ -68,8 +68,8 @@ namespace StructureHelperLogics.Models.Materials
                 materialOptions.CodesType = LCMB.CodesType.SP63_2018;
             }
             else { throw new StructureHelperException($"{ErrorStrings.ObjectTypeIsUnknown} : {codeType}"); }
-            if (limitState == LimitStates.Collapse) { materialOptions.LimitState = LCMB.LimitStates.Collapse; }
-            else if (limitState == LimitStates.ServiceAbility) { materialOptions.LimitState = LCMB.LimitStates.ServiceAbility; }
+            if (limitState == LimitStates.ULS) { materialOptions.LimitState = LCMB.LimitStates.Collapse; }
+            else if (limitState == LimitStates.SLS) { materialOptions.LimitState = LCMB.LimitStates.ServiceAbility; }
             else if (limitState == LimitStates.Special) { materialOptions.LimitState = LCMB.LimitStates.Special; }
             else { throw new StructureHelperException(ErrorStrings.LimitStatesIsNotValid); }
             if (calcTerm == CalcTerms.ShortTerm) { materialOptions.IsShortTerm = true; }

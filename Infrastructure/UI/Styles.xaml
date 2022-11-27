@@ -26,6 +26,14 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Opacity" Value="{Binding Opacity, Mode=TwoWay}"/>
+        <Setter Property="Stroke" Value="Black"/>
+        <Setter Property="StrokeThickness" Value="0.001"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Stroke" Value="Red"/>
+                <Setter Property="StrokeThickness" Value="0.002"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="EllipseStyle" TargetType="Ellipse" BasedOn="{StaticResource ShapeStyle}">

@@ -75,11 +75,12 @@ namespace StructureHelper.Windows.MainWindow
         }
 
         public int PrimitivesCount => Primitives.Count;
+
         private double scaleValue;
 
         public double ScaleValue
         {
-            get => scaleValue;
+            get => Math.Round(scaleValue);
             set
             {
                 OnPropertyChanged(value, ref scaleValue);
@@ -186,7 +187,7 @@ namespace StructureHelper.Windows.MainWindow
             XY1 = CanvasHeight / 2d;
             YX1 = CanvasWidth / 2d;
             YY2 = CanvasHeight;
-            scaleValue = 1000d / scale;
+            scaleValue = 400d / scale;
             axisLineThickness = ConstAxisLineThickness / scaleValue;
             gridLineThickness = ConstGridLineThickness / scaleValue;
             calculationProperty = new CalculationProperty();
@@ -307,6 +308,7 @@ namespace StructureHelper.Windows.MainWindow
                 viewPrimitive.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);
                 Primitives.Add(viewPrimitive);
                 PrimitiveRepository.Add(viewPrimitive);
+                OnPropertyChanged(nameof(PrimitivesCount));
             });
 
             DeletePrimitive = new RelayCommand(
@@ -326,6 +328,7 @@ namespace StructureHelper.Windows.MainWindow
                     Primitives.Add(primitive);
                     PrimitiveRepository.Add(primitive);
                 }
+                OnPropertyChanged(nameof(PrimitivesCount));
                 AddCaseLoads(-50e3d, 50e3d, 0d);
             });
 
@@ -336,6 +339,7 @@ namespace StructureHelper.Windows.MainWindow
                     Primitives.Add(primitive);
                     PrimitiveRepository.Add(primitive);
                 }
+                OnPropertyChanged(nameof(PrimitivesCount));
                 AddCaseLoads(50e3d, 50e3d, -100e3d);
             });
 
@@ -346,6 +350,7 @@ namespace StructureHelper.Windows.MainWindow
                     Primitives.Add(primitive);
                     PrimitiveRepository.Add(primitive);
                 }
+                OnPropertyChanged(nameof(PrimitivesCount));
                 AddCaseLoads(-20e3d, 0d, 0d);
             });
 
@@ -391,6 +396,10 @@ namespace StructureHelper.Windows.MainWindow
             wnd.ShowDialog();
             headMaterials = Model.HeadMaterialRepository.HeadMaterials;
             OnPropertyChanged(nameof(headMaterials));
+            foreach (var primitive in Primitives)
+            {
+                primitive.RefreshColor();
+            }
         }
 
         private void DeleteSelectedPrimitive()
@@ -405,6 +414,7 @@ namespace StructureHelper.Windows.MainWindow
                 }
             }
             else { MessageBox.Show("Selection is changed", "Please, select primitive", MessageBoxButtons.YesNo, MessageBoxIcon.Warning); }
+            OnPropertyChanged(nameof(PrimitivesCount));
         }
 
         private void EditSelectedPrimitive()

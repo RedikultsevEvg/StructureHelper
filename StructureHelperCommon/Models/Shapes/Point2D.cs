@@ -1,7 +1,7 @@
 ﻿namespace StructureHelperCommon.Models.Shapes
 {
     /// <inheritdoc />
-    public class Center : ICenter
+    public class Point2D : IPoint2D
     {
         /// <inheritdoc />
         public double X { get; set; }

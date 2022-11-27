@@ -20,7 +20,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public IEnumerable<INdm> GetNdmCollection(IMaterial material)
         {
             IPointTriangulationLogicOptions options = Options as IPointTriangulationLogicOptions;
-            ICenter center = options.Center;
+            IPoint2D center = options.Center;
             double area = options.Area;
             List<INdm> ndmCollection = new List<INdm>();
             INdm ndm = new Ndm { CenterX = center.X, CenterY = center.Y, Area = area, Material = material };

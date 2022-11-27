@@ -16,7 +16,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow
             InitializeComponent();
             viewModel = calculationProperty;
             this.DataContext = viewModel;
-            if (viewModel.LimitState == LimitStates.Collapse) { LsCollapse.IsChecked = true; }
+            if (viewModel.LimitState == LimitStates.ULS) { LsCollapse.IsChecked = true; }
             else { LsServiceability.IsChecked = true; }
             if (viewModel.CalcTerm == CalcTerms.ShortTerm) { ShortLoads.IsChecked = true; }
             else { LongLoads.IsChecked = true; }
@@ -31,14 +31,14 @@ namespace StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow
         {
             var chBox = sender as RadioButton;
             if (chBox.IsChecked == true & viewModel != null)
-            { viewModel.LimitState = LimitStates.Collapse; }
+            { viewModel.LimitState = LimitStates.ULS; }
         }
 
         private void LsServiceability_Checked(object sender, RoutedEventArgs e)
         {
             var chBox = sender as RadioButton;
             if (chBox.IsChecked == true & viewModel != null)
-            { viewModel.LimitState = LimitStates.ServiceAbility; }
+            { viewModel.LimitState = LimitStates.SLS; }
         }
 
         private void ShortLoads_Checked(object sender, RoutedEventArgs e)

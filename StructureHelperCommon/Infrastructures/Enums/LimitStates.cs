@@ -2,8 +2,8 @@
 {
     public enum LimitStates
     {
-        Collapse = 1,
-        ServiceAbility = 2,
+        ULS = 1,
+        SLS = 2,
         Special = 3,
     }
 }

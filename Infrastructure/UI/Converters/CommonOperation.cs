@@ -1,5 +1,9 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using Newtonsoft.Json.Linq;
+using StructureHelper.Infrastructure.UI.Converters.Units;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
+using StructureHelperCommon.Services.Units;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,6 +16,8 @@ namespace StructureHelper.Infrastructure.UI.Converters
 {
     internal static class CommonOperation
     {
+        private static IEnumerable<IUnit> units = UnitsFactory.GetUnitCollection();
+
         public static double ConvertToDoubleChangeComma(string s)
         {
             double result;
@@ -26,6 +32,7 @@ namespace StructureHelper.Infrastructure.UI.Converters
 
         public static IStringDoublePair DivideIntoStringDoublePair(string s)
         {
+            s = s.Replace(" ", "");
             string digitPattern = @"\d+(\.?|\,?)\d+";
             string textPattern = @"[0-9]|\.|\,";
             string caracterPattern = "[a-z]+$";
@@ -42,6 +49,52 @@ namespace StructureHelper.Infrastructure.UI.Converters
                 return new StringDoublePair() { Digit = digit, Text = textString };
             }
             throw new StructureHelperException(ErrorStrings.DataIsInCorrect);
+        }
+
+        public static IUnit GetUnit(UnitTypes unitType, string unitName)
+        {
+            return units.Where(u => u.UnitType == unitType & u.Name == unitName).Single();
+        }
+
+        public static string Convert(IUnit unit, string unitName, object value)
+        {
+            double val;
+            if (value != null) { val = (double)value; }
+            else { throw new Exception($"{unitName} value is null"); }
+            val *= unit.Multiplyer;
+            string strValue = $"{val} {unit.Name}";
+            return strValue;
+        }
+
+        public static double ConvertBack(UnitTypes unitType, IUnit unit, object value)
+        {
+            double val;
+            double multy;
+            double coefficient = unit.Multiplyer;
+            var strVal = value as string;
+            IStringDoublePair pair = DivideIntoStringDoublePair(strVal);
+            try
+            {
+                multy = GetMultiplyer(unitType, pair.Text);
+            }
+            catch (Exception ex)
+            {
+                multy = coefficient;
+            }
+            val = pair.Digit / multy;
+            return val;
+        }
+
+        private static double GetMultiplyer(UnitTypes unitType, string unitName)
+        {
+            try
+            {
+                return units.Where(u => u.UnitType == unitType & u.Name == unitName).Single().Multiplyer;
+            }
+            catch (Exception ex)
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ex);
+            }
         }
     }
 }

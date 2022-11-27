@@ -20,6 +20,10 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                 primitive.Area = value;
                 OnPropertyChanged(nameof(Area));
                 OnPropertyChanged(nameof(Diameter));
+                OnPropertyChanged(nameof(CenterX));
+                OnPropertyChanged(nameof(CenterY));
+                OnPropertyChanged(nameof(PrimitiveLeft));
+                OnPropertyChanged(nameof(PrimitiveTop));
             }
         }
 

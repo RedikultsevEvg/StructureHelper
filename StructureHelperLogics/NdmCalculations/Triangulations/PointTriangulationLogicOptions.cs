@@ -14,7 +14,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <summary>
         /// 
         /// </summary>
-        public ICenter Center { get; }
+        public IPoint2D Center { get; }
         /// <inheritdoc />
         public double Area { get; }
         /// <inheritdoc />
@@ -24,7 +24,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <inheritdoc />
         public double PrestrainEpsZ { get; }
 
-        public PointTriangulationLogicOptions(ICenter center, double area)
+        public PointTriangulationLogicOptions(IPoint2D center, double area)
         {
             Center = center;
             Area = area;
@@ -32,7 +32,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
         public PointTriangulationLogicOptions(IPointPrimitive primitive)
         {
-            Center = new Center() { X = primitive.CenterX, Y = primitive.CenterY };
+            Center = new Point2D() { X = primitive.CenterX, Y = primitive.CenterY };
             Area = primitive.Area;
             PrestrainKx = primitive.PrestrainKx;
             PrestrainKy = primitive.PrestrainKy;

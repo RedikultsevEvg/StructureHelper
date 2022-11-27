@@ -12,7 +12,7 @@ namespace StructureHelperLogics.Models.Primitives
     public interface IPrimitive : ISaveable, ICloneable
     {
         string Name { get; set; }
-        ICenter Center { get; }
+        IPoint2D Center { get; }
         IShape Shape { get; }
         
         IEnumerable<INdmPrimitive> GetNdmPrimitives();

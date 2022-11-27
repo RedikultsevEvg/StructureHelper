@@ -8,8 +8,8 @@ namespace StructureHelperCommon.Models.Shapes
 {
     public interface ILineShape : IShape
     {
-        ICenter StartPoint { get; set; }
-        ICenter EndPoint { get; set; }
+        IPoint2D StartPoint { get; set; }
+        IPoint2D EndPoint { get; set; }
         double Thickness { get; set; }
     }
 }

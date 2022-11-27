@@ -11,7 +11,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
     public class RectangleTriangulationLogicOptions : IRectangleTriangulationLogicOptions
     {
         /// <inheritdoc />
-        public ICenter Center { get; }
+        public IPoint2D Center { get; }
         /// <inheritdoc />
         public IRectangleShape Rectangle { get; }
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <inheritdoc />
         public double PrestrainEpsZ { get;}
 
-        public RectangleTriangulationLogicOptions(ICenter center, IRectangleShape rectangle, double ndmMaxSize, int ndmMinDivision)
+        public RectangleTriangulationLogicOptions(IPoint2D center, IRectangleShape rectangle, double ndmMaxSize, int ndmMinDivision)
         {
             Center = center;
             Rectangle = rectangle;
@@ -35,7 +35,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
         public RectangleTriangulationLogicOptions(IRectanglePrimitive primitive)
         {
-            Center = new Center() { X = primitive.CenterX, Y = primitive.CenterY };
+            Center = new Point2D() { X = primitive.CenterX, Y = primitive.CenterY };
             Rectangle = primitive;
             NdmMaxSize = primitive.NdmMaxSize;
             NdmMinDivision = primitive.NdmMinDivision;

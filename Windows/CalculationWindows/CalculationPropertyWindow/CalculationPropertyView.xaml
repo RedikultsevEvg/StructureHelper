@@ -39,8 +39,8 @@
                                       SelectedItem="{Binding Path=SelectedCombination}">
                                 <DataGrid.Columns>
                                     <DataGridCheckBoxColumn Header="Active" Binding="{Binding Path=TakeInCalculate}"/>
-                                    <DataGridTextColumn Header="Moment Mx" Width="90" Binding="{Binding Path=ForceMatrix.Mx, Converter={StaticResource ForceConverter}}"/>
-                                    <DataGridTextColumn Header="Moment My" Width="90" Binding="{Binding Path=ForceMatrix.My, Converter={StaticResource ForceConverter}}"/>
+                                    <DataGridTextColumn Header="Moment Mx" Width="90" Binding="{Binding Path=ForceMatrix.Mx, Converter={StaticResource MomentConverter}}"/>
+                                    <DataGridTextColumn Header="Moment My" Width="90" Binding="{Binding Path=ForceMatrix.My, Converter={StaticResource MomentConverter}}"/>
                                     <DataGridTextColumn Header="Force Nz" Width="90" Binding="{Binding Path=ForceMatrix.Nz, Converter={StaticResource ForceConverter}}"/>
                                 </DataGrid.Columns>
                             </DataGrid>

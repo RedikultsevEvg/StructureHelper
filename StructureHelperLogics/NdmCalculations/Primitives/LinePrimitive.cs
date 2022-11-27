@@ -27,15 +27,15 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public double PrestrainKy { get; set; }
         public double PrestrainEpsZ { get; set; }
 
-        public ICenter StartPoint { get; set; }
-        public ICenter EndPoint { get; set; }
+        public IPoint2D StartPoint { get; set; }
+        public IPoint2D EndPoint { get; set; }
         public double Thickness { get; set; }
         
 
         public LinePrimitive()
         {
-            StartPoint = new Center();
-            EndPoint = new Center();
+            StartPoint = new Point2D();
+            EndPoint = new Point2D();
 
             Name = "New Line";
             NdmMaxSize = 0.01d;

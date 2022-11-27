@@ -55,8 +55,15 @@
     <Compile Include="Infrastructures\Interfaces\ISaveable.cs" />
     <Compile Include="Infrastructures\Strings\ErrorString.cs" />
     <Compile Include="Infrastructures\Enums\MaterialTypes.cs" />
-    <Compile Include="Models\Shapes\Center.cs" />
-    <Compile Include="Models\Shapes\ICenter.cs" />
+    <Compile Include="Models\Calculators\IHelperCalculator.cs" />
+    <Compile Include="Models\Forces\DesignForceTuple.cs" />
+    <Compile Include="Models\Forces\ForceCombinationList.cs" />
+    <Compile Include="Models\Forces\ForceTuple.cs" />
+    <Compile Include="Models\Forces\IDesignForceTuple.cs" />
+    <Compile Include="Models\Forces\IForceCombinationList.cs" />
+    <Compile Include="Models\Forces\IForceTuple.cs" />
+    <Compile Include="Models\Shapes\Point2D.cs" />
+    <Compile Include="Models\Shapes\IPoint2D.cs" />
     <Compile Include="Models\Shapes\ICenterShape.cs" />
     <Compile Include="Models\Shapes\ICircle.cs" />
     <Compile Include="Models\Shapes\ILineShape.cs" />
@@ -73,5 +80,6 @@
     <Compile Include="Services\Units\Unit.cs" />
     <Compile Include="Services\Units\UnitsFactory.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

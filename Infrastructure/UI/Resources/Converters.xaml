@@ -5,8 +5,11 @@
     xmlns:convertersUnits ="clr-namespace:StructureHelper.Infrastructure.UI.Converters.Units">
 
     <convertersCommon:InvertBoolConverter x:Key="InvertBoolConverter"/>
+    <convertersUnits:PlainDouble x:Key="PlainDouble"/>
     <convertersUnits:Length x:Key="LengthConverter"/>
     <convertersUnits:Area x:Key="AreaConverter"/>
     <convertersUnits:Force x:Key="ForceConverter"/>
+    <convertersUnits:Moment x:Key="MomentConverter"/>
     <convertersUnits:Stress x:Key="StressConverter"/>
+    <convertersUnits:Curvature x:Key="Curvature"/>
 </ResourceDictionary>

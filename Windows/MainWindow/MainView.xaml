@@ -52,7 +52,7 @@
                     <Button Content="Concrete slab" Command="{Binding AddSlabCase}"/>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Analisys">
+            <MenuItem Header="Analysis">
                 <Button Content="Solve problem" Command="{Binding Path=Calculate}"/>
             </MenuItem>
         </Menu>
@@ -206,7 +206,16 @@
         </Grid>
         <StatusBar Grid.Row="2">
             <StatusBarItem>
-                <TextBlock Text="Structure Helper"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Zoom: "/>
+                    <TextBlock Text="{Binding ScaleValue}"/>
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Number of primitives: "/>
+                    <TextBlock Text="{Binding PrimitivesCount}"/>
+                </StackPanel>
             </StatusBarItem>
         </StatusBar>
     </Grid>

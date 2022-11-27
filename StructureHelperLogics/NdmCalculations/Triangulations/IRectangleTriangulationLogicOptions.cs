@@ -11,7 +11,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <summary>
         /// 
         /// </summary>
-        ICenter Center { get; }
+        IPoint2D Center { get; }
         /// <summary>
         /// 
         /// </summary>

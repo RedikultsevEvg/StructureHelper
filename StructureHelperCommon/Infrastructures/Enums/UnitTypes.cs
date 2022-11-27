@@ -12,6 +12,7 @@ namespace StructureHelperCommon.Infrastructures.Enums
         Area,
         Stress,
         Force,
-        Moment
+        Moment,
+        Curvature
     }
 }

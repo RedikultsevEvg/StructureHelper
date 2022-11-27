@@ -21,7 +21,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.SteelSections
         public void Run_ShouldPass(double width, double height, double strength, double mx, double my, double nz, double expectedKx, double expectedKy, double expectedEpsilonZ)
         {
             //Arrange
-            ICenter center = new Center { X = 0, Y = 0 };
+            IPoint2D center = new Point2D { X = 0, Y = 0 };
             IRectangleShape rectangle = new RectangleShape { Width = width, Height = height, Angle = 0 };
             IPrimitiveMaterial material = new PrimitiveMaterial { MaterialType = MaterialTypes.Reinforcement, ClassName = "S400", Strength = strength };
             ITriangulationOptions options = new TriangulationOptions { LimiteState = StructureHelperLogics.Infrastructures.CommonEnums.LimitStates.Collapse, CalcTerm = StructureHelperLogics.Infrastructures.CommonEnums.CalcTerms.ShortTerm };

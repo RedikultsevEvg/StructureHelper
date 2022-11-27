@@ -16,7 +16,7 @@ namespace StructureHelperLogics.Models.Calculations.CalculationProperties
             {
                 new ForceCombination()
             };
-            LimitState = LimitStates.Collapse;
+            LimitState = LimitStates.ULS;
             CalcTerm = CalcTerms.ShortTerm;
             IterationProperty = new IterationProperty() { Accuracy = 0.001d, MaxIterationCount = 100};
         }

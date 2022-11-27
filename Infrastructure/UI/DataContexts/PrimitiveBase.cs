@@ -243,5 +243,10 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         {
 
         }
+
+        public void RefreshColor()
+        {
+            OnPropertyChanged(nameof(Color));
+        }
     }
 }
