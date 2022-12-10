@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Models.Shapes;
+using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;

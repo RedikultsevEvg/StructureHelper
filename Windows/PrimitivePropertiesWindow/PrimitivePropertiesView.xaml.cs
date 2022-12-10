@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.Models.Materials;
 using StructureHelper.Windows.ViewModels.PrimitiveProperties;
 using StructureHelperLogics.Models.Materials;
 using System;
@@ -28,10 +29,10 @@ namespace StructureHelper.Windows.PrimitiveProperiesWindow
     {
         PrimitiveBase primitive;
         private PrimitivePropertiesViewModel viewModel;
-        public PrimitiveProperties(PrimitiveBase primitive, IHeadMaterialRepository materialRepository)
+        public PrimitiveProperties(PrimitiveBase primitive, IHasHeadMaterials headMaterials)
         {
             this.primitive = primitive;
-            viewModel = new PrimitivePropertiesViewModel(this.primitive, materialRepository);
+            viewModel = new PrimitivePropertiesViewModel(this.primitive, headMaterials);
             this.DataContext = viewModel;
             InitializeComponent();
             if (primitive is RectangleViewPrimitive) { AddPrimitiveProperties(PrimitiveType.Rectangle); }

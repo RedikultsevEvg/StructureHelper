@@ -1,0 +1,108 @@
+﻿<Window x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceCalculatorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
+        xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Calculations.Calculators"
+        d:DataContext="{d:DesignInstance vm:ForceCalculatorViewModel}"
+        mc:Ignorable="d"
+        Title="Analysis by forces" Height="300" Width="400" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="cbStyle" TargetType="CheckBox">
+            <Setter Property="Margin" Value="0,5,0,5"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header="General">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="300"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Name"/>
+                        <TextBox Grid.Column="1" Text="{Binding Name}"/>
+                    </Grid>
+                    <GroupBox Header="Limit States">
+                        <StackPanel>
+                            <CheckBox Style="{StaticResource cbStyle}" Content="Ultimate Limit State"/>
+                            <CheckBox Style="{StaticResource cbStyle}" Content="Serviceability Limit State"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Duration">
+                        <StackPanel>
+                            <CheckBox Style="{StaticResource cbStyle}" Content="Short Term"/>
+                            <CheckBox Style="{StaticResource cbStyle}" Content="Long Term"/>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Forces">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox>
+
+                    </ListBox>
+                    <StackPanel Grid.Column="1">
+                        <Button Content="Add all"/>
+                        <Button Content="Clear all"/>
+                        <Button Content=">>"/>
+                        <Button Content="&lt;&lt;"/>
+                    </StackPanel>
+                    <ListBox Grid.Column="2">
+
+                    </ListBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Primitives">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox ItemsSource="{Binding AllowedPrimitives}"
+                             SelectedItem="{Binding SelectedAllowedPrimitive}"
+                             ItemTemplate="{StaticResource ColoredItemTemplate}">
+                    </ListBox>
+                    <StackPanel Grid.Column="1">
+                        <Button Content="Add all" Command="{Binding AddAllPrimitivesCommand}"/>
+                        <Button Content="Clear all" Command="{Binding ClearAllPrimitivesCommand}"/>
+                        <Button Content=">>" Command="{Binding AddSelectedPrimitiveCommand}"/>
+                        <Button Content="&lt;&lt;" Command="{Binding RemoveSelectedPrimitiveCommand}"/>
+                    </StackPanel>
+                    <ListBox Grid.Column="2" ItemsSource="{Binding Primitives}" SelectedItem="{Binding SelectedPrimitive}" ItemTemplate="{StaticResource ColoredItemTemplate}">
+
+                    </ListBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Iterations">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Required Accuracy" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBox Style="{StaticResource ValidatedError}" Grid.Column="2" Margin="5,5,5,5" Text="{Binding Path=IterationAccuracy, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="1" Text="Maximum Iteration Count" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+                    <TextBox Style="{StaticResource ValidatedError}" Grid.Column="2" Grid.Row="1" Margin="5,5,5,5" Text="{Binding Path=MaxIterationCount, ValidatesOnDataErrors=True}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

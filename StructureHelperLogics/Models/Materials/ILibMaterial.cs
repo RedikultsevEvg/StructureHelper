@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,6 @@ namespace StructureHelperLogics.Models.Materials
 {
     public interface ILibMaterial : IHelperMaterial
     {
-        MaterialTypes MaterialType { get; set; }
-        //CodeTypes CodeType { get; set; }
-        string Name { get; set; }
-        double MainStrength { get; set; }
+        ILibMaterialEntity MaterialEntity { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public interface IForceTuple
+    public interface IForceTuple : ICloneable
     {
         double Mx { get; set; }
         double My { get; set; }
@@ -14,6 +14,5 @@ namespace StructureHelperCommon.Models.Forces
         double Qx { get; set; }
         double Qy { get; set; }
         double Mz { get; set; }
-
     }
 }

@@ -53,6 +53,7 @@
     <Compile Include="Infrastructures\Exceptions\StructureHelperException.cs" />
     <Compile Include="Infrastructures\Interfaces\IHasParent.cs" />
     <Compile Include="Infrastructures\Interfaces\ISaveable.cs" />
+    <Compile Include="Infrastructures\Settings\ProgramSetting.cs" />
     <Compile Include="Infrastructures\Strings\ErrorString.cs" />
     <Compile Include="Infrastructures\Enums\MaterialTypes.cs" />
     <Compile Include="Models\Calculators\IHelperCalculator.cs" />
@@ -61,7 +62,15 @@
     <Compile Include="Models\Forces\ForceTuple.cs" />
     <Compile Include="Models\Forces\IDesignForceTuple.cs" />
     <Compile Include="Models\Forces\IForceCombinationList.cs" />
+    <Compile Include="Models\Forces\IForceRepository.cs" />
     <Compile Include="Models\Forces\IForceTuple.cs" />
+    <Compile Include="Models\Materials\Libraries\ConcreteMaterialEntity.cs" />
+    <Compile Include="Models\Materials\Libraries\Factories\LibMaterialFactory.cs" />
+    <Compile Include="Models\Materials\Libraries\IConcreteMaterialEntity.cs" />
+    <Compile Include="Models\Materials\Libraries\ILibMaterialEntity.cs" />
+    <Compile Include="Models\Materials\Libraries\IReinforcementMaterialEntity.cs" />
+    <Compile Include="Models\Materials\Libraries\LibMaterialPepository.cs" />
+    <Compile Include="Models\Materials\Libraries\ReinforcementMaterialEntity.cs" />
     <Compile Include="Models\Shapes\Point2D.cs" />
     <Compile Include="Models\Shapes\IPoint2D.cs" />
     <Compile Include="Models\Shapes\ICenterShape.cs" />

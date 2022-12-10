@@ -1,4 +1,6 @@
-﻿using System;
+﻿using StructureHelper.Windows.ViewModels.Forces;
+using StructureHelperCommon.Models.Forces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,8 +21,18 @@ namespace StructureHelper.Windows.Forces
     /// </summary>
     public partial class ForceCombinationView : Window
     {
-        public ForceCombinationView()
+        ForceCombinationViewModel viewModel;
+        public ForceCombinationView(ForceCombinationViewModel _viewModel)
         {
+            viewModel = _viewModel;
+            DataContext = viewModel;
+            InitializeComponent();
+        }
+
+        public ForceCombinationView(IForceCombinationList combinationList)
+        {
+            viewModel = new ForceCombinationViewModel(combinationList);
+            DataContext = viewModel;
             InitializeComponent();
         }
     }

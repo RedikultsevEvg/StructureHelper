@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.Services.NdmCalculations
 {

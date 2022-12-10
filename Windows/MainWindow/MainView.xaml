@@ -62,32 +62,38 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel>
-                <Expander Header="Materials" ExpandDirection="Down" MinWidth="20">
+                <Expander Header="Actions" MinWidth="20">
                     <Expander.ContextMenu>
                         <ContextMenu>
-                            <Button Content="Materials" Command="{Binding EditHeadMaterialsCommand}"/>
+                            <Button Content="Add Force Combination" Command="{Binding AddForceCombinationCommand}"/>
                         </ContextMenu>
                     </Expander.ContextMenu>
-                    <ListBox ItemsSource="{Binding HeadMaterials}">
+                    <ListBox ItemsSource="{Binding ForceCombinationLists}" SelectedItem="{Binding SelectedForceCombinationList}">
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <Button Content="Edit" Command="{Binding EditForceCombinationCommand}"/>
+                                <Button Content="Delete" Command="{Binding DeleteForceCombinationCommand}"/>
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="20"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Rectangle Grid.Column="0" Margin="3">
-                                        <Rectangle.Fill>
-                                            <SolidColorBrush Color="{Binding Color}"/>
-                                        </Rectangle.Fill>
-                                    </Rectangle>
-                                    <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                    <TextBlock Text="{Binding Name}"/>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </Expander>
-                <Expander Header="Geometry" ExpandDirection="Down" MinWidth="20" >
+                <Expander Header="Materials" MinWidth="20">
+                    <Expander.ContextMenu>
+                        <ContextMenu>
+                            <Button Content="Materials" Command="{Binding EditHeadMaterialsCommand}"/>
+                        </ContextMenu>
+                    </Expander.ContextMenu>
+                    <ListBox ItemsSource="{Binding HeadMaterials}"  ItemTemplate="{StaticResource ColoredItemTemplate}">
+                    </ListBox>
+                </Expander>
+                <Expander Header="Geometry" MinWidth="20" >
                     <Expander.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Add">
@@ -96,43 +102,33 @@
                             </MenuItem>
                         </ContextMenu>
                     </Expander.ContextMenu>
-                    <ListBox ItemsSource="{Binding Primitives}" SelectedItem="{Binding SelectedPrimitive}">
+                    <ListBox ItemsSource="{Binding Primitives}" SelectedItem="{Binding SelectedPrimitive}" ItemTemplate="{StaticResource ColoredItemTemplate}">
                         <ListBox.ContextMenu>
                             <ContextMenu>
                                 <Button Content="Edit" Command="{Binding EditPrimitive}"/>
                                 <Button Content="Delete" Command="{Binding DeletePrimitive}"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>
+                    </ListBox>
+                </Expander>
+                <Expander Header="Analyses" MinWidth="20">
+                    <Expander.ContextMenu>
+                        <ContextMenu>
+                            <Button Content="Add Calculator" Command="{Binding AddCalculatorCommand}"/>
+                        </ContextMenu>
+                    </Expander.ContextMenu>
+                    <ListBox ItemsSource="{Binding Calculators}" SelectedItem="{Binding SelectedCalculator}">
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <Button Content="Edit" Command="{Binding EditCalculatorCommand}"/>
+                                <!--<Button Content="Delete" Command="{Binding DeleteForceCombinationCommand}"/>-->
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="20"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Rectangle Grid.Column="0" Margin="3">
-                                        <Rectangle.Fill>
-                                            <SolidColorBrush Color="{Binding Color}"/>
-                                        </Rectangle.Fill>
-                                    </Rectangle>
-                                    <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                    <TextBlock Text="{Binding Name}"/>
                                 </Grid>
-
-                                <!--<Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="20"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1"/>
-                                        <ColumnDefinition MinWidth="50"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Viewbox Grid.RowSpan="2">
-                                        
-                                    </Viewbox>
-                                    <TextBlock Grid.Column="1" Text="{Binding Name}"/>
-                                    <Button Grid.Column="1" Grid.Row="1" Content="..."/>
-                                </Grid>-->
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>

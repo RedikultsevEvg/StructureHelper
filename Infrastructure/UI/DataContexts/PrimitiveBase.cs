@@ -17,6 +17,7 @@ using StructureHelperLogics.Models.Materials;
 using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.Primitives;
 using System.Windows.Controls;
+using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {

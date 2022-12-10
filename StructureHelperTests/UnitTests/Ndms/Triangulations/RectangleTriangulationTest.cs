@@ -23,8 +23,8 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             IMaterial material = new Material();
             IPoint2D center = new Point2D { X = centerX, Y = centerY };
             IRectangleShape rectangle = new RectangleShape { Width = width, Height = height, Angle = angle };
-            IRectangleTriangulationLogicOptions options = new StructureHelperLogics.NdmCalculations.Triangulations.RectangleTriangulationLogicOptions(center, rectangle, ndmMaxSize, ndmMinDivision);
-            IRectangleTriangulationLogic logic = new StructureHelperLogics.NdmCalculations.Triangulations.RectangleTriangulationLogic(options);
+            IRectangleTriangulationLogicOptions options = new RectangleTriangulationLogicOptions(center, rectangle, ndmMaxSize, ndmMinDivision);
+            IRectangleTriangulationLogic logic = new RectangleTriangulationLogic(options);
             //Act
             var result = logic.GetNdmCollection(material);
             //Assert

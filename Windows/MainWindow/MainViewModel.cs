@@ -11,18 +11,27 @@ using StructureHelper.Services.Primitives;
 using StructureHelper.UnitSystem;
 using StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow;
 using StructureHelper.Windows.CalculationWindows.CalculationResultWindow;
+using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.ColorPickerWindow;
+using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelper.Windows.PrimitiveProperiesWindow;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
 using StructureHelper.Windows.ViewModels.Calculations.CalculationProperies;
 using StructureHelper.Windows.ViewModels.Calculations.CalculationResult;
+using StructureHelper.Windows.ViewModels.Calculations.Calculators;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Infrastructures.Strings;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
+using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.Models.Templates.RCs;
+using StructureHelperLogics.NdmCalculations.Analyses;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmCalculations;
 using System;
@@ -38,17 +47,46 @@ namespace StructureHelper.Windows.MainWindow
     public class MainViewModel : ViewModelBase
     {
         const double scale = 1d;
+
+        ICrossSection section;
+        ICrossSectionRepository repository => section.SectionRepository;
+
         private double ConstAxisLineThickness = 2d * scale;
         private double ConstGridLineThickness = 0.25d * scale;
 
-        private List<IHeadMaterial> headMaterials;
         private readonly double scaleRate = 1.1d;
-        
-        private IPrimitiveRepository PrimitiveRepository { get; }
+
         public PrimitiveBase SelectedPrimitive { get; set; }
+        public IForceCombinationList SelectedForceCombinationList { get; set; }
+        public INdmCalculator SelectedCalculator { get; set; }
 
         private MainModel Model { get; }
-        public ObservableCollection<PrimitiveBase> Primitives { get; set; }
+        public ObservableCollection<PrimitiveBase> Primitives { get; private set; }
+
+        public ObservableCollection<IForceCombinationList> ForceCombinationLists
+        {
+            get
+            {
+                var collection = new ObservableCollection<IForceCombinationList>();
+                foreach (var item in Model.Section.SectionRepository.ForceCombinationLists)
+                {
+                    collection.Add(item);
+                }
+                return collection;
+            }
+        }
+        public ObservableCollection<INdmCalculator> Calculators
+        {
+            get
+            {
+                var collection = new ObservableCollection<INdmCalculator>();
+                foreach (var item in Model.Section.SectionRepository.Calculators)
+                {
+                    collection.Add(item);
+                }
+                return collection;
+            }
+        }
 
         private double panelX, panelY, scrollPanelX, scrollPanelY;
         private CalculationProperty calculationProperty;
@@ -119,7 +157,7 @@ namespace StructureHelper.Windows.MainWindow
             get
             {
                 var collection = new ObservableCollection<IHeadMaterial>();
-                foreach (var obj in headMaterials)
+                foreach (var obj in Model.Section.SectionRepository.HeadMaterials)
                 {
                     collection.Add(obj);
                 }
@@ -148,6 +186,117 @@ namespace StructureHelper.Windows.MainWindow
             set => OnPropertyChanged(value, ref yY2);
         }
         public ICommand AddPrimitive { get; }
+
+        private ICommand addForceCombinationCommand;
+        public ICommand AddForceCombinationCommand
+        {
+            get
+            {
+                return addForceCombinationCommand ??
+                    (
+                    addForceCombinationCommand = new RelayCommand(o =>
+                    {
+                        AddForceCombination();
+                        OnPropertyChanged(nameof(ForceCombinationLists));
+                    }));
+            }
+        }
+        private void AddForceCombination()
+        {
+            var item = new ForceCombinationList() { Name = "New Force Combination" };
+            Model.Section.SectionRepository.ForceCombinationLists.Add(item);
+        }
+        private ICommand deleteForceCombinationCommand;
+        public ICommand DeleteForceCombinationCommand
+        {
+            get
+            {
+                return deleteForceCombinationCommand ??
+                    (
+                    deleteForceCombinationCommand = new RelayCommand(o =>
+                    {
+                        DeleteForceCombination();
+                        OnPropertyChanged(nameof(ForceCombinationLists));
+                    }, o => SelectedForceCombinationList != null));
+            }
+        }
+        private void DeleteForceCombination()
+        {
+            var dialogResult = MessageBox.Show("Delete action?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                Model.Section.SectionRepository.ForceCombinationLists.Remove(SelectedForceCombinationList);
+            }
+            
+        }
+        private ICommand editForceCombinationCommand;
+        public ICommand EditForceCombinationCommand
+        {
+            get
+            {
+                return editForceCombinationCommand ??
+                    (
+                    editForceCombinationCommand = new RelayCommand(o =>
+                    {
+                        EditForceCombination();
+                        OnPropertyChanged(nameof(ForceCombinationLists));
+                    }, o => SelectedForceCombinationList != null));
+            }
+        }
+        private void EditForceCombination()
+        {
+            var wnd = new ForceCombinationView(SelectedForceCombinationList);
+            wnd.ShowDialog();
+        }
+
+        private ICommand addCalculatorCommand;
+        public ICommand AddCalculatorCommand
+        {
+            get
+            {
+                return addCalculatorCommand ??
+                    (
+                    addCalculatorCommand = new RelayCommand(o =>
+                    {
+                        AddCalculator();
+                        OnPropertyChanged(nameof(Calculators));
+                    }));
+            }
+        }
+        private void AddCalculator()
+        {
+            var item = new ForceCalculator() { Name = "New force calculator"};
+            Model.Section.SectionRepository.Calculators.Add(item);
+        }
+
+        private ICommand editCalculatorCommand;
+        public ICommand EditCalculatorCommand
+        {
+            get
+            {
+                return editCalculatorCommand ??
+                    (
+                    editCalculatorCommand = new RelayCommand(o =>
+                    {
+                        EditCalculator();
+                        OnPropertyChanged(nameof(Calculators));
+                    }, o => SelectedCalculator != null));
+            }
+        }
+        private void EditCalculator()
+        {
+            if (SelectedCalculator is ForceCalculator)
+            {
+                var calculator = SelectedCalculator as ForceCalculator;
+                var repository = Model.Section.SectionRepository;
+                var primitives = Primitives.Select(x => x.GetNdmPrimitive()).ToArray();
+                var vm = new ForceCalculatorViewModel( primitives, repository.ForceCombinationLists, calculator);
+
+                var wnd = new ForceCalculatorView(vm);
+                wnd.ShowDialog();
+            }
+        }
+
         public ICommand Calculate { get; }
         public ICommand DeletePrimitive { get; }
         public ICommand EditCalculationPropertyCommand { get; }
@@ -176,11 +325,10 @@ namespace StructureHelper.Windows.MainWindow
         private double axisLineThickness;
         private double gridLineThickness;
 
-        public MainViewModel(MainModel model, IPrimitiveRepository primitiveRepository, UnitSystemService unitSystemService)
+        public MainViewModel(MainModel model)
         {
-            PrimitiveRepository = primitiveRepository;
             Model = model;
-            headMaterials = Model.HeadMaterialRepository.HeadMaterials;
+            section = model.Section;
             CanvasWidth = 2d * scale;
             CanvasHeight = 1.5d * scale;
             XX2 = CanvasWidth;
@@ -276,7 +424,7 @@ namespace StructureHelper.Windows.MainWindow
                 ScaleValue /= scaleRate;
             });
 
-            Primitives = new ObservableCollection<PrimitiveBase>();
+            Primitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(repository.Primitives);
 
             AddPrimitive = new RelayCommand(o =>
             {
@@ -306,8 +454,9 @@ namespace StructureHelper.Windows.MainWindow
     
                 else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType)); }
                 viewPrimitive.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);
+                repository.Primitives.Add(ndmPrimitive);
                 Primitives.Add(viewPrimitive);
-                PrimitiveRepository.Add(viewPrimitive);
+                OnPropertyChanged(nameof(Primitives));
                 OnPropertyChanged(nameof(PrimitivesCount));
             });
 
@@ -326,7 +475,8 @@ namespace StructureHelper.Windows.MainWindow
                 foreach (var primitive in GetBeamCasePrimitives())
                 {
                     Primitives.Add(primitive);
-                    PrimitiveRepository.Add(primitive);
+                    var ndmPrimitive = primitive.GetNdmPrimitive();
+                    repository.Primitives.Add(ndmPrimitive);
                 }
                 OnPropertyChanged(nameof(PrimitivesCount));
                 AddCaseLoads(-50e3d, 50e3d, 0d);
@@ -337,7 +487,8 @@ namespace StructureHelper.Windows.MainWindow
                 foreach (var primitive in GetColumnCasePrimitives())
                 {
                     Primitives.Add(primitive);
-                    PrimitiveRepository.Add(primitive);
+                    var ndmPrimitive = primitive.GetNdmPrimitive();
+                    repository.Primitives.Add(ndmPrimitive);
                 }
                 OnPropertyChanged(nameof(PrimitivesCount));
                 AddCaseLoads(50e3d, 50e3d, -100e3d);
@@ -348,7 +499,8 @@ namespace StructureHelper.Windows.MainWindow
                 foreach (var primitive in GetSlabCasePrimitives())
                 {
                     Primitives.Add(primitive);
-                    PrimitiveRepository.Add(primitive);
+                    var ndmPrimitive = primitive.GetNdmPrimitive();
+                    repository.Primitives.Add(ndmPrimitive);
                 }
                 OnPropertyChanged(nameof(PrimitivesCount));
                 AddCaseLoads(-20e3d, 0d, 0d);
@@ -357,9 +509,8 @@ namespace StructureHelper.Windows.MainWindow
             Calculate = new RelayCommand(o =>
             {
                 CalculateResult();
-
             },
-            o => Model.PrimitiveRepository.Primitives.Count() > 0);
+            o => repository.Primitives.Count() > 0);
 
             EditCalculationPropertyCommand = new RelayCommand (o => EditCalculationProperty());
 
@@ -374,7 +525,7 @@ namespace StructureHelper.Windows.MainWindow
                     primitive.CenterY -= center[1];
                 }
             },
-            o => Model.PrimitiveRepository.Primitives.Count() > 0
+            o => repository.Primitives.Count() > 0
             );
 
             SetPopupCanBeClosedTrue = new RelayCommand(o =>
@@ -392,10 +543,9 @@ namespace StructureHelper.Windows.MainWindow
 
         private void EditHeadMaterials()
         {
-            var wnd = new HeadMaterialsView(Model.HeadMaterialRepository);
+            var wnd = new HeadMaterialsView(repository);
             wnd.ShowDialog();
-            headMaterials = Model.HeadMaterialRepository.HeadMaterials;
-            OnPropertyChanged(nameof(headMaterials));
+            OnPropertyChanged(nameof(HeadMaterials));
             foreach (var primitive in Primitives)
             {
                 primitive.RefreshColor();
@@ -409,7 +559,8 @@ namespace StructureHelper.Windows.MainWindow
                 var dialogResult = MessageBox.Show("Delete primitive?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    PrimitiveRepository.Delete(SelectedPrimitive);
+                    var ndmPrimitive = SelectedPrimitive.GetNdmPrimitive();
+                    repository.Primitives.Remove(ndmPrimitive);
                     Primitives.Remove(SelectedPrimitive);                   
                 }
             }
@@ -421,9 +572,9 @@ namespace StructureHelper.Windows.MainWindow
         {
             if (!(SelectedPrimitive is null))
             {
-                var wnd = new PrimitiveProperties(SelectedPrimitive, Model.HeadMaterialRepository);
+                var wnd = new PrimitiveProperties(SelectedPrimitive, repository);
                 wnd.ShowDialog();
-                OnPropertyChanged(nameof(headMaterials));
+                OnPropertyChanged(nameof(HeadMaterials));
             }
             else { MessageBox.Show("Selection is changed", "Please, select primitive", MessageBoxButtons.YesNo, MessageBoxIcon.Warning); }
         }
@@ -458,7 +609,7 @@ namespace StructureHelper.Windows.MainWindow
 
         private bool CheckMaterials()
         {
-            foreach (var item in PrimitiveRepository.Primitives)
+            foreach (var item in Primitives)
             {
                 if (item.HeadMaterial == null)
                 {
@@ -507,13 +658,13 @@ namespace StructureHelper.Windows.MainWindow
             wnd.ShowDialog();
             if (wnd.DialogResult == true)
             {
-                IHeadMaterial concrete = new HeadMaterial() { Name = "Concrete" };
-                concrete.HelperMaterial = Model.HeadMaterialRepository.LibMaterials.Where(x => (x.MaterialType == MaterialTypes.Concrete & x.Name.Contains("40"))).First();
-                IHeadMaterial reinforcement = new HeadMaterial() { Name = "Reinforcement" };
-                reinforcement.HelperMaterial = Model.HeadMaterialRepository.LibMaterials.Where(x => (x.MaterialType == MaterialTypes.Reinforcement & x.Name.Contains("400"))).First();
-                headMaterials.Add(concrete);
-                headMaterials.Add(reinforcement);
-                OnPropertyChanged(nameof(headMaterials));
+                var concrete = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, ProgramSetting.CodeType);
+                concrete.Name = "Concrete";
+                var reinforcement = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforecement400, ProgramSetting.CodeType);
+                reinforcement.Name = "Reinforcement";
+                Model.Section.SectionRepository.HeadMaterials.Add(concrete);
+                Model.Section.SectionRepository.HeadMaterials.Add(reinforcement);
+                OnPropertyChanged(nameof(HeadMaterials));
                 var primitives = PrimitiveFactory.GetRectangleRCElement(template, concrete, reinforcement);
                 foreach (var item in primitives)
                 {

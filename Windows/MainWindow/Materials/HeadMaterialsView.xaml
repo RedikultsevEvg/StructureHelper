@@ -9,10 +9,22 @@
         mc:Ignorable="d"
         Title="Materials" Height="350" Width="680" MinHeight="350" MinWidth="680" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <DataTemplate x:Key="LibMaterial">
+        <DataTemplate x:Key="ConcreteLibMaterial">
             <StackPanel>
                 <TextBlock Text="Library material"/>
-                <ComboBox Grid.Row="2" Height="25" VerticalAlignment="Top" ItemsSource="{Binding LibMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
+                <ComboBox Grid.Row="2" Height="25" VerticalAlignment="Top" ItemsSource="{Binding LibConcreteMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ReinforcementLibMaterial">
+            <StackPanel>
+                <TextBlock Text="Library material"/>
+                <ComboBox Grid.Row="2" Height="25" VerticalAlignment="Top" ItemsSource="{Binding LibReinforcementMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}"/>
@@ -74,7 +86,8 @@
             </ListBox>
         </Grid>
         <StackPanel Grid.Column="1">
-            <Button Content="New Lib Material"  Command="{Binding AddNewMaterialCommand}"/>
+            <Button Content="New Concrete"  Command="{Binding AddNewConcreteMaterialCommand}"/>
+            <Button Content="New Reinforcement"  Command="{Binding AddNewReinforcementMaterialCommand}"/>
             <Button Content="New Elastic Material"  Command="{Binding AddElasticMaterialCommand}"/>
             <Button Content="Edit color"  Command="{Binding EditColorCommand}"/>
             <Button Content="Copy"  Command="{Binding CopyHeadMaterialCommand}"/>

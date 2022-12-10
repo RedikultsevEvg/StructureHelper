@@ -12,19 +12,16 @@ namespace StructureHelperLogics.Models.Materials
         public object Parent { get; private set; }
 
         public List<IHeadMaterial> HeadMaterials { get; set; }
-        public List<ILibMaterial> LibMaterials { get; set; }  
 
         public HeadMaterialRepository()
         {
             HeadMaterials = new List<IHeadMaterial>();
-            LibMaterials = new List<ILibMaterial>();
         }
 
         public HeadMaterialRepository(object parent)
         {
             Parent = parent;
             HeadMaterials = new List<IHeadMaterial>();
-            LibMaterials = new List<ILibMaterial>();
         }
 
         public void RegisterParent(object obj)

@@ -24,8 +24,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
     public class PrimitivePropertiesViewModel : ViewModelBase, IDataErrorInfo
     {
         private PrimitiveBase primitive;
-        private IHeadMaterialRepository headMaterialRepository;
-        private List<IHeadMaterial> headMaterials;
+        private IHasHeadMaterials hasHeadMaterials;
 
         public ICommand EditColorCommand { get; private set; }
         public ICommand EditMaterialCommand { get; private set; }
@@ -228,13 +227,12 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
 
         public string Error => throw new NotImplementedException();
 
-        public PrimitivePropertiesViewModel(PrimitiveBase primitive, IHeadMaterialRepository materialRepository)
+        public PrimitivePropertiesViewModel(PrimitiveBase primitive, IHasHeadMaterials hasHeadMaterials)
         {
             this.primitive = primitive;
-            headMaterialRepository = materialRepository;
-            headMaterials = materialRepository.HeadMaterials;
+            this.hasHeadMaterials = hasHeadMaterials;
             HeadMaterials = new ObservableCollection<IHeadMaterial>();
-            foreach (var material in headMaterials)
+            foreach (var material in hasHeadMaterials.HeadMaterials)
             {
                 HeadMaterials.Add(material);
             }
@@ -245,7 +243,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
 
         private void EditMaterial()
         {
-            var wnd = new HeadMaterialsView(headMaterialRepository);
+            var wnd = new HeadMaterialsView(hasHeadMaterials);
             wnd.ShowDialog();
         }
 

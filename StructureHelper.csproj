@@ -149,10 +149,12 @@
     <Compile Include="Infrastructure\UI\DataContexts\IHasCenter.cs" />
     <Compile Include="Infrastructure\UI\DataContexts\IHasDivision.cs" />
     <Compile Include="Infrastructure\UI\DataContexts\LineViewPrimitive.cs" />
+    <Compile Include="Infrastructure\UI\DataContexts\PrimitiveOperations.cs" />
     <Compile Include="Infrastructure\UI\PrimitiveTemplates\IRectangleBeamProperties.cs" />
     <Compile Include="Infrastructure\UI\UserControls\PrimitivePopup.xaml.cs">
       <DependentUpon>PrimitivePopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Forces\ForceCombinationViewObject.cs" />
     <Compile Include="Models\Forces\ForceTupleViewObject.cs" />
     <Compile Include="Models\Primitives\Factories\PrimitiveFactory.cs" />
     <Compile Include="Services\Primitives\PrimitiveRepository.cs" />
@@ -181,6 +183,9 @@
     </Compile>
     <Compile Include="Windows\CalculationWindows\CalculationResultWindow\CalculationResultView.xaml.cs">
       <DependentUpon>CalculationResultView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceCalculatorView.xaml.cs">
+      <DependentUpon>ForceCalculatorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ColorPickerWindow\ColorPickerView.xaml.cs">
       <DependentUpon>ColorPickerView.xaml</DependentUpon>
@@ -226,6 +231,8 @@
     </Compile>
     <Compile Include="Windows\ViewModels\Calculations\CalculationProperies\CalculationPropertyViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\CalculationResult\CalculationResultViewModel.cs" />
+    <Compile Include="Windows\ViewModels\Calculations\Calculators\ForceCalculatorViewModel.cs" />
+    <Compile Include="Windows\ViewModels\Forces\ForceCombinationViewModel.cs" />
     <Compile Include="Windows\ViewModels\Materials\HeadMaterialsViewModel.cs" />
     <Compile Include="Windows\ViewModels\PrimitiveProperties\PrimitivePropertiesViewModel.cs" />
     <Compile Include="Windows\ViewModels\Primitives\RectangleControlViewModel.cs" />
@@ -250,6 +257,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Infrastructure\UI\Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Infrastructure\UI\Resources\PrimitiveTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -278,6 +289,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\CalculationWindows\CalculationResultWindow\CalculationResultView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceCalculatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

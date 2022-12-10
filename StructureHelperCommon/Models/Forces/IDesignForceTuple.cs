@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public interface IDesignForceTuple
+    public interface IDesignForceTuple : ICloneable
     {
         LimitStates LimitState { get; set; }
         CalcTerms CalcTerm { get; set; }

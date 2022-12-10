@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 
-namespace StructureHelperLogics.Models.Primitives
+namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public interface INdmPrimitive : ISaveable, ICloneable
     {

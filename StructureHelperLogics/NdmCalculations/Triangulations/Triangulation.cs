@@ -10,6 +10,7 @@ using StructureHelperLogics.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Primitives;
 using StructureHelper.Models.Materials;
+using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {

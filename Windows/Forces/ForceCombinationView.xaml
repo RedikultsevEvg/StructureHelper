@@ -4,37 +4,43 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.Forces"
+        xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Forces"
+        d:DataContext="{d:DesignInstance vm:ForceCombinationViewModel}"
         mc:Ignorable="d"
         Title="Force Combination" Height="250" Width="450" MinHeight="300" MinWidth="400">
-    <TabControl>
-        <TabItem Header="Forces">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" MinHeight="25"/>
-                    <RowDefinition Height="Auto" MinHeight="25"/>
-                    <RowDefinition Height="Auto" MinHeight="25"/>
-                    <RowDefinition Height="Auto" MinHeight="25"/>
-                    <RowDefinition Height="Auto" MinHeight="25"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.RowSpan="2" Text="Ultimate limit state"/>
-                <TextBlock Grid.Column="1" Text="Short term"/>
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="Long term"/>
-                <TextBlock Grid.Row="2" Grid.RowSpan="2" Text="Ultimate limit state"/>
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="Short term"/>
-                <TextBlock Grid.Row="3" Grid.Column="1" Text="Long term"/>
-                <local:ForceTupleControl Grid.Column="2"/>
-                <local:ForceTupleControl Grid.Row="1" Grid.Column="2"/>
-                <local:ForceTupleControl Grid.Row="2" Grid.Column="2"/>
-                <local:ForceTupleControl Grid.Row="3" Grid.Column="2"/>
-            </Grid>
-        </TabItem>
-        <TabItem Header="Additional">
-
-        </TabItem>
-    </TabControl>
+    <Window.Resources>
+        <DataTemplate x:Key="ForceTemplate">
+            
+        </DataTemplate>
+    </Window.Resources>
+    <StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Name"/>
+            <TextBox Grid.Column="1" Text="{Binding Name}"/>
+            <TextBlock Grid.Row="1" Text="Center X"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding CenterX}"/>
+            <TextBlock Grid.Row="2" Text="Center Y"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CenterY}"/>
+        </Grid>
+        <DataGrid x:Name="ForceGrid" AutoGenerateColumns="False"
+                  ItemsSource="{Binding ForceTuples}"
+                  SelectedItem="{Binding SelectedTuple}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Limit State" Width="90" Binding="{Binding LimitState}"/>
+                <DataGridTextColumn Header="Duration" Width="90" Binding="{Binding CalcTerm}"/>
+                <DataGridTextColumn Header="Moment Mx" Width="90" Binding="{Binding ForceTuple.Mx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                <DataGridTextColumn Header="Moment My" Width="90" Binding="{Binding ForceTuple.My, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                <DataGridTextColumn Header="Force Nz" Width="90" Binding="{Binding ForceTuple.Nz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
 </Window>

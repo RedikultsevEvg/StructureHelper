@@ -33,12 +33,11 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public RectanglePrimitive()
         {
-            Name = "New Rectangle";
-            Width = 0.4d;
-            Height = 0.6d;
             NdmMaxSize = 0.01d;
             NdmMinDivision = 10;
         }
+
+        public RectanglePrimitive(IHeadMaterial material) : this() { HeadMaterial = material; }
 
         public object Clone()
         {

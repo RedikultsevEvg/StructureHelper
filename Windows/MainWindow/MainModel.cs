@@ -11,8 +11,8 @@ using StructureHelper.UnitSystem.Systems;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
+using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
-using StructureHelperLogics.Models.Materials.Factories;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services;
 using StructureHelperLogics.Services.NdmCalculations;
@@ -25,9 +25,7 @@ namespace StructureHelper.Windows.MainWindow
 {
     public class MainModel
     {
-        //const CodeTypes code = CodeTypes.EuroCode_2_1990;
-        const CodeTypes code = CodeTypes.SP63_13330_2018;
-
+        public ICrossSection Section { get; private set; }
         private IPrimitiveRepository primitiveRepository;
         public IHeadMaterialRepository HeadMaterialRepository { get; }
         public List<IHeadMaterial> HeadMaterials { get; }
@@ -44,10 +42,10 @@ namespace StructureHelper.Windows.MainWindow
             this.calculationService = calculationService;
             this.unitSystemService = unitSystemService;
 
+            Section = new CrossSection();
             CalculationProperty = new CalculationProperty();
             HeadMaterials = new List<IHeadMaterial>();
             HeadMaterialRepository = new HeadMaterialRepository(this);
-            HeadMaterialRepository.LibMaterials = LibMaterialFactory.GetLibMaterials(code);
         }
         
         //public IStrainMatrix Calculate(double mx, double my, double nz)
@@ -60,8 +58,7 @@ namespace StructureHelper.Windows.MainWindow
 
         public IEnumerable<INdm> GetNdms(ICalculationProperty calculationProperty)
         {
-            var unitSystem = unitSystemService.GetCurrentSystem();
-            var ndmPrimitives = primitiveRepository.Primitives.Select(x => x.GetNdmPrimitive()).ToArray();
+            var ndmPrimitives = Section.SectionRepository.Primitives;
 
             //Настройки триангуляции, пока опции могут быть только такие
             ITriangulationOptions options = new TriangulationOptions { LimiteState = calculationProperty.LimitState, CalcTerm = calculationProperty.CalcTerm };

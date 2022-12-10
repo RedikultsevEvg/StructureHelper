@@ -25,13 +25,8 @@ namespace StructureHelper.Windows.MainWindow.Materials
     {
         private HeadMaterialsViewModel viewModel;
 
-        public HeadMaterialsView(IHeadMaterialRepository headMaterialRepository)
-        {
-            viewModel = new HeadMaterialsViewModel(headMaterialRepository);
-            this.DataContext = viewModel;
-            InitializeComponent();
-        }
-
+        //public HeadMaterialsView(List<IHeadMaterial> headMaterials) : this(new HeadMaterialsViewModel(headMaterials)) {}
+        public HeadMaterialsView(IHasHeadMaterials hasHeadMaterials) : this(new HeadMaterialsViewModel(hasHeadMaterials)) { }
         public HeadMaterialsView(HeadMaterialsViewModel vm)
         {
             viewModel = vm;
@@ -47,12 +42,17 @@ namespace StructureHelper.Windows.MainWindow.Materials
             var helperMaterial = selectedMaterial.HelperMaterial;
             string dataTemplateName = string.Empty;
             Binding binding = new Binding();
-            if (helperMaterial is ILibMaterial)
+            if (helperMaterial is IConcreteLibMaterial)
             {
-                dataTemplateName = "LibMaterial";
+                dataTemplateName = "ConcreteLibMaterial";
                 binding.Source = viewModel;
             }
-            if (helperMaterial is IElasticMaterial)
+            else if (helperMaterial is IReinforcementLibMaterial)
+            {
+                dataTemplateName = "ReinforcementLibMaterial";
+                binding.Source = viewModel;
+            }
+            else if (helperMaterial is IElasticMaterial)
             {
                 dataTemplateName = "ElasticMaterial";
                 binding.Source = viewModel.SelectedMaterial.HelperMaterial;
