@@ -7,11 +7,31 @@
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Calculations.Calculators"
         d:DataContext="{d:DesignInstance vm:ForceCalculatorViewModel}"
         mc:Ignorable="d"
-        Title="Analysis by forces" Height="300" Width="400" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen">
+        Title="Analysis by forces" Height="300" Width="400" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Window.Resources>
         <Style x:Key="cbStyle" TargetType="CheckBox">
             <Setter Property="Margin" Value="0,5,0,5"/>
         </Style>
+        <DataTemplate x:Key="SimpleItemTemplate">
+            <TextBlock Text="{Binding Name}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="SourceToTarget">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ListBox ItemsSource="{Binding SourceItems}" SelectedItem="{Binding SelectedSourceItem}" ItemTemplate="{StaticResource ResourceKey=SimpleItemTemplate}"/>
+                <StackPanel Grid.Column="1">
+                    <Button Content="Add all" Command="{Binding AddAll}"/>
+                    <Button Content="Clear all" Command="{Binding ClearAll}"/>
+                    <Button Content=">>" Command="{Binding AddSelected}"/>
+                    <Button Content="&lt;&lt;" Command="{Binding RemoveSelected}"/>
+                </StackPanel>
+                <ListBox Grid.Column="2" ItemsSource="{Binding TargetItems}" SelectedItem="{Binding SelectedTargetItem}" ItemTemplate="{StaticResource ResourceKey=SimpleItemTemplate}"/>
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -31,38 +51,20 @@
                     </Grid>
                     <GroupBox Header="Limit States">
                         <StackPanel>
-                            <CheckBox Style="{StaticResource cbStyle}" Content="Ultimate Limit State"/>
-                            <CheckBox Style="{StaticResource cbStyle}" Content="Serviceability Limit State"/>
+                            <CheckBox Style="{StaticResource cbStyle}" Content="Ultimate Limit State" IsChecked="{Binding ULS}"/>
+                            <CheckBox Style="{StaticResource cbStyle}" Content="Serviceability Limit State"  IsChecked="{Binding SLS}"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Duration">
                         <StackPanel>
-                            <CheckBox Style="{StaticResource cbStyle}" Content="Short Term"/>
-                            <CheckBox Style="{StaticResource cbStyle}" Content="Long Term"/>
+                            <CheckBox Style="{StaticResource cbStyle}" Content="Short Term" IsChecked="{Binding ShortTerm}"/>
+                            <CheckBox Style="{StaticResource cbStyle}" Content="Long Term" IsChecked="{Binding LongTerm}"/>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Forces">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="60"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <ListBox>
-
-                    </ListBox>
-                    <StackPanel Grid.Column="1">
-                        <Button Content="Add all"/>
-                        <Button Content="Clear all"/>
-                        <Button Content=">>"/>
-                        <Button Content="&lt;&lt;"/>
-                    </StackPanel>
-                    <ListBox Grid.Column="2">
-
-                    </ListBox>
-                </Grid>
+                <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding CombinationViewModel}"/>
             </TabItem>
             <TabItem Header="Primitives">
                 <Grid>
@@ -94,13 +96,13 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="170"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Required Accuracy" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <TextBox Style="{StaticResource ValidatedError}" Grid.Column="2" Margin="5,5,5,5" Text="{Binding Path=IterationAccuracy, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Text="Required Accuracy" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+                    <TextBox Style="{StaticResource ValidatedError}" Grid.Column="2" Margin="5,5,5,5" Text="{Binding IterationAccuracy, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
                     <TextBlock Grid.Row="1" Text="Maximum Iteration Count" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
-                    <TextBox Style="{StaticResource ValidatedError}" Grid.Column="2" Grid.Row="1" Margin="5,5,5,5" Text="{Binding Path=MaxIterationCount, ValidatesOnDataErrors=True}"/>
+                    <TextBox Style="{StaticResource ValidatedError}" Grid.Column="2" Grid.Row="1" Margin="5,5,5,5" Text="{Binding MaxIterationCount, ValidatesOnDataErrors=True}"/>
                 </Grid>
             </TabItem>
         </TabControl>

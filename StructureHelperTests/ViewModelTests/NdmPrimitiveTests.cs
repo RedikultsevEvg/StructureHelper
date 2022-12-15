@@ -20,8 +20,8 @@ namespace StructureHelperTests.ViewModelTests
 {
     public class NdmPrimitiveTests
     {
-        [TestCase]
-        public void RectanglePrimitiveTest()
+        [Test]
+        public void Run_ShouldPass()
         {
             //Arrange
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, CodeTypes.SP63_13330_2018);

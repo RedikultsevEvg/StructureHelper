@@ -16,14 +16,14 @@ namespace StructureHelperLogics.Models.CrossSections
         public List<IForceCombinationList> ForceCombinationLists { get; private set; }
         public List<IHeadMaterial> HeadMaterials { get; private set; }
         public List<INdmPrimitive> Primitives { get; }
-        public List<INdmCalculator> Calculators { get; private set; }
+        public List<INdmCalculator> CalculatorsList { get; private set; }
 
         public CrossSectionRepository()
         {
             ForceCombinationLists = new List<IForceCombinationList>();
             HeadMaterials = new List<IHeadMaterial>();
             Primitives = new List<INdmPrimitive>();
-            Calculators = new List<INdmCalculator>();
+            CalculatorsList = new List<INdmCalculator>();
         }
     }
 }

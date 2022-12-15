@@ -33,6 +33,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public RectanglePrimitive()
         {
+            Name = "New Rectangle";
             NdmMaxSize = 0.01d;
             NdmMinDivision = 10;
         }

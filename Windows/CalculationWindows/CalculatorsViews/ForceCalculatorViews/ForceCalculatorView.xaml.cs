@@ -20,13 +20,18 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
     /// </summary>
     public partial class ForceCalculatorView : Window
     {
-        ForceCalculatorViewModel forceCalculatorViewModel;
+        ForceCalculatorViewModel viewModel;
 
         public ForceCalculatorView(ForceCalculatorViewModel _forceCalculatorViewModel)
         {
-            forceCalculatorViewModel = _forceCalculatorViewModel;
-            DataContext = forceCalculatorViewModel;
+            viewModel = _forceCalculatorViewModel;
+            DataContext = viewModel;
             InitializeComponent();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            viewModel.Refresh();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
@@ -21,6 +22,31 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         IEnumerable<INdmPrimitive> allowedPrimitives;
         IEnumerable<IForceCombinationList> allowedForceCombinations;
         ForceCalculator forcesCalculator;
+
+        public string Name
+        {
+            get { return forcesCalculator.Name; }
+            set { forcesCalculator.Name = value; }
+        }
+
+        public double IterationAccuracy
+        {
+            get { return forcesCalculator.IterationAccuracy; }
+            set { forcesCalculator.IterationAccuracy = value;}
+        }
+
+        public int MaxIterationCount
+        {
+            get { return forcesCalculator.MaxIterationCount; }
+            set { forcesCalculator.MaxIterationCount = value; }
+        }
+
+        public bool ULS { get; set; }
+        public bool SLS { get; set; }
+        public bool ShortTerm { get; set; }
+        public bool LongTerm { get; set; }
+
+        public ISourceToTargetViewModel<IForceCombinationList> CombinationViewModel { get; }
 
         public PrimitiveBase SelectedAllowedPrimitive { get; set; }
         public PrimitiveBase SelectedPrimitive { get; set; }
@@ -69,7 +95,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             forcesCalculator.NdmPrimitives.Clear();
             forcesCalculator.NdmPrimitives.AddRange(allowedPrimitives);
         }
-
         public ICommand ClearAllPrimitivesCommand
         {
             get
@@ -84,7 +109,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     }, o => forcesCalculator.NdmPrimitives.Count > 0 ));
             }
         }
-
         public ICommand AddSelectedPrimitiveCommand
         {
             get
@@ -99,7 +123,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     }, o => SelectedAllowedPrimitive != null));
             }
         }
-
         public RelayCommand RemoveSelectedPrimitiveCommand
         {
             get
@@ -120,6 +143,12 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             allowedPrimitives = _allowedPrimitives;
             allowedForceCombinations = _allowedForceCombinations;
             forcesCalculator = _forcesCalculator;
+
+            CombinationViewModel = new SourceToTargetViewModel<IForceCombinationList>();
+            CombinationViewModel.SetTargetItems(forcesCalculator.ForceCombinationLists);
+            CombinationViewModel.SetSourceItems(allowedForceCombinations);
+
+            InputRefresh();
         }
 
         private ObservableCollection<PrimitiveBase> ConvertNdmPrimitivesToPrimitiveBase(IEnumerable<INdmPrimitive> primitives)
@@ -140,6 +169,30 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
             }
             return viewItems;
+        }
+
+        public void InputRefresh()
+        {
+            ULS = forcesCalculator.LimitStatesList.Contains(LimitStates.ULS);
+            SLS = forcesCalculator.LimitStatesList.Contains(LimitStates.SLS);
+            ShortTerm = forcesCalculator.CalcTermsList.Contains(CalcTerms.ShortTerm);
+            LongTerm = forcesCalculator.CalcTermsList.Contains(CalcTerms.LongTerm);
+        }
+
+        public void Refresh()
+        {
+            var combinations = CombinationViewModel.GetTargetItems();
+            forcesCalculator.ForceCombinationLists.Clear();
+            foreach (var item in combinations)
+            {
+                forcesCalculator.ForceCombinationLists.Add(item);
+            }
+            forcesCalculator.LimitStatesList.Clear();
+            if (ULS == true) { forcesCalculator.LimitStatesList.Add(LimitStates.ULS); }
+            if (SLS == true) { forcesCalculator.LimitStatesList.Add(LimitStates.SLS); }
+            forcesCalculator.CalcTermsList.Clear();
+            if (ShortTerm == true) { forcesCalculator.CalcTermsList.Add(CalcTerms.ShortTerm); }
+            if (LongTerm == true) { forcesCalculator.CalcTermsList.Add(CalcTerms.LongTerm); }
         }
     }
 }

@@ -187,6 +187,9 @@
     <Compile Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceCalculatorView.xaml.cs">
       <DependentUpon>ForceCalculatorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\CalculationWindows\CalculatorsViews\SourceToTargetControl.xaml.cs">
+      <DependentUpon>SourceToTargetControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ColorPickerWindow\ColorPickerView.xaml.cs">
       <DependentUpon>ColorPickerView.xaml</DependentUpon>
     </Compile>
@@ -231,9 +234,17 @@
     </Compile>
     <Compile Include="Windows\ViewModels\Calculations\CalculationProperies\CalculationPropertyViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\CalculationResult\CalculationResultViewModel.cs" />
+    <Compile Include="Windows\ViewModels\SourceToTargetViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\Calculators\ForceCalculatorViewModel.cs" />
+    <Compile Include="Windows\ViewModels\Calculations\Calculators\ICombinationSourceToTargetViewModel.cs" />
     <Compile Include="Windows\ViewModels\Forces\ForceCombinationViewModel.cs" />
+    <Compile Include="Windows\ViewModels\ICRUDViewModel.cs" />
+    <Compile Include="Windows\ViewModels\ISourceToTargetViewModel.cs" />
     <Compile Include="Windows\ViewModels\Materials\HeadMaterialsViewModel.cs" />
+    <Compile Include="Windows\ViewModels\NdmCrossSections\CalculatorsViewModelLogic.cs" />
+    <Compile Include="Windows\ViewModels\NdmCrossSections\ForceCombinationViewModelLogic.cs" />
+    <Compile Include="Windows\ViewModels\NdmCrossSections\ICalculatorsViewModelLogic.cs" />
+    <Compile Include="Windows\ViewModels\NdmCrossSections\IForceCombinationViewModelLogic.cs" />
     <Compile Include="Windows\ViewModels\PrimitiveProperties\PrimitivePropertiesViewModel.cs" />
     <Compile Include="Windows\ViewModels\Primitives\RectangleControlViewModel.cs" />
     <Compile Include="Windows\ViewModels\PrimitiveTemplates\RCs\RectangleBeamViewModel.cs" />
@@ -293,6 +304,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceCalculatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CalculationWindows\CalculatorsViews\SourceToTargetControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

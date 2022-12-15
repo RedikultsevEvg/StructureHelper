@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.SourceToTargetControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews"
+             xmlns:vm ="clr-namespace:StructureHelper.Windows.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="400">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListBox ItemsSource="{Binding AllowedPrimitives}"
+                             SelectedItem="{Binding SelectedAllowedPrimitive}"
+                             ItemTemplate="{StaticResource ColoredItemTemplate}">
+        </ListBox>
+        <StackPanel Grid.Column="1">
+            <Button Content="Add all" Command="{Binding AddAllPrimitivesCommand}"/>
+            <Button Content="Clear all" Command="{Binding ClearAllPrimitivesCommand}"/>
+            <Button Content=">>" Command="{Binding AddSelectedPrimitiveCommand}"/>
+            <Button Content="&lt;&lt;" Command="{Binding RemoveSelectedPrimitiveCommand}"/>
+        </StackPanel>
+        <ListBox Grid.Column="2" ItemsSource="{Binding Primitives}" SelectedItem="{Binding SelectedPrimitive}" ItemTemplate="{StaticResource ColoredItemTemplate}">
+
+        </ListBox>
+    </Grid>
+</UserControl>

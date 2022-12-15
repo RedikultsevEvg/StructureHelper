@@ -3,15 +3,11 @@ using LoaderCalculator.Logics.Geometry;
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.UI.DataContexts;
-using StructureHelper.Infrastructure.UI.PrimitiveTemplates;
 using StructureHelper.MaterialCatalogWindow;
 using StructureHelper.Models.Materials;
 using StructureHelper.Models.Primitives.Factories;
-using StructureHelper.Services.Primitives;
-using StructureHelper.UnitSystem;
 using StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow;
 using StructureHelper.Windows.CalculationWindows.CalculationResultWindow;
-using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.ColorPickerWindow;
 using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.MainWindow.Materials;
@@ -19,8 +15,7 @@ using StructureHelper.Windows.PrimitiveProperiesWindow;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
 using StructureHelper.Windows.ViewModels.Calculations.CalculationProperies;
 using StructureHelper.Windows.ViewModels.Calculations.CalculationResult;
-using StructureHelper.Windows.ViewModels.Calculations.Calculators;
-using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Infrastructures.Strings;
@@ -30,15 +25,12 @@ using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.Models.Templates.RCs;
-using StructureHelperLogics.NdmCalculations.Analyses;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmCalculations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -58,35 +50,13 @@ namespace StructureHelper.Windows.MainWindow
 
         public PrimitiveBase SelectedPrimitive { get; set; }
         public IForceCombinationList SelectedForceCombinationList { get; set; }
-        public INdmCalculator SelectedCalculator { get; set; }
+
+        private readonly ICalculatorsViewModelLogic calculatorsLogic;
+        public ICalculatorsViewModelLogic CalculatorsLogic { get => calculatorsLogic;}
+        public IForceCombinationViewModelLogic CombinationsLogic { get => combinationsLogic; }
 
         private MainModel Model { get; }
         public ObservableCollection<PrimitiveBase> Primitives { get; private set; }
-
-        public ObservableCollection<IForceCombinationList> ForceCombinationLists
-        {
-            get
-            {
-                var collection = new ObservableCollection<IForceCombinationList>();
-                foreach (var item in Model.Section.SectionRepository.ForceCombinationLists)
-                {
-                    collection.Add(item);
-                }
-                return collection;
-            }
-        }
-        public ObservableCollection<INdmCalculator> Calculators
-        {
-            get
-            {
-                var collection = new ObservableCollection<INdmCalculator>();
-                foreach (var item in Model.Section.SectionRepository.Calculators)
-                {
-                    collection.Add(item);
-                }
-                return collection;
-            }
-        }
 
         private double panelX, panelY, scrollPanelX, scrollPanelY;
         private CalculationProperty calculationProperty;
@@ -187,116 +157,6 @@ namespace StructureHelper.Windows.MainWindow
         }
         public ICommand AddPrimitive { get; }
 
-        private ICommand addForceCombinationCommand;
-        public ICommand AddForceCombinationCommand
-        {
-            get
-            {
-                return addForceCombinationCommand ??
-                    (
-                    addForceCombinationCommand = new RelayCommand(o =>
-                    {
-                        AddForceCombination();
-                        OnPropertyChanged(nameof(ForceCombinationLists));
-                    }));
-            }
-        }
-        private void AddForceCombination()
-        {
-            var item = new ForceCombinationList() { Name = "New Force Combination" };
-            Model.Section.SectionRepository.ForceCombinationLists.Add(item);
-        }
-        private ICommand deleteForceCombinationCommand;
-        public ICommand DeleteForceCombinationCommand
-        {
-            get
-            {
-                return deleteForceCombinationCommand ??
-                    (
-                    deleteForceCombinationCommand = new RelayCommand(o =>
-                    {
-                        DeleteForceCombination();
-                        OnPropertyChanged(nameof(ForceCombinationLists));
-                    }, o => SelectedForceCombinationList != null));
-            }
-        }
-        private void DeleteForceCombination()
-        {
-            var dialogResult = MessageBox.Show("Delete action?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (dialogResult == DialogResult.Yes)
-            {
-                Model.Section.SectionRepository.ForceCombinationLists.Remove(SelectedForceCombinationList);
-            }
-            
-        }
-        private ICommand editForceCombinationCommand;
-        public ICommand EditForceCombinationCommand
-        {
-            get
-            {
-                return editForceCombinationCommand ??
-                    (
-                    editForceCombinationCommand = new RelayCommand(o =>
-                    {
-                        EditForceCombination();
-                        OnPropertyChanged(nameof(ForceCombinationLists));
-                    }, o => SelectedForceCombinationList != null));
-            }
-        }
-        private void EditForceCombination()
-        {
-            var wnd = new ForceCombinationView(SelectedForceCombinationList);
-            wnd.ShowDialog();
-        }
-
-        private ICommand addCalculatorCommand;
-        public ICommand AddCalculatorCommand
-        {
-            get
-            {
-                return addCalculatorCommand ??
-                    (
-                    addCalculatorCommand = new RelayCommand(o =>
-                    {
-                        AddCalculator();
-                        OnPropertyChanged(nameof(Calculators));
-                    }));
-            }
-        }
-        private void AddCalculator()
-        {
-            var item = new ForceCalculator() { Name = "New force calculator"};
-            Model.Section.SectionRepository.Calculators.Add(item);
-        }
-
-        private ICommand editCalculatorCommand;
-        public ICommand EditCalculatorCommand
-        {
-            get
-            {
-                return editCalculatorCommand ??
-                    (
-                    editCalculatorCommand = new RelayCommand(o =>
-                    {
-                        EditCalculator();
-                        OnPropertyChanged(nameof(Calculators));
-                    }, o => SelectedCalculator != null));
-            }
-        }
-        private void EditCalculator()
-        {
-            if (SelectedCalculator is ForceCalculator)
-            {
-                var calculator = SelectedCalculator as ForceCalculator;
-                var repository = Model.Section.SectionRepository;
-                var primitives = Primitives.Select(x => x.GetNdmPrimitive()).ToArray();
-                var vm = new ForceCalculatorViewModel( primitives, repository.ForceCombinationLists, calculator);
-
-                var wnd = new ForceCalculatorView(vm);
-                wnd.ShowDialog();
-            }
-        }
-
         public ICommand Calculate { get; }
         public ICommand DeletePrimitive { get; }
         public ICommand EditCalculationPropertyCommand { get; }
@@ -324,11 +184,14 @@ namespace StructureHelper.Windows.MainWindow
         private double delta = 0.0005;
         private double axisLineThickness;
         private double gridLineThickness;
+        private IForceCombinationViewModelLogic combinationsLogic;
 
         public MainViewModel(MainModel model)
         {
             Model = model;
             section = model.Section;
+            combinationsLogic = new ForceCombinationViewModelLogic(repository);
+            calculatorsLogic = new CalculatorsViewModelLogic(repository);
             CanvasWidth = 2d * scale;
             CanvasHeight = 1.5d * scale;
             XX2 = CanvasWidth;
