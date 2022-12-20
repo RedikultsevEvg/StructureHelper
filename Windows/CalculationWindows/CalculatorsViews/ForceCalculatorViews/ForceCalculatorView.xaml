@@ -12,26 +12,6 @@
         <Style x:Key="cbStyle" TargetType="CheckBox">
             <Setter Property="Margin" Value="0,5,0,5"/>
         </Style>
-        <DataTemplate x:Key="SimpleItemTemplate">
-            <TextBlock Text="{Binding Name}"/>
-        </DataTemplate>
-        <DataTemplate x:Key="SourceToTarget">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <ListBox ItemsSource="{Binding SourceItems}" SelectedItem="{Binding SelectedSourceItem}" ItemTemplate="{StaticResource ResourceKey=SimpleItemTemplate}"/>
-                <StackPanel Grid.Column="1">
-                    <Button Content="Add all" Command="{Binding AddAll}"/>
-                    <Button Content="Clear all" Command="{Binding ClearAll}"/>
-                    <Button Content=">>" Command="{Binding AddSelected}"/>
-                    <Button Content="&lt;&lt;" Command="{Binding RemoveSelected}"/>
-                </StackPanel>
-                <ListBox Grid.Column="2" ItemsSource="{Binding TargetItems}" SelectedItem="{Binding SelectedTargetItem}" ItemTemplate="{StaticResource ResourceKey=SimpleItemTemplate}"/>
-            </Grid>
-        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

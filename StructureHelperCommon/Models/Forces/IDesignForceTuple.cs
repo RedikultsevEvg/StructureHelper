@@ -11,6 +11,6 @@ namespace StructureHelperCommon.Models.Forces
     {
         LimitStates LimitState { get; set; }
         CalcTerms CalcTerm { get; set; }
-        IForceTuple ForceTuple {get;}
+        IForceTuple ForceTuple { get; set; }
     }
 }

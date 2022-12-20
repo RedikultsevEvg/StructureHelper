@@ -11,6 +11,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses
         /// <summary>
         /// True if result of calculation is valid
         /// </summary>
-        bool IsValid { get; }
+        bool IsValid { get; set; }
+        string Desctription { get; set; }
     }
 }

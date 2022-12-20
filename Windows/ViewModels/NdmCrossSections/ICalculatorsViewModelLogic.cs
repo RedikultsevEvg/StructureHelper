@@ -8,6 +8,5 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
     public interface ICalculatorsViewModelLogic : ICRUDViewModel<INdmCalculator>
     {
         RelayCommand Run { get; }
-
     }
 }

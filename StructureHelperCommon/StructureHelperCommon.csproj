@@ -51,6 +51,7 @@
     <Compile Include="Infrastructures\Enums\LimitStates.cs" />
     <Compile Include="Infrastructures\Enums\UnitTypes.cs" />
     <Compile Include="Infrastructures\Exceptions\StructureHelperException.cs" />
+    <Compile Include="Infrastructures\Interfaces\IHasForceCombinations.cs" />
     <Compile Include="Infrastructures\Interfaces\IHasParent.cs" />
     <Compile Include="Infrastructures\Interfaces\ISaveable.cs" />
     <Compile Include="Infrastructures\Settings\ProgramSetting.cs" />

@@ -98,7 +98,19 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 (
                 runCommand = new RelayCommand(o =>
                 {
-                    (SelectedItem as INdmCalculator).Run();
+                    SelectedItem.Run();
+                    var result = SelectedItem.Result;
+                    if (result.IsValid == false)
+                    {
+                        MessageBox.Show(result.Desctription, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        var calculator = SelectedItem as IForceCalculator;
+                        var vm = new ForcesResultsViewModel(calculator);
+                        var wnd = new ForceResultsView(vm);
+                        wnd.Show();
+                    }
                 }, o => SelectedItem != null));
             }
         }

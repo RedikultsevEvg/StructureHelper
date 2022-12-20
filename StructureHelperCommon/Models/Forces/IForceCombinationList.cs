@@ -10,6 +10,7 @@ namespace StructureHelperCommon.Models.Forces
     public interface IForceCombinationList
     {
         string Name { get; set; }
+        bool SetInGravityCenter { get; set; }
         Point2D ForcePoint {get ;}
         List<IDesignForceTuple> DesignForces { get; }
     }

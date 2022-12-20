@@ -12,12 +12,16 @@ namespace StructureHelperCommon.Models.Forces
     {
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }
-        public IForceTuple ForceTuple { get; private set; }
+        public IForceTuple ForceTuple { get; set; }
 
-        public DesignForceTuple(LimitStates limitState, CalcTerms calcTerm)
+        public DesignForceTuple(LimitStates limitState, CalcTerms calcTerm) : this()
         {
             LimitState = limitState;
             CalcTerm = calcTerm;
+        }
+
+        public DesignForceTuple()
+        {
             ForceTuple = new ForceTuple();
         }
 

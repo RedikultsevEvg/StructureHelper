@@ -1,4 +1,6 @@
 ﻿using LoaderCalculator.Data.ResultData;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Forces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public class ForcesResult : INdmResult
     {
-        public bool IsValid { get; private set; }
+        public bool IsValid { get; set; }
+        public IDesignForceTuple DesignForceTuple { get; set; }
         /// <summary>
         /// Text of result of calculations
         /// </summary>
@@ -17,6 +20,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         /// <summary>
         /// Keep result of calculations from ndm-library
         /// </summary>
-        public ILoaderResults LoaderResults { get; }
+        public ILoaderResults LoaderResults { get; set; }
+
+        public ForcesResult()
+        {
+            DesignForceTuple = new DesignForceTuple();
+        }
     }
 }

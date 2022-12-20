@@ -15,5 +15,7 @@
             <TextBlock Grid.Column="1" Text="{Binding Name}"/>
         </Grid>
     </DataTemplate>
-
+    <DataTemplate x:Key="SimpleItemTemplate">
+        <TextBlock Text="{Binding Name}"/>
+    </DataTemplate>
 </ResourceDictionary>

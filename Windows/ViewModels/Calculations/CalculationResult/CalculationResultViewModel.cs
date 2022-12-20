@@ -18,7 +18,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.CalculationResult
     public class CalculationResultViewModel
     {
         public ICalculationResult SelectedResult { get; set; }
-        public ICommand ShowIsoFieldCommand { get; set; }
+        public ICommand ShowIsoFieldCommand { get;}
         private ObservableCollection<ICalculationResult> calculationResults;
         private IEnumerable<INdm> ndms;
         private IReport isoFieldReport;

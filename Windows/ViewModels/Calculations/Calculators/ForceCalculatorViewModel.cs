@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
@@ -47,6 +48,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         public bool LongTerm { get; set; }
 
         public ISourceToTargetViewModel<IForceCombinationList> CombinationViewModel { get; }
+        //public ISourceToTargetViewModel<PrimitiveBase> PrimitivesViewModel { get; }
 
         public PrimitiveBase SelectedAllowedPrimitive { get; set; }
         public PrimitiveBase SelectedPrimitive { get; set; }
@@ -148,6 +150,13 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             CombinationViewModel.SetTargetItems(forcesCalculator.ForceCombinationLists);
             CombinationViewModel.SetSourceItems(allowedForceCombinations);
 
+            //PrimitivesViewModel = new SourceToTargetViewModel<PrimitiveBase>();
+            //var targetItems = forcesCalculator.NdmPrimitives; 
+            //var viewPrimitives = ConvertNdmPrimitivesToPrimitiveBase(targetItems);
+            //PrimitivesViewModel.SetTargetItems(viewPrimitives);
+            //var sourceViewPrimitives = ConvertNdmPrimitivesToPrimitiveBase(allowedPrimitives) ;
+            //PrimitivesViewModel.SetSourceItems(sourceViewPrimitives);
+
             InputRefresh();
         }
 
@@ -187,6 +196,11 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             {
                 forcesCalculator.ForceCombinationLists.Add(item);
             }
+            //forcesCalculator.NdmPrimitives.Clear();
+            //foreach (var item in PrimitivesViewModel.GetTargetItems())
+            //{
+            //    forcesCalculator.NdmPrimitives.Add(item.GetNdmPrimitive());
+            //}
             forcesCalculator.LimitStatesList.Clear();
             if (ULS == true) { forcesCalculator.LimitStatesList.Add(LimitStates.ULS); }
             if (SLS == true) { forcesCalculator.LimitStatesList.Add(LimitStates.SLS); }

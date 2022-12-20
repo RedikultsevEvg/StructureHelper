@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Forces"
         d:DataContext="{d:DesignInstance vm:ForceCombinationViewModel}"
         mc:Ignorable="d"
-        Title="Force Combination" Height="250" Width="450" MinHeight="300" MinWidth="400">
+        Title="Force Combination" Height="250" Width="450" MinHeight="300" MinWidth="450" MaxWidth="500" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <DataTemplate x:Key="ForceTemplate">
             
@@ -19,24 +19,27 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Name"/>
             <TextBox Grid.Column="1" Text="{Binding Name}"/>
-            <TextBlock Grid.Row="1" Text="Center X"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding CenterX}"/>
-            <TextBlock Grid.Row="2" Text="Center Y"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CenterY}"/>
+            <TextBlock Grid.Row="1" Text="Set force into initial Gravity Center"/>
+            <CheckBox Grid.Row="1" Grid.Column="1" Margin="3,5,3,5" IsChecked="{Binding SetInGravityCenter}"/>
+            <TextBlock Grid.Row="2" Text="Center X"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CenterX}" IsEnabled="{Binding CoordEnable}"/>
+            <TextBlock Grid.Row="3" Text="Center Y"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding CenterY}" IsEnabled="{Binding CoordEnable}"/>
         </Grid>
         <DataGrid x:Name="ForceGrid" AutoGenerateColumns="False"
                   ItemsSource="{Binding ForceTuples}"
                   SelectedItem="{Binding SelectedTuple}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Limit State" Width="90" Binding="{Binding LimitState}"/>
-                <DataGridTextColumn Header="Duration" Width="90" Binding="{Binding CalcTerm}"/>
+                <DataGridTextColumn Header="Limit State" Width="90" Binding="{Binding LimitState}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Duration" Width="90" Binding="{Binding CalcTerm}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Moment Mx" Width="90" Binding="{Binding ForceTuple.Mx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
                 <DataGridTextColumn Header="Moment My" Width="90" Binding="{Binding ForceTuple.My, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
                 <DataGridTextColumn Header="Force Nz" Width="90" Binding="{Binding ForceTuple.Nz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
