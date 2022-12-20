@@ -27,7 +27,6 @@ namespace StructureHelperLogics.Models.Templates.CrossSections
             var repository = section.SectionRepository;
             var materials = materialLogic.GetHeadMaterials();
             primitives = geometryLogic.GetNdmPrimitives();
-#error
             repository.HeadMaterials.AddRange(materials);
             repository.Primitives.AddRange(primitives);
             combinations = forceLogic.GetCombinationList();

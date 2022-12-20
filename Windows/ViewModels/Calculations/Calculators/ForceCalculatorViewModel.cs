@@ -57,7 +57,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         {
             get
             {
-                var sourceItems = forcesCalculator.NdmPrimitives;
+                var sourceItems = forcesCalculator.Primitives;
                 var rejectedItems = allowedPrimitives.Where(x => sourceItems.Contains(x));
                 var filteredItems = allowedPrimitives.Except(rejectedItems);
                 return ConvertNdmPrimitivesToPrimitiveBase(filteredItems);
@@ -67,7 +67,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         {
             get
             {
-                var sourceItems = forcesCalculator.NdmPrimitives;
+                var sourceItems = forcesCalculator.Primitives;
                 return ConvertNdmPrimitivesToPrimitiveBase(sourceItems);
             }
         }
@@ -94,8 +94,8 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         }
         private void AddAllPrimitives()
         {
-            forcesCalculator.NdmPrimitives.Clear();
-            forcesCalculator.NdmPrimitives.AddRange(allowedPrimitives);
+            forcesCalculator.Primitives.Clear();
+            forcesCalculator.Primitives.AddRange(allowedPrimitives);
         }
         public ICommand ClearAllPrimitivesCommand
         {
@@ -105,10 +105,10 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     (
                     clearAllPrimitivesCommand = new RelayCommand(o =>
                     {
-                        forcesCalculator.NdmPrimitives.Clear();
+                        forcesCalculator.Primitives.Clear();
                         OnPropertyChanged(nameof(AllowedPrimitives));
                         OnPropertyChanged(nameof(Primitives));
-                    }, o => forcesCalculator.NdmPrimitives.Count > 0 ));
+                    }, o => forcesCalculator.Primitives.Count > 0 ));
             }
         }
         public ICommand AddSelectedPrimitiveCommand
@@ -119,7 +119,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     (
                     addSelectedPrimitiveCommand = new RelayCommand(o =>
                     {
-                        forcesCalculator.NdmPrimitives.Add(SelectedAllowedPrimitive.GetNdmPrimitive());
+                        forcesCalculator.Primitives.Add(SelectedAllowedPrimitive.GetNdmPrimitive());
                         OnPropertyChanged(nameof(AllowedPrimitives));
                         OnPropertyChanged(nameof(Primitives));
                     }, o => SelectedAllowedPrimitive != null));
@@ -133,7 +133,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     (
                     removeSelectedPrimitive = new RelayCommand(o =>
                     {
-                        forcesCalculator.NdmPrimitives.Remove(SelectedPrimitive.GetNdmPrimitive());
+                        forcesCalculator.Primitives.Remove(SelectedPrimitive.GetNdmPrimitive());
                         OnPropertyChanged(nameof(AllowedPrimitives));
                         OnPropertyChanged(nameof(Primitives));
                     }, o => SelectedPrimitive != null));

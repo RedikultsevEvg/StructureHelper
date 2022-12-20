@@ -53,7 +53,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         {
             this.forceCalculator = forceCalculator;
             this.forcesResults = this.forceCalculator.Result as IForcesResults;
-            ndmPrimitives = this.forceCalculator.NdmPrimitives;
+            ndmPrimitives = this.forceCalculator.Primitives;
         }
 
         private void ShowIsoField()
