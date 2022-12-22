@@ -15,19 +15,27 @@ using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.Calculations.CalculationResult
 {
-    public class CalculationResultViewModel
+    public class CalculationResultViewModel : ViewModelBase
     {
         public ICalculationResult SelectedResult { get; set; }
-        public ICommand ShowIsoFieldCommand { get;}
         private ObservableCollection<ICalculationResult> calculationResults;
         private IEnumerable<INdm> ndms;
         private IReport isoFieldReport;
+        private RelayCommand showIsoFieldCommand;
 
+        public RelayCommand ShowIsoFieldCommand
+        { get
+            {
+                return showIsoFieldCommand ??
+                    (
+                    showIsoFieldCommand = new RelayCommand(o =>
+                    ShowIsoField(),
+                    o => !(SelectedResult is null) && SelectedResult.IsValid));
+            }
+        }
 
         public CalculationResultViewModel(IEnumerable<ICalculationResult> results, IEnumerable<INdm> ndmCollection)
         {
-            ShowIsoFieldCommand = new RelayCommand(o=>ShowIsoField(), o=> !(SelectedResult is null) && SelectedResult.IsValid);
-            //
             calculationResults = new ObservableCollection<ICalculationResult>();
             ndms = ndmCollection;
             foreach (var result in results)

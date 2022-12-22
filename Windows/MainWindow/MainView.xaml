@@ -44,7 +44,6 @@
                     <Button Content="Delete primitive" Command="{Binding DeletePrimitive}"/>
                 </MenuItem>
                 <Button Content="Materials" Command="{Binding EditHeadMaterialsCommand}"/>
-                <Button Content="Calculation properties" Command="{Binding Path=EditCalculationPropertyCommand}"/>
                 <Button Content="Move primitives to center" Command="{Binding Path=MovePrimitiveToGravityCenterCommand}"/>
                 <MenuItem Header="Templates">
                     <Button Content="Concrete beam" Command="{Binding AddBeamCase}"/>
@@ -52,9 +51,10 @@
                     <Button Content="Concrete slab" Command="{Binding AddSlabCase}"/>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Analysis">
-                <Button Content="Solve problem" Command="{Binding Path=Calculate}"/>
+            <!--<MenuItem Header="Analysis">
             </MenuItem>
+            <MenuItem Header="Help">
+            </MenuItem>-->
         </Menu>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

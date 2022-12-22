@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Templates.CrossSections
 {
-    internal interface ISectionGeometryLogic
+    public interface ISectionGeometryLogic
     {
         IEnumerable<INdmPrimitive> GetNdmPrimitives();
     }

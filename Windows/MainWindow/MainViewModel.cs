@@ -9,7 +9,6 @@ using StructureHelper.Models.Primitives.Factories;
 using StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow;
 using StructureHelper.Windows.CalculationWindows.CalculationResultWindow;
 using StructureHelper.Windows.ColorPickerWindow;
-using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelper.Windows.PrimitiveProperiesWindow;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
@@ -24,6 +23,7 @@ using StructureHelperLogics.Models.Calculations.CalculationProperties;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.Models.Primitives;
+using StructureHelperLogics.Models.Templates.CrossSections.RCs;
 using StructureHelperLogics.Models.Templates.RCs;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmCalculations;
@@ -342,7 +342,6 @@ namespace StructureHelper.Windows.MainWindow
                     repository.Primitives.Add(ndmPrimitive);
                 }
                 OnPropertyChanged(nameof(PrimitivesCount));
-                AddCaseLoads(-50e3d, 50e3d, 0d);
             });
 
             AddColumnCase = new RelayCommand(o =>
@@ -354,7 +353,6 @@ namespace StructureHelper.Windows.MainWindow
                     repository.Primitives.Add(ndmPrimitive);
                 }
                 OnPropertyChanged(nameof(PrimitivesCount));
-                AddCaseLoads(50e3d, 50e3d, -100e3d);
             });
 
             AddSlabCase = new RelayCommand(o =>
@@ -366,7 +364,6 @@ namespace StructureHelper.Windows.MainWindow
                     repository.Primitives.Add(ndmPrimitive);
                 }
                 OnPropertyChanged(nameof(PrimitivesCount));
-                AddCaseLoads(-20e3d, 0d, 0d);
             });
 
             Calculate = new RelayCommand(o =>
@@ -507,28 +504,25 @@ namespace StructureHelper.Windows.MainWindow
             var view = new CalculationPropertyView(viewModel);
             view.ShowDialog();
         }
-        private void AddCaseLoads(double mx, double my, double nz)
-        {
-            ForceCombination combination = new ForceCombination();
-            combination.ForceMatrix.Mx = mx;
-            combination.ForceMatrix.My = my;
-            combination.ForceMatrix.Nz = nz;
-            calculationProperty.ForceCombinations.Add(combination);     
-        }
+
         private IEnumerable<PrimitiveBase> GetCasePrimitives(RectangleBeamTemplate template)
         {
             var wnd = new RectangleBeamView(template);
             wnd.ShowDialog();
             if (wnd.DialogResult == true)
             {
-                var concrete = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, ProgramSetting.CodeType);
-                concrete.Name = "Concrete";
-                var reinforcement = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforecement400, ProgramSetting.CodeType);
-                reinforcement.Name = "Reinforcement";
-                Model.Section.SectionRepository.HeadMaterials.Add(concrete);
-                Model.Section.SectionRepository.HeadMaterials.Add(reinforcement);
+                var newSection = new SectionTemplate(new RectGeometryLogic(template)).GetCrossSection();
+                var newRepository = newSection.SectionRepository;
+                repository.HeadMaterials.AddRange(newRepository.HeadMaterials);
+                repository.Primitives.AddRange(newRepository.Primitives);
+                repository.ForceCombinationLists.AddRange(newRepository.ForceCombinationLists);
+                repository.CalculatorsList.AddRange(newRepository.CalculatorsList);
                 OnPropertyChanged(nameof(HeadMaterials));
-                var primitives = PrimitiveFactory.GetRectangleRCElement(template, concrete, reinforcement);
+                CombinationsLogic.AddItems(newRepository.ForceCombinationLists);
+                CalculatorsLogic.AddItems(newRepository.CalculatorsList);
+                //OnPropertyChanged(nameof(CombinationsLogic.Items));
+                //OnPropertyChanged(nameof(CalculatorsLogic.Items));
+                var primitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(newRepository.Primitives);
                 foreach (var item in primitives)
                 {
                     item.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);

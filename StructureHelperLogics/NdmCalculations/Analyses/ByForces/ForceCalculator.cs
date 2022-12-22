@@ -1,20 +1,16 @@
-﻿using LoaderCalculator.Data.Matrix;
+﻿using LoaderCalculator;
+using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.SourceData;
-using LoaderCalculator;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperLogics.Models.Calculations.CalculationProperties;
+using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Text;
-using StructureHelperCommon.Models.Shapes;
-using StructureHelperLogics.Services.Forces;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -126,12 +122,25 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             catch (Exception ex)
             {
                 var result = new ForcesResult() { IsValid = false };
-                if (ex.Message == "") { result.Desctription = "Stiffness matrix is equal to zero"; }
+                if (ex.Message == "Calculation result is not valid: stiffness matrix is equal to zero") { result.Desctription = "Stiffness matrix is equal to zero \nProbably section was collapsed"; }
                 else { result.Desctription = $"Error is appeared due to analysis. Error: {ex}"; }
                 return result;
             }
 
         }
 
+        public object Clone()
+        {
+            IForceCalculator calculator = new ForceCalculator();
+            calculator.LimitStatesList.Clear();
+            calculator.LimitStatesList.AddRange(LimitStatesList);
+            calculator.CalcTermsList.Clear();
+            calculator.CalcTermsList.AddRange(CalcTermsList);
+            calculator.IterationAccuracy = IterationAccuracy;
+            calculator.MaxIterationCount = MaxIterationCount;
+            calculator.Primitives.AddRange(Primitives);
+            calculator.ForceCombinationLists.AddRange(ForceCombinationLists);
+            return calculator;
+        }
     }
 }

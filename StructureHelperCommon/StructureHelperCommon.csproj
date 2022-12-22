@@ -59,6 +59,8 @@
     <Compile Include="Infrastructures\Enums\MaterialTypes.cs" />
     <Compile Include="Models\Calculators\IHelperCalculator.cs" />
     <Compile Include="Models\Forces\DesignForceTuple.cs" />
+    <Compile Include="Models\Forces\Factories\DesignForceFactory.cs" />
+    <Compile Include="Models\Forces\Factories\ForceCombinationListFactory.cs" />
     <Compile Include="Models\Forces\ForceCombinationList.cs" />
     <Compile Include="Models\Forces\ForceTuple.cs" />
     <Compile Include="Models\Forces\IDesignForceTuple.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="Models\Shapes\RectangleShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ColorServices\ColorProcessor.cs" />
+    <Compile Include="Services\Forces\TupleService.cs" />
     <Compile Include="Services\ShapeServices\ShapeService.cs" />
     <Compile Include="Services\Units\IUnit.cs" />
     <Compile Include="Services\Units\Unit.cs" />

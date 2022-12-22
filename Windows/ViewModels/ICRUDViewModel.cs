@@ -16,5 +16,7 @@ namespace StructureHelper.Windows.ViewModels
         RelayCommand Add { get; }
         RelayCommand Delete { get; }
         RelayCommand Edit { get; }
+        RelayCommand Copy { get; }
+        void AddItems(IEnumerable<TItem> items);
     }
 }

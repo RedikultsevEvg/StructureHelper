@@ -1,6 +1,7 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.ViewModels.Calculations.Calculators;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
@@ -18,18 +19,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private readonly ICrossSectionRepository repository;
 
         public INdmCalculator SelectedItem { get; set; }
-        public ObservableCollection<INdmCalculator> Items
-        {
-            get
-            {
-                var collection = new ObservableCollection<INdmCalculator>();
-                foreach (var item in repository.CalculatorsList)
-                {
-                    collection.Add(item);
-                }
-                return collection;
-            }
-        }
+        public ObservableCollection<INdmCalculator> Items { get; private set; }
 
         private RelayCommand addCalculatorCommand;
         public RelayCommand Add
@@ -48,6 +38,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private void AddCalculator()
         {
             var item = new ForceCalculator() { Name = "New force calculator" };
+            Items.Add(item);
             repository.CalculatorsList.Add(item);
         }
         private RelayCommand editCalculatorCommand;
@@ -115,6 +106,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
         }
 
+        public RelayCommand Copy => throw new NotImplementedException();
+
         private void DeleteCalculator()
         {
             var dialogResult = MessageBox.Show("Delete calculator?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -124,9 +117,20 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 OnPropertyChanged(nameof(Items));
             }
         }
+
+        public void AddItems(IEnumerable<INdmCalculator> items)
+        {
+            foreach (var item in items)
+            {
+                Items.Add(item);
+            }
+        }
+
         public CalculatorsViewModelLogic(ICrossSectionRepository repository)
         {
             this.repository = repository;
+            Items = new ObservableCollection<INdmCalculator>();
+            AddItems(this.repository.CalculatorsList);
         }
     }
 }

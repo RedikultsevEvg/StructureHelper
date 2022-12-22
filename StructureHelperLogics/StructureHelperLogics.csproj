@@ -19,6 +19,8 @@
 
   <ItemGroup>
     <Folder Include="Infrastructures\" />
+    <Folder Include="Services\CrossSections\" />
+    <Folder Include="Services\Forces\" />
   </ItemGroup>
 
 </Project>

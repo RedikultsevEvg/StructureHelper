@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Calculations.Calculators"
         d:DataContext="{d:DesignInstance vm:ForcesResultsViewModel}"
         mc:Ignorable="d"
-        Title="ForceResultsView" Height="350" Width="650" MinHeight="300" MinWidth="400">
+        Title="ForceResultsView" Height="350" Width="650" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -40,7 +40,8 @@
         </DataGrid>
         <StackPanel Grid.Column="1">
             <Button Margin="3" Content="Graphic" Command="{Binding ShowIsoFieldCommand}"/>
-            <Button Margin="3" Content="Export" Command="{Binding ShowIsoFieldCommand}"/>
+            <Button Margin="3" Content="Interpolate" Command="{Binding InterpolateCommand}"/>
+            <Button Margin="3" Content="Export" Command="{Binding ExportToCSVCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

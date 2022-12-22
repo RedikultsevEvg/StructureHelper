@@ -20,18 +20,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         public IForceCombinationList SelectedItem { get; set; }
 
-        public ObservableCollection<IForceCombinationList> Items
-        {
-            get
-            {
-                var collection = new ObservableCollection<IForceCombinationList>();
-                foreach (var item in repository.ForceCombinationLists)
-                {
-                    collection.Add(item);
-                }
-                return collection;
-            }
-        }
+        public ObservableCollection<IForceCombinationList> Items { get; private set; }
 
         private RelayCommand addForceCombinationCommand;
         public RelayCommand Add
@@ -50,6 +39,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private void AddCombination()
         {
             var item = new ForceCombinationList() { Name = "New Force Combination" };
+            Items.Add(item);
             repository.ForceCombinationLists.Add(item);
         }
         private RelayCommand deleteForceCombinationCommand;
@@ -88,15 +78,28 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                     }, o => SelectedItem != null));
             }
         }
+
+        public RelayCommand Copy => throw new NotImplementedException();
+
         private void EditForceCombination()
         {
             var wnd = new ForceCombinationView(SelectedItem);
             wnd.ShowDialog();
         }
 
+        public void AddItems(IEnumerable<IForceCombinationList> items)
+        {
+            foreach (var item in items)
+            {
+                Items.Add(item);
+            }
+        }
+
         public ForceCombinationViewModelLogic(ICrossSectionRepository repository)
         { 
             this.repository = repository;
+            Items = new ObservableCollection<IForceCombinationList>();
+            AddItems(this.repository.ForceCombinationLists);
         }
     }
 }

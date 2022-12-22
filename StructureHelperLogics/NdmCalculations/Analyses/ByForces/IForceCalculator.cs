@@ -2,11 +2,12 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using System;
 using System.Collections.Generic;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public interface IForceCalculator : INdmCalculator, IHasPrimitives, IHasForceCombinations
+    public interface IForceCalculator : INdmCalculator, IHasPrimitives, IHasForceCombinations, ICloneable
     {
         List<CalcTerms> CalcTermsList { get; }
         double IterationAccuracy { get; set; }
