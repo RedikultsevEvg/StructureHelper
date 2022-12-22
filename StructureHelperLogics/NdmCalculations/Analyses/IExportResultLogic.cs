@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses
 {
-    internal interface IExportResultLogic
+    public interface IExportResultLogic
     {
         void Export(INdmResult ndmResult);
     }

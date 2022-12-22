@@ -132,6 +132,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public object Clone()
         {
             IForceCalculator calculator = new ForceCalculator();
+            calculator.Name = Name + " copy";
             calculator.LimitStatesList.Clear();
             calculator.LimitStatesList.AddRange(LimitStatesList);
             calculator.CalcTermsList.Clear();

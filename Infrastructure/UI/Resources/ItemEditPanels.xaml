@@ -15,8 +15,8 @@
                 <Button Content=">>" Command="{Binding AddSelected}"/>
                 <Button Content="&lt;&lt;" Command="{Binding RemoveSelected}"/>
             </StackPanel>
-            <ListBox Grid.Column="2" ItemsSource="{Binding TargetItems}" SelectedItem="{Binding SelectedTargetItem}" ItemTemplate="{StaticResource ResourceKey=SimpleItemTemplate}"/>
+            <ListBox Grid.Column="2" ItemsSource="{Binding TargetItems}"
+                     SelectedItem="{Binding SelectedTargetItem}" ItemTemplate="{StaticResource ResourceKey=SimpleItemTemplate}"/>
         </Grid>
     </DataTemplate>
-
 </ResourceDictionary>

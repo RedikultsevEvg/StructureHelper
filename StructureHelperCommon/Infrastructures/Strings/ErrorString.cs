@@ -16,5 +16,7 @@ namespace StructureHelperCommon.Infrastructures.Strings
         public static string LimitStatesIsNotValid => "#0005: Type of limite state is not valid";
         public static string LoadTermIsNotValid => "#0006: Load term is not valid";
         public static string IncorrectValue => "#0007: value is not valid";
+        public static string FileCantBeDeleted => "#0008: File can't be deleted";
+        public static string FileCantBeSaved => "#0009: File can't be saved";
     }
 }

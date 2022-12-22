@@ -50,8 +50,12 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                     (
                     editCalculatorCommand = new RelayCommand(o =>
                     {
+                        var tmpSelected = SelectedItem;
                         EditCalculator();
+                        Items.Clear();
+                        AddItems(repository.CalculatorsList);
                         OnPropertyChanged(nameof(Items));
+                        SelectedItem = tmpSelected;
                     }, o => SelectedItem != null));
             }
         }
@@ -68,6 +72,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         }
         private RelayCommand deleteCalculatorCommand;
         private RelayCommand runCommand;
+        private RelayCommand copyCalculatorCommand;
+
         public RelayCommand Delete
         {
             get
@@ -100,13 +106,27 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                         var calculator = SelectedItem as IForceCalculator;
                         var vm = new ForcesResultsViewModel(calculator);
                         var wnd = new ForceResultsView(vm);
-                        wnd.Show();
+                        wnd.ShowDialog();
                     }
                 }, o => SelectedItem != null));
             }
         }
 
-        public RelayCommand Copy => throw new NotImplementedException();
+        public RelayCommand Copy
+        {
+            get
+            {
+                return copyCalculatorCommand ??
+                (
+                copyCalculatorCommand = new RelayCommand(o =>
+                {
+                    var item = SelectedItem.Clone() as INdmCalculator;
+                    repository.CalculatorsList.Add(item);
+                    Items.Add(item);
+                    OnPropertyChanged(nameof(Items));
+                }, o => SelectedItem != null));
+            }
+        }
 
         private void DeleteCalculator()
         {

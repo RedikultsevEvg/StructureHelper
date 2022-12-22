@@ -9,7 +9,7 @@ using TaskManager;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses
 {
-    public interface INdmCalculator
+    public interface INdmCalculator : ICloneable
     {
         string Name { get; set; }
         /// <summary>

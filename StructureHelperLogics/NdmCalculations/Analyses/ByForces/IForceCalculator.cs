@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public interface IForceCalculator : INdmCalculator, IHasPrimitives, IHasForceCombinations, ICloneable
+    public interface IForceCalculator : INdmCalculator, IHasPrimitives, IHasForceCombinations
     {
         List<CalcTerms> CalcTermsList { get; }
         double IterationAccuracy { get; set; }

@@ -72,6 +72,7 @@
                         <ListBox.ContextMenu>
                             <ContextMenu>
                                 <Button Content="Edit" Command="{Binding Edit}"/>
+                                <Button Content="Copy" Command="{Binding Copy}"/>
                                 <Button Content="Delete" Command="{Binding Delete}"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>
@@ -122,6 +123,7 @@
                             <ContextMenu>
                                 <Button Content="Run" Command="{Binding Run}"/>
                                 <Button Content="Edit" Command="{Binding Edit}"/>
+                                <Button Content="Copy" Command="{Binding Copy}"/>
                                 <Button Content="Delete" Command="{Binding Delete}"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>

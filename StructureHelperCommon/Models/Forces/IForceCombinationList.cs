@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public interface IForceCombinationList
+    public interface IForceCombinationList : ICloneable
     {
         string Name { get; set; }
         bool SetInGravityCenter { get; set; }

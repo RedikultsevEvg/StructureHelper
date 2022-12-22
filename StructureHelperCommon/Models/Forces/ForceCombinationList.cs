@@ -27,5 +27,21 @@ namespace StructureHelperCommon.Models.Forces
             DesignForces.Add(new DesignForceTuple(LimitStates.SLS, CalcTerms.ShortTerm));
             DesignForces.Add(new DesignForceTuple(LimitStates.SLS, CalcTerms.LongTerm));
         }
+
+        public object Clone()
+        {
+            var newItem = new ForceCombinationList();
+            newItem.Name = Name + " copy";
+            newItem.SetInGravityCenter = SetInGravityCenter;
+            newItem.ForcePoint.X = ForcePoint.X;
+            newItem.ForcePoint.Y = ForcePoint.Y;
+            newItem.DesignForces.Clear();
+            foreach (var item in DesignForces)
+            {
+                var newForce = item.Clone() as IDesignForceTuple;
+                newItem.DesignForces.Add(newForce);
+            }
+            return newItem;
+        }
     }
 }

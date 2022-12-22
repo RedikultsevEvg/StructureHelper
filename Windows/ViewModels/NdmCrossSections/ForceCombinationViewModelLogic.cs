@@ -3,6 +3,7 @@ using StructureHelper.Windows.Forces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
 using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.NdmCalculations.Analyses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -65,6 +66,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
         }
         private RelayCommand editForceCombinationCommand;
+        private RelayCommand copyCommand;
+
         public RelayCommand Edit
         {
             get
@@ -74,12 +77,28 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                     editForceCombinationCommand = new RelayCommand(o =>
                     {
                         EditForceCombination();
+                        Items.Clear();
+                        AddItems(repository.ForceCombinationLists);
                         OnPropertyChanged(nameof(Items));
                     }, o => SelectedItem != null));
             }
         }
 
-        public RelayCommand Copy => throw new NotImplementedException();
+        public RelayCommand Copy
+        {
+            get
+            {
+                return copyCommand ??
+                (
+                copyCommand = new RelayCommand(o =>
+                {
+                    var item = SelectedItem.Clone() as IForceCombinationList;
+                    repository.ForceCombinationLists.Add(item);
+                    Items.Add(item);
+                    OnPropertyChanged(nameof(Items));
+                }, o => SelectedItem != null));
+            }
+        }
 
         private void EditForceCombination()
         {

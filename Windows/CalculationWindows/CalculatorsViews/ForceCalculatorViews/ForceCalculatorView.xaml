@@ -55,17 +55,14 @@
                     </Grid.ColumnDefinitions>
                     <ListBox ItemsSource="{Binding AllowedPrimitives}"
                              SelectedItem="{Binding SelectedAllowedPrimitive}"
-                             ItemTemplate="{StaticResource ColoredItemTemplate}">
-                    </ListBox>
+                             ItemTemplate="{StaticResource ColoredItemTemplate}"/>
                     <StackPanel Grid.Column="1">
                         <Button Content="Add all" Command="{Binding AddAllPrimitivesCommand}"/>
                         <Button Content="Clear all" Command="{Binding ClearAllPrimitivesCommand}"/>
                         <Button Content=">>" Command="{Binding AddSelectedPrimitiveCommand}"/>
                         <Button Content="&lt;&lt;" Command="{Binding RemoveSelectedPrimitiveCommand}"/>
                     </StackPanel>
-                    <ListBox Grid.Column="2" ItemsSource="{Binding Primitives}" SelectedItem="{Binding SelectedPrimitive}" ItemTemplate="{StaticResource ColoredItemTemplate}">
-
-                    </ListBox>
+                    <ListBox Grid.Column="2" ItemsSource="{Binding Primitives}" SelectedItem="{Binding SelectedPrimitive}" ItemTemplate="{StaticResource ColoredItemTemplate}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Iterations">

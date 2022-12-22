@@ -7,11 +7,11 @@
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Calculations.Calculators"
         d:DataContext="{d:DesignInstance vm:ForcesResultsViewModel}"
         mc:Ignorable="d"
-        Title="ForceResultsView" Height="350" Width="650" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen">
+        Title="Calculation Results" Height="350" Width="850" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="90"/>
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="ResultGrid" IsReadOnly="True" AutoGenerateColumns="False"  ItemsSource="{Binding ForcesResults.ForcesResultList}" SelectedItem="{Binding SelectedResult}" >
             <DataGrid.RowStyle>

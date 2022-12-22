@@ -7,12 +7,16 @@ using StructureHelper.Services.Reports;
 using StructureHelper.Services.Reports.CalculationReports;
 using StructureHelper.Services.ResultViewers;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Strings;
+using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmCalculations;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,9 +63,45 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 return exportToCSVCommand ??
                     (exportToCSVCommand = new RelayCommand(o =>
                     {
-
+                        ExportToCSV();
                     }
                     ));
+            }
+        }
+
+        private void ExportToCSV()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "csv |*.csv";
+            saveFileDialog.Title = "Save an Image File";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var filename = saveFileDialog.FileName;
+                // If the file name is not an empty string open it for saving.
+                if (filename != "")
+                {
+                    if (File.Exists(filename))
+                    {
+                        try
+                        {
+                            File.Delete(filename);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new StructureHelperException(ErrorStrings.FileCantBeDeleted + ex + filename);
+                        }
+                    }
+
+                    try
+                    {
+                        var logic = new ExportToCSVLogic(saveFileDialog.FileName);
+                        logic.Export(forcesResults);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new StructureHelperException(ErrorStrings.FileCantBeSaved + ex + filename);
+                    }
+                }
             }
         }
 
@@ -91,7 +131,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             {
                 var vm = new ForcesResultsViewModel(calculator);
                 var wnd = new ForceResultsView(vm);
-                wnd.Show();
+                wnd.ShowDialog();
             }
         }
 
