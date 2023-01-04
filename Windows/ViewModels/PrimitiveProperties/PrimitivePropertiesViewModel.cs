@@ -206,6 +206,28 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             }
         }
 
+        public bool IsVisible
+        {
+            get => primitive.IsVisible;
+            set
+            {
+                primitive.IsVisible = value;
+                OnPropertyChanged(nameof(IsVisible));
+            }
+        }
+
+        public double Opacity
+        {
+            get => primitive.Opacity * 100d;
+            set
+            {
+                if (value < 0d ) { value = 0d; }
+                if (value > 100d) { value = 100d; }
+                primitive.Opacity = value / 100d;
+                OnPropertyChanged(nameof(Opacity));
+            }
+        }
+
         public string this[string columnName]
         {
             get

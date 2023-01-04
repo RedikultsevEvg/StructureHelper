@@ -27,11 +27,9 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         private IPrimitiveRepository primitiveRepository;
         private INdmPrimitive primitive;
         private bool captured, parameterCaptured, elementLock, paramsPanelVisibilty, popupCanBeClosed = true, borderCaptured;
-        private bool setMaterialColor;
-        private Color color;
-        private double opacity = 1, showedOpacity = 0, x, y, xY1, yX1, primitiveWidth, primitiveHeight;
+        private double showedOpacity = 0, x, y, xY1, yX1, primitiveWidth, primitiveHeight;
         protected double delta = 0.5;
-        private int showedZIndex = 1, zIndex;
+        private int showedZIndex = 1;
 
         #endregion
 
@@ -109,21 +107,23 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         public bool SetMaterialColor
         {
-            get => setMaterialColor;
+            get => primitive.VisualProperty.SetMaterialColor;
             set
             {
-                OnPropertyChanged(value, ref setMaterialColor);
+                primitive.VisualProperty.SetMaterialColor = value;
                 OnPropertyChanged(nameof(Color));
             }
 
         }
         public Color Color
         {
-            get => ((setMaterialColor == true) & (primitive.HeadMaterial !=null))? primitive.HeadMaterial.Color : color;
+            get => ((primitive.VisualProperty.SetMaterialColor == true)
+                & (primitive.HeadMaterial !=null))? primitive.HeadMaterial.Color : primitive.VisualProperty.Color;
             set
             {
                 SetMaterialColor = false;
-                OnPropertyChanged(value, ref color);
+                primitive.VisualProperty.Color = value;
+                OnPropertyChanged(nameof(Color));
             }
         }
 
@@ -141,11 +141,6 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         {
             get => elementLock;
             set => OnPropertyChanged(value, ref elementLock);
-        }
-        public Brush Brush
-        {
-            get => new SolidColorBrush(Color);
-            set { }
         }
 
         public bool ParamsPanelVisibilty
@@ -168,10 +163,25 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                 OnPropertyChanged(value, ref showedOpacity);
             }
         }
+
+        public bool IsVisible
+        {
+            get => primitive.VisualProperty.IsVisible;
+            set
+            {
+                primitive.VisualProperty.IsVisible = value;
+                OnPropertyChanged(nameof(IsVisible));
+            }
+        }
+
         public double Opacity
         {
-            get => opacity;
-            set => OnPropertyChanged(value, ref opacity);
+            get => primitive.VisualProperty.Opacity;
+            set
+            {
+                primitive.VisualProperty.Opacity = value;
+                OnPropertyChanged(nameof(Opacity));
+            }
         }
         public int ShowedZIndex
         {
@@ -185,8 +195,12 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         }
         public int ZIndex
         {
-            get => zIndex;
-            set => OnPropertyChanged(value, ref zIndex);
+            get => primitive.VisualProperty.ZIndex;
+            set
+            {
+                primitive.VisualProperty.ZIndex = value;
+                OnPropertyChanged(nameof(ZIndex));
+            }
         }
 
         public double Xy1
@@ -218,8 +232,6 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         public PrimitiveBase(INdmPrimitive primitive)
         {
-            color = ColorProcessor.GetRandomColor();
-            SetMaterialColor = true;
             this.primitive = primitive;
         }
 

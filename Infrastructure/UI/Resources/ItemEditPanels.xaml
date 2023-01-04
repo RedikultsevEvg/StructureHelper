@@ -8,7 +8,7 @@
                 <ColumnDefinition Width="60"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ListBox ItemsSource="{Binding SourceItems}" SelectedItem="{Binding SelectedSourceItem}" ItemTemplate="{StaticResource ResourceKey=SimpleItemTemplate}"/>
+            <ListBox ItemsSource="{Binding SourceItems}" SelectedItem="{Binding SelectedSourceItem}" ItemTemplate="{Binding ItemDataDemplate}"/>
             <StackPanel Grid.Column="1">
                 <Button Content="Add all" Command="{Binding AddAll}"/>
                 <Button Content="Clear all" Command="{Binding ClearAll}"/>
@@ -16,7 +16,7 @@
                 <Button Content="&lt;&lt;" Command="{Binding RemoveSelected}"/>
             </StackPanel>
             <ListBox Grid.Column="2" ItemsSource="{Binding TargetItems}"
-                     SelectedItem="{Binding SelectedTargetItem}" ItemTemplate="{StaticResource ResourceKey=SimpleItemTemplate}"/>
+                     SelectedItem="{Binding SelectedTargetItem}" ItemTemplate="{Binding ItemDataDemplate}"/>
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

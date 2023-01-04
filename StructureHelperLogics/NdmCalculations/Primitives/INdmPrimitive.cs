@@ -19,6 +19,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         double PrestrainKx { get; set; }
         double PrestrainKy { get; set; }
         double PrestrainEpsZ { get; set; }
+        IVisualProperty VisualProperty {get; }
 
         IEnumerable<INdm> GetNdms(IMaterial material);
     }

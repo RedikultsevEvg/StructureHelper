@@ -47,23 +47,7 @@
                 <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding CombinationViewModel}"/>
             </TabItem>
             <TabItem Header="Primitives">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="60"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <ListBox ItemsSource="{Binding AllowedPrimitives}"
-                             SelectedItem="{Binding SelectedAllowedPrimitive}"
-                             ItemTemplate="{StaticResource ColoredItemTemplate}"/>
-                    <StackPanel Grid.Column="1">
-                        <Button Content="Add all" Command="{Binding AddAllPrimitivesCommand}"/>
-                        <Button Content="Clear all" Command="{Binding ClearAllPrimitivesCommand}"/>
-                        <Button Content=">>" Command="{Binding AddSelectedPrimitiveCommand}"/>
-                        <Button Content="&lt;&lt;" Command="{Binding RemoveSelectedPrimitiveCommand}"/>
-                    </StackPanel>
-                    <ListBox Grid.Column="2" ItemsSource="{Binding Primitives}" SelectedItem="{Binding SelectedPrimitive}" ItemTemplate="{StaticResource ColoredItemTemplate}"/>
-                </Grid>
+                <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding PrimitivesViewModel}"/>
             </TabItem>
             <TabItem Header="Iterations">
                 <Grid>

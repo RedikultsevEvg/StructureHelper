@@ -19,7 +19,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="Shape" x:Key="ShapeStyle">
+    <Style TargetType="{x:Type Shape}" x:Key="ShapeStyle">
         <Setter Property="Fill">
             <Setter.Value>
                 <SolidColorBrush Color="{Binding Color}"/>
@@ -33,6 +33,9 @@
                 <Setter Property="Stroke" Value="Red"/>
                 <Setter Property="StrokeThickness" Value="0.002"/>
             </Trigger>
+            <!--<Trigger Property="IsVisible" Value="False">
+                <Setter Property="Visibility" Value="Hidden"/>
+            </Trigger>-->
         </Style.Triggers>
     </Style>
 

@@ -31,11 +31,14 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public double Height { get; set; }
         public double Angle { get; set; }
 
+        public IVisualProperty VisualProperty { get; }
+
         public RectanglePrimitive()
         {
             Name = "New Rectangle";
             NdmMaxSize = 0.01d;
             NdmMinDivision = 10;
+            VisualProperty = new VisualProperty();
         }
 
         public RectanglePrimitive(IHeadMaterial material) : this() { HeadMaterial = material; }

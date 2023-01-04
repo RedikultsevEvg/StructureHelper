@@ -30,7 +30,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public IPoint2D StartPoint { get; set; }
         public IPoint2D EndPoint { get; set; }
         public double Thickness { get; set; }
-        
+
+        public IVisualProperty VisualProperty => throw new NotImplementedException();
 
         public LinePrimitive()
         {

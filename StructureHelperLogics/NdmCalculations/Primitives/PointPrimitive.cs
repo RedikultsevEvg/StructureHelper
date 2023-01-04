@@ -25,18 +25,17 @@ namespace StructureHelperLogics.Models.Primitives
         public double PrestrainKy { get; set; }
         public double PrestrainEpsZ { get; set; }
         public double Area { get; set; }
-        
+
+        public IVisualProperty VisualProperty { get; }
 
         public PointPrimitive()
         {
             Name = "New Point";
             Area = 0.0005d;
+            VisualProperty = new VisualProperty();
         }
 
-        public PointPrimitive(IHeadMaterial material)
-        {
-            HeadMaterial = material;
-        }
+        public PointPrimitive(IHeadMaterial material) : this() { HeadMaterial = material; }
 
         public IEnumerable<INdm> GetNdms(IMaterial material)
         {

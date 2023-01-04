@@ -238,6 +238,8 @@
     <Compile Include="Windows\ViewModels\Calculations\CalculationProperies\CalculationPropertyViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\CalculationResult\CalculationResultViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\Calculators\ForcesResultsViewModel.cs" />
+    <Compile Include="Windows\ViewModels\NdmCrossSections\IPrimitiveViewModelLogic.cs" />
+    <Compile Include="Windows\ViewModels\NdmCrossSections\PrimitiveViewModelLogic.cs" />
     <Compile Include="Windows\ViewModels\SourceToTargetViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\Calculators\ForceCalculatorViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\Calculators\ICombinationSourceToTargetViewModel.cs" />

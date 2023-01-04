@@ -15,10 +15,22 @@ namespace StructureHelperLogics.Services.NdmPrimitives
 {
     public static class NdmPrimitivesService
     {
+        public static void CopyVisualProperty(IVisualProperty source, IVisualProperty target)
+        {
+            target.IsVisible = source.IsVisible;
+            target.Color = source.Color;
+            target.SetMaterialColor = source.SetMaterialColor;
+            target.Opacity = source.Opacity;
+            target.ZIndex = source.ZIndex;
+        }
+
         public static void CopyNdmProperties (INdmPrimitive source, INdmPrimitive target)
         {
-            target.Name = source.Name + " - copy" ;
-            target.HeadMaterial = source.HeadMaterial;
+            target.Name = source.Name + " copy" ;
+            if (source.HeadMaterial != null) target.HeadMaterial = source.HeadMaterial;
+            CopyVisualProperty(source.VisualProperty, target.VisualProperty);
+            target.CenterX = source.CenterX;
+            target.CenterY = source.CenterY;
             target.PrestrainKx = source.PrestrainKx;
             target.PrestrainKy = source.PrestrainKy;
             target.PrestrainEpsZ = source.PrestrainEpsZ;

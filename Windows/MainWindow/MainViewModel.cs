@@ -1,31 +1,23 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Logics.Geometry;
 using StructureHelper.Infrastructure;
-using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.MaterialCatalogWindow;
 using StructureHelper.Models.Materials;
-using StructureHelper.Models.Primitives.Factories;
 using StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow;
 using StructureHelper.Windows.CalculationWindows.CalculationResultWindow;
 using StructureHelper.Windows.ColorPickerWindow;
 using StructureHelper.Windows.MainWindow.Materials;
-using StructureHelper.Windows.PrimitiveProperiesWindow;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
 using StructureHelper.Windows.ViewModels.Calculations.CalculationProperies;
 using StructureHelper.Windows.ViewModels.Calculations.CalculationResult;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
 using StructureHelperLogics.Models.CrossSections;
-using StructureHelperLogics.Models.Materials;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.Models.Templates.CrossSections.RCs;
 using StructureHelperLogics.Models.Templates.RCs;
-using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmCalculations;
 using System;
 using System.Collections.Generic;
@@ -54,9 +46,9 @@ namespace StructureHelper.Windows.MainWindow
         private readonly ICalculatorsViewModelLogic calculatorsLogic;
         public ICalculatorsViewModelLogic CalculatorsLogic { get => calculatorsLogic;}
         public IForceCombinationViewModelLogic CombinationsLogic { get => combinationsLogic; }
+        public IPrimitiveViewModelLogic PrimitiveLogic => primitiveLogic;
 
         private MainModel Model { get; }
-        public ObservableCollection<PrimitiveBase> Primitives { get; private set; }
 
         private double panelX, panelY, scrollPanelX, scrollPanelY;
         private CalculationProperty calculationProperty;
@@ -81,8 +73,6 @@ namespace StructureHelper.Windows.MainWindow
             get => scrollPanelY;
             set => OnPropertyChanged(value, ref scrollPanelY);
         }
-
-        public int PrimitivesCount => Primitives.Count;
 
         private double scaleValue;
 
@@ -155,13 +145,10 @@ namespace StructureHelper.Windows.MainWindow
             get => yY2;
             set => OnPropertyChanged(value, ref yY2);
         }
-        public ICommand AddPrimitive { get; }
 
         public ICommand Calculate { get; }
-        public ICommand DeletePrimitive { get; }
         public ICommand EditCalculationPropertyCommand { get; }
         public ICommand EditHeadMaterialsCommand { get; }
-        public ICommand EditPrimitive { get; }
         public ICommand AddBeamCase { get; }
         public ICommand AddColumnCase { get; }
         public ICommand AddSlabCase { get; }
@@ -185,6 +172,7 @@ namespace StructureHelper.Windows.MainWindow
         private double axisLineThickness;
         private double gridLineThickness;
         private IForceCombinationViewModelLogic combinationsLogic;
+        private IPrimitiveViewModelLogic primitiveLogic;
 
         public MainViewModel(MainModel model)
         {
@@ -194,6 +182,7 @@ namespace StructureHelper.Windows.MainWindow
             calculatorsLogic = new CalculatorsViewModelLogic(repository);
             CanvasWidth = 2d * scale;
             CanvasHeight = 1.5d * scale;
+            primitiveLogic = new PrimitiveViewModelLogic(repository) { CanvasWidth = CanvasWidth, CanvasHeight = CanvasHeight };
             XX2 = CanvasWidth;
             XY1 = CanvasHeight / 2d;
             YX1 = CanvasWidth / 2d;
@@ -226,15 +215,6 @@ namespace StructureHelper.Windows.MainWindow
                         rect.PrimitiveHeight = PanelY - rect.PrimitiveTop + 10d;
                 }
             });
-            ClearSelection = new RelayCommand(o =>
-            {
-                var primitive = Primitives?.FirstOrDefault(x => x.ParamsPanelVisibilty);
-                if (primitive != null && primitive.PopupCanBeClosed)
-                {
-                    primitive.ParamsPanelVisibilty = false;
-                    primitive.ParameterCaptured = false;
-                }
-            });
             EditHeadMaterialsCommand = new RelayCommand(o => EditHeadMaterials());
             OpenMaterialCatalog = new RelayCommand(o =>
             {
@@ -254,24 +234,6 @@ namespace StructureHelper.Windows.MainWindow
                 var colorPickerView = new ColorPickerView(primitive);
                 colorPickerView.ShowDialog();
             });
-            SetInFrontOfAll = new RelayCommand(o =>
-            {
-                if (!(o is PrimitiveBase primitive)) return;
-                foreach (var primitiveDefinition in Primitives)
-                    if (primitiveDefinition.ShowedZIndex > primitive.ShowedZIndex && primitiveDefinition != primitive)
-                        primitiveDefinition.ShowedZIndex--;
-                primitive.ShowedZIndex = PrimitivesCount;
-                OnPropertyChanged(nameof(primitive.ShowedZIndex));
-            });
-            SetInBackOfAll = new RelayCommand(o =>
-            {
-                if (!(o is PrimitiveBase primitive)) return;
-                foreach (var primitiveDefinition in Primitives)
-                    if (primitiveDefinition != primitive && primitiveDefinition.ShowedZIndex < primitive.ShowedZIndex)
-                        primitiveDefinition.ShowedZIndex++;
-                primitive.ShowedZIndex = 1;
-                OnPropertyChanged(nameof(primitive.ShowedZIndex));
-            });
 
             ScaleCanvasDown = new RelayCommand(o =>
             {
@@ -287,83 +249,20 @@ namespace StructureHelper.Windows.MainWindow
                 ScaleValue /= scaleRate;
             });
 
-            Primitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(repository.Primitives);
-
-            AddPrimitive = new RelayCommand(o =>
-            {
-                if (!(o is PrimitiveType primitiveType)) return;
-                PrimitiveBase viewPrimitive;
-                INdmPrimitive ndmPrimitive;
-                if (primitiveType ==  PrimitiveType.Rectangle)
-                {
-                    var primitive = new RectanglePrimitive
-                    {
-                        Width = 0.4d,
-                        Height = 0.6d
-                    };
-                    ndmPrimitive = primitive;
-                    viewPrimitive = new RectangleViewPrimitive(primitive);
-
-                }
-                else if (primitiveType == PrimitiveType.Point)
-                {
-                    var primitive = new PointPrimitive
-                    {
-                        Area = 0.0005d
-                    };
-                    ndmPrimitive = primitive;
-                    viewPrimitive = new PointViewPrimitive(primitive);
-                }
-    
-                else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType)); }
-                viewPrimitive.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);
-                repository.Primitives.Add(ndmPrimitive);
-                Primitives.Add(viewPrimitive);
-                OnPropertyChanged(nameof(Primitives));
-                OnPropertyChanged(nameof(PrimitivesCount));
-            });
-
-            DeletePrimitive = new RelayCommand(
-                o=>DeleteSelectedPrimitive(),
-                o => SelectedPrimitive != null
-            );
-
-            EditPrimitive = new RelayCommand(
-                o => EditSelectedPrimitive(),
-                o => SelectedPrimitive != null
-            );
-
             AddBeamCase = new RelayCommand(o =>
             {
-                foreach (var primitive in GetBeamCasePrimitives())
-                {
-                    Primitives.Add(primitive);
-                    var ndmPrimitive = primitive.GetNdmPrimitive();
-                    repository.Primitives.Add(ndmPrimitive);
-                }
-                OnPropertyChanged(nameof(PrimitivesCount));
+                PrimitiveLogic.AddItems(GetBeamCasePrimitives());
+                //OnPropertyChanged(nameof(PrimitivesCount));
             });
 
             AddColumnCase = new RelayCommand(o =>
             {
-                foreach (var primitive in GetColumnCasePrimitives())
-                {
-                    Primitives.Add(primitive);
-                    var ndmPrimitive = primitive.GetNdmPrimitive();
-                    repository.Primitives.Add(ndmPrimitive);
-                }
-                OnPropertyChanged(nameof(PrimitivesCount));
+                PrimitiveLogic.AddItems(GetColumnCasePrimitives());
             });
 
             AddSlabCase = new RelayCommand(o =>
             {
-                foreach (var primitive in GetSlabCasePrimitives())
-                {
-                    Primitives.Add(primitive);
-                    var ndmPrimitive = primitive.GetNdmPrimitive();
-                    repository.Primitives.Add(ndmPrimitive);
-                }
-                OnPropertyChanged(nameof(PrimitivesCount));
+                PrimitiveLogic.AddItems(GetSlabCasePrimitives());
             });
 
             Calculate = new RelayCommand(o =>
@@ -406,37 +305,10 @@ namespace StructureHelper.Windows.MainWindow
             var wnd = new HeadMaterialsView(repository);
             wnd.ShowDialog();
             OnPropertyChanged(nameof(HeadMaterials));
-            foreach (var primitive in Primitives)
+            foreach (var primitive in primitiveLogic.Items)
             {
                 primitive.RefreshColor();
             }
-        }
-
-        private void DeleteSelectedPrimitive()
-        {
-            if (! (SelectedPrimitive is null))
-            {
-                var dialogResult = MessageBox.Show("Delete primitive?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    var ndmPrimitive = SelectedPrimitive.GetNdmPrimitive();
-                    repository.Primitives.Remove(ndmPrimitive);
-                    Primitives.Remove(SelectedPrimitive);                   
-                }
-            }
-            else { MessageBox.Show("Selection is changed", "Please, select primitive", MessageBoxButtons.YesNo, MessageBoxIcon.Warning); }
-            OnPropertyChanged(nameof(PrimitivesCount));
-        }
-
-        private void EditSelectedPrimitive()
-        {
-            if (!(SelectedPrimitive is null))
-            {
-                var wnd = new PrimitiveProperties(SelectedPrimitive, repository);
-                wnd.ShowDialog();
-                OnPropertyChanged(nameof(HeadMaterials));
-            }
-            else { MessageBox.Show("Selection is changed", "Please, select primitive", MessageBoxButtons.YesNo, MessageBoxIcon.Warning); }
         }
 
         private void CalculateResult()
@@ -460,16 +332,14 @@ namespace StructureHelper.Windows.MainWindow
                 MessageBox.Show($"{ErrorStrings.UnknownError}: {ex}", "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
         private bool CheckAnalisysOptions()
         {
             if (CheckMaterials() == false) { return false; }
             return true;
         }
-
         private bool CheckMaterials()
         {
-            foreach (var item in Primitives)
+            foreach (var item in primitiveLogic.Items)
             {
                 if (item.HeadMaterial == null)
                 {
@@ -479,32 +349,27 @@ namespace StructureHelper.Windows.MainWindow
             }
             return true;
         }
-
         private IEnumerable<PrimitiveBase> GetBeamCasePrimitives()
         {
             var template = new RectangleBeamTemplate();
             return GetCasePrimitives(template);
         }
-
         private IEnumerable<PrimitiveBase> GetColumnCasePrimitives()
         {
             var template = new RectangleBeamTemplate(0.5d, 0.5d) { CoverGap = 0.05, WidthCount = 3, HeightCount = 3, TopDiameter = 0.025d, BottomDiameter = 0.025d };
             return GetCasePrimitives(template);
         }
-
         private IEnumerable<PrimitiveBase> GetSlabCasePrimitives()
         {
             var template = new RectangleBeamTemplate(1d, 0.2d) { CoverGap = 0.04, WidthCount = 5, HeightCount = 2, TopDiameter = 0.012d, BottomDiameter = 0.012d };
             return GetCasePrimitives(template);
         }
-
         private void EditCalculationProperty()
         {
             CalculationPropertyViewModel viewModel = new CalculationPropertyViewModel(calculationProperty);
             var view = new CalculationPropertyView(viewModel);
             view.ShowDialog();
         }
-
         private IEnumerable<PrimitiveBase> GetCasePrimitives(RectangleBeamTemplate template)
         {
             var wnd = new RectangleBeamView(template);
@@ -520,13 +385,12 @@ namespace StructureHelper.Windows.MainWindow
                 OnPropertyChanged(nameof(HeadMaterials));
                 CombinationsLogic.AddItems(newRepository.ForceCombinationLists);
                 CalculatorsLogic.AddItems(newRepository.CalculatorsList);
-                //OnPropertyChanged(nameof(CombinationsLogic.Items));
-                //OnPropertyChanged(nameof(CalculatorsLogic.Items));
                 var primitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(newRepository.Primitives);
                 foreach (var item in primitives)
                 {
                     item.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);
                 }
+                PrimitiveLogic.Refresh();
                 return primitives;
             }
             return new List<PrimitiveBase>();

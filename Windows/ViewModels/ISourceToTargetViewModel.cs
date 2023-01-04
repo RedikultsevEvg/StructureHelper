@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace StructureHelper.Windows.ViewModels
 {
@@ -14,6 +15,7 @@ namespace StructureHelper.Windows.ViewModels
         TItem SelectedTargetItem { get; set; }
         ObservableCollection<TItem> SourceItems { get; }
         ObservableCollection<TItem> TargetItems { get; }
+        DataTemplate ItemDataDemplate { get; set; }
         RelayCommand AddAll { get; }
         RelayCommand ClearAll { get; }
         RelayCommand AddSelected { get; }

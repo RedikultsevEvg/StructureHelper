@@ -21,14 +21,14 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         public INdmCalculator SelectedItem { get; set; }
         public ObservableCollection<INdmCalculator> Items { get; private set; }
 
-        private RelayCommand addCalculatorCommand;
+        private RelayCommand addCommand;
         public RelayCommand Add
         {
             get
             {
-                return addCalculatorCommand ??
+                return addCommand ??
                     (
-                    addCalculatorCommand = new RelayCommand(o =>
+                    addCommand = new RelayCommand(o =>
                     {
                         AddCalculator();
                         OnPropertyChanged(nameof(Items));
@@ -41,14 +41,14 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             Items.Add(item);
             repository.CalculatorsList.Add(item);
         }
-        private RelayCommand editCalculatorCommand;
+        private RelayCommand editCommand;
         public RelayCommand Edit
         {
             get
             {
-                return editCalculatorCommand ??
+                return editCommand ??
                     (
-                    editCalculatorCommand = new RelayCommand(o =>
+                    editCommand = new RelayCommand(o =>
                     {
                         var tmpSelected = SelectedItem;
                         EditCalculator();
@@ -70,23 +70,22 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 wnd.ShowDialog();
             }
         }
-        private RelayCommand deleteCalculatorCommand;
+        private RelayCommand deleteCommand;
         private RelayCommand runCommand;
-        private RelayCommand copyCalculatorCommand;
+        private RelayCommand copyCommand;
 
         public RelayCommand Delete
         {
             get
             {
-                return deleteCalculatorCommand ??
+                return deleteCommand ??
                     (
-                    deleteCalculatorCommand = new RelayCommand(o =>
+                    deleteCommand = new RelayCommand(o =>
                     {
                         DeleteCalculator();
                     }, o => SelectedItem != null));
             }
         }
-
         public RelayCommand Run
         {
             get
@@ -111,14 +110,13 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 }, o => SelectedItem != null));
             }
         }
-
         public RelayCommand Copy
         {
             get
             {
-                return copyCalculatorCommand ??
+                return copyCommand ??
                 (
-                copyCalculatorCommand = new RelayCommand(o =>
+                copyCommand = new RelayCommand(o =>
                 {
                     var item = SelectedItem.Clone() as INdmCalculator;
                     repository.CalculatorsList.Add(item);
@@ -127,7 +125,6 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 }, o => SelectedItem != null));
             }
         }
-
         private void DeleteCalculator()
         {
             var dialogResult = MessageBox.Show("Delete calculator?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);

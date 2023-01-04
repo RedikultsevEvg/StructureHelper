@@ -25,11 +25,11 @@ namespace StructureHelper.Windows.PrimitiveProperiesWindow
     /// <summary>
     /// Логика взаимодействия для PrimitiveProperties.xaml
     /// </summary>
-    public partial class PrimitiveProperties : Window
+    public partial class PrimitivePropertiesView : Window
     {
         PrimitiveBase primitive;
         private PrimitivePropertiesViewModel viewModel;
-        public PrimitiveProperties(PrimitiveBase primitive, IHasHeadMaterials headMaterials)
+        public PrimitivePropertiesView(PrimitiveBase primitive, IHasHeadMaterials headMaterials)
         {
             this.primitive = primitive;
             viewModel = new PrimitivePropertiesViewModel(this.primitive, headMaterials);

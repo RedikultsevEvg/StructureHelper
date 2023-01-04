@@ -21,6 +21,7 @@
         <DataTemplate DataType="{x:Type dataContexts:PointViewPrimitive}">
             <dataTemplates:EllipseTemplate/>
         </DataTemplate>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -94,20 +95,23 @@
                     <ListBox ItemsSource="{Binding HeadMaterials}"  ItemTemplate="{StaticResource ColoredItemTemplate}">
                     </ListBox>
                 </Expander>
-                <Expander Header="Geometry" MinWidth="20" >
+                <Expander Header="Geometry" MinWidth="20" DataContext="{Binding PrimitiveLogic}">
                     <Expander.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Add">
-                                <Button Content="Add Rectangle" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
-                                <Button Content="Add Point" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                                <Button Content="Add Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
+                                <Button Content="Add Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
                             </MenuItem>
                         </ContextMenu>
                     </Expander.ContextMenu>
-                    <ListBox ItemsSource="{Binding Primitives}" SelectedItem="{Binding SelectedPrimitive}" ItemTemplate="{StaticResource ColoredItemTemplate}">
+                    <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ItemTemplate="{StaticResource ColoredItemTemplate}">
                         <ListBox.ContextMenu>
                             <ContextMenu>
-                                <Button Content="Edit" Command="{Binding EditPrimitive}"/>
-                                <Button Content="Delete" Command="{Binding DeletePrimitive}"/>
+                                <Button Content="Edit" Command="{Binding Edit}"/>
+                                <Button Content="Copy" Command="{Binding Copy}"/>
+                                <Button Content="Delete" Command="{Binding Delete}"/>
+                                <Button Content="To Foreground" Command="{Binding SetToFront}"/>
+                                <Button Content="To Background" Command="{Binding SetToBack}"/>
                             </ContextMenu>
                         </ListBox.ContextMenu>
                     </ListBox>
@@ -170,22 +174,10 @@
                                     <Rectangle StrokeThickness="{Binding GridLineThickness}" Height="0.050" Width="0.050" Stroke="Darkgray"/>
                                 </VisualBrush.Visual>
                             </VisualBrush>
-                            <!--<DrawingBrush Viewport="0,0,0.05,0.05" ViewportUnits="Absolute" TileMode="Tile">
-                                <DrawingBrush.Drawing>
-                                    <GeometryDrawing Brush="Black">
-                                        <GeometryDrawing.Geometry>
-                                            <GeometryGroup FillRule="EvenOdd">
-                                                <RectangleGeometry Rect="0,0,0.050,0.050"/>
-                                                <RectangleGeometry Rect="0,0,0.0499,0.0499"/>
-                                            </GeometryGroup>
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingBrush.Drawing>
-                            </DrawingBrush>-->
                         </Canvas.Background>
                         <Line X1="0" X2="{Binding XX2}" Y1="{Binding XY1}" Y2="{Binding XY1}" Stroke="Red" StrokeThickness="{Binding AxisLineThickness}"/>
                         <Line X1="{Binding YX1}" X2="{Binding YX1}" Y1="0" Y2="{Binding YY2}" Stroke="ForestGreen" StrokeThickness="{Binding AxisLineThickness}"/>
-                        <ItemsControl ItemsSource="{Binding Primitives}" d:DataContext="{d:DesignInstance vm:MainViewModel}">
+                        <ItemsControl ItemsSource="{Binding PrimitiveLogic.Items}" d:DataContext="{d:DesignInstance vm:MainViewModel}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <Canvas/>
@@ -196,6 +188,7 @@
                                     <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}"/>
                                     <Setter Property="Canvas.Left" Value="{Binding PrimitiveLeft}"/>
                                     <Setter Property="Canvas.Top" Value="{Binding PrimitiveTop}"/>
+                                    <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                 </Style>
                             </ItemsControl.ItemContainerStyle>
                         </ItemsControl>
@@ -213,7 +206,7 @@
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Number of primitives: "/>
-                    <TextBlock Text="{Binding PrimitivesCount}"/>
+                    <TextBlock Text="{Binding PrimitiveLogic.PrimitivesCount}"/>
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

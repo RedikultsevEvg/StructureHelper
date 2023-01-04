@@ -18,5 +18,6 @@ namespace StructureHelperCommon.Infrastructures.Strings
         public static string IncorrectValue => "#0007: value is not valid";
         public static string FileCantBeDeleted => "#0008: File can't be deleted";
         public static string FileCantBeSaved => "#0009: File can't be saved";
+        public static string VisualPropertyIsNotRight => "#0010: VisualPropertyIsNotRight";
     }
 }

@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.Services.Primitives;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
@@ -13,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -48,7 +50,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         public bool LongTerm { get; set; }
 
         public ISourceToTargetViewModel<IForceCombinationList> CombinationViewModel { get; }
-        //public ISourceToTargetViewModel<PrimitiveBase> PrimitivesViewModel { get; }
+        public ISourceToTargetViewModel<PrimitiveBase> PrimitivesViewModel { get; }
 
         public PrimitiveBase SelectedAllowedPrimitive { get; set; }
         public PrimitiveBase SelectedPrimitive { get; set; }
@@ -60,7 +62,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 var sourceItems = forcesCalculator.Primitives;
                 var rejectedItems = allowedPrimitives.Where(x => sourceItems.Contains(x));
                 var filteredItems = allowedPrimitives.Except(rejectedItems);
-                return ConvertNdmPrimitivesToPrimitiveBase(filteredItems);
+                return PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(filteredItems);
             }
         }
         public ObservableCollection<PrimitiveBase> Primitives
@@ -68,7 +70,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             get
             {
                 var sourceItems = forcesCalculator.Primitives;
-                return ConvertNdmPrimitivesToPrimitiveBase(sourceItems);
+                return PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(sourceItems);
             }
         }
 
@@ -149,35 +151,17 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             CombinationViewModel = new SourceToTargetViewModel<IForceCombinationList>();
             CombinationViewModel.SetTargetItems(forcesCalculator.ForceCombinationLists);
             CombinationViewModel.SetSourceItems(allowedForceCombinations);
+            CombinationViewModel.ItemDataDemplate = Application.Current.Resources["SimpleItemTemplate"] as DataTemplate;
 
-            //PrimitivesViewModel = new SourceToTargetViewModel<PrimitiveBase>();
-            //var targetItems = forcesCalculator.NdmPrimitives; 
-            //var viewPrimitives = ConvertNdmPrimitivesToPrimitiveBase(targetItems);
-            //PrimitivesViewModel.SetTargetItems(viewPrimitives);
-            //var sourceViewPrimitives = ConvertNdmPrimitivesToPrimitiveBase(allowedPrimitives) ;
-            //PrimitivesViewModel.SetSourceItems(sourceViewPrimitives);
+            PrimitivesViewModel = new SourceToTargetViewModel<PrimitiveBase>();
+            var targetItems = forcesCalculator.Primitives;
+            var sourceViewPrimitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(allowedPrimitives);
+            var viewPrimitives = sourceViewPrimitives.Where(x => targetItems.Contains(x.GetNdmPrimitive()));
+            PrimitivesViewModel.SetTargetItems(viewPrimitives);
+            PrimitivesViewModel.SetSourceItems(sourceViewPrimitives);
+            PrimitivesViewModel.ItemDataDemplate = Application.Current.Resources["ColoredItemTemplate"] as DataTemplate;
 
             InputRefresh();
-        }
-
-        private ObservableCollection<PrimitiveBase> ConvertNdmPrimitivesToPrimitiveBase(IEnumerable<INdmPrimitive> primitives)
-        {
-            ObservableCollection<PrimitiveBase> viewItems = new ObservableCollection<PrimitiveBase>();
-            foreach (var item in primitives)
-            {
-                if (item is IPointPrimitive)
-                {
-                    var point = item as IPointPrimitive;
-                    viewItems.Add(new PointViewPrimitive(point));
-                }
-                else if (item is IRectanglePrimitive)
-                {
-                    var rect = item as IRectanglePrimitive;
-                    viewItems.Add(new RectangleViewPrimitive(rect));
-                }
-                else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
-            }
-            return viewItems;
         }
 
         public void InputRefresh()
@@ -196,11 +180,11 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             {
                 forcesCalculator.ForceCombinationLists.Add(item);
             }
-            //forcesCalculator.NdmPrimitives.Clear();
-            //foreach (var item in PrimitivesViewModel.GetTargetItems())
-            //{
-            //    forcesCalculator.NdmPrimitives.Add(item.GetNdmPrimitive());
-            //}
+            forcesCalculator.Primitives.Clear();
+            foreach (var item in PrimitivesViewModel.GetTargetItems())
+            {
+                forcesCalculator.Primitives.Add(item.GetNdmPrimitive());
+            }
             forcesCalculator.LimitStatesList.Clear();
             if (ULS == true) { forcesCalculator.LimitStatesList.Add(LimitStates.ULS); }
             if (SLS == true) { forcesCalculator.LimitStatesList.Add(LimitStates.SLS); }
