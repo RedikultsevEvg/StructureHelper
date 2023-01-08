@@ -11,6 +11,7 @@ using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
 using StructureHelper.Windows.ViewModels.Calculations.CalculationProperies;
 using StructureHelper.Windows.ViewModels.Calculations.CalculationResult;
+using StructureHelper.Windows.ViewModels.Forces;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
@@ -45,7 +46,7 @@ namespace StructureHelper.Windows.MainWindow
 
         private readonly ICalculatorsViewModelLogic calculatorsLogic;
         public ICalculatorsViewModelLogic CalculatorsLogic { get => calculatorsLogic;}
-        public IForceCombinationViewModelLogic CombinationsLogic { get => combinationsLogic; }
+        public ActionsViewModel CombinationsLogic { get => combinationsLogic; }
         public IPrimitiveViewModelLogic PrimitiveLogic => primitiveLogic;
 
         private MainModel Model { get; }
@@ -171,14 +172,14 @@ namespace StructureHelper.Windows.MainWindow
         private double delta = 0.0005;
         private double axisLineThickness;
         private double gridLineThickness;
-        private IForceCombinationViewModelLogic combinationsLogic;
+        private ActionsViewModel combinationsLogic;
         private IPrimitiveViewModelLogic primitiveLogic;
 
         public MainViewModel(MainModel model)
         {
             Model = model;
             section = model.Section;
-            combinationsLogic = new ForceCombinationViewModelLogic(repository);
+            combinationsLogic = new ActionsViewModel(repository);
             calculatorsLogic = new CalculatorsViewModelLogic(repository);
             CanvasWidth = 2d * scale;
             CanvasHeight = 1.5d * scale;

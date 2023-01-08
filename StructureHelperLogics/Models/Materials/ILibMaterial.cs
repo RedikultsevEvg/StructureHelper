@@ -10,5 +10,6 @@ namespace StructureHelperLogics.Models.Materials
     public interface ILibMaterial : IHelperMaterial
     {
         ILibMaterialEntity MaterialEntity { get; set; }
+        List<IMaterialSafetyFactor> SafetyFactors { get; }
     }
 }

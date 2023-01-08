@@ -21,12 +21,25 @@ namespace StructureHelperTests.ViewModelTests
     public class NdmPrimitiveTests
     {
         [Test]
-        public void Run_ShouldPass()
+        public void Rectangle_Run_ShouldPass()
         {
             //Arrange
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, CodeTypes.SP63_13330_2018);
             var primitive = new RectanglePrimitive(material);
             var primitiveBase = new RectangleViewPrimitive(primitive);
+            //Act
+            var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());
+            //Assert
+            Assert.NotNull(vm);
+        }
+
+        [Test]
+        public void Point_Run_ShouldPass()
+        {
+            //Arrange
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, CodeTypes.SP63_13330_2018);
+            var primitive = new PointPrimitive(material);
+            var primitiveBase = new PointViewPrimitive(primitive);
             //Act
             var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());
             //Assert

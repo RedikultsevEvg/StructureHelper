@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataTemplate x:Key="MaterialSafetyFactors">
+        <DataGrid Style="{StaticResource ItemsDataGrid}">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Take}" Value="false">
+                            <Setter Property="Background" Value="LightGray"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Take" Width="40" Binding="{Binding Take}"/>
+                <DataGridTextColumn Header="Name" Width="70" MinWidth="70" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Description" Width="300" MinWidth="100" Binding="{Binding Description}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DataTemplate>
+    
+</ResourceDictionary>

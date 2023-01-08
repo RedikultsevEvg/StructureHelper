@@ -12,13 +12,13 @@ namespace StructureHelperLogics.Services.NdmCalculations
 {
     public static class InterpolateService
     {
-        public static IForceCalculator InterpolateForceCalculator(IForceCalculator source, IDesignForceTuple sourceTuple, int stepCount)
+        public static IForceCalculator InterpolateForceCalculator(IForceCalculator source, IDesignForceTuple finishDesignForce,IDesignForceTuple startDesignForce, int stepCount)
         {
             IForceCalculator calculator = new ForceCalculator();
             calculator.LimitStatesList.Clear();
-            calculator.LimitStatesList.Add(sourceTuple.LimitState);
+            calculator.LimitStatesList.Add(finishDesignForce.LimitState);
             calculator.CalcTermsList.Clear();
-            calculator.CalcTermsList.Add(sourceTuple.CalcTerm);
+            calculator.CalcTermsList.Add(finishDesignForce.CalcTerm);
             calculator.IterationAccuracy = source.IterationAccuracy;
             calculator.MaxIterationCount = source.MaxIterationCount;
             calculator.Primitives.AddRange(source.Primitives);
@@ -29,7 +29,7 @@ namespace StructureHelperLogics.Services.NdmCalculations
                 SetInGravityCenter = false
             };
             combination.DesignForces.Clear();
-            combination.DesignForces.AddRange(TupleService.InterpolateDesignTuple(sourceTuple, stepCount));
+            combination.DesignForces.AddRange(TupleService.InterpolateDesignTuple(finishDesignForce, startDesignForce, stepCount));
             combination.ForcePoint.X = 0;
             combination.ForcePoint.Y = 0;
             calculator.ForceCombinationLists.Add(combination);

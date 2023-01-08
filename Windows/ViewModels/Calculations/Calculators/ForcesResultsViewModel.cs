@@ -7,8 +7,13 @@ using StructureHelper.Services.Reports;
 using StructureHelper.Services.Reports.CalculationReports;
 using StructureHelper.Services.ResultViewers;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
+using StructureHelper.Windows.Forces;
+using StructureHelper.Windows.PrimitivePropertiesWindow;
+using StructureHelper.Windows.ViewModels.Forces;
+using StructureHelper.Windows.ViewModels.PrimitiveProperties;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -30,6 +35,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         private IForceCalculator forceCalculator;
         private IForcesResults forcesResults;
         private IEnumerable<INdmPrimitive> ndmPrimitives;
+        private IEnumerable<INdmPrimitive> selectedNdmPrimitives;
         private IEnumerable<INdm> ndms;
         private IReport isoFieldReport;
 
@@ -50,8 +56,15 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 return showIsoFieldCommand ??
                 (showIsoFieldCommand = new RelayCommand(o =>
                 {
-                    GetNdms();
-                    ShowIsoField();
+                    var vm = new SelectPrimitivesViewModel(ndmPrimitives);
+                    var wnd = new SelectPrimitivesView(vm);
+                    wnd.ShowDialog();
+                    if (wnd.DialogResult == true)
+                    {
+                        selectedNdmPrimitives = vm.Items.CollectionItems.Where(x => x.IsSelected == true).Select(x => x.Item.GetNdmPrimitive());
+                        GetNdms();
+                        ShowIsoField();
+                    }
                 }, o => (SelectedResult != null) && SelectedResult.IsValid));
             }
         }
@@ -73,7 +86,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "csv |*.csv";
-            saveFileDialog.Title = "Save an Image File";
+            saveFileDialog.Title = "Save an csv File";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var filename = saveFileDialog.FileName;
@@ -119,8 +132,16 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 
         private void Interpolate()
         {
-            int stepCount = 100;
-            var calculator = InterpolateService.InterpolateForceCalculator(forceCalculator, SelectedResult.DesignForceTuple, stepCount);
+            IDesignForceTuple startDesignTuple, finishDesignTuple;
+            finishDesignTuple = SelectedResult.DesignForceTuple.Clone() as IDesignForceTuple;
+            var viewModel = new InterpolateTuplesViewModel(finishDesignTuple, null, 100);
+            var wndTuples = new InterpolateTuplesView(viewModel);
+            wndTuples.ShowDialog();
+            if (wndTuples.DialogResult != true) return;
+            startDesignTuple = viewModel.StartDesignForce;
+            finishDesignTuple = viewModel.FinishDesignForce;
+            int stepCount = viewModel.StepCount;
+            var calculator = InterpolateService.InterpolateForceCalculator(forceCalculator, finishDesignTuple, startDesignTuple, stepCount);
             calculator.Run();
             var result = calculator.Result;
             if (result is null || result.IsValid == false)
@@ -154,7 +175,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         {
             var limitState = SelectedResult.DesignForceTuple.LimitState;
             var calcTerm = SelectedResult.DesignForceTuple.CalcTerm;
-            ndms = NdmPrimitivesService.GetNdms(ndmPrimitives, limitState, calcTerm);
+            ndms = NdmPrimitivesService.GetNdms(selectedNdmPrimitives, limitState, calcTerm);
         }
     }
 }

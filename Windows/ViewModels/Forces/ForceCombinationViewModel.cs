@@ -12,7 +12,9 @@ namespace StructureHelper.Windows.ViewModels.Forces
     {
         IForceCombinationList combinationList;
 
-        public IDesignForceTuple SelectedTuple { get; set; }
+        //public IDesignForceTuple SelectedTuple { get; set; }
+        public ForceTuplesViewModel DesignForces { get;}
+
         public string Name
         {
             get => combinationList.Name;
@@ -55,11 +57,12 @@ namespace StructureHelper.Windows.ViewModels.Forces
             }
         }
 
-        public IEnumerable<IDesignForceTuple>  ForceTuples { get => combinationList.DesignForces; }
+        //public IEnumerable<IDesignForceTuple>  ForceTuples { get => combinationList.DesignForces; }
 
         public ForceCombinationViewModel(IForceCombinationList combinationList)
         {
             this.combinationList = combinationList;
+            DesignForces = new ForceTuplesViewModel(this.combinationList.DesignForces);
         }
     }
 }

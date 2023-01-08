@@ -19,5 +19,6 @@ namespace StructureHelperCommon.Infrastructures.Strings
         public static string FileCantBeDeleted => "#0008: File can't be deleted";
         public static string FileCantBeSaved => "#0009: File can't be saved";
         public static string VisualPropertyIsNotRight => "#0010: VisualPropertyIsNotRight";
+        public static string FactorMustBeGraterThanZero => "#0011: Partial factor must not be less than zero";
     }
 }

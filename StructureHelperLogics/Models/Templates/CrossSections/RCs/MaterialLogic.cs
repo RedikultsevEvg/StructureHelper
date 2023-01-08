@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;

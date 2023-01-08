@@ -39,6 +39,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             NdmMaxSize = 0.01d;
             NdmMinDivision = 10;
             VisualProperty = new VisualProperty();
+            VisualProperty.Opacity = 0.8;
         }
 
         public RectanglePrimitive(IHeadMaterial material) : this() { HeadMaterial = material; }

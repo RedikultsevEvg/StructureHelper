@@ -11,6 +11,10 @@
                 <ResourceDictionary Source="Infrastructure/UI/Resources/Converters.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/PrimitiveToolTips.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/ITemEditPanels.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/CommonEnums.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/DataGridTemplates.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/DataGridStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

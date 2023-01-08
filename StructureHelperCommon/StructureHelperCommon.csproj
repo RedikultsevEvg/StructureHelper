@@ -49,6 +49,7 @@
     <Compile Include="Infrastructures\Enums\CalcTerms.cs" />
     <Compile Include="Infrastructures\Enums\CodeTypes.cs" />
     <Compile Include="Infrastructures\Enums\LimitStates.cs" />
+    <Compile Include="Infrastructures\Enums\StressStates.cs" />
     <Compile Include="Infrastructures\Enums\UnitTypes.cs" />
     <Compile Include="Infrastructures\Exceptions\StructureHelperException.cs" />
     <Compile Include="Infrastructures\Interfaces\IHasForceCombinations.cs" />
@@ -68,11 +69,17 @@
     <Compile Include="Models\Forces\IForceRepository.cs" />
     <Compile Include="Models\Forces\IForceTuple.cs" />
     <Compile Include="Models\Materials\Libraries\ConcreteMaterialEntity.cs" />
+    <Compile Include="Models\Materials\Libraries\Factories\ConcreteFactorsFactory.cs" />
     <Compile Include="Models\Materials\Libraries\Factories\LibMaterialFactory.cs" />
     <Compile Include="Models\Materials\Libraries\IConcreteMaterialEntity.cs" />
     <Compile Include="Models\Materials\Libraries\ILibMaterialEntity.cs" />
+    <Compile Include="Models\Materials\Libraries\IMaterialPartialFactor.cs" />
+    <Compile Include="Models\Materials\Libraries\IMaterialSafetyFactor.cs" />
+    <Compile Include="Models\Materials\Libraries\IPartialFactor.cs" />
     <Compile Include="Models\Materials\Libraries\IReinforcementMaterialEntity.cs" />
     <Compile Include="Models\Materials\Libraries\LibMaterialPepository.cs" />
+    <Compile Include="Models\Materials\Libraries\MaterialPartialFactor.cs" />
+    <Compile Include="Models\Materials\Libraries\MaterialSafetyFactor.cs" />
     <Compile Include="Models\Materials\Libraries\ReinforcementMaterialEntity.cs" />
     <Compile Include="Models\Shapes\Point2D.cs" />
     <Compile Include="Models\Shapes\IPoint2D.cs" />

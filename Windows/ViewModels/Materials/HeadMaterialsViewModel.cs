@@ -1,6 +1,7 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Models.Materials;
 using StructureHelper.Services.Primitives;
+using StructureHelper.Windows.AddMaterialWindow;
 using StructureHelper.Windows.MainWindow;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
@@ -56,6 +57,29 @@ namespace StructureHelper.Windows.ViewModels.Materials
         public ICommand DeleteMaterialCommand { get; set; }
         public ICommand EditHeadMaterial;
 
+        private RelayCommand showSafetyfactors;
+
+        public RelayCommand ShowSafetyFactors
+        {
+            get
+            {
+                return showSafetyfactors ??
+                    (
+                    showSafetyfactors = new RelayCommand(o =>
+                    {
+                        if (selectedMaterial.HelperMaterial is ILibMaterial)
+                        {
+                            var material = selectedMaterial.HelperMaterial as ILibMaterial;
+                            var wnd = new SafetyFactorsView(material.SafetyFactors);
+                            wnd.ShowDialog();
+                            OnPropertyChanged(nameof(Items));
+                        }
+                    }, o=> SelectedLibMaterial != null
+                    ));
+            }
+        }
+
+
         private ICommand addElasticMaterialCommand;
 
         public ObservableCollection<IHeadMaterial> HeadMaterials { get; private set; }
@@ -71,6 +95,19 @@ namespace StructureHelper.Windows.ViewModels.Materials
                     selectedLibMaterial = libMaterial.MaterialEntity;
                     OnPropertyChanged(nameof(selectedLibMaterial));
                 }             
+            }
+        }
+
+        public ObservableCollection<IMaterialSafetyFactor> Items
+        {
+            get
+            {
+                if (selectedMaterial.HelperMaterial is ILibMaterial)
+                {
+                    var material = selectedMaterial.HelperMaterial as ILibMaterial;
+                    return new ObservableCollection<IMaterialSafetyFactor>(material.SafetyFactors);
+                }
+                else return null;
             }
         }
 

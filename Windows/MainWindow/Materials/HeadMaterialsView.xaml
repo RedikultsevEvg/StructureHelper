@@ -9,28 +9,40 @@
         mc:Ignorable="d"
         Title="Materials" Height="350" Width="680" MinHeight="350" MinWidth="680" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <DataTemplate x:Key="SafetyFactors">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <Button Content="Show Safety Factors" Command="{Binding DataContext.ShowSafetyFactors, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                <ContentControl Grid.Row="1" ContentTemplate="{StaticResource MaterialSafetyFactors}" Content="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+            </Grid>
+        </DataTemplate>
         <DataTemplate x:Key="ConcreteLibMaterial">
             <StackPanel>
                 <TextBlock Text="Library material"/>
-                <ComboBox Grid.Row="2" Height="25" VerticalAlignment="Top" ItemsSource="{Binding LibConcreteMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
+                <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding LibConcreteMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+                <ContentControl ContentTemplate="{StaticResource SafetyFactors}"/>
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="ReinforcementLibMaterial">
             <StackPanel>
                 <TextBlock Text="Library material"/>
-                <ComboBox Grid.Row="2" Height="25" VerticalAlignment="Top" ItemsSource="{Binding LibReinforcementMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
+                <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding LibReinforcementMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+                <ContentControl ContentTemplate="{StaticResource SafetyFactors}"/>
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="ElasticMaterial">

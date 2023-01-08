@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="FieldsVisualizerTests\ColorOperationTests\GetColorByValueTest.cs" />
     <Compile Include="FieldsVisualizerTests\WindowTests\ViewerTest.cs" />
+    <Compile Include="FunctionalTests\Ndms\Calculators\ForceCalculatorTests\RCSectionsTest.cs" />
     <Compile Include="FunctionalTests\Ndms\RCSections\RCSectionTest.cs" />
     <Compile Include="FunctionalTests\Ndms\SteelSections\ReinforcementTest.cs" />
     <Compile Include="Infrastructures\Logics\ExpectedProcessor.cs" />

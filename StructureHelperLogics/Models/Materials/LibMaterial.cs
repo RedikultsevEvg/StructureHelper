@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Materials.Libraries;
+using System.Collections.Generic;
 using LCM = LoaderCalculator.Data.Materials;
 using LCMB = LoaderCalculator.Data.Materials.MaterialBuilders;
 
@@ -18,7 +19,10 @@ namespace StructureHelperLogics.Models.Materials
         private CalcTerms calcTerm;
         public string Name { get; set; }
         public double MainStrength { get; set; }
-        public ILibMaterialEntity MaterialEntity { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
+        public ILibMaterialEntity MaterialEntity { get; set; }
+
+        public List<IMaterialSafetyFactor> SafetyFactors { get; }
 
         public LibMaterial(MaterialTypes materialType, CodeTypes codeType, string name, double mainStrength)
         {

@@ -178,6 +178,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Windows\Forces\InterpolateTuplesView.xaml.cs">
+      <DependentUpon>InterpolateTuplesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MainWindow\Materials\PartialFactorsView.xaml.cs">
+      <DependentUpon>PartialFactorsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MainWindow\Materials\SafetyFactorsView.xaml.cs">
+      <DependentUpon>SafetyFactorsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\CalculationWindows\CalculationPropertyWindow\CalculationPropertyView.xaml.cs">
       <DependentUpon>CalculationPropertyView.xaml</DependentUpon>
     </Compile>
@@ -232,14 +241,27 @@
     <Compile Include="Windows\PrimitivePropertiesWindow\PrimitivePropertiesView.xaml.cs">
       <DependentUpon>PrimitivePropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PrimitivePropertiesWindow\SelectPrimitivesView.xaml.cs">
+      <DependentUpon>SelectPrimitivesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PrimitiveTemplates\RCs\RectangleBeam\RectangleBeamView.xaml.cs">
       <DependentUpon>RectangleBeamView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ViewModels\Calculations\CalculationProperies\CalculationPropertyViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\CalculationResult\CalculationResultViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\Calculators\ForcesResultsViewModel.cs" />
+    <Compile Include="Windows\ViewModels\CRUDViewModelBase.cs" />
+    <Compile Include="Windows\ViewModels\Forces\ForceTuplesViewModel.cs" />
+    <Compile Include="Windows\ViewModels\Forces\InterpolateTuplesViewModel.cs" />
+    <Compile Include="Windows\ViewModels\Materials\ISafetyFactorViewModel.cs" />
+    <Compile Include="Windows\ViewModels\Materials\PartialFactorsViewModel.cs" />
+    <Compile Include="Windows\ViewModels\Materials\SafetyFactorsViewModel.cs" />
+    <Compile Include="Windows\ViewModels\Forces\ActionsViewModel.cs" />
     <Compile Include="Windows\ViewModels\NdmCrossSections\IPrimitiveViewModelLogic.cs" />
     <Compile Include="Windows\ViewModels\NdmCrossSections\PrimitiveViewModelLogic.cs" />
+    <Compile Include="Windows\ViewModels\OkCancelViewModelBase.cs" />
+    <Compile Include="Windows\ViewModels\PrimitiveProperties\SelectPrimitivesViewModel.cs" />
+    <Compile Include="Windows\ViewModels\SelectItemsViewModel.cs" />
     <Compile Include="Windows\ViewModels\SourceToTargetViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\Calculators\ForceCalculatorViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\Calculators\ICombinationSourceToTargetViewModel.cs" />
@@ -273,7 +295,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Infrastructure\UI\Resources\ButtonStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Infrastructure\UI\Resources\CommonEnums.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Infrastructure\UI\Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Infrastructure\UI\Resources\DataGridStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Infrastructure\UI\Resources\DataGridTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -302,6 +340,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\AddMaterialWindow\AddMaterialView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Forces\InterpolateTuplesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow\Materials\PartialFactorsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow\Materials\SafetyFactorsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -361,6 +411,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\PrimitivePropertiesWindow\SelectPrimitivesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\PrimitiveTemplates\RCs\RectangleBeam\RectangleBeamView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -395,6 +449,8 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Documentation\2021-06-14 10-46-38.JPG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
