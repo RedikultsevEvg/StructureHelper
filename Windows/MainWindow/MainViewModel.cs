@@ -13,6 +13,7 @@ using StructureHelper.Windows.ViewModels.Calculations.CalculationProperies;
 using StructureHelper.Windows.ViewModels.Calculations.CalculationResult;
 using StructureHelper.Windows.ViewModels.Forces;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
@@ -20,6 +21,7 @@ using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Templates.CrossSections.RCs;
 using StructureHelperLogics.Models.Templates.RCs;
 using StructureHelperLogics.Services.NdmCalculations;
+using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,13 +33,10 @@ namespace StructureHelper.Windows.MainWindow
 {
     public class MainViewModel : ViewModelBase
     {
-        const double scale = 1d;
-
         ICrossSection section;
         ICrossSectionRepository repository => section.SectionRepository;
 
-        private double ConstAxisLineThickness = 2d * scale;
-        private double ConstGridLineThickness = 0.25d * scale;
+        private CrossSectionViewVisualProperty visualProperty;
 
         private readonly double scaleRate = 1.1d;
 
@@ -52,7 +51,6 @@ namespace StructureHelper.Windows.MainWindow
         private MainModel Model { get; }
 
         private double panelX, panelY, scrollPanelX, scrollPanelY;
-        private CalculationProperty calculationProperty;
 
         public double PanelX
         {
@@ -83,35 +81,44 @@ namespace StructureHelper.Windows.MainWindow
             set
             {
                 OnPropertyChanged(value, ref scaleValue);
-                axisLineThickness = ConstAxisLineThickness / scaleValue;
                 OnPropertyChanged(nameof(AxisLineThickness));
-                gridLineThickness = ConstGridLineThickness / scaleValue;
                 OnPropertyChanged(nameof(GridLineThickness));
             }
         }
 
         public double AxisLineThickness
         { 
-            get => axisLineThickness;
+            get => visualProperty.AxisLineThickness / scaleValue;
         }
 
         public double GridLineThickness
         {
-            get => gridLineThickness;
+            get => visualProperty.GridLineThickness / scaleValue;
         }
 
-        private double canvasWidth, canvasHeight, xX2, xY1, yX1, yY2;
+        private double xX2, xY1, yX1, yY2;
         public double CanvasWidth
         {
-            get => canvasWidth;
-            set => OnPropertyChanged(value, ref canvasWidth);
+            get => visualProperty.WorkPlainWidth;
         }
 
         public double CanvasHeight
         {
-            get => canvasHeight;
-            set => OnPropertyChanged(value, ref canvasHeight);
+            get => visualProperty.WorkPlainHeight;
         }
+
+        public string CanvasViewportSize
+        {
+            get
+            {
+                string s = visualProperty.GridSize.ToString();
+                s = s.Replace(',', '.');
+                return $"0,0,{s},{s}";
+            }
+
+        }
+
+        public double GridSize { get => visualProperty.GridSize; }
    
         public ObservableCollection<IHeadMaterial> HeadMaterials
         {
@@ -168,30 +175,40 @@ namespace StructureHelper.Windows.MainWindow
         public ICommand ScaleCanvasUp { get; }
         public ICommand SetPopupCanBeClosedTrue { get; }
         public ICommand SetPopupCanBeClosedFalse { get; }
+        public RelayCommand ShowVisualProperty
+        {
+            get
+            {
+                return showVisualProperty ??
+                    (showVisualProperty = new RelayCommand(o=>
+                    {
+                        var wnd = new VisualPropertyView(visualProperty);
+                        wnd.ShowDialog();
+                        OnPropertyChanged(nameof(AxisLineThickness));
+                        OnPropertyChanged(nameof(CanvasViewportSize));
+                        OnPropertyChanged(nameof(GridSize));
+                    }));
+            }
+        }
 
         private double delta = 0.0005;
-        private double axisLineThickness;
-        private double gridLineThickness;
         private ActionsViewModel combinationsLogic;
         private IPrimitiveViewModelLogic primitiveLogic;
+        private RelayCommand showVisualProperty;
 
         public MainViewModel(MainModel model)
         {
+            visualProperty = new CrossSectionViewVisualProperty();
             Model = model;
             section = model.Section;
             combinationsLogic = new ActionsViewModel(repository);
             calculatorsLogic = new CalculatorsViewModelLogic(repository);
-            CanvasWidth = 2d * scale;
-            CanvasHeight = 1.5d * scale;
             primitiveLogic = new PrimitiveViewModelLogic(repository) { CanvasWidth = CanvasWidth, CanvasHeight = CanvasHeight };
             XX2 = CanvasWidth;
             XY1 = CanvasHeight / 2d;
             YX1 = CanvasWidth / 2d;
             YY2 = CanvasHeight;
-            scaleValue = 400d / scale;
-            axisLineThickness = ConstAxisLineThickness / scaleValue;
-            gridLineThickness = ConstGridLineThickness / scaleValue;
-            calculationProperty = new CalculationProperty();
+            scaleValue = 400d;
 
             LeftButtonUp = new RelayCommand(o =>
             {
@@ -266,23 +283,15 @@ namespace StructureHelper.Windows.MainWindow
                 PrimitiveLogic.AddItems(GetSlabCasePrimitives());
             });
 
-            Calculate = new RelayCommand(o =>
-            {
-                CalculateResult();
-            },
-            o => repository.Primitives.Count() > 0);
-
-            EditCalculationPropertyCommand = new RelayCommand (o => EditCalculationProperty());
-
             MovePrimitiveToGravityCenterCommand = new RelayCommand(o =>
             {
                 if (CheckMaterials() == false) { return;}
-                IEnumerable<INdm> ndms = Model.GetNdms(calculationProperty);
+                var ndms = NdmPrimitivesService.GetNdms(repository.Primitives, LimitStates.SLS, CalcTerms.ShortTerm);
                 double[] center = GeometryOperations.GetGravityCenter(ndms);
-                foreach (var primitive in Model.PrimitiveRepository.Primitives)
+                foreach (var item in PrimitiveLogic.Items)
                 {
-                    primitive.CenterX -= center[0];
-                    primitive.CenterY -= center[1];
+                    item.CenterX -= center[0];
+                    item.CenterY -= center[1];
                 }
             },
             o => repository.Primitives.Count() > 0
@@ -312,27 +321,6 @@ namespace StructureHelper.Windows.MainWindow
             }
         }
 
-        private void CalculateResult()
-        {
-            bool check = CheckAnalisysOptions();
-            if (check == false)
-            {
-                MessageBox.Show(ErrorStrings.DataIsInCorrect, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            try
-            {
-                IEnumerable<INdm> ndms = Model.GetNdms(calculationProperty);
-                CalculationService calculationService = new CalculationService(calculationProperty);
-                var loaderResults = calculationService.GetCalculationResults(ndms);
-                var wnd = new CalculationResultView(new CalculationResultViewModel(loaderResults, ndms));
-                wnd.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"{ErrorStrings.UnknownError}: {ex}", "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
         private bool CheckAnalisysOptions()
         {
             if (CheckMaterials() == false) { return false; }
@@ -365,12 +353,7 @@ namespace StructureHelper.Windows.MainWindow
             var template = new RectangleBeamTemplate(1d, 0.2d) { CoverGap = 0.04, WidthCount = 5, HeightCount = 2, TopDiameter = 0.012d, BottomDiameter = 0.012d };
             return GetCasePrimitives(template);
         }
-        private void EditCalculationProperty()
-        {
-            CalculationPropertyViewModel viewModel = new CalculationPropertyViewModel(calculationProperty);
-            var view = new CalculationPropertyView(viewModel);
-            view.ShowDialog();
-        }
+
         private IEnumerable<PrimitiveBase> GetCasePrimitives(RectangleBeamTemplate template)
         {
             var wnd = new RectangleBeamView(template);

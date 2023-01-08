@@ -48,14 +48,6 @@ namespace StructureHelper.Windows.MainWindow
             HeadMaterialRepository = new HeadMaterialRepository(this);
         }
         
-        //public IStrainMatrix Calculate(double mx, double my, double nz)
-        //{
-        //    var unitSystem = unitSystemService.GetCurrentSystem();
-        //    return calculationService.GetPrimitiveStrainMatrix(primitiveRepository.Primitives.Select(x => x.GetNdmPrimitive(unitSystem)).ToArray(),
-        //        mx, my, nz,
-        //        CalculationProperty.LimitState, CalculationProperty.CalcTerm);
-        //}
-
         public IEnumerable<INdm> GetNdms(ICalculationProperty calculationProperty)
         {
             var ndmPrimitives = Section.SectionRepository.Primitives;
@@ -69,22 +61,5 @@ namespace StructureHelper.Windows.MainWindow
 
             return ndmCollection;
         }
-
-        //public ILoaderResults CalculateResult(IEnumerable<INdm> ndmCollection, IForceMatrix forceMatrix)
-        //{
-        //    var loaderData = new LoaderOptions
-        //    {
-        //        Preconditions = new Preconditions
-        //        {
-        //            ConditionRate = 0.01,
-        //            MaxIterationCount = 100,
-        //            StartForceMatrix = forceMatrix
-        //        },
-        //        NdmCollection = ndmCollection
-        //    };
-        //    var calculator = new Calculator();
-        //    calculator.Run(loaderData, new CancellationToken());
-        //    return calculator.Result;
-        //}
     }
 }

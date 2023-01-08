@@ -238,6 +238,9 @@
     <Compile Include="Windows\MainWindow\Materials\HeadMaterialsView.xaml.cs">
       <DependentUpon>HeadMaterialsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\MainWindow\VisualPropertyView.xaml.cs">
+      <DependentUpon>VisualPropertyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PrimitivePropertiesWindow\PrimitivePropertiesView.xaml.cs">
       <DependentUpon>PrimitivePropertiesView.xaml</DependentUpon>
     </Compile>
@@ -259,6 +262,7 @@
     <Compile Include="Windows\ViewModels\Forces\ActionsViewModel.cs" />
     <Compile Include="Windows\ViewModels\NdmCrossSections\IPrimitiveViewModelLogic.cs" />
     <Compile Include="Windows\ViewModels\NdmCrossSections\PrimitiveViewModelLogic.cs" />
+    <Compile Include="Windows\ViewModels\NdmCrossSections\CrossSectionViewVisualProperty.cs" />
     <Compile Include="Windows\ViewModels\OkCancelViewModelBase.cs" />
     <Compile Include="Windows\ViewModels\PrimitiveProperties\SelectPrimitivesViewModel.cs" />
     <Compile Include="Windows\ViewModels\SelectItemsViewModel.cs" />
@@ -404,6 +408,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\MainWindow\Materials\HeadMaterialsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow\VisualPropertyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

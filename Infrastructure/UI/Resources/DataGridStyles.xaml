@@ -11,5 +11,4 @@
             <Setter Property="SelectedItem" Value="{Binding SelectedItem}"/>
         </Style.Setters>
     </Style>
-    
 </ResourceDictionary>

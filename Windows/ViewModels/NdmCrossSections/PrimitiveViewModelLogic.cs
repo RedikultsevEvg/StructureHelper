@@ -117,8 +117,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             get
             {
                 return editCommand ??
-                    (
-                    editCommand = new RelayCommand(
+                    (editCommand = new RelayCommand(
                         o => EditSelectedItem(),
                         o => SelectedItem != null
                     ));

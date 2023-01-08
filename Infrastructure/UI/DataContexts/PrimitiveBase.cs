@@ -254,7 +254,6 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         public virtual void RefreshNdmPrimitive()
         {
-
         }
 
         public void RefreshColor()

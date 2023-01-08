@@ -52,9 +52,10 @@
                     <Button Content="Concrete slab" Command="{Binding AddSlabCase}"/>
                 </MenuItem>
             </MenuItem>
-            <!--<MenuItem Header="Analysis">
+            <MenuItem Header="Tools">
+                <Button Content="Settings" Command="{Binding ShowVisualProperty}"/>
             </MenuItem>
-            <MenuItem Header="Help">
+            <!--<MenuItem Header="Help">
             </MenuItem>-->
         </Menu>
         <Grid Grid.Row="1">
@@ -168,10 +169,10 @@
                         </Canvas.LayoutTransform>
                         <Canvas.Background>
                             <VisualBrush TileMode="Tile"
-                                Viewport="0,0,0.050,0.050" ViewportUnits="Absolute" 
-                                Viewbox="0,0,0.050,0.050" ViewboxUnits="Absolute">
+                                Viewport="{Binding CanvasViewportSize}" ViewportUnits="Absolute" 
+                                Viewbox="{Binding CanvasViewportSize}" ViewboxUnits="Absolute">
                                 <VisualBrush.Visual>
-                                    <Rectangle StrokeThickness="{Binding GridLineThickness}" Height="0.050" Width="0.050" Stroke="Darkgray"/>
+                                    <Rectangle StrokeThickness="{Binding GridLineThickness}" Height="{Binding GridSize}" Width="{Binding GridSize}" Stroke="Darkgray"/>
                                 </VisualBrush.Visual>
                             </VisualBrush>
                         </Canvas.Background>
@@ -207,6 +208,12 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Number of primitives: "/>
                     <TextBlock Text="{Binding PrimitiveLogic.PrimitivesCount}"/>
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Grid size: "/>
+                    <TextBlock Text="{Binding GridSize, Converter={StaticResource LengthConverter}}"/>
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>
