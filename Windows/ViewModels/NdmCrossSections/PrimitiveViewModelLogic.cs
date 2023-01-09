@@ -18,6 +18,7 @@ using ViewModelBase = StructureHelper.Infrastructure.ViewModelBase;
 using System.Windows.Forms;
 using System.Windows.Documents;
 using StructureHelper.Windows.PrimitiveProperiesWindow;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 {
@@ -106,6 +107,14 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             {
                 var ndmPrimitive = SelectedItem.GetNdmPrimitive();
                 repository.Primitives.Remove(ndmPrimitive);
+                foreach (var calc in repository.CalculatorsList)
+                {
+                    if (calc is IForceCalculator)
+                    {
+                        var forceCalc = calc as IForceCalculator;
+                        forceCalc.Primitives.Remove(ndmPrimitive);
+                    }
+                }
                 Items.Remove(SelectedItem);
             }
             OnPropertyChanged(nameof(Items));
