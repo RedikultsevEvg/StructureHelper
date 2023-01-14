@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LoaderCalculator">
+      <HintPath>..\Libraries\LoaderCalculator.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,6 +71,8 @@
     <Compile Include="Models\Forces\IForceCombinationList.cs" />
     <Compile Include="Models\Forces\IForceRepository.cs" />
     <Compile Include="Models\Forces\IForceTuple.cs" />
+    <Compile Include="Models\Forces\Strains\IStrainTuple.cs" />
+    <Compile Include="Models\Forces\Strains\StrainTuple.cs" />
     <Compile Include="Models\Materials\Libraries\ConcreteMaterialEntity.cs" />
     <Compile Include="Models\Materials\Libraries\Factories\ConcreteFactorsFactory.cs" />
     <Compile Include="Models\Materials\Libraries\Factories\LibMaterialFactory.cs" />
@@ -94,7 +99,8 @@
     <Compile Include="Models\Shapes\RectangleShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ColorServices\ColorProcessor.cs" />
-    <Compile Include="Services\Forces\TupleService.cs" />
+    <Compile Include="Services\Forces\ForceTupleService.cs" />
+    <Compile Include="Services\Forces\StrainTupleService.cs" />
     <Compile Include="Services\ShapeServices\ShapeService.cs" />
     <Compile Include="Services\Units\IUnit.cs" />
     <Compile Include="Services\Units\Unit.cs" />

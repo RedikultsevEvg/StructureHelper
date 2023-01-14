@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Services.Forces
 {
-    public static class TupleService
+    public static class ForceTupleService
     {
         public static IForceTuple MoveTupleIntoPoint(IForceTuple forceTuple, IPoint2D point2D)
         {

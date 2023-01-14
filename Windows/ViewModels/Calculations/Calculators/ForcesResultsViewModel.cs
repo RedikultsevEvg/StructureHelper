@@ -1,11 +1,11 @@
-﻿using FieldVisualizer.Infrastructure.Commands;
-using FieldVisualizer.ViewModels;
-using LoaderCalculator.Data.Matrix;
+﻿using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
+using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Services.Reports;
 using StructureHelper.Services.Reports.CalculationReports;
 using StructureHelper.Services.ResultViewers;
+using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
@@ -14,6 +14,7 @@ using StructureHelper.Windows.ViewModels.PrimitiveProperties;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -21,6 +22,7 @@ using StructureHelperLogics.Services.NdmCalculations;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -43,6 +45,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         private RelayCommand showIsoFieldCommand;
         private RelayCommand exportToCSVCommand;
         private RelayCommand interpolateCommand;
+        private RelayCommand setPrestrainCommand;
 
         public IForcesResults ForcesResults
         {
@@ -81,7 +84,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     ));
             }
         }
-
         private void ExportToCSV()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -109,6 +111,13 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     {
                         var logic = new ExportToCSVLogic(saveFileDialog.FileName);
                         logic.Export(forcesResults);
+                        try
+                        {
+                            Process filopener = new Process();
+                            filopener.StartInfo.FileName = saveFileDialog.FileName;
+                            filopener.Start();
+                        }
+                        catch (Exception) { }
                     }
                     catch (Exception ex)
                     {
@@ -129,7 +138,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     }, o => SelectedResult != null));
             }
         }
-
         private void Interpolate()
         {
             IDesignForceTuple startDesignTuple, finishDesignTuple;
@@ -153,6 +161,34 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 var vm = new ForcesResultsViewModel(calculator);
                 var wnd = new ForceResultsView(vm);
                 wnd.ShowDialog();
+            }
+        }
+
+        public RelayCommand SetPrestrainCommand
+        {
+            get
+            {
+                return setPrestrainCommand ??
+                    (setPrestrainCommand = new RelayCommand(o=>
+                    {
+                        SetPrestrain();
+                    }, o => SelectedResult != null
+                    ));
+            }
+        }
+
+        private void SetPrestrain()
+        {
+            var source = StrainTupleService.ConvertToStrainTuple(SelectedResult.LoaderResults.StrainMatrix);
+            var vm = new SetPrestrainViewModel(source);
+            var wnd = new SetPrestrainView(vm);
+            wnd.ShowDialog();
+            if (wnd.DialogResult == true)
+            {
+                foreach (var item in ndmPrimitives)
+                {
+                    StrainTupleService.CopyProperties(wnd.StrainTuple, item.AutoPrestrain);
+                }
             }
         }
 

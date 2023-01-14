@@ -34,9 +34,9 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         {
             Center = new Point2D() { X = primitive.CenterX, Y = primitive.CenterY };
             Area = primitive.Area;
-            PrestrainKx = primitive.PrestrainKx;
-            PrestrainKy = primitive.PrestrainKy;
-            PrestrainEpsZ = primitive.PrestrainEpsZ;
+            PrestrainKx = primitive.UsersPrestrain.Kx + primitive.AutoPrestrain.Kx;
+            PrestrainKy = primitive.UsersPrestrain.Ky + primitive.AutoPrestrain.Ky;
+            PrestrainEpsZ = primitive.UsersPrestrain.EpsZ + primitive.AutoPrestrain.EpsZ;
         }
     }
 }

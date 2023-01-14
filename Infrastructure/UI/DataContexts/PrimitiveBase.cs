@@ -70,29 +70,33 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         }
         public double InvertedCenterY => - CenterY;
         public double PrestrainKx
-        {   get => primitive.PrestrainKx;
+        {   get => primitive.UsersPrestrain.Kx;
             set
             {
-                primitive.PrestrainKx = value;
+                primitive.UsersPrestrain.Kx = value;
                 OnPropertyChanged(nameof(PrestrainKx));
             }
         }
         public double PrestrainKy
-        {   get => primitive.PrestrainKy;
+        {   get => primitive.UsersPrestrain.Ky;
             set
             {
-                primitive.PrestrainKy = value;
+                primitive.UsersPrestrain.Ky = value;
                 OnPropertyChanged(nameof(PrestrainKy));
             }
         }
         public double PrestrainEpsZ
-        {   get => primitive.PrestrainEpsZ;
+        {   get => primitive.UsersPrestrain.EpsZ;
             set
             {
-                primitive.PrestrainEpsZ = value;
+                primitive.UsersPrestrain.EpsZ = value;
                 OnPropertyChanged(nameof(PrestrainEpsZ));
             }
         }
+
+        public double AutoPrestrainKx => primitive.AutoPrestrain.Kx;
+        public double AutoPrestrainKy => primitive.AutoPrestrain.Ky;
+        public double AutoPrestrainEpsZ => primitive.AutoPrestrain.EpsZ;
 
         public IHeadMaterial HeadMaterial
         {

@@ -9,6 +9,7 @@ using System;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services.NdmPrimitives;
+using StructureHelperCommon.Models.Forces;
 
 namespace StructureHelperLogics.Models.Primitives
 {
@@ -21,18 +22,21 @@ namespace StructureHelperLogics.Models.Primitives
         public IHeadMaterial HeadMaterial { get; set; }
         public double NdmMaxSize { get; set; }
         public int NdmMinDivision { get; set; }
-        public double PrestrainKx { get; set; }
-        public double PrestrainKy { get; set; }
-        public double PrestrainEpsZ { get; set; }
+        public IStrainTuple UsersPrestrain { get; private set; }
+        public IStrainTuple AutoPrestrain { get; private set; }
         public double Area { get; set; }
 
         public IVisualProperty VisualProperty { get; }
+
+
 
         public PointPrimitive()
         {
             Name = "New Point";
             Area = 0.0005d;
             VisualProperty = new VisualProperty();
+            UsersPrestrain = new StrainTuple();
+            AutoPrestrain = new StrainTuple();
         }
 
         public PointPrimitive(IHeadMaterial material) : this() { HeadMaterial = material; }

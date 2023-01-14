@@ -2,6 +2,7 @@
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.ShapeServices;
 using StructureHelperLogics.Models.Primitives;
@@ -32,6 +33,10 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public double Thickness { get; set; }
 
         public IVisualProperty VisualProperty => throw new NotImplementedException();
+
+        public IStrainTuple UsersPrestrain => throw new NotImplementedException();
+
+        public IStrainTuple AutoPrestrain => throw new NotImplementedException();
 
         public LinePrimitive()
         {

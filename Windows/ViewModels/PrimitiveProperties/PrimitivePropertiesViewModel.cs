@@ -90,6 +90,10 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             set => primitive.PrestrainEpsZ = value;
         }
 
+        public double AutoPrestrainKx => primitive.AutoPrestrainKx;
+        public double AutoPrestrainKy => primitive.AutoPrestrainKy;
+        public double AutoPrestrainEpsZ => primitive.AutoPrestrainEpsZ;
+
         public int MinElementDivision
         {
             get => (primitive as IHasDivision).NdmMinDivision;

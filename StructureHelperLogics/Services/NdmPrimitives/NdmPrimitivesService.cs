@@ -1,5 +1,6 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
 using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -31,9 +32,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             CopyVisualProperty(source.VisualProperty, target.VisualProperty);
             target.CenterX = source.CenterX;
             target.CenterY = source.CenterY;
-            target.PrestrainKx = source.PrestrainKx;
-            target.PrestrainKy = source.PrestrainKy;
-            target.PrestrainEpsZ = source.PrestrainEpsZ;
+            StrainTupleService.CopyProperties(source.UsersPrestrain, target.UsersPrestrain);
         }
 
         public static void CopyDivisionProperties(IHasDivisionSize source, IHasDivisionSize target)

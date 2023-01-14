@@ -178,6 +178,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Windows\CalculationWindows\CalculatorsViews\SetPrestrainView.xaml.cs">
+      <DependentUpon>SetPrestrainView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Forces\InterpolateTuplesView.xaml.cs">
       <DependentUpon>InterpolateTuplesView.xaml</DependentUpon>
     </Compile>
@@ -253,6 +256,7 @@
     <Compile Include="Windows\ViewModels\Calculations\CalculationProperies\CalculationPropertyViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\CalculationResult\CalculationResultViewModel.cs" />
     <Compile Include="Windows\ViewModels\Calculations\Calculators\ForcesResultsViewModel.cs" />
+    <Compile Include="Windows\ViewModels\Calculations\Calculators\SetPrestrainViewModel.cs" />
     <Compile Include="Windows\ViewModels\CRUDViewModelBase.cs" />
     <Compile Include="Windows\ViewModels\Forces\ForceTuplesViewModel.cs" />
     <Compile Include="Windows\ViewModels\Forces\InterpolateTuplesViewModel.cs" />
@@ -260,6 +264,7 @@
     <Compile Include="Windows\ViewModels\Materials\PartialFactorsViewModel.cs" />
     <Compile Include="Windows\ViewModels\Materials\SafetyFactorsViewModel.cs" />
     <Compile Include="Windows\ViewModels\Forces\ActionsViewModel.cs" />
+    <Compile Include="Windows\ViewModels\NdmCrossSections\AnalysisVewModel.cs" />
     <Compile Include="Windows\ViewModels\NdmCrossSections\IPrimitiveViewModelLogic.cs" />
     <Compile Include="Windows\ViewModels\NdmCrossSections\PrimitiveViewModelLogic.cs" />
     <Compile Include="Windows\ViewModels\NdmCrossSections\CrossSectionViewVisualProperty.cs" />
@@ -344,6 +349,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\AddMaterialWindow\AddMaterialView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CalculationWindows\CalculatorsViews\SetPrestrainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

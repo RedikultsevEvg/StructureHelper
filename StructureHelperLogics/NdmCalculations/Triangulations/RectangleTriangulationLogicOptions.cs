@@ -39,9 +39,9 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Rectangle = primitive;
             NdmMaxSize = primitive.NdmMaxSize;
             NdmMinDivision = primitive.NdmMinDivision;
-            PrestrainKx = primitive.PrestrainKx;
-            PrestrainKy = primitive.PrestrainKy;
-            PrestrainEpsZ = primitive.PrestrainEpsZ;
+            PrestrainKx = primitive.UsersPrestrain.Kx + primitive.AutoPrestrain.Kx;
+            PrestrainKy = primitive.UsersPrestrain.Ky + primitive.AutoPrestrain.Ky;
+            PrestrainEpsZ = primitive.UsersPrestrain.EpsZ + primitive.AutoPrestrain.EpsZ;
         }
     }
 }

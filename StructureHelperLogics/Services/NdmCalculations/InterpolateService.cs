@@ -29,7 +29,7 @@ namespace StructureHelperLogics.Services.NdmCalculations
                 SetInGravityCenter = false
             };
             combination.DesignForces.Clear();
-            combination.DesignForces.AddRange(TupleService.InterpolateDesignTuple(finishDesignForce, startDesignForce, stepCount));
+            combination.DesignForces.AddRange(ForceTupleService.InterpolateDesignTuple(finishDesignForce, startDesignForce, stepCount));
             combination.ForcePoint.X = 0;
             combination.ForcePoint.Y = 0;
             calculator.ForceCombinationLists.Add(combination);

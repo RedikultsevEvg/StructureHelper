@@ -56,7 +56,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                             point2D = new Point2D() { X = loaderPoint[0], Y = loaderPoint[1] };
                         }
                         else point2D = combination.ForcePoint;
-                        var newTuple = TupleService.MoveTupleIntoPoint(tuple.ForceTuple, point2D);
+                        var newTuple = ForceTupleService.MoveTupleIntoPoint(tuple.ForceTuple, point2D);
                         var result = GetPrimitiveStrainMatrix(ndms, newTuple);
                         result.DesignForceTuple.LimitState = limitState;
                         result.DesignForceTuple.CalcTerm = calcTerm;

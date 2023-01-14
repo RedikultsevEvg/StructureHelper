@@ -2,6 +2,7 @@
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.ShapeServices;
 using StructureHelperLogics.Models.Primitives;
@@ -22,9 +23,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public double CenterX { get; set; }
         public double CenterY { get; set; }
         public IHeadMaterial HeadMaterial { get; set; }
-        public double PrestrainKx { get; set; }
-        public double PrestrainKy { get; set; }
-        public double PrestrainEpsZ { get; set; }
+        public IStrainTuple UsersPrestrain { get; private set; }
+        public IStrainTuple AutoPrestrain { get; private set; }
         public double NdmMaxSize { get; set; }
         public int NdmMinDivision { get; set; }
         public double Width { get; set; }
@@ -38,8 +38,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             Name = "New Rectangle";
             NdmMaxSize = 0.01d;
             NdmMinDivision = 10;
-            VisualProperty = new VisualProperty();
-            VisualProperty.Opacity = 0.8;
+            VisualProperty = new VisualProperty { Opacity = 0.8d};
+            UsersPrestrain = new StrainTuple();
+            AutoPrestrain = new StrainTuple();
         }
 
         public RectanglePrimitive(IHeadMaterial material) : this() { HeadMaterial = material; }
