@@ -43,8 +43,8 @@ namespace StructureHelper.Windows.MainWindow
         public PrimitiveBase SelectedPrimitive { get; set; }
         public IForceCombinationList SelectedForceCombinationList { get; set; }
 
-        private readonly AnalysisVewModel calculatorsLogic;
-        public AnalysisVewModel CalculatorsLogic { get => calculatorsLogic;}
+        private readonly AnalysisVewModelLogic calculatorsLogic;
+        public AnalysisVewModelLogic CalculatorsLogic { get => calculatorsLogic;}
         public ActionsViewModel CombinationsLogic { get => combinationsLogic; }
         public IPrimitiveViewModelLogic PrimitiveLogic => primitiveLogic;
 
@@ -202,7 +202,7 @@ namespace StructureHelper.Windows.MainWindow
             Model = model;
             section = model.Section;
             combinationsLogic = new ActionsViewModel(repository);
-            calculatorsLogic = new AnalysisVewModel(repository);
+            calculatorsLogic = new AnalysisVewModelLogic(repository);
             primitiveLogic = new PrimitiveViewModelLogic(repository) { CanvasWidth = CanvasWidth, CanvasHeight = CanvasHeight };
             XX2 = CanvasWidth;
             XY1 = CanvasHeight / 2d;

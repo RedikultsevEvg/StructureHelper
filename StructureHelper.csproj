@@ -264,7 +264,8 @@
     <Compile Include="Windows\ViewModels\Materials\PartialFactorsViewModel.cs" />
     <Compile Include="Windows\ViewModels\Materials\SafetyFactorsViewModel.cs" />
     <Compile Include="Windows\ViewModels\Forces\ActionsViewModel.cs" />
-    <Compile Include="Windows\ViewModels\NdmCrossSections\AnalysisVewModel.cs" />
+    <Compile Include="Windows\ViewModels\NdmCrossSections\AnalysisVewModelLogic.cs" />
+    <Compile Include="Windows\ViewModels\NdmCrossSections\SecondOrderViewModel.cs" />
     <Compile Include="Windows\ViewModels\NdmCrossSections\IPrimitiveViewModelLogic.cs" />
     <Compile Include="Windows\ViewModels\NdmCrossSections\PrimitiveViewModelLogic.cs" />
     <Compile Include="Windows\ViewModels\NdmCrossSections\CrossSectionViewVisualProperty.cs" />
@@ -278,7 +279,6 @@
     <Compile Include="Windows\ViewModels\ICRUDViewModel.cs" />
     <Compile Include="Windows\ViewModels\ISourceToTargetViewModel.cs" />
     <Compile Include="Windows\ViewModels\Materials\HeadMaterialsViewModel.cs" />
-    <Compile Include="Windows\ViewModels\NdmCrossSections\CalculatorsViewModelLogic.cs" />
     <Compile Include="Windows\ViewModels\NdmCrossSections\ForceCombinationViewModelLogic.cs" />
     <Compile Include="Windows\ViewModels\NdmCrossSections\ICalculatorsViewModelLogic.cs" />
     <Compile Include="Windows\ViewModels\NdmCrossSections\IForceCombinationViewModelLogic.cs" />

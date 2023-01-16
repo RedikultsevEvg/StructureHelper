@@ -49,6 +49,31 @@
             <TabItem Header="Primitives">
                 <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding PrimitivesViewModel}"/>
             </TabItem>
+            <TabItem Header="SOrder" Visibility="Hidden">
+                <Grid DataContext="{Binding SecondOrder}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Consider second order effects"/>
+                    <TextBlock Grid.Row="1" Text="Geometry length"/>
+                    <TextBlock Grid.Row="2" Text="Buckling factor x-axis"/>
+                    <TextBlock Grid.Row="3" Text="Buckling factor y-axis"/>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding Buckling}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding GeometryLength, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding LengthFactorX, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding LengthFactorY, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
+                </Grid>
+            </TabItem>
             <TabItem Header="Iterations">
                 <Grid>
                     <Grid.RowDefinitions>

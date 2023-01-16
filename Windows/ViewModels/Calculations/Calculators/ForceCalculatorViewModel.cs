@@ -1,6 +1,7 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Services.Primitives;
+using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
@@ -25,6 +26,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         IEnumerable<INdmPrimitive> allowedPrimitives;
         IEnumerable<IForceCombinationList> allowedForceCombinations;
         ForceCalculator forcesCalculator;
+        SecondOrderViewModel secondOrderViewModel;
 
         public string Name
         {
@@ -34,15 +36,17 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 
         public double IterationAccuracy
         {
-            get { return forcesCalculator.IterationAccuracy; }
-            set { forcesCalculator.IterationAccuracy = value;}
+            get { return forcesCalculator.Accuracy.IterationAccuracy; }
+            set { forcesCalculator.Accuracy.IterationAccuracy = value;}
         }
 
         public int MaxIterationCount
         {
-            get { return forcesCalculator.MaxIterationCount; }
-            set { forcesCalculator.MaxIterationCount = value; }
+            get { return forcesCalculator.Accuracy.MaxIterationCount; }
+            set { forcesCalculator.Accuracy.MaxIterationCount = value; }
         }
+
+        public SecondOrderViewModel SecondOrder => secondOrderViewModel;
 
         public bool ULS { get; set; }
         public bool SLS { get; set; }
@@ -147,6 +151,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             allowedPrimitives = _allowedPrimitives;
             allowedForceCombinations = _allowedForceCombinations;
             forcesCalculator = _forcesCalculator;
+            secondOrderViewModel = new SecondOrderViewModel(forcesCalculator.CompressedMember);
 
             CombinationViewModel = new SourceToTargetViewModel<IForceCombinationList>();
             CombinationViewModel.SetTargetItems(forcesCalculator.ForceCombinationLists);

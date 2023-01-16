@@ -19,8 +19,8 @@ namespace StructureHelperLogics.Services.NdmCalculations
             calculator.LimitStatesList.Add(finishDesignForce.LimitState);
             calculator.CalcTermsList.Clear();
             calculator.CalcTermsList.Add(finishDesignForce.CalcTerm);
-            calculator.IterationAccuracy = source.IterationAccuracy;
-            calculator.MaxIterationCount = source.MaxIterationCount;
+            calculator.Accuracy.IterationAccuracy = source.Accuracy.IterationAccuracy;
+            calculator.Accuracy.MaxIterationCount = source.Accuracy.MaxIterationCount;
             calculator.Primitives.AddRange(source.Primitives);
             calculator.ForceCombinationLists.Clear();
             var combination = new ForceCombinationList()

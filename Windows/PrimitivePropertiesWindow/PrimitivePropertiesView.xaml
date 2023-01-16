@@ -83,28 +83,24 @@
                             <TextBlock Grid.Row="2" Text="Center X"/>
                             <TextBlock Grid.Row="3" Text="Center Y"/>
                             <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Name}"/>
-                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                                <ComboBox Width="100" ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding PrimitiveMaterial}">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="20"/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-                                                <Rectangle Grid.Column="0" Margin="3">
-                                                    <Rectangle.Fill>
-                                                        <SolidColorBrush Color="{Binding Color}"/>
-                                                    </Rectangle.Fill>
-                                                </Rectangle>
-                                                <TextBlock Grid.Column="1" Text="{Binding Name}"/>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
-                                <Button Width="50" Content="..." Command="{Binding EditMaterialCommand}">
-                                </Button>
-                            </StackPanel>
+                            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding PrimitiveMaterial}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="20"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Rectangle Grid.Column="0" Margin="3">
+                                                <Rectangle.Fill>
+                                                    <SolidColorBrush Color="{Binding Color}"/>
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                            <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                             <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding CenterX, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
                             <TextBox Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding CenterY, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
                         </Grid>

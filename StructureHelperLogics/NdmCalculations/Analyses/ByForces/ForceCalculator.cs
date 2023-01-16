@@ -3,9 +3,13 @@ using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.SourceData;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Sections;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services.Calculations;
 using StructureHelperCommon.Services.Forces;
+using StructureHelperCommon.Services.Sections;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
@@ -17,14 +21,13 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     public class ForceCalculator : IForceCalculator
     {
         public string Name { get; set; }
-        public double IterationAccuracy { get; set; }
-        public int MaxIterationCount { get; set; }
         public List<LimitStates> LimitStatesList { get; }
         public List<CalcTerms> CalcTermsList { get; }
         public List<IForceCombinationList> ForceCombinationLists { get; }
         public List<INdmPrimitive> Primitives { get; }
         public INdmResult Result { get; private set; }
-
+        public ICompressedMember CompressedMember { get; }
+        public IAccuracy Accuracy { get; }
 
         public void Run()
         {
@@ -82,8 +85,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         {
             ForceCombinationLists = new List<IForceCombinationList>();
             Primitives = new List<INdmPrimitive>();
-            IterationAccuracy = 0.001d;
-            MaxIterationCount = 1000;
+            CompressedMember = new CompressedMember();
+            Accuracy = new Accuracy() { IterationAccuracy = 0.001d, MaxIterationCount = 1000 };
             LimitStatesList = new List<LimitStates>() { LimitStates.ULS, LimitStates.SLS };
             CalcTermsList = new List<CalcTerms>() { CalcTerms.ShortTerm, CalcTerms.LongTerm };
         }
@@ -100,8 +103,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 {
                     Preconditions = new Preconditions
                     {
-                        ConditionRate = IterationAccuracy,
-                        MaxIterationCount = MaxIterationCount,
+                        ConditionRate = Accuracy.IterationAccuracy,
+                        MaxIterationCount = Accuracy.MaxIterationCount,
                         StartForceMatrix = new ForceMatrix { Mx = mx, My = my, Nz = nz }
                     },
                     NdmCollection = ndmCollection
@@ -109,7 +112,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 var calculator = new Calculator();
                 calculator.Run(loaderData, new CancellationToken());
                 var calcResult = calculator.Result;
-                if (calcResult.AccuracyRate <= IterationAccuracy)
+                if (calcResult.AccuracyRate <= Accuracy.IterationAccuracy)
                 {
                     return new ForcesResult() { IsValid = true, Desctription = "Analysis is done succsefully", LoaderResults = calcResult };
                 }
@@ -131,17 +134,16 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public object Clone()
         {
-            IForceCalculator calculator = new ForceCalculator();
-            calculator.Name = Name + " copy";
-            calculator.LimitStatesList.Clear();
-            calculator.LimitStatesList.AddRange(LimitStatesList);
-            calculator.CalcTermsList.Clear();
-            calculator.CalcTermsList.AddRange(CalcTermsList);
-            calculator.IterationAccuracy = IterationAccuracy;
-            calculator.MaxIterationCount = MaxIterationCount;
-            calculator.Primitives.AddRange(Primitives);
-            calculator.ForceCombinationLists.AddRange(ForceCombinationLists);
-            return calculator;
+            IForceCalculator target = new ForceCalculator { Name = Name + " copy"};
+            target.LimitStatesList.Clear();
+            target.LimitStatesList.AddRange(LimitStatesList);
+            target.CalcTermsList.Clear();
+            target.CalcTermsList.AddRange(CalcTermsList);
+            AccuracyService.CopyProperties(Accuracy, target.Accuracy);
+            CompressedMemberServices.CopyProperties(CompressedMember, target.CompressedMember);
+            target.Primitives.AddRange(Primitives);
+            target.ForceCombinationLists.AddRange(ForceCombinationLists);
+            return target;
         }
     }
 }

@@ -61,6 +61,8 @@
     <Compile Include="Infrastructures\Settings\ProgramSetting.cs" />
     <Compile Include="Infrastructures\Strings\ErrorString.cs" />
     <Compile Include="Infrastructures\Enums\MaterialTypes.cs" />
+    <Compile Include="Models\Calculators\Accuracy.cs" />
+    <Compile Include="Models\Calculators\IAccuracy.cs" />
     <Compile Include="Models\Calculators\IHelperCalculator.cs" />
     <Compile Include="Models\Forces\DesignForceTuple.cs" />
     <Compile Include="Models\Forces\Factories\DesignForceFactory.cs" />
@@ -86,6 +88,8 @@
     <Compile Include="Models\Materials\Libraries\MaterialPartialFactor.cs" />
     <Compile Include="Models\Materials\Libraries\MaterialSafetyFactor.cs" />
     <Compile Include="Models\Materials\Libraries\ReinforcementMaterialEntity.cs" />
+    <Compile Include="Models\Sections\CompressedMember.cs" />
+    <Compile Include="Models\Sections\ICompressedMember.cs" />
     <Compile Include="Models\Shapes\Point2D.cs" />
     <Compile Include="Models\Shapes\IPoint2D.cs" />
     <Compile Include="Models\Shapes\ICenterShape.cs" />
@@ -98,9 +102,11 @@
     <Compile Include="Models\Shapes\PointShape.cs" />
     <Compile Include="Models\Shapes\RectangleShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Calculations\AccuracyService.cs" />
     <Compile Include="Services\ColorServices\ColorProcessor.cs" />
     <Compile Include="Services\Forces\ForceTupleService.cs" />
     <Compile Include="Services\Forces\StrainTupleService.cs" />
+    <Compile Include="Services\Sections\CompressedMemberServices.cs" />
     <Compile Include="Services\ShapeServices\ShapeService.cs" />
     <Compile Include="Services\Units\IUnit.cs" />
     <Compile Include="Services\Units\Unit.cs" />
