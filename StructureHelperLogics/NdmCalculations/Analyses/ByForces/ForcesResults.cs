@@ -9,12 +9,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     public class ForcesResults : IForcesResults
     {
         public bool IsValid { get; set; }
-        public List<ForcesResult> ForcesResultList { get; }
+        public List<IForcesTupleResult> ForcesResultList { get; }
         public string Desctription { get; set; }
 
         public ForcesResults()
         {
-            ForcesResultList = new List<ForcesResult>();
+            ForcesResultList = new List<IForcesTupleResult>();
         }
     }
 }

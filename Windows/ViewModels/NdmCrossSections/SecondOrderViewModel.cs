@@ -37,7 +37,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             get => member.LengthFactorX;
             set
             {
-                member.GeometryLength = value;
+                member.LengthFactorX = value;
                 OnPropertyChanged(nameof(LengthFactorX));
             }
         }
@@ -47,7 +47,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             get => member.LengthFactorY;
             set
             {
-                member.GeometryLength = value;
+                member.LengthFactorY= value;
                 OnPropertyChanged(nameof(LengthFactorY));
             }
         }

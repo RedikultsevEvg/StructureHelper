@@ -49,7 +49,7 @@
             <TabItem Header="Primitives">
                 <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding PrimitivesViewModel}"/>
             </TabItem>
-            <TabItem Header="SOrder" Visibility="Hidden">
+            <TabItem Header="S-Order">
                 <Grid DataContext="{Binding SecondOrder}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>

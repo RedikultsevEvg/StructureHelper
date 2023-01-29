@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public class ForcesResult : INdmResult
+    public class ForcesTupleResult : IForcesTupleResult
     {
         public bool IsValid { get; set; }
         public IDesignForceTuple DesignForceTuple { get; set; }
@@ -22,7 +22,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         /// </summary>
         public ILoaderResults LoaderResults { get; set; }
 
-        public ForcesResult()
+        public ForcesTupleResult()
         {
             DesignForceTuple = new DesignForceTuple();
         }

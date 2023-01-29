@@ -41,7 +41,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         private IEnumerable<INdm> ndms;
         private IReport isoFieldReport;
 
-        public ForcesResult SelectedResult { get; set; }
+        public ForcesTupleResult SelectedResult { get; set; }
         private RelayCommand showIsoFieldCommand;
         private RelayCommand exportToCSVCommand;
         private RelayCommand interpolateCommand;

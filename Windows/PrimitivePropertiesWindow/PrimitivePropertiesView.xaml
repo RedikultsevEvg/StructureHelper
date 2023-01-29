@@ -112,23 +112,24 @@
                                 <RowDefinition Height="22"/>
                                 <RowDefinition Height="22"/>
                                 <RowDefinition Height="22"/>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="22"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100"/>
                                 <ColumnDefinition/>
-                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="1" Text="User's" HorizontalAlignment="Center"/>
-                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Auto" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="User's / Auto" HorizontalAlignment="Center"/>
                             <TextBlock Grid.Row="1" Text="k_x"/>
-                            <TextBlock Grid.Row="2" Text="k_y"/>
-                            <TextBlock Grid.Row="3" Text="epsilon_z"/>
+                            <TextBlock Grid.Row="3" Text="k_y"/>
+                            <TextBlock Grid.Row="5" Text="epsilon_z"/>
                             <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding PrestrainKx, Converter={StaticResource Curvature}, ValidatesOnDataErrors=True}"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding PrestrainKy, Converter={StaticResource Curvature}, ValidatesOnDataErrors=True}"/>
-                            <TextBox Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding PrestrainEpsZ, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
-                            <TextBox Grid.Row="1" Grid.Column="2" Margin="1" IsEnabled="False" Text="{Binding AutoPrestrainKx, Converter={StaticResource Curvature}, Mode=OneWay}"/>
-                            <TextBox Grid.Row="2" Grid.Column="2" Margin="1" IsEnabled="False" Text="{Binding AutoPrestrainKy, Converter={StaticResource Curvature}, Mode=OneWay}"/>
-                            <TextBox Grid.Row="3" Grid.Column="2" Margin="1" IsEnabled="False" Text="{Binding AutoPrestrainEpsZ, Converter={StaticResource PlainDouble}, Mode=OneWay}"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding PrestrainKy, Converter={StaticResource Curvature}, ValidatesOnDataErrors=True}"/>
+                            <TextBox Grid.Row="5" Grid.Column="1" Margin="1" Text="{Binding PrestrainEpsZ, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Margin="1" IsEnabled="False" Text="{Binding AutoPrestrainKx, Converter={StaticResource Curvature}, Mode=OneWay}"/>
+                            <TextBox Grid.Row="4" Grid.Column="1" Margin="1" IsEnabled="False" Text="{Binding AutoPrestrainKy, Converter={StaticResource Curvature}, Mode=OneWay}"/>
+                            <TextBox Grid.Row="6" Grid.Column="1" Margin="1" IsEnabled="False" Text="{Binding AutoPrestrainEpsZ, Converter={StaticResource PlainDouble}, Mode=OneWay}"/>
                         </Grid>
                     </Expander>
                 </StackPanel>

@@ -10,10 +10,12 @@ using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Calculations;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperCommon.Services.Sections;
+using StructureHelperLogics.NdmCalculations.Buckling;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
@@ -27,7 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public List<INdmPrimitive> Primitives { get; }
         public INdmResult Result { get; private set; }
         public ICompressedMember CompressedMember { get; }
-        public IAccuracy Accuracy { get; }
+        public IAccuracy Accuracy { get; set; }
 
         public void Run()
         {
@@ -56,11 +58,42 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                         if (combination.SetInGravityCenter == true)
                         {
                             var loaderPoint = LoaderCalculator.Logics.Geometry.GeometryOperations.GetGravityCenter(ndms);
-                            point2D = new Point2D() { X = loaderPoint[0], Y = loaderPoint[1] };
+                            point2D = new Point2D() { X = loaderPoint.CenterX, Y = loaderPoint.CenterY };
                         }
                         else point2D = combination.ForcePoint;
                         var newTuple = ForceTupleService.MoveTupleIntoPoint(tuple.ForceTuple, point2D);
                         var result = GetPrimitiveStrainMatrix(ndms, newTuple);
+                        if (CompressedMember.Buckling == true)
+                        {
+                            IForceTuple longTuple;
+                            if (calcTerm == CalcTerms.LongTerm)
+                            {
+                                longTuple = newTuple;
+                            }
+                            else
+                            {
+                                longTuple = GetLongTuple(combination.DesignForces, limitState);
+                            }
+                            var bucklingCalculator = GetBucklingCalculator(CompressedMember, limitState, calcTerm, newTuple, longTuple);
+                            try
+                            {
+                                bucklingCalculator.Run();
+                                var bucklingResult = bucklingCalculator.Result as IConcreteBucklingResult;
+                                if (bucklingResult.IsValid != true)
+                                {
+                                    result.IsValid = false;
+                                    result.Desctription += $"Buckling result:\n{bucklingResult.Desctription}\n";
+                                }
+                                newTuple = CalculateBuckling(newTuple, bucklingResult);
+                            }
+                            catch (Exception ex)
+                            {
+                                result.IsValid = false;
+                                result.Desctription = $"Buckling error:\n{ex}\n";
+                            }
+
+                        }
+                        
                         result.DesignForceTuple.LimitState = limitState;
                         result.DesignForceTuple.CalcTerm = calcTerm;
                         result.DesignForceTuple.ForceTuple = newTuple;
@@ -70,6 +103,42 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             }
             Result = ndmResult;
         }
+
+        private IForceTuple GetLongTuple(List<IDesignForceTuple> designForces, LimitStates limitState)
+        {
+            IForceTuple longTuple;
+            try
+            {
+                longTuple = designForces.Where(x => x.LimitState == limitState & x.CalcTerm == CalcTerms.LongTerm).First().ForceTuple;
+            }
+            catch (Exception)
+            {
+                longTuple = new ForceTuple();
+            }     
+            return longTuple;
+        }
+
+        private IConcreteBucklingCalculator GetBucklingCalculator(ICompressedMember compressedMember, LimitStates limitStates, CalcTerms calcTerms, IForceTuple calcTuple, IForceTuple longTuple)
+        {
+            IConcreteBucklingOptions options = new ConcreteBucklingOptions()
+            { CompressedMember = compressedMember,
+                LimitState = limitStates,
+                CalcTerm = calcTerms,
+                CalcForceTuple = calcTuple,
+                LongTermTuple = longTuple,
+                Primitives = Primitives };
+            IConcreteBucklingCalculator bucklingCalculator = new ConcreteBucklingCalculator(options, Accuracy);
+            return bucklingCalculator;
+        }
+
+        private IForceTuple CalculateBuckling(IForceTuple calcTuple, IConcreteBucklingResult bucklingResult)
+        {
+            var newTuple = calcTuple.Clone() as IForceTuple;
+            newTuple.Mx *= bucklingResult.EtaFactorAlongY;
+            newTuple.My *= bucklingResult.EtaFactorAlongX;
+            return newTuple;
+        }
+
 
         private string CheckInputData()
         {
@@ -85,51 +154,18 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         {
             ForceCombinationLists = new List<IForceCombinationList>();
             Primitives = new List<INdmPrimitive>();
-            CompressedMember = new CompressedMember();
+            CompressedMember = new CompressedMember() { Buckling = false };
             Accuracy = new Accuracy() { IterationAccuracy = 0.001d, MaxIterationCount = 1000 };
             LimitStatesList = new List<LimitStates>() { LimitStates.ULS, LimitStates.SLS };
             CalcTermsList = new List<CalcTerms>() { CalcTerms.ShortTerm, CalcTerms.LongTerm };
         }
 
-        private ForcesResult GetPrimitiveStrainMatrix(IEnumerable<INdm> ndmCollection, IForceTuple tuple)
+        private IForcesTupleResult GetPrimitiveStrainMatrix(IEnumerable<INdm> ndmCollection, IForceTuple tuple)
         {
-            var mx = tuple.Mx;
-            var my = tuple.My;
-            var nz = tuple.Nz;
-
-            try
-            {
-                var loaderData = new LoaderOptions
-                {
-                    Preconditions = new Preconditions
-                    {
-                        ConditionRate = Accuracy.IterationAccuracy,
-                        MaxIterationCount = Accuracy.MaxIterationCount,
-                        StartForceMatrix = new ForceMatrix { Mx = mx, My = my, Nz = nz }
-                    },
-                    NdmCollection = ndmCollection
-                };
-                var calculator = new Calculator();
-                calculator.Run(loaderData, new CancellationToken());
-                var calcResult = calculator.Result;
-                if (calcResult.AccuracyRate <= Accuracy.IterationAccuracy)
-                {
-                    return new ForcesResult() { IsValid = true, Desctription = "Analysis is done succsefully", LoaderResults = calcResult };
-                }
-                else
-                {
-                    return new ForcesResult() { IsValid = false, Desctription = "Required accuracy rate has not achived", LoaderResults = calcResult };
-                }
-
-            }
-            catch (Exception ex)
-            {
-                var result = new ForcesResult() { IsValid = false };
-                if (ex.Message == "Calculation result is not valid: stiffness matrix is equal to zero") { result.Desctription = "Stiffness matrix is equal to zero \nProbably section was collapsed"; }
-                else { result.Desctription = $"Error is appeared due to analysis. Error: {ex}"; }
-                return result;
-            }
-
+            IForceTupleInputData inputData = new ForceTupleInputData() { NdmCollection = ndmCollection, Tuple = tuple, Accuracy = Accuracy };
+            IForceTupleCalculator calculator = new ForceTupleCalculator(inputData);
+            calculator.Run();
+            return calculator.Result as IForcesTupleResult;
         }
 
         public object Clone()

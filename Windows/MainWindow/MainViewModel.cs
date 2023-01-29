@@ -287,11 +287,11 @@ namespace StructureHelper.Windows.MainWindow
             {
                 if (CheckMaterials() == false) { return;}
                 var ndms = NdmPrimitivesService.GetNdms(repository.Primitives, LimitStates.SLS, CalcTerms.ShortTerm);
-                double[] center = GeometryOperations.GetGravityCenter(ndms);
+                var center = GeometryOperations.GetGravityCenter(ndms);
                 foreach (var item in PrimitiveLogic.Items)
                 {
-                    item.CenterX -= center[0];
-                    item.CenterY -= center[1];
+                    item.CenterX -= center.CenterX;
+                    item.CenterY -= center.CenterY;
                 }
             },
             o => repository.Primitives.Count() > 0

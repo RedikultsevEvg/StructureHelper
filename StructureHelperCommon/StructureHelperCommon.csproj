@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Infrastructures\Enums\CalcTerms.cs" />
     <Compile Include="Infrastructures\Enums\CodeTypes.cs" />
+    <Compile Include="Infrastructures\Enums\Directions.cs" />
     <Compile Include="Infrastructures\Enums\LimitStates.cs" />
     <Compile Include="Infrastructures\Enums\StressStates.cs" />
     <Compile Include="Infrastructures\Enums\UnitTypes.cs" />

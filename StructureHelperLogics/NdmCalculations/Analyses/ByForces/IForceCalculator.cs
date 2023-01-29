@@ -14,6 +14,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         List<CalcTerms> CalcTermsList { get; }
         List<LimitStates> LimitStatesList { get; }
         ICompressedMember CompressedMember { get; }
-        IAccuracy Accuracy { get; }
+        IAccuracy Accuracy { get; set; }
     }
 }

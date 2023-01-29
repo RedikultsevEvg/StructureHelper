@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services.Forces;
+using StructureHelperCommon.Services.Sections;
 using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using System;
@@ -19,8 +20,8 @@ namespace StructureHelperLogics.Services.NdmCalculations
             calculator.LimitStatesList.Add(finishDesignForce.LimitState);
             calculator.CalcTermsList.Clear();
             calculator.CalcTermsList.Add(finishDesignForce.CalcTerm);
-            calculator.Accuracy.IterationAccuracy = source.Accuracy.IterationAccuracy;
-            calculator.Accuracy.MaxIterationCount = source.Accuracy.MaxIterationCount;
+            CompressedMemberServices.CopyProperties(source.CompressedMember, calculator.CompressedMember);
+            calculator.Accuracy = source.Accuracy;
             calculator.Primitives.AddRange(source.Primitives);
             calculator.ForceCombinationLists.Clear();
             var combination = new ForceCombinationList()
