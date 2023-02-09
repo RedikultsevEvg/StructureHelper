@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StructureHelperCommon.Models.Forces
+﻿namespace StructureHelperCommon.Models.Forces
 {
     /// <inheritdoc/>
     public class ForceTuple : IForceTuple

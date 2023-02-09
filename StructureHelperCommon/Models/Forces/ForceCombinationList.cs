@@ -1,10 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+﻿using System.Collections.Generic;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
