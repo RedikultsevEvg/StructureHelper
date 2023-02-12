@@ -1,10 +1,4 @@
-﻿using LoaderCalculator;
-using StructureHelperCommon.Models.Calculators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperCommon.Services.Calculations
 {

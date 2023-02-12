@@ -87,24 +87,6 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FieldVisualizer\FieldVisualizer.csproj">
-      <Project>{87064b50-3b7c-4a91-af4a-941c6f95d997}</Project>
-      <Name>FieldVisualizer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StructureHelper.csproj">
-      <Project>{BAD27E27-4444-4300-ADF8-E21042C0781D}</Project>
-      <Name>StructureHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StructureHelperCommon\StructureHelperCommon.csproj">
-      <Project>{5DFEC3FD-9677-47BB-9E88-EB71828B5913}</Project>
-      <Name>StructureHelperCommon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StructureHelperLogics\StructureHelperLogics.csproj">
-      <Project>{330bef5b-15be-4d2c-a750-b1ae50fb2be3}</Project>
-      <Name>StructureHelperLogics</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

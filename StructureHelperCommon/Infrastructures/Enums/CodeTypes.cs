@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StructureHelperCommon.Infrastructures.Enums
+﻿namespace StructureHelperCommon.Infrastructures.Enums
 {
     public enum CodeTypes
     {

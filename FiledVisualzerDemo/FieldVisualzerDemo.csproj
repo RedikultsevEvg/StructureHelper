@@ -81,11 +81,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FieldVisualizer\FieldVisualizer.csproj">
-      <Project>{87064b50-3b7c-4a91-af4a-941c6f95d997}</Project>
-      <Name>FieldVisualizer</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

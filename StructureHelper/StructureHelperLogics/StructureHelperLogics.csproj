@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StructureHelperCommon\StructureHelperCommon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="LoaderCalculator">
+      <HintPath>..\Libraries\LoaderCalculator.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System.Windows" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Infrastructures\" />
+    <Folder Include="Services\CrossSections\" />
+    <Folder Include="Services\Forces\" />
+  </ItemGroup>
+
+</Project>

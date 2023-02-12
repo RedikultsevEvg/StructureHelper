@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructureHelper", "StructureHelper.csproj", "{BAD27E27-4444-4300-ADF8-E21042C0781D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructureHelperTests", "StructureHelperTests\StructureHelperTests.csproj", "{7AC480BB-8A34-4913-B7AA-C6A5D7F35509}"
+	ProjectSection(ProjectDependencies) = postProject
+		{330BEF5B-15BE-4D2C-A750-B1AE50FB2BE3} = {330BEF5B-15BE-4D2C-A750-B1AE50FB2BE3}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StructureHelperLogics", "StructureHelperLogics\StructureHelperLogics.csproj", "{330BEF5B-15BE-4D2C-A750-B1AE50FB2BE3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5DFEC3FD-9677-47BB-9E88-EB71828B5913} = {5DFEC3FD-9677-47BB-9E88-EB71828B5913}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructureHelperCommon", "StructureHelperCommon\StructureHelperCommon.csproj", "{5DFEC3FD-9677-47BB-9E88-EB71828B5913}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FieldVisualizer", "FieldVisualizer\FieldVisualizer.csproj", "{87064B50-3B7C-4A91-AF4A-941C6F95D997}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FieldVisualzerDemo", "FiledVisualzerDemo\FieldVisualzerDemo.csproj", "{C92A5F2E-567B-48C9-A524-5740DB03509D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BAD27E27-4444-4300-ADF8-E21042C0781D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAD27E27-4444-4300-ADF8-E21042C0781D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAD27E27-4444-4300-ADF8-E21042C0781D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAD27E27-4444-4300-ADF8-E21042C0781D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AC480BB-8A34-4913-B7AA-C6A5D7F35509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AC480BB-8A34-4913-B7AA-C6A5D7F35509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AC480BB-8A34-4913-B7AA-C6A5D7F35509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AC480BB-8A34-4913-B7AA-C6A5D7F35509}.Release|Any CPU.Build.0 = Release|Any CPU
+		{330BEF5B-15BE-4D2C-A750-B1AE50FB2BE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{330BEF5B-15BE-4D2C-A750-B1AE50FB2BE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{330BEF5B-15BE-4D2C-A750-B1AE50FB2BE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{330BEF5B-15BE-4D2C-A750-B1AE50FB2BE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DFEC3FD-9677-47BB-9E88-EB71828B5913}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DFEC3FD-9677-47BB-9E88-EB71828B5913}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DFEC3FD-9677-47BB-9E88-EB71828B5913}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DFEC3FD-9677-47BB-9E88-EB71828B5913}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87064B50-3B7C-4A91-AF4A-941C6F95D997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87064B50-3B7C-4A91-AF4A-941C6F95D997}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87064B50-3B7C-4A91-AF4A-941C6F95D997}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87064B50-3B7C-4A91-AF4A-941C6F95D997}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C92A5F2E-567B-48C9-A524-5740DB03509D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C92A5F2E-567B-48C9-A524-5740DB03509D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C92A5F2E-567B-48C9-A524-5740DB03509D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C92A5F2E-567B-48C9-A524-5740DB03509D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A4F97ACA-7F64-4D3E-AB47-8EE61B5BAB9A}
+	EndGlobalSection
+EndGlobal
