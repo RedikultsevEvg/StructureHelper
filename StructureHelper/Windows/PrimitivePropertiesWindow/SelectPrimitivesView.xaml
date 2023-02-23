@@ -1,0 +1,35 @@
+﻿<Window x:Class="StructureHelper.Windows.PrimitivePropertiesWindow.SelectPrimitivesView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.PrimitivePropertiesWindow"
+        xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.PrimitiveProperties"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance vm:SelectPrimitivesViewModel}"
+        Title="Select Primitives" Height="250" Width="250" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <ListBox ItemsSource="{Binding Items.CollectionItems}" SelectedItem="Items.SelectedItem">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="22"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox IsChecked="{Binding IsSelected}"/>
+                        <ContentControl Grid.Column="1" ContentTemplate="{StaticResource ColoredItemTemplate}" Content="{Binding Item}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Style="{StaticResource CancelButton}"/>
+            <Button Style="{StaticResource OkButton}" Click="Button_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

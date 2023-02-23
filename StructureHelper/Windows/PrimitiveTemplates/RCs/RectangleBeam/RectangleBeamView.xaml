@@ -1,0 +1,51 @@
+﻿<Window x:Class="StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam.RectangleBeamView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam"
+        xmlns:res="clr-namespace:StructureHelper.Infrastructure.UI.PrimitiveTemplates"
+        xmlns:vm ="clr-namespace:StructureHelper.Windows.ViewModels.PrimitiveTemplates.RCs"
+        d:DataContext="{d:DesignInstance vm:RectangleBeamViewModel}"
+        mc:Ignorable="d"
+        Title="Reinforced beam template" Height="220" Width="300" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Resources>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <ContentControl ContentTemplate="{StaticResource RectangleShapeEdit}" Content="{Binding}"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="22"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Text="Cover gap"/>
+                <TextBlock Grid.Row="1" Text="Top Diameter"/>
+                <TextBlock Grid.Row="2" Text="Bottom Diameter"/>
+                <TextBlock Grid.Row="3" Text="Width count"/>
+                <TextBlock Grid.Row="4" Text="Height count"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding CoverGap, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding TopDiameter, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding BottomDiameter, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding WidthCount, ValidatesOnExceptions=True}"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding HeightCount, ValidatesOnExceptions=True}"/>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="60" Height="20" Margin="5" Content="Cancel" Command="{Binding CancelCommand}"/>
+            <Button Width="60" Height="20" Margin="5" Content="OK" Command="{Binding OkCommand}"/>
+        </StackPanel>
+        
+    </Grid>
+</Window>

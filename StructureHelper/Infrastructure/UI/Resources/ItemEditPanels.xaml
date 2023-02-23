@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <DataTemplate x:Key="SourceToTarget">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <ListBox ItemsSource="{Binding SourceItems}" SelectedItem="{Binding SelectedSourceItem}" ItemTemplate="{Binding ItemDataDemplate}"/>
+            <StackPanel Grid.Column="1">
+                <Button Content="Add all" Command="{Binding AddAll}"/>
+                <Button Content="Clear all" Command="{Binding ClearAll}"/>
+                <Button Content=">>" Command="{Binding AddSelected}"/>
+                <Button Content="&lt;&lt;" Command="{Binding RemoveSelected}"/>
+            </StackPanel>
+            <ListBox Grid.Column="2" ItemsSource="{Binding TargetItems}"
+                     SelectedItem="{Binding SelectedTargetItem}" ItemTemplate="{Binding ItemDataDemplate}"/>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

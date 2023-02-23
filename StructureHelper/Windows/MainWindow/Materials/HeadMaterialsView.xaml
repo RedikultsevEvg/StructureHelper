@@ -1,0 +1,115 @@
+﻿<Window x:Class="StructureHelper.Windows.MainWindow.Materials.HeadMaterialsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow.Materials"
+        xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Materials"
+        d:DataContext="{d:DesignInstance vm:HeadMaterialsViewModel}"
+        mc:Ignorable="d"
+        Title="Materials" Height="350" Width="680" MinHeight="350" MinWidth="680" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <DataTemplate x:Key="SafetyFactors">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <Button Content="Show Safety Factors" Command="{Binding DataContext.ShowSafetyFactors, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+                <ContentControl Grid.Row="1" ContentTemplate="{StaticResource MaterialSafetyFactors}" Content="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="ConcreteLibMaterial">
+            <StackPanel>
+                <TextBlock Text="Library material"/>
+                <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding LibConcreteMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ContentControl ContentTemplate="{StaticResource SafetyFactors}"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ReinforcementLibMaterial">
+            <StackPanel>
+                <TextBlock Text="Library material"/>
+                <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding LibReinforcementMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ContentControl ContentTemplate="{StaticResource SafetyFactors}"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ElasticMaterial">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="28"/>
+                    <RowDefinition Height="28"/>
+                    <RowDefinition Height="28"/>
+                    <RowDefinition Height="28"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Elastic material"/>
+                <TextBlock Grid.Row="1" Text="Young's modulus"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Modulus, Converter={StaticResource StressConverter}, ValidatesOnExceptions=True}"/>
+                <TextBlock Grid.Row="2" Text="Compressive strength"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CompressiveStrength, Converter={StaticResource StressConverter}, ValidatesOnExceptions=True}"/>
+                <TextBlock Grid.Row="3" Text="Tensile strength"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding TensileStrength, Converter={StaticResource StressConverter}, ValidatesOnExceptions=True}"/>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="280"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <ListBox ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding SelectedMaterial}" SelectionChanged="ListBox_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Grid.Column="0" Margin="3">
+                                <Rectangle.Fill>
+                                    <SolidColorBrush Color="{Binding Color}"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <StackPanel Grid.Column="1">
+            <Button Content="New Concrete"  Command="{Binding AddNewConcreteMaterialCommand}"/>
+            <Button Content="New Reinforcement"  Command="{Binding AddNewReinforcementMaterialCommand}"/>
+            <Button Content="New Elastic Material"  Command="{Binding AddElasticMaterialCommand}"/>
+            <Button Content="Edit color"  Command="{Binding EditColorCommand}"/>
+            <Button Content="Copy"  Command="{Binding CopyHeadMaterialCommand}"/>
+            <Button Content="Delete"  Command="{Binding DeleteMaterialCommand}"/>
+        </StackPanel>
+        <StackPanel  Grid.Column="2">
+            <TextBlock Text="Name"/>
+            <TextBox Text="{Binding SelectedMaterial.Name}"/>
+            <StackPanel x:Name="StpMaterialProperties"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

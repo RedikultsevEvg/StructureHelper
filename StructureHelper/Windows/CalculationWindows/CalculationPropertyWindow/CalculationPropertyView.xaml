@@ -1,0 +1,92 @@
+﻿<Window x:Class="StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow.CalculationPropertyView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow"
+        xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Calculations.CalculationProperies"
+        d:DataContext="{d:DesignInstance vm:CalculationPropertyViewModel}"
+        mc:Ignorable="d"
+        Title="Calculation Properties" Height="330" Width="400" MinHeight="330" MinWidth="400" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+    <Window.Resources>
+        <Style TargetType="TextBox" x:Key="ValidatedError">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header="Forces">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="80"/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.Row="0" Header="Combinations of forces" Height="160">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <DataGrid x:Name="ForceGrid" AutoGenerateColumns="False" ItemsSource="{Binding Path=ForceCombinations}" SelectionChanged="ForceGrid_SelectionChanged"
+                                      SelectedItem="{Binding Path=SelectedCombination}">
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn Header="Active" Binding="{Binding Path=TakeInCalculate}"/>
+                                    <DataGridTextColumn Header="Moment Mx" Width="90" Binding="{Binding Path=ForceMatrix.Mx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                                    <DataGridTextColumn Header="Moment My" Width="90" Binding="{Binding Path=ForceMatrix.My, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                                    <DataGridTextColumn Header="Force Nz" Width="90" Binding="{Binding Path=ForceMatrix.Nz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <StackPanel Grid.Column="1">
+                                <Button Margin="3" Content="Add" Command="{Binding Path=AddForceCombinationCommand}"/>
+                                <Button Margin="3" Content="Remove" Command="{Binding Path=RemoveForceCombinationCommand}"/>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                    <Grid Grid.Row="1" Height="80">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Header="Limit state">
+                            <StackPanel>
+                                <RadioButton x:Name="LsCollapse" Content="Limit state of collapse" Margin="5" IsChecked="True" GroupName="LimitState" Checked="LsCollapse_Checked"/>
+                                <RadioButton x:Name="LsServiceability" Content="Limit state of serviceability" Margin="5" GroupName="LimitState" Checked="LsServiceability_Checked"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Grid.Column="1" Header="Duration of acting of loads">
+                            <StackPanel>
+                                <RadioButton x:Name="ShortLoads" Content="Short term loads" Margin="5" IsChecked="True" GroupName="LoadDuration" Checked="ShortLoads_Checked"/>
+                                <RadioButton x:Name="LongLoads" Content="Long term loads" Margin="5" GroupName="LoadDuration" Checked="LongLoads_Checked"/>
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Iterations">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Required Accuracy" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBox Style="{StaticResource ValidatedError}" Grid.Column="1" Margin="5" Text="{Binding Path=IterationAccuracy, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="1" Text="Maximum Iteration Count" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBox Style="{StaticResource ValidatedError}" Grid.Column="1" Grid.Row="1" Margin="5" Text="{Binding Path=MaxIterationCount, ValidatesOnDataErrors=True}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
