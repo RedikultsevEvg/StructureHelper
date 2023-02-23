@@ -40,4 +40,10 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Libraries\NLog.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

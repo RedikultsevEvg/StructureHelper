@@ -16,7 +16,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
         //Участок с поворотом на 1 радиан
         [TestCase(0d, 0d, 1.0d, 1.0d, 1d, 0.02d, 1, 50 * 50, 0.14757265268048089d, -0.67706891243125777d)]
         //Участок со смещением и поворотом на 1 радиан
-        [TestCase(2d, 2d, 1.0d, 1.0d, 1d, 0.02d, 1, 50 * 50, -0.45476470519903267d, 2.0864776689208147d)]
+        [TestCase(2d, 2d, 1.0d, 1.0d, 1d, 0.02d, 1, 50 * 50, -0.45476470519903262d, 2.0864776689208147d)]
         public void Run_ShouldPass (double centerX, double centerY, double width, double height, double angle, double ndmMaxSize, int ndmMinDivision, int expectedCount, double expectedFirstCenterX, double expectedFirstCenterY)
         {
             //Arrange

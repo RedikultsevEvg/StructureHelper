@@ -62,7 +62,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                         }
                         else point2D = combination.ForcePoint;
                         var newTuple = ForceTupleService.MoveTupleIntoPoint(tuple.ForceTuple, point2D);
-                        var result = GetPrimitiveStrainMatrix(ndms, newTuple);
+                        IForcesTupleResult result = GetPrimitiveStrainMatrix(ndms, newTuple);
                         if (CompressedMember.Buckling == true)
                         {
                             IForceTuple longTuple;
@@ -85,15 +85,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                                     result.Desctription += $"Buckling result:\n{bucklingResult.Desctription}\n";
                                 }
                                 newTuple = CalculateBuckling(newTuple, bucklingResult);
+                                result = GetPrimitiveStrainMatrix(ndms, newTuple);
                             }
                             catch (Exception ex)
                             {
                                 result.IsValid = false;
                                 result.Desctription = $"Buckling error:\n{ex}\n";
                             }
-
                         }
-                        
                         result.DesignForceTuple.LimitState = limitState;
                         result.DesignForceTuple.CalcTerm = calcTerm;
                         result.DesignForceTuple.ForceTuple = newTuple;

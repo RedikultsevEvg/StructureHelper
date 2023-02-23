@@ -63,85 +63,87 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel>
-                <Expander Header="Actions" MinWidth="20" DataContext="{Binding CombinationsLogic}">
-                    <Expander.ContextMenu>
-                        <ContextMenu>
-                            <Button Content="Add Force Combination" Command="{Binding Add}"/>
-                        </ContextMenu>
-                    </Expander.ContextMenu>
-                    <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
-                        <ListBox.ContextMenu>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Expander Header="Actions" MinWidth="20" DataContext="{Binding CombinationsLogic}">
+                        <Expander.ContextMenu>
                             <ContextMenu>
-                                <Button Content="Edit" Command="{Binding Edit}"/>
-                                <Button Content="Copy" Command="{Binding Copy}"/>
-                                <Button Content="Delete" Command="{Binding Delete}"/>
+                                <Button Content="Add Force Combination" Command="{Binding Add}"/>
                             </ContextMenu>
-                        </ListBox.ContextMenu>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <TextBlock Text="{Binding Name}"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Expander>
-                <Expander Header="Materials" MinWidth="20">
-                    <Expander.ContextMenu>
-                        <ContextMenu>
-                            <Button Content="Materials" Command="{Binding EditHeadMaterialsCommand}"/>
-                        </ContextMenu>
-                    </Expander.ContextMenu>
-                    <ListBox ItemsSource="{Binding HeadMaterials}"  ItemTemplate="{StaticResource ColoredItemTemplate}">
-                    </ListBox>
-                </Expander>
-                <Expander Header="Geometry" MinWidth="20" DataContext="{Binding PrimitiveLogic}">
-                    <Expander.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Add">
-                                <Button Content="Add Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
-                                <Button Content="Add Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
-                            </MenuItem>
-                        </ContextMenu>
-                    </Expander.ContextMenu>
-                    <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ItemTemplate="{StaticResource ColoredItemTemplate}">
-                        <ListBox.ContextMenu>
+                        </Expander.ContextMenu>
+                        <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+                            <ListBox.ContextMenu>
+                                <ContextMenu>
+                                    <Button Content="Edit" Command="{Binding Edit}"/>
+                                    <Button Content="Copy" Command="{Binding Copy}"/>
+                                    <Button Content="Delete" Command="{Binding Delete}"/>
+                                </ContextMenu>
+                            </ListBox.ContextMenu>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Expander>
+                    <Expander Header="Materials" MinWidth="20">
+                        <Expander.ContextMenu>
                             <ContextMenu>
-                                <Button Content="Edit" Command="{Binding Edit}"/>
-                                <Button Content="Copy" Command="{Binding Copy}"/>
-                                <Button Content="Delete" Command="{Binding Delete}"/>
-                                <Button Content="To Foreground" Command="{Binding SetToFront}"/>
-                                <Button Content="To Background" Command="{Binding SetToBack}"/>
+                                <Button Content="Materials" Command="{Binding EditHeadMaterialsCommand}"/>
                             </ContextMenu>
-                        </ListBox.ContextMenu>
-                    </ListBox>
-                </Expander>
-                <Expander Header="Analyses" MinWidth="20" DataContext="{Binding CalculatorsLogic}">
-                    <Expander.ContextMenu>
-                        <ContextMenu>
-                            <Button Content="Add Calculator" Command="{Binding Add}"/>
-                        </ContextMenu>
-                    </Expander.ContextMenu>
-                    <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
-                        <ListBox.ContextMenu>
+                        </Expander.ContextMenu>
+                        <ListBox ItemsSource="{Binding HeadMaterials}"  ItemTemplate="{StaticResource ColoredItemTemplate}">
+                        </ListBox>
+                    </Expander>
+                    <Expander Header="Geometry" MinWidth="20" DataContext="{Binding PrimitiveLogic}">
+                        <Expander.ContextMenu>
                             <ContextMenu>
-                                <Button Content="Run" Command="{Binding Run}"/>
-                                <Button Content="Edit" Command="{Binding Edit}"/>
-                                <Button Content="Copy" Command="{Binding Copy}"/>
-                                <Button Content="Delete" Command="{Binding Delete}"/>
+                                <MenuItem Header="Add">
+                                    <Button Content="Add Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
+                                    <Button Content="Add Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                                </MenuItem>
                             </ContextMenu>
-                        </ListBox.ContextMenu>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <TextBlock Text="{Binding Name}"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Expander>
-            </StackPanel>
+                        </Expander.ContextMenu>
+                        <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ItemTemplate="{StaticResource ColoredItemTemplate}">
+                            <ListBox.ContextMenu>
+                                <ContextMenu>
+                                    <Button Content="Edit" Command="{Binding Edit}"/>
+                                    <Button Content="Copy" Command="{Binding Copy}"/>
+                                    <Button Content="Delete" Command="{Binding Delete}"/>
+                                    <Button Content="To Foreground" Command="{Binding SetToFront}"/>
+                                    <Button Content="To Background" Command="{Binding SetToBack}"/>
+                                </ContextMenu>
+                            </ListBox.ContextMenu>
+                        </ListBox>
+                    </Expander>
+                    <Expander Header="Analyses" MinWidth="20" DataContext="{Binding CalculatorsLogic}">
+                        <Expander.ContextMenu>
+                            <ContextMenu>
+                                <Button Content="Add Calculator" Command="{Binding Add}"/>
+                            </ContextMenu>
+                        </Expander.ContextMenu>
+                        <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+                            <ListBox.ContextMenu>
+                                <ContextMenu>
+                                    <Button Content="Run" Command="{Binding Run}"/>
+                                    <Button Content="Edit" Command="{Binding Edit}"/>
+                                    <Button Content="Copy" Command="{Binding Copy}"/>
+                                    <Button Content="Delete" Command="{Binding Delete}"/>
+                                </ContextMenu>
+                            </ListBox.ContextMenu>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
             <Border BorderBrush="Black" Background="White" BorderThickness="1" Margin="5" Grid.Column="1">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewMouseDown">
