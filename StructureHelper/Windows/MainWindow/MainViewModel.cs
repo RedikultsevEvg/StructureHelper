@@ -191,10 +191,26 @@ namespace StructureHelper.Windows.MainWindow
             }
         }
 
+        public RelayCommand SelectPrimitiveCommand
+        {
+            get
+            {
+                return selectPrimitive ??
+                    (selectPrimitive = new RelayCommand(obj=>
+                    {
+                        if (obj is PrimitiveBase)
+                        {
+                            SelectedPrimitive = obj as PrimitiveBase;
+                        }
+                    }));
+            }
+        }
+
         private double delta = 0.0005;
         private ActionsViewModel combinationsLogic;
         private IPrimitiveViewModelLogic primitiveLogic;
         private RelayCommand showVisualProperty;
+        private RelayCommand selectPrimitive;
 
         public MainViewModel(MainModel model)
         {
@@ -208,7 +224,7 @@ namespace StructureHelper.Windows.MainWindow
             XY1 = CanvasHeight / 2d;
             YX1 = CanvasWidth / 2d;
             YY2 = CanvasHeight;
-            scaleValue = 400d;
+            scaleValue = 300d;
 
             LeftButtonUp = new RelayCommand(o =>
             {

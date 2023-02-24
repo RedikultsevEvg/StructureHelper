@@ -19,8 +19,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             AxisLineThickness = 2d;
             GridLineThickness = 0.25d;
             GridSize = 0.05d;
-            WorkPlainWidth = 2d;
-            WorkPlainHeight = 1.6d;
+            WorkPlainWidth = 2.4d;
+            WorkPlainHeight = 2.0d;
         }
     }
 }

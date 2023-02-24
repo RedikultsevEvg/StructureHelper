@@ -78,7 +78,15 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 ndmPrimitive = primitive;
                 viewPrimitive = new PointViewPrimitive(primitive);
             }
-
+            else if (primitiveType == PrimitiveType.Circle)
+            {
+                var primitive = new CirclePrimitive
+                {
+                    Diameter = 0.5d
+                };
+                ndmPrimitive = primitive;
+                viewPrimitive = new CircleViewPrimitive(primitive);
+            }
             else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType)); }
             viewPrimitive.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);
             repository.Primitives.Add(ndmPrimitive);
@@ -159,6 +167,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             repository.Primitives.Add(newPrimitive);
             PrimitiveBase primitiveBase;
             if (newPrimitive is IRectanglePrimitive) { primitiveBase = new RectangleViewPrimitive(newPrimitive as IRectanglePrimitive); }
+            else if (newPrimitive is ICirclePrimitive) { primitiveBase = new CircleViewPrimitive(newPrimitive as ICirclePrimitive); }
             else if (newPrimitive is IPointPrimitive) { primitiveBase = new PointViewPrimitive(newPrimitive as IPointPrimitive); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
             primitiveBase.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);

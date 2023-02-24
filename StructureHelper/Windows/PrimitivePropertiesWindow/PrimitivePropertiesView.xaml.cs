@@ -36,6 +36,7 @@ namespace StructureHelper.Windows.PrimitiveProperiesWindow
             this.DataContext = viewModel;
             InitializeComponent();
             if (primitive is RectangleViewPrimitive) { AddPrimitiveProperties(PrimitiveType.Rectangle); }
+            else if (primitive is CircleViewPrimitive) { AddPrimitiveProperties(PrimitiveType.Circle); }
             else if (primitive is PointViewPrimitive) { AddPrimitiveProperties(PrimitiveType.Point); }
             else { throw new Exception("Type of object is unknown"); }   
         }
@@ -44,6 +45,7 @@ namespace StructureHelper.Windows.PrimitiveProperiesWindow
             List<string> names = new List<string>();
             if (primitive is IHasDivision) { names.Add("TriangulationProperties");}
             if (primitive is RectangleViewPrimitive) { names.Add("RectangleProperties"); }
+            else if (primitive is CircleViewPrimitive) { names.Add("CircleProperties"); }
             else if (primitive is PointViewPrimitive) { names.Add("PointProperties"); }
             foreach (var name in names)
             {

@@ -18,6 +18,9 @@
         <DataTemplate DataType="{x:Type dataContexts:RectangleViewPrimitive}">
             <dataTemplates:RectangleTemplate/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type dataContexts:CircleViewPrimitive}">
+            <dataTemplates:EllipseTemplate/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type dataContexts:PointViewPrimitive}">
             <dataTemplates:EllipseTemplate/>
         </DataTemplate>
@@ -97,23 +100,24 @@
                         <ListBox ItemsSource="{Binding HeadMaterials}"  ItemTemplate="{StaticResource ColoredItemTemplate}">
                         </ListBox>
                     </Expander>
-                    <Expander Header="Geometry" MinWidth="20" DataContext="{Binding PrimitiveLogic}">
+                    <Expander Header="Geometry" MinWidth="20">
                         <Expander.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Add">
-                                    <Button Content="Add Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
-                                    <Button Content="Add Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                                    <Button Content="Add Rectangle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
+                                    <Button Content="Add Circle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}"/>
+                                    <Button Content="Add Point" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
                                 </MenuItem>
                             </ContextMenu>
                         </Expander.ContextMenu>
                         <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ItemTemplate="{StaticResource ColoredItemTemplate}">
                             <ListBox.ContextMenu>
                                 <ContextMenu>
-                                    <Button Content="Edit" Command="{Binding Edit}"/>
-                                    <Button Content="Copy" Command="{Binding Copy}"/>
-                                    <Button Content="Delete" Command="{Binding Delete}"/>
-                                    <Button Content="To Foreground" Command="{Binding SetToFront}"/>
-                                    <Button Content="To Background" Command="{Binding SetToBack}"/>
+                                    <Button Content="Edit" Command="{Binding PrimitiveLogic.Edit}"/>
+                                    <Button Content="Copy" Command="{Binding PrimitiveLogic.Copy}"/>
+                                    <Button Content="Delete" Command="{Binding PrimitiveLogic.Delete}"/>
+                                    <Button Content="To Foreground" Command="{Binding PrimitiveLogic.SetToFront}"/>
+                                    <Button Content="To Background" Command="{Binding PrimitiveLogic.SetToBack}"/>
                                 </ContextMenu>
                             </ListBox.ContextMenu>
                         </ListBox>
@@ -152,6 +156,15 @@
                 </i:Interaction.Triggers>
                 <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
                     <Canvas Name="WorkPlane" ClipToBounds="True" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}">
+                        <Canvas.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add">
+                                    <Button Content="Add Rectangle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
+                                    <Button Content="Add Circle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}"/>
+                                    <Button Content="Add Point" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Canvas.ContextMenu>
                         <i:Interaction.Behaviors>
                             <infrastructure:MouseBehaviour MouseX="{Binding PanelX, Mode=OneWayToSource}" MouseY="{Binding PanelY, Mode=OneWayToSource}"/>
                         </i:Interaction.Behaviors>
@@ -182,9 +195,9 @@
                         <Line X1="{Binding YX1}" X2="{Binding YX1}" Y1="0" Y2="{Binding YY2}" Stroke="ForestGreen" StrokeThickness="{Binding AxisLineThickness}"/>
                         <ItemsControl ItemsSource="{Binding PrimitiveLogic.Items}" d:DataContext="{d:DesignInstance vm:MainViewModel}">
                             <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <Canvas/>
-                                </ItemsPanelTemplate>
+                                    <ItemsPanelTemplate>
+                                        <Canvas/>
+                                    </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemContainerStyle>
                                 <Style TargetType="ContentPresenter">
@@ -192,8 +205,18 @@
                                     <Setter Property="Canvas.Left" Value="{Binding PrimitiveLeft}"/>
                                     <Setter Property="Canvas.Top" Value="{Binding PrimitiveTop}"/>
                                     <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                    <EventSetter Event="MouseDown" Handler="ContentPresenter_MouseLeftButtonDown"/>
                                 </Style>
                             </ItemsControl.ItemContainerStyle>
+                            <ItemsControl.ContextMenu>
+                                <ContextMenu>
+                                    <Button Content="Edit primitive" Command="{Binding PrimitiveLogic.Edit}"/>
+                                    <Button Content="Copy" Command="{Binding PrimitiveLogic.Copy}"/>
+                                    <Button Content="Delete" Command="{Binding PrimitiveLogic.Delete}"/>
+                                    <Button Content="To Foreground" Command="{Binding PrimitiveLogic.SetToFront}"/>
+                                    <Button Content="To Background" Command="{Binding PrimitiveLogic.SetToBack}"/>
+                                </ContextMenu>
+                            </ItemsControl.ContextMenu>
                         </ItemsControl>
                     </Canvas>
                 </ScrollViewer>

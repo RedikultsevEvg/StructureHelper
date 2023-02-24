@@ -28,6 +28,21 @@
                 </Grid>
             </Expander>
         </DataTemplate>
+        <DataTemplate x:Key="CircleProperties">
+            <Expander Header="Circle" IsExpanded="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="22"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Text="Diameter"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Diameter, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                </Grid>
+            </Expander>
+        </DataTemplate>
         <DataTemplate x:Key="PointProperties">
             <Expander Header="Point" IsExpanded="True">
                 <Grid>

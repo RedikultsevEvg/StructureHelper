@@ -18,5 +18,10 @@ namespace StructureHelperCommon.Services.ShapeServices
             target.Height = source.Height;
             target.Angle = source.Angle;
         }
+
+        public static void CopyCircleProperties(ICircleShape source, ICircleShape target)
+        {
+            target.Diameter = source.Diameter;
+        }
     }
 }

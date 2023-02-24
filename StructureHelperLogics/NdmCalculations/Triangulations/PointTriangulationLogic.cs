@@ -25,7 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             List<INdm> ndmCollection = new List<INdm>();
             INdm ndm = new Ndm { CenterX = center.X, CenterY = center.Y, Area = area, Material = material };
             ndmCollection.Add(ndm);
-            NdmTransform.SetPrestrain(ndmCollection, new StrainMatrix() { Kx = Options.PrestrainKx, Ky = Options.PrestrainKy, EpsZ = Options.PrestrainEpsZ });
+            NdmTransform.SetPrestrain(ndmCollection, new StrainMatrix() { Kx = options.Prestrain.Kx, Ky = options.Prestrain.Ky, EpsZ = options.Prestrain.EpsZ });
             return ndmCollection;
         }
 

@@ -1,11 +1,8 @@
 ﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.ShapeServices;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
@@ -16,48 +13,47 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public class RectanglePrimitive : IRectanglePrimitive
+    public class CirclePrimitive : ICirclePrimitive
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public double CenterX { get; set; }
         public double CenterY { get; set; }
         public IHeadMaterial? HeadMaterial { get; set; }
-        public IStrainTuple UsersPrestrain { get; private set; }
-        public IStrainTuple AutoPrestrain { get; private set; }
-        public double NdmMaxSize { get; set; }
-        public int NdmMinDivision { get; set; }
-        public double Width { get; set; }
-        public double Height { get; set; }
-        public double Angle { get; set; }
+
+        public IStrainTuple UsersPrestrain { get; }
+
+        public IStrainTuple AutoPrestrain { get; }
 
         public IVisualProperty VisualProperty { get; }
 
-        public RectanglePrimitive()
+        public double Diameter { get; set; }
+        public double NdmMaxSize { get; set; }
+        public int NdmMinDivision { get; set; }
+
+        public CirclePrimitive()
         {
-            Name = "New Rectangle";
+            Name = "New Circle";
             NdmMaxSize = 0.01d;
             NdmMinDivision = 10;
-            VisualProperty = new VisualProperty { Opacity = 0.8d};
+            VisualProperty = new VisualProperty { Opacity = 0.8d };
             UsersPrestrain = new StrainTuple();
             AutoPrestrain = new StrainTuple();
         }
 
-        public RectanglePrimitive(IHeadMaterial material) : this() { HeadMaterial = material; }
-
         public object Clone()
         {
-            var primitive = new RectanglePrimitive();
+            var primitive = new CirclePrimitive();
             NdmPrimitivesService.CopyDivisionProperties(this, primitive);
-            ShapeService.CopyRectangleProperties(this, primitive);
+            ShapeService.CopyCircleProperties(this, primitive);
             return primitive;
         }
 
         public IEnumerable<INdm> GetNdms(IMaterial material)
         {
             var ndms = new List<INdm>();
-            var options = new RectangleTriangulationLogicOptions(this);
-            var logic = new RectangleTriangulationLogic(options);
+            var options = new CircleTriangulationLogicOptions(this);
+            var logic = new CircleTriangulationLogic(options);
             ndms.AddRange(logic.GetNdmCollection(material));
             return ndms;
         }

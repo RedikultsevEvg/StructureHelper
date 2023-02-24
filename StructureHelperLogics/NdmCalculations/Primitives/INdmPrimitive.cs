@@ -16,7 +16,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         string Name { get; set; }
         double CenterX { get; set; }
         double CenterY { get; set; }
-        IHeadMaterial HeadMaterial { get; set; }
+        IHeadMaterial? HeadMaterial { get; set; }
         IStrainTuple UsersPrestrain { get; }
         IStrainTuple AutoPrestrain { get; }
         //double PrestrainKx { get; set; }

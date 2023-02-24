@@ -1,9 +1,9 @@
-﻿namespace StructureHelperLogics.NdmCalculations.Triangulations
+﻿using StructureHelperCommon.Models.Forces;
+
+namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     public interface ITriangulationLogicOptions
     {
-        double PrestrainKx { get;}
-        double PrestrainKy { get;}
-        double PrestrainEpsZ { get;}
+        IStrainTuple Prestrain { get; set; }
     }
 }

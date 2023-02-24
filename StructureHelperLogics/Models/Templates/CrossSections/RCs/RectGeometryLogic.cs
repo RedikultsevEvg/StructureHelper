@@ -46,7 +46,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
 
         private IEnumerable<INdmPrimitive> GetConcretePrimitives()
         {
-            List<INdmPrimitive> primitives = new List<INdmPrimitive>();
+            var primitives = new List<INdmPrimitive>();
             var rectangle = new RectanglePrimitive(concrete) { Width = width, Height = height, Name = "Concrete block" };
             primitives.Add(rectangle);
             return primitives;

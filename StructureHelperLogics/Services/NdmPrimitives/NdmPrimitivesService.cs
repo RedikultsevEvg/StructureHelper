@@ -46,11 +46,9 @@ namespace StructureHelperLogics.Services.NdmPrimitives
         {
             //Настройки триангуляции
             ITriangulationOptions options = new TriangulationOptions { LimiteState = limitState, CalcTerm = calcTerm };
-
             //Формируем коллекцию элементарных участков для расчета в библитеке (т.е. выполняем триангуляцию)
             List<INdm> ndmCollection = new List<INdm>();
             ndmCollection.AddRange(Triangulation.GetNdms(primitives, options));
-
             return ndmCollection;
         }
     }

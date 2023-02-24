@@ -52,6 +52,5 @@
                 </Rectangle.RenderTransform>
             </Rectangle>
         </Grid>
-        <userControls:PrimitivePopup IsOpen="{Binding ParamsPanelVisibilty}"/>
     </StackPanel>
 </UserControl>

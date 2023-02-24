@@ -1,6 +1,7 @@
 ﻿using System;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -19,11 +20,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <inheritdoc />
         public int NdmMinDivision { get; }
         /// <inheritdoc />
-        public double PrestrainKx { get;}
-        /// <inheritdoc />
-        public double PrestrainKy { get; }
-        /// <inheritdoc />
-        public double PrestrainEpsZ { get;}
+        public IStrainTuple Prestrain { get; set; }
 
         public RectangleTriangulationLogicOptions(IPoint2D center, IRectangleShape rectangle, double ndmMaxSize, int ndmMinDivision)
         {
@@ -31,6 +28,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Rectangle = rectangle;
             NdmMaxSize = ndmMaxSize;
             NdmMinDivision = ndmMinDivision;
+            Prestrain = new StrainTuple();
         }
 
         public RectangleTriangulationLogicOptions(IRectanglePrimitive primitive)
@@ -39,9 +37,12 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Rectangle = primitive;
             NdmMaxSize = primitive.NdmMaxSize;
             NdmMinDivision = primitive.NdmMinDivision;
-            PrestrainKx = primitive.UsersPrestrain.Kx + primitive.AutoPrestrain.Kx;
-            PrestrainKy = primitive.UsersPrestrain.Ky + primitive.AutoPrestrain.Ky;
-            PrestrainEpsZ = primitive.UsersPrestrain.EpsZ + primitive.AutoPrestrain.EpsZ;
+            Prestrain = new StrainTuple
+            {
+                Kx = primitive.UsersPrestrain.Kx + primitive.AutoPrestrain.Kx,
+                Ky = primitive.UsersPrestrain.Ky + primitive.AutoPrestrain.Ky,
+                EpsZ = primitive.UsersPrestrain.EpsZ + primitive.AutoPrestrain.EpsZ
+            };
         }
     }
 }
