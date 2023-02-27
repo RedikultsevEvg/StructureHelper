@@ -31,9 +31,9 @@ namespace StructureHelper.Windows.ViewModels
             {
                 return addCommand ??
                     (
-                    addCommand = new RelayCommand(o =>
+                    addCommand = new RelayCommand(param =>
                     {
-                        AddMethod(o);
+                        AddMethod(param);
                     }
                     ));
             }
@@ -49,14 +49,14 @@ namespace StructureHelper.Windows.ViewModels
             {
                 return deleteCommand ??
                     (
-                    deleteCommand = new RelayCommand(o =>
+                    deleteCommand = new RelayCommand(param =>
                     {
-                        DeleteMethod();
+                        DeleteMethod(param);
                     }, o => SelectedItem != null
                     ));
             }
         }
-        public virtual void DeleteMethod()
+        public virtual void DeleteMethod(object parameter)
         {
             Collection.Remove(SelectedItem);
             Items.Remove(SelectedItem);
@@ -66,9 +66,9 @@ namespace StructureHelper.Windows.ViewModels
             get
             {
                 return editCommand ??
-                    (editCommand = new RelayCommand(o=>
+                    (editCommand = new RelayCommand(param=>
                     {
-                        EditMethod(o);
+                        EditMethod(param);
                     }, o => SelectedItem != null
                     ));
             }
@@ -89,14 +89,14 @@ namespace StructureHelper.Windows.ViewModels
             get
             {
                 return copyCommand ??
-                    (copyCommand = new RelayCommand (o=>
+                    (copyCommand = new RelayCommand (param=>
                     {
-                        CopyMethod();
+                        CopyMethod(param);
                     }, o => SelectedItem != null
                     ));
             }
         }
-        public virtual void CopyMethod()
+        public virtual void CopyMethod(object parameter)
         {
             if (SelectedItem is ICloneable)
             {

@@ -8,7 +8,7 @@
         xmlns:vm ="clr-namespace:StructureHelper.Windows.ViewModels.PrimitiveTemplates.RCs"
         d:DataContext="{d:DesignInstance vm:RectangleBeamViewModel}"
         mc:Ignorable="d"
-        Title="Reinforced beam template" Height="220" Width="300" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Reinforced rectangle template" Height="220" Width="300" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Resources>
     </Window.Resources>
     <Grid>
@@ -46,6 +46,5 @@
             <Button Width="60" Height="20" Margin="5" Content="Cancel" Command="{Binding CancelCommand}"/>
             <Button Width="60" Height="20" Margin="5" Content="OK" Command="{Binding OkCommand}"/>
         </StackPanel>
-        
     </Grid>
 </Window>

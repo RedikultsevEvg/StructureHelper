@@ -193,7 +193,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         }
         private bool CheckMaxIndex()
         {
-            if (SelectedItem is null) return false;
+            if (SelectedItem is null || Items.Count == 0) return false;
             int maxZIndex = Items.Select(x => x.GetNdmPrimitive().VisualProperty.ZIndex).Max();
             if (SelectedItem.ZIndex <= maxZIndex) return true;
             else return false;
@@ -201,7 +201,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private bool CheckMinIndex()
         {
-            if (SelectedItem is null) return false;
+            if (SelectedItem is null || Items.Count == 0) return false;
             int minZIndex = Items.Select(x => x.GetNdmPrimitive().VisualProperty.ZIndex).Min();
             if (SelectedItem.ZIndex >= minZIndex) return true;
             else return false;

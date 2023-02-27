@@ -12,12 +12,12 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
 {
     public class CircleGeometryLogic : IRCGeometryLogic
     {
-        ICircleBeamTemplate template;
+        ICircleTemplate template;
         
         
         public IEnumerable<IHeadMaterial> HeadMaterials { get; set; }
 
-        public CircleGeometryLogic(ICircleBeamTemplate template)
+        public CircleGeometryLogic(ICircleTemplate template)
         {
             this.template = template;
         }
@@ -32,7 +32,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
 
         private IEnumerable<INdmPrimitive> GetConcretePrimitives()
         {
-            var diameter = template.SectionDiameter;
+            var diameter = template.Shape.Diameter;
             var concreteMaterial = HeadMaterials.ToList()[0];
             var primitives = new List<INdmPrimitive>();
             var rectangle = new CirclePrimitive() { Diameter = diameter, Name = "Concrete block", HeadMaterial = concreteMaterial };
@@ -43,11 +43,11 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
         private IEnumerable<INdmPrimitive> GetReinfrocementPrimitives()
         {
             var reinforcementMaterial = HeadMaterials.ToList()[1];
-            var radius = template.SectionDiameter / 2 - template.CoverGap;
-            var dAngle = 2d * Math.PI / template.BarQuantity;
+            var radius = template.Shape.Diameter / 2 - template.CoverGap;
+            var dAngle = 2d * Math.PI / template.BarCount;
             var barArea = Math.PI* template.BarDiameter* template.BarDiameter / 4d;
             var primitives = new List<INdmPrimitive>();
-            for (int i = 0; i < template.BarQuantity; i++)
+            for (int i = 0; i < template.BarCount; i++)
             {
                 var angle = i * dAngle;
                 var x = radius * Math.Sin(angle);

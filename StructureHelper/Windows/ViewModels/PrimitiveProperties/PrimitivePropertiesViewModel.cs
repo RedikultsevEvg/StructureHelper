@@ -181,6 +181,29 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             }
         }
 
+        public double Diameter
+        {
+            get
+            {
+                if (primitive is CircleViewPrimitive)
+                {
+                    var shape = primitive as CircleViewPrimitive;
+                    return shape.Diameter;
+                }
+                return 0d;
+            }
+            set
+            {
+                if (primitive is CircleViewPrimitive)
+                {
+                    var shape = primitive as CircleViewPrimitive;
+                    shape.Diameter = value;
+                    OnPropertyChanged(nameof(Area));
+                    OnPropertyChanged(nameof(shape.Diameter));
+                }
+            }
+        }
+
         public Color Color
         {
             get => primitive.Color;

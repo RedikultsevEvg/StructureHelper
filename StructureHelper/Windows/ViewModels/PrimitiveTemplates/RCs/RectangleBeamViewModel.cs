@@ -13,16 +13,10 @@ using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.PrimitiveTemplates.RCs
 {
-    internal class RectangleBeamViewModel : ViewModelBase, IDataErrorInfo
+    internal class RectangleBeamViewModel : OkCancelViewModelBase, IDataErrorInfo
     {
 		public IRectangleBeamTemplate Model;
-
 		private RectangleShape rectangle => Model.Shape as RectangleShape;
-
-		public Window ParentWindow { get; set; }
-
-        public ICommand OkCommand { get; private set; }
-        public ICommand CancelCommand { get; private set; }
 
         public double Width
 		{
@@ -79,9 +73,16 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveTemplates.RCs
                 }
                 else if (columnName == nameof(TopDiameter) || columnName == nameof(BottomDiameter))
                 {
-                    if (CoverGap <0 )
+                    if (TopDiameter < 0 || BottomDiameter < 0)
                     {
-                        error = "Diameter must be grater than zero";
+                        error = "Diameter must be greater than zero";
+                    }
+                }
+                else if (columnName == nameof(CoverGap))
+                {
+                    if (CoverGap < 0)
+                    {
+                        error = "Cover gap must be greater than zero";
                     }
                 }
                 return error;
@@ -91,23 +92,10 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveTemplates.RCs
         public RectangleBeamViewModel(IRectangleBeamTemplate template)
 		{
 			Model = template;
-
-            OkCommand = new RelayCommand(o => OkAction());
-            CancelCommand = new RelayCommand(o => CancelAction());
         }
 
 
-        private void CancelAction()
-        {
-			ParentWindow.DialogResult = false;
-			ParentWindow.Close();
-        }
 
-        private void OkAction()
-        {
-            ParentWindow.DialogResult = true;
-            ParentWindow.Close();
-        }
 
     }
 }

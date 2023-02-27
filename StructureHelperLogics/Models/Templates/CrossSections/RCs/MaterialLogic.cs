@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
 {
@@ -17,9 +18,11 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             var result = new List<IHeadMaterial>();
             var concrete = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, ProgramSetting.CodeType);
             concrete.Name = "Concrete";
+            concrete.Color = (Color)ColorConverter.ConvertFromString("AliceBlue");
             result.Add(concrete);
             var reinforcement = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforecement400, ProgramSetting.CodeType);
             reinforcement.Name = "Reinforcement";
+            reinforcement.Color = (Color)ColorConverter.ConvertFromString("Red");
             result.Add(reinforcement);
             return result;
         }

@@ -14,7 +14,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
 {
     public class RectGeometryLogic : IRCGeometryLogic
     {
-        RectangleBeamTemplate template;
+        IRectangleBeamTemplate template;
         IHeadMaterial concrete => HeadMaterials.ToList()[0];
         IHeadMaterial reinforcement => HeadMaterials.ToList()[1];
 
@@ -27,7 +27,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
 
         public IEnumerable<IHeadMaterial> HeadMaterials { get; set; }
 
-        public RectGeometryLogic(RectangleBeamTemplate template)
+        public RectGeometryLogic(IRectangleBeamTemplate template)
         {
             this.template = template;
         }

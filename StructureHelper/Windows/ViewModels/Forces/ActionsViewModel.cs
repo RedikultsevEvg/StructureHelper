@@ -21,7 +21,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
             base.AddMethod(parameter);
         }
 
-        public override void DeleteMethod()
+        public override void DeleteMethod(object parameter)
         {
             var dialogResult = MessageBox.Show("Delete action?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
@@ -41,7 +41,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
                         }
                     }
                 }
-                base.DeleteMethod();
+                base.DeleteMethod(parameter);
             }         
         }
 

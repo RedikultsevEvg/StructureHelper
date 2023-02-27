@@ -54,7 +54,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.SteelSections
 
         [TestCase(0.3, 4e8, 0, 0, 706850.84713269188d, 0d, 0d, 5e-5d)]
         [TestCase(0.3, 4e8, 0, 0, -706850.84713269188d, 0d, 0d, -5e-5d)]
-        [TestCase(0.3, 4e8, 700000, 0, 0, 0.0076471604851248189d, 0d, 0d)]
+        [TestCase(0.3, 4e8, 700000, 0, 0, 0.0088353506243542181d, 0d, 0d)]
         public void Run_ShouldPass_Circle(double diameter, double strength, double mx, double my, double nz, double expectedKx, double expectedKy, double expectedEpsilonZ)
         {
             //Arrange

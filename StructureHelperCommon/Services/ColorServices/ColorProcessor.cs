@@ -9,7 +9,6 @@ namespace StructureHelperCommon.Services.ColorServices
     {
         public static Color GetRandomColor()
         {
-            Thread.Sleep(100);
             var randomR = new Random(new Random((int)DateTime.Now.Ticks % 1000).Next(50)).Next(0, 255);
             var randomG = new Random(new Random((int)DateTime.Now.Ticks % 200).Next(100, 200)).Next(0, 255);
             var randomB = new Random(new Random((int)DateTime.Now.Ticks % 50).Next(500, 1000)).Next(0, 255);

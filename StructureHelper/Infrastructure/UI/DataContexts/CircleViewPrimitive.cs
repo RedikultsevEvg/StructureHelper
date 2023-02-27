@@ -14,11 +14,12 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
     {
         ICirclePrimitive primitive;
         public double Diameter
-        { get
+        {
+            get
             {
                 return primitive.Diameter;
             }
-        set
+            set
             {
                 primitive.Diameter = value;
                 RefreshPlacement();

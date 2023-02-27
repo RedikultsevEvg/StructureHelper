@@ -41,11 +41,12 @@
             <MenuItem Header="Edit">
                 <MenuItem Header="Primitives">
                     <MenuItem Header="Add">
-                        <Button Content="Add Rectangle" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
-                        <Button Content="Add Point" Command="{Binding AddPrimitive}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                        <Button Content="Rectangle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
+                        <Button Content="Circle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}"/>
+                        <Button Content="Point" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
                     </MenuItem>
-                    <Button Content="Edit primitive" Command="{Binding EditPrimitive}"/>
-                    <Button Content="Delete primitive" Command="{Binding DeletePrimitive}"/>
+                    <Button Content="Edit primitive" Command="{Binding PrimitiveLogic.Edit}"/>
+                    <Button Content="Delete primitive" Command="{Binding PrimitiveLogic.Delete}"/>
                 </MenuItem>
                 <Button Content="Materials" Command="{Binding EditHeadMaterialsCommand}"/>
                 <Button Content="Move primitives to center" Command="{Binding Path=MovePrimitiveToGravityCenterCommand}"/>
@@ -53,13 +54,15 @@
                     <Button Content="Concrete beam" Command="{Binding AddBeamCase}"/>
                     <Button Content="Concrete column" Command="{Binding AddColumnCase}"/>
                     <Button Content="Concrete slab" Command="{Binding AddSlabCase}"/>
+                    <Button Content="Concrete circle" Command="{Binding AddRCCircleCase}"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Tools">
                 <Button Content="Settings" Command="{Binding ShowVisualProperty}"/>
             </MenuItem>
-            <!--<MenuItem Header="Help">
-            </MenuItem>-->
+            <MenuItem Header="Help">
+                <Button Content="About..." Command="{Binding HelpLogic.ShowAbout}"/>
+            </MenuItem>
         </Menu>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -100,24 +103,24 @@
                         <ListBox ItemsSource="{Binding HeadMaterials}"  ItemTemplate="{StaticResource ColoredItemTemplate}">
                         </ListBox>
                     </Expander>
-                    <Expander Header="Geometry" MinWidth="20">
+                    <Expander Header="Geometry" MinWidth="20" DataContext="{Binding PrimitiveLogic}">
                         <Expander.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Add">
-                                    <Button Content="Add Rectangle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
-                                    <Button Content="Add Circle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}"/>
-                                    <Button Content="Add Point" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                                    <Button Content="Add Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
+                                    <Button Content="Add Circle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}"/>
+                                    <Button Content="Add Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
                                 </MenuItem>
                             </ContextMenu>
                         </Expander.ContextMenu>
                         <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ItemTemplate="{StaticResource ColoredItemTemplate}">
                             <ListBox.ContextMenu>
                                 <ContextMenu>
-                                    <Button Content="Edit" Command="{Binding PrimitiveLogic.Edit}"/>
-                                    <Button Content="Copy" Command="{Binding PrimitiveLogic.Copy}"/>
-                                    <Button Content="Delete" Command="{Binding PrimitiveLogic.Delete}"/>
-                                    <Button Content="To Foreground" Command="{Binding PrimitiveLogic.SetToFront}"/>
-                                    <Button Content="To Background" Command="{Binding PrimitiveLogic.SetToBack}"/>
+                                    <Button Content="Edit" Command="{Binding Edit}"/>
+                                    <Button Content="Copy" Command="{Binding Copy}"/>
+                                    <Button Content="Delete" Command="{Binding Delete}"/>
+                                    <Button Content="To Foreground" Command="{Binding SetToFront}"/>
+                                    <Button Content="To Background" Command="{Binding SetToBack}"/>
                                 </ContextMenu>
                             </ListBox.ContextMenu>
                         </ListBox>
@@ -162,6 +165,12 @@
                                     <Button Content="Add Rectangle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
                                     <Button Content="Add Circle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}"/>
                                     <Button Content="Add Point" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                                </MenuItem>
+                                <MenuItem Header="Templates">
+                                    <Button Content="Concrete beam" Command="{Binding AddBeamCase}"/>
+                                    <Button Content="Concrete column" Command="{Binding AddColumnCase}"/>
+                                    <Button Content="Concrete slab" Command="{Binding AddSlabCase}"/>
+                                    <Button Content="Concrete circle" Command="{Binding AddRCCircleCase}"/>
                                 </MenuItem>
                             </ContextMenu>
                         </Canvas.ContextMenu>

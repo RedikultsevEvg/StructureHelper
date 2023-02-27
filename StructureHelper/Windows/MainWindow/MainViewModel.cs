@@ -1,31 +1,27 @@
-﻿using LoaderCalculator.Data.Ndms;
-using LoaderCalculator.Logics.Geometry;
+﻿using LoaderCalculator.Logics.Geometry;
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.MaterialCatalogWindow;
 using StructureHelper.Models.Materials;
-using StructureHelper.Windows.CalculationWindows.CalculationPropertyWindow;
-using StructureHelper.Windows.CalculationWindows.CalculationResultWindow;
 using StructureHelper.Windows.ColorPickerWindow;
 using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelper.Windows.PrimitiveTemplates.RCs.Beams;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
-using StructureHelper.Windows.ViewModels.Calculations.CalculationProperies;
-using StructureHelper.Windows.ViewModels.Calculations.CalculationResult;
 using StructureHelper.Windows.ViewModels.Forces;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperLogics.Models.Calculations.CalculationProperties;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Templates.CrossSections.RCs;
 using StructureHelperLogics.Models.Templates.RCs;
-using StructureHelperLogics.Services.NdmCalculations;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -47,6 +43,7 @@ namespace StructureHelper.Windows.MainWindow
         public AnalysisVewModelLogic CalculatorsLogic { get => calculatorsLogic;}
         public ActionsViewModel CombinationsLogic { get => combinationsLogic; }
         public IPrimitiveViewModelLogic PrimitiveLogic => primitiveLogic;
+        public HelpLogic HelpLogic => new HelpLogic();
 
         private MainModel Model { get; }
 
@@ -157,6 +154,15 @@ namespace StructureHelper.Windows.MainWindow
         public ICommand Calculate { get; }
         public ICommand EditCalculationPropertyCommand { get; }
         public ICommand EditHeadMaterialsCommand { get; }
+        public ICommand AddRCCircleCase
+        { get
+            {
+                return new RelayCommand(o =>
+                {
+                    PrimitiveLogic.AddItems(GetRCCirclePrimitives());
+                });
+            }
+        }
         public ICommand AddBeamCase { get; }
         public ICommand AddColumnCase { get; }
         public ICommand AddSlabCase { get; }
@@ -286,7 +292,6 @@ namespace StructureHelper.Windows.MainWindow
             AddBeamCase = new RelayCommand(o =>
             {
                 PrimitiveLogic.AddItems(GetBeamCasePrimitives());
-                //OnPropertyChanged(nameof(PrimitivesCount));
             });
 
             AddColumnCase = new RelayCommand(o =>
@@ -348,11 +353,16 @@ namespace StructureHelper.Windows.MainWindow
             {
                 if (item.HeadMaterial == null)
                 {
-                    MessageBox.Show($"Primitive {item.Name} does not has material", "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    System.Windows.Forms.MessageBox.Show($"Primitive {item.Name} does not has material", "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
             }
             return true;
+        }
+        private IEnumerable<PrimitiveBase> GetRCCirclePrimitives()
+        {
+            var template = new CircleTemplate();
+            return GetCasePrimitives(template);
         }
         private IEnumerable<PrimitiveBase> GetBeamCasePrimitives()
         {
@@ -370,13 +380,28 @@ namespace StructureHelper.Windows.MainWindow
             return GetCasePrimitives(template);
         }
 
-        private IEnumerable<PrimitiveBase> GetCasePrimitives(RectangleBeamTemplate template)
+        private IEnumerable<PrimitiveBase> GetCasePrimitives(IRCSectionTemplate template)
         {
-            var wnd = new RectangleBeamView(template);
+            Window wnd;
+            IRCGeometryLogic geometryLogic;
+            if (template is IRectangleBeamTemplate)
+            {
+                var rectTemplate = template as IRectangleBeamTemplate;
+                geometryLogic = new RectGeometryLogic(rectTemplate);
+                wnd = new RectangleBeamView(rectTemplate);
+            }
+            else if (template is ICircleTemplate)
+            {
+                var circleTemplate = template as ICircleTemplate;
+                geometryLogic = new CircleGeometryLogic(circleTemplate);
+                wnd = new CircleView(circleTemplate);
+            }
+            else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $"Was: {nameof(template)}"); }
             wnd.ShowDialog();
             if (wnd.DialogResult == true)
             {
-                var newSection = new SectionTemplate(new RectGeometryLogic(template)).GetCrossSection();
+                
+                var newSection = new SectionTemplate(geometryLogic).GetCrossSection();
                 var newRepository = newSection.SectionRepository;
                 repository.HeadMaterials.AddRange(newRepository.HeadMaterials);
                 repository.Primitives.AddRange(newRepository.Primitives);

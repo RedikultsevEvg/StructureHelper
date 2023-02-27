@@ -37,12 +37,12 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
             base.EditMethod(parameter);
         }
-        public override void DeleteMethod()
+        public override void DeleteMethod(object parameter)
         {
             var dialogResult = MessageBox.Show("Delete calculator?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                base.DeleteMethod();
+                base.DeleteMethod(parameter);
             }      
         }
         public RelayCommand Run

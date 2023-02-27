@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
 {
-    public interface ICircleBeamTemplate
+    public interface ICircleTemplate : IRCSectionTemplate
     {
-        ICircleShape Circle { get; }
+        ICircleShape Shape { get; }
         double CoverGap { get; set; }
-        double SectionDiameter { get; set; }
-        int BarQuantity { get; set; }
+        int BarCount { get; set; }
         double BarDiameter { get; set; }
-
-
     }
 }
