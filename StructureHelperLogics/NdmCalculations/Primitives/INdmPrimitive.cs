@@ -13,15 +13,16 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public interface INdmPrimitive : ISaveable, ICloneable
     {
-        string Name { get; set; }
+        string? Name { get; set; }
         double CenterX { get; set; }
         double CenterY { get; set; }
         IHeadMaterial? HeadMaterial { get; set; }
+        /// <summary>
+        /// Flag of triangulation
+        /// </summary>
+        bool Triangulate { get; set; }
         IStrainTuple UsersPrestrain { get; }
         IStrainTuple AutoPrestrain { get; }
-        //double PrestrainKx { get; set; }
-        //double PrestrainKy { get; set; }
-        //double PrestrainEpsZ { get; set; }
         IVisualProperty VisualProperty {get; }
 
         IEnumerable<INdm> GetNdms(IMaterial material);

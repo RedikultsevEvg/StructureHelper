@@ -1,4 +1,5 @@
 ﻿using StructureHelper.Infrastructure.UI.Converters.Units;
+using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
-    public class CircleViewPrimitive : PrimitiveBase, IHasDivision, IHasCenter
+    public class CircleViewPrimitive : PrimitiveBase, IHasCenter
     {
         ICirclePrimitive primitive;
         public double Diameter
@@ -25,8 +26,6 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                 RefreshPlacement();
             }
         }
-        public int NdmMinDivision { get; set; }
-        public double NdmMaxSize { get; set; }
 
         public double PrimitiveLeft => DeltaX - Diameter / 2d;
         public double PrimitiveTop => DeltaY - Diameter / 2d;
@@ -37,7 +36,9 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             {
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"\nExpected: {nameof(ICirclePrimitive)}, But was: {nameof(primitive)}");
             }
-            this.primitive = primitive as ICirclePrimitive;
+            var circle = primitive as ICirclePrimitive;
+            this.primitive = circle;
+            DivisionViewModel = new HasDivisionViewModel(circle);
         }
 
         public override INdmPrimitive GetNdmPrimitive()

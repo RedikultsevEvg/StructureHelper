@@ -1,22 +1,14 @@
-﻿using LoaderCalculator.Data.Materials.MaterialBuilders;
-using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Logics;
 using LoaderCalculator.Logics.Geometry;
-using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Buckling
 {

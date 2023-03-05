@@ -15,7 +15,28 @@ namespace StructureHelperCommon.Services.Forces
             newTuple.My -= newTuple.Nz * point2D.X;
             return newTuple;
         }
-
+        public static IForceTuple SumTuples(IForceTuple first, IForceTuple second)
+        {
+            var result = new ForceTuple();
+            result.Mx += first.Mx + second.Mx;
+            result.My += first.My + second.My;
+            result.Mz += first.Mz + second.Mz;
+            result.Qx += first.Qx + second.Qx;
+            result.Qy += first.Qy + second.Qy;
+            result.Nz += first.Nz + second.Nz;
+            return result;
+        }
+        public static IForceTuple MultiplyTuples(IForceTuple first, double factor)
+        {
+            var result = new ForceTuple();
+            result.Mx += first.Mx * factor;
+            result.My += first.My * factor;
+            result.Mz += first.Mz * factor;
+            result.Qx += first.Qx * factor;
+            result.Qy += first.Qy * factor;
+            result.Nz += first.Nz * factor;
+            return result;
+        }
         public static IForceTuple InterpolateTuples(IForceTuple endTuple, IForceTuple startTuple = null, double coefficient = 0.5d)
         {
             if (startTuple == null) startTuple = new ForceTuple();

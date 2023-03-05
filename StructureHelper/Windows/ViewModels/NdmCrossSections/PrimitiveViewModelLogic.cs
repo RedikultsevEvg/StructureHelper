@@ -69,6 +69,15 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 viewPrimitive = new RectangleViewPrimitive(primitive);
 
             }
+            else if (primitiveType == PrimitiveType.Reinforcement)
+            {
+                var primitive = new ReinforcementPrimitive
+                {
+                    Area = 0.0005d
+                };
+                ndmPrimitive = primitive;
+                viewPrimitive = new ReinforcementViewPrimitive(primitive);
+            }
             else if (primitiveType == PrimitiveType.Point)
             {
                 var primitive = new PointPrimitive

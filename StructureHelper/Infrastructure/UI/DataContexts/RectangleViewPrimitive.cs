@@ -6,10 +6,13 @@ using StructureHelperCommon.Models.Shapes;
 using System;
 using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using StructureHelper.Windows.ViewModels.NdmCrossSections;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Strings;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
-    public class RectangleViewPrimitive : PrimitiveBase, IHasDivision, IHasCenter
+    public class RectangleViewPrimitive : PrimitiveBase, IHasCenter
     {
         private IRectanglePrimitive primitive;
 
@@ -42,28 +45,11 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         {
             get => DeltaY - primitive.Height / 2d;
         }
-        public int NdmMinDivision
-        {
-            get => primitive.NdmMinDivision;
-            set
-            {
-                primitive.NdmMinDivision = value;
-                OnPropertyChanged(nameof(NdmMinDivision));
-            }
-        }
-        public double NdmMaxSize
-        {
-            get => primitive.NdmMaxSize;
-            set
-            {
-                primitive.NdmMaxSize = value;
-                OnPropertyChanged(nameof(NdmMaxSize));
-            }
-        }
 
         public RectangleViewPrimitive(IRectanglePrimitive _primitive) : base(_primitive)
         {
             primitive = _primitive;
+            DivisionViewModel = new HasDivisionViewModel(primitive);
         }
 
         public override INdmPrimitive GetNdmPrimitive()

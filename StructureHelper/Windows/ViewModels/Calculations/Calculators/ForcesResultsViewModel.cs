@@ -14,6 +14,7 @@ using StructureHelper.Windows.ViewModels.PrimitiveProperties;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
@@ -211,7 +212,24 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         {
             var limitState = SelectedResult.DesignForceTuple.LimitState;
             var calcTerm = SelectedResult.DesignForceTuple.CalcTerm;
-            ndms = NdmPrimitivesService.GetNdms(selectedNdmPrimitives, limitState, calcTerm);
+            var orderedNdmPrimitives = ndmPrimitives.OrderBy(x => x.VisualProperty.ZIndex);
+            var ndmRange = new List<INdm>();
+            foreach (var item in orderedNdmPrimitives)
+            {
+                if (item is IHasDivisionSize)
+                {
+                    var hasDivision = item as IHasDivisionSize;
+                    if (hasDivision.ClearUnderlying == true)
+                    {
+                        ndmRange.RemoveAll(x => hasDivision.IsPointInside(new Point2D() { X = x.CenterX, Y = x.CenterY }) == true);
+                    }
+                }
+                if (selectedNdmPrimitives.Contains(item) & item.Triangulate == true)
+                {
+                    ndmRange.AddRange(NdmPrimitivesService.GetNdms(item, limitState, calcTerm));
+                }
+            }
+            ndms = ndmRange;
         }
     }
 }

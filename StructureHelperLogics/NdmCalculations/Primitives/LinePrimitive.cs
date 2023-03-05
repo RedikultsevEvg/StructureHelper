@@ -38,6 +38,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public IStrainTuple AutoPrestrain => throw new NotImplementedException();
 
+        public bool ClearUnderlying { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool Triangulate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public LinePrimitive()
         {
             StartPoint = new Point2D();
@@ -62,6 +65,11 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         }
 
         public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsPointInside(IPoint2D point)
         {
             throw new NotImplementedException();
         }

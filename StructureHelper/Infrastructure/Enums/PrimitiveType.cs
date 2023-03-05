@@ -4,6 +4,7 @@
     {
         Point,
         Rectangle,
-        Circle
+        Circle,
+        Reinforcement
     }
 }

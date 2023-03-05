@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public interface ICirclePrimitive : IHasDivisionSize, ICircleShape
+    public interface ICirclePrimitive : INdmPrimitive, IHasDivisionSize, ICircleShape
     {
     }
 }

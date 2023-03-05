@@ -16,7 +16,7 @@ namespace StructureHelperLogics.Models.Primitives
     public class PointPrimitive : IPointPrimitive
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public double CenterX { get; set; }
         public double CenterY { get; set; }
         public IHeadMaterial HeadMaterial { get; set; }
@@ -27,8 +27,7 @@ namespace StructureHelperLogics.Models.Primitives
         public double Area { get; set; }
 
         public IVisualProperty VisualProperty { get; }
-
-
+        public bool Triangulate { get; set; }
 
         public PointPrimitive()
         {
@@ -37,6 +36,7 @@ namespace StructureHelperLogics.Models.Primitives
             VisualProperty = new VisualProperty();
             UsersPrestrain = new StrainTuple();
             AutoPrestrain = new StrainTuple();
+            Triangulate = true;
         }
 
         public PointPrimitive(IHeadMaterial material) : this() { HeadMaterial = material; }

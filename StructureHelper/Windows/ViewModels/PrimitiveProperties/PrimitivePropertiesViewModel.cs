@@ -3,6 +3,7 @@ using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.ColorPickerWindow;
 using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.Materials;
@@ -73,7 +74,15 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 OnPropertyChanged(nameof(CenterY));
             }
         }
-
+        public bool Triangulate
+        {
+            get { return primitive.Triangulate; }
+            set
+            {
+                primitive.Triangulate = value;
+                OnPropertyChanged(nameof(Triangulate));
+            }
+        }
         public double PrestrainKx
         {
             get => primitive.PrestrainKx;
@@ -94,25 +103,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
         public double AutoPrestrainKy => primitive.AutoPrestrainKy;
         public double AutoPrestrainEpsZ => primitive.AutoPrestrainEpsZ;
 
-        public int MinElementDivision
-        {
-            get => (primitive as IHasDivision).NdmMinDivision;
-            set
-            {
-                (primitive as IHasDivision).NdmMinDivision = value; 
-                OnPropertyChanged(nameof(MinElementDivision));
-            }
-        }
-
-        public double MaxElementSize
-        {
-            get => (primitive as IHasDivision).NdmMaxSize;
-            set
-            {
-                (primitive as IHasDivision).NdmMaxSize = value;
-                OnPropertyChanged(nameof(MaxElementSize));
-            }
-        }
+        public HasDivisionViewModel DivisionViewModel => primitive.DivisionViewModel;
 
         public double Width
         {

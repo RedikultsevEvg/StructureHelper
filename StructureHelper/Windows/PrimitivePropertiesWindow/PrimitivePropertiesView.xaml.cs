@@ -43,10 +43,11 @@ namespace StructureHelper.Windows.PrimitiveProperiesWindow
         private void AddPrimitiveProperties(PrimitiveType type)
         {
             List<string> names = new List<string>();
-            if (primitive is IHasDivision) { names.Add("TriangulationProperties");}
+            if (primitive.DivisionViewModel is not null) { names.Add("TriangulationProperties");}
             if (primitive is RectangleViewPrimitive) { names.Add("RectangleProperties"); }
-            else if (primitive is CircleViewPrimitive) { names.Add("CircleProperties"); }
-            else if (primitive is PointViewPrimitive) { names.Add("PointProperties"); }
+            if (primitive is CircleViewPrimitive) { names.Add("CircleProperties"); }
+            if (primitive is PointViewPrimitive) { names.Add("PointProperties"); }
+            if (primitive is ReinforcementViewPrimitive) { names.Add("ReinforcementProperties"); }
             foreach (var name in names)
             {
                 ContentControl contentControl = new ContentControl();

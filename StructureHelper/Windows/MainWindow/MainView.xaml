@@ -43,6 +43,7 @@
                     <MenuItem Header="Add">
                         <Button Content="Rectangle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
                         <Button Content="Circle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}"/>
+                        <Button Content="Reinforcement" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}"/>
                         <Button Content="Point" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
                     </MenuItem>
                     <Button Content="Edit primitive" Command="{Binding PrimitiveLogic.Edit}"/>
@@ -107,9 +108,10 @@
                         <Expander.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Add">
-                                    <Button Content="Add Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
-                                    <Button Content="Add Circle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}"/>
-                                    <Button Content="Add Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                                    <Button Content="Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
+                                    <Button Content="Circle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}"/>
+                                    <Button Content="Reinforcement" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}"/>
+                                    <Button Content="Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
                                 </MenuItem>
                             </ContextMenu>
                         </Expander.ContextMenu>
@@ -162,9 +164,10 @@
                         <Canvas.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Add">
-                                    <Button Content="Add Rectangle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
-                                    <Button Content="Add Circle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}"/>
-                                    <Button Content="Add Point" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                                    <Button Content="Rectangle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
+                                    <Button Content="Circle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}"/>
+                                    <Button Content="Reinforcement" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}"/>
+                                    <Button Content="Point" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
                                 </MenuItem>
                                 <MenuItem Header="Templates">
                                     <Button Content="Concrete beam" Command="{Binding AddBeamCase}"/>

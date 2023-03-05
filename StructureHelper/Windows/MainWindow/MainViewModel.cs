@@ -37,7 +37,7 @@ namespace StructureHelper.Windows.MainWindow
         private readonly double scaleRate = 1.1d;
 
         public PrimitiveBase SelectedPrimitive { get; set; }
-        public IForceCombinationList SelectedForceCombinationList { get; set; }
+        //public IForceCombinationList SelectedForceCombinationList { get; set; }
 
         private readonly AnalysisVewModelLogic calculatorsLogic;
         public AnalysisVewModelLogic CalculatorsLogic { get => calculatorsLogic;}

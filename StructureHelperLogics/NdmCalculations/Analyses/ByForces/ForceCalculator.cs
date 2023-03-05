@@ -142,7 +142,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private string CheckInputData()
         {
             string result = "";
-            if (Primitives.Count == 0) { result += "Calculator does not contain any primitives \n"; }
+            NdmPrimitivesService.CheckPrimitives(Primitives);
             if (ForceCombinationLists.Count == 0) { result += "Calculator does not contain any forces \n"; }
             if (LimitStatesList.Count == 0) { result += "Calculator does not contain any limit states \n"; }
             if (CalcTermsList.Count == 0) { result += "Calculator does not contain any duration \n"; }

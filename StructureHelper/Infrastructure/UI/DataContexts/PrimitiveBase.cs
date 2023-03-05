@@ -18,6 +18,7 @@ using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.Primitives;
 using System.Windows.Controls;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using StructureHelper.Windows.ViewModels.NdmCrossSections;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
@@ -34,6 +35,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         #endregion
 
         #region Свойства
+        public HasDivisionViewModel DivisionViewModel { get; set; }
         public INdmPrimitive NdmPrimitive
         {
             get => primitive;
@@ -66,6 +68,15 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                 primitive.CenterY = value;
                 OnPropertyChanged(nameof(CenterY));
                 OnPropertyChanged(nameof(InvertedCenterY));
+            }
+        }
+        public bool Triangulate
+        {
+            get => primitive.Triangulate;
+            set
+            {
+                primitive.Triangulate = value;
+                OnPropertyChanged(nameof(Triangulate));
             }
         }
         public double InvertedCenterY => - CenterY;

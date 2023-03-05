@@ -1,5 +1,4 @@
-﻿using StructureHelper.Windows.ViewModels.NdmCrossSections;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
-    internal interface IHasDivision
+    internal static class ViewPrimitiveFactory
     {
-        HasDivisionViewModel HasDivisionViewModel { get; }
+        // to do public static PrimitiveBase GetViewPrimitive() { } 
     }
 }
