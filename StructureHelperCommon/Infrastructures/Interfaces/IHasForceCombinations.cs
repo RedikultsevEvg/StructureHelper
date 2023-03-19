@@ -5,6 +5,6 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
 {
     public interface IHasForceCombinations
     {
-        List<IForceCombinationList> ForceCombinationLists { get; }
+        List<IForceAction> ForceActions { get; }
     }
 }

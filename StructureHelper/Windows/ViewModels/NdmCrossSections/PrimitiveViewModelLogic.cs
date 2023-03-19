@@ -22,9 +22,10 @@ using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 {
-    public class PrimitiveViewModelLogic : ViewModelBase, IPrimitiveViewModelLogic
+    public class PrimitiveViewModelLogic : ViewModelBase, ICRUDViewModel<PrimitiveBase>
     {
-        private readonly ICrossSectionRepository repository;
+        private ICrossSection section;
+        private ICrossSectionRepository repository => section.SectionRepository;
         private RelayCommand addCommand;
         private RelayCommand deleteCommand;
         private RelayCommand editCommand;
@@ -99,6 +100,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType)); }
             viewPrimitive.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);
             repository.Primitives.Add(ndmPrimitive);
+            ndmPrimitive.CrossSection = section;
             Items.Add(viewPrimitive);
             OnPropertyChanged(nameof(Items));
             OnPropertyChanged(nameof(PrimitivesCount));
@@ -130,6 +132,14 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                     {
                         var forceCalc = calc as IForceCalculator;
                         forceCalc.Primitives.Remove(ndmPrimitive);
+                    }
+                }
+                foreach (var primitive in repository.Primitives)
+                {
+                    if (primitive is IHasSurroundingPrimitive)
+                    {
+                        var sPrimitive = primitive as IHasSurroundingPrimitive;
+                        if (sPrimitive.SurroundingPrimitive == ndmPrimitive) { sPrimitive.SurroundingPrimitive = null; }
                     }
                 }
                 Items.Remove(SelectedItem);
@@ -243,9 +253,9 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             OnPropertyChanged(nameof(PrimitivesCount));
         }
 
-        public PrimitiveViewModelLogic(ICrossSectionRepository repository)
+        public PrimitiveViewModelLogic(ICrossSection section)
         {
-            this.repository = repository;
+            this.section = section;
             Items = new ObservableCollection<PrimitiveBase>();
             AddItems(PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(this.repository.Primitives));
         }

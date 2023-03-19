@@ -42,7 +42,7 @@ namespace StructureHelper.Windows.MainWindow
         private readonly AnalysisVewModelLogic calculatorsLogic;
         public AnalysisVewModelLogic CalculatorsLogic { get => calculatorsLogic;}
         public ActionsViewModel CombinationsLogic { get => combinationsLogic; }
-        public IPrimitiveViewModelLogic PrimitiveLogic => primitiveLogic;
+        public PrimitiveViewModelLogic PrimitiveLogic => primitiveLogic;
         public HelpLogic HelpLogic => new HelpLogic();
 
         private MainModel Model { get; }
@@ -214,7 +214,7 @@ namespace StructureHelper.Windows.MainWindow
 
         private double delta = 0.0005;
         private ActionsViewModel combinationsLogic;
-        private IPrimitiveViewModelLogic primitiveLogic;
+        private PrimitiveViewModelLogic primitiveLogic;
         private RelayCommand showVisualProperty;
         private RelayCommand selectPrimitive;
 
@@ -225,7 +225,7 @@ namespace StructureHelper.Windows.MainWindow
             section = model.Section;
             combinationsLogic = new ActionsViewModel(repository);
             calculatorsLogic = new AnalysisVewModelLogic(repository);
-            primitiveLogic = new PrimitiveViewModelLogic(repository) { CanvasWidth = CanvasWidth, CanvasHeight = CanvasHeight };
+            primitiveLogic = new PrimitiveViewModelLogic(section) { CanvasWidth = CanvasWidth, CanvasHeight = CanvasHeight };
             XX2 = CanvasWidth;
             XY1 = CanvasHeight / 2d;
             YX1 = CanvasWidth / 2d;
@@ -342,11 +342,6 @@ namespace StructureHelper.Windows.MainWindow
             }
         }
 
-        private bool CheckAnalisysOptions()
-        {
-            if (CheckMaterials() == false) { return false; }
-            return true;
-        }
         private bool CheckMaterials()
         {
             foreach (var item in primitiveLogic.Items)
@@ -405,10 +400,10 @@ namespace StructureHelper.Windows.MainWindow
                 var newRepository = newSection.SectionRepository;
                 repository.HeadMaterials.AddRange(newRepository.HeadMaterials);
                 repository.Primitives.AddRange(newRepository.Primitives);
-                repository.ForceCombinationLists.AddRange(newRepository.ForceCombinationLists);
+                repository.ForceActions.AddRange(newRepository.ForceActions);
                 repository.CalculatorsList.AddRange(newRepository.CalculatorsList);
                 OnPropertyChanged(nameof(HeadMaterials));
-                CombinationsLogic.AddItems(newRepository.ForceCombinationLists);
+                CombinationsLogic.AddItems(newRepository.ForceActions);
                 CalculatorsLogic.AddItems(newRepository.CalculatorsList);
                 var primitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(newRepository.Primitives);
                 foreach (var item in primitives)

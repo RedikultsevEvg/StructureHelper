@@ -14,7 +14,7 @@ namespace StructureHelperLogics.Models.CrossSections
 {
     public interface ICrossSectionRepository : IHasHeadMaterials, IHasPrimitives
     {
-        List<IForceCombinationList> ForceCombinationLists { get; }
+        List<IForceAction> ForceActions { get; }
         List<INdmCalculator> CalculatorsList { get; }
     }
 }

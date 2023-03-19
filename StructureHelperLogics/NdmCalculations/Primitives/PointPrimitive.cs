@@ -10,6 +10,7 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services.NdmPrimitives;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperLogics.Models.CrossSections;
 
 namespace StructureHelperLogics.Models.Primitives
 {
@@ -28,6 +29,7 @@ namespace StructureHelperLogics.Models.Primitives
 
         public IVisualProperty VisualProperty { get; }
         public bool Triangulate { get; set; }
+        public ICrossSection? CrossSection { get; set; }
 
         public PointPrimitive()
         {

@@ -263,13 +263,13 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         public virtual INdmPrimitive GetNdmPrimitive()
         {
-            RefreshNdmPrimitive();
+            //RefreshNdmPrimitive();
             return primitive;
         }
 
-        public virtual void RefreshNdmPrimitive()
-        {
-        }
+        //public virtual void RefreshNdmPrimitive()
+        //{
+        //}
 
         public void RefreshColor()
         {

@@ -2,6 +2,7 @@
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.ViewModels.PrimitiveProperties;
+using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,10 @@ namespace StructureHelper.Windows.PrimitiveProperiesWindow
     {
         PrimitiveBase primitive;
         private PrimitivePropertiesViewModel viewModel;
-        public PrimitivePropertiesView(PrimitiveBase primitive, IHasHeadMaterials headMaterials)
+        public PrimitivePropertiesView(PrimitiveBase primitive, ICrossSectionRepository sectionRepository)
         {
             this.primitive = primitive;
-            viewModel = new PrimitivePropertiesViewModel(this.primitive, headMaterials);
+            viewModel = new PrimitivePropertiesViewModel(this.primitive, sectionRepository);
             this.DataContext = viewModel;
             InitializeComponent();
             if (primitive is RectangleViewPrimitive) { AddPrimitiveProperties(PrimitiveType.Rectangle); }
@@ -42,13 +43,13 @@ namespace StructureHelper.Windows.PrimitiveProperiesWindow
         }
         private void AddPrimitiveProperties(PrimitiveType type)
         {
-            List<string> names = new List<string>();
-            if (primitive.DivisionViewModel is not null) { names.Add("TriangulationProperties");}
-            if (primitive is RectangleViewPrimitive) { names.Add("RectangleProperties"); }
-            if (primitive is CircleViewPrimitive) { names.Add("CircleProperties"); }
-            if (primitive is PointViewPrimitive) { names.Add("PointProperties"); }
-            if (primitive is ReinforcementViewPrimitive) { names.Add("ReinforcementProperties"); }
-            foreach (var name in names)
+            List<string> templateNames = new List<string>();
+            if (primitive.DivisionViewModel is not null) { templateNames.Add("TriangulationProperties");}
+            if (primitive is RectangleViewPrimitive) { templateNames.Add("RectangleProperties"); }
+            if (primitive is CircleViewPrimitive) { templateNames.Add("CircleProperties"); }
+            if (primitive is PointViewPrimitive) { templateNames.Add("PointProperties"); }
+            if (primitive is ReinforcementViewPrimitive) { templateNames.Add("ReinforcementProperties"); }
+            foreach (var name in templateNames)
             {
                 ContentControl contentControl = new ContentControl();
                 contentControl.SetResourceReference(ContentTemplateProperty, name);

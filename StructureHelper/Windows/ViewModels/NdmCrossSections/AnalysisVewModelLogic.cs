@@ -30,7 +30,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             if (SelectedItem is ForceCalculator)
             {
                 var calculator = SelectedItem as ForceCalculator;
-                var vm = new ForceCalculatorViewModel(repository.Primitives, repository.ForceCombinationLists, calculator);
+                var vm = new ForceCalculatorViewModel(repository.Primitives, repository.ForceActions, calculator);
 
                 var wnd = new ForceCalculatorView(vm);
                 wnd.ShowDialog();

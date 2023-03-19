@@ -4,14 +4,19 @@ using StructureHelper.Models.Materials;
 using StructureHelper.Windows.ColorPickerWindow;
 using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.ColorServices;
+using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
+using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -25,12 +30,13 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
     public class PrimitivePropertiesViewModel : ViewModelBase, IDataErrorInfo
     {
         private PrimitiveBase primitive;
-        private IHasHeadMaterials hasHeadMaterials;
+        private ICrossSectionRepository sectionRepository;
 
         public ICommand EditColorCommand { get; private set; }
         public ICommand EditMaterialCommand { get; private set; }
 
         public ObservableCollection<IHeadMaterial> HeadMaterials { get; private set; }
+        public ObservableCollection<PrimitiveBase> SurroundingPrimitives { get; private set; }
 
         public string Name
         {
@@ -54,7 +60,42 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 }
             }
         }
-
+        public PrimitiveBase? SurroundingPrimitive
+        {
+            get
+            {
+                if (primitive is not IHasSurroundingPrimitive)
+                {
+                    return null;
+                }
+                else 
+                {
+                    var sPrimitive = ((IHasSurroundingPrimitive)primitive).SurroundingPrimitive;
+                    if (sPrimitive is null) { return null; }
+                    foreach (var item in SurroundingPrimitives)
+                    {
+                        if (item.GetNdmPrimitive() == sPrimitive)
+                        {
+                            return item;
+                        }
+                    }
+                    return null;
+                }
+            }
+            set
+            {
+                if (value is not null)
+                {
+                    if (primitive is IHasSurroundingPrimitive)
+                    {
+                        var sPrimitive = value.GetNdmPrimitive();
+                        ((IHasSurroundingPrimitive)primitive).SurroundingPrimitive = sPrimitive;
+                        OnPropertyChanged(nameof(SurroundingPrimitive));
+                    }
+                    else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $", Actual type: {value.GetType()}");
+                }
+            }
+        }
         public double CenterX
         {
             get => primitive.CenterX;
@@ -126,7 +167,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 CenterX = CenterX;
             }
         }
-
         public double Height
         {
             get
@@ -148,7 +188,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 CenterY = CenterY; ;
             }
     }
-
         public double Area
         {
             get
@@ -171,7 +210,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 }
             }
         }
-
         public double Diameter
         {
             get
@@ -194,7 +232,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 }
             }
         }
-
         public Color Color
         {
             get => primitive.Color;
@@ -204,7 +241,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 OnPropertyChanged(nameof(Color));
             }
         }
-
         public bool SetMaterialColor
         {
             get => primitive.SetMaterialColor;
@@ -215,7 +251,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 OnPropertyChanged(nameof(SetMaterialColor));
             }
         }
-
         public int ZIndex
         {   get => primitive.ZIndex;
             set
@@ -223,7 +258,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 primitive.ZIndex = value;
             }
         }
-
         public bool IsVisible
         {
             get => primitive.IsVisible;
@@ -233,7 +267,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 OnPropertyChanged(nameof(IsVisible));
             }
         }
-
         public double Opacity
         {
             get => primitive.Opacity * 100d;
@@ -245,7 +278,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 OnPropertyChanged(nameof(Opacity));
             }
         }
-
         public string this[string columnName]
         {
             get
@@ -267,23 +299,28 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
 
         public string Error => throw new NotImplementedException();
 
-        public PrimitivePropertiesViewModel(PrimitiveBase primitive, IHasHeadMaterials hasHeadMaterials)
+        public PrimitivePropertiesViewModel(PrimitiveBase primitive, ICrossSectionRepository sectionRepository)
         {
             this.primitive = primitive;
-            this.hasHeadMaterials = hasHeadMaterials;
+            this.sectionRepository = sectionRepository;
             HeadMaterials = new ObservableCollection<IHeadMaterial>();
-            foreach (var material in hasHeadMaterials.HeadMaterials)
+            foreach (var material in sectionRepository.HeadMaterials)
             {
                 HeadMaterials.Add(material);
             }
             EditColorCommand = new RelayCommand(o => EditColor(), o => !SetMaterialColor);
             EditMaterialCommand = new RelayCommand(o => EditMaterial());
-
+            SurroundingPrimitives = new ObservableCollection<PrimitiveBase>();
+            foreach (var item in sectionRepository.Primitives)
+            {
+                if (item is RectanglePrimitive || item is CirclePrimitive)
+                {SurroundingPrimitives.Add(PrimitiveOperations.ConvertNdmPrimitiveToPrimitiveBase(item));}
+            }
         }
 
         private void EditMaterial()
         {
-            var wnd = new HeadMaterialsView(hasHeadMaterials);
+            var wnd = new HeadMaterialsView(sectionRepository);
             wnd.ShowDialog();
         }
 

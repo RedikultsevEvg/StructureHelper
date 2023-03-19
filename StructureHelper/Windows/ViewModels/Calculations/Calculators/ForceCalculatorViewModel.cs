@@ -24,7 +24,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
     public class ForceCalculatorViewModel : ViewModelBase
     {
         IEnumerable<INdmPrimitive> allowedPrimitives;
-        IEnumerable<IForceCombinationList> allowedForceCombinations;
+        IEnumerable<IForceAction> allowedForceCombinations;
         ForceCalculator forcesCalculator;
         SecondOrderViewModel secondOrderViewModel;
 
@@ -53,7 +53,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         public bool ShortTerm { get; set; }
         public bool LongTerm { get; set; }
 
-        public ISourceToTargetViewModel<IForceCombinationList> CombinationViewModel { get; }
+        public ISourceToTargetViewModel<IForceAction> CombinationViewModel { get; }
         public ISourceToTargetViewModel<PrimitiveBase> PrimitivesViewModel { get; }
 
         public PrimitiveBase SelectedAllowedPrimitive { get; set; }
@@ -146,15 +146,15 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             }
         }
 
-        public ForceCalculatorViewModel(IEnumerable<INdmPrimitive> _allowedPrimitives, IEnumerable<IForceCombinationList> _allowedForceCombinations, ForceCalculator _forcesCalculator)
+        public ForceCalculatorViewModel(IEnumerable<INdmPrimitive> _allowedPrimitives, IEnumerable<IForceAction> _allowedForceCombinations, ForceCalculator _forcesCalculator)
         {
             allowedPrimitives = _allowedPrimitives;
             allowedForceCombinations = _allowedForceCombinations;
             forcesCalculator = _forcesCalculator;
             secondOrderViewModel = new SecondOrderViewModel(forcesCalculator.CompressedMember);
 
-            CombinationViewModel = new SourceToTargetViewModel<IForceCombinationList>();
-            CombinationViewModel.SetTargetItems(forcesCalculator.ForceCombinationLists);
+            CombinationViewModel = new SourceToTargetViewModel<IForceAction>();
+            CombinationViewModel.SetTargetItems(forcesCalculator.ForceActions);
             CombinationViewModel.SetSourceItems(allowedForceCombinations);
             CombinationViewModel.ItemDataDemplate = Application.Current.Resources["SimpleItemTemplate"] as DataTemplate;
 
@@ -180,10 +180,10 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         public void Refresh()
         {
             var combinations = CombinationViewModel.GetTargetItems();
-            forcesCalculator.ForceCombinationLists.Clear();
+            forcesCalculator.ForceActions.Clear();
             foreach (var item in combinations)
             {
-                forcesCalculator.ForceCombinationLists.Add(item);
+                forcesCalculator.ForceActions.Add(item);
             }
             forcesCalculator.Primitives.Clear();
             foreach (var item in PrimitivesViewModel.GetTargetItems())

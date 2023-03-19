@@ -25,12 +25,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public string Name { get; set; }
         public List<LimitStates> LimitStatesList { get; }
         public List<CalcTerms> CalcTermsList { get; }
-        public List<IForceCombinationList> ForceCombinationLists { get; }
+        public List<IForceAction> ForceActions { get; }
         public List<INdmPrimitive> Primitives { get; }
         public INdmResult Result { get; private set; }
         public ICompressedMember CompressedMember { get; }
         public IAccuracy Accuracy { get; set; }
-
+        public List<IForceCombinationList> ForceCombinationLists { get; private set; }
         public void Run()
         {
             var checkResult = CheckInputData();
@@ -39,7 +39,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 Result = new ForcesResults() { IsValid = false, Desctription = checkResult };
                 return;
             }
-            else { CalculateResult(); }
+            else
+            {
+                GetCombinations();
+                CalculateResult();
+            }
         }
 
         private void CalculateResult()
@@ -103,6 +107,15 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             Result = ndmResult;
         }
 
+        private void GetCombinations()
+        {
+            ForceCombinationLists = new List<IForceCombinationList>();
+            foreach (var item in ForceActions)
+            {
+                ForceCombinationLists.Add(item.GetCombinations());
+            }
+        }
+
         private IForceTuple GetLongTuple(List<IDesignForceTuple> designForces, LimitStates limitState)
         {
             IForceTuple longTuple;
@@ -143,7 +156,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         {
             string result = "";
             NdmPrimitivesService.CheckPrimitives(Primitives);
-            if (ForceCombinationLists.Count == 0) { result += "Calculator does not contain any forces \n"; }
+            if (ForceActions.Count == 0) { result += "Calculator does not contain any forces \n"; }
             if (LimitStatesList.Count == 0) { result += "Calculator does not contain any limit states \n"; }
             if (CalcTermsList.Count == 0) { result += "Calculator does not contain any duration \n"; }
             return result;
@@ -151,7 +164,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public ForceCalculator()
         {
-            ForceCombinationLists = new List<IForceCombinationList>();
+            ForceActions = new List<IForceAction>();
             Primitives = new List<INdmPrimitive>();
             CompressedMember = new CompressedMember() { Buckling = false };
             Accuracy = new Accuracy() { IterationAccuracy = 0.001d, MaxIterationCount = 1000 };
@@ -177,7 +190,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             AccuracyService.CopyProperties(Accuracy, target.Accuracy);
             CompressedMemberServices.CopyProperties(CompressedMember, target.CompressedMember);
             target.Primitives.AddRange(Primitives);
-            target.ForceCombinationLists.AddRange(ForceCombinationLists);
+            target.ForceActions.AddRange(ForceActions);
             return target;
         }
     }

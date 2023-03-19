@@ -23,17 +23,21 @@ namespace StructureHelperLogics.Services.NdmCalculations
             CompressedMemberServices.CopyProperties(source.CompressedMember, calculator.CompressedMember);
             calculator.Accuracy = source.Accuracy;
             calculator.Primitives.AddRange(source.Primitives);
-            calculator.ForceCombinationLists.Clear();
-            var combination = new ForceCombinationList()
+            calculator.ForceActions.Clear();
+            var forceTuples = ForceTupleService.InterpolateDesignTuple(finishDesignForce, startDesignForce, stepCount);
+            foreach (var forceTuple in forceTuples)
             {
-                Name = "New combination",
-                SetInGravityCenter = false
-            };
-            combination.DesignForces.Clear();
-            combination.DesignForces.AddRange(ForceTupleService.InterpolateDesignTuple(finishDesignForce, startDesignForce, stepCount));
-            combination.ForcePoint.X = 0;
-            combination.ForcePoint.Y = 0;
-            calculator.ForceCombinationLists.Add(combination);
+                var combination = new ForceCombinationList()
+                {
+                    Name = "New combination",
+                    SetInGravityCenter = false
+                };
+                combination.DesignForces.Clear();
+                combination.DesignForces.Add(forceTuple);
+                combination.ForcePoint.X = 0;
+                combination.ForcePoint.Y = 0;
+                calculator.ForceActions.Add(combination);
+            }
             return calculator;
         }
     }

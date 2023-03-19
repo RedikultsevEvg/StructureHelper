@@ -75,7 +75,10 @@
                     <Expander Header="Actions" MinWidth="20" DataContext="{Binding CombinationsLogic}">
                         <Expander.ContextMenu>
                             <ContextMenu>
-                                <Button Content="Add Force Combination" Command="{Binding Add}"/>
+                                <MenuItem Header="Add">
+                                    <Button Content="Combination" Command="{Binding Add}" CommandParameter="{x:Static enums:ActionType.ForceCombination}"/>
+                                    <Button Content="Combination By Factors" Command="{Binding Add}" CommandParameter="{x:Static enums:ActionType.ForceCombinationByFactor}"/>
+                                </MenuItem>
                             </ContextMenu>
                         </Expander.ContextMenu>
                         <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">

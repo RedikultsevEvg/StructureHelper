@@ -15,5 +15,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         List<LimitStates> LimitStatesList { get; }
         ICompressedMember CompressedMember { get; }
         IAccuracy Accuracy { get; set; }
+        List<IForceCombinationList> ForceCombinationLists { get;}
     }
 }

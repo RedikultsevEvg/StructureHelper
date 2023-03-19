@@ -1,4 +1,7 @@
-﻿using StructureHelper.Windows.Forces;
+﻿using StructureHelper.Infrastructure.Enums;
+using StructureHelper.Windows.Forces;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
@@ -11,14 +14,27 @@ using System.Windows.Forms;
 
 namespace StructureHelper.Windows.ViewModels.Forces
 {
-    public class ActionsViewModel : CRUDViewModelBase<IForceCombinationList>
+    public class ActionsViewModel : CRUDViewModelBase<IForceAction>
     {
         ICrossSectionRepository repository;
 
         public override void AddMethod(object parameter)
         {
-            NewItem = new ForceCombinationList() { Name = "New Force Combination" };
-            base.AddMethod(parameter);
+            if (parameter is not null)
+            {
+                ActionType paramType = (ActionType)parameter;
+                if (paramType == ActionType.ForceCombination)
+                {
+                    NewItem = new ForceCombinationList() { Name = "New Force Combination" };
+                }
+                else if (paramType == ActionType.ForceCombinationByFactor)
+                {
+                    NewItem = new ForceCombinationByFactor() { Name = "New Factored Combination" };
+                }
+                else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $": Actual type: {nameof(paramType)}");    
+                base.AddMethod(parameter);
+            }
+
         }
 
         public override void DeleteMethod(object parameter)
@@ -32,11 +48,11 @@ namespace StructureHelper.Windows.ViewModels.Forces
                     if (item is IForceCalculator)
                     {
                         var forceCalculator = item as IForceCalculator;
-                        var containSelected = forceCalculator.ForceCombinationLists.Contains(SelectedItem);
+                        var containSelected = forceCalculator.ForceActions.Contains(SelectedItem);
                         if (containSelected)
                         {
                             var dialogResultCalc = MessageBox.Show($"Action is contained in calculator {item.Name}", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                            if (dialogResultCalc == DialogResult.OK) { forceCalculator.ForceCombinationLists.Remove(SelectedItem); }
+                            if (dialogResultCalc == DialogResult.OK) { forceCalculator.ForceActions.Remove(SelectedItem); }
                             else return;
                         }
                     }
@@ -47,12 +63,23 @@ namespace StructureHelper.Windows.ViewModels.Forces
 
         public override void EditMethod(object parameter)
         {
-            var wnd = new ForceCombinationView(SelectedItem);
+            System.Windows.Window wnd;
+            if (SelectedItem is IForceCombinationList)
+            {
+                var item = (IForceCombinationList)SelectedItem;
+                wnd = new ForceCombinationView(item);
+            }
+            else if (SelectedItem is IForceCombinationByFactor)
+            {
+                var item = (IForceCombinationByFactor)SelectedItem;
+                wnd = new ForceCombinationByFactorView(item);
+            }
+            else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $"actual object type: {nameof(SelectedItem)}");
             wnd.ShowDialog();
             base.EditMethod(parameter);
         }
 
-        public ActionsViewModel(ICrossSectionRepository repository) : base (repository.ForceCombinationLists)
+        public ActionsViewModel(ICrossSectionRepository repository) : base (repository.ForceActions)
         {
             this.repository = repository;
         }

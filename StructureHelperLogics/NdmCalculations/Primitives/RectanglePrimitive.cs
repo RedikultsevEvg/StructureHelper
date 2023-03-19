@@ -5,6 +5,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.ShapeServices;
+using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services.NdmPrimitives;
@@ -33,7 +34,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public bool ClearUnderlying { get; set; }
         public bool Triangulate { get; set; }
         public IVisualProperty VisualProperty { get; }
-
+        public ICrossSection? CrossSection { get; set; }
 
         public RectanglePrimitive()
         {

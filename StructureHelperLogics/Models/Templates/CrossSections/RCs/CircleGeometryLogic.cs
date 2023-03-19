@@ -13,7 +13,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
     public class CircleGeometryLogic : IRCGeometryLogic
     {
         ICircleTemplate template;
-        
+        CirclePrimitive concreteBlock;
         
         public IEnumerable<IHeadMaterial> HeadMaterials { get; set; }
 
@@ -35,8 +35,8 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             var diameter = template.Shape.Diameter;
             var concreteMaterial = HeadMaterials.ToList()[0];
             var primitives = new List<INdmPrimitive>();
-            var rectangle = new CirclePrimitive() { Diameter = diameter, Name = "Concrete block", HeadMaterial = concreteMaterial };
-            primitives.Add(rectangle);
+            concreteBlock = new CirclePrimitive() { Diameter = diameter, Name = "Concrete block", HeadMaterial = concreteMaterial };
+            primitives.Add(concreteBlock);
             return primitives;
         }
 
@@ -52,7 +52,13 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                 var angle = i * dAngle;
                 var x = radius * Math.Sin(angle);
                 var y = radius * Math.Cos(angle);
-                var point = new PointPrimitive() { CenterX = x, CenterY = y, Area = barArea, Name = "Left bottom point", HeadMaterial = reinforcementMaterial };
+                var point = new ReinforcementPrimitive()
+                { CenterX = x,
+                    CenterY = y,
+                    Area = barArea,
+                    Name = "Left bottom point",
+                    HeadMaterial = reinforcementMaterial,
+                    SurroundingPrimitive=concreteBlock };
                 primitives.Add(point);
             }
             return primitives;

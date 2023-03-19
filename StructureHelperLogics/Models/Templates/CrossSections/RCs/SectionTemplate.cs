@@ -37,10 +37,14 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             var materials = materialLogic.GetHeadMaterials();
             geometryLogic.HeadMaterials = materials;
             primitives = geometryLogic.GetNdmPrimitives();
+            foreach (var primitive in primitives)
+            {
+                primitive.CrossSection = section;
+            }
             repository.HeadMaterials.AddRange(materials);
             repository.Primitives.AddRange(primitives);
             combinations = forceLogic.GetCombinationList();
-            repository.ForceCombinationLists.AddRange(combinations);
+            repository.ForceActions.AddRange(combinations);
             calculators = calculatorLogic.GetNdmCalculators();
             AddAllForcesToCalculators();
             AddAllPrimitivesToCalculator();
@@ -55,7 +59,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                 if (calculator is IHasForceCombinations)
                 {
                     var forceCalculator = calculator as IHasForceCombinations;
-                    forceCalculator.ForceCombinationLists.AddRange(combinations);
+                    forceCalculator.ForceActions.AddRange(combinations);
                 }
             }
         }

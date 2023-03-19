@@ -7,10 +7,23 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
-    internal class ReinforcementViewPrimitive : PointViewPrimitive
+    public class ReinforcementViewPrimitive : PointViewPrimitive, IHasSurroundingPrimitive
     {
-        public ReinforcementViewPrimitive(IPointPrimitive _primitive) : base(_primitive)
+        ReinforcementPrimitive primitive;
+
+        public INdmPrimitive SurroundingPrimitive
         {
+            get => primitive.SurroundingPrimitive;
+            set
+            {
+                primitive.SurroundingPrimitive = value;
+                OnPropertyChanged(nameof(SurroundingPrimitive));
+            }
+        }
+
+        public ReinforcementViewPrimitive(ReinforcementPrimitive _primitive) : base(_primitive)
+        {
+            primitive = _primitive;
         }
     }
 }

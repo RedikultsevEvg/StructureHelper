@@ -4,6 +4,7 @@ using StructureHelper.Models.Materials;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.ShapeServices;
+using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
@@ -29,6 +30,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public int NdmMinDivision { get; set; }
         public bool ClearUnderlying { get; set; }
         public bool Triangulate { get; set; }
+        public ICrossSection? CrossSection { get; set; }
 
         public CirclePrimitive()
         {

@@ -15,7 +15,7 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public bool SetInGravityCenter { get; set; }
         /// <inheritdoc/>
-        public IPoint2D ForcePoint { get; private set; }
+        public IPoint2D ForcePoint { get; set; }
         /// <inheritdoc/>
         public List<IDesignForceTuple> DesignForces { get; private set; }
         
@@ -35,10 +35,7 @@ namespace StructureHelperCommon.Models.Forces
         public object Clone()
         {
             var newItem = new ForceCombinationList();
-            newItem.Name = Name + " copy";
-            newItem.SetInGravityCenter = SetInGravityCenter;
-            newItem.ForcePoint.X = ForcePoint.X;
-            newItem.ForcePoint.Y = ForcePoint.Y;
+            ForceActionService.CopyActionProps(this, newItem);
             newItem.DesignForces.Clear();
             foreach (var item in DesignForces)
             {
@@ -48,9 +45,10 @@ namespace StructureHelperCommon.Models.Forces
             return newItem;
         }
         /// <inheritdoc/>
-        public List<IDesignForceTuple> GetCombination()
+        public IForceCombinationList GetCombinations()
         {
-            var result = new List<IDesignForceTuple>();
+            var result = Clone() as IForceCombinationList;
+            result.DesignForces.Clear();
             var limitStates = new List<LimitStates>() { LimitStates.ULS, LimitStates.SLS };
             var calcTerms = new List<CalcTerms>() { CalcTerms.ShortTerm, CalcTerms.LongTerm };
             foreach (var limitState in limitStates)
@@ -63,7 +61,7 @@ namespace StructureHelperCommon.Models.Forces
                     {
                         designForceTuple.ForceTuple = ForceTupleService.SumTuples(designForceTuple.ForceTuple, item.ForceTuple);
                     }
-                    result.Add(designForceTuple);
+                    result.DesignForces.Add(designForceTuple);
                 }
             }
             return result;

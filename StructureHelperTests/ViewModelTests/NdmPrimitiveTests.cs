@@ -33,6 +33,18 @@ namespace StructureHelperTests.ViewModelTests
             Assert.NotNull(vm);
         }
 
+        public void Circle_Run_ShouldPass()
+        {
+            //Arrange
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, CodeTypes.SP63_13330_2018);
+            var primitive = new CirclePrimitive() { HeadMaterial = material};
+            var primitiveBase = new CircleViewPrimitive(primitive);
+            //Act
+            var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());
+            //Assert
+            Assert.NotNull(vm);
+        }
+
         [Test]
         public void Point_Run_ShouldPass()
         {
@@ -40,6 +52,18 @@ namespace StructureHelperTests.ViewModelTests
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, CodeTypes.SP63_13330_2018);
             var primitive = new PointPrimitive(material);
             var primitiveBase = new PointViewPrimitive(primitive);
+            //Act
+            var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());
+            //Assert
+            Assert.NotNull(vm);
+        }
+
+        public void Reinforcement_Run_ShouldPass()
+        {
+            //Arrange
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, CodeTypes.SP63_13330_2018);
+            var primitive = new ReinforcementPrimitive() { HeadMaterial = material };
+            var primitiveBase = new ReinforcementViewPrimitive(primitive);
             //Act
             var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());
             //Assert
