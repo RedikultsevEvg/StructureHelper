@@ -136,10 +136,10 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 }
                 foreach (var primitive in repository.Primitives)
                 {
-                    if (primitive is IHasSurroundingPrimitive)
+                    if (primitive is IHasHostPrimitive)
                     {
-                        var sPrimitive = primitive as IHasSurroundingPrimitive;
-                        if (sPrimitive.SurroundingPrimitive == ndmPrimitive) { sPrimitive.SurroundingPrimitive = null; }
+                        var sPrimitive = primitive as IHasHostPrimitive;
+                        if (sPrimitive.HostPrimitive == ndmPrimitive) { sPrimitive.HostPrimitive = null; }
                     }
                 }
                 Items.Remove(SelectedItem);

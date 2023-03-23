@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public interface IHasSurroundingPrimitive
+    public interface IHasHostPrimitive
     {
-        INdmPrimitive? SurroundingPrimitive { get; set; }
+        INdmPrimitive? HostPrimitive { get; set; }
     }
 }

@@ -87,5 +87,10 @@ namespace StructureHelperLogics.Models.Materials
         {
             return new LibMaterial(this.MaterialType, this.codeType, this.Name, this.MainStrength);
         }
+
+        public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

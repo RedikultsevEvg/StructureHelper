@@ -67,8 +67,8 @@
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Text="Inside of"/>
-                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding SurroundingPrimitives}" SelectedItem="{Binding SurroundingPrimitive}">
+                <TextBlock Grid.Row="0" Text="Host"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HostPrimitives}" SelectedItem="{Binding HostPrimitive}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>

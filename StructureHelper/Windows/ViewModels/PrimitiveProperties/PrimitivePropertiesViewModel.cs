@@ -36,7 +36,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
         public ICommand EditMaterialCommand { get; private set; }
 
         public ObservableCollection<IHeadMaterial> HeadMaterials { get; private set; }
-        public ObservableCollection<PrimitiveBase> SurroundingPrimitives { get; private set; }
+        public ObservableCollection<PrimitiveBase> HostPrimitives { get; private set; }
 
         public string Name
         {
@@ -60,19 +60,19 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 }
             }
         }
-        public PrimitiveBase? SurroundingPrimitive
+        public PrimitiveBase? HostPrimitive
         {
             get
             {
-                if (primitive is not IHasSurroundingPrimitive)
+                if (primitive is not IHasHostPrimitive)
                 {
                     return null;
                 }
                 else 
                 {
-                    var sPrimitive = ((IHasSurroundingPrimitive)primitive).SurroundingPrimitive;
+                    var sPrimitive = ((IHasHostPrimitive)primitive).HostPrimitive;
                     if (sPrimitive is null) { return null; }
-                    foreach (var item in SurroundingPrimitives)
+                    foreach (var item in HostPrimitives)
                     {
                         if (item.GetNdmPrimitive() == sPrimitive)
                         {
@@ -86,11 +86,11 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             {
                 if (value is not null)
                 {
-                    if (primitive is IHasSurroundingPrimitive)
+                    if (primitive is IHasHostPrimitive)
                     {
                         var sPrimitive = value.GetNdmPrimitive();
-                        ((IHasSurroundingPrimitive)primitive).SurroundingPrimitive = sPrimitive;
-                        OnPropertyChanged(nameof(SurroundingPrimitive));
+                        ((IHasHostPrimitive)primitive).HostPrimitive = sPrimitive;
+                        OnPropertyChanged(nameof(HostPrimitive));
                     }
                     else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $", Actual type: {value.GetType()}");
                 }
@@ -310,11 +310,11 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             }
             EditColorCommand = new RelayCommand(o => EditColor(), o => !SetMaterialColor);
             EditMaterialCommand = new RelayCommand(o => EditMaterial());
-            SurroundingPrimitives = new ObservableCollection<PrimitiveBase>();
+            HostPrimitives = new ObservableCollection<PrimitiveBase>();
             foreach (var item in sectionRepository.Primitives)
             {
                 if (item is RectanglePrimitive || item is CirclePrimitive)
-                {SurroundingPrimitives.Add(PrimitiveOperations.ConvertNdmPrimitiveToPrimitiveBase(item));}
+                {HostPrimitives.Add(PrimitiveOperations.ConvertNdmPrimitiveToPrimitiveBase(item));}
             }
         }
 

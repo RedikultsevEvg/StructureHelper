@@ -16,7 +16,7 @@ using System.Windows.Media.Media3D;
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     /// <inheritdoc/>
-    public class ReinforcementPrimitive : IPointPrimitive, IHasSurroundingPrimitive
+    public class ReinforcementPrimitive : IPointPrimitive, IHasHostPrimitive
     {
         /// <inheritdoc/>
         public string Name { get; set; }
@@ -36,7 +36,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public int Id { get; set; }
         public double Area { get; set; }
-        public INdmPrimitive SurroundingPrimitive { get; set; }
+        public INdmPrimitive HostPrimitive { get; set; }
         public ICrossSection? CrossSection { get; set; }
 
         public ReinforcementPrimitive()
@@ -54,7 +54,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             var primitive = new ReinforcementPrimitive();
             NdmPrimitivesService.CopyNdmProperties(this, primitive);
             primitive.Area = Area;
-            primitive.SurroundingPrimitive = SurroundingPrimitive;
+            primitive.HostPrimitive = HostPrimitive;
             return primitive;
         }
 

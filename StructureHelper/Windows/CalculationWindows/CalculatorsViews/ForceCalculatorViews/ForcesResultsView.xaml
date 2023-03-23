@@ -43,6 +43,7 @@
             <Button Margin="3" Content="Interpolate" ToolTip="Create analysis by substep" Command="{Binding InterpolateCommand}"/>
             <Button Margin="3" Content="Export" ToolTip="Export results to *.csv" Command="{Binding ExportToCSVCommand}"/>
             <Button Margin="3" Content="Set Prestrain" ToolTip="Set strains as auto prestrain" Command="{Binding SetPrestrainCommand}"/>
+            <Button Margin="3" Content="Anchorage" ToolTip="Set strains as auto prestrain" Command="{Binding ShowAnchorageCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

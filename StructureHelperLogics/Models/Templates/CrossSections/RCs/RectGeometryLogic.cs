@@ -59,13 +59,13 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             double[] ys = new double[] { -height / 2 + gap, height / 2 - gap };
 
             List<INdmPrimitive> primitives = new List<INdmPrimitive>();
-            var point = new ReinforcementPrimitive() { CenterX = xs[0], CenterY = ys[0], Area = area1, Name = "Left bottom point", HeadMaterial = reinforcement, SurroundingPrimitive=concreteBlock };
+            var point = new ReinforcementPrimitive() { CenterX = xs[0], CenterY = ys[0], Area = area1, Name = "Left bottom point", HeadMaterial = reinforcement, HostPrimitive=concreteBlock };
             primitives.Add(point);
-            point = new ReinforcementPrimitive() { CenterX = xs[1], CenterY = ys[0], Area = area1, Name = "Right bottom point", HeadMaterial = reinforcement, SurroundingPrimitive = concreteBlock };
+            point = new ReinforcementPrimitive() { CenterX = xs[1], CenterY = ys[0], Area = area1, Name = "Right bottom point", HeadMaterial = reinforcement, HostPrimitive = concreteBlock };
             primitives.Add(point);
-            point = new ReinforcementPrimitive() { CenterX = xs[0], CenterY = ys[1], Area = area2, Name = "Left top point", HeadMaterial = reinforcement, SurroundingPrimitive = concreteBlock };
+            point = new ReinforcementPrimitive() { CenterX = xs[0], CenterY = ys[1], Area = area2, Name = "Left top point", HeadMaterial = reinforcement, HostPrimitive = concreteBlock };
             primitives.Add(point);
-            point = new ReinforcementPrimitive() { CenterX = xs[1], CenterY = ys[1], Area = area2, Name = "Right top point", HeadMaterial = reinforcement, SurroundingPrimitive = concreteBlock };
+            point = new ReinforcementPrimitive() { CenterX = xs[1], CenterY = ys[1], Area = area2, Name = "Right top point", HeadMaterial = reinforcement, HostPrimitive = concreteBlock };
             primitives.Add(point);
             return primitives;
         }
@@ -83,9 +83,9 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                 double dist = (xs[1] - xs[0]) / count;
                 for (int i = 1; i < count; i++)
                 {
-                    point = new ReinforcementPrimitive() { CenterX = xs[0] + dist * i, CenterY = ys[0], Area = area1, Name = $"Bottom point {i}", HeadMaterial = reinforcement, SurroundingPrimitive = concreteBlock };
+                    point = new ReinforcementPrimitive() { CenterX = xs[0] + dist * i, CenterY = ys[0], Area = area1, Name = $"Bottom point {i}", HeadMaterial = reinforcement, HostPrimitive = concreteBlock };
                     primitives.Add(point);
-                    point = new ReinforcementPrimitive() { CenterX = xs[0] + dist * i, CenterY = ys[1], Area = area2, Name = $"Top point {i}", HeadMaterial = reinforcement, SurroundingPrimitive = concreteBlock };
+                    point = new ReinforcementPrimitive() { CenterX = xs[0] + dist * i, CenterY = ys[1], Area = area2, Name = $"Top point {i}", HeadMaterial = reinforcement, HostPrimitive = concreteBlock };
                     primitives.Add(point);
                 }
             }
@@ -95,9 +95,9 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                 double dist = (ys[1] - ys[0]) / count;
                 for (int i = 1; i < count; i++)
                 {
-                    point = new ReinforcementPrimitive() { CenterX = xs[0], CenterY = ys[0] + dist * i, Area = area1, Name = $"Left point {i}", HeadMaterial = reinforcement, SurroundingPrimitive = concreteBlock };
+                    point = new ReinforcementPrimitive() { CenterX = xs[0], CenterY = ys[0] + dist * i, Area = area1, Name = $"Left point {i}", HeadMaterial = reinforcement, HostPrimitive = concreteBlock };
                     primitives.Add(point);
-                    point = new ReinforcementPrimitive() { CenterX = xs[1], CenterY = ys[0] + dist * i, Area = area1, Name = $"Right point {i}", HeadMaterial = reinforcement, SurroundingPrimitive = concreteBlock };
+                    point = new ReinforcementPrimitive() { CenterX = xs[1], CenterY = ys[0] + dist * i, Area = area1, Name = $"Right point {i}", HeadMaterial = reinforcement, HostPrimitive = concreteBlock };
                     primitives.Add(point);
                 }
             }

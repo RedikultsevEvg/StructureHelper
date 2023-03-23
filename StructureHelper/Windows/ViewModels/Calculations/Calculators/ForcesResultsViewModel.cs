@@ -47,6 +47,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         private RelayCommand exportToCSVCommand;
         private RelayCommand interpolateCommand;
         private RelayCommand setPrestrainCommand;
+        private ICommand showAnchorageCommand;
 
         public IForcesResults ForcesResults
         {
@@ -191,6 +192,24 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     StrainTupleService.CopyProperties(wnd.StrainTuple, item.AutoPrestrain);
                 }
             }
+        }
+
+        public ICommand ShowAnchorageCommand
+        {
+            get
+            {
+                return showAnchorageCommand??
+                    (showAnchorageCommand = new RelayCommand(o =>
+                    {
+                        showAnchorage();
+                    }, o => SelectedResult != null
+                    ));
+            }
+        }
+
+        private void showAnchorage()
+        {
+            throw new NotImplementedException();
         }
 
         public ForcesResultsViewModel(IForceCalculator forceCalculator)

@@ -58,7 +58,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                     Area = barArea,
                     Name = "Left bottom point",
                     HeadMaterial = reinforcementMaterial,
-                    SurroundingPrimitive=concreteBlock };
+                    HostPrimitive=concreteBlock };
                 primitives.Add(point);
             }
             return primitives;

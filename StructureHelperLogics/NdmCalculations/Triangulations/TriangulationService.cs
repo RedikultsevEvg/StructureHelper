@@ -15,7 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
     {
         public static void SetPrestrain(IEnumerable<INdm> ndmCollection, IStrainTuple strainTuple)
         {
-            NdmTransform.SetPrestrain(ndmCollection, new StrainMatrix() { Kx = strainTuple.Kx, Ky = strainTuple.Kx, EpsZ = strainTuple.Kx });
+            NdmTransform.SetPrestrain(ndmCollection, new StrainMatrix() { Kx = strainTuple.Kx, Ky = strainTuple.Ky, EpsZ = strainTuple.EpsZ });
         }
 
         public static void CommonTransform(IEnumerable<INdm> ndmCollection, IShapeTriangulationLogicOptions options)
