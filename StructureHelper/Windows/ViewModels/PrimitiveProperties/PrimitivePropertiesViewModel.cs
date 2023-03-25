@@ -10,6 +10,7 @@ using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Linq;
@@ -314,7 +316,33 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             foreach (var item in sectionRepository.Primitives)
             {
                 if (item is RectanglePrimitive || item is CirclePrimitive)
-                {HostPrimitives.Add(PrimitiveOperations.ConvertNdmPrimitiveToPrimitiveBase(item));}
+                {
+                    CheckHost(primitive, item);
+                    HostPrimitives.Add(PrimitiveOperations.ConvertNdmPrimitiveToPrimitiveBase(item));
+                }
+            }
+        }
+
+        private void CheckHost(PrimitiveBase primitive, INdmPrimitive item)
+        {
+            var ndm = primitive.GetNdmPrimitive();
+            if (ndm is ReinforcementPrimitive)
+            {
+                var host = item as IHasDivisionSize;
+                var reinforcement = ndm as ReinforcementPrimitive;
+                if (host.IsPointInside(new Point2D() { X = reinforcement.CenterX, Y = reinforcement.CenterY })
+                    && reinforcement.HostPrimitive is null)
+                {
+                    var dialogResult = MessageBox.Show($"Primitive {reinforcement.Name} is inside primitive {item.Name}",
+                        "Assign new host?", 
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        reinforcement.HostPrimitive = item;
+                    }
+                }
+
             }
         }
 

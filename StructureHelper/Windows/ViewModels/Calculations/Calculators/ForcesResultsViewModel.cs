@@ -7,8 +7,10 @@ using StructureHelper.Services.Reports.CalculationReports;
 using StructureHelper.Services.ResultViewers;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
+using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
+using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelper.Windows.ViewModels.Forces;
 using StructureHelper.Windows.ViewModels.PrimitiveProperties;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -74,7 +76,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             }
         }
 
-        public RelayCommand ExportToCSVCommand
+        public ICommand ExportToCSVCommand
         {
             get
             {
@@ -105,7 +107,12 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                         }
                         catch (Exception ex)
                         {
-                            throw new StructureHelperException(ErrorStrings.FileCantBeDeleted + ex + filename);
+                            var vm = new ErrorProcessor()
+                            {
+                                ShortText = ErrorStrings.FileCantBeDeleted + ex + filename,
+                                DetailText = $"{ex}"
+                            };
+                            new ErrorMessage(vm).ShowDialog();
                         }
                     }
 
@@ -115,15 +122,21 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                         logic.Export(forcesResults);
                         try
                         {
-                            Process filopener = new Process();
-                            filopener.StartInfo.FileName = saveFileDialog.FileName;
+                            var filopener = new Process();
+                            var startInfo = new ProcessStartInfo(saveFileDialog.FileName) { UseShellExecute = true};
+                            filopener.StartInfo = startInfo;
                             filopener.Start();
                         }
                         catch (Exception) { }
                     }
                     catch (Exception ex)
                     {
-                        throw new StructureHelperException(ErrorStrings.FileCantBeSaved + ex + filename);
+                        var vm = new ErrorProcessor()
+                        {
+                            ShortText = ErrorStrings.FileCantBeSaved + ex + filename,
+                            DetailText = $"{ex}"
+                        };
+                        new ErrorMessage(vm).ShowDialog();
                     }
                 }
             }
@@ -209,7 +222,24 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 
         private void showAnchorage()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var strainMatrix = SelectedResult.LoaderResults.ForceStrainPair.StrainMatrix;
+                var limitState = SelectedResult.DesignForceTuple.LimitState;
+                var calcTerm = SelectedResult.DesignForceTuple.CalcTerm;
+
+                var primitiveSets = ShowAnchorageResult.GetPrimitiveSets(strainMatrix, limitState, calcTerm, ndmPrimitives);
+                isoFieldReport = new IsoFieldReport(primitiveSets);
+                isoFieldReport.Show();
+            }
+            catch(Exception ex)
+            {
+                var vm = new ErrorProcessor()
+                    { ShortText = "Errors apearred during showing isofield, see detailed information",
+                    DetailText = $"{ex}"};
+                new ErrorMessage(vm).ShowDialog();
+            }
+
         }
 
         public ForcesResultsViewModel(IForceCalculator forceCalculator)
@@ -221,10 +251,23 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 
         private void ShowIsoField()
         {
-            IStrainMatrix strainMatrix = SelectedResult.LoaderResults.ForceStrainPair.StrainMatrix;
-            var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, ResultFuncFactory.GetResultFuncs());
-            isoFieldReport = new IsoFieldReport(primitiveSets);
-            isoFieldReport.Show();
+            try
+            {
+                IStrainMatrix strainMatrix = SelectedResult.LoaderResults.ForceStrainPair.StrainMatrix;
+                var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, ResultFuncFactory.GetResultFuncs());
+                isoFieldReport = new IsoFieldReport(primitiveSets);
+                isoFieldReport.Show();
+            }
+            catch (Exception ex)
+            {
+                var vm = new ErrorProcessor()
+                {
+                    ShortText = "Errors apearred during showing isofield, see detailed information",
+                    DetailText = $"{ex}"
+                };
+                new ErrorMessage(vm).ShowDialog();
+            }
+
         }
 
         private void GetNdms()

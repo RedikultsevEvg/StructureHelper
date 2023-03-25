@@ -10,10 +10,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
     {
         double ConcreteStrength { get; set; }
         double ReinforcementStrength { get; set; }
+        double FactorEta1 { get; set; }
         double CrossSectionArea { get; set; }
         double CrossSectionPerimeter { get; set; }
         double ReinforcementStress { get; set; }
         double LappedCountRate { get; set; }
+        bool IsPrestressed { get; set; }
 
     }
 }

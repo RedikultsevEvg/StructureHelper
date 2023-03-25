@@ -29,4 +29,8 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="FunctionalTests\RCs\Anchorage\" />
+  </ItemGroup>
+
 </Project>

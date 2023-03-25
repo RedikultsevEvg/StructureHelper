@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using System.Windows.Documents;
 using StructureHelper.Windows.PrimitiveProperiesWindow;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 {
@@ -26,12 +27,12 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
     {
         private ICrossSection section;
         private ICrossSectionRepository repository => section.SectionRepository;
-        private RelayCommand addCommand;
-        private RelayCommand deleteCommand;
-        private RelayCommand editCommand;
-        private RelayCommand copyCommand;
-        private RelayCommand setToFront;
-        private RelayCommand setToBack;
+        private ICommand addCommand;
+        private ICommand deleteCommand;
+        private ICommand editCommand;
+        private ICommand copyCommand;
+        private ICommand setToFront;
+        private ICommand setToBack;
 
         public double CanvasWidth { get; set; }
         public double CanvasHeight { get; set; }
@@ -40,7 +41,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         public ObservableCollection<PrimitiveBase> Items { get; private set; }
 
-        public RelayCommand Add
+        public ICommand Add
         {
             get
             {
@@ -106,7 +107,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             OnPropertyChanged(nameof(PrimitivesCount));
         }
 
-        public RelayCommand Delete
+        public ICommand Delete
         {
             get
             {
@@ -148,7 +149,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             OnPropertyChanged(nameof(PrimitivesCount));
         }
 
-        public RelayCommand Edit
+        public ICommand Edit
         {
             get
             {
@@ -166,7 +167,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             wnd.ShowDialog();
         }
 
-        public RelayCommand Copy
+        public ICommand Copy
         {
             get
             {
@@ -197,7 +198,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         public int PrimitivesCount => repository.Primitives.Count();
 
-        public RelayCommand SetToFront
+        public ICommand SetToFront
         {
             get
             {
@@ -226,7 +227,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             else return false;
         }
 
-        public RelayCommand SetToBack
+        public ICommand SetToBack
         {
             get
             {

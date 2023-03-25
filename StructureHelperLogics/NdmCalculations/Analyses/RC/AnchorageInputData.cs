@@ -14,5 +14,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
         public double CrossSectionPerimeter { get; set; }
         public double ReinforcementStress { get; set; }
         public double LappedCountRate { get; set; }
+        public double FactorEta1 { get; set; }
+        public bool IsPrestressed { get; set; }
     }
 }

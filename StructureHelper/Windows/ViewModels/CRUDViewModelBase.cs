@@ -7,16 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels
 {
     public abstract class CRUDViewModelBase<TItem> : ViewModelBase, ICRUDViewModel<TItem> where TItem : class
     {
 
-        private RelayCommand addCommand;
-        private RelayCommand deleteCommand;
-        private RelayCommand copyCommand;
-        private RelayCommand editCommand;
+        private ICommand addCommand;
+        private ICommand deleteCommand;
+        private ICommand copyCommand;
+        private ICommand editCommand;
 
         public List<TItem> Collection { get; set; }
 
@@ -25,7 +26,7 @@ namespace StructureHelper.Windows.ViewModels
 
         public ObservableCollection<TItem> Items { get; private set; }
 
-        public RelayCommand Add
+        public ICommand Add
         {
             get
             {
@@ -43,7 +44,7 @@ namespace StructureHelper.Windows.ViewModels
             Collection.Add(NewItem);
             Items.Add(NewItem);
         }
-        public RelayCommand Delete
+        public ICommand Delete
         {
             get
             {
@@ -61,7 +62,7 @@ namespace StructureHelper.Windows.ViewModels
             Collection.Remove(SelectedItem);
             Items.Remove(SelectedItem);
         }
-        public RelayCommand Edit
+        public ICommand Edit
         {
             get
             {
@@ -84,7 +85,7 @@ namespace StructureHelper.Windows.ViewModels
             OnPropertyChanged(nameof(Items));
         }
 
-        public RelayCommand Copy
+        public ICommand Copy
         {
             get
             {

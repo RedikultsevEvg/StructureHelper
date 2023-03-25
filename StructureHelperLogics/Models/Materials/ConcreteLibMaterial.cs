@@ -2,15 +2,15 @@
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Materials.Libraries;
-using LCM = LoaderCalculator.Data.Materials;
-using LCMB = LoaderCalculator.Data.Materials.MaterialBuilders;
+using LoaderMaterials = LoaderCalculator.Data.Materials;
+using LoaderMaterialBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StructureHelperCommon.Infrastructures.Settings;
-using LCMBML = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
+using LoaderMaterialLogic = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
 
 namespace StructureHelperLogics.Models.Materials
 {
@@ -22,13 +22,13 @@ namespace StructureHelperLogics.Models.Materials
         public bool TensionForSLS { get; set; }
 
         private IMaterialOptionLogic optionLogic;
-        private LCMBML.ITrueStrengthLogic strengthLogic;
+        private LoaderMaterialLogic.ITrueStrengthLogic strengthLogic;
 
         public ConcreteLibMaterial()
         {
             SafetyFactors = new List<IMaterialSafetyFactor>();
             SafetyFactors.AddRange(PartialCoefficientFactory.GetDefaultConcreteSafetyFactors(ProgramSetting.CodeType));
-            optionLogic = new MaterialOptionLogic(new LCMB.ConcreteOptions());
+            optionLogic = new MaterialOptionLogic(new LoaderMaterialBuilders.ConcreteOptions());
             TensionForULS = false;
             TensionForSLS = true;
         }       
@@ -38,9 +38,9 @@ namespace StructureHelperLogics.Models.Materials
             return new ConcreteLibMaterial() { MaterialEntity = MaterialEntity, TensionForULS = TensionForULS, TensionForSLS = TensionForSLS };
         }
 
-        public LCM.IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        public LoaderMaterials.IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
-            var materialOptions = optionLogic.SetMaterialOptions(MaterialEntity, limitState, calcTerm) as LCMB.ConcreteOptions;
+            var materialOptions = optionLogic.SetMaterialOptions(MaterialEntity, limitState, calcTerm) as LoaderMaterialBuilders.ConcreteOptions;
             materialOptions.WorkInTension = false;
             if (limitState == LimitStates.ULS & TensionForULS == true)
             {
@@ -53,8 +53,8 @@ namespace StructureHelperLogics.Models.Materials
             var strength = GetStrengthFactors(limitState, calcTerm);
             materialOptions.ExternalFactor.Compressive = strength.Compressive;
             materialOptions.ExternalFactor.Tensile = strength.Tensile;
-            LCMB.IMaterialBuilder builder = new LCMB.ConcreteBuilder(materialOptions);
-            LCMB.IBuilderDirector director = new LCMB.BuilderDirector(builder);
+            LoaderMaterialBuilders.IMaterialBuilder builder = new LoaderMaterialBuilders.ConcreteBuilder(materialOptions);
+            LoaderMaterialBuilders.IBuilderDirector director = new LoaderMaterialBuilders.BuilderDirector(builder);
             return director.BuildMaterial();
         }
 
@@ -72,9 +72,19 @@ namespace StructureHelperLogics.Models.Materials
 
         public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
         {
-            strengthLogic = new LCMBML.TrueStrengthConcreteLogicSP63_2018(MaterialEntity.MainStrength);
+            strengthLogic = new LoaderMaterialLogic.TrueStrengthConcreteLogicSP63_2018(MaterialEntity.MainStrength);
             var strength = strengthLogic.GetTrueStrength();
-            return (strength.Comressive, strength.Tensile);
+            double compressionFactor = 1d;
+            double tensionFactor = 1d;
+            if (limitState == LimitStates.ULS)
+            {
+                compressionFactor /= 1.3d;
+                tensionFactor /= 1.5d;
+                var factors = GetStrengthFactors(limitState, calcTerm);
+                compressionFactor *= factors.Compressive;
+                tensionFactor *= factors.Tensile;
+            }
+            return (strength.Comressive * compressionFactor, strength.Tensile * tensionFactor);
         }
     }
 }

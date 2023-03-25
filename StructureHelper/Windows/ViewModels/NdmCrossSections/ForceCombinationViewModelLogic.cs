@@ -23,8 +23,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         public ObservableCollection<IForceAction> Items { get; private set; }
 
-        private RelayCommand addForceCombinationCommand;
-        public RelayCommand Add
+        private ICommand addForceCombinationCommand;
+        public ICommand Add
         {
             get
             {
@@ -43,8 +43,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             Items.Add(item);
             repository.ForceActions.Add(item);
         }
-        private RelayCommand deleteForceCombinationCommand;
-        public RelayCommand Delete
+        private ICommand deleteForceCombinationCommand;
+        public ICommand Delete
         {
             get
             {
@@ -65,10 +65,10 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 repository.ForceActions.Remove(SelectedItem);
             }
         }
-        private RelayCommand editForceCombinationCommand;
-        private RelayCommand copyCommand;
+        private ICommand editForceCombinationCommand;
+        private ICommand copyCommand;
 
-        public RelayCommand Edit
+        public ICommand Edit
         {
             get
             {
@@ -84,7 +84,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
         }
 
-        public RelayCommand Copy
+        public ICommand Copy
         {
             get
             {

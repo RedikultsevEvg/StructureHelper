@@ -22,7 +22,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
 
         public double GetBaseDevLength()
         {
-            return anchorage.GetBaseDevLength();
+            var val = anchorage.GetBaseDevLength();
+            return val;
         }
 
         public double GetDevLength()
@@ -40,6 +41,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
             var anchorageOptions = new AnchorageOptionsSP63();
             anchorageOptions.ConcreteStrength = inputData.ConcreteStrength;
             anchorageOptions.ReinforcementStrength = inputData.ReinforcementStrength;
+            anchorageOptions.FactorEta1 = inputData.FactorEta1;
             anchorageOptions.ReinforcementStress = inputData.ReinforcementStress;
             anchorageOptions.CrossSectionArea = inputData.CrossSectionArea;
             anchorageOptions.CrossSectionPerimeter = inputData.CrossSectionPerimeter;
