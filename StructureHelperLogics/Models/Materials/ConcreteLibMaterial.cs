@@ -84,7 +84,7 @@ namespace StructureHelperLogics.Models.Materials
                 compressionFactor *= factors.Compressive;
                 tensionFactor *= factors.Tensile;
             }
-            return (strength.Comressive * compressionFactor, strength.Tensile * tensionFactor);
+            return (strength.Compressive * compressionFactor, strength.Tensile * tensionFactor);
         }
     }
 }

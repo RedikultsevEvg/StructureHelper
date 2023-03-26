@@ -101,6 +101,7 @@
             <Button Content="New Concrete"  Command="{Binding AddNewConcreteMaterialCommand}"/>
             <Button Content="New Reinforcement"  Command="{Binding AddNewReinforcementMaterialCommand}"/>
             <Button Content="New Elastic Material"  Command="{Binding AddElasticMaterialCommand}"/>
+            <Button Content="Show diagram"  Command="{Binding ShowMaterialDiagram}"/>
             <Button Content="Edit color"  Command="{Binding EditColorCommand}"/>
             <Button Content="Copy"  Command="{Binding CopyHeadMaterialCommand}"/>
             <Button Content="Delete"  Command="{Binding DeleteMaterialCommand}"/>

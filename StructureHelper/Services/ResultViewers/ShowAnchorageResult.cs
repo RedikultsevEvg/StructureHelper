@@ -1,24 +1,11 @@
 ﻿using FieldVisualizer.Entities.Values.Primitives;
-using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Matrix;
-using LoaderCalculator.Data.Ndms;
-using LoaderCalculator.Logics;
 using StructureHelper.Infrastructure.UI.Converters.Units;
-using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperCommon.Services.Units;
-using StructureHelperLogics.Models.Materials;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Analyses.RC;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Intrinsics.Arm;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Services.ResultViewers
 {

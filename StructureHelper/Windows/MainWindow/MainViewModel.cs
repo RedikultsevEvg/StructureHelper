@@ -1,7 +1,6 @@
 ﻿using LoaderCalculator.Logics.Geometry;
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
-using StructureHelper.MaterialCatalogWindow;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.ColorPickerWindow;
 using StructureHelper.Windows.MainWindow.Materials;
@@ -12,7 +11,6 @@ using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Templates.CrossSections.RCs;
 using StructureHelperLogics.Models.Templates.RCs;
@@ -256,17 +254,6 @@ namespace StructureHelper.Windows.MainWindow
                 }
             });
             EditHeadMaterialsCommand = new RelayCommand(o => EditHeadMaterials());
-            OpenMaterialCatalog = new RelayCommand(o =>
-            {
-                var materialCatalogView = new MaterialCatalogView();
-                materialCatalogView.ShowDialog();
-            });
-            OpenMaterialCatalogWithSelection = new RelayCommand(o =>
-            {
-                var primitive = o as PrimitiveBase;
-                var materialCatalogView = new MaterialCatalogView(true, primitive);
-                materialCatalogView.ShowDialog();
-            });
 
             SetColor = new RelayCommand(o =>
             {

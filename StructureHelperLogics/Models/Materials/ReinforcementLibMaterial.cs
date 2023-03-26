@@ -67,7 +67,7 @@ namespace StructureHelperLogics.Models.Materials
             var factors = GetStrengthFactors(limitState, calcTerm);
             compressionFactor *= factors.Compressive;
             tensionFactor *= factors.Tensile;
-            var compressiveStrength = strength.Comressive * compressionFactor;
+            var compressiveStrength = strength.Compressive * compressionFactor;
             if (limitState == LimitStates.ULS)
             {
                 if (calcTerm == CalcTerms.ShortTerm)

@@ -24,6 +24,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.AnchorageCalcula
             inputData.CrossSectionArea = Math.PI * diameter * diameter / 4d;
             inputData.CrossSectionPerimeter = Math.PI * diameter;
             inputData.ReinforcementStress = stress;
+            inputData.LappedCountRate = 0.5d;
             var calculator = new AnchorageCalculator(inputData);
             //Act
             var baseLength = calculator.GetBaseDevLength();

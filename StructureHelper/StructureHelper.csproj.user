@@ -18,6 +18,9 @@
     <Compile Update="Windows\MainWindow\AboutView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\MainWindow\Materials\MaterialDiagramView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\PrimitiveTemplates\RCs\Beams\CircleView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -33,6 +36,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MainWindow\AboutView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\MainWindow\Materials\MaterialDiagramView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\PrimitiveTemplates\RCs\Beams\CircleView.xaml">

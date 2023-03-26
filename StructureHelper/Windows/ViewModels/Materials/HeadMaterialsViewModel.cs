@@ -3,6 +3,7 @@ using StructureHelper.Models.Materials;
 using StructureHelper.Services.Primitives;
 using StructureHelper.Windows.AddMaterialWindow;
 using StructureHelper.Windows.MainWindow;
+using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials.Libraries;
@@ -57,9 +58,9 @@ namespace StructureHelper.Windows.ViewModels.Materials
         public ICommand DeleteMaterialCommand { get; set; }
         public ICommand EditHeadMaterial;
 
-        private RelayCommand showSafetyfactors;
+        private ICommand showSafetyfactors;
 
-        public RelayCommand ShowSafetyFactors
+        public ICommand ShowSafetyFactors
         {
             get
             {
@@ -79,8 +80,24 @@ namespace StructureHelper.Windows.ViewModels.Materials
             }
         }
 
+        public ICommand ShowMaterialDiagram
+        {
+            get
+            {
+                return showMaterialDiagram ??= new RelayCommand(o =>
+                    {
+                        var material = selectedMaterial;
+                        var wnd = new MaterialDiagramView(material);
+                        wnd.ShowDialog();
 
-        private ICommand addElasticMaterialCommand;
+                    }, o => SelectedMaterial != null
+                    );
+            }
+        }
+
+
+        private ICommand? addElasticMaterialCommand;
+        private ICommand? showMaterialDiagram;
 
         public ObservableCollection<IHeadMaterial> HeadMaterials { get; private set; }
         public IHeadMaterial SelectedMaterial
@@ -89,7 +106,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
             set
             {
                 OnPropertyChanged(value, ref selectedMaterial);
-                if (!(selectedMaterial is null))
+                if (selectedMaterial is not null && selectedMaterial.HelperMaterial is ILibMaterial)
                 {
                     var libMaterial = selectedMaterial.HelperMaterial as ILibMaterial;
                     selectedLibMaterial = libMaterial.MaterialEntity;
