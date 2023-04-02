@@ -20,6 +20,7 @@ namespace StructureHelperLogics.Models.Materials
         public List<IMaterialSafetyFactor> SafetyFactors { get; }
         public bool TensionForULS { get ; set; }
         public bool TensionForSLS { get; set; }
+        public double Humidity { get; set; }
 
         private IMaterialOptionLogic optionLogic;
         private LoaderMaterialLogic.ITrueStrengthLogic strengthLogic;
@@ -31,6 +32,7 @@ namespace StructureHelperLogics.Models.Materials
             optionLogic = new MaterialOptionLogic(new LoaderMaterialBuilders.ConcreteOptions());
             TensionForULS = false;
             TensionForSLS = true;
+            Humidity = 0.55d;
         }       
 
         public object Clone()

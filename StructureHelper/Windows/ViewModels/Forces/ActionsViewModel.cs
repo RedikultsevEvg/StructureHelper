@@ -22,7 +22,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
         {
             if (parameter is not null)
             {
-                ActionType paramType = (ActionType)parameter;
+                var paramType = (ActionType)parameter;
                 if (paramType == ActionType.ForceCombination)
                 {
                     NewItem = new ForceCombinationList() { Name = "New Force Combination" };
@@ -34,7 +34,6 @@ namespace StructureHelper.Windows.ViewModels.Forces
                 else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $": Actual type: {nameof(paramType)}");    
                 base.AddMethod(parameter);
             }
-
         }
 
         public override void DeleteMethod(object parameter)
@@ -42,24 +41,12 @@ namespace StructureHelper.Windows.ViewModels.Forces
             var dialogResult = MessageBox.Show("Delete action?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                var calcRepository = repository.CalculatorsList;
-                foreach (var item in calcRepository)
-                {
-                    if (item is IForceCalculator)
-                    {
-                        var forceCalculator = item as IForceCalculator;
-                        var containSelected = forceCalculator.ForceActions.Contains(SelectedItem);
-                        if (containSelected)
-                        {
-                            var dialogResultCalc = MessageBox.Show($"Action is contained in calculator {item.Name}", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                            if (dialogResultCalc == DialogResult.OK) { forceCalculator.ForceActions.Remove(SelectedItem); }
-                            else return;
-                        }
-                    }
-                }
+                DeleteAction();
                 base.DeleteMethod(parameter);
             }         
         }
+
+
 
         public override void EditMethod(object parameter)
         {
@@ -82,6 +69,25 @@ namespace StructureHelper.Windows.ViewModels.Forces
         public ActionsViewModel(ICrossSectionRepository repository) : base (repository.ForceActions)
         {
             this.repository = repository;
+        }
+
+        private void DeleteAction()
+        {
+            var calcRepository = repository.CalculatorsList;
+            foreach (var item in calcRepository)
+            {
+                if (item is IForceCalculator)
+                {
+                    var forceCalculator = item as IForceCalculator;
+                    var containSelected = forceCalculator.ForceActions.Contains(SelectedItem);
+                    if (containSelected)
+                    {
+                        var dialogResultCalc = MessageBox.Show($"Action is contained in calculator {item.Name}", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (dialogResultCalc == DialogResult.OK) { forceCalculator.ForceActions.Remove(SelectedItem); }
+                        else return;
+                    }
+                }
+            }
         }
     }
 }

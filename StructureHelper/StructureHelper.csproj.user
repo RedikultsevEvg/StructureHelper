@@ -18,6 +18,9 @@
     <Compile Update="Windows\MainWindow\AboutView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\MainWindow\Materials\HeadMaterialView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\MainWindow\Materials\MaterialDiagramView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -29,6 +32,9 @@
     <Page Update="Infrastructure\UI\Resources\ForceTemplates.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Infrastructure\UI\Resources\Materials.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\Errors\ErrorMessage.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -36,6 +42,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MainWindow\AboutView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\MainWindow\Materials\HeadMaterialView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MainWindow\Materials\MaterialDiagramView.xaml">

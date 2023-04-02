@@ -54,19 +54,24 @@ namespace StructureHelper.Windows.ViewModels.Materials
         }
 
         public ICommand CopyHeadMaterialCommand { get; set; }
-        public ICommand EditColorCommand { get; set; }
-        public ICommand DeleteMaterialCommand { get; set; }
-        public ICommand EditHeadMaterial;
+        public ICommand EditColorCommand => editColorCommand ??= new RelayCommand(o => EditColor(), o => SelectedMaterial is not null);
+        public ICommand EditCommand => editCommand ??= new RelayCommand(o => Edit(), o => SelectedMaterial is not null);
 
-        private ICommand showSafetyfactors;
+        private void Edit()
+        {
+            var wnd = new HeadMaterialView(SelectedMaterial);
+            wnd.ShowDialog();
+        }
+
+        public ICommand DeleteMaterialCommand { get; set; }
+
+        private ICommand showSafetyFactors;
 
         public ICommand ShowSafetyFactors
         {
             get
             {
-                return showSafetyfactors ??
-                    (
-                    showSafetyfactors = new RelayCommand(o =>
+                return showSafetyFactors ??= new RelayCommand(o =>
                     {
                         if (selectedMaterial.HelperMaterial is ILibMaterial)
                         {
@@ -76,7 +81,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
                             OnPropertyChanged(nameof(Items));
                         }
                     }, o=> SelectedLibMaterial != null
-                    ));
+                    );
             }
         }
 
@@ -98,6 +103,8 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         private ICommand? addElasticMaterialCommand;
         private ICommand? showMaterialDiagram;
+        private ICommand? editColorCommand;
+        private ICommand editCommand;
 
         public ObservableCollection<IHeadMaterial> HeadMaterials { get; private set; }
         public IHeadMaterial SelectedMaterial
@@ -183,7 +190,6 @@ namespace StructureHelper.Windows.ViewModels.Materials
             AddNewConcreteMaterialCommand = new RelayCommand(o => AddConcreteMaterial());
             AddNewReinforcementMaterialCommand = new RelayCommand(o => AddReinforcementMaterial());
             CopyHeadMaterialCommand = new RelayCommand(o => CopyMaterial(), o => !(SelectedMaterial is null));
-            EditColorCommand = new RelayCommand(o => EditColor(), o=> ! (SelectedMaterial is null));
             DeleteMaterialCommand = new RelayCommand(o => DeleteMaterial(), o => !(SelectedMaterial is null));
         }
 

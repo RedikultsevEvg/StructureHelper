@@ -58,7 +58,7 @@ namespace StructureHelper.Services.ResultViewers
                     {
                         inputData.ReinforcementStress = inputData.ReinforcementStrength * Math.Sign(inputData.ReinforcementStress);
                     }
-                    var val = inputData.ReinforcementStress * UnitConstatnts.Stress;
+                    var val = inputData.ReinforcementStress * UnitConstants.Stress;
                     var valuePrimitive = GetValuePrimitive(primitive, val);
                     primitives.Add(valuePrimitive);
                 }
@@ -78,7 +78,7 @@ namespace StructureHelper.Services.ResultViewers
                     var primitive = item as ReinforcementPrimitive;
                     var inputData = InputDataFactory.GetInputData(primitive, strainMatrix, limitState, calcTerm, 1d);
                     var calculator = new AnchorageCalculator(inputData);
-                    var val = calculator.GetBaseDevLength() * UnitConstatnts.Length;
+                    var val = calculator.GetBaseDevLength() * UnitConstants.Length;
                     var valuePrimitive = GetValuePrimitive(primitive, val);
                     primitives.Add(valuePrimitive);
                 }
@@ -101,7 +101,7 @@ namespace StructureHelper.Services.ResultViewers
                         inputData.ReinforcementStress = inputData.ReinforcementStrength * Math.Sign(inputData.ReinforcementStress);
                     }
                     var calculator = new AnchorageCalculator(inputData);
-                    var val = calculator.GetDevLength() * UnitConstatnts.Length;
+                    var val = calculator.GetDevLength() * UnitConstants.Length;
                     var valuePrimitive = GetValuePrimitive(primitive, val);
                     primitives.Add(valuePrimitive);
                 }
@@ -125,7 +125,7 @@ namespace StructureHelper.Services.ResultViewers
                         inputData.ReinforcementStress = inputData.ReinforcementStrength * Math.Sign(inputData.ReinforcementStress);
                     }
                     var calculator = new AnchorageCalculator(inputData);
-                    var val = calculator.GetLapLength() * UnitConstatnts.Length;
+                    var val = calculator.GetLapLength() * UnitConstants.Length;
                     var valuePrimitive = GetValuePrimitive(primitive, val);
                     primitives.Add(valuePrimitive);
                 }

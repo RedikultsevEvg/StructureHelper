@@ -11,5 +11,6 @@ namespace StructureHelperLogics.Models.Materials
     {
         bool TensionForULS { get; set; }
         bool TensionForSLS { get; set; }
+        double Humidity { get; set; }
     }
 }

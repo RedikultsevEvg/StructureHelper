@@ -1,14 +1,18 @@
 ﻿using LiveCharts;
 using LiveCharts.Wpf;
+using StructureHelper.Infrastructure.UI.Converters.Units;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace StructureHelper.Windows.ViewModels.Materials
 {
@@ -56,7 +60,9 @@ namespace StructureHelper.Windows.ViewModels.Materials
                     var title = titles[n];
                     for (double s = minValue; s < maxValue; s += step)
                     {
-                        double diagramValue = loaderMaterial.Diagram.Invoke(loaderMaterial.DiagramParameters,s);
+                        double diagramValue = Math.Round(loaderMaterial.Diagram.Invoke(loaderMaterial.DiagramParameters,s)) * UnitConstants.Stress;
+                        //var point = new PointF() { X = (float)s, Y = (float)diagramValue };
+                        //chartValues.Add(point);
                         chartValues.Add(diagramValue);
                         labels.Add(Convert.ToString(Math.Round(s,4)));
                     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Infrastructure.UI.Converters.Units
 {
-    internal static class UnitConstatnts
+    internal static class UnitConstants
     {
         public static double Length = 1e3d;
         public static double Force = 1e-3d;
