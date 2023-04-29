@@ -89,7 +89,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "csv |*.csv";
-            saveFileDialog.Title = "Save an csv File";
+            saveFileDialog.Title = "Save in csv File";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var filename = saveFileDialog.FileName;
