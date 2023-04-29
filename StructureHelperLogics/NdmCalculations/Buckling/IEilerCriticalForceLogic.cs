@@ -8,7 +8,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
 {
     internal interface IEilerCriticalForceLogic : ICriticalBucklingForceLogic
     {
-        double LongForce { get; set; }
+        double LongitudinalForce { get; set; }
         double StiffnessEI { get; set; }
         double DesignLength { get; set; }
 

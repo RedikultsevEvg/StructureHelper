@@ -16,7 +16,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         /// <summary>
         /// Text of result of calculations
         /// </summary>
-        public string Desctription { get; set; }
+        public string Description { get; set; }
         /// <summary>
         /// Keep result of calculations from ndm-library
         /// </summary>

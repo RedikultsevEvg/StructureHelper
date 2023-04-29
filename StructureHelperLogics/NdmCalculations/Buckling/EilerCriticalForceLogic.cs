@@ -10,7 +10,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
 {
     internal class EilerCriticalForceLogic : IEilerCriticalForceLogic
     {
-        public double LongForce { get; set; }
+        public double LongitudinalForce { get; set; }
         public double StiffnessEI { get; set; }
         public double DesignLength { get; set; }
 
@@ -22,13 +22,13 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
 
         public double GetEtaFactor()
         {
-            if (LongForce >= 0d) return 1d;
+            if (LongitudinalForce >= 0d) return 1d;
             var Ncr = GetCriticalForce();
-            if (LongForce <= Ncr)
+            if (LongitudinalForce <= Ncr)
             {
                 throw new StructureHelperException(ErrorStrings.LongitudinalForceMustBeLessThanCriticalForce);
             }
-            double eta = 1 / (1 - LongForce / Ncr);
+            double eta = 1 / (1 - LongitudinalForce / Ncr);
             return eta;
         }
     }

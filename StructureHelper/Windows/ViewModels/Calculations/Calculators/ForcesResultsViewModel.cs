@@ -7,6 +7,7 @@ using StructureHelper.Services.Reports.CalculationReports;
 using StructureHelper.Services.ResultViewers;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
+using StructureHelper.Windows.CalculationWindows.CalculatorsViews.GeometryCalculator;
 using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
@@ -50,6 +51,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         private RelayCommand interpolateCommand;
         private RelayCommand setPrestrainCommand;
         private ICommand showAnchorageCommand;
+        private ICommand showGeometryResultCommand;
 
         public IForcesResults ForcesResults
         {
@@ -63,13 +65,8 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 return showIsoFieldCommand ??
                 (showIsoFieldCommand = new RelayCommand(o =>
                 {
-                    var vm = new SelectPrimitivesViewModel(ndmPrimitives);
-                    var wnd = new SelectPrimitivesView(vm);
-                    wnd.ShowDialog();
-                    if (wnd.DialogResult == true)
+                    if (SelectPrimitives() == true)
                     {
-                        selectedNdmPrimitives = vm.Items.CollectionItems.Where(x => x.IsSelected == true).Select(x => x.Item.GetNdmPrimitive());
-                        GetNdms();
                         ShowIsoField();
                     }
                 }, o => (SelectedResult != null) && SelectedResult.IsValid));
@@ -169,7 +166,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             var result = calculator.Result;
             if (result is null || result.IsValid == false)
             {
-                MessageBox.Show(result.Desctription, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(result.Description, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
@@ -215,11 +212,10 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     (showAnchorageCommand = new RelayCommand(o =>
                     {
                         showAnchorage();
-                    }, o => SelectedResult != null
+                    }, o => SelectedResult != null && SelectedResult.IsValid
                     ));
             }
         }
-
         private void showAnchorage()
         {
             try
@@ -239,7 +235,33 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     DetailText = $"{ex}"};
                 new ErrorMessage(vm).ShowDialog();
             }
+        }
 
+        public ICommand ShowGeometryResultCommand =>
+            showGeometryResultCommand ??= new RelayCommand(o =>
+            showGeometryResult(), o => SelectedResult != null && SelectedResult.IsValid);
+        private void showGeometryResult()
+        {
+            if (SelectPrimitives() == true)
+            {
+                try
+                {
+                    var strainMatrix = SelectedResult.LoaderResults.ForceStrainPair.StrainMatrix;
+                    var textParametrsLogic = new TextParametersLogic(ndms, strainMatrix);
+                    var textParameters = textParametrsLogic.GetTextParameters();
+                    var wnd = new GeometryCalculatorResultView(textParameters);
+                    wnd.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    var vm = new ErrorProcessor()
+                    {
+                        ShortText = "Errors apearred during showing isofield, see detailed information",
+                        DetailText = $"{ex}"
+                    };
+                    new ErrorMessage(vm).ShowDialog();
+                }
+            }
         }
 
         public ForcesResultsViewModel(IForceCalculator forceCalculator)
@@ -269,7 +291,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             }
 
         }
-
         private void GetNdms()
         {
             var limitState = SelectedResult.DesignForceTuple.LimitState;
@@ -292,6 +313,20 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 }
             }
             ndms = ndmRange;
+        }
+
+        private bool SelectPrimitives()
+        {
+            var vm = new SelectPrimitivesViewModel(ndmPrimitives);
+            var wnd = new SelectPrimitivesView(vm);
+            wnd.ShowDialog();
+            if (wnd.DialogResult == true)
+            {
+                selectedNdmPrimitives = vm.Items.CollectionItems.Where(x => x.IsSelected == true).Select(x => x.Item.GetNdmPrimitive());
+                GetNdms();
+                return true;
+            }
+            return false;
         }
     }
 }

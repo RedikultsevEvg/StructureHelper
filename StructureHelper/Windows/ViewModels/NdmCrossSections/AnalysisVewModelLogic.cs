@@ -59,7 +59,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                         var result = SelectedItem.Result;
                         if (result.IsValid == false)
                         {
-                            MessageBox.Show(result.Desctription, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show(result.Description, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         else
                         {

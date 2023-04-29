@@ -9,6 +9,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\GeometryCalculator\GeometryCalculatorResultView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\Errors\ErrorMessage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -33,6 +36,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Infrastructure\UI\Resources\Materials.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\GeometryCalculator\GeometryCalculatorResultView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\Errors\ErrorMessage.xaml">

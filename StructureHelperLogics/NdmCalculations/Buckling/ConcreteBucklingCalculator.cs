@@ -31,7 +31,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         private (double EtaAlongX, double EtaAlongY) GetBucklingCoefficients()
         {
             var stiffness = GetStiffness();
-            criticalForceLogic.LongForce = options.CalcForceTuple.Nz;
+            criticalForceLogic.LongitudinalForce = options.CalcForceTuple.Nz;
             criticalForceLogic.StiffnessEI = stiffness.DX;
             criticalForceLogic.DesignLength = options.CompressedMember.GeometryLength * options.CompressedMember.LengthFactorY;
             var etaAlongY = criticalForceLogic.GetEtaFactor();
@@ -77,8 +77,8 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         {
             var gravityCenter = GeometryOperations.GetGravityCenter(ndmCollection);
 
-            var concreteInertia = GeometryOperations.GetMomentsOfInertiaMod(concreteNdms, gravityCenter);
-            var otherInertia = GeometryOperations.GetMomentsOfInertiaMod(otherNdms, gravityCenter);
+            var concreteInertia = GeometryOperations.GetReducedMomentsOfInertia(concreteNdms, gravityCenter);
+            var otherInertia = GeometryOperations.GetReducedMomentsOfInertia(otherNdms, gravityCenter);
 
             var stiffnessX = stiffnessLogicX.GetStiffnessCoeffitients();
             var dX = stiffnessX.Kc * concreteInertia.MomentX  + stiffnessX.Ks * otherInertia.MomentX;
@@ -127,7 +127,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
             var checkResult = CheckInputData();
             if (checkResult != "")
             {
-                Result = new ConcreteBucklingResult() { IsValid = false, Desctription = checkResult };
+                Result = new ConcreteBucklingResult() { IsValid = false, Description = checkResult };
                 return;
             }
             else

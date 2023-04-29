@@ -35,7 +35,7 @@
                 <DataGridTextColumn Header="EpsZ" Width="90" Binding="{Binding LoaderResults.ForceStrainPair.StrainMatrix.EpsZ}"/>
                 <DataGridTextColumn Header="Accuracy" Width="90" Binding="{Binding LoaderResults.AccuracyRate}"/>
                 <DataGridTextColumn Header="Max Iteration" Width="90" Binding="{Binding LoaderResults.IterationCounter}"/>
-                <DataGridTextColumn Header="Description" Width="300" Binding="{Binding Desctription}"/>
+                <DataGridTextColumn Header="Description" Width="300" Binding="{Binding Description}"/>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Column="1">
@@ -44,6 +44,7 @@
             <Button Margin="3" Content="Export" ToolTip="Export results to *.csv" Command="{Binding ExportToCSVCommand}"/>
             <Button Margin="3" Content="Set Prestrain" ToolTip="Set strains as auto prestrain" Command="{Binding SetPrestrainCommand}"/>
             <Button Margin="3" Content="Anchorage" ToolTip="Set strains as auto prestrain" Command="{Binding ShowAnchorageCommand}"/>
+            <Button Margin="3" Content="Geometry" ToolTip="Show Geometry Properties" Command="{Binding ShowGeometryResultCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

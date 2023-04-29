@@ -59,7 +59,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             var ndms = NdmPrimitivesService.GetNdms(primitives, LimitStates.ULS, CalcTerms.ShortTerm);
             //Assert
             var area = ndms.Sum(x => x.Area);
-            var moments = GeometryOperations.GetMomentsOfInertiaMod(ndms);
+            var moments = GeometryOperations.GetReducedMomentsOfInertia(ndms);
             Assert.AreEqual(expectedArea, area, 0.001d);
             Assert.AreEqual(expectedMomX, moments.MomentX, 0.001d);
             Assert.AreEqual(expectedMomY, moments.MomentY, 1d);
@@ -89,7 +89,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             var ndms = NdmPrimitivesService.GetNdms(primitives, LimitStates.ULS, CalcTerms.ShortTerm);
             //Assert
             var area = ndms.Sum(x => x.Area);
-            var moments = GeometryOperations.GetMomentsOfInertiaMod(ndms);
+            var moments = GeometryOperations.GetReducedMomentsOfInertia(ndms);
             Assert.AreEqual(expectedArea, area, 0.001d);
             Assert.AreEqual(expectedMomX, moments.MomentX, 0.001d);
             Assert.AreEqual(expectedMomY, moments.MomentY, 1d);
@@ -120,7 +120,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             var ndms = NdmPrimitivesService.GetNdms(primitives, LimitStates.ULS, CalcTerms.ShortTerm);
             //Assert
             var area = ndms.Sum(x => x.Area);
-            var moments = GeometryOperations.GetMomentsOfInertiaMod(ndms);
+            var moments = GeometryOperations.GetReducedMomentsOfInertia(ndms);
             Assert.AreEqual(expectedArea, area, 0.001d);
             Assert.AreEqual(expectedMomX, moments.MomentX, 0.001d);
             Assert.AreEqual(expectedMomY, moments.MomentY, 1d);

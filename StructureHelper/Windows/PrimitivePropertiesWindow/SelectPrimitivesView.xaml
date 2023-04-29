@@ -10,10 +10,16 @@
         Title="Select Primitives" Height="250" Width="250" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <ListBox ItemsSource="{Binding Items.CollectionItems}" SelectedItem="Items.SelectedItem">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Select All" Command="{Binding Items.SelectAllCommand}"/>
+            <Button Content="Unselect All" Command="{Binding Items.UnSelectAllCommand}"/>
+            <Button Content="Invert Selection" Command="{Binding Items.InvertSelectionCommand}"/>
+        </StackPanel>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Items.CollectionItems}" SelectedItem="Items.SelectedItem">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -27,7 +33,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{StaticResource CancelButton}"/>
             <Button Style="{StaticResource OkButton}" Click="Button_Click"/>
         </StackPanel>

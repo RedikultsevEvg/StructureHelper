@@ -36,7 +36,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             var checkResult = CheckInputData();
             if (checkResult != "")
             {
-                Result = new ForcesResults() { IsValid = false, Desctription = checkResult };
+                Result = new ForcesResults() { IsValid = false, Description = checkResult };
                 return;
             }
             else
@@ -86,7 +86,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                                 if (bucklingResult.IsValid != true)
                                 {
                                     result.IsValid = false;
-                                    result.Desctription += $"Buckling result:\n{bucklingResult.Desctription}\n";
+                                    result.Description += $"Buckling result:\n{bucklingResult.Description}\n";
                                 }
                                 newTuple = CalculateBuckling(newTuple, bucklingResult);
                                 result = GetPrimitiveStrainMatrix(ndms, newTuple);
@@ -94,7 +94,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                             catch (Exception ex)
                             {
                                 result.IsValid = false;
-                                result.Desctription = $"Buckling error:\n{ex}\n";
+                                result.Description = $"Buckling error:\n{ex}\n";
                             }
                         }
                         result.DesignForceTuple.LimitState = limitState;

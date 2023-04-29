@@ -1,4 +1,5 @@
-﻿using StructureHelper.Infrastructure;
+﻿using Microsoft.VisualBasic;
+using StructureHelper.Infrastructure;
 using StructureHelperCommon.Models.Materials.Libraries;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,6 @@ namespace StructureHelper.Windows.ViewModels
 {
     public abstract class CRUDViewModelBase<TItem> : ViewModelBase, ICRUDViewModel<TItem> where TItem : class
     {
-
         private ICommand addCommand;
         private ICommand deleteCommand;
         private ICommand copyCommand;
@@ -83,6 +83,7 @@ namespace StructureHelper.Windows.ViewModels
                 Items.Add(item);
             }
             OnPropertyChanged(nameof(Items));
+            AfterItemsEdit?.Invoke(this, new CRUDVMEventArgs());
         }
 
         public ICommand Copy
@@ -113,15 +114,19 @@ namespace StructureHelper.Windows.ViewModels
                 Items.Add(item);
             }
         }
-        public CRUDViewModelBase()
-        {
-            Items = new ObservableCollection<TItem>();
-        }
 
         public CRUDViewModelBase(List<TItem> collection)
         {
             Collection = collection;
-            Items = new ObservableCollection<TItem>(collection);
+            Refresh();
         }
+        public void Refresh()
+        {
+            Items = new ObservableCollection<TItem>(Collection);
+            OnPropertyChanged(nameof(Items));
+            AfterItemsEdit?.Invoke(this, new CRUDVMEventArgs());
+        }
+        public delegate void CRUDHandler(CRUDViewModelBase<TItem> sender, CRUDVMEventArgs e);
+        public event CRUDHandler? AfterItemsEdit;
     }
 }

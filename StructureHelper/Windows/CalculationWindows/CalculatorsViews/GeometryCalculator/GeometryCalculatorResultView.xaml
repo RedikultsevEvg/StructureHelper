@@ -1,0 +1,32 @@
+﻿<Window x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.GeometryCalculator.GeometryCalculatorResultView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.GeometryCalculator"
+        xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Calculations.Calculators.GeometryCalculator"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance vm:GeometryCalculatorResultViewModel}"
+        Title="Geometry Properies" Height="450" Width="850" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <DataGrid x:Name="ResultGrid" IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding TextParameters}">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsValid}" Value="false">
+                            <Setter Property="Background" Value="Pink"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Valid" Binding="{Binding Path=IsValid}"/>
+                <DataGridTextColumn Header="Name" Width="100" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Short" Width="50" Binding="{Binding ShortName}"/>
+                <DataGridTextColumn Header="Unit" Width="100" Binding="{Binding MeasurementUnit}"/>
+                <DataGridTextColumn Header="Value" Width="150" Binding="{Binding Value}"/>
+                <DataGridTextColumn Header="Description" Width="400" Binding="{Binding Description}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

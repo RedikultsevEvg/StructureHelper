@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using StructureHelper.Infrastructure.UI.Converters.Units;
-using StructureHelperCommon.Infrastructures.Enums;
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Services.Units;
@@ -8,13 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace StructureHelper.Infrastructure.UI.Converters
+namespace StructureHelperCommon.Services.Units
 {
-    internal static class CommonOperation
+    public static class CommonOperation
     {
         private static IEnumerable<IUnit> units = UnitsFactory.GetUnitCollection();
 

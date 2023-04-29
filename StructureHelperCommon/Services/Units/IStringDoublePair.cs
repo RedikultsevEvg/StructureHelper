@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelper.Infrastructure.UI.Converters
+namespace StructureHelperCommon.Services.Units
 {
-    internal interface IStringDoublePair
+    public interface IStringDoublePair
     {
         double Digit { get; }
         string Text { get; }

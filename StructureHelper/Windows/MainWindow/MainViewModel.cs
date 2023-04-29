@@ -6,7 +6,9 @@ using StructureHelper.Windows.ColorPickerWindow;
 using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.Beams;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
+using StructureHelper.Windows.ViewModels;
 using StructureHelper.Windows.ViewModels.Forces;
+using StructureHelper.Windows.ViewModels.Materials;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -40,6 +42,7 @@ namespace StructureHelper.Windows.MainWindow
         private readonly AnalysisVewModelLogic calculatorsLogic;
         public AnalysisVewModelLogic CalculatorsLogic { get => calculatorsLogic;}
         public ActionsViewModel CombinationsLogic { get => combinationsLogic; }
+        public MaterialsViewModel MaterialsLogic { get => materialsLogic; }
         public PrimitiveViewModelLogic PrimitiveLogic => primitiveLogic;
         public HelpLogic HelpLogic => new HelpLogic();
 
@@ -153,11 +156,13 @@ namespace StructureHelper.Windows.MainWindow
         public ICommand EditCalculationPropertyCommand { get; }
         public ICommand EditHeadMaterialsCommand { get; }
         public ICommand AddRCCircleCase
-        { get
+        { 
+            get
             {
                 return new RelayCommand(o =>
                 {
                     PrimitiveLogic.AddItems(GetRCCirclePrimitives());
+                    materialsLogic.Refresh();
                 });
             }
         }
@@ -215,6 +220,7 @@ namespace StructureHelper.Windows.MainWindow
         private PrimitiveViewModelLogic primitiveLogic;
         private RelayCommand showVisualProperty;
         private RelayCommand selectPrimitive;
+        private MaterialsViewModel materialsLogic;
 
         public MainViewModel(MainModel model)
         {
@@ -222,6 +228,8 @@ namespace StructureHelper.Windows.MainWindow
             Model = model;
             section = model.Section;
             combinationsLogic = new ActionsViewModel(repository);
+            materialsLogic = new MaterialsViewModel(repository);
+            materialsLogic.AfterItemsEdit += afterMaterialEdit;
             calculatorsLogic = new AnalysisVewModelLogic(repository);
             primitiveLogic = new PrimitiveViewModelLogic(section) { CanvasWidth = CanvasWidth, CanvasHeight = CanvasHeight };
             XX2 = CanvasWidth;
@@ -253,7 +261,6 @@ namespace StructureHelper.Windows.MainWindow
                         rect.PrimitiveHeight = PanelY - rect.PrimitiveTop + 10d;
                 }
             });
-            EditHeadMaterialsCommand = new RelayCommand(o => EditHeadMaterials());
 
             SetColor = new RelayCommand(o =>
             {
@@ -279,16 +286,19 @@ namespace StructureHelper.Windows.MainWindow
             AddBeamCase = new RelayCommand(o =>
             {
                 PrimitiveLogic.AddItems(GetBeamCasePrimitives());
+                materialsLogic.Refresh();
             });
 
             AddColumnCase = new RelayCommand(o =>
             {
                 PrimitiveLogic.AddItems(GetColumnCasePrimitives());
+                materialsLogic.Refresh();
             });
 
             AddSlabCase = new RelayCommand(o =>
             {
                 PrimitiveLogic.AddItems(GetSlabCasePrimitives());
+                materialsLogic.Refresh();
             });
 
             MovePrimitiveToGravityCenterCommand = new RelayCommand(o =>
@@ -318,11 +328,8 @@ namespace StructureHelper.Windows.MainWindow
             });
         }
 
-        private void EditHeadMaterials()
+        private void afterMaterialEdit(CRUDViewModelBase<IHeadMaterial> sender, CRUDVMEventArgs e)
         {
-            var wnd = new HeadMaterialsView(repository);
-            wnd.ShowDialog();
-            OnPropertyChanged(nameof(HeadMaterials));
             foreach (var primitive in primitiveLogic.Items)
             {
                 primitive.RefreshColor();

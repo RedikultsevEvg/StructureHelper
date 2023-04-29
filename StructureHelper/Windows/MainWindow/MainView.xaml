@@ -98,13 +98,25 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </Expander>
-                    <Expander Header="Materials" MinWidth="20">
+                    <Expander Header="Materials" MinWidth="20" DataContext="{Binding MaterialsLogic}">
                         <Expander.ContextMenu>
                             <ContextMenu>
-                                <Button Content="Materials" Command="{Binding EditHeadMaterialsCommand}"/>
+                                <Button Content="Materials" Command="{Binding EditMaterialsCommand}"/>
+                                <MenuItem Header="Add">
+                                    <Button Content="Concrete" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Concrete}"/>
+                                    <Button Content="Reinforcement" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Reinforcement}"/>
+                                    <Button Content="Elastic" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Elastic}"/>
+                                </MenuItem>
                             </ContextMenu>
                         </Expander.ContextMenu>
-                        <ListBox ItemsSource="{Binding HeadMaterials}"  ItemTemplate="{StaticResource ColoredItemTemplate}">
+                        <ListBox ItemsSource="{Binding Items}"  SelectedItem="{Binding SelectedItem}" ItemTemplate="{StaticResource ColoredItemTemplate}">
+                            <ListBox.ContextMenu>
+                                <ContextMenu>
+                                    <Button Content="Edit" Command="{Binding Edit}"/>
+                                    <Button Content="Copy" Command="{Binding Copy}"/>
+                                    <Button Content="Delete" Command="{Binding Delete}"/>
+                                </ContextMenu>
+                            </ListBox.ContextMenu>
                         </ListBox>
                     </Expander>
                     <Expander Header="Geometry" MinWidth="20" DataContext="{Binding PrimitiveLogic}">

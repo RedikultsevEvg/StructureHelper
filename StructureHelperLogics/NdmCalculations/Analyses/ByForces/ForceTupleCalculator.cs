@@ -57,19 +57,19 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 var calcResult = calculator.Result;
                 if (calcResult.AccuracyRate <= accuracy.IterationAccuracy)
                 {
-                    return new ForcesTupleResult() { IsValid = true, Desctription = "Analysis is done succsefully", LoaderResults = calcResult };
+                    return new ForcesTupleResult() { IsValid = true, Description = "Analysis is done succsefully", LoaderResults = calcResult };
                 }
                 else
                 {
-                    return new ForcesTupleResult() { IsValid = false, Desctription = "Required accuracy rate has not achived", LoaderResults = calcResult };
+                    return new ForcesTupleResult() { IsValid = false, Description = "Required accuracy rate has not achived", LoaderResults = calcResult };
                 }
 
             }
             catch (Exception ex)
             {
                 var result = new ForcesTupleResult() { IsValid = false };
-                if (ex.Message == "Calculation result is not valid: stiffness matrix is equal to zero") { result.Desctription = "Stiffness matrix is equal to zero \nProbably section was collapsed"; }
-                else { result.Desctription = $"Error is appeared due to analysis. Error: {ex}"; }
+                if (ex.Message == "Calculation result is not valid: stiffness matrix is equal to zero") { result.Description = "Stiffness matrix is equal to zero \nProbably section was collapsed"; }
+                else { result.Description = $"Error is appeared due to analysis. Error: {ex}"; }
                 return result;
             }
         }
