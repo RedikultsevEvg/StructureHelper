@@ -7,40 +7,52 @@
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Forces"
         d:DataContext="{d:DesignInstance vm:InterpolateTuplesViewModel}"
         mc:Ignorable="d"
-        Title="Interpolate Combinations" Height="200" Width="350" MinHeight="180" MinWidth="250" WindowStartupLocation="CenterScreen">
+        Title="Interpolate Combinations" Height="200" Width="440" MinHeight="180" MinWidth="440" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"/>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="90"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="1" Text="Moment Mx" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Column="2" Text="Moment My" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Column="3" Text="Force Nz" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="1" Text="Start Combination"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding StartDesignForce.ForceTuple.Mx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
-            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding StartDesignForce.ForceTuple.My, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
-            <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding StartDesignForce.ForceTuple.Nz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
-            <TextBlock Grid.Row="2" Text="Finish Combination"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FinishDesignForce.ForceTuple.Mx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
-            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding FinishDesignForce.ForceTuple.My, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
-            <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding FinishDesignForce.ForceTuple.Nz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
-            <TextBlock Grid.Row="3" Text="Step count"/>
-            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding StepCount, ValidatesOnExceptions=True}"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1" Text="Moment Mx" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Text="Moment My" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Column="3" Text="Force Nz" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Text="Start Combination"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding StartMx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding StartMy, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding StartNz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
+                <TextBlock Grid.Row="2" Text="Finish Combination"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FinishMx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding FinishMy, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding FinishNz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
+                <TextBlock Grid.Row="3" Text="Step count"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding StepCount, ValidatesOnExceptions=True}"/>
+                
+            </Grid>
+            <StackPanel Grid.Column="1">
+                <Button Content="Invert comb's" Command="{Binding InvertForcesCommand}" />
+            </StackPanel>
         </Grid>
+        
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{StaticResource CancelButton}"/>
             <Button Style="{StaticResource OkButton}" Click="Button_Click"/>

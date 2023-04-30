@@ -1,5 +1,6 @@
-﻿using StructureHelper.Windows.ViewModels.Calculations.Calculators.GeometryCalculator;
+﻿using StructureHelper.Windows.ViewModels.Calculations.Calculators.GeometryCalculatorVMs;
 using StructureHelperCommon.Models.Parameters;
+using StructureHelperLogics.NdmCalculations.Analyses.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.GeometryCalculator
+namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.GeometryCalculatorViews
 {
     /// <summary>
     /// Логика взаимодействия для GeometryCalculatorResultView.xaml
@@ -22,9 +23,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.GeometryCa
     public partial class GeometryCalculatorResultView : Window
     {
         GeometryCalculatorResultViewModel viewModel;
-        public GeometryCalculatorResultView(List<ITextParameter> textParameters)
+        public GeometryCalculatorResultView(IGeometryResult geometryResult)
         {
-            viewModel = new GeometryCalculatorResultViewModel(textParameters);
+            viewModel = new GeometryCalculatorResultViewModel(geometryResult);
             InitializeComponent();
             this.DataContext = viewModel;
         }

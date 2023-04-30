@@ -10,29 +10,10 @@
         Title="Select Primitives" Height="250" Width="250" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Select All" Command="{Binding Items.SelectAllCommand}"/>
-            <Button Content="Unselect All" Command="{Binding Items.UnSelectAllCommand}"/>
-            <Button Content="Invert Selection" Command="{Binding Items.InvertSelectionCommand}"/>
-        </StackPanel>
-        <ListBox Grid.Row="1" ItemsSource="{Binding Items.CollectionItems}" SelectedItem="Items.SelectedItem">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="22"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <CheckBox IsChecked="{Binding IsSelected}"/>
-                        <ContentControl Grid.Column="1" ContentTemplate="{StaticResource ColoredItemTemplate}" Content="{Binding Item}"/>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding Items}"/>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{StaticResource CancelButton}"/>
             <Button Style="{StaticResource OkButton}" Click="Button_Click"/>

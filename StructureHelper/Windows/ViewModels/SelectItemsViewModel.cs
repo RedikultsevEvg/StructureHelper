@@ -36,7 +36,7 @@ namespace StructureHelper.Windows.ViewModels
         }
 
         public DataTemplate ItemDataDemplate { get; set; }
-
+        public bool ShowButtons { get; set; }
         public ObservableCollection<CollectionItem> CollectionItems { get; }
 
         public ICommand SelectAllCommand

@@ -9,7 +9,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Windows\CalculationWindows\CalculatorsViews\GeometryCalculator\GeometryCalculatorResultView.xaml.cs">
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\GeometryCalculatorViews\GeometryCalculatorResultView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\Errors\ErrorMessage.xaml.cs">
@@ -38,7 +38,7 @@
     <Page Update="Infrastructure\UI\Resources\Materials.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\CalculationWindows\CalculatorsViews\GeometryCalculator\GeometryCalculatorResultView.xaml">
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\GeometryCalculatorViews\GeometryCalculatorResultView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\Errors\ErrorMessage.xaml">

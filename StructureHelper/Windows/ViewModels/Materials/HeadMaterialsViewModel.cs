@@ -92,7 +92,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
                 return showMaterialDiagram ??= new RelayCommand(o =>
                     {
                         var material = selectedMaterial;
-                        var wnd = new MaterialDiagramView(material);
+                        var wnd = new MaterialDiagramView(headMaterials, material);
                         wnd.ShowDialog();
 
                     }, o => SelectedMaterial != null

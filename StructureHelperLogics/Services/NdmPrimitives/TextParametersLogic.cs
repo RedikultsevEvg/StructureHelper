@@ -27,17 +27,51 @@ namespace StructureHelperLogics.Services.NdmPrimitives
         {
             var parameters = new List<ITextParameter>();
             parameters.AddRange(GetGravityCenter(prefixInitial, ndms));
+            parameters.AddRange(GetSimpleArea(ndms));
             parameters.AddRange(GetArea(prefixInitial, ndms));
-            parameters.AddRange(GetSecondMomentOfArea(prefixInitial, ndms));
+            parameters.AddRange(GetMomentOfInertia(prefixInitial, ndms));
             parameters.AddRange(GetGravityCenter(prefixActual, ndms, strainMatrix));
             parameters.AddRange(GetArea(prefixActual, ndms, strainMatrix));
-            parameters.AddRange(GetSecondMomentOfArea(prefixActual, ndms, strainMatrix));
+            parameters.AddRange(GetMomentOfInertia(prefixActual, ndms, strainMatrix));
+            parameters.AddRange(GetAreaRatio(ndms, strainMatrix));
+            parameters.AddRange(GetMomentOfInertiaRatio(ndms, strainMatrix));
             return parameters;
         }
 
-        private IEnumerable<ITextParameter> GetSecondMomentOfArea(string prefix, IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix = null)
+        private IEnumerable<ITextParameter> GetSimpleArea(IEnumerable<INdm> ndms)
         {
-            const string name = "Moment of inertia";
+            const string name = "Summary Area";
+            const string shortName = "A";
+            var parameters = new List<ITextParameter>();
+            var unitArea = CommonOperation.GetUnit(UnitTypes.Area, "mm2");
+            var unitName = $"{unitArea.Name}";
+            var unitMultiPlayer = unitArea.Multiplyer;
+            var firstParameter = new TextParameter()
+            {
+                IsValid = true,
+                Name = $"{name}",
+                ShortName = $"{shortName}",
+                MeasurementUnit = unitName,
+                Description = $"{name} of cross-section without reduction"
+            };
+            try
+            {
+                firstParameter.Value = ndms.Sum(x => x.Area) * unitMultiPlayer;
+            }
+            catch (Exception ex)
+            {
+                firstParameter.IsValid = false;
+                firstParameter.Value = double.NaN;
+                firstParameter.Description += $": {ex}";
+            }
+            parameters.Add(firstParameter);
+            return parameters;
+        }
+
+        private IEnumerable<ITextParameter> GetMomentOfInertia(string prefix, IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix = null)
+        {
+            const string name = "Bending stiffness";
+            const string shortName = "EI";
             var parameters = new List<ITextParameter>();
             var unitArea = CommonOperation.GetUnit(UnitTypes.Area, "mm2");
             var unitStress = CommonOperation.GetUnit(UnitTypes.Stress, "MPa");
@@ -47,7 +81,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             {
                 IsValid = true,
                 Name = $"{prefix} {name} {firstAxisName.ToUpper()}",
-                ShortName = $"I{firstAxisName}",
+                ShortName = $"{shortName}{firstAxisName}",
                 MeasurementUnit = unitName,
                 Description = $"{prefix} {name} of cross-section arbitrary {firstAxisName}-axis multiplied by {prefix} modulus"
             };
@@ -55,7 +89,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             {
                 IsValid = true,
                 Name = $"{prefix} {name} {secondAxisName}",
-                ShortName = $"I{secondAxisName}",
+                ShortName = $"{shortName}{secondAxisName}",
                 MeasurementUnit = unitName,
                 Description = $"{prefix} {name} of cross-section arbitrary {secondAxisName}-axis multiplied by {prefix} modulus"
             };
@@ -78,9 +112,51 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             parameters.Add(secondParameter);
             return parameters;
         }
-
+        private IEnumerable<ITextParameter> GetMomentOfInertiaRatio(IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix = null)
+        {
+            const string name = "Bending stiffness";
+            const string shortName = "EI";
+            var parameters = new List<ITextParameter>();
+            var firstParameter = new TextParameter()
+            {
+                IsValid = true,
+                Name = $"{prefixActual}/{prefixInitial} {name} {firstAxisName.ToUpper()} ratio",
+                ShortName = $"{shortName}{firstAxisName}-ratio",
+                MeasurementUnit = "-",
+                Description = $"{prefixActual}/{prefixInitial} {name} of cross-section arbitrary {firstAxisName}-axis ratio"
+            };
+            var secondParameter = new TextParameter()
+            {
+                IsValid = true,
+                Name = $"{prefixActual}/{prefixInitial} {name} {secondAxisName} ratio",
+                ShortName = $"{shortName}{secondAxisName}-ratio",
+                MeasurementUnit = "-",
+                Description = $"{prefixActual}/{prefixInitial} {name} of cross-section arbitrary {secondAxisName}-axis ratio"
+            };
+            try
+            {
+                var initialMoments = GeometryOperations.GetReducedMomentsOfInertia(locNdms);
+                var actualMoments = GeometryOperations.GetReducedMomentsOfInertia(locNdms, locStrainMatrix);
+                firstParameter.Value = actualMoments.MomentX / initialMoments.MomentX;
+                secondParameter.Value = actualMoments.MomentY / initialMoments.MomentY;
+            }
+            catch (Exception ex)
+            {
+                firstParameter.IsValid = false;
+                firstParameter.Value = double.NaN;
+                firstParameter.Description += $": {ex}";
+                secondParameter.IsValid = false;
+                secondParameter.Value = double.NaN;
+                secondParameter.Description += $": {ex}";
+            }
+            parameters.Add(firstParameter);
+            parameters.Add(secondParameter);
+            return parameters;
+        }
         private IEnumerable<ITextParameter> GetArea(string prefix, IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix = null)
         {
+            const string name = "Longitudinal stiffness";
+            const string shortName = "EA";
             var parameters = new List<ITextParameter>();
             var unitArea = CommonOperation.GetUnit(UnitTypes.Area, "mm2");
             var unitStress = CommonOperation.GetUnit(UnitTypes.Stress, "MPa");
@@ -89,10 +165,10 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             var firstParameter = new TextParameter()
             {
                 IsValid = true,
-                Name = $"{prefix} Area",
-                ShortName = "EA",
+                Name = $"{prefix} {name}",
+                ShortName = $"{shortName}",
                 MeasurementUnit = unitName,
-                Description = $"{prefix} Area of cross-section multiplied by {prefix} modulus"
+                Description = $"{prefix} {name} of cross-section multiplied by {prefix} modulus"
             };
             try
             {
@@ -107,13 +183,39 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             parameters.Add(firstParameter);
             return parameters;
         }
-
+        private IEnumerable<ITextParameter> GetAreaRatio(IEnumerable<INdm> locNdms, IStrainMatrix locStrainMatrix)
+        {
+            const string name = "Longitudinal stiffness";
+            const string shortName = "EA";
+            var parameters = new List<ITextParameter>();
+            var firstParameter = new TextParameter()
+            {
+                IsValid = true,
+                Name = $"{prefixActual}/{prefixInitial} {name} ratio",
+                ShortName = $"{shortName}-ratio",
+                MeasurementUnit = "-",
+                Description = $"{prefixActual}/{prefixInitial} {name}-ratio of cross-section"
+            };
+            try
+            {
+                var actual = GeometryOperations.GetReducedArea(locNdms, locStrainMatrix);
+                var initial = GeometryOperations.GetReducedArea(locNdms);
+                firstParameter.Value = actual / initial;
+            }
+            catch (Exception ex)
+            {
+                firstParameter.IsValid = false;
+                firstParameter.Value = double.NaN;
+                firstParameter.Description += $": {ex}";
+            }
+            parameters.Add(firstParameter);
+            return parameters;
+        }
         public TextParametersLogic(IEnumerable<INdm> ndms, IStrainMatrix strainMatrix)
         {
             this.ndms = ndms;
             this.strainMatrix = strainMatrix;
         }
-
         private IEnumerable<ITextParameter> GetGravityCenter(string prefix, IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix = null)
         {
             var parameters = new List<ITextParameter>();

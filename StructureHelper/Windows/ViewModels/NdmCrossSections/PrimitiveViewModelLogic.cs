@@ -188,7 +188,18 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             PrimitiveBase primitiveBase;
             if (newPrimitive is IRectanglePrimitive) { primitiveBase = new RectangleViewPrimitive(newPrimitive as IRectanglePrimitive); }
             else if (newPrimitive is ICirclePrimitive) { primitiveBase = new CircleViewPrimitive(newPrimitive as ICirclePrimitive); }
-            else if (newPrimitive is IPointPrimitive) { primitiveBase = new PointViewPrimitive(newPrimitive as IPointPrimitive); }
+            else if (newPrimitive is IPointPrimitive)
+            {
+                if (newPrimitive is ReinforcementPrimitive)
+                {
+                    primitiveBase = new ReinforcementViewPrimitive(newPrimitive as ReinforcementPrimitive);
+                }
+                else
+                {
+                    primitiveBase = new PointViewPrimitive(newPrimitive as IPointPrimitive);
+                }
+                
+            }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
             primitiveBase.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);
             Items.Add(primitiveBase);

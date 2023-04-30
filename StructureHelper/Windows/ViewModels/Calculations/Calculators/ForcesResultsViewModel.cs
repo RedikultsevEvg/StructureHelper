@@ -1,26 +1,26 @@
 ﻿using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Infrastructure;
-using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.Services.Exports;
 using StructureHelper.Services.Reports;
 using StructureHelper.Services.Reports.CalculationReports;
 using StructureHelper.Services.ResultViewers;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
-using StructureHelper.Windows.CalculationWindows.CalculatorsViews.GeometryCalculator;
+using StructureHelper.Windows.CalculationWindows.CalculatorsViews.GeometryCalculatorViews;
 using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelper.Windows.ViewModels.Forces;
 using StructureHelper.Windows.ViewModels.PrimitiveProperties;
-using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.Geometry;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmCalculations;
 using StructureHelperLogics.Services.NdmPrimitives;
@@ -29,8 +29,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -87,56 +85,13 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         }
         private void ExportToCSV()
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "csv |*.csv";
-            saveFileDialog.Title = "Save in csv File";
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                var filename = saveFileDialog.FileName;
-                // If the file name is not an empty string open it for saving.
-                if (filename != "")
-                {
-                    if (File.Exists(filename))
-                    {
-                        try
-                        {
-                            File.Delete(filename);
-                        }
-                        catch (Exception ex)
-                        {
-                            var vm = new ErrorProcessor()
-                            {
-                                ShortText = ErrorStrings.FileCantBeDeleted + ex + filename,
-                                DetailText = $"{ex}"
-                            };
-                            new ErrorMessage(vm).ShowDialog();
-                        }
-                    }
-
-                    try
-                    {
-                        var logic = new ExportToCSVLogic(saveFileDialog.FileName);
-                        logic.Export(forcesResults);
-                        try
-                        {
-                            var filopener = new Process();
-                            var startInfo = new ProcessStartInfo(saveFileDialog.FileName) { UseShellExecute = true};
-                            filopener.StartInfo = startInfo;
-                            filopener.Start();
-                        }
-                        catch (Exception) { }
-                    }
-                    catch (Exception ex)
-                    {
-                        var vm = new ErrorProcessor()
-                        {
-                            ShortText = ErrorStrings.FileCantBeSaved + ex + filename,
-                            DetailText = $"{ex}"
-                        };
-                        new ErrorMessage(vm).ShowDialog();
-                    }
-                }
-            }
+            var inputData = new ExportToFileInputData();
+            inputData.FileName = "New File";
+            inputData.Filter = "csv |*.csv";
+            inputData.Title = "Save in csv File";
+            var logic = new ExportForceResultToCSVLogic(forcesResults);
+            var exportService = new ExportToFileService(inputData, logic);
+            exportService.Export();
         }
 
         public RelayCommand InterpolateCommand
@@ -248,8 +203,10 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 {
                     var strainMatrix = SelectedResult.LoaderResults.ForceStrainPair.StrainMatrix;
                     var textParametrsLogic = new TextParametersLogic(ndms, strainMatrix);
-                    var textParameters = textParametrsLogic.GetTextParameters();
-                    var wnd = new GeometryCalculatorResultView(textParameters);
+                    var calculator = new GeometryCalculator(textParametrsLogic);
+                    calculator.Run();
+                    var result = calculator.Result as IGeometryResult;         
+                    var wnd = new GeometryCalculatorResultView(result);
                     wnd.ShowDialog();
                 }
                 catch (Exception ex)

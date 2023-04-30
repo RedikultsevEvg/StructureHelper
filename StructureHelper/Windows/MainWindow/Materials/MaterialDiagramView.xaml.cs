@@ -31,7 +31,7 @@ namespace StructureHelper.Windows.MainWindow.Materials
             InitializeComponent();
             this.DataContext = this.vm;
         }
-        public MaterialDiagramView(IHeadMaterial material) : this(new MaterialDiagramViewModel(material))
+        public MaterialDiagramView(IEnumerable<IHeadMaterial> headMaterials, IHeadMaterial material) : this(new MaterialDiagramViewModel(headMaterials, material))
         {
             
         }
