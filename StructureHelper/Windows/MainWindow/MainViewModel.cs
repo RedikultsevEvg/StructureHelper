@@ -328,7 +328,7 @@ namespace StructureHelper.Windows.MainWindow
             });
         }
 
-        private void afterMaterialEdit(CRUDViewModelBase<IHeadMaterial> sender, CRUDVMEventArgs e)
+        private void afterMaterialEdit(SelectedItemViewModel<IHeadMaterial> sender, CRUDVMEventArgs e)
         {
             foreach (var primitive in primitiveLogic.Items)
             {

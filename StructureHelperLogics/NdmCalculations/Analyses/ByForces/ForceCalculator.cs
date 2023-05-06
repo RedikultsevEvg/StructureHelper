@@ -83,6 +83,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                             {
                                 bucklingCalculator.Run();
                                 var bucklingResult = bucklingCalculator.Result as IConcreteBucklingResult;
+
                                 if (bucklingResult.IsValid != true)
                                 {
                                     result.IsValid = false;
@@ -106,6 +107,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             }
             Result = ndmResult;
         }
+
 
         private void GetCombinations()
         {

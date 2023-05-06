@@ -10,14 +10,20 @@ using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculato
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.GeometryCalculatorViews;
 using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.Forces;
+using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelper.Windows.ViewModels.Forces;
+using StructureHelper.Windows.ViewModels.Graphs;
 using StructureHelper.Windows.ViewModels.PrimitiveProperties;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
+using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Geometry;
@@ -42,6 +48,10 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         private IEnumerable<INdmPrimitive> selectedNdmPrimitives;
         private IEnumerable<INdm> ndms;
         private IReport isoFieldReport;
+
+        static string firstAxisName => ProgramSetting.CrossSectionAxisNames.FirstAxis;
+        static string secondAxisName => ProgramSetting.CrossSectionAxisNames.SecondAxis;
+        static string thirdAxisName => ProgramSetting.CrossSectionAxisNames.ThirdAxis;
 
         public ForcesTupleResult SelectedResult { get; set; }
         private RelayCommand showIsoFieldCommand;
@@ -92,6 +102,64 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             var logic = new ExportForceResultToCSVLogic(forcesResults);
             var exportService = new ExportToFileService(inputData, logic);
             exportService.Export();
+        }
+
+        private ICommand showGraphsCommand;
+
+        public ICommand ShowGraphsCommand
+        {
+            get => showGraphsCommand ??= new RelayCommand(o => showGraphs());
+        }
+
+        private void showGraphs()
+        {
+            var unitForce = CommonOperation.GetUnit(UnitTypes.Force, "kN");
+            var unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, "kNm");
+            var unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature, "1/m");
+
+            var labels = new string[]
+            {
+                $"M{firstAxisName}, {unitMoment.Name}",
+                $"M{secondAxisName}, {unitMoment.Name}",
+                $"N{thirdAxisName}, {unitForce.Name}",
+                $"K{firstAxisName}, {unitCurvature.Name}",
+                $"K{secondAxisName}, {unitCurvature.Name}",
+                $"Eps_{thirdAxisName}"
+            };
+            var resultList = forcesResults.ForcesResultList.Where(x => x.IsValid == true).ToList();
+            var array = new ArrayParameter<double>(resultList.Count(), labels.Count(), labels);
+            var data = array.Data;
+            for (int i = 0; i < resultList.Count(); i++)
+            {
+                var valueList = new List<double>
+                {
+                    resultList[i].DesignForceTuple.ForceTuple.Mx * unitMoment.Multiplyer,
+                    resultList[i].DesignForceTuple.ForceTuple.My * unitMoment.Multiplyer,
+                    resultList[i].DesignForceTuple.ForceTuple.Nz * unitForce.Multiplyer,
+                    resultList[i].LoaderResults.ForceStrainPair.StrainMatrix.Kx * unitCurvature.Multiplyer,
+                    resultList[i].LoaderResults.ForceStrainPair.StrainMatrix.Ky * unitCurvature.Multiplyer,
+                    resultList[i].LoaderResults.ForceStrainPair.StrainMatrix.EpsZ
+                };
+                for (int j = 0; j < valueList.Count(); j++)
+                {
+                    data[i, j] = valueList[j];
+                }
+            }
+            var graphViewModel = new GraphViewModel(array);
+            var wnd = new GraphView(graphViewModel);
+            try
+            {
+                wnd.ShowDialog();
+            }
+            catch(Exception ex)
+            {
+                var vm = new ErrorProcessor()
+                {
+                    ShortText = "Errors apearred during showing isofield, see detailed information",
+                    DetailText = $"{ex}"
+                };
+                new ErrorMessage(vm).ShowDialog();
+            }
         }
 
         public RelayCommand InterpolateCommand

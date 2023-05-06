@@ -10,7 +10,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Geometry
     public class GeometryResult : IGeometryResult
     {
         public bool IsValid { get; set; }
-        public List<ITextParameter> TextParameters { get; set; }
+        public List<IValueParameter<string>> TextParameters { get; set; }
         public string Description { get; set; }
     }
 }

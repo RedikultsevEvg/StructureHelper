@@ -17,7 +17,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
@@ -52,9 +52,7 @@
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
-            <StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
-                <Button Content="Redraw Lines" Command="{Binding RedrawLinesCommand}"/>
-            </StackPanel>
+            <Button Grid.Row="1" Margin="3" Content="Draw Lines" ToolTip="Draw lines" Command="{Binding RedrawLinesCommand}"/>
         </Grid>
         <lvc:CartesianChart Grid.Column="1" Series="{Binding SeriesCollection}" LegendLocation="Bottom" >
             <lvc:CartesianChart.AxisY>

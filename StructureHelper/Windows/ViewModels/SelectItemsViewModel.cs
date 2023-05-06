@@ -86,5 +86,11 @@ namespace StructureHelper.Windows.ViewModels
                 CollectionItems.Add(new CollectionItem() { IsSelected = true, Item = item });
             }
         }
+
+        public IEnumerable<TItem> SelectedItems
+        {
+            get => CollectionItems.Where(x => x.IsSelected == true).Select(x => x.Item);
+        }
+        public int SelectedCount => SelectedItems.Count();
     }
 }

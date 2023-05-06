@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels
 {
-    public abstract class CRUDViewModelBase<TItem> : ViewModelBase, ICRUDViewModel<TItem> where TItem : class
+    public class SelectedItemViewModel<TItem> : ViewModelBase, ICRUDViewModel<TItem> where TItem : class
     {
         private ICommand addCommand;
         private ICommand deleteCommand;
@@ -115,7 +115,7 @@ namespace StructureHelper.Windows.ViewModels
             }
         }
 
-        public CRUDViewModelBase(List<TItem> collection)
+        public SelectedItemViewModel(List<TItem> collection)
         {
             Collection = collection;
             Refresh();
@@ -126,7 +126,7 @@ namespace StructureHelper.Windows.ViewModels
             OnPropertyChanged(nameof(Items));
             AfterItemsEdit?.Invoke(this, new CRUDVMEventArgs());
         }
-        public delegate void CRUDHandler(CRUDViewModelBase<TItem> sender, CRUDVMEventArgs e);
+        public delegate void CRUDHandler(SelectedItemViewModel<TItem> sender, CRUDVMEventArgs e);
         public event CRUDHandler? AfterItemsEdit;
     }
 }

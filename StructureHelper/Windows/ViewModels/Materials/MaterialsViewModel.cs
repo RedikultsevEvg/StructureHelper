@@ -20,7 +20,7 @@ using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.Materials
 {
-    public class MaterialsViewModel : CRUDViewModelBase<IHeadMaterial>
+    public class MaterialsViewModel : SelectedItemViewModel<IHeadMaterial>
     {
         ICrossSectionRepository repository;
         private ICommand editMaterialsCommand;

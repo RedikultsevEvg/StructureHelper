@@ -18,7 +18,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators.GeometryCa
         IGeometryResult result;
         private ICommand exportToCSVCommand;
 
-        public List<ITextParameter> TextParameters
+        public List<IValueParameter<string>> TextParameters
         { 
             get => result.TextParameters;
         }

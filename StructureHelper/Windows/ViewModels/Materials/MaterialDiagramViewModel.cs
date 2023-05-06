@@ -105,9 +105,9 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         private void SetLines()
         {
-            var materials = MaterialsModel.CollectionItems.Where(x => x.IsSelected == true).Select(x => x.Item);
-            var limitStates = LimitStatesModel.CollectionItems.Where(x => x.IsSelected == true).Select(x => x.Item);
-            var calcTerms = CalcTermsModel.CollectionItems.Where(x => x.IsSelected == true).Select(x => x.Item); ;
+            var materials = MaterialsModel.SelectedItems;
+            var limitStates = LimitStatesModel.SelectedItems;
+            var calcTerms = CalcTermsModel.SelectedItems; ;
             var labels = new List<string>();
             var factor = positiveInTension ? 1d : -1d;
 

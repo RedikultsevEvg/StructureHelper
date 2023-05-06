@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace StructureHelper.Windows.ViewModels.Forces
 {
-    public class ActionsViewModel : CRUDViewModelBase<IForceAction>
+    public class ActionsViewModel : SelectedItemViewModel<IForceAction>
     {
         ICrossSectionRepository repository;
 
@@ -41,7 +41,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
             var dialogResult = MessageBox.Show("Delete action?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                DeleteAction();
+                if (DeleteAction() != true) return;
                 base.DeleteMethod(parameter);
             }         
         }
@@ -71,8 +71,9 @@ namespace StructureHelper.Windows.ViewModels.Forces
             this.repository = repository;
         }
 
-        private void DeleteAction()
+        private bool DeleteAction()
         {
+            bool result = true;
             var calcRepository = repository.CalculatorsList;
             foreach (var item in calcRepository)
             {
@@ -83,11 +84,15 @@ namespace StructureHelper.Windows.ViewModels.Forces
                     if (containSelected)
                     {
                         var dialogResultCalc = MessageBox.Show($"Action is contained in calculator {item.Name}", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                        if (dialogResultCalc == DialogResult.OK) { forceCalculator.ForceActions.Remove(SelectedItem); }
-                        else return;
+                        if (dialogResultCalc == DialogResult.Yes)
+                        {
+                            forceCalculator.ForceActions.Remove(SelectedItem);
+                        }
+                        else result = false;
                     }
                 }
             }
+            return result;
         }
     }
 }

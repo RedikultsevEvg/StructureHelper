@@ -9,6 +9,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Geometry
 {
     public interface IGeometryResult : INdmResult
     {
-        List<ITextParameter> TextParameters { get; set; }
+        List<IValueParameter<string>> TextParameters { get; set; }
     }
 }

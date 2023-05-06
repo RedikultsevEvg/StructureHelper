@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.ViewModels.Materials
 {
-    internal class SafetyFactorsViewModel : CRUDViewModelBase<IMaterialSafetyFactor>
+    internal class SafetyFactorsViewModel : SelectedItemViewModel<IMaterialSafetyFactor>
     {
         private RelayCommand showPartialCommand;
 

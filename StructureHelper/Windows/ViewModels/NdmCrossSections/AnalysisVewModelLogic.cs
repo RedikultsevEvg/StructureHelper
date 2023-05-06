@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 {
-    public class AnalysisVewModelLogic : CRUDViewModelBase<INdmCalculator>
+    public class AnalysisVewModelLogic : SelectedItemViewModel<INdmCalculator>
     {
         private ICrossSectionRepository repository;
         private RelayCommand runCommand;

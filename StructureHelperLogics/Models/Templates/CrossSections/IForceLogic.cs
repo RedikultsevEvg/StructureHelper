@@ -9,6 +9,6 @@ namespace StructureHelperLogics.Models.Templates.CrossSections
 {
     internal interface IForceLogic
     {
-        IEnumerable<IForceCombinationList> GetCombinationList();
+        IEnumerable<IForceAction> GetCombinationList();
     }
 }

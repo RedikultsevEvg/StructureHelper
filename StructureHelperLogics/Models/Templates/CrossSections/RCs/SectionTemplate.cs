@@ -19,7 +19,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
         IRCGeometryLogic geometryLogic;
         ICalculatorLogic calculatorLogic;
         IEnumerable<INdmPrimitive> primitives;
-        IEnumerable<IForceCombinationList> combinations;
+        IEnumerable<IForceAction> combinations;
         IEnumerable<INdmCalculator> calculators;
 
         public SectionTemplate(IRCGeometryLogic geometryLogic)
