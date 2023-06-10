@@ -82,8 +82,16 @@ namespace StructureHelper.Windows.ViewModels.Materials
             }
             else if (helperMaterial is IElasticMaterial)
             {
-                var material = helperMaterial as IElasticMaterial;
-                helperMaterialViewModel = new ElasticViewModel(material);
+                if (helperMaterial is IFRMaterial)
+                {
+                    var material = helperMaterial as IFRMaterial;
+                    helperMaterialViewModel = new FRViewModel(material);
+                }
+                else
+                {
+                    var material = helperMaterial as IElasticMaterial;
+                    helperMaterialViewModel = new ElasticViewModel(material);
+                }
             }
             else
             {

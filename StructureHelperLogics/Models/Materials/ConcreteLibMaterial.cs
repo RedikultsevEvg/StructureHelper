@@ -16,6 +16,7 @@ namespace StructureHelperLogics.Models.Materials
 {
     public class ConcreteLibMaterial : IConcreteLibMaterial
     {
+        private IFactorLogic factorLogic => new FactorLogic(SafetyFactors);
         public ILibMaterialEntity MaterialEntity { get; set; }
         public List<IMaterialSafetyFactor> SafetyFactors { get; }
         public bool TensionForULS { get ; set; }
@@ -52,24 +53,12 @@ namespace StructureHelperLogics.Models.Materials
             {
                 materialOptions.WorkInTension = true;
             }
-            var strength = GetStrengthFactors(limitState, calcTerm);
+            var strength = factorLogic.GetTotalFactor(limitState, calcTerm);
             materialOptions.ExternalFactor.Compressive = strength.Compressive;
             materialOptions.ExternalFactor.Tensile = strength.Tensile;
             LoaderMaterialBuilders.IMaterialBuilder builder = new LoaderMaterialBuilders.ConcreteBuilder(materialOptions);
             LoaderMaterialBuilders.IBuilderDirector director = new LoaderMaterialBuilders.BuilderDirector(builder);
             return director.BuildMaterial();
-        }
-
-        public (double Compressive, double Tensile) GetStrengthFactors(LimitStates limitState, CalcTerms calcTerm)
-        {
-            double compressionVal = 1d;
-            double tensionVal = 1d;
-            foreach (var item in SafetyFactors.Where(x => x.Take == true))
-            {
-                compressionVal *= item.GetFactor(StressStates.Compression, calcTerm, limitState);
-                tensionVal *= item.GetFactor(StressStates.Tension, calcTerm, limitState);
-            }
-            return (compressionVal, tensionVal);
         }
 
         public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
@@ -82,7 +71,7 @@ namespace StructureHelperLogics.Models.Materials
             {
                 compressionFactor /= 1.3d;
                 tensionFactor /= 1.5d;
-                var factors = GetStrengthFactors(limitState, calcTerm);
+                var factors = factorLogic.GetTotalFactor(limitState, calcTerm);
                 compressionFactor *= factors.Compressive;
                 tensionFactor *= factors.Tensile;
             }

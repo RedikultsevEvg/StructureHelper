@@ -23,8 +23,8 @@ namespace StructureHelperLogics.Models.Primitives
         public IHeadMaterial HeadMaterial { get; set; }
         public double NdmMaxSize { get; set; }
         public int NdmMinDivision { get; set; }
-        public IStrainTuple UsersPrestrain { get; private set; }
-        public IStrainTuple AutoPrestrain { get; private set; }
+        public StrainTuple UsersPrestrain { get; private set; }
+        public StrainTuple AutoPrestrain { get; private set; }
         public double Area { get; set; }
 
         public IVisualProperty VisualProperty { get; }

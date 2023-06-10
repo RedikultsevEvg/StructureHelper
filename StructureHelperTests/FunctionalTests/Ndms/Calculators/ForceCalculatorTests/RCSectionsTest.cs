@@ -74,7 +74,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
             //Act
             foreach (var item in ndmPrimitives)
             {
-                StrainTupleService.CopyProperties(source, item.AutoPrestrain);
+                ForceTupleService.CopyProperties(source, item.AutoPrestrain);
             }
             calculator.Run();
             var result2 = calculator.Result as IForcesResults;

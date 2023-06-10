@@ -42,28 +42,36 @@ namespace StructureHelper.Windows.MainWindow.Materials
             var bindings = new Dictionary<string, Binding>();
             var helperMaterial = headMaterial.HelperMaterial;
             string templateName;
-            var binding = new Binding();
             if (helperMaterial is IConcreteLibMaterial)
             {
                 templateName = "ConcreteMaterial";
+                var binding = new Binding();
                 binding.Source = vm.HelperMaterialViewModel;
+                bindings.Add(templateName, binding);
             }
             else if (helperMaterial is IReinforcementLibMaterial)
             {
                 templateName = "ReinforcementMaterial";
+                var binding = new Binding();
                 binding.Source = vm.HelperMaterialViewModel;
+                bindings.Add(templateName, binding);
             }
             else if (helperMaterial is IElasticMaterial)
             {
                 templateName = "ElasticMaterial";
+                var binding = new Binding();
                 binding.Source = vm.HelperMaterialViewModel;
+                bindings.Add(templateName, binding);
+                templateName = "DirectSafetyFactors";
+                var frBinding = new Binding();
+                frBinding.Source = (vm.HelperMaterialViewModel as ElasticViewModel).SafetyFactors;
+                bindings.Add(templateName, frBinding);
             }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Expected: {typeof(IHelperMaterial)}, but was: {helperMaterial.GetType()}");
             }
                 
-            bindings.Add(templateName, binding);
             foreach (var item in bindings)
             {
                 ContentControl contentControl = new ContentControl();

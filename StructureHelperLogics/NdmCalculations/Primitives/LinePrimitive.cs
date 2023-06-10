@@ -34,9 +34,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public IVisualProperty VisualProperty => throw new NotImplementedException();
 
-        public IStrainTuple UsersPrestrain => throw new NotImplementedException();
+        public StrainTuple UsersPrestrain => throw new NotImplementedException();
 
-        public IStrainTuple AutoPrestrain => throw new NotImplementedException();
+        public StrainTuple AutoPrestrain => throw new NotImplementedException();
 
         public bool ClearUnderlying { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool Triangulate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

@@ -6,7 +6,7 @@ namespace StructureHelperCommon.Models.Forces
     {
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }
-        public IForceTuple ForceTuple { get; set; }
+        public ForceTuple ForceTuple { get; set; }
 
         public DesignForceTuple(LimitStates limitState, CalcTerms calcTerm) : this()
         {
@@ -22,7 +22,7 @@ namespace StructureHelperCommon.Models.Forces
         public object Clone()
         {
             var newTuple = new DesignForceTuple(this.LimitState, this.CalcTerm);
-            newTuple.ForceTuple = this.ForceTuple.Clone() as IForceTuple;
+            newTuple.ForceTuple = this.ForceTuple.Clone() as ForceTuple;
             return newTuple;
         }
     }

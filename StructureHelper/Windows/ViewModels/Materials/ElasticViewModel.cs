@@ -12,6 +12,8 @@ namespace StructureHelper.Windows.ViewModels.Materials
     internal class ElasticViewModel : HelperMaterialViewModel
     {
         IElasticMaterial material;
+        SafetyFactorsViewModel safetyFactorsViewModel;
+        public SafetyFactorsViewModel SafetyFactors => safetyFactorsViewModel;
         public double Modulus
         {
             get => material.Modulus;
@@ -43,6 +45,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         public ElasticViewModel(IElasticMaterial material)
         {
             this.material = material;
+            safetyFactorsViewModel = new SafetyFactorsViewModel(material.SafetyFactors);
         }
     }
 }

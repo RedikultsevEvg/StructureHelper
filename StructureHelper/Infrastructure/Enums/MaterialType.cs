@@ -10,6 +10,8 @@ namespace StructureHelper.Infrastructure.Enums
     {
         Concrete,
         Reinforcement,
-        Elastic
+        Elastic,
+        CarbonFiber,
+        GlassFiber
     }
 }

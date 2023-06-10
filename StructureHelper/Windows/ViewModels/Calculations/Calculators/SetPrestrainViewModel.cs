@@ -11,7 +11,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 {
     public class SetPrestrainViewModel : ViewModelBase
     {
-        IStrainTuple SourceTuple;
+        StrainTuple SourceTuple;
         private double coefficient;
 
         public double Coefficient
@@ -26,16 +26,16 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             }
         }
 
-        public SetPrestrainViewModel(IStrainTuple sourceTuple)
+        public SetPrestrainViewModel(StrainTuple sourceTuple)
         {
             SourceTuple = sourceTuple;
             coefficient = 1d;
         }
 
-        public IStrainTuple GetStrainTuple()
+        public StrainTuple GetStrainTuple()
         {
             var result = new StrainTuple();
-            StrainTupleService.CopyProperties(SourceTuple, result, coefficient);
+            ForceTupleService.CopyProperties(SourceTuple, result, coefficient);
             return result;
         }
     }

@@ -23,8 +23,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// Flag of triangulation
         /// </summary>
         bool Triangulate { get; set; }
-        IStrainTuple UsersPrestrain { get; }
-        IStrainTuple AutoPrestrain { get; }
+        StrainTuple UsersPrestrain { get; }
+        StrainTuple AutoPrestrain { get; }
         IVisualProperty VisualProperty {get; }
 
         IEnumerable<INdm> GetNdms(IMaterial material);

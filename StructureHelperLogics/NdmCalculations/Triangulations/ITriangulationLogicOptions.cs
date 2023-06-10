@@ -4,6 +4,6 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     public interface ITriangulationLogicOptions
     {
-        IStrainTuple Prestrain { get; set; }
+        StrainTuple Prestrain { get; set; }
     }
 }

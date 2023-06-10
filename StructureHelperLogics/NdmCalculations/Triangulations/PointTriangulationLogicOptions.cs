@@ -18,7 +18,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public IPoint2D Center { get; }
         /// <inheritdoc />
         public double Area { get; }
-        public IStrainTuple Prestrain { get; set; }
+        public StrainTuple Prestrain { get; set; }
 
         /// <inheritdoc />
 
@@ -35,9 +35,9 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Area = primitive.Area;
             Prestrain = new StrainTuple
             {
-                Kx = primitive.UsersPrestrain.Kx + primitive.AutoPrestrain.Kx,
-                Ky = primitive.UsersPrestrain.Ky + primitive.AutoPrestrain.Ky,
-                EpsZ = primitive.UsersPrestrain.EpsZ + primitive.AutoPrestrain.EpsZ
+                Mx = primitive.UsersPrestrain.Mx + primitive.AutoPrestrain.Mx,
+                My = primitive.UsersPrestrain.My + primitive.AutoPrestrain.My,
+                Nz = primitive.UsersPrestrain.Nz + primitive.AutoPrestrain.Nz
             };
         }
     }

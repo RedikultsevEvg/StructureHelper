@@ -20,7 +20,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <inheritdoc />
         public int NdmMinDivision { get; }
         /// <inheritdoc />
-        public IStrainTuple Prestrain { get; set; }
+        public StrainTuple Prestrain { get; set; }
 
         public RectangleTriangulationLogicOptions(IPoint2D center, IRectangleShape rectangle, double ndmMaxSize, int ndmMinDivision)
         {
@@ -39,9 +39,9 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             NdmMinDivision = primitive.NdmMinDivision;
             Prestrain = new StrainTuple
             {
-                Kx = primitive.UsersPrestrain.Kx + primitive.AutoPrestrain.Kx,
-                Ky = primitive.UsersPrestrain.Ky + primitive.AutoPrestrain.Ky,
-                EpsZ = primitive.UsersPrestrain.EpsZ + primitive.AutoPrestrain.EpsZ
+                Mx = primitive.UsersPrestrain.Mx + primitive.AutoPrestrain.Mx,
+                My = primitive.UsersPrestrain.My + primitive.AutoPrestrain.My,
+                Nz = primitive.UsersPrestrain.Nz + primitive.AutoPrestrain.Nz
             };
         }
     }

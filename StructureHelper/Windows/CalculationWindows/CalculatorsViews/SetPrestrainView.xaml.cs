@@ -22,7 +22,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
     public partial class SetPrestrainView : Window
     {
         SetPrestrainViewModel viewModel;
-        public IStrainTuple StrainTuple { get; set; }
+        public StrainTuple StrainTuple { get; set; }
 
         public SetPrestrainView(SetPrestrainViewModel vm)
         {

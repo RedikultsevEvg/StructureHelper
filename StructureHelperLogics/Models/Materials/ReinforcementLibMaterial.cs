@@ -13,6 +13,7 @@ namespace StructureHelperLogics.Models.Materials
 {
     public class ReinforcementLibMaterial : IReinforcementLibMaterial
     {
+        private IFactorLogic factorLogic => new FactorLogic(SafetyFactors);
         public ILibMaterialEntity MaterialEntity { get; set; }
         public List<IMaterialSafetyFactor> SafetyFactors { get; }
 
@@ -33,26 +34,13 @@ namespace StructureHelperLogics.Models.Materials
         public Loadermaterials.IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
             var materialOptions = optionLogic.SetMaterialOptions(MaterialEntity, limitState, calcTerm);
-            var strength = GetStrengthFactors(limitState, calcTerm);
-            materialOptions.ExternalFactor.Compressive = strength.Compressive;
-            materialOptions.ExternalFactor.Tensile = strength.Tensile;
+            var factors = factorLogic.GetTotalFactor(limitState, calcTerm);
+            materialOptions.ExternalFactor.Compressive = factors.Compressive;
+            materialOptions.ExternalFactor.Tensile = factors.Tensile;
             LoaderMaterialBuilders.IMaterialBuilder builder = new LoaderMaterialBuilders.ReinforcementBuilder(materialOptions);
             LoaderMaterialBuilders.IBuilderDirector director = new LoaderMaterialBuilders.BuilderDirector(builder);
             return director.BuildMaterial();
         }
-
-        public (double Compressive, double Tensile) GetStrengthFactors(LimitStates limitState, CalcTerms calcTerm)
-        {
-            double compressionVal = 1d;
-            double tensionVal = 1d;
-            foreach (var item in SafetyFactors.Where(x => x.Take == true))
-            {
-                compressionVal *= item.GetFactor(StressStates.Compression, calcTerm, limitState);
-                tensionVal *= item.GetFactor(StressStates.Tension, calcTerm, limitState);
-            }
-            return (compressionVal, tensionVal);
-        }
-
         public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
         {
             strengthLogic = new LoaderMaterialLogics.TrueStrengthReinforcementLogic(MaterialEntity.MainStrength);
@@ -64,7 +52,7 @@ namespace StructureHelperLogics.Models.Materials
                 compressionFactor /= 1.15d;
                 tensionFactor /= 1.15d;
             }
-            var factors = GetStrengthFactors(limitState, calcTerm);
+            var factors = factorLogic.GetTotalFactor(limitState, calcTerm);
             compressionFactor *= factors.Compressive;
             tensionFactor *= factors.Tensile;
             var compressiveStrength = strength.Compressive * compressionFactor;

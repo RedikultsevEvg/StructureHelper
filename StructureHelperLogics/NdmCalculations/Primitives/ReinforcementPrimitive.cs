@@ -28,9 +28,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public IHeadMaterial? HeadMaterial { get; set; }
         public bool Triangulate { get; set; }
 
-        public IStrainTuple UsersPrestrain { get; private set; }
+        public StrainTuple UsersPrestrain { get; private set; }
 
-        public IStrainTuple AutoPrestrain { get; private set; }
+        public StrainTuple AutoPrestrain { get; private set; }
 
         public IVisualProperty VisualProperty { get; private set; }
 

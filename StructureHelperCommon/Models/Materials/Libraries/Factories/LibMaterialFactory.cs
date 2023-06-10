@@ -40,7 +40,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
         }
         private static IEnumerable<ILibMaterialEntity> GetConcreteSP63()
         {
-            var code = CodeTypes.SP63_13330_2018;
+            var code = CodeTypes.SP63_2018;
             List<ILibMaterialEntity> libMaterials = new List<ILibMaterialEntity>();
             libMaterials.Add(new ConcreteMaterialEntity() { CodeType = code, Name = "B5", MainStrength = 5e6 });
             libMaterials.Add(new ConcreteMaterialEntity() { CodeType = code, Name = "B7,5", MainStrength = 7.5e6 });
@@ -57,7 +57,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
         }
         private static IEnumerable<ILibMaterialEntity> GetReinforcementSP63()
         {
-            var code = CodeTypes.SP63_13330_2018;
+            var code = CodeTypes.SP63_2018;
             List<ILibMaterialEntity> libMaterials = new List<ILibMaterialEntity>();
             libMaterials.Add(new ReinforcementMaterialEntity() { CodeType = code, Name = "A240", MainStrength = 240e6 });
             libMaterials.Add(new ReinforcementMaterialEntity() { CodeType = code, Name = "A400", MainStrength = 400e6 });

@@ -37,7 +37,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             target.CenterX = source.CenterX;
             target.CenterY = source.CenterY;
             target.Triangulate = source.Triangulate;
-            StrainTupleService.CopyProperties(source.UsersPrestrain, target.UsersPrestrain);
+            ForceTupleService.CopyProperties(source.UsersPrestrain, target.UsersPrestrain);
         }
 
         public static void CopyDivisionProperties(IHasDivisionSize source, IHasDivisionSize target)

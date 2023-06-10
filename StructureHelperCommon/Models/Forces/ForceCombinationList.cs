@@ -59,7 +59,7 @@ namespace StructureHelperCommon.Models.Forces
                     var forceTupleList = DesignForces.Where(x => x.LimitState == limitState & x.CalcTerm == calcTerm);
                     foreach (var item in forceTupleList)
                     {
-                        designForceTuple.ForceTuple = ForceTupleService.SumTuples(designForceTuple.ForceTuple, item.ForceTuple);
+                        designForceTuple.ForceTuple = ForceTupleService.SumTuples(designForceTuple.ForceTuple, item.ForceTuple) as ForceTuple;
                     }
                     result.DesignForces.Add(designForceTuple);
                 }

@@ -1,10 +1,9 @@
 ﻿using StructureHelperCommon.Services.Forces;
-using System.ComponentModel.DataAnnotations;
 
 namespace StructureHelperCommon.Models.Forces
 {
     /// <inheritdoc/>
-    public class ForceTuple : IForceTuple
+    public class StrainTuple : IForceTuple
     {
         /// <inheritdoc/>
         public double Mx { get; set; }
@@ -22,13 +21,13 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public object Clone()
         {
-            ForceTuple forceTuple = new ForceTuple() { Mx = Mx, My = My, Nz = Nz, Qx = Qx, Qy = Qy, Mz = Mz};
+            StrainTuple forceTuple = new StrainTuple() { Mx = Mx, My = My, Nz = Nz, Qx = Qx, Qy = Qy, Mz = Mz };
             return forceTuple;
         }
-        public static ForceTuple operator +(ForceTuple first) => first;
-        public static ForceTuple operator +(ForceTuple first, ForceTuple second)
+        public static StrainTuple operator +(StrainTuple first) => first;
+        public static StrainTuple operator +(StrainTuple first, ForceTuple second)
         {
-            return ForceTupleService.SumTuples(first, second) as ForceTuple;
+            return ForceTupleService.SumTuples(first, second) as StrainTuple;
         }
     }
 }

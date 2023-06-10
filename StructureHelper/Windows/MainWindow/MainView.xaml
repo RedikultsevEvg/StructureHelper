@@ -106,6 +106,8 @@
                                     <Button Content="Concrete" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Concrete}"/>
                                     <Button Content="Reinforcement" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Reinforcement}"/>
                                     <Button Content="Elastic" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Elastic}"/>
+                                    <Button Content="CarbonFiber" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.CarbonFiber}"/>
+                                    <Button Content="GlassFiber" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.GlassFiber}"/>
                                 </MenuItem>
                             </ContextMenu>
                         </Expander.ContextMenu>

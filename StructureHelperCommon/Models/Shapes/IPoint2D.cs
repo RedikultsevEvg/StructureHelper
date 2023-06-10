@@ -1,10 +1,12 @@
-﻿namespace StructureHelperCommon.Models.Shapes
+﻿using System;
+
+namespace StructureHelperCommon.Models.Shapes
 {
     /// <summary>
     /// Interface for point of center of some shape
     /// Интерфейс для точки центра некоторой формы
     /// </summary>
-    public interface IPoint2D
+    public interface IPoint2D : ICloneable
     {
         /// <summary>
         /// Coordinate of center of rectangle by local axis X, m

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
@@ -8,6 +9,12 @@ namespace StructureHelperCommon.Services.Forces
 {
     public static class ForceTupleService
     {
+        public static void CopyProperties(IForceTuple source, IForceTuple target, double factor = 1d)
+        {
+            CheckTuples(source, target);
+            SumTupleToTarget(source, target, 0);
+            SumTupleToTarget(source, target, factor);
+        }
         public static IForceTuple MoveTupleIntoPoint(IForceTuple forceTuple, IPoint2D point2D)
         {
             var newTuple = forceTuple.Clone() as IForceTuple;
@@ -15,44 +22,37 @@ namespace StructureHelperCommon.Services.Forces
             newTuple.My -= newTuple.Nz * point2D.X;
             return newTuple;
         }
-        public static IForceTuple SumTuples(IForceTuple first, IForceTuple second)
+        public static IForceTuple SumTuples(IForceTuple first, IForceTuple second, double factor = 1d)
         {
-            var result = new ForceTuple();
-            result.Mx += first.Mx + second.Mx;
-            result.My += first.My + second.My;
-            result.Mz += first.Mz + second.Mz;
-            result.Qx += first.Qx + second.Qx;
-            result.Qy += first.Qy + second.Qy;
-            result.Nz += first.Nz + second.Nz;
+            CheckTuples(first, second);
+            IForceTuple result = GetNewTupleSameType(first);
+            SumTupleToTarget(first, result, 1d);
+            SumTupleToTarget(second, result, factor);
+            return result;
+        }
+        public static IForceTuple MergeTupleCollection(IEnumerable<IForceTuple> tupleCollection)
+        {
+            CheckTupleCollection(tupleCollection);
+            var result = GetNewTupleSameType(tupleCollection.First());
+            foreach (var item in tupleCollection)
+            {
+                SumTuples(result, item);
+            };
             return result;
         }
         public static IForceTuple MultiplyTuples(IForceTuple first, double factor)
         {
-            var result = new ForceTuple();
-            result.Mx += first.Mx * factor;
-            result.My += first.My * factor;
-            result.Mz += first.Mz * factor;
-            result.Qx += first.Qx * factor;
-            result.Qy += first.Qy * factor;
-            result.Nz += first.Nz * factor;
+            var result = GetNewTupleSameType(first);
+            CopyProperties(first, result, factor);
             return result;
         }
         public static IForceTuple InterpolateTuples(IForceTuple endTuple, IForceTuple startTuple = null, double coefficient = 0.5d)
         {
-            if (startTuple == null) startTuple = new ForceTuple();
-            double dMx, dMy, dNz;
-            dMx = endTuple.Mx - startTuple.Mx;
-            dMy = endTuple.My - startTuple.My;
-            dNz = endTuple.Nz - startTuple.Nz;
-            return new ForceTuple()
-            {
-                Mx = startTuple.Mx + dMx * coefficient,
-                My = startTuple.My + dMy * coefficient,
-                Nz = startTuple.Nz + dNz * coefficient
-            };
+            if (startTuple is null) startTuple = GetNewTupleSameType(endTuple);
+            else { CheckTuples(startTuple, endTuple); }
+            var deltaTuple = SumTuples(endTuple, startTuple, -1d);
+            return SumTuples(startTuple, deltaTuple, coefficient);
         }
-
-
         public static List<IDesignForceTuple> InterpolateDesignTuple(IDesignForceTuple finishDesignForce, IDesignForceTuple startDesignForce = null, int stepCount = 10)
         {
             if (startDesignForce.LimitState != finishDesignForce.LimitState) throw new StructureHelperException(ErrorStrings.LimitStatesIsNotValid);
@@ -61,11 +61,50 @@ namespace StructureHelperCommon.Services.Forces
             double step = 1d / stepCount;
             for (int i = 0; i <= stepCount; i++)
             {
-                var currentTuple = InterpolateTuples(finishDesignForce.ForceTuple, startDesignForce.ForceTuple, i * step);
+                var currentTuple = InterpolateTuples(finishDesignForce.ForceTuple, startDesignForce.ForceTuple, i * step) as ForceTuple;
                 var currentDesignTuple = new DesignForceTuple() { LimitState = finishDesignForce.LimitState, CalcTerm = finishDesignForce.CalcTerm, ForceTuple = currentTuple };
                 tuples.Add(currentDesignTuple);
             }
             return tuples;
+        }
+        private static void SumTupleToTarget(IForceTuple source, IForceTuple target, double factor = 1d)
+        {
+            target.Mx += source.Mx * factor;
+            target.My += source.My * factor;
+            target.Nz += source.Nz * factor;
+            target.Qx += source.Qx * factor;
+            target.Qy += source.Qy * factor;
+            target.Mz += source.Mz * factor;
+        }
+        private static void CheckTuples(IForceTuple first, IForceTuple second)
+        {
+            if (first.GetType() != second.GetType())
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect +
+                    $": Type of first parameter (type = {first.GetType()}) doesn't corespond second parameter type ({second.GetType()})");
+            }
+        }
+        private static void CheckTupleCollection(IEnumerable<IForceTuple> tupleCollection)
+        {
+            if (tupleCollection.Count() == 0)
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect +  $": Collection is Empty");
+            }
+            foreach (var item in tupleCollection)
+            {
+                CheckTuples(tupleCollection.First(), item);
+            }
+        }
+        private static IForceTuple GetNewTupleSameType(IForceTuple first)
+        {
+            IForceTuple result;
+            if (first is ForceTuple) { result = new ForceTuple(); }
+            else if (first is StrainTuple) { result = new StrainTuple(); }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
+            }
+            return result;
         }
     }
 }

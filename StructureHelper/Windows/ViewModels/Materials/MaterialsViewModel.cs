@@ -47,6 +47,8 @@ namespace StructureHelper.Windows.ViewModels.Materials
             if (paramType == MaterialType.Concrete) { AddConcrete(); }
             else if (paramType == MaterialType.Reinforcement) { AddReinforcement(); }
             else if (paramType == MaterialType.Elastic) { AddElastic(); }
+            else if (paramType == MaterialType.CarbonFiber) { AddCarbonFiber(); }
+            else if (paramType == MaterialType.GlassFiber) { AddGlassFiber(); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Expected: {typeof(MaterialType)}, Actual type: {nameof(paramType)}");
             base.AddMethod(parameter);
         }
@@ -76,6 +78,18 @@ namespace StructureHelper.Windows.ViewModels.Materials
         {
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Elastic200, ProgramSetting.CodeType);
             material.Name = "New Elastic Material";
+            NewItem = material;
+        }
+        private void AddCarbonFiber()
+        {
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Carbon4000, ProgramSetting.CodeType);
+            material.Name = "New CFR Material";
+            NewItem = material;
+        }
+        private void AddGlassFiber()
+        {
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Glass1200, ProgramSetting.CodeType);
+            material.Name = "New GFR Material";
             NewItem = material;
         }
         private void AddReinforcement()

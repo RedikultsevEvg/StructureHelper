@@ -81,33 +81,33 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         }
         public double InvertedCenterY => - CenterY;
         public double PrestrainKx
-        {   get => primitive.UsersPrestrain.Kx;
+        {   get => primitive.UsersPrestrain.Mx;
             set
             {
-                primitive.UsersPrestrain.Kx = value;
+                primitive.UsersPrestrain.Mx = value;
                 OnPropertyChanged(nameof(PrestrainKx));
             }
         }
         public double PrestrainKy
-        {   get => primitive.UsersPrestrain.Ky;
+        {   get => primitive.UsersPrestrain.My;
             set
             {
-                primitive.UsersPrestrain.Ky = value;
+                primitive.UsersPrestrain.My = value;
                 OnPropertyChanged(nameof(PrestrainKy));
             }
         }
         public double PrestrainEpsZ
-        {   get => primitive.UsersPrestrain.EpsZ;
+        {   get => primitive.UsersPrestrain.Nz;
             set
             {
-                primitive.UsersPrestrain.EpsZ = value;
+                primitive.UsersPrestrain.Nz = value;
                 OnPropertyChanged(nameof(PrestrainEpsZ));
             }
         }
 
-        public double AutoPrestrainKx => primitive.AutoPrestrain.Kx;
-        public double AutoPrestrainKy => primitive.AutoPrestrain.Ky;
-        public double AutoPrestrainEpsZ => primitive.AutoPrestrain.EpsZ;
+        public double AutoPrestrainKx => primitive.AutoPrestrain.Mx;
+        public double AutoPrestrainKy => primitive.AutoPrestrain.My;
+        public double AutoPrestrainEpsZ => primitive.AutoPrestrain.Nz;
 
         public IHeadMaterial HeadMaterial
         {

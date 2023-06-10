@@ -65,7 +65,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                             point2D = new Point2D() { X = loaderPoint.CenterX, Y = loaderPoint.CenterY };
                         }
                         else point2D = combination.ForcePoint;
-                        var newTuple = ForceTupleService.MoveTupleIntoPoint(tuple.ForceTuple, point2D);
+                        var newTuple = ForceTupleService.MoveTupleIntoPoint(tuple.ForceTuple, point2D) as ForceTuple;
                         IForcesTupleResult result = GetPrimitiveStrainMatrix(ndms, newTuple);
                         if (CompressedMember.Buckling == true)
                         {
@@ -145,9 +145,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             return bucklingCalculator;
         }
 
-        private IForceTuple CalculateBuckling(IForceTuple calcTuple, IConcreteBucklingResult bucklingResult)
+        private ForceTuple CalculateBuckling(ForceTuple calcTuple, IConcreteBucklingResult bucklingResult)
         {
-            var newTuple = calcTuple.Clone() as IForceTuple;
+            var newTuple = calcTuple.Clone() as ForceTuple;
             newTuple.Mx *= bucklingResult.EtaFactorAlongY;
             newTuple.My *= bucklingResult.EtaFactorAlongX;
             return newTuple;

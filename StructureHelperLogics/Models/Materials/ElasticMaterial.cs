@@ -1,5 +1,6 @@
 ﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
@@ -11,28 +12,21 @@ namespace StructureHelperLogics.Models.Materials
 {
     public class ElasticMaterial : IElasticMaterial
     {
+        private IElasticMaterialLogic elasticMaterialLogic => new ElasticMaterialLogic();
         public double Modulus { get; set; }
         public double CompressiveStrength { get; set; }
         public double TensileStrength { get; set; }
+        public List<IMaterialSafetyFactor> SafetyFactors { get; }
+
+        public ElasticMaterial()
+        {
+            SafetyFactors = new List<IMaterialSafetyFactor>();
+        }
 
         public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
-            IMaterial material = new Material();
-            material.InitModulus = Modulus;
-            IEnumerable<double> parameters = new List<double>() { Modulus, CompressiveStrength, TensileStrength};
-            material.DiagramParameters = parameters;
-            material.Diagram = GetStress;
+            var material = elasticMaterialLogic.GetLoaderMaterial(this, limitState, calcTerm);
             return material;
-        }
-
-        private double GetStress (IEnumerable<double> parameters, double strain)
-        {
-            double modulus = parameters.First();
-            double stress = modulus * strain;
-            double compressiveStrength = (-1d) * parameters.ElementAt(1);
-            double tensileStrength = parameters.ElementAt(2);
-            if (stress > tensileStrength || stress < compressiveStrength) { return 0d; }
-            else { return stress; }
         }
 
         public object Clone()

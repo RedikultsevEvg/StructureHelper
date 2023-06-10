@@ -17,7 +17,9 @@ namespace StructureHelperLogics.Models.Materials
         Concrete40,
         Reinforecement400,
         Reinforecement500,
-        Elastic200
+        Elastic200,
+        Carbon4000,
+        Glass1200
     }     
 
     public static class HeadMaterialFactory
@@ -33,6 +35,8 @@ namespace StructureHelperLogics.Models.Materials
             if (type == HeadmaterialType.Reinforecement400) { return GetReinforcement400(); }
             if (type == HeadmaterialType.Reinforecement500) { return GetReinforcement500(); }
             if (type == HeadmaterialType.Elastic200) { return GetElastic200(); }
+            if (type == HeadmaterialType.Carbon4000) { return GetCarbon4000(); }
+            if (type == HeadmaterialType.Glass1200) { return GetGlass1200(); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(type));
         }
 
@@ -50,6 +54,20 @@ namespace StructureHelperLogics.Models.Materials
         {
             var material = new HeadMaterial();
             material.HelperMaterial = new ElasticMaterial() { Modulus = 2e11d, CompressiveStrength = 4e8d, TensileStrength = 4e8d };
+            return material;
+        }
+
+        private static IHeadMaterial GetCarbon4000()
+        {
+            var material = new HeadMaterial();
+            material.HelperMaterial = new FRMaterial(MaterialTypes.CarbonFiber) { Modulus = 2e11d, CompressiveStrength = 4e9d, TensileStrength = 4e9d };
+            return material;
+        }
+
+        private static IHeadMaterial GetGlass1200()
+        {
+            var material = new HeadMaterial();
+            material.HelperMaterial = new FRMaterial(MaterialTypes.GlassFiber) { Modulus = 8e10d, CompressiveStrength = 1.2e9d, TensileStrength = 1.2e9d };
             return material;
         }
 

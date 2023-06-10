@@ -13,6 +13,7 @@
             </ComboBox>
         </StackPanel>
     </DataTemplate>
+    
     <DataTemplate x:Key="SafetyFactors">
         <Grid>
             <Grid.RowDefinitions>
@@ -23,6 +24,20 @@
             <ContentControl Grid.Row="1" ContentTemplate="{StaticResource MaterialSafetyFactors}" Content="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
         </Grid>
     </DataTemplate>
+
+    <DataTemplate x:Key="DirectSafetyFactors">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="200"/>
+            </Grid.RowDefinitions>
+            <Button Content="Show Safety Factors" Command="{Binding ShowSafetyFactors}"/>
+            <Button Grid.Row="1" Content="Show Partial Factors" Command="{Binding ShowPartialFactors}"/>
+            <ContentControl Grid.Row="2" ContentTemplate="{StaticResource MaterialSafetyFactors}" Content="{Binding}"/>
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate x:Key="ConcreteLibMaterial">
         <StackPanel>
             <TextBlock Text="Library material"/>
@@ -36,6 +51,7 @@
             <ContentControl ContentTemplate="{StaticResource SafetyFactors}"/>
         </StackPanel>
     </DataTemplate>
+    
     <DataTemplate x:Key="ConcreteMaterial">
         <StackPanel>
             <ContentControl ContentTemplate="{StaticResource LibraryMaterial}" Content="{Binding}"/>
@@ -82,6 +98,7 @@
             <ContentControl ContentTemplate="{StaticResource SafetyFactors}"/>
         </StackPanel>
     </DataTemplate>
+    
     <DataTemplate x:Key="ElasticMaterial">
         <Grid>
             <Grid.ColumnDefinitions>

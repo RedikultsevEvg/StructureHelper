@@ -47,7 +47,7 @@ namespace StructureHelperCommon.Models.Forces
                 {
                     var termFactor = calcTerm is CalcTerms.ShortTerm ? 1d : LongTermFactor;
                     var designForceTuple = new DesignForceTuple() { LimitState = limitState, CalcTerm = calcTerm };
-                    designForceTuple.ForceTuple = ForceTupleService.MultiplyTuples(FullSLSForces, stateFactor * termFactor);
+                    designForceTuple.ForceTuple = ForceTupleService.MultiplyTuples(FullSLSForces, stateFactor * termFactor) as ForceTuple;
                     result.DesignForces.Add(designForceTuple);
                 }
             }

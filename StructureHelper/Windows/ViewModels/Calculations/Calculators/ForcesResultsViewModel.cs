@@ -222,7 +222,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             {
                 foreach (var item in ndmPrimitives)
                 {
-                    StrainTupleService.CopyProperties(wnd.StrainTuple, item.AutoPrestrain);
+                    ForceTupleService.CopyProperties(wnd.StrainTuple, item.AutoPrestrain);
                 }
             }
         }

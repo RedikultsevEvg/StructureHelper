@@ -27,7 +27,7 @@ namespace StructureHelperLogics.Models.Materials
             {
                 materialOptions.CodesType = LCMB.CodesType.EC2_1990;
             }
-            else if (materialEntity.CodeType == CodeTypes.SP63_13330_2018)
+            else if (materialEntity.CodeType == CodeTypes.SP63_2018)
             {
                 materialOptions.CodesType = LCMB.CodesType.SP63_2018;
             }

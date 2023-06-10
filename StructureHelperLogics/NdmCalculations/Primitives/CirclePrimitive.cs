@@ -22,8 +22,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public double CenterX { get; set; }
         public double CenterY { get; set; }
         public IHeadMaterial? HeadMaterial { get; set; }
-        public IStrainTuple UsersPrestrain { get; }
-        public IStrainTuple AutoPrestrain { get; }
+        public StrainTuple UsersPrestrain { get; }
+        public StrainTuple AutoPrestrain { get; }
         public IVisualProperty VisualProperty { get; }
         public double Diameter { get; set; }
         public double NdmMaxSize { get; set; }
