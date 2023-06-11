@@ -9,6 +9,9 @@ namespace StructureHelperLogics.Models.Materials
 {
     public interface IFRMaterial : IElasticMaterial
     {
-        
+        double ULSConcreteStrength { get; set; }
+        double SumThickness { get; set; }
+        double GammaF2 { get; }
+
     }
 }

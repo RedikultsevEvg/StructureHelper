@@ -12,7 +12,7 @@ namespace StructureHelperLogics.Models.Materials
 {
     internal class ElasticMaterialLogic : IElasticMaterialLogic
     {
-        public IMaterial GetLoaderMaterial(IElasticMaterial elasticMaterial, LimitStates limitState, CalcTerms calcTerm)
+        public IMaterial GetLoaderMaterial(IElasticMaterial elasticMaterial, LimitStates limitState, CalcTerms calcTerm, double factor = 1d)
         { 
             IMaterial material = new Material();
             material.InitModulus = elasticMaterial.Modulus;
@@ -21,15 +21,15 @@ namespace StructureHelperLogics.Models.Materials
             IEnumerable<double> parameters = new List<double>()
             {
                 elasticMaterial.Modulus,
-                elasticMaterial.CompressiveStrength * factors.Compressive,
-                elasticMaterial.TensileStrength * factors.Tensile
+                elasticMaterial.CompressiveStrength * factors.Compressive * factor,
+                elasticMaterial.TensileStrength * factors.Tensile * factor
             };
         material.DiagramParameters = parameters;
-        material.Diagram = GetStress;
+        material.Diagram = GetStressByStrain;
         return material;
         }
 
-    private double GetStress(IEnumerable<double> parameters, double strain)
+    private double GetStressByStrain(IEnumerable<double> parameters, double strain)
     {
         double modulus = parameters.First();
         double stress = modulus * strain;

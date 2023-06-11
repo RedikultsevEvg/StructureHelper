@@ -25,6 +25,29 @@
         </Grid>
     </DataTemplate>
 
+    <DataTemplate x:Key="CarbonProperties">
+        <Expander Header="Fiber Cohesion Properties" IsExpanded="False">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="ULS Concrete Strength"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ULSConcreteStrength, Converter={StaticResource StressConverter}, ValidatesOnExceptions=True}"/>
+                <TextBlock Grid.Row="1" Text="Total Layers Thickness"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SumThickness, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                <TextBlock Grid.Row="2" Text="GammaF2 Factor"/>
+                <TextBox Grid.Row="2" Grid.Column="1" IsEnabled="False" Text="{Binding GammaF2, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
+            </Grid>
+        </Expander>
+
+    </DataTemplate>
+
     <DataTemplate x:Key="DirectSafetyFactors">
         <Grid>
             <Grid.RowDefinitions>

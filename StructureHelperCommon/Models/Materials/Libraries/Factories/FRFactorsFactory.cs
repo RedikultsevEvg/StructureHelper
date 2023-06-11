@@ -12,29 +12,24 @@ namespace StructureHelperCommon.Models.Materials.Libraries
     public enum FRFactorType
     {
         ConditionFactor,
-        CohesionFactor,
         LongTermFactor,
     }
     public static class FRFactorsFactory
     {
         const string gammaf1Name = "Gamma_f1";
         const string gammaf1Description = "Coefficient for considering environment";
-        const string gammaf2Name = "Gamma_f2";
-        const string gammaf2Description = "Coefficient for considering cohesion";
         const string gammaf3Name = "Gamma_f3";
         const string gammaf3Description = "Coefficient for considering long term calculations";
         public static IMaterialSafetyFactor GetCarbonFactor(FRFactorType factorType)
         {
             if (factorType == FRFactorType.LongTermFactor) { return LongTerm(1d / 1.2d,0.8d); }
             else if (factorType == FRFactorType.ConditionFactor) { return Condition(gammaf1Name, gammaf1Description , 0.9d); }
-            else if (factorType == FRFactorType.CohesionFactor) { return Condition(gammaf2Name, gammaf2Description, 0.9d); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
         }
         public static IMaterialSafetyFactor GetGlassFactor(FRFactorType factorType)
         {
             if (factorType == FRFactorType.LongTermFactor) { return LongTerm(1d / 1.8d, 0.3d); }
             else if (factorType == FRFactorType.ConditionFactor) { return Condition(gammaf1Name, gammaf1Description, 0.7d); }
-            else if (factorType == FRFactorType.CohesionFactor) { return Condition(gammaf2Name, gammaf2Description, 0.9d); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
         }
 

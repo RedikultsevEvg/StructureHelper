@@ -14,14 +14,33 @@ namespace StructureHelperLogics.Models.Materials
     {
         private IElasticMaterialLogic elasticMaterialLogic => new ElasticMaterialLogic();
         private MaterialTypes materialType;
-        public double Modulus { get; set; }
+        public double Modulus{ get; set; }
         public double CompressiveStrength { get; set; }
         public double TensileStrength { get; set; }
 
         public List<IMaterialSafetyFactor> SafetyFactors { get; }
+        public double ULSConcreteStrength { get; set; }
+        public double SumThickness { get; set; }
+        public double GammaF2 => GetGammaF2();
+
+        private double GetGammaF2()
+        {
+            const double gammaF2Max = 0.9d;
+            double gammaF2;
+            IFactorLogic factorLogic = new FactorLogic(SafetyFactors);
+            var factors = factorLogic.GetTotalFactor(LimitStates.ULS, CalcTerms.ShortTerm);
+            var rf = TensileStrength * factors.Tensile;
+            var epsUlt = rf / Modulus;
+            gammaF2 = 0.4d / epsUlt * Math.Sqrt(ULSConcreteStrength / (Modulus * SumThickness * 1e3d));
+            gammaF2 = Math.Min(gammaF2, gammaF2Max);
+            return gammaF2;
+        }
 
         public FRMaterial(MaterialTypes materialType)
         {
+
+            ULSConcreteStrength = 14e6d;
+            SumThickness = 0.175e-3d;
             SafetyFactors = new List<IMaterialSafetyFactor>();
             this.materialType = materialType;
             SafetyFactors.AddRange(PartialCoefficientFactory.GetDefaultFRSafetyFactors(ProgramSetting.FRCodeType, this.materialType));
@@ -30,17 +49,24 @@ namespace StructureHelperLogics.Models.Materials
         public object Clone()
         {
             var newItem = new FRMaterial(materialType)
-            { 
+            {
                 Modulus = Modulus,
                 CompressiveStrength = CompressiveStrength,
-                TensileStrength = TensileStrength
+                TensileStrength = TensileStrength,
+                ULSConcreteStrength = ULSConcreteStrength,
+                SumThickness = SumThickness,
             };
             return newItem;
         }
 
         public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
-            var material = elasticMaterialLogic.GetLoaderMaterial(this, limitState, calcTerm);
+            double factor = 1d;
+            if (limitState == LimitStates.ULS)
+                {
+                    factor = GetGammaF2();
+                }
+            var material = elasticMaterialLogic.GetLoaderMaterial(this, limitState, calcTerm, factor);
             return material;
         }
     }

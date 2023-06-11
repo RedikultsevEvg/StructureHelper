@@ -18,7 +18,7 @@ namespace StructureHelperLogics.Models.Materials
         Reinforecement400,
         Reinforecement500,
         Elastic200,
-        Carbon4000,
+        Carbon1400,
         Glass1200
     }     
 
@@ -35,7 +35,7 @@ namespace StructureHelperLogics.Models.Materials
             if (type == HeadmaterialType.Reinforecement400) { return GetReinforcement400(); }
             if (type == HeadmaterialType.Reinforecement500) { return GetReinforcement500(); }
             if (type == HeadmaterialType.Elastic200) { return GetElastic200(); }
-            if (type == HeadmaterialType.Carbon4000) { return GetCarbon4000(); }
+            if (type == HeadmaterialType.Carbon1400) { return GetCarbon1400(); }
             if (type == HeadmaterialType.Glass1200) { return GetGlass1200(); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(type));
         }
@@ -57,17 +57,27 @@ namespace StructureHelperLogics.Models.Materials
             return material;
         }
 
-        private static IHeadMaterial GetCarbon4000()
+        private static IHeadMaterial GetCarbon1400()
         {
             var material = new HeadMaterial();
-            material.HelperMaterial = new FRMaterial(MaterialTypes.CarbonFiber) { Modulus = 2e11d, CompressiveStrength = 4e9d, TensileStrength = 4e9d };
+            material.HelperMaterial = new FRMaterial(MaterialTypes.CarbonFiber)
+            {
+                Modulus = 1.2e11d,
+                CompressiveStrength = 0d,
+                TensileStrength = 1.4e9d
+            };
             return material;
         }
 
         private static IHeadMaterial GetGlass1200()
         {
             var material = new HeadMaterial();
-            material.HelperMaterial = new FRMaterial(MaterialTypes.GlassFiber) { Modulus = 8e10d, CompressiveStrength = 1.2e9d, TensileStrength = 1.2e9d };
+            material.HelperMaterial = new FRMaterial(MaterialTypes.GlassFiber)
+            {
+                Modulus = 8e10d,
+                CompressiveStrength = 1.2e9d,
+                TensileStrength = 1.2e9d
+            };
             return material;
         }
 

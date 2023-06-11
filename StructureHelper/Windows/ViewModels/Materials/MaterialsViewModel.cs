@@ -82,7 +82,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         }
         private void AddCarbonFiber()
         {
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Carbon4000, ProgramSetting.CodeType);
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Carbon1400, ProgramSetting.CodeType);
             material.Name = "New CFR Material";
             NewItem = material;
         }

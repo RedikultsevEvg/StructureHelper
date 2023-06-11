@@ -62,6 +62,13 @@ namespace StructureHelper.Windows.MainWindow.Materials
                 var binding = new Binding();
                 binding.Source = vm.HelperMaterialViewModel;
                 bindings.Add(templateName, binding);
+                if (helperMaterial is IFRMaterial)
+                {
+                    templateName = "CarbonProperties";
+                    var carbonBinding = new Binding();
+                    carbonBinding.Source = vm.HelperMaterialViewModel as FRViewModel;
+                    bindings.Add(templateName, carbonBinding);
+                }
                 templateName = "DirectSafetyFactors";
                 var frBinding = new Binding();
                 frBinding.Source = (vm.HelperMaterialViewModel as ElasticViewModel).SafetyFactors;

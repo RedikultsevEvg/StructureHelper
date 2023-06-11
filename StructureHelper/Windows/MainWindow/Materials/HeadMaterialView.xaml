@@ -7,40 +7,43 @@
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Materials"
         d:DataContext="{d:DesignInstance vm:HeadMaterialViewModel}"
         mc:Ignorable="d"
-        Title="Material properties" Height="350" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Material properties"
+        Height="350" Width="300"
+        MinWidth="300" MaxWidth="400" MinHeight="350" MaxHeight="500"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary Source="/Infrastructure/UI/Resources/Materials.xaml"/>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="46"/>
-            <RowDefinition/>
-            <RowDefinition Height="1"/>
-        </Grid.RowDefinitions>
+    <ScrollViewer>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="22"/>
-                <RowDefinition Height="22"/>
+                <RowDefinition Height="46"/>
                 <RowDefinition/>
+                <RowDefinition Height="1"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Text="Name"/>
-            <TextBlock Grid.Row="1" Text="Color"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Name}"/>
-            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-                <Rectangle Width="100" Margin="1" Stroke="Black">
-                    <Rectangle.Fill>
-                        <SolidColorBrush Color="{Binding Color}"/>
-                    </Rectangle.Fill>
-                </Rectangle>
-                <Button Width="50" Margin="1" Content="..." Command="{Binding EditColorCommand}"/>
-            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Text="Name"/>
+                <TextBlock Grid.Row="1" Text="Color"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Name}"/>
+                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                    <Rectangle Width="100" Margin="1" Stroke="Black">
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="{Binding Color}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Button Width="50" Margin="1" Content="..." Command="{Binding EditColorCommand}"/>
+                </StackPanel>
+            </Grid>
+            <StackPanel Grid.Row="1" x:Name="StpMaterialProperties"/>
         </Grid>
-        <StackPanel Grid.Row="1" x:Name="StpMaterialProperties">
-            
-        </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </Window>

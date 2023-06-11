@@ -66,9 +66,6 @@ namespace StructureHelperLogics.Models.Materials
             coefficient = FRFactorsFactory.GetCarbonFactor(FRFactorType.ConditionFactor);
             coefficient.Take = true;
             factors.Add(coefficient);
-            coefficient = FRFactorsFactory.GetCarbonFactor(FRFactorType.CohesionFactor);
-            coefficient.Take = true;
-            factors.Add(coefficient);
             coefficient = FRFactorsFactory.GetCarbonFactor(FRFactorType.LongTermFactor);
             coefficient.Take = true;
             factors.Add(coefficient);
@@ -77,9 +74,6 @@ namespace StructureHelperLogics.Models.Materials
         {
             IMaterialSafetyFactor coefficient;
             coefficient = FRFactorsFactory.GetGlassFactor(FRFactorType.ConditionFactor);
-            coefficient.Take = true;
-            factors.Add(coefficient);
-            coefficient = FRFactorsFactory.GetGlassFactor(FRFactorType.CohesionFactor);
             coefficient.Take = true;
             factors.Add(coefficient);
             coefficient = FRFactorsFactory.GetGlassFactor(FRFactorType.LongTermFactor);
