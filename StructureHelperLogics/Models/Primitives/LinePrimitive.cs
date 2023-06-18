@@ -10,7 +10,7 @@ namespace StructureHelperLogics.Models.Primitives
 {
     public class LinePrimitive : IPrimitive
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public IPoint2D Center { get; set; }
         public IShape Shape { get; }   

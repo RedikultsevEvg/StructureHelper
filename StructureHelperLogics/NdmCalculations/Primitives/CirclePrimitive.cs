@@ -17,7 +17,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public class CirclePrimitive : ICirclePrimitive
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public double CenterX { get; set; }
         public double CenterY { get; set; }
@@ -32,8 +32,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public bool Triangulate { get; set; }
         public ICrossSection? CrossSection { get; set; }
 
-        public CirclePrimitive()
+        public CirclePrimitive(Guid id)
         {
+            Id = id;
             Name = "New Circle";
             NdmMaxSize = 0.01d;
             NdmMinDivision = 10;
@@ -43,6 +44,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             ClearUnderlying = false;
             Triangulate = true;
         }
+        public CirclePrimitive() : this (Guid.NewGuid())
+        {}
 
         public object Clone()
         {
@@ -74,6 +77,11 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             var distance = Math.Sqrt(dX * dX + dY * dY);
             if (distance > Diameter / 2) { return false; }
             return true;
+        }
+
+        public void Load()
+        {
+            throw new NotImplementedException();
         }
     }
 }

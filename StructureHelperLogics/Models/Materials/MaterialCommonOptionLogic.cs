@@ -11,16 +11,20 @@ using LCMB = LoaderCalculator.Data.Materials.MaterialBuilders;
 
 namespace StructureHelperLogics.Models.Materials
 {
-    public class MaterialOptionLogic : IMaterialOptionLogic
+    public class MaterialCommonOptionLogic : IMaterialOptionLogic
     {
-        private LCMB.IMaterialOptions materialOptions;
+        private ILibMaterialEntity materialEntity;
+        private LimitStates limitState;
+        private CalcTerms calcTerm;
 
-        public MaterialOptionLogic(LCMB.IMaterialOptions materialOptions)
+        public MaterialCommonOptionLogic(ILibMaterialEntity materialEntity, LimitStates limitState, CalcTerms calcTerm)
         {
-            this.materialOptions = materialOptions;
+            this.materialEntity = materialEntity;
+            this.limitState = limitState;
+            this.calcTerm = calcTerm;
         }
 
-        public LCMB.IMaterialOptions SetMaterialOptions(ILibMaterialEntity materialEntity, LimitStates limitState, CalcTerms calcTerm)
+        public void SetMaterialOptions(LCMB.IMaterialOptions materialOptions)
         {
             materialOptions.Strength = materialEntity.MainStrength;
             if (materialEntity.CodeType == CodeTypes.EuroCode_2_1990)
@@ -39,8 +43,6 @@ namespace StructureHelperLogics.Models.Materials
             if (calcTerm == CalcTerms.ShortTerm) { materialOptions.IsShortTerm = true; }
             else if (calcTerm == CalcTerms.LongTerm) { materialOptions.IsShortTerm = false; }
             else { throw new StructureHelperException(ErrorStrings.LoadTermIsNotValid); }
-
-            return materialOptions;
         }
     }
 }

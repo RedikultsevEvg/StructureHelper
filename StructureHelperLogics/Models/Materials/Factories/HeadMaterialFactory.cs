@@ -3,8 +3,10 @@ using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Infrastructures.Strings;
+using StructureHelperCommon.Models.Codes;
 using StructureHelperCommon.Models.Materials.Libraries;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +17,7 @@ namespace StructureHelperLogics.Models.Materials
     public enum HeadmaterialType
     {
         Concrete40,
-        Reinforecement400,
+        Reinforcement400,
         Reinforecement500,
         Elastic200,
         Carbon1400,
@@ -25,14 +27,13 @@ namespace StructureHelperLogics.Models.Materials
     public static class HeadMaterialFactory
     {
         private static CodeTypes codeType;
-        private static IEnumerable<ILibMaterialEntity> LibConcreteMaterials => LibMaterialPepository.GetConcreteRepository(codeType);
-        private static IEnumerable<ILibMaterialEntity> LibReinforcementMaterials => LibMaterialPepository.GetReinforcementRepository(codeType);
+        private static IEnumerable<ILibMaterialEntity> LibConcreteMaterials => LibMaterialPepository.GetConcreteRepository();
+        private static IEnumerable<ILibMaterialEntity> LibReinforcementMaterials => LibMaterialPepository.GetReinforcementRepository();
 
-        public static IHeadMaterial GetHeadMaterial(HeadmaterialType type, CodeTypes code)
+        public static IHeadMaterial GetHeadMaterial(HeadmaterialType type)
         {
-            codeType = code;
             if (type == HeadmaterialType.Concrete40) { return GetConcrete40(); }
-            if (type == HeadmaterialType.Reinforecement400) { return GetReinforcement400(); }
+            if (type == HeadmaterialType.Reinforcement400) { return GetReinforcement400(); }
             if (type == HeadmaterialType.Reinforecement500) { return GetReinforcement500(); }
             if (type == HeadmaterialType.Elastic200) { return GetElastic200(); }
             if (type == HeadmaterialType.Carbon1400) { return GetCarbon1400(); }

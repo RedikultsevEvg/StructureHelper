@@ -1,21 +1,13 @@
-﻿using StructureHelper.Infrastructure.Enums;
+﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperCommon.Models.Forces;
-using StructureHelperLogics.Models.Materials;
-using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
-using System.Windows.Forms;
 using StructureHelperLogics.Models.CrossSections;
-using StructureHelper.Infrastructure;
+using StructureHelperLogics.Models.Materials;
+using System.Linq;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.Materials
@@ -76,31 +68,31 @@ namespace StructureHelper.Windows.ViewModels.Materials
         }
         private void AddElastic()
         {
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Elastic200, ProgramSetting.CodeType);
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Elastic200);
             material.Name = "New Elastic Material";
             NewItem = material;
         }
         private void AddCarbonFiber()
         {
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Carbon1400, ProgramSetting.CodeType);
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Carbon1400);
             material.Name = "New CFR Material";
             NewItem = material;
         }
         private void AddGlassFiber()
         {
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Glass1200, ProgramSetting.CodeType);
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Glass1200);
             material.Name = "New GFR Material";
             NewItem = material;
         }
         private void AddReinforcement()
         {
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforecement400, ProgramSetting.CodeType);
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforcement400);
             material.Name = "New Reinforcement";
             NewItem = material;
         }
         private void AddConcrete()
         {
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, ProgramSetting.CodeType);
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
             material.Name = "New Concrete";
             NewItem = material;
         }

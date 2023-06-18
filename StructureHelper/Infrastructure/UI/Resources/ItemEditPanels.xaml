@@ -20,26 +20,30 @@
         </Grid>
     </DataTemplate>
     <DataTemplate x:Key="SelectItems">
-        <StackPanel>
-            <StackPanel Height="25" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding ShowButtons, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding ShowButtons, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Button Content="Select All" Command="{Binding SelectAllCommand}"/>
                 <Button Content="Unselect All" Command="{Binding UnSelectAllCommand}"/>
                 <Button Content="Invert Selection" Command="{Binding InvertSelectionCommand}"/>
             </StackPanel>
-            <ListBox ItemsSource="{Binding CollectionItems}" SelectedItem="SelectedItem">
+            <ListBox Grid.Row="1" ItemsSource="{Binding CollectionItems}" SelectedItem="SelectedItem">
                 <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="22"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <CheckBox IsChecked="{Binding IsSelected}"/>
-                            <ContentControl Grid.Column="1" ContentTemplate="{StaticResource ColoredItemTemplate}" Content="{Binding Item}"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="22"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox IsChecked="{Binding IsSelected}"/>
+                                <ContentControl Grid.Column="1" ContentTemplate="{StaticResource ColoredItemTemplate}" Content="{Binding Item}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
             </ListBox>
-        </StackPanel>
+        </Grid>
     </DataTemplate>
 </ResourceDictionary>

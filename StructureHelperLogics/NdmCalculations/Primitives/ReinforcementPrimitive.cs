@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Primitives;
@@ -18,6 +19,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     /// <inheritdoc/>
     public class ReinforcementPrimitive : IPointPrimitive, IHasHostPrimitive
     {
+        IDataRepository<ReinforcementPrimitive> repository;
         /// <inheritdoc/>
         public string Name { get; set; }
         /// <inheritdoc/>
@@ -34,19 +36,24 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public IVisualProperty VisualProperty { get; private set; }
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public double Area { get; set; }
         public INdmPrimitive HostPrimitive { get; set; }
         public ICrossSection? CrossSection { get; set; }
 
-        public ReinforcementPrimitive()
+        public ReinforcementPrimitive(Guid id)
         {
+            Id = id;
             Name = "New Reinforcement";
             Area = 0.0005d;
             VisualProperty = new VisualProperty();
             UsersPrestrain = new StrainTuple();
             AutoPrestrain = new StrainTuple();
             Triangulate = true;
+        }
+        public ReinforcementPrimitive() : this(Guid.NewGuid())
+        {
+                
         }
 
         public object Clone()
@@ -67,7 +74,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public void Save()
         {
-            throw new NotImplementedException();
+            repository.Save(this);
         }
     }
 }

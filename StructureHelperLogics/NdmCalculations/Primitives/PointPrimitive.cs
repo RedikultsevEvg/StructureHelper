@@ -16,13 +16,13 @@ namespace StructureHelperLogics.Models.Primitives
 {
     public class PointPrimitive : IPointPrimitive
     {
-        public int Id { get; set; }
+        public Guid Id { get; }
         public string? Name { get; set; }
         public double CenterX { get; set; }
         public double CenterY { get; set; }
         public IHeadMaterial HeadMaterial { get; set; }
-        public double NdmMaxSize { get; set; }
-        public int NdmMinDivision { get; set; }
+        //public double NdmMaxSize { get; set; }
+        //public int NdmMinDivision { get; set; }
         public StrainTuple UsersPrestrain { get; private set; }
         public StrainTuple AutoPrestrain { get; private set; }
         public double Area { get; set; }
@@ -31,8 +31,9 @@ namespace StructureHelperLogics.Models.Primitives
         public bool Triangulate { get; set; }
         public ICrossSection? CrossSection { get; set; }
 
-        public PointPrimitive()
+        public PointPrimitive(Guid id)
         {
+            Id = id;
             Name = "New Point";
             Area = 0.0005d;
             VisualProperty = new VisualProperty();
@@ -40,7 +41,8 @@ namespace StructureHelperLogics.Models.Primitives
             AutoPrestrain = new StrainTuple();
             Triangulate = true;
         }
-
+        public PointPrimitive() : this (Guid.NewGuid())
+        {}
         public PointPrimitive(IHeadMaterial material) : this() { HeadMaterial = material; }
 
         public IEnumerable<INdm> GetNdms(IMaterial material)

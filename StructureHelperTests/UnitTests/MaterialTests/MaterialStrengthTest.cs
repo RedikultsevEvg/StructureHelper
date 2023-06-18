@@ -5,14 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperLogics.Models.Materials;
 
 namespace StructureHelperTests.UnitTests.MaterialTests
 {
     public class MaterialStrengthTest
     {
-        [TestCase(HeadmaterialType.Reinforecement400, CodeTypes.SP63_2018, LimitStates.ULS, CalcTerms.ShortTerm, 347826086.95652175d, 347826086.95652175d)]
-        [TestCase(HeadmaterialType.Reinforecement400, CodeTypes.SP63_2018, LimitStates.SLS, CalcTerms.ShortTerm, 400000000d, 400000000d)]
+        [TestCase(HeadmaterialType.Reinforcement400, CodeTypes.SP63_2018, LimitStates.ULS, CalcTerms.ShortTerm, 347826086.95652175d, 347826086.95652175d)]
+        [TestCase(HeadmaterialType.Reinforcement400, CodeTypes.SP63_2018, LimitStates.SLS, CalcTerms.ShortTerm, 400000000d, 400000000d)]
         [TestCase(HeadmaterialType.Reinforecement500, CodeTypes.SP63_2018, LimitStates.ULS, CalcTerms.ShortTerm, 400000000.0d, 434782608.69565225d)]
         [TestCase(HeadmaterialType.Reinforecement500, CodeTypes.SP63_2018, LimitStates.ULS, CalcTerms.LongTerm, 434782608.69565225d, 434782608.69565225d)]
         [TestCase(HeadmaterialType.Reinforecement500, CodeTypes.SP63_2018, LimitStates.SLS, CalcTerms.ShortTerm, 5e8d, 5e8d)]
@@ -24,7 +25,8 @@ namespace StructureHelperTests.UnitTests.MaterialTests
         public void Run_ShouldPass(HeadmaterialType headmaterialType, CodeTypes code, LimitStates limitState, CalcTerms calcTerm, double expectedCompressive, double expectedTensile)
         {
             //Arrange
-            var material = HeadMaterialFactory.GetHeadMaterial(headmaterialType, code);
+            ProgramSetting.NatSystem = NatSystems.RU;
+            var material = HeadMaterialFactory.GetHeadMaterial(headmaterialType);
             var libMaterial = material.HelperMaterial as ILibMaterial;
             //Act
             var compressive = libMaterial.GetStrength(limitState, calcTerm).Compressive;

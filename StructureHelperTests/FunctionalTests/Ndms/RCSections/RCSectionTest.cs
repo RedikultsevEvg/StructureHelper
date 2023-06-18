@@ -12,6 +12,7 @@ using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.Models.Primitives;
+using StructureHelperCommon.Infrastructures.Settings;
 
 namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
 {
@@ -28,6 +29,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
         public void Run_ShouldPass(double topArea, double bottomArea, double mx, double my, double nz, double expectedKx, double expectedKy, double expectedEpsilonZ)
         {
             //Arrange
+            ProgramSetting.NatSystem = NatSystems.EU;
             double width = 0.4;
             double height = 0.6;
             var ndmCollection = new List<INdm>();
@@ -61,7 +63,8 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
 
         private IEnumerable<INdmPrimitive> GetConcreteNdms(double width, double height)
         {
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, CodeTypes.EuroCode_2_1990);
+            
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
             var primitive = new RectanglePrimitive(material) {CenterX = 0, CenterY = 0, Width = width, Height = height, NdmMaxSize = 1, NdmMinDivision = 20 };
             List<INdmPrimitive> primitives = new List<INdmPrimitive> {primitive};
             return primitives;
@@ -70,7 +73,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
         private IEnumerable<INdmPrimitive> GetReinforcementNdms(double width, double height, double topArea, double bottomArea)
         {
             double gap = 0.05d;
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforecement400, CodeTypes.EuroCode_2_1990);
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforcement400);
             IPoint2D centerRT = new Point2D { X = width / 2 - gap, Y = height / 2 - gap };
             IPoint2D centerLT = new Point2D { X = - (width / 2 - gap), Y = height / 2 - gap };
             IPoint2D centerRB = new Point2D { X = width / 2 - gap, Y = - (height / 2 - gap) };

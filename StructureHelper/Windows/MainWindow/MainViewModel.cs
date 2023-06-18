@@ -2,8 +2,6 @@
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Models.Materials;
-using StructureHelper.Windows.ColorPickerWindow;
-using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.Beams;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
 using StructureHelper.Windows.ViewModels;
@@ -262,12 +260,12 @@ namespace StructureHelper.Windows.MainWindow
                 }
             });
 
-            SetColor = new RelayCommand(o =>
-            {
-                var primitive = o as PrimitiveBase;
-                var colorPickerView = new ColorPickerView(primitive);
-                colorPickerView.ShowDialog();
-            });
+            //SetColor = new RelayCommand(o =>
+            //{
+            //    var primitive = o as PrimitiveBase;
+            //    var colorPickerView = new ColorPickerView(primitive);
+            //    colorPickerView.ShowDialog();
+            //});
 
             ScaleCanvasDown = new RelayCommand(o =>
             {

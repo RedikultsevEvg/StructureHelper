@@ -46,7 +46,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         private void AddElasticMaterial()
         {
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Elastic200, ProgramSetting.CodeType);
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Elastic200);
             material.Name = "New Elastic Material";
             HeadMaterials.Add(material);
             headMaterials.Add(material);
@@ -163,7 +163,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         {
             get
             {
-                return LibMaterialPepository.GetConcreteRepository(ProgramSetting.CodeType);
+                return LibMaterialPepository.GetConcreteRepository();
             }
         }
 
@@ -171,7 +171,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         {
             get
             {
-                return LibMaterialPepository.GetReinforcementRepository(ProgramSetting.CodeType);
+                return LibMaterialPepository.GetReinforcementRepository();
             }
         }
 
@@ -236,7 +236,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         private void AddConcreteMaterial()
         {
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, ProgramSetting.CodeType);
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
             material.Name = "New Concrete";
             HeadMaterials.Add(material);
             headMaterials.Add(material);
@@ -245,7 +245,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         private void AddReinforcementMaterial()
         {
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforecement400, ProgramSetting.CodeType);
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforcement400);
             material.Name = "New Reinforcement";
             HeadMaterials.Add(material);
             headMaterials.Add(material);

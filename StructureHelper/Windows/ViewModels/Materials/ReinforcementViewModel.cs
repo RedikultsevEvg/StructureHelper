@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Infrastructures.Strings;
+using StructureHelperCommon.Models.Codes;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperLogics.Models.Materials;
 using System;
@@ -11,10 +12,17 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.ViewModels.Materials
 {
-    internal class ReinforcementViewModel : LibMaterialViewModel
+    internal class ReinforcementViewModel
     {
-        public override IEnumerable<ILibMaterialEntity> MaterialLibrary => LibMaterialPepository.GetReinforcementRepository(ProgramSetting.CodeType);
-        public ReinforcementViewModel(ILibMaterial material) : base(material)
+        public IEnumerable<ICodeEntity> CodeList => ProgramSetting
+            .MaterialRepository
+            .Repository
+            .Select( x => x.Code)
+            .Distinct();
+        public IEnumerable<ILibMaterialEntity> MaterialLibrary => LibMaterialPepository.GetReinforcementRepository();
+
+
+        public ReinforcementViewModel(ILibMaterial material)
         {
             if (material is not IReinforcementLibMaterial)
             {

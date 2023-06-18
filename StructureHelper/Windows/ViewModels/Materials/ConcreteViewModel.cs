@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.ViewModels.Materials
 {
-    internal class ConcreteViewModel : LibMaterialViewModel
+    internal class ConcreteViewModel : LibMaterialViewModel<IConcreteMaterialEntity>
     {
         readonly IConcreteLibMaterial concreteMaterial;
         public bool TensionForULS
@@ -43,10 +43,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
                 concreteMaterial.Humidity = value;
                 OnPropertyChanged(nameof(Humidity));
             }
-        }
-
-        public override IEnumerable<ILibMaterialEntity> MaterialLibrary => LibMaterialPepository.GetConcreteRepository(ProgramSetting.CodeType);
-            
+        }           
 
         public ConcreteViewModel(ILibMaterial material) : base(material)
         {
@@ -54,7 +51,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
             {
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $". Expected: {typeof(IConcreteLibMaterial)}, but was: {material.GetType()}");
             }
-            this.concreteMaterial = material as IConcreteLibMaterial;
+            concreteMaterial = material as IConcreteLibMaterial;
         }
     }
 }

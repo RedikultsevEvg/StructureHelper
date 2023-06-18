@@ -3,6 +3,7 @@ using StructureHelper.Models.Materials;
 using StructureHelper.Windows.AddMaterialWindow;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Strings;
+using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.Materials;
 using System;
@@ -78,7 +79,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
             else if (helperMaterial is IReinforcementLibMaterial)
             {
                 var material = helperMaterial as IReinforcementLibMaterial;
-                helperMaterialViewModel = new ReinforcementViewModel(material);
+                helperMaterialViewModel = new LibMaterialViewModel<IReinforcementMaterialEntity>(material);
             }
             else if (helperMaterial is IElasticMaterial)
             {

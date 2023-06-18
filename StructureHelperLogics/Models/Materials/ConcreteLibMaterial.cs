@@ -1,36 +1,30 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperCommon.Models.Materials.Libraries;
-using LoaderMaterials = LoaderCalculator.Data.Materials;
-using LoaderMaterialBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using StructureHelperCommon.Infrastructures.Settings;
-using LoaderMaterialLogic = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
+using StructureHelperCommon.Models.Materials.Libraries;
+using LMBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
+using LMLogic = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
+using LM = LoaderCalculator.Data.Materials;
 
 namespace StructureHelperLogics.Models.Materials
 {
     public class ConcreteLibMaterial : IConcreteLibMaterial
     {
+        private LMBuilders.ConcreteOptions lmOptions;
+        private IMaterialOptionLogic optionLogic;
         private IFactorLogic factorLogic => new FactorLogic(SafetyFactors);
+        private LMLogic.ITrueStrengthLogic strengthLogic;
         public ILibMaterialEntity MaterialEntity { get; set; }
         public List<IMaterialSafetyFactor> SafetyFactors { get; }
         public bool TensionForULS { get ; set; }
         public bool TensionForSLS { get; set; }
         public double Humidity { get; set; }
 
-        private IMaterialOptionLogic optionLogic;
-        private LoaderMaterialLogic.ITrueStrengthLogic strengthLogic;
 
         public ConcreteLibMaterial()
         {
             SafetyFactors = new List<IMaterialSafetyFactor>();
+            lmOptions = new LMBuilders.ConcreteOptions();
             SafetyFactors.AddRange(PartialCoefficientFactory.GetDefaultConcreteSafetyFactors(ProgramSetting.CodeType));
-            optionLogic = new MaterialOptionLogic(new LoaderMaterialBuilders.ConcreteOptions());
             TensionForULS = false;
             TensionForSLS = true;
             Humidity = 0.55d;
@@ -41,29 +35,23 @@ namespace StructureHelperLogics.Models.Materials
             return new ConcreteLibMaterial() { MaterialEntity = MaterialEntity, TensionForULS = TensionForULS, TensionForSLS = TensionForSLS };
         }
 
-        public LoaderMaterials.IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        public LM.IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
-            var materialOptions = optionLogic.SetMaterialOptions(MaterialEntity, limitState, calcTerm) as LoaderMaterialBuilders.ConcreteOptions;
-            materialOptions.WorkInTension = false;
-            if (limitState == LimitStates.ULS & TensionForULS == true)
-            {
-                materialOptions.WorkInTension = true;
-            }
-            if (limitState == LimitStates.SLS & TensionForSLS == true)
-            {
-                materialOptions.WorkInTension = true;
-            }
+            optionLogic = new MaterialCommonOptionLogic(MaterialEntity, limitState, calcTerm);
+            optionLogic.SetMaterialOptions(lmOptions);
+            optionLogic = new ConcreteMaterialOptionLogic(this, limitState);
+            optionLogic.SetMaterialOptions(lmOptions);
             var strength = factorLogic.GetTotalFactor(limitState, calcTerm);
-            materialOptions.ExternalFactor.Compressive = strength.Compressive;
-            materialOptions.ExternalFactor.Tensile = strength.Tensile;
-            LoaderMaterialBuilders.IMaterialBuilder builder = new LoaderMaterialBuilders.ConcreteBuilder(materialOptions);
-            LoaderMaterialBuilders.IBuilderDirector director = new LoaderMaterialBuilders.BuilderDirector(builder);
+            lmOptions.ExternalFactor.Compressive = strength.Compressive;
+            lmOptions.ExternalFactor.Tensile = strength.Tensile;
+            LMBuilders.IMaterialBuilder builder = new LMBuilders.ConcreteBuilder(lmOptions);
+            LMBuilders.IBuilderDirector director = new LMBuilders.BuilderDirector(builder);
             return director.BuildMaterial();
         }
 
         public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
         {
-            strengthLogic = new LoaderMaterialLogic.TrueStrengthConcreteLogicSP63_2018(MaterialEntity.MainStrength);
+            strengthLogic = new LMLogic.TrueStrengthConcreteLogicSP63_2018(MaterialEntity.MainStrength);
             var strength = strengthLogic.GetTrueStrength();
             double compressionFactor = 1d;
             double tensionFactor = 1d;

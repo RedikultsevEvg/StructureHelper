@@ -3,7 +3,24 @@
 
     <DataTemplate x:Key="LibraryMaterial">
         <StackPanel>
-            <TextBlock Text="Library material"/>
+            <TextBlock Text="Material Code"/>
+            <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding CodeList}" SelectedItem="{Binding CodeEntity}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}">
+                            <!--<ToolTip>
+                                <StackPanel>
+                                    <TextBlock FontWeight="Bold" Text="Code short name:"/>
+                                    <TextBlock Text="{Binding Name}"/>
+                                    <TextBlock FontWeight="Bold" Text="Full name:"/>
+                                    <TextBlock Text="{Binding FullName}"/>
+                                </StackPanel>
+                            </ToolTip>-->
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Text="Material Kind"/>
             <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding MaterialLibrary}" SelectedItem="{Binding MaterialEntity}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>

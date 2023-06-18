@@ -20,7 +20,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         {
             List<INdm> ndms = new List<INdm>();
             var headMaterials = GetPrimitiveMaterials(ndmPrimitives);
-            Dictionary<string, IMaterial> materials = GetMaterials(headMaterials, options);
+            Dictionary<Guid, IMaterial> materials = GetMaterials(headMaterials, options);
             foreach (var ndmPrimitive in ndmPrimitives)
             {
                 IHeadMaterial headMaterial = ndmPrimitive.HeadMaterial;
@@ -36,9 +36,9 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// </summary>
         /// <param name="ndmPrimitives"></param>
         /// <returns></returns>
-        private static Dictionary<string, IHeadMaterial> GetPrimitiveMaterials(IEnumerable<INdmPrimitive> ndmPrimitives)
+        private static Dictionary<Guid, IHeadMaterial> GetPrimitiveMaterials(IEnumerable<INdmPrimitive> ndmPrimitives)
         {
-            Dictionary<string, IHeadMaterial> headMaterials = new Dictionary<string, IHeadMaterial>();
+            Dictionary<Guid, IHeadMaterial> headMaterials = new Dictionary<Guid, IHeadMaterial>();
             foreach (var ndmPrimitive in ndmPrimitives)
             {
                 IHeadMaterial material = ndmPrimitive.HeadMaterial;
@@ -53,12 +53,12 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <param name="options"></param>
         /// <returns></returns>
         /// <exception cref="StructureHelperException"></exception>
-        private static Dictionary<string, IMaterial> GetMaterials(Dictionary<string, IHeadMaterial> PrimitiveMaterials, ITriangulationOptions options)
+        private static Dictionary<Guid, IMaterial> GetMaterials(Dictionary<Guid, IHeadMaterial> PrimitiveMaterials, ITriangulationOptions options)
         {
-            Dictionary<string, IMaterial> materials = new Dictionary<string, IMaterial>();
-            IEnumerable<string> keyCollection = PrimitiveMaterials.Keys;
+            Dictionary<Guid, IMaterial> materials = new Dictionary<Guid, IMaterial>();
+            IEnumerable<Guid> keyCollection = PrimitiveMaterials.Keys;
             IMaterial material;
-            foreach (string id in keyCollection)
+            foreach (var id in keyCollection)
             {
                 IHeadMaterial headMaterial;
                 if (PrimitiveMaterials.TryGetValue(id, out headMaterial) == false) { throw new StructureHelperException("Material dictionary is not valid"); }

@@ -18,7 +18,7 @@ namespace StructureHelper.Models.Materials
     {
         private Color color;
 
-        public string Id { get; }
+        public Guid Id { get; }
         public string Name { get; set; }
         public Color Color
         {
@@ -31,10 +31,14 @@ namespace StructureHelper.Models.Materials
         }
         public IHelperMaterial HelperMaterial {get; set;}
 
-        public HeadMaterial()
+        public HeadMaterial(Guid id)
         {
-            Id = Convert.ToString(Guid.NewGuid());
+            Id = id;
             Color = ColorProcessor.GetRandomColor();
+        }
+
+        public HeadMaterial() : this(Guid.NewGuid())
+        {        
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -55,5 +59,9 @@ namespace StructureHelper.Models.Materials
             return material;
         }
 
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

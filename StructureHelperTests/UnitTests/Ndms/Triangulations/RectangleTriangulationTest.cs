@@ -8,6 +8,7 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
 using StructureHelperCommon.Infrastructures.Enums;
 using LoaderCalculator.Logics.Geometry;
+using StructureHelperCommon.Infrastructures.Settings;
 
 namespace StructureHelperTests.UnitTests.Ndms.Triangulations
 {
@@ -46,7 +47,8 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
         public void Run_Shouldpass_RectOpeningRect(double centerX, double centerY, double width, double height, bool triangOpening, double expectedArea, double expectedMomX, double expectedMomY)
         {
             //Arrange
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, CodeTypes.SP63_2018);
+            ProgramSetting.NatSystem = NatSystems.RU;
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
             var mainBlock = new RectanglePrimitive() { CenterX = centerX, CenterY = centerY, Width = width, Height = height, HeadMaterial = material };
             mainBlock.VisualProperty.ZIndex = 0;
             var opening = new RectanglePrimitive()
@@ -71,7 +73,8 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
         public void Run_Shouldpass_RectOpeningCircle(double centerX, double centerY, double width, double height, bool triangOpening, double expectedArea, double expectedMomX, double expectedMomY)
         {
             //Arrange
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, CodeTypes.SP63_2018);
+            ProgramSetting.NatSystem = NatSystems.RU;
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
             var mainBlock = new RectanglePrimitive() { CenterX = centerX, CenterY = centerY, Width = width, Height = height, HeadMaterial = material };
             mainBlock.VisualProperty.ZIndex = 0;
             var opening = new CirclePrimitive()
@@ -101,7 +104,8 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
         public void Run_Shouldpass_CircleOpeningRect(double centerX, double centerY, double diameter, bool triangOpening, double expectedArea, double expectedMomX, double expectedMomY)
         {
             //Arrange
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, CodeTypes.SP63_2018);
+            ProgramSetting.NatSystem = NatSystems.RU;
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
             var mainBlock = new CirclePrimitive() { CenterX = centerX, CenterY = centerY, Diameter = diameter, HeadMaterial = material };
             mainBlock.VisualProperty.ZIndex = 0;
             var opening = new RectanglePrimitive()

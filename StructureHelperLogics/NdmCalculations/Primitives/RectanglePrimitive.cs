@@ -19,7 +19,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public class RectanglePrimitive : IRectanglePrimitive
     {
-        public int Id { get; set; }
+        public Guid Id { get;}
         public string Name { get; set; }
         public double CenterX { get; set; }
         public double CenterY { get; set; }
@@ -36,8 +36,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public IVisualProperty VisualProperty { get; }
         public ICrossSection? CrossSection { get; set; }
 
-        public RectanglePrimitive()
+        public RectanglePrimitive(Guid id)
         {
+            Id = id;
             Name = "New Rectangle";
             NdmMaxSize = 0.01d;
             NdmMinDivision = 10;
@@ -46,6 +47,10 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             AutoPrestrain = new StrainTuple();
             ClearUnderlying = false;
             Triangulate = true;
+        }
+        public RectanglePrimitive() : this(Guid.NewGuid())
+        {
+                
         }
 
         public RectanglePrimitive(IHeadMaterial material) : this() { HeadMaterial = material; }

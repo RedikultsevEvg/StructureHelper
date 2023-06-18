@@ -6,24 +6,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Loadermaterials = LoaderCalculator.Data.Materials;
-using LoaderMaterialBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
+using LMBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
 using LoaderMaterialLogics = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
 
 namespace StructureHelperLogics.Models.Materials
 {
     public class ReinforcementLibMaterial : IReinforcementLibMaterial
     {
+        private LMBuilders.ReinforcementOptions lmOptions;
+        private IMaterialOptionLogic optionLogic;
         private IFactorLogic factorLogic => new FactorLogic(SafetyFactors);
+        private LoaderMaterialLogics.ITrueStrengthLogic strengthLogic;
         public ILibMaterialEntity MaterialEntity { get; set; }
         public List<IMaterialSafetyFactor> SafetyFactors { get; }
 
-        private IMaterialOptionLogic optionLogic;
-        private LoaderMaterialLogics.ITrueStrengthLogic strengthLogic;
 
         public ReinforcementLibMaterial()
         {
             SafetyFactors = new List<IMaterialSafetyFactor>();
-            optionLogic = new MaterialOptionLogic(new LoaderMaterialBuilders.ReinforcementOptions());
+            lmOptions = new LMBuilders.ReinforcementOptions();
         }
 
         public object Clone()
@@ -33,12 +34,13 @@ namespace StructureHelperLogics.Models.Materials
 
         public Loadermaterials.IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
-            var materialOptions = optionLogic.SetMaterialOptions(MaterialEntity, limitState, calcTerm);
+            optionLogic = new MaterialCommonOptionLogic(MaterialEntity, limitState, calcTerm);
+            optionLogic.SetMaterialOptions(lmOptions);
             var factors = factorLogic.GetTotalFactor(limitState, calcTerm);
-            materialOptions.ExternalFactor.Compressive = factors.Compressive;
-            materialOptions.ExternalFactor.Tensile = factors.Tensile;
-            LoaderMaterialBuilders.IMaterialBuilder builder = new LoaderMaterialBuilders.ReinforcementBuilder(materialOptions);
-            LoaderMaterialBuilders.IBuilderDirector director = new LoaderMaterialBuilders.BuilderDirector(builder);
+            lmOptions.ExternalFactor.Compressive = factors.Compressive;
+            lmOptions.ExternalFactor.Tensile = factors.Tensile;
+            LMBuilders.IMaterialBuilder builder = new LMBuilders.ReinforcementBuilder(lmOptions);
+            LMBuilders.IBuilderDirector director = new LMBuilders.BuilderDirector(builder);
             return director.BuildMaterial();
         }
         public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
