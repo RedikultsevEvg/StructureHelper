@@ -4,7 +4,6 @@ using System.Linq;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Codes;
 
 namespace StructureHelperCommon.Models.Materials.Libraries
@@ -177,7 +176,6 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                 new ConcreteMaterialEntity(new Guid("2f5b70b9-f4c1-470d-ac27-a39a7093b6ea"))
                 {
                     CodeType = codeType,
-                    Code = code,
                     Name = "B30",
                     MainStrength = 30e6
                 },

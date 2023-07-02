@@ -1,5 +1,4 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Services.Units;
 using System;
 using System.Collections.Generic;

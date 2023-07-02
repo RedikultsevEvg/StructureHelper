@@ -1,4 +1,4 @@
-﻿namespace StructureHelperCommon.Infrastructures.Strings
+﻿namespace StructureHelperCommon.Infrastructures.Exceptions
 {
     public static class ErrorStrings
     {

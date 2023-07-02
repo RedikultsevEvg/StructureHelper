@@ -48,14 +48,9 @@ namespace StructureHelperLogics.Models.Materials
 
         public object Clone()
         {
-            var newItem = new FRMaterial(materialType)
-            {
-                Modulus = Modulus,
-                CompressiveStrength = CompressiveStrength,
-                TensileStrength = TensileStrength,
-                ULSConcreteStrength = ULSConcreteStrength,
-                SumThickness = SumThickness,
-            };
+            var newItem = new FRMaterial(this.materialType);
+            var updateStrategy = new FRUpdateStrategy();
+            updateStrategy.Update(newItem, this);
             return newItem;
         }
 

@@ -1,7 +1,6 @@
 ﻿using StructureHelper.Infrastructure.UI.Converters.Units;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;

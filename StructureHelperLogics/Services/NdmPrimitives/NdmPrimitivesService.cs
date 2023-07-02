@@ -1,7 +1,6 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;

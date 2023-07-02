@@ -8,6 +8,6 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         /// Unique identifier
         /// </summary>
         Guid Id { get;}
-        void Save();
+        //void Save();
     }
 }

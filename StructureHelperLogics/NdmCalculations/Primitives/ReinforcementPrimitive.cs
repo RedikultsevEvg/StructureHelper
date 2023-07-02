@@ -74,7 +74,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public void Save()
         {
-            repository.Save(this);
+            repository.Create(this);
         }
     }
 }

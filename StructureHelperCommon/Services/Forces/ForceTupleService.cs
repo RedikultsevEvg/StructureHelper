@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 

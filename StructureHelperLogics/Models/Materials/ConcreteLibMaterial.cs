@@ -32,7 +32,10 @@ namespace StructureHelperLogics.Models.Materials
 
         public object Clone()
         {
-            return new ConcreteLibMaterial() { MaterialEntity = MaterialEntity, TensionForULS = TensionForULS, TensionForSLS = TensionForSLS };
+            var newItem = new ConcreteLibMaterial();
+            var updateStrategy = new ConcreteLibUpdateStrategy();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
 
         public LM.IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)

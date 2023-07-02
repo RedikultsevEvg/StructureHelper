@@ -1,22 +1,14 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
-using StructureHelper.Services.Primitives;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.Calculations.Calculators

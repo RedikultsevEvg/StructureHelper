@@ -1,6 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Codes;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperLogics.Models.Materials;

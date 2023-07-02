@@ -1,14 +1,5 @@
-﻿using StructureHelper.Infrastructure.Enums;
-using StructureHelper.UnitSystem.Systems;
-using StructureHelper.Windows.MainWindow;
-using StructureHelperLogics.Models.Materials;
-using StructureHelperCommon.Models.Shapes;
-using System;
-using StructureHelperLogics.Models.Primitives;
+﻿using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelper.Windows.ViewModels.NdmCrossSections;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {

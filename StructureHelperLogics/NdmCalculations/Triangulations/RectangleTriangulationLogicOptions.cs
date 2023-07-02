@@ -1,9 +1,5 @@
-﻿using System;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperCommon.Models.Forces;
+﻿using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations

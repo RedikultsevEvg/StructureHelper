@@ -50,13 +50,11 @@ namespace StructureHelper.Models.Materials
 
         public object Clone()
         {
-            IHeadMaterial material = new HeadMaterial
-            {
-                Name = Name,
-                Color = Color,
-                HelperMaterial = HelperMaterial.Clone() as IHelperMaterial
-            };
-            return material;
+            var newItem = new HeadMaterial();
+            newItem.HelperMaterial = this.HelperMaterial.Clone() as IHelperMaterial;
+            var updateStrategy = new MaterialUpdateStrategy();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
 
         public void Save()

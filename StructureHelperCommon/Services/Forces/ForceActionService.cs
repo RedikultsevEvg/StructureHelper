@@ -1,6 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using System;

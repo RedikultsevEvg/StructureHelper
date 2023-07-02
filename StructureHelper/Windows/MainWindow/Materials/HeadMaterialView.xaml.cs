@@ -1,7 +1,6 @@
 ﻿using StructureHelper.Models.Materials;
 using StructureHelper.Windows.ViewModels.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
@@ -31,7 +30,10 @@ namespace StructureHelper.Windows.MainWindow.Materials
         {
             InitializeComponent();
             this.headMaterial = headMaterial;
-            vm = new HeadMaterialViewModel(this.headMaterial);
+            vm = new HeadMaterialViewModel(this.headMaterial)
+            {
+                ParentWindow = this
+            };
             DataContext = vm;
             AddDataTemplates();
         }

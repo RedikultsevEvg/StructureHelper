@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
-    public interface IDataRepository<T>
+    public interface IUpdateStrategy<T>
     {
-        void Create(T entity);
-        void Update(T entity);
-        void Delete(Guid Id);
-        T GetById(Guid Id);
-        List<T> GetAll();
+        void Update(T targetObject, T sourceObject);
     }
 }

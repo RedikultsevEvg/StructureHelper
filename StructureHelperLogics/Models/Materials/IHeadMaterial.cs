@@ -16,7 +16,6 @@ namespace StructureHelper.Models.Materials
         string Name { get; set; }
         Color Color { get; set; }
         IHelperMaterial HelperMaterial { get; set; }
-        //MaterialDefinitionBase Material { get; set; }
         IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm);
     }
 }

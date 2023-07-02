@@ -9,6 +9,7 @@ using Loadermaterials = LoaderCalculator.Data.Materials;
 using LMBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
 using LoaderMaterialLogics = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
 
+
 namespace StructureHelperLogics.Models.Materials
 {
     public class ReinforcementLibMaterial : IReinforcementLibMaterial
@@ -29,7 +30,10 @@ namespace StructureHelperLogics.Models.Materials
 
         public object Clone()
         {
-            return new ReinforcementLibMaterial() { MaterialEntity = MaterialEntity};
+            var newItem = new ReinforcementLibMaterial();
+            var updateStrategy = new ReinforcementLibUpdateStrategy();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
 
         public Loadermaterials.IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)

@@ -1,7 +1,6 @@
 ﻿using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.Forces;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;

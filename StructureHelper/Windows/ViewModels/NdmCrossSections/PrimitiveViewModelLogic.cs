@@ -13,7 +13,6 @@ using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperLogics.Models.Primitives;
-using StructureHelperCommon.Infrastructures.Strings;
 using ViewModelBase = StructureHelper.Infrastructure.ViewModelBase;
 using System.Windows.Forms;
 using System.Windows.Documents;

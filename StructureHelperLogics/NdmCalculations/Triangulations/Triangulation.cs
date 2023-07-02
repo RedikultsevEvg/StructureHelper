@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using LoaderCalculator.Data.Materials;
-using LoaderCalculator.Data.Materials.MaterialBuilders;
+﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Ndms;
-using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperLogics.Models.Materials;
-using StructureHelperCommon.Models.Shapes;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelper.Models.Materials;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations

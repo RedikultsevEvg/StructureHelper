@@ -1,12 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses
 {

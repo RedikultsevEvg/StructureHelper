@@ -4,7 +4,6 @@ using StructureHelper.Models.Materials;
 using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.CrossSections;

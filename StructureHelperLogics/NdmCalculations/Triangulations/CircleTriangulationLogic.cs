@@ -1,7 +1,6 @@
 ﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;

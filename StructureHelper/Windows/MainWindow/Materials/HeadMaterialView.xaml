@@ -14,7 +14,12 @@
     <Window.Resources>
         <ResourceDictionary Source="/Infrastructure/UI/Resources/Materials.xaml"/>
     </Window.Resources>
-    <ScrollViewer>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="46"/>
@@ -46,4 +51,6 @@
             <StackPanel Grid.Row="1" x:Name="StpMaterialProperties"/>
         </Grid>
     </ScrollViewer>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
 </Window>

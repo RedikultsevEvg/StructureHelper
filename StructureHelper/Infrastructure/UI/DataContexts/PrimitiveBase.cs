@@ -1,24 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Documents;
+﻿using StructureHelper.Models.Materials;
+using StructureHelper.Services.Primitives;
+using StructureHelper.Windows.MainWindow;
+using StructureHelper.Windows.ViewModels.NdmCrossSections;
+using StructureHelperLogics.NdmCalculations.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using StructureHelper.Infrastructure.Enums;
-using StructureHelper.Infrastructure.UI.Converters.Units;
-using StructureHelper.Models.Materials;
-using StructureHelper.Services.Primitives;
-using StructureHelper.UnitSystem.Systems;
-using StructureHelper.Windows.MainWindow;
-using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperLogics.Models.Materials;
-using StructureHelperCommon.Services.ColorServices;
-using StructureHelperLogics.Models.Primitives;
-using System.Windows.Controls;
-using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelper.Windows.ViewModels.NdmCrossSections;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {

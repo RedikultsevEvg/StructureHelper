@@ -31,7 +31,10 @@ namespace StructureHelperLogics.Models.Materials
 
         public object Clone()
         {
-            return new ElasticMaterial() { Modulus = Modulus, CompressiveStrength = CompressiveStrength, TensileStrength = TensileStrength };
+            var newItem = new ElasticMaterial();
+            var updateStrategy = new ElasticUpdateStrategy();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

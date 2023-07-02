@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using LoaderCalculator.Data.Ndms.Transformations;
 using LoaderCalculator.Data.Matrix;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {

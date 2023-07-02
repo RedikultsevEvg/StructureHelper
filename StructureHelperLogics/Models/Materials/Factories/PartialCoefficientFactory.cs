@@ -1,6 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Materials.Libraries;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Materials
-{  
+{
     public static class PartialCoefficientFactory
     {
         public static List<IMaterialSafetyFactor> GetDefaultConcreteSafetyFactors(CodeTypes codeType)

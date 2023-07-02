@@ -2,6 +2,7 @@
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Models.Materials;
+using StructureHelper.Services.Settings;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.Beams;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
 using StructureHelper.Windows.ViewModels;
@@ -10,7 +11,6 @@ using StructureHelper.Windows.ViewModels.Materials;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Templates.CrossSections.RCs;
 using StructureHelperLogics.Models.Templates.RCs;
@@ -403,6 +403,10 @@ namespace StructureHelper.Windows.MainWindow
                     item.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);
                 }
                 PrimitiveLogic.Refresh();
+                foreach (var item in newRepository.HeadMaterials)
+                {
+                    GlobalRepository.Materials.Create(item);
+                }
                 return primitives;
             }
             return new List<PrimitiveBase>();

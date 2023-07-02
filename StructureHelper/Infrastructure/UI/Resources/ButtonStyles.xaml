@@ -49,5 +49,10 @@
             <Setter Property="Margin" Value="5"/>
         </Style.Setters>
     </Style>
-
+    <DataTemplate x:Key="OkCancelButtons">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Style="{StaticResource CancelButton}" Command="{Binding CancelCommand}"/>
+            <Button Style="{StaticResource OkButton}" Command="{Binding OkCommand}"/>
+        </StackPanel>
+    </DataTemplate>
 </ResourceDictionary>

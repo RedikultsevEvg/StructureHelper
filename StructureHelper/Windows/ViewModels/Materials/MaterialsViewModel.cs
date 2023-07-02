@@ -1,9 +1,9 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Models.Materials;
+using StructureHelper.Services.Settings;
 using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
 using System.Linq;
@@ -42,6 +42,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
             else if (paramType == MaterialType.CarbonFiber) { AddCarbonFiber(); }
             else if (paramType == MaterialType.GlassFiber) { AddGlassFiber(); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Expected: {typeof(MaterialType)}, Actual type: {nameof(paramType)}");
+            GlobalRepository.Materials.Create(NewItem);
             base.AddMethod(parameter);
         }
         public override void DeleteMethod(object parameter)
@@ -57,14 +58,34 @@ namespace StructureHelper.Windows.ViewModels.Materials
             var dialogResult = MessageBox.Show("Delete material?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
+                GlobalRepository.Materials.Delete(SelectedItem.Id);
                 base.DeleteMethod(parameter);
             }
         }
         public override void EditMethod(object parameter)
         {
+            var copyObject = GlobalRepository.Materials.GetById(SelectedItem.Id).Clone() as IHeadMaterial;
             var wnd = new HeadMaterialView(SelectedItem);
             wnd.ShowDialog();
+            if (wnd.DialogResult == true)
+            {
+                GlobalRepository.Materials.Update(SelectedItem);
+            }
+            else
+            {
+                var updateStrategy = new MaterialUpdateStrategy();
+                updateStrategy.Update(SelectedItem, copyObject);
+            }
             base.EditMethod(parameter);
+        }
+        public override void CopyMethod(object parameter)
+        {
+            NewItem = SelectedItem.Clone() as IHeadMaterial;
+            NewItem.Name = $"{NewItem.Name} copy";
+            GlobalRepository.Materials.Create(NewItem);
+            Collection.Add(NewItem);
+            Items.Add(NewItem);
+            SelectedItem = NewItem;
         }
         private void AddElastic()
         {

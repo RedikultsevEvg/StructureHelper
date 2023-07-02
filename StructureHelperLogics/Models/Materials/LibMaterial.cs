@@ -1,6 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperCommon.Models.Materials.Libraries;
 using System.Collections.Generic;
 using LCM = LoaderCalculator.Data.Materials;
