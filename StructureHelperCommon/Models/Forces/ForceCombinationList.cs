@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
 
@@ -10,6 +12,9 @@ namespace StructureHelperCommon.Models.Forces
     /// <inheritdoc/>
     public class ForceCombinationList : IForceCombinationList
     {
+        readonly IUpdateStrategy<IAction> updateStrategy = new ActionUpdateStrategy();
+        /// <inheritdoc/>
+        public Guid Id { get; }
         /// <inheritdoc/>
         public string Name { get; set; }
         /// <inheritdoc/>
@@ -18,9 +23,11 @@ namespace StructureHelperCommon.Models.Forces
         public IPoint2D ForcePoint { get; set; }
         /// <inheritdoc/>
         public List<IDesignForceTuple> DesignForces { get; private set; }
-        
-        public ForceCombinationList()
+
+
+        public ForceCombinationList(Guid id)
         {
+            Id = id;
             SetInGravityCenter = true;
             ForcePoint = new Point2D() { X = 0, Y = 0 };
             DesignForces = new List<IDesignForceTuple>
@@ -31,17 +38,12 @@ namespace StructureHelperCommon.Models.Forces
                 new DesignForceTuple(LimitStates.SLS, CalcTerms.LongTerm)
             };
         }
+        public ForceCombinationList() : this (Guid.NewGuid()) { }
         /// <inheritdoc/>
         public object Clone()
         {
             var newItem = new ForceCombinationList();
-            ForceActionService.CopyActionProps(this, newItem);
-            newItem.DesignForces.Clear();
-            foreach (var item in DesignForces)
-            {
-                var newForce = item.Clone() as IDesignForceTuple;
-                newItem.DesignForces.Add(newForce);
-            }
+            updateStrategy.Update(newItem, this);
             return newItem;
         }
         /// <inheritdoc/>

@@ -1,6 +1,8 @@
 ﻿using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,10 @@ namespace StructureHelperLogics.Models.Materials
 {
     public class MaterialUpdateStrategy : IUpdateStrategy<IHeadMaterial>
     {
+        private readonly IUpdateStrategy<IElasticMaterial> elasticStrategy = new ElasticUpdateStrategy();
+        private readonly IUpdateStrategy<IFRMaterial> frStrategy = new FRUpdateStrategy();
+        private readonly IUpdateStrategy<IConcreteLibMaterial> concreteStrategy = new ConcreteLibUpdateStrategy();
+        private readonly IUpdateStrategy<IReinforcementLibMaterial> reinforcementStrategy = new ReinforcementLibUpdateStrategy();
         public void Update(IHeadMaterial targetObject, IHeadMaterial sourceObject)
         {
             targetObject.Name = sourceObject.Name;
@@ -19,70 +25,40 @@ namespace StructureHelperLogics.Models.Materials
             UpdateHelperMaterial(targetObject.HelperMaterial, sourceObject.HelperMaterial);
         }
 
-        private static void UpdateHelperMaterial(IHelperMaterial target, IHelperMaterial source)
+        private void UpdateHelperMaterial(IHelperMaterial targetObject, IHelperMaterial sourceObject)
         {
-            Check(target, source);
-            UpdateMaterial(target, source);
-        }
-        private static void Check(IHelperMaterial target, IHelperMaterial source)
-        {
-            if (target.GetType() != source.GetType())
+            CheckObject.CompareTypes(targetObject, sourceObject);
+            if (sourceObject is ILibMaterial)
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"target type is {target.GetType()}, \n is no coinside with source type {source.GetType()}");
+                UpdateLibMaterial(targetObject, sourceObject);
             }
-        }
-        private static void UpdateMaterial(IHelperMaterial target, IHelperMaterial source)
-        {
-            if (source is ILibMaterial)
+            else if (sourceObject is IElasticMaterial)
             {
-                UpdateLibMaterial(target, source);
+                elasticStrategy.Update(targetObject as IElasticMaterial, sourceObject as IElasticMaterial);
             }
-            else if (source is IElasticMaterial)
+            else if (sourceObject is IFRMaterial)
             {
-                UpdateElastic(target, source);
-            }
-            else if (source is IFRMaterial)
-            {
-                UpdateFR(target, source);
+                frStrategy.Update(targetObject as IFRMaterial, sourceObject as IFRMaterial);
             }
             else
             {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $"\n Expected: {typeof(IHelperMaterial)},\n But was: {source.GetType()}");
+                ErrorCommonProcessor.ObjectTypeIsUnknown(typeof(IHelperMaterial), sourceObject.GetType());
             }
         }
-        private static void UpdateFR(IHelperMaterial target, IHelperMaterial source)
+
+        private void UpdateLibMaterial(IHelperMaterial targetObject, IHelperMaterial sourceObject)
         {
-            var targetMaterial = target as IFRMaterial;
-            var sourceMaterial = source as IFRMaterial;
-            var logic = new FRUpdateStrategy();
-            logic.Update(targetMaterial, sourceMaterial);
-        }
-        private static void UpdateElastic(IHelperMaterial target, IHelperMaterial source)
-        {
-            var targetMaterial = target as IElasticMaterial;
-            var sourceMaterial = source as IElasticMaterial;
-            var logic = new ElasticUpdateStrategy();
-            logic.Update(targetMaterial, sourceMaterial);
-        }
-        private static void UpdateLibMaterial(IHelperMaterial target, IHelperMaterial source)
-        {
-            if (source is IConcreteLibMaterial)
+            if (sourceObject is IConcreteLibMaterial)
             {
-                var targetMaterial = target as IConcreteLibMaterial;
-                var sourceMaterial = source as IConcreteLibMaterial;
-                var logic = new ConcreteLibUpdateStrategy();
-                logic.Update(targetMaterial, sourceMaterial);
+                concreteStrategy.Update(targetObject as IConcreteLibMaterial, sourceObject as IConcreteLibMaterial);
             }
-            else if (source is IReinforcementLibMaterial)
+            else if (sourceObject is IReinforcementLibMaterial)
             {
-                var targetMaterial = target as IReinforcementLibMaterial;
-                var sourceMaterial = source as IReinforcementLibMaterial;
-                var logic = new ReinforcementLibUpdateStrategy();
-                logic.Update(targetMaterial, sourceMaterial);
+                reinforcementStrategy.Update(targetObject as IReinforcementLibMaterial, sourceObject as IReinforcementLibMaterial);
             }
             else
             {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $"\n Expected: {typeof(ILibMaterial)},\n But was: {source.GetType()}");
+                ErrorCommonProcessor.ObjectTypeIsUnknown(typeof(ILibMaterial), sourceObject.GetType());
             }
         }
     }

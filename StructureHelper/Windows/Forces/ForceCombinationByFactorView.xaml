@@ -7,11 +7,12 @@
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Forces"
         d:DataContext="{d:DesignInstance vm:ForceCombinationByFactorVM}"
         mc:Ignorable="d"
-        Title="Force Combination By Factor" Height="250" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Force Combination By Factor" Height="290" Width="350" MinHeight="290" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="95"/>
             <RowDefinition/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <!--ForceTemplates.xaml-->
         <ContentControl ContentTemplate="{StaticResource ResourceKey=ForceActionTemplate}" Content="{Binding}"/>
@@ -49,5 +50,6 @@
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ULSFactor, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
             </Grid>
         </StackPanel>
+        <ContentControl Grid.Row="2" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

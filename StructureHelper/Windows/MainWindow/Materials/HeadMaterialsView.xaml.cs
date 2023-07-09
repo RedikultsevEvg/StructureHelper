@@ -33,37 +33,5 @@ namespace StructureHelper.Windows.MainWindow.Materials
             this.DataContext = viewModel;
             InitializeComponent();
         }
-
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            StpMaterialProperties.Children.Clear();
-            var selectedMaterial = viewModel.SelectedMaterial;
-            if (selectedMaterial == null) { return; }
-            var helperMaterial = selectedMaterial.HelperMaterial;
-            string dataTemplateName = string.Empty;
-            Binding binding = new Binding();
-            if (helperMaterial is IConcreteLibMaterial)
-            {
-                dataTemplateName = "ConcreteLibMaterial";
-                binding.Source = viewModel;
-            }
-            else if (helperMaterial is IReinforcementLibMaterial)
-            {
-                dataTemplateName = "ReinforcementLibMaterial";
-                binding.Source = viewModel;
-            }
-            else if (helperMaterial is IElasticMaterial)
-            {
-                dataTemplateName = "ElasticMaterial";
-                binding.Source = viewModel.SelectedMaterial.HelperMaterial;
-            }
-            if (dataTemplateName != string.Empty)
-            {
-                ContentControl contentControl = new ContentControl();
-                contentControl.SetResourceReference(ContentTemplateProperty, dataTemplateName);
-                contentControl.SetBinding(ContentProperty, binding);
-                StpMaterialProperties.Children.Add(contentControl);
-            }
-        }
     }
 }

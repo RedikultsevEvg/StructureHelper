@@ -27,6 +27,7 @@ namespace StructureHelper.Windows.Forces
             InitializeComponent();
             viewModel = new ForceCombinationByFactorVM(forceCombination);
             DataContext = viewModel;
+            viewModel.ParentWindow = this;
         }
     }
 }

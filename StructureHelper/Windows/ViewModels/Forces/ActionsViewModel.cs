@@ -1,8 +1,12 @@
 ﻿using StructureHelper.Infrastructure.Enums;
+using StructureHelper.Models.Materials;
+using StructureHelper.Services.Settings;
 using StructureHelper.Windows.Forces;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using System;
 using System.Collections.Generic;
@@ -15,6 +19,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
 {
     public class ActionsViewModel : SelectedItemViewModel<IForceAction>
     {
+        readonly IUpdateStrategy<IAction> updateStrategy = new ActionUpdateStrategy();
         ICrossSectionRepository repository;
 
         public override void AddMethod(object parameter)
@@ -30,7 +35,8 @@ namespace StructureHelper.Windows.ViewModels.Forces
                 {
                     NewItem = new ForceCombinationByFactor() { Name = "New Factored Combination" };
                 }
-                else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $": Actual type: {nameof(paramType)}");    
+                else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $": Actual type: {nameof(paramType)}");
+                GlobalRepository.Actions.Create(NewItem);
                 base.AddMethod(parameter);
             }
         }
@@ -41,6 +47,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
             if (dialogResult == DialogResult.Yes)
             {
                 if (DeleteAction() != true) return;
+                GlobalRepository.Materials.Delete(SelectedItem.Id);
                 base.DeleteMethod(parameter);
             }         
         }
@@ -49,6 +56,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
 
         public override void EditMethod(object parameter)
         {
+            var copyObject = GlobalRepository.Actions.GetById(SelectedItem.Id).Clone() as IAction;
             System.Windows.Window wnd;
             if (SelectedItem is IForceCombinationList)
             {
@@ -62,6 +70,14 @@ namespace StructureHelper.Windows.ViewModels.Forces
             }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $"actual object type: {nameof(SelectedItem)}");
             wnd.ShowDialog();
+            if (wnd.DialogResult == true)
+            {
+                GlobalRepository.Actions.Update(SelectedItem);
+            }
+            else
+            {   
+                updateStrategy.Update(SelectedItem, copyObject);
+            }
             base.EditMethod(parameter);
         }
 

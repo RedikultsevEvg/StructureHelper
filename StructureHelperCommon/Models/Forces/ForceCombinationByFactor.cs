@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
 using System;
@@ -12,6 +13,9 @@ namespace StructureHelperCommon.Models.Forces
     /// <inheritdoc/>
     public class ForceCombinationByFactor : IForceCombinationByFactor
     {
+        readonly IUpdateStrategy<IAction> updateStrategy = new ActionUpdateStrategy();
+        /// <inheritdoc/>
+        public Guid Id { get; }
         /// <inheritdoc/>
         public string Name { get; set; }
         public bool SetInGravityCenter { get; set; }
@@ -23,8 +27,11 @@ namespace StructureHelperCommon.Models.Forces
         public double ULSFactor { get; set; }
         /// <inheritdoc/>
         public double LongTermFactor { get; set; }
-        public ForceCombinationByFactor()
+
+
+        public ForceCombinationByFactor(Guid id)
         {
+            Id = id;
             Name = "New Factored Load";
             SetInGravityCenter = true;
             ForcePoint = new Point2D();
@@ -32,6 +39,7 @@ namespace StructureHelperCommon.Models.Forces
             LongTermFactor = 1d;
             ULSFactor = 1.2d;
         }
+        public ForceCombinationByFactor() : this (Guid.NewGuid()) { }
         public IForceCombinationList GetCombinations()
         {
             var result = new ForceCombinationList();
@@ -57,10 +65,7 @@ namespace StructureHelperCommon.Models.Forces
         public object Clone()
         {
             var newItem = new ForceCombinationByFactor();
-            ForceActionService.CopyActionProps(this, newItem);
-            newItem.FullSLSForces = FullSLSForces.Clone() as IForceTuple;
-            newItem.LongTermFactor = LongTermFactor;
-            newItem.ULSFactor = ULSFactor;
+            updateStrategy.Update(newItem, this);
             return newItem;
         }
     }

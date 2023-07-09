@@ -15,13 +15,12 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="120"/>
-            <ColumnDefinition Width="280"/>
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <ListBox ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding SelectedMaterial}" SelectionChanged="ListBox_SelectionChanged">
+            <ListBox ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding SelectedMaterial}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -42,19 +41,7 @@
             </ListBox>
         </Grid>
         <StackPanel Grid.Column="1">
-            <Button Content="New Concrete"  Command="{Binding AddNewConcreteMaterialCommand}"/>
-            <Button Content="New Reinforcement"  Command="{Binding AddNewReinforcementMaterialCommand}"/>
-            <Button Content="New Elastic Material"  Command="{Binding AddElasticMaterialCommand}"/>
             <Button Content="Show diagram"  Command="{Binding ShowMaterialDiagram}"/>
-            <Button Content="Edit color"  Command="{Binding EditColorCommand}"/>
-            <Button Content="Edit"  Command="{Binding EditCommand}"/>
-            <Button Content="Copy"  Command="{Binding CopyHeadMaterialCommand}"/>
-            <Button Content="Delete"  Command="{Binding DeleteMaterialCommand}"/>
-        </StackPanel>
-        <StackPanel x:Name="MatProps" Grid.Column="2">
-            <TextBlock Text="Name"/>
-            <TextBox Text="{Binding SelectedMaterial.Name}"/>
-            <StackPanel x:Name="StpMaterialProperties"/>
         </StackPanel>
     </Grid>
 </Window>

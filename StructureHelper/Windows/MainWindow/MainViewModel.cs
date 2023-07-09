@@ -407,6 +407,10 @@ namespace StructureHelper.Windows.MainWindow
                 {
                     GlobalRepository.Materials.Create(item);
                 }
+                foreach (var item in newRepository.ForceActions)
+                {
+                    GlobalRepository.Actions.Create(item);
+                }
                 return primitives;
             }
             return new List<PrimitiveBase>();

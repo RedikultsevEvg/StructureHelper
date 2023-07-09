@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Services.Forces;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services.Forces;
 using System.ComponentModel.DataAnnotations;
 
 namespace StructureHelperCommon.Models.Forces
@@ -6,6 +7,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <inheritdoc/>
     public class ForceTuple : IForceTuple
     {
+        private readonly IUpdateStrategy<IForceTuple> updateStrategy = new ForceTupleUpdateStrategy();
         /// <inheritdoc/>
         public double Mx { get; set; }
         /// <inheritdoc/>
@@ -22,8 +24,9 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public object Clone()
         {
-            ForceTuple forceTuple = new ForceTuple() { Mx = Mx, My = My, Nz = Nz, Qx = Qx, Qy = Qy, Mz = Mz};
-            return forceTuple;
+            var newItem = new ForceTuple();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
         public static ForceTuple operator +(ForceTuple first) => first;
         public static ForceTuple operator +(ForceTuple first, ForceTuple second)

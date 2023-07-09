@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace StructureHelperCommon.Models.Forces
 {
     public class DesignForcePair : IDesignForcePair
     {
+        readonly IUpdateStrategy<IAction> updateStrategy = new ActionUpdateStrategy();
+        public Guid Id { get; }
         public string Name { get; set; }
         public IPoint2D ForcePoint { get; set; }
         public bool SetInGravityCenter { get; set; }
@@ -17,11 +20,15 @@ namespace StructureHelperCommon.Models.Forces
         public IForceTuple LongForceTuple { get; set; }
         public IForceTuple FullForceTuple { get; set; }
 
-        public DesignForcePair()
+
+        public DesignForcePair(Guid id)
         {
+            Id = id;
             LongForceTuple = new ForceTuple();
             FullForceTuple = new ForceTuple();
         }
+
+        public DesignForcePair() : this(Guid.NewGuid()) {}
 
         public IForceCombinationList GetCombinations()
         {
@@ -30,7 +37,9 @@ namespace StructureHelperCommon.Models.Forces
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            var newItem = new DesignForcePair();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

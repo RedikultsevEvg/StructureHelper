@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.ViewModels.Forces
 {
-    public abstract class ForceActionVMBase : ViewModelBase
+    public abstract class ForceActionVMBase : OkCancelViewModelBase
     {
         IForceAction forceAction;
 

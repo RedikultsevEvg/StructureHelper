@@ -7,16 +7,18 @@
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Forces"
         d:DataContext="{d:DesignInstance vm:ForceCombinationViewModel}"
         mc:Ignorable="d"
-        Title="Force Combination" Height="250" Width="550" MinHeight="300" MinWidth="450" MaxWidth="500" WindowStartupLocation="CenterScreen">
+        Title="Force Combination" Height="350" Width="550" MinHeight="300" MinWidth="450" MaxWidth="500" WindowStartupLocation="CenterScreen">
     <Window.Resources>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="95"/>
             <RowDefinition/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <!--ForceTemplates.xaml-->
         <ContentControl ContentTemplate="{StaticResource ResourceKey=ForceActionTemplate}" Content="{Binding}"/>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResourceKey=CombinationListTemplate}" Content="{Binding}"/>
+        <ContentControl Grid.Row="2" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>
