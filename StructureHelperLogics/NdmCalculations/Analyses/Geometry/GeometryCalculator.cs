@@ -1,5 +1,6 @@
 ﻿using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Geometry
         IGeometryResult geometryResult;
         public string Name { get; set; }
 
-        public INdmResult Result => geometryResult;
+        public IResult Result => geometryResult;
 
         public GeometryCalculator(IEnumerable<INdm> ndms, IStrainMatrix strainMatrix)
         {

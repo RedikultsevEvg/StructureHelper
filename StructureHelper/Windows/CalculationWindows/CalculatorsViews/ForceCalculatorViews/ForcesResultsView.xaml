@@ -46,6 +46,7 @@
             <Button Margin="3" Content="Set Prestrain" ToolTip="Set strains as auto prestrain" Command="{Binding SetPrestrainCommand}"/>
             <Button Margin="3" Content="Anchorage" ToolTip="Set strains as auto prestrain" Command="{Binding ShowAnchorageCommand}"/>
             <Button Margin="3" Content="Geometry" ToolTip="Show Geometry Properties" Command="{Binding ShowGeometryResultCommand}"/>
+            <Button Margin="3" Content="Fcrc" ToolTip="Show crack force" Command="{Binding ShowCrackResultCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

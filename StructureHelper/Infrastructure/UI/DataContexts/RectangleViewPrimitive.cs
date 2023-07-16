@@ -42,7 +42,12 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             primitive = _primitive;
             DivisionViewModel = new HasDivisionViewModel(primitive);
         }
-
+        public override void Refresh()
+        {
+            OnPropertyChanged(nameof(PrimitiveLeft));
+            OnPropertyChanged(nameof(PrimitiveTop));
+            base.Refresh();
+        }
         public override INdmPrimitive GetNdmPrimitive()
         {           
             return primitive;

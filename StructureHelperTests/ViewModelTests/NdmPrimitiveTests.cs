@@ -66,7 +66,7 @@ namespace StructureHelperTests.ViewModelTests
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var primitive = new ReinforcementPrimitive() { HeadMaterial = material };
+            var primitive = new RebarPrimitive() { HeadMaterial = material };
             var primitiveBase = new ReinforcementViewPrimitive(primitive);
             //Act
             var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());

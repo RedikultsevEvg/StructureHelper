@@ -1,4 +1,5 @@
-﻿using StructureHelperLogics.NdmCalculations.Analyses;
+﻿using StructureHelperCommon.Models.Calculators;
+using StructureHelperLogics.NdmCalculations.Analyses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
     /// <summary>
     /// Results of calculation of buckling of reinforced concrete section
     /// </summary>
-    public interface IConcreteBucklingResult : INdmResult
+    public interface IConcreteBucklingResult : IResult
     {
         /// <summary>
         /// Factor of increasing of bending moment (p-delta effect) in the plain XOZ

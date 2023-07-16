@@ -50,9 +50,9 @@ namespace StructureHelper.Services.ResultViewers
             List<IValuePrimitive> primitives = new List<IValuePrimitive>();
             foreach (var item in ndmPrimitives)
             {
-                if (item is ReinforcementPrimitive)
+                if (item is RebarPrimitive)
                 {
-                    var primitive = item as ReinforcementPrimitive;
+                    var primitive = item as RebarPrimitive;
                     var inputData = InputDataFactory.GetInputData(primitive, strainMatrix, limitState, calcTerm, 1d);
                     if (fullStrength == true)
                     {
@@ -73,9 +73,9 @@ namespace StructureHelper.Services.ResultViewers
             List<IValuePrimitive> primitives = new List<IValuePrimitive>();
             foreach (var item in ndmPrimitives)
             {
-                if (item is ReinforcementPrimitive)
+                if (item is RebarPrimitive)
                 {
-                    var primitive = item as ReinforcementPrimitive;
+                    var primitive = item as RebarPrimitive;
                     var inputData = InputDataFactory.GetInputData(primitive, strainMatrix, limitState, calcTerm, 1d);
                     var calculator = new AnchorageCalculator(inputData);
                     var val = calculator.GetBaseDevLength() * UnitConstants.Length;
@@ -92,9 +92,9 @@ namespace StructureHelper.Services.ResultViewers
             List<IValuePrimitive> primitives = new List<IValuePrimitive>();
             foreach (var item in ndmPrimitives)
             {
-                if (item is ReinforcementPrimitive)
+                if (item is RebarPrimitive)
                 {
-                    var primitive = item as ReinforcementPrimitive;
+                    var primitive = item as RebarPrimitive;
                     var inputData = InputDataFactory.GetInputData(primitive, strainMatrix, limitState, calcTerm, 1d);
                     if (fullStrength == true)
                     {
@@ -116,9 +116,9 @@ namespace StructureHelper.Services.ResultViewers
             List<IValuePrimitive> primitives = new List<IValuePrimitive>();
             foreach (var item in ndmPrimitives)
             {
-                if (item is ReinforcementPrimitive)
+                if (item is RebarPrimitive)
                 {
-                    var primitive = item as ReinforcementPrimitive;
+                    var primitive = item as RebarPrimitive;
                     var inputData = InputDataFactory.GetInputData(primitive, strainMatrix, limitState, calcTerm, lapperdCountRate);
                     if (fullStrength == true)
                     {
@@ -138,8 +138,8 @@ namespace StructureHelper.Services.ResultViewers
         {
             var valuePrimitive = new FieldVisualizer.Entities.Values.Primitives.CirclePrimitive()
             {
-                CenterX = primitive.CenterX,
-                CenterY = primitive.CenterY,
+                CenterX = primitive.Center.X,
+                CenterY = primitive.Center.Y,
                 Diameter = Math.Sqrt(primitive.Area / Math.PI) * 2,
                 Value = val
             };

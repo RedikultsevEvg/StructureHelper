@@ -39,19 +39,19 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         }
         public double CenterX
         {
-            get => primitive.CenterX;
+            get => primitive.Center.X;
             set
             {
-                primitive.CenterX = value;
+                primitive.Center.X = value;
                 OnPropertyChanged(nameof(CenterX));
             }
         }
         public double CenterY
         {
-            get => primitive.CenterY;
+            get => primitive.Center.Y;
             set
             {
-                primitive.CenterY = value;
+                primitive.Center.Y = value;
                 OnPropertyChanged(nameof(CenterY));
                 OnPropertyChanged(nameof(InvertedCenterY));
             }
@@ -260,6 +260,17 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         public void RefreshColor()
         {
             OnPropertyChanged(nameof(Color));
+        }
+        public virtual void Refresh()
+        {
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(Color));
+            OnPropertyChanged(nameof(CenterX));
+            OnPropertyChanged(nameof(CenterY));
+            OnPropertyChanged(nameof(SetMaterialColor));
+            OnPropertyChanged(nameof(Triangulate));
+            OnPropertyChanged(nameof(PrimitiveWidth));
+            OnPropertyChanged(nameof(PrimitiveHeight));
         }
     }
 }

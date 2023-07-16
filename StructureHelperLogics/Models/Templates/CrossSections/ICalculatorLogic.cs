@@ -1,14 +1,9 @@
-﻿using StructureHelperLogics.NdmCalculations.Analyses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.Models.Templates.CrossSections
 {
     internal interface ICalculatorLogic
     {
-        IEnumerable<INdmCalculator> GetNdmCalculators();
+        IEnumerable<ICalculator> GetNdmCalculators();
     }
 }

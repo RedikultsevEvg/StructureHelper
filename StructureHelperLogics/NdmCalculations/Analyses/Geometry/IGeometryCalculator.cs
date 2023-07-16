@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.Geometry
 {
-    public interface IGeometryCalculator : INdmCalculator
+    public interface IGeometryCalculator : ICalculator
     {
     }
 }

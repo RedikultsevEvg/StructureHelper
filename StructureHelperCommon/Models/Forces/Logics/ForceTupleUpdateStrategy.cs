@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    internal class ForceTupleUpdateStrategy : IUpdateStrategy<IForceTuple>
+    public class ForceTupleUpdateStrategy : IUpdateStrategy<IForceTuple>
     {
         public void Update(IForceTuple targetObject, IForceTuple sourceObject)
         {

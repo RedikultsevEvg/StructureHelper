@@ -35,14 +35,14 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                 var circle = primitive as ICirclePrimitive;
                 viewItem = new CircleViewPrimitive(circle);
             }
-            else if (primitive is IPointPrimitive & primitive is not ReinforcementPrimitive)
+            else if (primitive is IPointPrimitive & primitive is not RebarPrimitive)
             {
                 var point = primitive as IPointPrimitive;
                 viewItem = new PointViewPrimitive(point);
             }
-            else if (primitive is ReinforcementPrimitive)
+            else if (primitive is RebarPrimitive)
             {
-                var point = primitive as ReinforcementPrimitive;
+                var point = primitive as RebarPrimitive;
                 viewItem = new ReinforcementViewPrimitive(point);
             }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Actual type: {primitive.GetType()}");

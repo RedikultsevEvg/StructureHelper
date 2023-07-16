@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 {
-    public class ForceCalculatorViewModel : ViewModelBase
+    public class ForceCalculatorViewModel : OkCancelViewModelBase
     {
         IEnumerable<INdmPrimitive> allowedPrimitives;
         IEnumerable<IForceAction> allowedForceCombinations;

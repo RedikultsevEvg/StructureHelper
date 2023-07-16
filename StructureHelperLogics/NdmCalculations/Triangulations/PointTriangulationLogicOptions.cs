@@ -28,7 +28,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
         public PointTriangulationLogicOptions(IPointPrimitive primitive)
         {
-            Center = new Point2D() { X = primitive.CenterX, Y = primitive.CenterY };
+            Center = new Point2D() { X = primitive.Center.X, Y = primitive.Center.Y };
             Area = primitive.Area;
             Prestrain = new StrainTuple
             {

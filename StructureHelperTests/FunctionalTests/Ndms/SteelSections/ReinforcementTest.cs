@@ -27,7 +27,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.SteelSections
             ProgramSetting.NatSystem = NatSystems.EU;
             var headMaterial = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforcement400);
             var options = new TriangulationOptions { LimiteState = LimitStates.ULS, CalcTerm = CalcTerms.ShortTerm };
-            var primitive = new RectanglePrimitive { CenterX = 0, CenterY = 0, Width = width, Height = height, HeadMaterial = headMaterial, NdmMaxSize = 1, NdmMinDivision = 100 };
+            var primitive = new RectanglePrimitive { Width = width, Height = height, HeadMaterial = headMaterial, NdmMaxSize = 1, NdmMinDivision = 100 };
             var primitives = new List<INdmPrimitive>() { primitive};
             var ndmCollection = Triangulation.GetNdms(primitives, options);
             var loaderData = new LoaderOptions
@@ -62,7 +62,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.SteelSections
             ProgramSetting.NatSystem = NatSystems.EU;
             var headMaterial = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforcement400);
             var options = new TriangulationOptions { LimiteState = LimitStates.ULS, CalcTerm = CalcTerms.ShortTerm };
-            var primitive = new CirclePrimitive { CenterX = 0, CenterY = 0, Diameter = diameter, HeadMaterial = headMaterial, NdmMaxSize = 1, NdmMinDivision = 100 };
+            var primitive = new CirclePrimitive { Diameter = diameter, HeadMaterial = headMaterial, NdmMaxSize = 1, NdmMinDivision = 100 };
             var primitives = new List<INdmPrimitive>() { primitive };
             var ndmCollection = Triangulation.GetNdms(primitives, options);
             var loaderData = new LoaderOptions

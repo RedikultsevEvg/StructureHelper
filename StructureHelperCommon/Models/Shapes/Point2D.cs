@@ -7,7 +7,7 @@ namespace StructureHelperCommon.Models.Shapes
     /// <inheritdoc />
     public class Point2D : IPoint2D
     {
-        private readonly IUpdateStrategy<IPoint2D> updateStrategy = new PointUpdateStrategy();
+        private readonly IUpdateStrategy<IPoint2D> updateStrategy = new PointShapeUpdateStrategy();
         /// <inheritdoc />
         public Guid Id { get; }
         /// <inheritdoc />

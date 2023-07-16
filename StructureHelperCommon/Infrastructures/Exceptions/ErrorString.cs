@@ -18,5 +18,6 @@
         public static string LongitudinalForceMustBeLessThanCriticalForce => "#0013: Absolute value of longitudinal force must be greater than critical force";
         public static string SizeMustBeGreaterThanZero => "#0014: Size must be greater than zero";
         public static string ParameterIsNull => "#0015: Parameter is null";
+        public static string ResultIsNotValid => "#0016: Result is not valid";
     }
 }

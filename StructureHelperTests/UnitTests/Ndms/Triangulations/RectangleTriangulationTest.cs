@@ -49,10 +49,12 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var mainBlock = new RectanglePrimitive() { CenterX = centerX, CenterY = centerY, Width = width, Height = height, HeadMaterial = material };
+            var mainBlock = new RectanglePrimitive() { Width = width, Height = height, HeadMaterial = material };
+            mainBlock.Center.X = centerX;
+            mainBlock.Center.Y = centerY;
             mainBlock.VisualProperty.ZIndex = 0;
             var opening = new RectanglePrimitive()
-            { CenterX = 0d, CenterY = 0d, Width = 0.3d, Height = 0.2d,
+            { Width = 0.3d, Height = 0.2d,
                 HeadMaterial = material, Triangulate = triangOpening,
                 ClearUnderlying = true};
             opening.VisualProperty.ZIndex = 1;
@@ -75,12 +77,12 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var mainBlock = new RectanglePrimitive() { CenterX = centerX, CenterY = centerY, Width = width, Height = height, HeadMaterial = material };
+            var mainBlock = new RectanglePrimitive() {Width = width, Height = height, HeadMaterial = material };
+            mainBlock.Center.X = centerX;
+            mainBlock.Center.Y = centerY;
             mainBlock.VisualProperty.ZIndex = 0;
             var opening = new CirclePrimitive()
             {
-                CenterX = 0d,
-                CenterY = 0d,
                 Diameter = 0.3d,
                 HeadMaterial = material,
                 Triangulate = triangOpening,
@@ -106,12 +108,12 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var mainBlock = new CirclePrimitive() { CenterX = centerX, CenterY = centerY, Diameter = diameter, HeadMaterial = material };
+            var mainBlock = new CirclePrimitive() { Diameter = diameter, HeadMaterial = material };
+            mainBlock.Center.X = centerX;
+            mainBlock.Center.Y = centerY;
             mainBlock.VisualProperty.ZIndex = 0;
             var opening = new RectanglePrimitive()
             {
-                CenterX = 0d,
-                CenterY = 0d,
                 Width = 0.3d,
                 Height = 0.2d,
                 HeadMaterial = material,

@@ -50,6 +50,7 @@
 
   <ItemGroup>
     <Folder Include="Documentation\Manuals\" />
+    <Folder Include="Infrastructure\UI\DataContexts\Logics\" />
   </ItemGroup>
 
 </Project>

@@ -24,7 +24,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
 
         public string Name { get; set; }
 
-        public INdmResult Result { get; private set; }
+        public IResult Result { get; private set; }
 
         public IAccuracy Accuracy { get; set; }
 

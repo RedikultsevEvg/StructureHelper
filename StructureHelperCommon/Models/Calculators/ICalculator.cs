@@ -1,5 +1,4 @@
-﻿using StructureHelperCommon.Models.Calculators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +6,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using TaskManager;
 
-namespace StructureHelperLogics.NdmCalculations.Analyses
+namespace StructureHelperCommon.Models.Calculators
 {
-    public interface INdmCalculator : ICloneable
+    public interface ICalculator : ICloneable
     {
         string Name { get; set; }
         /// <summary>
@@ -19,6 +18,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses
         /// <summary>
         /// Result of Calculations
         /// </summary>
-        INdmResult Result { get; }
+        IResult Result { get; }
     }
 }

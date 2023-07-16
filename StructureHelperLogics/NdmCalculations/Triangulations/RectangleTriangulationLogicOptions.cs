@@ -29,7 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
         public RectangleTriangulationLogicOptions(IRectanglePrimitive primitive)
         {
-            Center = new Point2D() { X = primitive.CenterX, Y = primitive.CenterY };
+            Center = new Point2D() {X = primitive.Center.X, Y = primitive.Center.Y };
             Rectangle = primitive;
             NdmMaxSize = primitive.NdmMaxSize;
             NdmMinDivision = primitive.NdmMinDivision;

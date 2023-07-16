@@ -1,23 +1,12 @@
 ﻿using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.UI.DataContexts;
-using StructureHelper.Models.Materials;
 using StructureHelper.Windows.ViewModels.PrimitiveProperties;
 using StructureHelperLogics.Models.CrossSections;
-using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Xml.Linq;
 using PointViewPrimitive = StructureHelper.Infrastructure.UI.DataContexts.PointViewPrimitive;
 using RectangleViewPrimitive = StructureHelper.Infrastructure.UI.DataContexts.RectangleViewPrimitive;
 
@@ -34,6 +23,7 @@ namespace StructureHelper.Windows.PrimitiveProperiesWindow
         {
             this.primitive = primitive;
             viewModel = new PrimitivePropertiesViewModel(this.primitive, sectionRepository);
+            viewModel.ParentWindow = this;
             this.DataContext = viewModel;
             InitializeComponent();
             if (primitive is RectangleViewPrimitive) { AddPrimitiveProperties(PrimitiveType.Rectangle); }

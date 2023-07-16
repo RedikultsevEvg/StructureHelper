@@ -1,17 +1,9 @@
 ﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services.ShapeServices;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
@@ -54,8 +46,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public object Clone()
         {
             var primitive = new LinePrimitive();
-            NdmPrimitivesService.CopyDivisionProperties(this, primitive);
-            ShapeService.CopyLineProperties(this, primitive);
+            throw new NotImplementedException();
+
             return primitive;
         }
 

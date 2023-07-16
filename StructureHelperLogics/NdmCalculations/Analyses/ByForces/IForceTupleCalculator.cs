@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public interface IForceTupleCalculator : INdmCalculator
+    public interface IForceTupleCalculator : ICalculator
     {
     }
 }

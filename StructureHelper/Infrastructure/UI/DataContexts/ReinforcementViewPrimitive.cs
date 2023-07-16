@@ -9,7 +9,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 {
     public class ReinforcementViewPrimitive : PointViewPrimitive, IHasHostPrimitive
     {
-        ReinforcementPrimitive primitive;
+        RebarPrimitive primitive;
 
         public INdmPrimitive HostPrimitive
         {
@@ -21,9 +21,14 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             }
         }
 
-        public ReinforcementViewPrimitive(ReinforcementPrimitive _primitive) : base(_primitive)
+        public ReinforcementViewPrimitive(RebarPrimitive _primitive) : base(_primitive)
         {
             primitive = _primitive;
+        }
+        public override void Refresh()
+        {
+            OnPropertyChanged(nameof(HostPrimitive));
+            base.Refresh();
         }
     }
 }

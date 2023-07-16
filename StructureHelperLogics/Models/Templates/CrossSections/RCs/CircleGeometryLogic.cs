@@ -52,13 +52,14 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                 var angle = i * dAngle;
                 var x = radius * Math.Sin(angle);
                 var y = radius * Math.Cos(angle);
-                var point = new ReinforcementPrimitive()
-                { CenterX = x,
-                    CenterY = y,
+                var point = new RebarPrimitive()
+                { 
                     Area = barArea,
                     Name = "Left bottom point",
                     HeadMaterial = reinforcementMaterial,
                     HostPrimitive=concreteBlock };
+                point.Center.X = x;
+                point.Center.Y = y;
                 primitives.Add(point);
             }
             return primitives;

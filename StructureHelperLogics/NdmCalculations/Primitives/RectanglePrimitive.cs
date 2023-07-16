@@ -1,28 +1,18 @@
 ﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services.ShapeServices;
 using StructureHelperLogics.Models.CrossSections;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
-using StructureHelperLogics.Services.NdmPrimitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public class RectanglePrimitive : IRectanglePrimitive
     {
+        readonly RectangleUpdateStrategy updateStrategy = new();
         public Guid Id { get;}
         public string Name { get; set; }
-        public double CenterX { get; set; }
-        public double CenterY { get; set; }
         public IHeadMaterial? HeadMaterial { get; set; }
         public StrainTuple UsersPrestrain { get; private set; }
         public StrainTuple AutoPrestrain { get; private set; }
@@ -36,12 +26,15 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public IVisualProperty VisualProperty { get; }
         public ICrossSection? CrossSection { get; set; }
 
+        public IPoint2D Center { get; private set; }
+
         public RectanglePrimitive(Guid id)
         {
             Id = id;
             Name = "New Rectangle";
             NdmMaxSize = 0.01d;
             NdmMinDivision = 10;
+            Center = new Point2D();
             VisualProperty = new VisualProperty { Opacity = 0.8d};
             UsersPrestrain = new StrainTuple();
             AutoPrestrain = new StrainTuple();
@@ -58,9 +51,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public object Clone()
         {
             var primitive = new RectanglePrimitive();
-            NdmPrimitivesService.CopyNdmProperties(this, primitive);
-            NdmPrimitivesService.CopyDivisionProperties(this, primitive);
-            ShapeService.CopyRectangleProperties(this, primitive);
+            updateStrategy.Update(primitive, this);
             return primitive;
         }
 
@@ -73,17 +64,12 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             return ndms;
         }
 
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
         public bool IsPointInside(IPoint2D point)
         {
-            var xMax = CenterX + Width / 2;
-            var xMin = CenterX - Width / 2;
-            var yMax = CenterY + Height / 2;
-            var yMin = CenterY - Height / 2;
+            var xMax = Center.X + Width / 2;
+            var xMin = Center.X - Width / 2;
+            var yMax = Center.Y + Height / 2;
+            var yMin = Center.Y - Height / 2;
             if (point.X > xMax ||
                 point.X < xMin ||
                 point.Y > yMax ||

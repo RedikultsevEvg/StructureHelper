@@ -26,6 +26,7 @@ using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Geometry;
+using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmCalculations;
 using StructureHelperLogics.Services.NdmPrimitives;
@@ -34,6 +35,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 {
@@ -57,12 +59,13 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         private RelayCommand setPrestrainCommand;
         private ICommand showAnchorageCommand;
         private ICommand showGeometryResultCommand;
+        private ICommand showGraphsCommand;
+        private ICommand showCrackResult;
 
         public IForcesResults ForcesResults
         {
             get => forcesResults;
         }
-
         public RelayCommand ShowIsoFieldCommand
         {
             get
@@ -77,7 +80,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 }, o => (SelectedResult != null) && SelectedResult.IsValid));
             }
         }
-
         public ICommand ExportToCSVCommand
         {
             get
@@ -100,12 +102,58 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             var exportService = new ExportToFileService(inputData, logic);
             exportService.Export();
         }
-
-        private ICommand showGraphsCommand;
-
         public ICommand ShowGraphsCommand
         {
             get => showGraphsCommand ??= new RelayCommand(o => showGraphs());
+        }
+        public ICommand ShowCrackResultCommand
+        {
+            get => showCrackResult ??= new RelayCommand(o =>
+            {
+                SafetyProcessor.RunSafeProcess(ShowCrackResult);
+            }, o => (SelectedResult != null) && SelectedResult.IsValid);
+        }
+
+        private void ShowCrackResult()
+        {
+            var limitState = SelectedResult.DesignForceTuple.LimitState;
+            var calcTerm = SelectedResult.DesignForceTuple.CalcTerm;
+            var calculator = new CrackForceCalculator();
+            calculator.EndTuple = SelectedResult.DesignForceTuple.ForceTuple;
+            calculator.NdmCollection = NdmPrimitivesService.GetNdms(ndmPrimitives, limitState, calcTerm);
+            //Act
+            calculator.Run();
+            var result = (CrackForceResult)calculator.Result;
+            if (result.IsValid)
+            {
+                var softLogic = new ExponentialSofteningLogic() { ForceRatio = result.ActualFactor };
+                string message = string.Empty;
+                if (result.IsSectionCracked)
+                {
+                    message += $"Actual crack factor {result.ActualFactor}\n";
+                    message += $"Softening crack factor PsiS={softLogic.SofteningFactor()}\n";
+                    message += $"M{firstAxisName}={result.ActualTuple.Mx}, M{secondAxisName}={result.ActualTuple.My}, N{thirdAxisName}={result.ActualTuple.Nz}";
+                }
+                else
+                {
+                    message += "Cracks are not apeared";
+                }
+                MessageBox.Show(
+                    message,
+                    "Crack results",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            else
+            {
+                var errorVM = new ErrorProcessor()
+                {
+                    ShortText = "Error apeared while crack calculate",
+                    DetailText = result.Description
+                };
+                var wnd = new ErrorMessage(errorVM);
+                wnd.ShowDialog();
+            }
         }
 
         private void showGraphs()

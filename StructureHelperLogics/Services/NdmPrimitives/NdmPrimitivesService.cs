@@ -19,32 +19,6 @@ namespace StructureHelperLogics.Services.NdmPrimitives
 {
     public static class NdmPrimitivesService
     {
-        public static void CopyVisualProperty(IVisualProperty source, IVisualProperty target)
-        {
-            target.IsVisible = source.IsVisible;
-            target.Color = source.Color;
-            target.SetMaterialColor = source.SetMaterialColor;
-            target.Opacity = source.Opacity;
-            target.ZIndex = source.ZIndex;
-        }
-
-        public static void CopyNdmProperties (INdmPrimitive source, INdmPrimitive target)
-        {
-            target.Name = source.Name + " copy" ;
-            if (source.HeadMaterial != null) target.HeadMaterial = source.HeadMaterial;
-            CopyVisualProperty(source.VisualProperty, target.VisualProperty);
-            target.CenterX = source.CenterX;
-            target.CenterY = source.CenterY;
-            target.Triangulate = source.Triangulate;
-            ForceTupleService.CopyProperties(source.UsersPrestrain, target.UsersPrestrain);
-        }
-
-        public static void CopyDivisionProperties(IHasDivisionSize source, IHasDivisionSize target)
-        {
-            target.NdmMaxSize = source.NdmMaxSize;
-            target.NdmMinDivision = source.NdmMinDivision;
-            target.ClearUnderlying = source.ClearUnderlying;
-        }
         public static List<INdm> GetNdms(INdmPrimitive primitive, LimitStates limitState, CalcTerms calcTerm)
         {
             //Формируем коллекцию элементарных участков для расчета в библитеке (т.е. выполняем триангуляцию)

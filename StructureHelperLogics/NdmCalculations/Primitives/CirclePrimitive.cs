@@ -3,24 +3,20 @@ using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services.ShapeServices;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Triangulations;
-using StructureHelperLogics.Services.NdmPrimitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public class CirclePrimitive : ICirclePrimitive
     {
+        static readonly CircleUpdateStrategy updateStrategy = new();
+        /// <inheritdoc/>
         public Guid Id { get; set; }
+        /// <inheritdoc/>
         public string Name { get; set; }
-        public double CenterX { get; set; }
-        public double CenterY { get; set; }
+        /// <inheritdoc/>
+        public IPoint2D Center { get; private set; }
         public IHeadMaterial? HeadMaterial { get; set; }
         public StrainTuple UsersPrestrain { get; }
         public StrainTuple AutoPrestrain { get; }
@@ -32,12 +28,14 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public bool Triangulate { get; set; }
         public ICrossSection? CrossSection { get; set; }
 
+
         public CirclePrimitive(Guid id)
         {
             Id = id;
             Name = "New Circle";
             NdmMaxSize = 0.01d;
             NdmMinDivision = 10;
+            Center = new Point2D();
             VisualProperty = new VisualProperty { Opacity = 0.8d };
             UsersPrestrain = new StrainTuple();
             AutoPrestrain = new StrainTuple();
@@ -46,16 +44,14 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         }
         public CirclePrimitive() : this (Guid.NewGuid())
         {}
-
+        /// <inheritdoc/>
         public object Clone()
         {
             var primitive = new CirclePrimitive();
-            NdmPrimitivesService.CopyNdmProperties(this, primitive);
-            NdmPrimitivesService.CopyDivisionProperties(this, primitive);
-            ShapeService.CopyCircleProperties(this, primitive);
+            updateStrategy.Update(primitive, this);
             return primitive;
         }
-
+        /// <inheritdoc/>
         public IEnumerable<INdm> GetNdms(IMaterial material)
         {
             var ndms = new List<INdm>();
@@ -64,24 +60,14 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             ndms.AddRange(logic.GetNdmCollection(material));
             return ndms;
         }
-
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <inheritdoc/>
         public bool IsPointInside(IPoint2D point)
         {
-            var dX = CenterX - point.X;
-            var dY = CenterY - point.Y;
+            var dX = Center.X - point.X;
+            var dY = Center.Y - point.Y;
             var distance = Math.Sqrt(dX * dX + dY * dY);
             if (distance > Diameter / 2) { return false; }
             return true;
-        }
-
-        public void Load()
-        {
-            throw new NotImplementedException();
         }
     }
 }

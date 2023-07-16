@@ -1,4 +1,5 @@
-﻿using StructureHelperLogics.NdmCalculations.Analyses;
+﻿using StructureHelperCommon.Models.Calculators;
+using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,9 @@ namespace StructureHelperLogics.Models.Templates.CrossSections
 {
     internal class CalculatorLogic : ICalculatorLogic
     {
-        public IEnumerable<INdmCalculator> GetNdmCalculators()
+        public IEnumerable<ICalculator> GetNdmCalculators()
         {
-            var calculators = new List<INdmCalculator>();
+            var calculators = new List<ICalculator>();
             calculators.Add(new ForceCalculator() { Name = "New Force Calculator"});
             return calculators;
         }

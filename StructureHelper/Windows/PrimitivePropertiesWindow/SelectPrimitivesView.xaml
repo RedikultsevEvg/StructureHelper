@@ -14,9 +14,6 @@
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding Items}"/>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Style="{StaticResource CancelButton}"/>
-            <Button Style="{StaticResource OkButton}" Click="Button_Click"/>
-        </StackPanel>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

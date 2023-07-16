@@ -53,5 +53,12 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             OnPropertyChanged(nameof(PrimitiveLeft));
             OnPropertyChanged(nameof(PrimitiveTop));
         }
+        public override void Refresh()
+        {
+            OnPropertyChanged(nameof(Diameter));
+            OnPropertyChanged(nameof(PrimitiveLeft));
+            OnPropertyChanged(nameof(PrimitiveTop));
+            base.Refresh();
+        }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace StructureHelperCommon.Models.Shapes.Logics
 {
     /// <inheritdoc />
-    public class PointUpdateStrategy : IUpdateStrategy<IPoint2D>
+    public class PointShapeUpdateStrategy : IUpdateStrategy<IPoint2D>
     {
         /// <inheritdoc />
         public void Update(IPoint2D targetObject, IPoint2D sourceObject)

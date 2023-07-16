@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Templates.RCs;
@@ -20,7 +21,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
         ICalculatorLogic calculatorLogic;
         IEnumerable<INdmPrimitive> primitives;
         IEnumerable<IForceAction> combinations;
-        IEnumerable<INdmCalculator> calculators;
+        IEnumerable<ICalculator> calculators;
 
         public SectionTemplate(IRCGeometryLogic geometryLogic)
         {

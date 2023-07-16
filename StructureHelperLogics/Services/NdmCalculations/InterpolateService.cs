@@ -1,18 +1,13 @@
 ﻿using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Sections;
 using StructureHelperCommon.Services.Forces;
-using StructureHelperCommon.Services.Sections;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Services.NdmCalculations
 {
     public static class InterpolateService
     {
+        static readonly CompressedMemberUpdateStrategy compressedMemberUpdateStrategy = new();
         public static IForceCalculator InterpolateForceCalculator(IForceCalculator source, IDesignForceTuple finishDesignForce,IDesignForceTuple startDesignForce, int stepCount)
         {
             IForceCalculator calculator = new ForceCalculator();
@@ -20,7 +15,7 @@ namespace StructureHelperLogics.Services.NdmCalculations
             calculator.LimitStatesList.Add(finishDesignForce.LimitState);
             calculator.CalcTermsList.Clear();
             calculator.CalcTermsList.Add(finishDesignForce.CalcTerm);
-            CompressedMemberServices.CopyProperties(source.CompressedMember, calculator.CompressedMember);
+            compressedMemberUpdateStrategy.Update(calculator.CompressedMember, source.CompressedMember);
             calculator.Accuracy = source.Accuracy;
             calculator.Primitives.AddRange(source.Primitives);
             calculator.ForceActions.Clear();

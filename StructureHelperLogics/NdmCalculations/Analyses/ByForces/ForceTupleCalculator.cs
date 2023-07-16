@@ -15,7 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     public class ForceTupleCalculator : IForceTupleCalculator
     {
         public string Name { get; set; }
-        public INdmResult Result { get; private set; }
+        public IResult Result { get; private set; }
 
         private IForceTupleInputData inputData;
 

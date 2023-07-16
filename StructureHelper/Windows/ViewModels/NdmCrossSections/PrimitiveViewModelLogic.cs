@@ -72,7 +72,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
             else if (primitiveType == PrimitiveType.Reinforcement)
             {
-                var primitive = new ReinforcementPrimitive
+                var primitive = new RebarPrimitive
                 {
                     Area = 0.0005d
                 };
@@ -162,8 +162,21 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void EditSelectedItem()
         {
+            var ndmPrimitive = SelectedItem.GetNdmPrimitive();
+            var primitiveCopy = ndmPrimitive.Clone() as INdmPrimitive;
             var wnd = new PrimitivePropertiesView(SelectedItem, repository);
             wnd.ShowDialog();
+            if (wnd.DialogResult == true)
+            {
+                // to do save into repository
+            }
+            else
+            {
+                var updateStrategy = new NdmPrimitiveUpdateStrategy();
+                updateStrategy.Update(ndmPrimitive, primitiveCopy);
+                SelectedItem.Refresh();
+            }
+
         }
 
         public ICommand Copy
@@ -183,15 +196,16 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         {
             var oldPrimitive = SelectedItem.GetNdmPrimitive();
             var newPrimitive = oldPrimitive.Clone() as INdmPrimitive;
+            newPrimitive.Name += " copy";
             repository.Primitives.Add(newPrimitive);
             PrimitiveBase primitiveBase;
             if (newPrimitive is IRectanglePrimitive) { primitiveBase = new RectangleViewPrimitive(newPrimitive as IRectanglePrimitive); }
             else if (newPrimitive is ICirclePrimitive) { primitiveBase = new CircleViewPrimitive(newPrimitive as ICirclePrimitive); }
             else if (newPrimitive is IPointPrimitive)
             {
-                if (newPrimitive is ReinforcementPrimitive)
+                if (newPrimitive is RebarPrimitive)
                 {
-                    primitiveBase = new ReinforcementViewPrimitive(newPrimitive as ReinforcementPrimitive);
+                    primitiveBase = new ReinforcementViewPrimitive(newPrimitive as RebarPrimitive);
                 }
                 else
                 {

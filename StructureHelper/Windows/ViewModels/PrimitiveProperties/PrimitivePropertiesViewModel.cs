@@ -19,7 +19,7 @@ using RectangleViewPrimitive = StructureHelper.Infrastructure.UI.DataContexts.Re
 
 namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
 {
-    public class PrimitivePropertiesViewModel : ViewModelBase, IDataErrorInfo
+    public class PrimitivePropertiesViewModel : OkCancelViewModelBase, IDataErrorInfo
     {
         private PrimitiveBase primitive;
         private ICrossSectionRepository sectionRepository;
@@ -316,11 +316,11 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
         private void CheckHost(PrimitiveBase primitive, INdmPrimitive item)
         {
             var ndm = primitive.GetNdmPrimitive();
-            if (ndm is ReinforcementPrimitive)
+            if (ndm is RebarPrimitive)
             {
                 var host = item as IHasDivisionSize;
-                var reinforcement = ndm as ReinforcementPrimitive;
-                if (host.IsPointInside(new Point2D() { X = reinforcement.CenterX, Y = reinforcement.CenterY })
+                var reinforcement = ndm as RebarPrimitive;
+                if (host.IsPointInside(new Point2D() { X = reinforcement.Center.X, Y = reinforcement.Center.Y })
                     && reinforcement.HostPrimitive is null)
                 {
                     var dialogResult = MessageBox.Show($"Primitive {reinforcement.Name} is inside primitive {item.Name}",

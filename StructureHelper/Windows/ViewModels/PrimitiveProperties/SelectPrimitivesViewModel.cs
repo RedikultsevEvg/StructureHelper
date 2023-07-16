@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
 {
-    public class SelectPrimitivesViewModel
+    public class SelectPrimitivesViewModel : OkCancelViewModelBase
     {
         public SelectItemsViewModel<PrimitiveBase> Items { get; }
 

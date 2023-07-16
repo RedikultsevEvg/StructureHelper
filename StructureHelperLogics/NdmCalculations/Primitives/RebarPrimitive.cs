@@ -3,7 +3,9 @@ using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services.NdmPrimitives;
@@ -17,15 +19,14 @@ using System.Windows.Media.Media3D;
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     /// <inheritdoc/>
-    public class ReinforcementPrimitive : IPointPrimitive, IHasHostPrimitive
+    public class RebarPrimitive : IPointPrimitive, IHasHostPrimitive
     {
-        IDataRepository<ReinforcementPrimitive> repository;
+        static readonly RebarUpdateStrategy updateStrategy = new();
+        IDataRepository<RebarPrimitive> repository;
         /// <inheritdoc/>
         public string Name { get; set; }
         /// <inheritdoc/>
-        public double CenterX { get; set; }
-        /// <inheritdoc/>
-        public double CenterY { get; set; }
+        public IPoint2D Center { get; private set; }
         /// <inheritdoc/>
         public IHeadMaterial? HeadMaterial { get; set; }
         public bool Triangulate { get; set; }
@@ -41,27 +42,27 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public INdmPrimitive HostPrimitive { get; set; }
         public ICrossSection? CrossSection { get; set; }
 
-        public ReinforcementPrimitive(Guid id)
+
+        public RebarPrimitive(Guid id)
         {
             Id = id;
             Name = "New Reinforcement";
             Area = 0.0005d;
+            Center = new Point2D();
             VisualProperty = new VisualProperty();
             UsersPrestrain = new StrainTuple();
             AutoPrestrain = new StrainTuple();
             Triangulate = true;
         }
-        public ReinforcementPrimitive() : this(Guid.NewGuid())
+        public RebarPrimitive() : this(Guid.NewGuid())
         {
                 
         }
 
         public object Clone()
         {
-            var primitive = new ReinforcementPrimitive();
-            NdmPrimitivesService.CopyNdmProperties(this, primitive);
-            primitive.Area = Area;
-            primitive.HostPrimitive = HostPrimitive;
+            var primitive = new RebarPrimitive();
+            updateStrategy.Update(primitive, this);
             return primitive;
         }
 

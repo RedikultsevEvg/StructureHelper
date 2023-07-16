@@ -15,8 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     public interface INdmPrimitive : ISaveable, ICloneable
     {
         string? Name { get; set; }
-        double CenterX { get; set; }
-        double CenterY { get; set; }
+        IPoint2D Center { get; }
         ICrossSection? CrossSection { get; set; }
         IHeadMaterial? HeadMaterial { get; set; }
         /// <summary>

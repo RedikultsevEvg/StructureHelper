@@ -65,7 +65,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
         {
             
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var primitive = new RectanglePrimitive(material) {CenterX = 0, CenterY = 0, Width = width, Height = height, NdmMaxSize = 1, NdmMinDivision = 20 };
+            var primitive = new RectanglePrimitive(material) {Width = width, Height = height, NdmMaxSize = 1, NdmMinDivision = 20 };
             List<INdmPrimitive> primitives = new List<INdmPrimitive> {primitive};
             return primitives;
         }
@@ -81,16 +81,24 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
             List<INdmPrimitive> primitives = new List<INdmPrimitive>();
             INdmPrimitive primitive;
             //Right top bar
-            primitive = new PointPrimitive(material) { Area = topArea, CenterX = centerRT.X, CenterY = centerRT.Y };
+            primitive = new PointPrimitive(material) { Area = topArea};
+            primitive.Center.X = centerRT.X;
+            primitive.Center.Y = centerRT.Y;
             primitives.Add(primitive);
             //Left top bar
-            primitive = new PointPrimitive(material) { Area = topArea, CenterX = centerLT.X, CenterY = centerLT.Y };
+            primitive = new PointPrimitive(material) { Area = topArea};
+            primitive.Center.X = centerLT.X;
+            primitive.Center.Y = centerLT.Y;
             primitives.Add(primitive);
             //Right bottom bar
-            primitive = new PointPrimitive(material) { Area = bottomArea, CenterX = centerRB.X, CenterY = centerRB.Y };
+            primitive = new PointPrimitive(material) { Area = bottomArea};
+            primitive.Center.X = centerRB.X;
+            primitive.Center.Y = centerRB.Y;
             primitives.Add(primitive);
             //Left bottom bar
-            primitive = new PointPrimitive(material) { Area = bottomArea, CenterX = centerLB.X, CenterY = centerLB.Y };
+            primitive = new PointPrimitive(material) {Area = bottomArea };
+            primitive.Center.X = centerLB.X;
+            primitive.Center.Y = centerLB.Y;
             primitives.Add(primitive);
             return primitives;
         }

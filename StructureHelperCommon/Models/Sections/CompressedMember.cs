@@ -1,9 +1,8 @@
-﻿using StructureHelperCommon.Services.Sections;
-
-namespace StructureHelperCommon.Models.Sections
+﻿namespace StructureHelperCommon.Models.Sections
 {
     public class CompressedMember : ICompressedMember
     {
+        static readonly CompressedMemberUpdateStrategy updateStrategy = new();
         public bool Buckling { get; set; }
         public double GeometryLength { get; set; }
         public double LengthFactorX { get; set; }
@@ -24,9 +23,9 @@ namespace StructureHelperCommon.Models.Sections
 
         public object Clone()
         {
-            var target = new CompressedMember();
-            CompressedMemberServices.CopyProperties(this, target);
-            return target;
+            var newItem = new CompressedMember();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

@@ -1,33 +1,26 @@
-﻿using LoaderCalculator;
-using LoaderCalculator.Data.Matrix;
-using LoaderCalculator.Data.Ndms;
-using LoaderCalculator.Data.SourceData;
+﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Sections;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services.Calculations;
 using StructureHelperCommon.Services.Forces;
-using StructureHelperCommon.Services.Sections;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.NdmCalculations.Buckling;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public class ForceCalculator : IForceCalculator
     {
+        static readonly ForceCalculatorUpdateStrategy updateStrategy = new();
         public string Name { get; set; }
         public List<LimitStates> LimitStatesList { get; }
         public List<CalcTerms> CalcTermsList { get; }
         public List<IForceAction> ForceActions { get; }
         public List<INdmPrimitive> Primitives { get; }
-        public INdmResult Result { get; private set; }
+        public IResult Result { get; private set; }
         public ICompressedMember CompressedMember { get; }
         public IAccuracy Accuracy { get; set; }
         public List<IForceCombinationList> ForceCombinationLists { get; private set; }
@@ -184,16 +177,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public object Clone()
         {
-            IForceCalculator target = new ForceCalculator { Name = Name + " copy"};
-            target.LimitStatesList.Clear();
-            target.LimitStatesList.AddRange(LimitStatesList);
-            target.CalcTermsList.Clear();
-            target.CalcTermsList.AddRange(CalcTermsList);
-            AccuracyService.CopyProperties(Accuracy, target.Accuracy);
-            CompressedMemberServices.CopyProperties(CompressedMember, target.CompressedMember);
-            target.Primitives.AddRange(Primitives);
-            target.ForceActions.AddRange(ForceActions);
-            return target;
+            var newCalculator = new ForceCalculator();
+            updateStrategy.Update(newCalculator, this);
+            return newCalculator;
         }
     }
 }

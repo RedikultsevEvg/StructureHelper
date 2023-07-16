@@ -37,7 +37,6 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             parameters.AddRange(GetMomentOfInertiaRatio(ndms, strainMatrix));
             return parameters;
         }
-
         private IEnumerable<IValueParameter<string>> GetSimpleArea(IEnumerable<INdm> ndms)
         {
             const string name = "Summary Area";
@@ -67,7 +66,6 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             parameters.Add(firstParameter);
             return parameters;
         }
-
         private IEnumerable<IValueParameter<string>> GetMomentOfInertia(string prefix, IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix = null)
         {
             const string name = "Bending stiffness";

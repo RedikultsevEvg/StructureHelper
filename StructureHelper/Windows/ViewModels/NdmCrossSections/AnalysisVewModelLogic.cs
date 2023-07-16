@@ -1,11 +1,15 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.ViewModels.Calculations.Calculators;
+using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
+using StructureHelperLogics.NdmCalculations.Analyses.Logics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +19,11 @@ using System.Windows.Forms;
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 {
-    public class AnalysisVewModelLogic : SelectedItemViewModel<INdmCalculator>
+    public class AnalysisVewModelLogic : SelectedItemViewModel<ICalculator>
     {
         private ICrossSectionRepository repository;
         private RelayCommand runCommand;
+        static readonly CalculatorUpdateStrategy calculatorUpdateStrategy = new();
 
         public override void AddMethod(object parameter)
         {
@@ -30,10 +35,19 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             if (SelectedItem is ForceCalculator)
             {
                 var calculator = SelectedItem as ForceCalculator;
+                var calculatorCopy = (ICalculator)calculator.Clone();
                 var vm = new ForceCalculatorViewModel(repository.Primitives, repository.ForceActions, calculator);
 
                 var wnd = new ForceCalculatorView(vm);
                 wnd.ShowDialog();
+                if (wnd.DialogResult == true)
+                {
+                    // to do: update in repository
+                }
+                else
+                {
+                    calculatorUpdateStrategy.Update(calculator, calculatorCopy);
+                }
             }
             base.EditMethod(parameter);
         }
@@ -53,30 +67,28 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 (
                 runCommand = new RelayCommand(o =>
                 {
-                    try
-                    {
-                        SelectedItem.Run();
-                        var result = SelectedItem.Result;
-                        if (result.IsValid == false)
-                        {
-                            MessageBox.Show(result.Description, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                        else
-                        {
-                            var calculator = SelectedItem as IForceCalculator;
-                            var vm = new ForcesResultsViewModel(calculator);
-                            var wnd = new ForceResultsView(vm);
-                            wnd.ShowDialog();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"{ex}", "There are some errors during solution", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-
+                    SafetyProcessor.RunSafeProcess(RunCalculator);
                 }, o => SelectedItem != null));
             }
         }
+
+        private void RunCalculator()
+        {
+            SelectedItem.Run();
+            var result = SelectedItem.Result;
+            if (result.IsValid == false)
+            {
+                MessageBox.Show(result.Description, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                var calculator = SelectedItem as IForceCalculator;
+                var vm = new ForcesResultsViewModel(calculator);
+                var wnd = new ForceResultsView(vm);
+                wnd.ShowDialog();
+            }
+        }
+
         public AnalysisVewModelLogic(ICrossSectionRepository sectionRepository) : base(sectionRepository.CalculatorsList)
         {
             repository = sectionRepository;

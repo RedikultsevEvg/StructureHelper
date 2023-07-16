@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperLogics.NdmCalculations.Analyses
+namespace StructureHelperCommon.Models.Calculators
 {
-    public interface INdmResult
+    public interface IResult
     {
         /// <summary>
         /// True if result of calculation is valid
