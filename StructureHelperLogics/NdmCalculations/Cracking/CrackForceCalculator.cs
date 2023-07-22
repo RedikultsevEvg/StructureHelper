@@ -94,6 +94,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             result.FactorOfCrackAppearance = factorOfCrackAppearance;
             result.TupleOfCrackAppearance = ForceTupleService.InterpolateTuples(EndTuple, StartTuple, factorOfCrackAppearance);
             var reducedStrainTuple = GetReducedStrainTuple(factorOfCrackAppearance, psiS);
+            result.CrackedStrainTuple = GetStrainTuple(EndTuple);
             result.ReducedStrainTuple = reducedStrainTuple;
             result.SofteningFactors=GetSofteningFactors(reducedStrainTuple);
             result.PsiS = psiS;
@@ -128,7 +129,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             result.TupleOfCrackAppearance = (IForceTuple)StartTuple.Clone();
             softeningLogic.ForceRatio = result.FactorOfCrackAppearance;
             result.PsiS = softeningLogic.GetSofteningFactor();
-            result.ReducedStrainTuple = GetStrainTuple(EndTuple);
+            result.CrackedStrainTuple = result.ReducedStrainTuple = GetStrainTuple(EndTuple);
             result.SofteningFactors = GetSofteningFactors(result.ReducedStrainTuple);
             result.IsSectionCracked = true;
             result.Description += "Section cracked in start tuple";
@@ -137,7 +138,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             result.IsValid = true;
             result.IsSectionCracked = false;
-            result.ReducedStrainTuple = GetStrainTuple(EndTuple);
+            result.CrackedStrainTuple = result.ReducedStrainTuple = GetStrainTuple(EndTuple);
             result.SofteningFactors = GetSofteningFactors(result.ReducedStrainTuple);
             result.Description = "Section is not cracked";
         }

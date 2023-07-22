@@ -81,6 +81,10 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                         MessageBoxIcon.Information);
                     return;
                 }
+                valueList.Add(result.CrackedStrainTuple.Mx);
+                valueList.Add(result.CrackedStrainTuple.My);
+                valueList.Add(result.CrackedStrainTuple.Nz);
+
                 valueList.Add(result.ReducedStrainTuple.Mx);
                 valueList.Add(result.ReducedStrainTuple.My);
                 valueList.Add(result.ReducedStrainTuple.Nz);
@@ -145,7 +149,8 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         }
         private static string[] GetCrackLabels(IUnit unitForce, IUnit unitMoment, IUnit unitCurvature)
         {
-            const string crc = "CrcSofteningFactor";
+            const string crc = "Crc";
+            const string crcFactor = "CrcSofteningFactor";
             return new string[]
             {
                 $"{GeometryNames.MomFstName}, {unitMoment.Name}",
@@ -154,9 +159,12 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 $"{GeometryNames.CurvFstName}, {unitCurvature.Name}",
                 $"{GeometryNames.CurvSndName}, {unitCurvature.Name}",
                 $"{GeometryNames.StrainTrdName}",
-                $"{crc}Ix",
-                $"{crc}Iy",
-                $"{crc}Az",
+                $"{crc}{GeometryNames.CurvFstName}, {unitCurvature.Name}",
+                $"{crc}{GeometryNames.CurvSndName}, {unitCurvature.Name}",
+                $"{crc}{GeometryNames.StrainTrdName}",
+                $"{crcFactor}Ix",
+                $"{crcFactor}Iy",
+                $"{crcFactor}Az",
                 $"PsiFactor"
             };
         }

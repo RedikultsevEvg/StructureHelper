@@ -13,8 +13,9 @@ namespace StructureHelperLogics.Models.Materials
         public void Update(ILibMaterial targetObject, ILibMaterial sourceObject)
         {
             targetObject.MaterialEntity = sourceObject.MaterialEntity;
+            var tmpSafetyFactors = new List<IMaterialSafetyFactor>(sourceObject.SafetyFactors);
             targetObject.SafetyFactors.Clear();
-            foreach (var item in sourceObject.SafetyFactors)
+            foreach (var item in tmpSafetyFactors)
             {
                 targetObject.SafetyFactors.Add(item.Clone() as IMaterialSafetyFactor);
             }

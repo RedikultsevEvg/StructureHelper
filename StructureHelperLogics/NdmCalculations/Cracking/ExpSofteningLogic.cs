@@ -45,8 +45,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public ExpSofteningLogic()
         {
             FiMin = 0.2d;
-            PowerFactor = 1d;
-            BettaFactor = 0.8;
+            PowerFactor = 2d;
+            BettaFactor = 0.8d;
         }
         public double GetSofteningFactor()
         {

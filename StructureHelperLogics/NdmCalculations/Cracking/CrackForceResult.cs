@@ -18,6 +18,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public IForceTuple StartTuple { get; set; }
         public IForceTuple EndTuple { get; set; }
         public IForceTuple TupleOfCrackAppearance { get; set; }
+        public StrainTuple CrackedStrainTuple { get; set; }
         public StrainTuple ReducedStrainTuple { get; set; }
         public StrainTuple SofteningFactors { get; set; }
         public IEnumerable<INdm> NdmCollection { get; set; }
