@@ -7,7 +7,7 @@ namespace StructureHelperCommon.Services.Forces
     {
         public static IStrainMatrix ConvertToLoaderStrainMatrix(StrainTuple strainTuple)
         {
-            IStrainMatrix strainMatrix = new StrainMatrix() { Kx = strainTuple.Nz, Ky = strainTuple.My, EpsZ = strainTuple.Nz };
+            IStrainMatrix strainMatrix = new StrainMatrix() { Kx = strainTuple.Mx, Ky = strainTuple.My, EpsZ = strainTuple.Nz };
             return strainMatrix;
         }
 

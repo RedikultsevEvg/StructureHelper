@@ -3,6 +3,7 @@ using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculato
 using StructureHelper.Windows.ViewModels.Calculations.Calculators;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
@@ -67,7 +68,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 (
                 runCommand = new RelayCommand(o =>
                 {
-                    SafetyProcessor.RunSafeProcess(RunCalculator);
+                    SafetyProcessor.RunSafeProcess(RunCalculator, ErrorStrings.ErrorOfExuting + $": {SelectedItem.Name}");
                 }, o => SelectedItem != null));
             }
         }

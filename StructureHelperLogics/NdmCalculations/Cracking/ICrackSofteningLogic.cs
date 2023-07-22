@@ -8,6 +8,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public interface ICrackSofteningLogic
     {
-        double SofteningFactor();
+        double GetSofteningFactor();
     }
 }

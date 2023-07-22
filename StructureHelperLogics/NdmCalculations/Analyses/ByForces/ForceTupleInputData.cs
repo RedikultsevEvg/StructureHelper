@@ -14,5 +14,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IEnumerable<INdm> NdmCollection { get; set; }
         public IForceTuple Tuple { get; set; }
         public IAccuracy Accuracy { get; set; }
+        public ForceTupleInputData()
+        {
+            Accuracy ??= new Accuracy() { IterationAccuracy = 0.01d, MaxIterationCount = 1000 };
+        }
     }
 }

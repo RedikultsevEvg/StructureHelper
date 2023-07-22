@@ -41,6 +41,7 @@
         <StackPanel Grid.Column="1">
             <Button Margin="3" Content="Graphic" ToolTip="Show graphic results" Command="{Binding ShowIsoFieldCommand}"/>
             <Button Margin="3" Content="Diagrams" ToolTip="Show diagrams" Command="{Binding ShowGraphsCommand}"/>
+            <Button Margin="3" Content="CrcDiagrams" ToolTip="Show diagrams for cracked section" Command="{Binding ShowCrackGraphsCommand}"/>
             <Button Margin="3" Content="Interpolate" ToolTip="Create analysis by substep" Command="{Binding InterpolateCommand}"/>
             <Button Margin="3" Content="Export" ToolTip="Export results to *.csv" Command="{Binding ExportToCSVCommand}"/>
             <Button Margin="3" Content="Set Prestrain" ToolTip="Set strains as auto prestrain" Command="{Binding SetPrestrainCommand}"/>

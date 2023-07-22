@@ -47,7 +47,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
             if (dialogResult == DialogResult.Yes)
             {
                 if (DeleteAction() != true) return;
-                GlobalRepository.Materials.Delete(SelectedItem.Id);
+                GlobalRepository.Actions.Delete(SelectedItem.Id);
                 base.DeleteMethod(parameter);
             }         
         }

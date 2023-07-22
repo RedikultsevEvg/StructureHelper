@@ -4,6 +4,8 @@ using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services;
 using StructureHelperCommon.Services.Forces;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,20 +17,28 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     public class CrackForceCalculator : ICalculator
     {
         static readonly CrackedLogic crackedLogic = new();
+        static readonly ExpSofteningLogic softeningLogic = new();
+        static readonly CrackStrainLogic crackStrainLogic = new();
+        static readonly SofteningFactorLogic softeningFactorLogic = new();
+        IForceTupleCalculator forceTupleCalculator;
         private CrackForceResult result;
 
         public string Name { get; set; }
-        public IForceTuple StartTuple { get; set; }
-        public IForceTuple EndTuple { get; set; }
+        public ForceTuple StartTuple { get; set; }
+        public ForceTuple EndTuple { get; set; }
         public IEnumerable<INdm> NdmCollection { get; set; }
         public Accuracy Accuracy {get;set; }
         public IResult Result => result;
-        public CrackForceCalculator()
+        public CrackForceCalculator(IForceTupleCalculator forceTupleCalculator)
         {
             StartTuple ??= new ForceTuple();
             Accuracy ??= new Accuracy() { IterationAccuracy = 0.0001d, MaxIterationCount = 10000 };
+            this.forceTupleCalculator = forceTupleCalculator;
         }
-
+        public CrackForceCalculator() : this(new ForceTupleCalculator())
+        {
+            
+        }
         public void Run()
         {
             result = new CrackForceResult();
@@ -47,18 +57,12 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             }
             if (crackedLogic.IsSectionCracked(0d) == true)
             {
-                result.IsValid = true;
-                result.ActualFactor = 0d;
-                result.ActualTuple = (IForceTuple)StartTuple.Clone();
-                result.IsSectionCracked = true;
-                result.Description += "Section cracked in start tuple";
+                SectionCrackedAtStart();
                 return;
             }
             if (crackedLogic.IsSectionCracked(1d) == false)
             {
-                result.IsValid = true;
-                result.IsSectionCracked = false;
-                result.Description = "Section is not cracked";
+                SectionIsNotCracked();
                 return;
             }
             var parameterCalculator = new FindParameterCalculator()
@@ -70,11 +74,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             var paramResult = parameterCalculator.Result as FindParameterResult;
             if (paramResult.IsValid == true)
             {
-                result.IsValid = true;
-                result.IsSectionCracked = true;
-                result.Description += paramResult.Description;
-                result.ActualFactor = paramResult.Parameter;
-                result.ActualTuple = ForceTupleService.InterpolateTuples(EndTuple, StartTuple, paramResult.Parameter);
+                SectionIsCrackedBetween(paramResult);
             }
             else
             {
@@ -83,6 +83,76 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             }
         }
 
+        private void SectionIsCrackedBetween(FindParameterResult? paramResult)
+        {
+            var factorOfCrackAppearance = paramResult.Parameter;
+            softeningLogic.ForceRatio = factorOfCrackAppearance;
+            var psiS = softeningLogic.GetSofteningFactor();
+            result.IsValid = true;
+            result.IsSectionCracked = true;
+            result.Description += paramResult.Description;
+            result.FactorOfCrackAppearance = factorOfCrackAppearance;
+            result.TupleOfCrackAppearance = ForceTupleService.InterpolateTuples(EndTuple, StartTuple, factorOfCrackAppearance);
+            var reducedStrainTuple = GetReducedStrainTuple(factorOfCrackAppearance, psiS);
+            result.ReducedStrainTuple = reducedStrainTuple;
+            result.SofteningFactors=GetSofteningFactors(reducedStrainTuple);
+            result.PsiS = psiS;
+        }
+
+        private StrainTuple GetSofteningFactors(StrainTuple reducedStrainTuple)
+        {
+            softeningFactorLogic.NdmCollection = NdmCollection;
+            softeningFactorLogic.StrainTuple = reducedStrainTuple;
+            return softeningFactorLogic.GetSofteningFactors();
+        }
+
+        private StrainTuple GetReducedStrainTuple(double factorOfCrackAppearance, double softeningFactor)
+        {
+            const double notCrackedFactor = 0.99d;
+            var notCrackedForceTuple = ForceTupleService.InterpolateTuples(EndTuple, StartTuple, factorOfCrackAppearance * notCrackedFactor) as ForceTuple;
+            var crackAppearanceStrainTuple = GetStrainTuple(notCrackedForceTuple);
+            var actualStrainTuple = GetStrainTuple(EndTuple);
+            crackStrainLogic.BeforeCrackingTuple = crackAppearanceStrainTuple;
+            crackStrainLogic.AfterCrackingTuple = actualStrainTuple;
+            crackStrainLogic.SofteningFactor = softeningFactor;
+            var reducedStrainTuple = crackStrainLogic.GetCrackedStrainTuple();
+            return reducedStrainTuple is null
+                ? throw new StructureHelperException(ErrorStrings.ResultIsNotValid + "\n Strain Tuple is null")
+                : reducedStrainTuple;
+        }
+
+        private void SectionCrackedAtStart()
+        {
+            result.IsValid = true;
+            result.FactorOfCrackAppearance = 0d;
+            result.TupleOfCrackAppearance = (IForceTuple)StartTuple.Clone();
+            softeningLogic.ForceRatio = result.FactorOfCrackAppearance;
+            result.PsiS = softeningLogic.GetSofteningFactor();
+            result.ReducedStrainTuple = GetStrainTuple(EndTuple);
+            result.SofteningFactors = GetSofteningFactors(result.ReducedStrainTuple);
+            result.IsSectionCracked = true;
+            result.Description += "Section cracked in start tuple";
+        }
+        private void SectionIsNotCracked()
+        {
+            result.IsValid = true;
+            result.IsSectionCracked = false;
+            result.ReducedStrainTuple = GetStrainTuple(EndTuple);
+            result.SofteningFactors = GetSofteningFactors(result.ReducedStrainTuple);
+            result.Description = "Section is not cracked";
+        }
+        private StrainTuple GetStrainTuple(ForceTuple forceTuple)
+        {
+            ForceTupleInputData inputData = new();
+            inputData.NdmCollection = NdmCollection;
+            inputData.Tuple = forceTuple;
+            forceTupleCalculator.InputData = inputData;
+            forceTupleCalculator.Run();
+            var result = forceTupleCalculator.Result as IForcesTupleResult;
+            var loaderStrainMatrix = result.LoaderResults.ForceStrainPair.StrainMatrix;
+            StrainTuple strainTuple = StrainTupleService.ConvertToStrainTuple(loaderStrainMatrix);
+            return strainTuple;
+        }
         private void Check()
         {
             CheckObject.IsNull(EndTuple);
@@ -91,7 +161,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": Section is not cracked");
             }
         }
-
         public object Clone()
         {
             throw new NotImplementedException();

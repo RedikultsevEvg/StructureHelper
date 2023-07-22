@@ -14,6 +14,7 @@ namespace StructureHelperCommon.Infrastructures.Settings
         private static List<ICodeEntity> codesList;
         private static IMaterialRepository materialRepository;
         private static NatSystems natSystem;
+        private static GeometryNames geometryNames;
 
         public static CodeTypes CodeType => CodeTypes.SP63_2018;
         public static CodeTypes FRCodeType => CodeTypes.SP164_2014;
@@ -29,7 +30,7 @@ namespace StructureHelperCommon.Infrastructures.Settings
                 materialRepository = new MaterialRepository(codesList);
             }
         }
-        public static CrossSectionAxisNames CrossSectionAxisNames => new CrossSectionAxisNames();
+        public static GeometryNames GeometryNames => geometryNames ??= new GeometryNames();
         public static LimitStatesList LimitStatesList => new LimitStatesList();
         public static CalcTermList CalcTermList => new CalcTermList();
         public static List<ICodeEntity> CodesList

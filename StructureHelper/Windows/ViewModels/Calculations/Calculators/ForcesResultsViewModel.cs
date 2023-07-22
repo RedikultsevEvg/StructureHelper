@@ -12,6 +12,7 @@ using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
+using StructureHelper.Windows.ViewModels.Calculations.Calculators.ForceResultLogic;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelper.Windows.ViewModels.Forces;
 using StructureHelper.Windows.ViewModels.Graphs;
@@ -41,6 +42,9 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 {
     public class ForcesResultsViewModel : ViewModelBase
     {
+        private static readonly ShowDiagramLogic showDiagramLogic = new();
+        private static readonly InterpolateLogic interpolateLogic = new();
+        private static readonly ShowCrackResultLogic showCrackResultLogic = new();
         private IForceCalculator forceCalculator;
         private IForcesResults forcesResults;
         private IEnumerable<INdmPrimitive> ndmPrimitives;
@@ -48,25 +52,24 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         private IEnumerable<INdm> ndms;
         private IReport isoFieldReport;
 
-        static string firstAxisName => ProgramSetting.CrossSectionAxisNames.FirstAxis;
-        static string secondAxisName => ProgramSetting.CrossSectionAxisNames.SecondAxis;
-        static string thirdAxisName => ProgramSetting.CrossSectionAxisNames.ThirdAxis;
+        public static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
 
         public ForcesTupleResult SelectedResult { get; set; }
-        private RelayCommand showIsoFieldCommand;
-        private RelayCommand exportToCSVCommand;
-        private RelayCommand interpolateCommand;
-        private RelayCommand setPrestrainCommand;
+        private ICommand showIsoFieldCommand;
+        private ICommand exportToCSVCommand;
+        private ICommand interpolateCommand;
+        private ICommand setPrestrainCommand;
         private ICommand showAnchorageCommand;
         private ICommand showGeometryResultCommand;
         private ICommand showGraphsCommand;
         private ICommand showCrackResult;
+        private ICommand showCrackGraphsCommand;
 
         public IForcesResults ForcesResults
         {
             get => forcesResults;
         }
-        public RelayCommand ShowIsoFieldCommand
+        public ICommand ShowIsoFieldCommand
         {
             get
             {
@@ -104,7 +107,19 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         }
         public ICommand ShowGraphsCommand
         {
-            get => showGraphsCommand ??= new RelayCommand(o => showGraphs());
+            get => showGraphsCommand ??= new RelayCommand(o =>
+            {
+                showDiagramLogic.Show(forcesResults.ForcesResultList);
+            }
+            );
+        }
+        public ICommand ShowCrackGraphsCommand
+        {
+            get => showCrackGraphsCommand ??= new RelayCommand(o =>
+            {
+                showDiagramLogic.ShowCracks(forcesResults.ForcesResultList, ndmPrimitives);
+            }
+            );
         }
         public ICommand ShowCrackResultCommand
         {
@@ -113,138 +128,27 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 SafetyProcessor.RunSafeProcess(ShowCrackResult);
             }, o => (SelectedResult != null) && SelectedResult.IsValid);
         }
-
         private void ShowCrackResult()
         {
-            var limitState = SelectedResult.DesignForceTuple.LimitState;
-            var calcTerm = SelectedResult.DesignForceTuple.CalcTerm;
-            var calculator = new CrackForceCalculator();
-            calculator.EndTuple = SelectedResult.DesignForceTuple.ForceTuple;
-            calculator.NdmCollection = NdmPrimitivesService.GetNdms(ndmPrimitives, limitState, calcTerm);
-            //Act
-            calculator.Run();
-            var result = (CrackForceResult)calculator.Result;
-            if (result.IsValid)
-            {
-                var softLogic = new ExponentialSofteningLogic() { ForceRatio = result.ActualFactor };
-                string message = string.Empty;
-                if (result.IsSectionCracked)
-                {
-                    message += $"Actual crack factor {result.ActualFactor}\n";
-                    message += $"Softening crack factor PsiS={softLogic.SofteningFactor()}\n";
-                    message += $"M{firstAxisName}={result.ActualTuple.Mx}, M{secondAxisName}={result.ActualTuple.My}, N{thirdAxisName}={result.ActualTuple.Nz}";
-                }
-                else
-                {
-                    message += "Cracks are not apeared";
-                }
-                MessageBox.Show(
-                    message,
-                    "Crack results",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-            }
-            else
-            {
-                var errorVM = new ErrorProcessor()
-                {
-                    ShortText = "Error apeared while crack calculate",
-                    DetailText = result.Description
-                };
-                var wnd = new ErrorMessage(errorVM);
-                wnd.ShowDialog();
-            }
+            showCrackResultLogic.LimitState = SelectedResult.DesignForceTuple.LimitState;
+            showCrackResultLogic.CalcTerm = CalcTerms.ShortTerm; //= SelectedResult.DesignForceTuple.CalcTerm;
+            showCrackResultLogic.ForceTuple = SelectedResult.DesignForceTuple.ForceTuple;
+            showCrackResultLogic.ndmPrimitives = ndmPrimitives;
+            showCrackResultLogic.Show();
         }
-
-        private void showGraphs()
-        {
-            var unitForce = CommonOperation.GetUnit(UnitTypes.Force, "kN");
-            var unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, "kNm");
-            var unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature, "1/m");
-
-            var labels = new string[]
-            {
-                $"M{firstAxisName}, {unitMoment.Name}",
-                $"M{secondAxisName}, {unitMoment.Name}",
-                $"N{thirdAxisName}, {unitForce.Name}",
-                $"K{firstAxisName}, {unitCurvature.Name}",
-                $"K{secondAxisName}, {unitCurvature.Name}",
-                $"Eps_{thirdAxisName}"
-            };
-            var resultList = forcesResults.ForcesResultList.Where(x => x.IsValid == true).ToList();
-            var array = new ArrayParameter<double>(resultList.Count(), labels.Count(), labels);
-            var data = array.Data;
-            for (int i = 0; i < resultList.Count(); i++)
-            {
-                var valueList = new List<double>
-                {
-                    resultList[i].DesignForceTuple.ForceTuple.Mx * unitMoment.Multiplyer,
-                    resultList[i].DesignForceTuple.ForceTuple.My * unitMoment.Multiplyer,
-                    resultList[i].DesignForceTuple.ForceTuple.Nz * unitForce.Multiplyer,
-                    resultList[i].LoaderResults.ForceStrainPair.StrainMatrix.Kx * unitCurvature.Multiplyer,
-                    resultList[i].LoaderResults.ForceStrainPair.StrainMatrix.Ky * unitCurvature.Multiplyer,
-                    resultList[i].LoaderResults.ForceStrainPair.StrainMatrix.EpsZ
-                };
-                for (int j = 0; j < valueList.Count(); j++)
-                {
-                    data[i, j] = valueList[j];
-                }
-            }
-            var graphViewModel = new GraphViewModel(array);
-            var wnd = new GraphView(graphViewModel);
-            try
-            {
-                wnd.ShowDialog();
-            }
-            catch(Exception ex)
-            {
-                var vm = new ErrorProcessor()
-                {
-                    ShortText = "Errors apearred during showing isofield, see detailed information",
-                    DetailText = $"{ex}"
-                };
-                new ErrorMessage(vm).ShowDialog();
-            }
-        }
-
-        public RelayCommand InterpolateCommand
+        public ICommand InterpolateCommand
         {
             get
             {
                 return interpolateCommand ??
                     (interpolateCommand = new RelayCommand(o =>
                     {
-                        Interpolate();
+                        IDesignForceTuple finishDesignTuple = SelectedResult.DesignForceTuple.Clone() as IDesignForceTuple;
+                        interpolateLogic.Show(finishDesignTuple, forceCalculator);
                     }, o => SelectedResult != null));
             }
         }
-        private void Interpolate()
-        {
-            IDesignForceTuple startDesignTuple, finishDesignTuple;
-            finishDesignTuple = SelectedResult.DesignForceTuple.Clone() as IDesignForceTuple;
-            var viewModel = new InterpolateTuplesViewModel(finishDesignTuple, null, 100);
-            var wndTuples = new InterpolateTuplesView(viewModel);
-            wndTuples.ShowDialog();
-            if (wndTuples.DialogResult != true) return;
-            startDesignTuple = viewModel.StartDesignForce;
-            finishDesignTuple = viewModel.FinishDesignForce;
-            int stepCount = viewModel.StepCount;
-            var calculator = InterpolateService.InterpolateForceCalculator(forceCalculator, finishDesignTuple, startDesignTuple, stepCount);
-            calculator.Run();
-            var result = calculator.Result;
-            if (result is null || result.IsValid == false)
-            {
-                MessageBox.Show(result.Description, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
-            {
-                var vm = new ForcesResultsViewModel(calculator);
-                var wnd = new ForceResultsView(vm);
-                wnd.ShowDialog();
-            }
-        }
-
-        public RelayCommand SetPrestrainCommand
+        public ICommand SetPrestrainCommand
         {
             get
             {
@@ -256,7 +160,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     ));
             }
         }
-
         private void SetPrestrain()
         {
             var source = StrainTupleService.ConvertToStrainTuple(SelectedResult.LoaderResults.StrainMatrix);
@@ -271,7 +174,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 }
             }
         }
-
         public ICommand ShowAnchorageCommand
         {
             get
@@ -304,7 +206,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 new ErrorMessage(vm).ShowDialog();
             }
         }
-
         public ICommand ShowGeometryResultCommand =>
             showGeometryResultCommand ??= new RelayCommand(o =>
             showGeometryResult(), o => SelectedResult != null && SelectedResult.IsValid);
@@ -333,14 +234,12 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 }
             }
         }
-
         public ForcesResultsViewModel(IForceCalculator forceCalculator)
         {
             this.forceCalculator = forceCalculator;
             this.forcesResults = this.forceCalculator.Result as IForcesResults;
             ndmPrimitives = this.forceCalculator.Primitives;
         }
-
         private void ShowIsoField()
         {
             try
@@ -384,7 +283,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             }
             ndms = ndmRange;
         }
-
         private bool SelectPrimitives()
         {
             var vm = new SelectPrimitivesViewModel(ndmPrimitives);

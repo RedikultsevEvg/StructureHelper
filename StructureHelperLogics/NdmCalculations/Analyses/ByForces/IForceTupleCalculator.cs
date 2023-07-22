@@ -9,5 +9,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public interface IForceTupleCalculator : ICalculator
     {
+        IForceTupleInputData InputData {get;set;}
     }
 }

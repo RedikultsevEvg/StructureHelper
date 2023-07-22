@@ -18,8 +18,8 @@ namespace StructureHelperLogics.Services.NdmPrimitives
     {
         const string prefixInitial = "Initial";
         const string prefixActual = "Actual";
-        static string firstAxisName => ProgramSetting.CrossSectionAxisNames.FirstAxis;
-        static string secondAxisName => ProgramSetting.CrossSectionAxisNames.SecondAxis;
+        static string firstAxisName => ProgramSetting.GeometryNames.FstAxisName;
+        static string secondAxisName => ProgramSetting.GeometryNames.SndAxisName;
         static IEnumerable<IUnit> units = UnitsFactory.GetUnitCollection();
         private IEnumerable<INdm> ndms;
         private IStrainMatrix strainMatrix;
@@ -133,10 +133,9 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             };
             try
             {
-                var initialMoments = GeometryOperations.GetReducedMomentsOfInertia(locNdms);
-                var actualMoments = GeometryOperations.GetReducedMomentsOfInertia(locNdms, locStrainMatrix);
-                firstParameter.Value = (actualMoments.MomentX / initialMoments.MomentX).ToString();
-                secondParameter.Value = (actualMoments.MomentY / initialMoments.MomentY).ToString();
+                var actualMoments = GeometryOperations.GetSofteningsFactors(locNdms, locStrainMatrix);
+                firstParameter.Value = actualMoments.MxFactor.ToString();
+                secondParameter.Value = actualMoments.MyFactor.ToString();
             }
             catch (Exception ex)
             {
@@ -196,9 +195,8 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             };
             try
             {
-                var actual = GeometryOperations.GetReducedArea(locNdms, locStrainMatrix);
-                var initial = GeometryOperations.GetReducedArea(locNdms);
-                firstParameter.Value = (actual / initial).ToString();
+                var actual = GeometryOperations.GetSofteningsFactors(locNdms, locStrainMatrix);
+                firstParameter.Value = actual.NzFactor.ToString();
             }
             catch (Exception ex)
             {

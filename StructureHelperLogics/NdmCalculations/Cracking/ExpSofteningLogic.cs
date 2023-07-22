@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class ExponentialSofteningLogic : ICrackSofteningLogic
+    public class ExpSofteningLogic : ICrackSofteningLogic
     {
         private double forceRatio;
         private double powerFactor;
@@ -42,13 +42,13 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             }
         }
         public double FiMin {get;set;}
-        public ExponentialSofteningLogic()
+        public ExpSofteningLogic()
         {
             FiMin = 0.2d;
-            PowerFactor = 2d;
+            PowerFactor = 1d;
             BettaFactor = 0.8;
         }
-        public double SofteningFactor()
+        public double GetSofteningFactor()
         {
             double fi;
             fi = 1 - BettaFactor * Math.Pow(ForceRatio, PowerFactor);

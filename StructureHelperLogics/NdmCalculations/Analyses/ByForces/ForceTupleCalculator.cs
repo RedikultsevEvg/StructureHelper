@@ -14,16 +14,18 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public class ForceTupleCalculator : IForceTupleCalculator
     {
+        public IForceTupleInputData InputData { get; set; }
         public string Name { get; set; }
         public IResult Result { get; private set; }
 
-        private IForceTupleInputData inputData;
-
         public ForceTupleCalculator(IForceTupleInputData inputData)
         {
-            this.inputData = inputData;
+            InputData = inputData;
         }
-
+        public ForceTupleCalculator()
+        {
+            
+        }
         public void Run()
         {
             Result = CalculateResult();
@@ -31,9 +33,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private IForcesTupleResult CalculateResult()
         {
-            var ndmCollection = inputData.NdmCollection;
-            var tuple = inputData.Tuple;
-            var accuracy = inputData.Accuracy;
+            var ndmCollection = InputData.NdmCollection;
+            var tuple = InputData.Tuple;
+            var accuracy = InputData.Accuracy;
 
 
             var mx = tuple.Mx;

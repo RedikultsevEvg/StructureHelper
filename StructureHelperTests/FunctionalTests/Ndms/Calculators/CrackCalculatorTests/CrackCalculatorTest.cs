@@ -35,7 +35,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.CrackCalculatorT
             //Assert
             Assert.NotNull(result);
             Assert.IsTrue(result.IsValid);
-            Assert.AreEqual(expectedFactor, result.ActualFactor, 0.01d);
+            Assert.AreEqual(expectedFactor, result.FactorOfCrackAppearance, 0.01d);
         }
     }
 }

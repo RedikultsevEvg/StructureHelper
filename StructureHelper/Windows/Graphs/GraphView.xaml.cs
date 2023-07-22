@@ -1,7 +1,9 @@
 ﻿using StructureHelper.Windows.ViewModels.Graphs;
+using StructureHelperCommon.Models.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,6 +28,9 @@ namespace StructureHelper.Windows.Graphs
             this.vm = vm;
             InitializeComponent();
             DataContext = vm;
+        }
+        public GraphView(ArrayParameter<double> arrayParameter) : this(new GraphViewModel(arrayParameter))
+        {
         }
     }
 }
