@@ -13,6 +13,7 @@ namespace StructureHelperCommon.Models.Shapes.Logics
         /// <inheritdoc />
         public void Update(IPoint2D targetObject, IPoint2D sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.X = sourceObject.X;
             targetObject.Y = sourceObject.Y;
         }

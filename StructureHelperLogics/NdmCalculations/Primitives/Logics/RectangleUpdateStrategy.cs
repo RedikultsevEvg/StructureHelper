@@ -15,6 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         static readonly RectangleShapeUpdateStrategy shapeUpdateStrategy = new();
         public void Update(RectanglePrimitive targetObject, RectanglePrimitive sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             basePrimitiveUpdateStrategy.Update(targetObject, sourceObject);
             divisionPropsUpdateStrategy.Update(targetObject, sourceObject);
             shapeUpdateStrategy.Update(targetObject, sourceObject);

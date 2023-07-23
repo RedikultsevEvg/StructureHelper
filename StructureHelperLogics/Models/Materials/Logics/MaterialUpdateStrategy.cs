@@ -19,6 +19,7 @@ namespace StructureHelperLogics.Models.Materials
         private readonly IUpdateStrategy<IReinforcementLibMaterial> reinforcementStrategy = new ReinforcementLibUpdateStrategy();
         public void Update(IHeadMaterial targetObject, IHeadMaterial sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.Color = sourceObject.Color;
             targetObject.HelperMaterial = sourceObject.HelperMaterial.Clone() as IHelperMaterial;

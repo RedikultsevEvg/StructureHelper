@@ -17,6 +17,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Logics
     {
         public void Update(ICalculator targetObject, ICalculator sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);
             if (targetObject is IForceCalculator force)
             {

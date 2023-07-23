@@ -15,6 +15,7 @@ namespace StructureHelperCommon.Models.Forces
         private readonly IUpdateStrategy<IForceTuple> tupleUpdateStrategy = new ForceTupleUpdateStrategy();
         public void Update(IDesignForcePair targetObject, IDesignForcePair sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);
             targetObject.LimitState = sourceObject.LimitState;
             tupleUpdateStrategy.Update(targetObject.LongForceTuple, sourceObject.LongForceTuple);

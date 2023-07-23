@@ -16,14 +16,15 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         readonly ForceTupleUpdateStrategy tupleUpdateStrategy = new();
         readonly VisualPropsUpdateStrategy visualPropsUpdateStrategy = new();
 
-        public void Update(INdmPrimitive target, INdmPrimitive source)
+        public void Update(INdmPrimitive targetObject, INdmPrimitive sourceObject)
         {
-            target.Name = source.Name;
-            if (source.HeadMaterial != null) target.HeadMaterial = source.HeadMaterial;
-            target.Triangulate = source.Triangulate;
-            pointShapeUpdateStrategy.Update(target.Center, source.Center);
-            visualPropsUpdateStrategy.Update(target.VisualProperty, source.VisualProperty);
-            tupleUpdateStrategy.Update(target.UsersPrestrain, source.UsersPrestrain);
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
+            targetObject.Name = sourceObject.Name;
+            if (sourceObject.HeadMaterial != null) targetObject.HeadMaterial = sourceObject.HeadMaterial;
+            targetObject.Triangulate = sourceObject.Triangulate;
+            pointShapeUpdateStrategy.Update(targetObject.Center, sourceObject.Center);
+            visualPropsUpdateStrategy.Update(targetObject.VisualProperty, sourceObject.VisualProperty);
+            tupleUpdateStrategy.Update(targetObject.UsersPrestrain, sourceObject.UsersPrestrain);
         }
 
     }

@@ -9,6 +9,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     {
         public void Update(INdmPrimitive targetObject, INdmPrimitive sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);
             if (targetObject is PointPrimitive point)
             {

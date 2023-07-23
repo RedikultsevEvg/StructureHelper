@@ -19,6 +19,7 @@ namespace StructureHelperCommon.Models.Forces
         private readonly IUpdateStrategy<IForceCombinationList> forceListUpdateStrategy = new ForceCombinationListUpdateStrategy();
         public void Update(IForceAction targetObject, IForceAction sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);
             targetObject.SetInGravityCenter = sourceObject.SetInGravityCenter;
             pointStrategy.Update(targetObject.ForcePoint, sourceObject.ForcePoint);

@@ -11,6 +11,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     {
         public void Update(IHasDivisionSize targetObject, IHasDivisionSize sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.NdmMaxSize = sourceObject.NdmMaxSize;
             targetObject.NdmMinDivision = sourceObject.NdmMinDivision;
             targetObject.ClearUnderlying = sourceObject.ClearUnderlying;

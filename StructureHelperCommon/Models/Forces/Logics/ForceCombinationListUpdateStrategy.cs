@@ -12,10 +12,10 @@ namespace StructureHelperCommon.Models.Forces
     {
         public void Update(IForceCombinationList targetObject, IForceCombinationList sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);
-            var forcesList = new List<IDesignForceTuple>(sourceObject.DesignForces);
             targetObject.DesignForces.Clear();
-            foreach (var item in forcesList)
+            foreach (var item in sourceObject.DesignForces)
             {
                 targetObject.DesignForces.Add((IDesignForceTuple)item.Clone());
             }

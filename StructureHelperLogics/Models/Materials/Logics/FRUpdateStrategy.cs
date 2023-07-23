@@ -12,6 +12,7 @@ namespace StructureHelperLogics.Models.Materials
     {
         public void Update(IFRMaterial targetObject, IFRMaterial sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Modulus = sourceObject.Modulus;
             targetObject.CompressiveStrength = sourceObject.CompressiveStrength;
             targetObject.TensileStrength = targetObject.TensileStrength;

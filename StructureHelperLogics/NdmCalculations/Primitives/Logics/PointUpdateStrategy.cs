@@ -13,6 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         static readonly BaseUpdateStrategy basePrimitiveUpdateStrategy = new();
         public void Update(PointPrimitive targetObject, PointPrimitive sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             basePrimitiveUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.Area = sourceObject.Area;
         }

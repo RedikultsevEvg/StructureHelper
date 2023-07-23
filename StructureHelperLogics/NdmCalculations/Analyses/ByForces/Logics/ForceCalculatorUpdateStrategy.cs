@@ -10,6 +10,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
         static readonly CompressedMemberUpdateStrategy compressedMemberUpdateStrategy = new();
         public void Update(IForceCalculator targetObject, IForceCalculator sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.LimitStatesList.Clear();
             targetObject.LimitStatesList.AddRange(sourceObject.LimitStatesList);

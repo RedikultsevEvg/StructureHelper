@@ -11,6 +11,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     {
         public void Update(IVisualProperty targetObject, IVisualProperty sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.IsVisible = sourceObject.IsVisible;
             targetObject.Color = sourceObject.Color;
             targetObject.SetMaterialColor = sourceObject.SetMaterialColor;

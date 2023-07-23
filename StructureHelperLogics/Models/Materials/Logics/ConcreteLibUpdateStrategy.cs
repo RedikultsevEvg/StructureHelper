@@ -12,6 +12,7 @@ namespace StructureHelperLogics.Models.Materials
         LibMaterialUpdateStrategy libUpdateStrategy = new LibMaterialUpdateStrategy();
         public void Update(IConcreteLibMaterial targetObject, IConcreteLibMaterial sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             libUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.TensionForULS = sourceObject.TensionForULS;
             targetObject.TensionForSLS = sourceObject.TensionForSLS;

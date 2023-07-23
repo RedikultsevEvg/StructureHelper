@@ -12,10 +12,10 @@ namespace StructureHelperLogics.Models.Materials
     {
         public void Update(ILibMaterial targetObject, ILibMaterial sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.MaterialEntity = sourceObject.MaterialEntity;
-            var tmpSafetyFactors = new List<IMaterialSafetyFactor>(sourceObject.SafetyFactors);
             targetObject.SafetyFactors.Clear();
-            foreach (var item in tmpSafetyFactors)
+            foreach (var item in sourceObject.SafetyFactors)
             {
                 targetObject.SafetyFactors.Add(item.Clone() as IMaterialSafetyFactor);
             }

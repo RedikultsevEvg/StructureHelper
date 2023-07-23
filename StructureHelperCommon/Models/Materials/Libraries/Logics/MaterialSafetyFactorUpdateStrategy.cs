@@ -11,6 +11,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
     {
         public void Update(IMaterialSafetyFactor targetObject, IMaterialSafetyFactor sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.Take = sourceObject.Take;
             targetObject.Description = sourceObject.Description;

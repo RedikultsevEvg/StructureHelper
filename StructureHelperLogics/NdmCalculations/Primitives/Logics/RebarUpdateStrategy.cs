@@ -12,6 +12,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         static readonly BaseUpdateStrategy basePrimitiveUpdateStrategy = new();
         public void Update(RebarPrimitive targetObject, RebarPrimitive sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             basePrimitiveUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.Area = sourceObject.Area;
             targetObject.HostPrimitive = sourceObject.HostPrimitive;

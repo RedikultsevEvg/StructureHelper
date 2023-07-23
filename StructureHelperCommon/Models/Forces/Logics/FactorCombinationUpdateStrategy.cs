@@ -13,6 +13,7 @@ namespace StructureHelperCommon.Models.Forces
         readonly IUpdateStrategy<IForceTuple> tupleUpdateStrategy = new ForceTupleUpdateStrategy();
         public void Update(IForceCombinationByFactor targetObject, IForceCombinationByFactor sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);
             tupleUpdateStrategy.Update(targetObject.FullSLSForces, sourceObject.FullSLSForces);
             targetObject.ULSFactor = sourceObject.ULSFactor;

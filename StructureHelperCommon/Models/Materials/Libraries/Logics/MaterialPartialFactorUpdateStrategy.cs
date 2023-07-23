@@ -11,6 +11,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
     {
         public void Update(IMaterialPartialFactor targetObject, IMaterialPartialFactor sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.LimitState = sourceObject.LimitState;
             targetObject.StressState = sourceObject.StressState;
             targetObject.CalcTerm = sourceObject.CalcTerm;

@@ -13,6 +13,7 @@ namespace StructureHelperCommon.Models.Shapes
         readonly PointShapeUpdateStrategy pointUpdateStrategy = new();
         public void Update(ILineShape targetObject, ILineShape sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             pointUpdateStrategy.Update(targetObject.StartPoint, sourceObject.StartPoint);
             pointUpdateStrategy.Update(targetObject.EndPoint, sourceObject.EndPoint);
         }

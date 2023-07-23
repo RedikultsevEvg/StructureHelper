@@ -12,6 +12,7 @@ namespace StructureHelperLogics.Models.Materials
         LibMaterialUpdateStrategy libUpdateStrategy = new LibMaterialUpdateStrategy();
         public void Update(IReinforcementLibMaterial targetObject, IReinforcementLibMaterial sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             libUpdateStrategy.Update(targetObject, sourceObject);
         }
     }

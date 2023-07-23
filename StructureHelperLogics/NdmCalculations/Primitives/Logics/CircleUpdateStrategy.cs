@@ -16,6 +16,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public void Update(CirclePrimitive targetObject, CirclePrimitive sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             basePrimitiveUpdateStrategy.Update(targetObject, sourceObject);
             divisionPropsUpdateStrategy.Update(targetObject, sourceObject);
             shapeUpdateStrategy.Update(targetObject, sourceObject);

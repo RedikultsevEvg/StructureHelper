@@ -11,6 +11,7 @@ namespace StructureHelperCommon.Models.Shapes
     {
         public void Update(IRectangleShape targetObject, IRectangleShape sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Width = sourceObject.Width;
             targetObject.Height = sourceObject.Height;
             targetObject.Angle = sourceObject.Angle;

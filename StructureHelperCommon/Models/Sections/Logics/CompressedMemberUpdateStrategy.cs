@@ -11,6 +11,7 @@ namespace StructureHelperCommon.Models.Sections
     {
         public void Update(ICompressedMember targetObject, ICompressedMember sourceObject)
         {
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Buckling = sourceObject.Buckling;
             targetObject.GeometryLength = sourceObject.GeometryLength;
             targetObject.LengthFactorX = sourceObject.LengthFactorX;
