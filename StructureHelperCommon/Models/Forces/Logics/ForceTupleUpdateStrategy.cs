@@ -14,14 +14,13 @@ namespace StructureHelperCommon.Models.Forces
         public void Update(IForceTuple targetObject, IForceTuple sourceObject)
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            CheckObject.IsNull(targetObject, ": target object ");
-            CheckObject.IsNull(sourceObject, ": source object ");
+            CheckObject.CompareTypes(targetObject, sourceObject);
 
             targetObject.Mx = sourceObject.Mx;
             targetObject.My = sourceObject.My;
-            targetObject.Nz = targetObject.Nz;
-            targetObject.Qx = targetObject.Qx;
-            targetObject.Qy = targetObject.Qy;
+            targetObject.Nz = sourceObject.Nz;
+            targetObject.Qx = sourceObject.Qx;
+            targetObject.Qy = sourceObject.Qy;
             targetObject.Mz = sourceObject.Mz;
         }
     }

@@ -1,10 +1,12 @@
-﻿using StructureHelperCommon.Services.Forces;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services.Forces;
 
 namespace StructureHelperCommon.Models.Forces
 {
     /// <inheritdoc/>
     public class StrainTuple : IForceTuple
     {
+        private readonly IUpdateStrategy<IForceTuple> updateStrategy = new ForceTupleUpdateStrategy();
         /// <inheritdoc/>
         public double Mx { get; set; }
         /// <inheritdoc/>
@@ -21,8 +23,9 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public object Clone()
         {
-            StrainTuple forceTuple = new StrainTuple() { Mx = Mx, My = My, Nz = Nz, Qx = Qx, Qy = Qy, Mz = Mz };
-            return forceTuple;
+            var newItem = new StrainTuple();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
         public static StrainTuple operator +(StrainTuple first) => first;
         public static StrainTuple operator +(StrainTuple first, ForceTuple second)
