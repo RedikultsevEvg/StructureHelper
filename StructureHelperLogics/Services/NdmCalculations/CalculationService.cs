@@ -25,13 +25,13 @@ namespace StructureHelperLogics.Services.NdmCalculations
         {
             var ndmCollection = new List<INdm>();
             ITriangulationOptions options = new TriangulationOptions { LimiteState = calculationProperty.LimitState, CalcTerm = calculationProperty.CalcTerm };
-            ndmCollection.AddRange(Triangulation.GetNdms(ndmPrimitives, options));
+            ndmCollection.AddRange(ndmPrimitives.SelectMany(x => x.GetNdms(options)));
             var loaderData = new LoaderOptions
             {
                 Preconditions = new Preconditions
                 {
-                    ConditionRate = calculationProperty.IterationProperty.Accuracy,
-                    MaxIterationCount = calculationProperty.IterationProperty.MaxIterationCount,
+                    ConditionRate = calculationProperty.Accuracy.IterationAccuracy,
+                    MaxIterationCount = calculationProperty.Accuracy.MaxIterationCount,
                     StartForceMatrix = new ForceMatrix { Mx = mx, My = my, Nz = nz }
                 },
                 NdmCollection = ndmCollection
@@ -47,7 +47,7 @@ namespace StructureHelperLogics.Services.NdmCalculations
             foreach (var forceCombinations in calculationProperty.ForceCombinations)
             {
                 var forceMatrix = forceCombinations.ForceMatrix;
-                results.Add(GetCalculationResult(forceMatrix, ndms, calculationProperty.IterationProperty.Accuracy, calculationProperty.IterationProperty.MaxIterationCount));
+                results.Add(GetCalculationResult(forceMatrix, ndms, calculationProperty.Accuracy.IterationAccuracy, calculationProperty.Accuracy.MaxIterationCount));
             }
             return results;
         }

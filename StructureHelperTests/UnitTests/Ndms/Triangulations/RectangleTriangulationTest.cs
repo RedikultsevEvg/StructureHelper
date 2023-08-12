@@ -9,11 +9,19 @@ using StructureHelperLogics.Services.NdmPrimitives;
 using StructureHelperCommon.Infrastructures.Enums;
 using LoaderCalculator.Logics.Geometry;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelper.Models.Materials;
+using Moq;
 
 namespace StructureHelperTests.UnitTests.Ndms.Triangulations
 {
     public class RectangleTriangulationTest
     {
+        private Mock<IHeadMaterial> materialMock;
+        [SetUp]
+        public void Setup()
+        {
+            materialMock = new Mock<IHeadMaterial>();
+        }
         //Участок по центру
         [TestCase(0d, 0d, 1.0d, 1.0d, 0d, 0.02d, 1, 50 * 50, -0.49d, -0.49d)]
         //Участок со смещением от центра
@@ -26,13 +34,20 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
         public void Run_ShouldPass (double centerX, double centerY, double width, double height, double angle, double ndmMaxSize, int ndmMinDivision, int expectedCount, double expectedFirstCenterX, double expectedFirstCenterY)
         {
             //Arrange
-            IMaterial material = new Material();
+            materialMock
+                .Setup(x => x.GetLoaderMaterial(It.IsAny<LimitStates>(), It.IsAny<CalcTerms>()))
+                .Returns(new Material());
+
             IPoint2D center = new Point2D { X = centerX, Y = centerY };
             IRectangleShape rectangle = new RectangleShape { Width = width, Height = height, Angle = angle };
-            IRectangleTriangulationLogicOptions options = new RectangleTriangulationLogicOptions(center, rectangle, ndmMaxSize, ndmMinDivision);
-            IRectangleTriangulationLogic logic = new RectangleTriangulationLogic(options);
+            var options = new RectangleTriangulationLogicOptions(center, rectangle, ndmMaxSize, ndmMinDivision)
+            {
+                triangulationOptions = new TriangulationOptions() { LimiteState = LimitStates.ULS, CalcTerm = CalcTerms.ShortTerm },
+                HeadMaterial = materialMock.Object
+            };
+            var logic = new RectangleTriangulationLogic(options);
             //Act
-            var result = logic.GetNdmCollection(material);
+            var result = logic.GetNdmCollection();
             //Assert
             Assert.NotNull(result);
             Assert.AreEqual(expectedCount, result.Count());
@@ -65,8 +80,8 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             var area = ndms.Sum(x => x.Area);
             var moments = GeometryOperations.GetReducedMomentsOfInertia(ndms);
             Assert.AreEqual(expectedArea, area, 0.001d);
-            Assert.AreEqual(expectedMomX, moments.MomentX, 0.001d);
-            Assert.AreEqual(expectedMomY, moments.MomentY, 1d);
+            Assert.AreEqual(expectedMomX, moments.EIx, 0.001d);
+            Assert.AreEqual(expectedMomY, moments.EIy, 1d);
         }
         [TestCase(0d, 0d, 1.0d, 1.0d, true, 1d, 3020017308.3574591d, 3020017308.3574591d)]
         [TestCase(0d, 0d, 1.0d, 1.0d, false, 0.92839999999991407d, 3005633713.5049105d, 3005633713.5049105d)]
@@ -96,8 +111,8 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             var area = ndms.Sum(x => x.Area);
             var moments = GeometryOperations.GetReducedMomentsOfInertia(ndms);
             Assert.AreEqual(expectedArea, area, 0.001d);
-            Assert.AreEqual(expectedMomX, moments.MomentX, 0.001d);
-            Assert.AreEqual(expectedMomY, moments.MomentY, 1d);
+            Assert.AreEqual(expectedMomX, moments.EIx, 0.001d);
+            Assert.AreEqual(expectedMomY, moments.EIy, 1d);
         }
         [TestCase(0d, 0d, 1.0d, true, 0.78079430967489682d, 1777730450.3666615d, 1776732530.5957441d)]
         [TestCase(0d, 0d, 1.0d, false, 0.72079430967490343d, 1770498845.4396176d, 1760438764.1059904d)]
@@ -128,8 +143,8 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             var area = ndms.Sum(x => x.Area);
             var moments = GeometryOperations.GetReducedMomentsOfInertia(ndms);
             Assert.AreEqual(expectedArea, area, 0.001d);
-            Assert.AreEqual(expectedMomX, moments.MomentX, 0.001d);
-            Assert.AreEqual(expectedMomY, moments.MomentY, 1d);
+            Assert.AreEqual(expectedMomX, moments.EIx, 0.001d);
+            Assert.AreEqual(expectedMomY, moments.EIy, 1d);
         }
     }
 }

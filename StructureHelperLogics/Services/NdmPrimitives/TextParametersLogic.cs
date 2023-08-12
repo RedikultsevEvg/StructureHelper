@@ -94,8 +94,8 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             try
             {
                 var gravityCenter = GeometryOperations.GetReducedMomentsOfInertia(locNdms, locStrainMatrix);
-                firstParameter.Value = (gravityCenter.MomentX * unitMultiPlayer).ToString();
-                secondParameter.Value = (gravityCenter.MomentY * unitMultiPlayer).ToString();
+                firstParameter.Value = (gravityCenter.EIx * unitMultiPlayer).ToString();
+                secondParameter.Value = (gravityCenter.EIy * unitMultiPlayer).ToString();
             }
             catch (Exception ex)
             {
@@ -134,8 +134,8 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             try
             {
                 var actualMoments = GeometryOperations.GetSofteningsFactors(locNdms, locStrainMatrix);
-                firstParameter.Value = actualMoments.MxFactor.ToString();
-                secondParameter.Value = actualMoments.MyFactor.ToString();
+                firstParameter.Value = actualMoments.EIxFactor.ToString();
+                secondParameter.Value = actualMoments.EIy.ToString();
             }
             catch (Exception ex)
             {
@@ -196,7 +196,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             try
             {
                 var actual = GeometryOperations.GetSofteningsFactors(locNdms, locStrainMatrix);
-                firstParameter.Value = actual.NzFactor.ToString();
+                firstParameter.Value = actual.EAFactor.ToString();
             }
             catch (Exception ex)
             {
@@ -238,8 +238,8 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             try
             {
                 var gravityCenter = GeometryOperations.GetGravityCenter(locNdms, locStrainMatrix);
-                firstParameter.Value = (gravityCenter.CenterX * unitMultiPlayer).ToString();
-                secondParameter.Value = (gravityCenter.CenterY * unitMultiPlayer).ToString();
+                firstParameter.Value = (gravityCenter.Cx * unitMultiPlayer).ToString();
+                secondParameter.Value = (gravityCenter.Cy * unitMultiPlayer).ToString();
             }
             catch (Exception ex)
             {

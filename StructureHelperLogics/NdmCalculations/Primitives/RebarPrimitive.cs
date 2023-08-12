@@ -22,7 +22,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     public class RebarPrimitive : IPointPrimitive, IHasHostPrimitive
     {
         static readonly RebarUpdateStrategy updateStrategy = new();
-        IDataRepository<RebarPrimitive> repository;
+
         /// <inheritdoc/>
         public string Name { get; set; }
         /// <inheritdoc/>
@@ -66,16 +66,14 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             return primitive;
         }
 
-        public IEnumerable<INdm> GetNdms(IMaterial material)
+        public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
         {
-            var options = new PointTriangulationLogicOptions(this);
-            IPointTriangulationLogic logic = new PointTriangulationLogic(options);
-            return logic.GetNdmCollection(material);
-        }
-
-        public void Save()
-        {
-            repository.Create(this);
+            var options = new RebarTriangulationLogicOptions(this)
+            {
+                triangulationOptions = triangulationOptions
+            };
+            var logic = new RebarTriangulationLogic(options);
+            return logic.GetNdmCollection();
         }
     }
 }

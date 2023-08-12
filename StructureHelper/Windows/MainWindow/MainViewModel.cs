@@ -306,8 +306,8 @@ namespace StructureHelper.Windows.MainWindow
                 var center = GeometryOperations.GetGravityCenter(ndms);
                 foreach (var item in PrimitiveLogic.Items)
                 {
-                    item.CenterX -= center.CenterX;
-                    item.CenterY -= center.CenterY;
+                    item.CenterX -= center.Cx;
+                    item.CenterY -= center.Cy;
                 }
             },
             o => repository.Primitives.Count() > 0

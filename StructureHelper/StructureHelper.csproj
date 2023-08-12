@@ -23,6 +23,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Windows\MainWindow\Add_Circle.png" />
+    <None Remove="Windows\MainWindow\Add_Rebar.png" />
+    <None Remove="Windows\MainWindow\Copy.png" />
+    <None Remove="Windows\MainWindow\Delete.png" />
+    <None Remove="Windows\MainWindow\Edit.png" />
+    <None Remove="Windows\MainWindow\Edit_Circle_RC.png" />
+    <None Remove="Windows\MainWindow\Edit_Concrete beam.png" />
+    <None Remove="Windows\MainWindow\Edit_Concrete column.png" />
+    <None Remove="Windows\MainWindow\Edit_Concrete slab.png" />
+    <None Remove="Windows\MainWindow\Materials.png" />
+    <None Remove="Windows\MainWindow\Point_Primitive.png" />
+    <None Remove="Windows\MainWindow\Rectangle_Primitive.png" />
+    <None Remove="Windows\MainWindow\ToBackground.png" />
+    <None Remove="Windows\MainWindow\ToForeground.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="6.5.0" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
@@ -51,6 +68,44 @@
   <ItemGroup>
     <Folder Include="Documentation\Manuals\" />
     <Folder Include="Infrastructure\UI\DataContexts\Logics\" />
+    <Folder Include="Infrastructure\UI\Icons\" />
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Windows\MainWindow\Add_Circle.png" />
+    <Resource Include="Windows\MainWindow\Add_Rebar.png" />
+    <Resource Include="Windows\MainWindow\Copy.png" />
+    <Resource Include="Windows\MainWindow\Delete.png" />
+    <Resource Include="Windows\MainWindow\Edit.png" />
+    <Resource Include="Windows\MainWindow\Point_Primitive.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\MainWindow\Rectangle_Primitive.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\MainWindow\Edit_Circle_RC.png" />
+    <Resource Include="Windows\MainWindow\Edit_Concrete beam.png" />
+    <Resource Include="Windows\MainWindow\Edit_Concrete column.png" />
+    <Resource Include="Windows\MainWindow\Edit_Concrete slab.png" />
+    <Resource Include="Windows\MainWindow\Materials.png" />
+    <Resource Include="Windows\MainWindow\ToBackground.png" />
+    <Resource Include="Windows\MainWindow\ToForeground.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

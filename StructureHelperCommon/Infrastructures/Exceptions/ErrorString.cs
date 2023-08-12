@@ -20,5 +20,6 @@
         public static string ParameterIsNull => "#0015: Parameter is null";
         public static string ResultIsNotValid => "#0016: Result is not valid";
         public static string ErrorOfExuting => "#0017: Error of executing";
+        public static string ExpectedWas(System.Type expected, System.Type was) => $"{DataIsInCorrect}: Expected {expected}, but was {was}";
     }
 }

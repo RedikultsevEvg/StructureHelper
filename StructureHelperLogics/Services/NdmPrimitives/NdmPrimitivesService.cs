@@ -19,18 +19,11 @@ namespace StructureHelperLogics.Services.NdmPrimitives
 {
     public static class NdmPrimitivesService
     {
-        public static List<INdm> GetNdms(INdmPrimitive primitive, LimitStates limitState, CalcTerms calcTerm)
-        {
-            //Формируем коллекцию элементарных участков для расчета в библитеке (т.е. выполняем триангуляцию)
-            List<INdm> ndmCollection = new List<INdm>();
-            var material = primitive.HeadMaterial.GetLoaderMaterial(limitState, calcTerm);
-            ndmCollection.AddRange(primitive.GetNdms(material));
-            return ndmCollection;
-        }
         public static List<INdm> GetNdms(IEnumerable<INdmPrimitive> primitives, LimitStates limitState, CalcTerms calcTerm)
         {
             var orderedNdmPrimitives = primitives.OrderBy(x => x.VisualProperty.ZIndex);
             var ndms = new List<INdm>();
+            var triangulationOptions = new TriangulationOptions() { LimiteState = limitState, CalcTerm = calcTerm };
             foreach (var item in orderedNdmPrimitives)
             {
                 if (item is IHasDivisionSize)
@@ -43,7 +36,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 }
                 if (item.Triangulate == true)
                 {
-                    ndms.AddRange(GetNdms(item, limitState, calcTerm));
+                    ndms.AddRange(item.GetNdms(triangulationOptions));
                 }
             }
             return ndms;

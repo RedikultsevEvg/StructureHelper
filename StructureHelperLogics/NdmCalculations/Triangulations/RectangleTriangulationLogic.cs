@@ -1,19 +1,18 @@
-﻿using LoaderCalculator.Data.Materials;
-using LoaderCalculator.Data.Ndms;
-using System;
-using System.Collections.Generic;
+﻿using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.Ndms.Transformations;
-using LoaderCalculator.Data.Matrix;
 using StructureHelperCommon.Infrastructures.Exceptions;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
-    public class RectangleTriangulationLogic : IRectangleTriangulationLogic
+    public class RectangleTriangulationLogic : ITriangulationLogic
     {
-        IRectangleTriangulationLogicOptions options;
-        public ITriangulationLogicOptions Options { get; }
-
-        public IEnumerable<INdm> GetNdmCollection(IMaterial material)
+        private readonly RectangleTriangulationLogicOptions options;
+        public RectangleTriangulationLogic(ITriangulationLogicOptions options)
+        {
+            ValidateOptions(options);
+            this.options = options as RectangleTriangulationLogicOptions;
+        }
+        public IEnumerable<INdm> GetNdmCollection()
         {
             double width = options.Rectangle.Width;
             double height = options.Rectangle.Height;
@@ -21,7 +20,10 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             int ndmMinDivision = options.NdmMinDivision;
             LoaderCalculator.Triangulations.RectangleTriangulationLogicOptions logicOptions = new LoaderCalculator.Triangulations.RectangleTriangulationLogicOptions(width, height, ndmMaxSize, ndmMinDivision);
             var logic = LoaderCalculator.Triangulations.Triangulation.GetLogicInstance(logicOptions);
-            var ndmCollection = logic.GetNdmCollection(new LoaderCalculator.Data.Planes.RectangularPlane { Material = material });
+            var ndmCollection = logic.GetNdmCollection(new LoaderCalculator.Data.Planes.RectangularPlane
+            {
+                Material = options.HeadMaterial.GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm)
+            });
             TriangulationService.CommonTransform(ndmCollection, options);
             double angle = options.Rectangle.Angle;
             NdmTransform.Rotate(ndmCollection, angle);
@@ -31,17 +33,11 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
         public void ValidateOptions(ITriangulationLogicOptions options)
         {
-            if (options is not IRectangleTriangulationLogicOptions)
+            if (options is not RectangleTriangulationLogicOptions)
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"\n Expected: {nameof(IRectangleTriangulationLogicOptions)}, But was: {nameof(options)}");
+                throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(RectangleTriangulationLogicOptions), options.GetType()));
             }
         }
 
-        public RectangleTriangulationLogic(ITriangulationLogicOptions options)
-        {
-            ValidateOptions(options);
-            this.options = options as IRectangleTriangulationLogicOptions;
-            Options = options;
-        }
     }
 }

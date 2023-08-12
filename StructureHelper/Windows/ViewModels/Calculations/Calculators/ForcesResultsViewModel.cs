@@ -29,6 +29,7 @@ using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Geometry;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services.NdmCalculations;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
@@ -264,6 +265,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         {
             var limitState = SelectedResult.DesignForceTuple.LimitState;
             var calcTerm = SelectedResult.DesignForceTuple.CalcTerm;
+            var triangulationOptions = new TriangulationOptions() { LimiteState = limitState, CalcTerm = calcTerm };
             var orderedNdmPrimitives = ndmPrimitives.OrderBy(x => x.VisualProperty.ZIndex);
             var ndmRange = new List<INdm>();
             foreach (var item in orderedNdmPrimitives)
@@ -278,7 +280,8 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 }
                 if (selectedNdmPrimitives.Contains(item) & item.Triangulate == true)
                 {
-                    ndmRange.AddRange(NdmPrimitivesService.GetNdms(item, limitState, calcTerm));
+                    
+                    ndmRange.AddRange(item.GetNdms(triangulationOptions));
                 }
             }
             ndms = ndmRange;

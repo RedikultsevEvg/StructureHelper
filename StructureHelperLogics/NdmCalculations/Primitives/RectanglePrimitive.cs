@@ -55,12 +55,15 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             return primitive;
         }
 
-        public IEnumerable<INdm> GetNdms(IMaterial material)
+        public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
         {
             var ndms = new List<INdm>();
-            var options = new RectangleTriangulationLogicOptions(this);
+            var options = new RectangleTriangulationLogicOptions(this)
+            {
+                triangulationOptions = triangulationOptions
+            };
             var logic = new RectangleTriangulationLogic(options);
-            ndms.AddRange(logic.GetNdmCollection(material));
+            ndms.AddRange(logic.GetNdmCollection());
             return ndms;
         }
 

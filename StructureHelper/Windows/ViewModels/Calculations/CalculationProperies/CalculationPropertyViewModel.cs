@@ -19,11 +19,11 @@ namespace StructureHelper.Windows.ViewModels.Calculations.CalculationProperies
         {
             get
             {
-                return calculationProperty.IterationProperty.Accuracy;
+                return calculationProperty.Accuracy.IterationAccuracy;
             }
             set
             {
-                calculationProperty.IterationProperty.Accuracy = value;
+                calculationProperty.Accuracy.IterationAccuracy = value;
                 OnPropertyChanged(nameof(IterationAccuracy));
             }
         }
@@ -31,11 +31,11 @@ namespace StructureHelper.Windows.ViewModels.Calculations.CalculationProperies
         {
             get
             {
-                return calculationProperty.IterationProperty.MaxIterationCount;
+                return calculationProperty.Accuracy.MaxIterationCount;
             }
             set
             {
-                calculationProperty.IterationProperty.MaxIterationCount = value;
+                calculationProperty.Accuracy.MaxIterationCount = value;
                 OnPropertyChanged(nameof(MaxIterationCount));
             }
         }

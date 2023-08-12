@@ -12,16 +12,14 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     internal class CircleTriangulationLogic : ITriangulationLogic
     {
-        CircleTriangulationLogicOptions options;
-        public ITriangulationLogicOptions Options { get; private set; }
+        private readonly CircleTriangulationLogicOptions options;
         public CircleTriangulationLogic(ITriangulationLogicOptions options)
         {
             ValidateOptions(options);
             this.options = options as CircleTriangulationLogicOptions;
-            Options = options;
         }
 
-        public IEnumerable<INdm> GetNdmCollection(IMaterial material)
+        public IEnumerable<INdm> GetNdmCollection()
         {
 
             double diameter = options.Circle.Diameter;
@@ -29,7 +27,10 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             int ndmMinDivision = options.NdmMinDivision;
             var logicOptions = new LoaderCalculator.Triangulations.CircleTriangulationLogicOptions(diameter, ndmMaxSize, ndmMinDivision);
             var logic = LoaderCalculator.Triangulations.Triangulation.GetLogicInstance(logicOptions);
-            var ndmCollection = logic.GetNdmCollection(new LoaderCalculator.Data.Planes.CirclePlane { Material = material });
+            var ndmCollection = logic.GetNdmCollection(new LoaderCalculator.Data.Planes.CirclePlane
+            {
+                Material = options.HeadMaterial.GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm)
+            });
             TriangulationService.CommonTransform(ndmCollection, options);
             TriangulationService.SetPrestrain(ndmCollection, options.Prestrain);
             return ndmCollection;
@@ -37,9 +38,9 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
         public void ValidateOptions(ITriangulationLogicOptions options)
         {
-            if (options is not ICircleTriangulationLogicOptions )
+            if (options is not CircleTriangulationLogicOptions )
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"\n Expected: {nameof(ICircleTriangulationLogicOptions)}, But was: {nameof(options)}");
+                throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(CircleTriangulationLogicOptions), options.GetType()));
             }
         }
     }

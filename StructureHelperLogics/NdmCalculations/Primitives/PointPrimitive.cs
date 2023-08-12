@@ -1,16 +1,10 @@
-﻿using StructureHelperLogics.Models.Materials;
-using StructureHelperCommon.Models.Shapes;
+﻿using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
-using System.Collections.Generic;
-using LoaderCalculator.Data.Ndms;
-using LoaderCalculator.Data.Materials;
-using StructureHelperCommon.Infrastructures.Interfaces;
-using System;
+using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Shapes;
+using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
-using StructureHelperLogics.Services.NdmPrimitives;
-using StructureHelperCommon.Models.Forces;
-using StructureHelperLogics.Models.CrossSections;
 
 namespace StructureHelperLogics.Models.Primitives
 {
@@ -47,18 +41,18 @@ namespace StructureHelperLogics.Models.Primitives
         {}
         public PointPrimitive(IHeadMaterial material) : this() { HeadMaterial = material; }
 
-        public IEnumerable<INdm> GetNdms(IMaterial material)
-        {
-            var options = new PointTriangulationLogicOptions(this);
-            IPointTriangulationLogic logic = new PointTriangulationLogic(options);
-            return logic.GetNdmCollection(material);
-        }
-
         public object Clone()
         { 
             var primitive = new PointPrimitive();
             updateStrategy.Update(primitive, this);
             return primitive;
+        }
+
+        public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
+        {
+            var options = new PointTriangulationLogicOptions(this) { triangulationOptions = triangulationOptions};
+            var logic = new PointTriangulationLogic(options);
+            return logic.GetNdmCollection();
         }
     }
 }

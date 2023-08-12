@@ -9,6 +9,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.NdmCalculations.Triangulations;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
@@ -26,6 +27,6 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         StrainTuple AutoPrestrain { get; }
         IVisualProperty VisualProperty {get; }
 
-        IEnumerable<INdm> GetNdms(IMaterial material);
+        IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions);
     }
 }

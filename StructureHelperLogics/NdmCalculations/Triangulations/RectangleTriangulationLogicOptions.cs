@@ -1,11 +1,13 @@
-﻿using StructureHelperCommon.Models.Forces;
+﻿using StructureHelper.Models.Materials;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     /// <inheritdoc />
-    public class RectangleTriangulationLogicOptions : IRectangleTriangulationLogicOptions
+    public class RectangleTriangulationLogicOptions : IShapeTriangulationLogicOptions
     {
         /// <inheritdoc />
         public IPoint2D Center { get; }
@@ -17,6 +19,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public int NdmMinDivision { get; }
         /// <inheritdoc />
         public StrainTuple Prestrain { get; set; }
+        public ITriangulationOptions triangulationOptions { get; set; }
+        public IHeadMaterial HeadMaterial { get; set; }
 
         public RectangleTriangulationLogicOptions(IPoint2D center, IRectangleShape rectangle, double ndmMaxSize, int ndmMinDivision)
         {
@@ -33,12 +37,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Rectangle = primitive;
             NdmMaxSize = primitive.NdmMaxSize;
             NdmMinDivision = primitive.NdmMinDivision;
-            Prestrain = new StrainTuple
-            {
-                Mx = primitive.UsersPrestrain.Mx + primitive.AutoPrestrain.Mx,
-                My = primitive.UsersPrestrain.My + primitive.AutoPrestrain.My,
-                Nz = primitive.UsersPrestrain.Nz + primitive.AutoPrestrain.Nz
-            };
+            HeadMaterial = primitive.HeadMaterial;
+            Prestrain = ForceTupleService.SumTuples(primitive.UsersPrestrain, primitive.AutoPrestrain) as StrainTuple;
         }
     }
 }

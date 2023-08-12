@@ -56,10 +56,7 @@ namespace StructureHelper.Windows.MainWindow
             ITriangulationOptions options = new TriangulationOptions { LimiteState = calculationProperty.LimitState, CalcTerm = calculationProperty.CalcTerm };
 
             //Формируем коллекцию элементарных участков для расчета в библитеке (т.е. выполняем триангуляцию)
-            List<INdm> ndmCollection = new List<INdm>();
-            ndmCollection.AddRange(Triangulation.GetNdms(ndmPrimitives, options));
-
-            return ndmCollection;
+            return ndmPrimitives.SelectMany(x => x.GetNdms(options));
         }
     }
 }

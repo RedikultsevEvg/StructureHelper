@@ -29,7 +29,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.SteelSections
             var options = new TriangulationOptions { LimiteState = LimitStates.ULS, CalcTerm = CalcTerms.ShortTerm };
             var primitive = new RectanglePrimitive { Width = width, Height = height, HeadMaterial = headMaterial, NdmMaxSize = 1, NdmMinDivision = 100 };
             var primitives = new List<INdmPrimitive>() { primitive};
-            var ndmCollection = Triangulation.GetNdms(primitives, options);
+            var ndmCollection = primitives.SelectMany(x => x.GetNdms(options));
             var loaderData = new LoaderOptions
             {
                 Preconditions = new Preconditions
@@ -64,7 +64,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.SteelSections
             var options = new TriangulationOptions { LimiteState = LimitStates.ULS, CalcTerm = CalcTerms.ShortTerm };
             var primitive = new CirclePrimitive { Diameter = diameter, HeadMaterial = headMaterial, NdmMaxSize = 1, NdmMinDivision = 100 };
             var primitives = new List<INdmPrimitive>() { primitive };
-            var ndmCollection = Triangulation.GetNdms(primitives, options);
+            var ndmCollection = primitives.SelectMany(x => x.GetNdms(options));
             var loaderData = new LoaderOptions
             {
                 Preconditions = new Preconditions

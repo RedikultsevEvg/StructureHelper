@@ -6,22 +6,21 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
-    public static class Triangulation
+    public static class Triangulation1
     {
         public static IEnumerable<INdm> GetNdms(IEnumerable<INdmPrimitive> ndmPrimitives, ITriangulationOptions options)
         {
-            List<INdm> ndms = new List<INdm>();
-            var headMaterials = GetPrimitiveMaterials(ndmPrimitives);
-            Dictionary<Guid, IMaterial> materials = GetMaterials(headMaterials, options);
-            foreach (var ndmPrimitive in ndmPrimitives)
-            {
-                IHeadMaterial headMaterial = ndmPrimitive.HeadMaterial;
-                IMaterial material;
-                if (materials.TryGetValue(headMaterial.Id, out material) == false) { throw new Exception("Material dictionary is not valid"); }
-                IEnumerable<INdm> localNdms = GetNdmsByPrimitive(ndmPrimitive, material);
-                ndms.AddRange(localNdms);
-            }
-            return ndms;
+            return ndmPrimitives.SelectMany(x => x.GetNdms(options));
+            //var headMaterials = GetPrimitiveMaterials(ndmPrimitives);
+            //Dictionary<Guid, IMaterial> materials = GetMaterials(headMaterials, options);
+            //foreach (var ndmPrimitive in ndmPrimitives)
+            //{
+            //    IHeadMaterial headMaterial = ndmPrimitive.HeadMaterial;
+            //    IMaterial material;
+            //    if (materials.TryGetValue(headMaterial.Id, out material) == false) { throw new Exception("Material dictionary is not valid"); }
+            //    IEnumerable<INdm> localNdms = GetNdmsByPrimitive(ndmPrimitive, options);
+            //    ndms.AddRange(localNdms);
+            //}
         }
         /// <summary>
         /// Returns dictionary of unique materials by collection of primitives
@@ -60,10 +59,10 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             return materials;
         }
 
-        private static IEnumerable<INdm> GetNdmsByPrimitive(INdmPrimitive primitive, IMaterial material)
+        private static IEnumerable<INdm> GetNdmsByPrimitive(INdmPrimitive primitive, ITriangulationOptions options)
         {
-            List<INdm> ndms = new List<INdm>();
-            ndms.AddRange(primitive.GetNdms(material));
+            List<INdm> ndms = new ();
+            ndms.AddRange(primitive.GetNdms(options));
             return ndms;
         }
     }

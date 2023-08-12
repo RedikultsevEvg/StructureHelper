@@ -25,7 +25,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.CrackCalculatorT
             var newSection = new SectionTemplate(new RectGeometryLogic(template)).GetCrossSection();
             var ndmPrimitives = newSection.SectionRepository.Primitives;
             ITriangulationOptions options = new TriangulationOptions { LimiteState = LimitStates.SLS, CalcTerm = CalcTerms.ShortTerm };
-            var ndms = Triangulation.GetNdms(ndmPrimitives, options);
+            var ndms = ndmPrimitives.SelectMany(x => x.GetNdms(options));
             var calculator = new CrackForceCalculator();
             calculator.EndTuple = new ForceTuple() { Mx = -50e3d, My = -50e3d, Nz = 0d };
             calculator.NdmCollection = ndms;

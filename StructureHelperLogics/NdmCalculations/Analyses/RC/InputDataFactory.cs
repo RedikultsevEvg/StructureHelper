@@ -4,6 +4,7 @@ using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using StructureHelperLogics.NdmCalculations.Triangulations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,8 +29,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
             {
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": main material is incorrect or null");
             }
-            var material = ndmPrimitive.HeadMaterial.GetLoaderMaterial(limitState, calcTerm);
-            var ndm = ndmPrimitive.GetNdms(material).Single();
+            var triangulationOptions = new TriangulationOptions() { LimiteState = limitState, CalcTerm = calcTerm };
+            var ndm = ndmPrimitive.GetNdms(triangulationOptions).Single();
             if (strainMatrix is not null)
             {
                 inputData.ReinforcementStress = stressLogic.GetStress(strainMatrix, ndm);

@@ -81,10 +81,10 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
             var otherInertia = GeometryOperations.GetReducedMomentsOfInertia(otherNdms, gravityCenter);
 
             var stiffnessX = stiffnessLogicX.GetStiffnessCoeffitients();
-            var dX = stiffnessX.Kc * concreteInertia.MomentX  + stiffnessX.Ks * otherInertia.MomentX;
+            var dX = stiffnessX.Kc * concreteInertia.EIx  + stiffnessX.Ks * otherInertia.EIx;
 
             var stiffnessY = stiffnessLogicY.GetStiffnessCoeffitients();
-            var dY = stiffnessY.Kc * concreteInertia.MomentY + stiffnessY.Ks * otherInertia.MomentY;
+            var dY = stiffnessY.Kc * concreteInertia.EIy + stiffnessY.Ks * otherInertia.EIy;
 
             return (dX, dY);
         }

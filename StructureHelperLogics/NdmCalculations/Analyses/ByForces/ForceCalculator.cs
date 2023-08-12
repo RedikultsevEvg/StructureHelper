@@ -55,7 +55,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                         if (combination.SetInGravityCenter == true)
                         {
                             var loaderPoint = LoaderCalculator.Logics.Geometry.GeometryOperations.GetGravityCenter(ndms);
-                            point2D = new Point2D() { X = loaderPoint.CenterX, Y = loaderPoint.CenterY };
+                            point2D = new Point2D() { X = loaderPoint.Cx, Y = loaderPoint.Cy };
                         }
                         else point2D = combination.ForcePoint;
                         var newTuple = ForceTupleService.MoveTupleIntoPoint(tuple.ForceTuple, point2D) as ForceTuple;

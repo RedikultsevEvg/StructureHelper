@@ -1,5 +1,7 @@
-﻿using StructureHelperCommon.Models.Forces;
+﻿using StructureHelper.Models.Materials;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
-    public class CircleTriangulationLogicOptions : ICircleTriangulationLogicOptions
+    public class CircleTriangulationLogicOptions : IShapeTriangulationLogicOptions
     {
         public ICircleShape Circle { get; }
 
@@ -20,19 +22,17 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public int NdmMinDivision { get; }
 
         public StrainTuple Prestrain { get; set; }
+        public ITriangulationOptions triangulationOptions { get; set; }
+        public IHeadMaterial HeadMaterial { get; set; }
 
         public CircleTriangulationLogicOptions(ICirclePrimitive primitive)
         {
-            Center = new Point2D() { X = primitive.Center.X, Y = primitive.Center.Y };
+            Center = primitive.Center.Clone() as Point2D;
             Circle = primitive;
             NdmMaxSize = primitive.NdmMaxSize;
             NdmMinDivision = primitive.NdmMinDivision;
-            Prestrain = new StrainTuple
-            {
-                Mx = primitive.UsersPrestrain.Mx + primitive.AutoPrestrain.Mx,
-                My = primitive.UsersPrestrain.My + primitive.AutoPrestrain.My,
-                Nz = primitive.UsersPrestrain.Nz + primitive.AutoPrestrain.Nz
-            };
+            HeadMaterial = primitive.HeadMaterial;
+            Prestrain = ForceTupleService.SumTuples(primitive.UsersPrestrain, primitive.AutoPrestrain) as StrainTuple;
         }
     }
 }

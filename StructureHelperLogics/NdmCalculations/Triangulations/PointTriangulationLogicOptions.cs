@@ -1,5 +1,8 @@
-﻿using StructureHelperCommon.Models.Forces;
+﻿using LoaderCalculator.Data.Materials;
+using StructureHelper.Models.Materials;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
@@ -7,8 +10,9 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
     /// <summary>
     /// 
     /// </summary>
-    public class PointTriangulationLogicOptions : IPointTriangulationLogicOptions
+    public class PointTriangulationLogicOptions : ITriangulationLogicOptions
     {
+        public ITriangulationOptions triangulationOptions { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -16,26 +20,16 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <inheritdoc />
         public double Area { get; }
         public StrainTuple Prestrain { get; set; }
+        public IHeadMaterial HeadMaterial { get; set; }
 
         /// <inheritdoc />
 
-        public PointTriangulationLogicOptions(IPoint2D center, double area)
-        {
-            Center = center;
-            Area = area;
-            Prestrain = new StrainTuple();
-        }
-
         public PointTriangulationLogicOptions(IPointPrimitive primitive)
         {
-            Center = new Point2D() { X = primitive.Center.X, Y = primitive.Center.Y };
+            Center = primitive.Center.Clone() as Point2D;
             Area = primitive.Area;
-            Prestrain = new StrainTuple
-            {
-                Mx = primitive.UsersPrestrain.Mx + primitive.AutoPrestrain.Mx,
-                My = primitive.UsersPrestrain.My + primitive.AutoPrestrain.My,
-                Nz = primitive.UsersPrestrain.Nz + primitive.AutoPrestrain.Nz
-            };
+            HeadMaterial = primitive.HeadMaterial;
+            Prestrain = ForceTupleService.SumTuples(primitive.UsersPrestrain, primitive.AutoPrestrain) as StrainTuple;
         }
     }
 }

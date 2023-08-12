@@ -37,7 +37,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
             var primitives = new List<INdmPrimitive>();
             primitives.AddRange(GetConcreteNdms(width, height));
             primitives.AddRange(GetReinforcementNdms(width, height, topArea, bottomArea));
-            ndmCollection.AddRange(Triangulation.GetNdms(primitives, options));
+            ndmCollection.AddRange(primitives.SelectMany(x => x.GetNdms(options)));
             var loaderData = new LoaderOptions
             {
                 Preconditions = new Preconditions
