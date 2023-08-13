@@ -25,6 +25,8 @@
   <ItemGroup>
     <None Remove="Windows\MainWindow\Add_Circle.png" />
     <None Remove="Windows\MainWindow\Add_Rebar.png" />
+    <None Remove="Windows\MainWindow\Calculator.png" />
+    <None Remove="Windows\MainWindow\Circle.png" />
     <None Remove="Windows\MainWindow\Copy.png" />
     <None Remove="Windows\MainWindow\Delete.png" />
     <None Remove="Windows\MainWindow\Edit.png" />
@@ -33,10 +35,13 @@
     <None Remove="Windows\MainWindow\Edit_Concrete column.png" />
     <None Remove="Windows\MainWindow\Edit_Concrete slab.png" />
     <None Remove="Windows\MainWindow\Materials.png" />
+    <None Remove="Windows\MainWindow\MovePrimitivesToCenter.png" />
     <None Remove="Windows\MainWindow\Point_Primitive.png" />
     <None Remove="Windows\MainWindow\Rectangle_Primitive.png" />
+    <None Remove="Windows\MainWindow\Run.png" />
     <None Remove="Windows\MainWindow\ToBackground.png" />
     <None Remove="Windows\MainWindow\ToForeground.png" />
+    <None Remove="Windows\MainWindow\Tools_Settings.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -75,9 +80,12 @@
   <ItemGroup>
     <Resource Include="Windows\MainWindow\Add_Circle.png" />
     <Resource Include="Windows\MainWindow\Add_Rebar.png" />
+    <Resource Include="Windows\MainWindow\Calculator.png" />
+    <Resource Include="Windows\MainWindow\Circle.png" />
     <Resource Include="Windows\MainWindow\Copy.png" />
     <Resource Include="Windows\MainWindow\Delete.png" />
     <Resource Include="Windows\MainWindow\Edit.png" />
+    <Resource Include="Windows\MainWindow\MovePrimitivesToCenter.png" />
     <Resource Include="Windows\MainWindow\Point_Primitive.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -89,8 +97,10 @@
     <Resource Include="Windows\MainWindow\Edit_Concrete column.png" />
     <Resource Include="Windows\MainWindow\Edit_Concrete slab.png" />
     <Resource Include="Windows\MainWindow\Materials.png" />
+    <Resource Include="Windows\MainWindow\Run.png" />
     <Resource Include="Windows\MainWindow\ToBackground.png" />
     <Resource Include="Windows\MainWindow\ToForeground.png" />
+    <Resource Include="Windows\MainWindow\Tools_Settings.png" />
   </ItemGroup>
 
   <ItemGroup>

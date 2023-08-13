@@ -267,6 +267,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             OnPropertyChanged(nameof(Color));
             OnPropertyChanged(nameof(CenterX));
             OnPropertyChanged(nameof(CenterY));
+            OnPropertyChanged(nameof(InvertedCenterY));
             OnPropertyChanged(nameof(SetMaterialColor));
             OnPropertyChanged(nameof(Triangulate));
             OnPropertyChanged(nameof(PrimitiveWidth));
