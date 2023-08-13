@@ -11,18 +11,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     /// </summary>
     public interface ICrackWidthLogic
     {
-        /// <summary>
-        /// strain of rebar, dimensionless
-        /// </summary>
-        double RebarStrain { get; set; }
-        /// <summary>
-        /// strain of concrete, dimensionless
-        /// </summary>
-        double ConcreteStrain { get; set; }
-        /// <summary>
-        /// Length between cracks in meters
-        /// </summary>
-        double Length { get; set; }
+        ICrackWidthLogicInputData InputData { get; set; }
         /// <summary>
         /// return width of crack in meters
         /// </summary>

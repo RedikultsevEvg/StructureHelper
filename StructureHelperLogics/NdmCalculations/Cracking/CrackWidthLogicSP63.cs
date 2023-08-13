@@ -9,44 +9,45 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class CrackWidthLogicSP63 : ICrackWidthLogic
     {
-        public double RebarStrain { get; set; }
-        public double ConcreteStrain { get; set; }
-        public double Length { get; set; }
-        public double TermFactor { get; set; }
-        public double BondFactor { get; set; }
-        public double StressStateFactor { get; set; }
-        public double PsiSFactor { get; set; }
+        CrackWidthLogicInputDataSP63 inputData;
+        public ICrackWidthLogicInputData InputData {get;set;}
+
         public double GetCrackWidth()
         {
             CheckOptions();
             //check if strain of concrete greater than strain of rebar
-            if (ConcreteStrain > RebarStrain) { return 0d; }
-            double width = (RebarStrain - ConcreteStrain) * Length;
-            width *= TermFactor * BondFactor * StressStateFactor * PsiSFactor;
+            if (inputData.ConcreteStrain > inputData.RebarStrain) { return 0d; }
+            double width = (inputData.RebarStrain - inputData.ConcreteStrain) * inputData.Length;
+            width *= inputData.TermFactor * inputData.BondFactor * inputData.StressStateFactor * inputData.PsiSFactor;
             return width;
         }
 
         private void CheckOptions()
         {
-            if (Length <=0d)
+            if (InputData is not CrackWidthLogicInputDataSP63)
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": length between cracks L={Length} must be greate than zero");
+                throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(CrackWidthLogicInputDataSP63), InputData.GetType()));
             }
-            if (TermFactor <= 0d)
+            inputData = InputData as CrackWidthLogicInputDataSP63;
+            if (inputData.Length <=0d)
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Term factor {TermFactor} must be greate than zero");
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": length between cracks L={inputData.Length} must be greate than zero");
             }
-            if (BondFactor <= 0d)
+            if (inputData.TermFactor <= 0d)
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Bond factor {BondFactor} must be greate than zero");
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Term factor {inputData.TermFactor} must be greate than zero");
             }
-            if (StressStateFactor <= 0d)
+            if (inputData.BondFactor <= 0d)
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Bond factor {StressStateFactor} must be greate than zero");
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Bond factor {inputData.BondFactor} must be greate than zero");
             }
-            if (PsiSFactor <= 0d)
+            if (inputData.StressStateFactor <= 0d)
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": PsiS factor {PsiSFactor} must be greate than zero");
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Bond factor {inputData.StressStateFactor} must be greate than zero");
+            }
+            if (inputData.PsiSFactor <= 0d)
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": PsiS factor {inputData.PsiSFactor} must be greate than zero");
             }
         }
     }

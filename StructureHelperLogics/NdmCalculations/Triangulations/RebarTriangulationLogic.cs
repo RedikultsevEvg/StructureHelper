@@ -39,7 +39,6 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 Material = options.HeadMaterial.GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm)
             };
             List<INdm> ndmCollection = new() { concreteNdm, rebarNdm};
-            //List<INdm> ndmCollection = new() { rebarNdm };
             NdmTransform.SetPrestrain(ndmCollection, StrainTupleService.ConvertToLoaderStrainMatrix(options.Prestrain));
             return ndmCollection;
         }

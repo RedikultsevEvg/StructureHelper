@@ -37,7 +37,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             var tuple = InputData.Tuple;
             var accuracy = InputData.Accuracy;
 
-
             var mx = tuple.Mx;
             var my = tuple.My;
             var nz = tuple.Nz;
