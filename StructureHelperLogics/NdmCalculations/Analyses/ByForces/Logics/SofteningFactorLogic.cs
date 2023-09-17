@@ -19,7 +19,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
         public StrainTuple GetSofteningFactors()
         {
             var strainTuple = new StrainTuple();
-            var loaderStainMatrix = StrainTupleService.ConvertToLoaderStrainMatrix(StrainTuple);
+            var loaderStainMatrix = TupleConverter.ConvertToLoaderStrainMatrix(StrainTuple);
             var (MxFactor, MyFactor, NzFactor) = GeometryOperations.GetSofteningsFactors(NdmCollection, loaderStainMatrix);
             strainTuple.Mx = MxFactor;
             strainTuple.My = MyFactor;

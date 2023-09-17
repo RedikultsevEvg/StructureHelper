@@ -70,7 +70,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
             var ndmPrimitives = newSection.SectionRepository.Primitives;
             var result = calculator.Result as IForcesResults;
             var strainMatrix = result.ForcesResultList[0].LoaderResults.StrainMatrix;
-            var source = StrainTupleService.ConvertToStrainTuple(strainMatrix);
+            var source = TupleConverter.ConvertToStrainTuple(strainMatrix);
             //Act
             foreach (var item in ndmPrimitives)
             {

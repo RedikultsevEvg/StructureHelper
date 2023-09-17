@@ -14,16 +14,23 @@ namespace StructureHelperLogics.Models.Materials
     {
         private IConcreteLibMaterial material;
         private LimitStates limitState;
-        public ConcreteMaterialOptionLogic(IConcreteLibMaterial material, LimitStates limitState)
+        bool IsMaterialCracked;
+        public ConcreteMaterialOptionLogic(IConcreteLibMaterial material, LimitStates limitState, bool IsMaterialCracked)
         {
             this.material = material;
             this.limitState = limitState;
+            this.IsMaterialCracked = IsMaterialCracked;
         }
         public void SetMaterialOptions(LCMB.IMaterialOptions materialOptions)
         {
             Check(materialOptions);
             var concreteOptions = materialOptions as LCMB.ConcreteOptions;
             concreteOptions.WorkInTension = false;
+            if (IsMaterialCracked)
+            {
+                concreteOptions.WorkInTension = true;
+                return;
+            }
             if (limitState == LimitStates.ULS & material.TensionForULS == true)
             {
                 concreteOptions.WorkInTension = true;

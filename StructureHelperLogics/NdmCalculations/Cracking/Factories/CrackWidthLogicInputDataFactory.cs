@@ -28,6 +28,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 else { data.TermFactor = 1d; }
                 data.PsiSFactor = inputData.PsiSFactor;
                 data.StressStateFactor = inputData.StressState is SectionStressStates.Tension ? 1.2d : 1.0d;
+                data.BondFactor = 0.5;
                 return data;
             }
             else
@@ -39,12 +40,12 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private static void ProcessBaseProps(ICrackWidthSimpleCalculatorInputData inputData, ICrackWidthLogicInputData data)
         {
-            var strainMatrix = StrainTupleService.ConvertToLoaderStrainMatrix(inputData.StrainTuple);
+            var strainMatrix = TupleConverter.ConvertToLoaderStrainMatrix(inputData.StrainTuple);
             var triangulationOptions = new TriangulationOptions { LimiteState = inputData.LimitState, CalcTerm = inputData.CalcTerm };
             var ndms = inputData.RebarPrimitive.GetNdms(triangulationOptions).ToArray();
             var concreteNdm = ndms[0];
             var rebarNdm = ndms[1];
-            data.ConcreteStrain = stressLogic.GetTotalStrainWithPresrain(strainMatrix, concreteNdm);
+            data.ConcreteStrain = concreteNdm.Prestrain;// stressLogic.GetTotalStrain(strainMatrix, concreteNdm) - stressLogic.GetTotalStrainWithPresrain(strainMatrix, concreteNdm);
             data.RebarStrain = stressLogic.GetTotalStrainWithPresrain(strainMatrix, rebarNdm);
             data.Length = inputData.Length;
         }

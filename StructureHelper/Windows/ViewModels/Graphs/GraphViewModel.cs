@@ -1,20 +1,24 @@
 ﻿using LiveCharts;
 using LiveCharts.Configurations;
+using LiveCharts.Definitions.Charts;
 using LiveCharts.Wpf;
+using LiveCharts.Wpf.Charts.Base;
 using StructureHelper.Infrastructure;
-using StructureHelper.Infrastructure.UI.Converters.Units;
-using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelper.Services.Exports;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.ColorServices;
+using StructureHelperLogics.NdmCalculations.Analyses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace StructureHelper.Windows.ViewModels.Graphs
 {
@@ -33,6 +37,7 @@ namespace StructureHelper.Windows.ViewModels.Graphs
         private RelayCommand redrawLinesCommand;
         private bool invertXValues;
         private bool invertYValues;
+        private RelayCommand saveImageCommand;
 
         public SelectedItemViewModel<IValueParameter<double>> XItems { get; private set; }
         public SelectItemsViewModel<IValueParameter<double>> YItems { get; set; }
@@ -58,21 +63,7 @@ namespace StructureHelper.Windows.ViewModels.Graphs
             }
         }
 
-        private double lineSmoothness;
-
-        public double LineSmoothness
-        {
-            get { return lineSmoothness; }
-            set
-            {
-                value = Math.Max(value, 0d);
-                value = Math.Min(value, 1d);
-                value = Math.Round(value, 2);
-                lineSmoothness = value;
-                OnPropertyChanged(nameof(LineSmoothness));
-            }
-        }
-
+        public GraphVisualProps VisualProps { get; }
 
         public SeriesCollection SeriesCollection { get; set; }
         public List<string> Labels { get; set; }
@@ -83,6 +74,36 @@ namespace StructureHelper.Windows.ViewModels.Graphs
             get => redrawLinesCommand ??= new RelayCommand(o => DrawLines());
         }
 
+        public ICommand SaveAsImage
+        {
+            get => saveImageCommand ??= new RelayCommand(o => SaveImage());
+        }
+        public CartesianChart MainChart { get; set; }
+
+        private void SaveImage()
+        {
+            var inputData = new ExportToFileInputData();
+            inputData.FileName = "New File";
+            inputData.Filter = "png |*.png";
+            inputData.Title = "Save in png File";
+
+            //var viewbox = new Viewbox();
+            //viewbox.Child = MainChart;
+            //viewbox.Measure(MainChart.RenderSize);
+            //viewbox.Arrange(new Rect(new Point(0, 0), MainChart.RenderSize));
+            //MainChart.Update(true, true); //force chart redraw
+            //viewbox.UpdateLayout();
+
+            var logic = new ExportFrameWorkElementLogic(MainChart);
+            var exportService = new ExportToFileService(inputData, logic);
+            exportService.Export();
+        }
+
+
+        private void CopyImageToClipboard(BitmapImage bitmapImage)
+        {
+            Clipboard.SetImage(bitmapImage);
+        }
 
         public GraphViewModel(IArrayParameter<double> arrayParameter)
         {
@@ -93,7 +114,8 @@ namespace StructureHelper.Windows.ViewModels.Graphs
             YItems.ShowButtons = true;
             XItems.SelectedItem = XItems.Collection[0];
             YItems.UnSelectAllCommand.Execute(null);
-            lineSmoothness = 0.3d;
+
+            VisualProps = new();
         }
 
         private List<IValueParameter<double>> GetParameters()
@@ -146,16 +168,19 @@ namespace StructureHelper.Windows.ViewModels.Graphs
                     .X(point => point.X)
                     .Y(point => point.Y),
                     Title = yParameter.Name,
-                    PointGeometry = null,
+                    //PointGeometry = null,
                     Stroke = new SolidColorBrush(yParameter.Color),
                     Fill = Brushes.Transparent,
-                    LineSmoothness = lineSmoothness
+                    LineSmoothness = VisualProps.LineSmoothness,
+                    PointGeometry = DefaultGeometries.Circle,
+                    PointGeometrySize = VisualProps.StrokeSize
                 };
                 _ = valueList.TryGetValue(xParameter, out double[] xValues);
                 _ = valueList.TryGetValue(yParameter, out double[] yValues);
                 var chartValues = new ChartValues<Point2D>();
                 for (int i = 0; i < yValues.Count(); i++)
                 {
+                    
                     double diagramValue = yValues[i] * yFactor;
                     var x = xValues[i] * xFactor;
                     var y = yValues[i] * yFactor;
@@ -163,6 +188,7 @@ namespace StructureHelper.Windows.ViewModels.Graphs
                     chartValues.Add(point);
                     labels.Add(x);
                     localLabels.Add(x);
+
                 }
                 lineSeries.Values = chartValues;
                 //lineSeries.LabelPoint = point => localLabels[(int)point.X].ToString();

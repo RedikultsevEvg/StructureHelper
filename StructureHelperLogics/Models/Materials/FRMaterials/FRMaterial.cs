@@ -64,5 +64,10 @@ namespace StructureHelperLogics.Models.Materials
             var material = elasticMaterialLogic.GetLoaderMaterial(this, limitState, calcTerm, factor);
             return material;
         }
+
+        public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        {
+            return GetLoaderMaterial(limitState, calcTerm);
+        }
     }
 }

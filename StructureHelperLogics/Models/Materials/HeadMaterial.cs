@@ -61,5 +61,10 @@ namespace StructureHelper.Models.Materials
         {
             throw new NotImplementedException();
         }
+
+        public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        {
+            return HelperMaterial.GetCrackedLoaderMaterial(limitState, calcTerm);
+        }
     }
 }

@@ -6,38 +6,27 @@ using StructureHelper.Services.Reports;
 using StructureHelper.Services.Reports.CalculationReports;
 using StructureHelper.Services.ResultViewers;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
-using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.GeometryCalculatorViews;
 using StructureHelper.Windows.Errors;
-using StructureHelper.Windows.Forces;
-using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
 using StructureHelper.Windows.ViewModels.Calculations.Calculators.ForceResultLogic;
 using StructureHelper.Windows.ViewModels.Errors;
-using StructureHelper.Windows.ViewModels.Forces;
-using StructureHelper.Windows.ViewModels.Graphs;
 using StructureHelper.Windows.ViewModels.PrimitiveProperties;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
-using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Geometry;
-using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
-using StructureHelperLogics.Services.NdmCalculations;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using System.Windows.Input;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 {
@@ -46,6 +35,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         private static readonly ShowDiagramLogic showDiagramLogic = new();
         private static readonly InterpolateLogic interpolateLogic = new();
         private static readonly ShowCrackResultLogic showCrackResultLogic = new();
+        private static readonly ShowCrackWidthLogic showCrackWidthLogic = new();
         private IForceCalculator forceCalculator;
         private IForcesResults forcesResults;
         private IEnumerable<INdmPrimitive> ndmPrimitives;
@@ -65,6 +55,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         private ICommand showGraphsCommand;
         private ICommand showCrackResult;
         private ICommand showCrackGraphsCommand;
+        private RelayCommand showCrackWidthResult;
 
         public IForcesResults ForcesResults
         {
@@ -137,6 +128,23 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             showCrackResultLogic.ndmPrimitives = ndmPrimitives;
             showCrackResultLogic.Show();
         }
+
+        public ICommand ShowCrackWidthResultCommand
+        {
+            get => showCrackWidthResult ??= new RelayCommand(o =>
+            {
+                SafetyProcessor.RunSafeProcess(ShowCrackWidthResult);
+            }, o => (SelectedResult != null) && SelectedResult.IsValid);
+        }
+
+        private void ShowCrackWidthResult()
+        {
+            showCrackWidthLogic.LimitState = SelectedResult.DesignForceTuple.LimitState;
+            showCrackWidthLogic.CalcTerm = SelectedResult.DesignForceTuple.CalcTerm;
+            showCrackWidthLogic.ForceTuple = SelectedResult.DesignForceTuple.ForceTuple;
+            showCrackWidthLogic.ndmPrimitives = ndmPrimitives.ToList();
+            showCrackWidthLogic.Show();
+        }
         public ICommand InterpolateCommand
         {
             get
@@ -163,7 +171,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         }
         private void SetPrestrain()
         {
-            var source = StrainTupleService.ConvertToStrainTuple(SelectedResult.LoaderResults.StrainMatrix);
+            var source = TupleConverter.ConvertToStrainTuple(SelectedResult.LoaderResults.StrainMatrix);
             var vm = new SetPrestrainViewModel(source);
             var wnd = new SetPrestrainView(vm);
             wnd.ShowDialog();

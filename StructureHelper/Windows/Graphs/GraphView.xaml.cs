@@ -1,4 +1,5 @@
-﻿using StructureHelper.Windows.ViewModels.Graphs;
+﻿using LiveCharts.Wpf;
+using StructureHelper.Windows.ViewModels.Graphs;
 using StructureHelperCommon.Models.Parameters;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,9 @@ namespace StructureHelper.Windows.Graphs
             this.vm = vm;
             InitializeComponent();
             DataContext = vm;
+
+            var cartesianChart = (CartesianChart)FindName("MainChart");
+            vm.MainChart = cartesianChart;
         }
         public GraphView(ArrayParameter<double> arrayParameter) : this(new GraphViewModel(arrayParameter))
         {

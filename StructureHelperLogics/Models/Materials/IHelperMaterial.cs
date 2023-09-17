@@ -10,5 +10,6 @@ namespace StructureHelperLogics.Models.Materials
     public interface IHelperMaterial : ICloneable
     {
         IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm);
+        IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm);
     }
 }

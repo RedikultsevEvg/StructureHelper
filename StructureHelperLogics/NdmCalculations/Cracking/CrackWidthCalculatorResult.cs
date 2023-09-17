@@ -11,6 +11,11 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     {
         public bool IsValid { get; set; }
         public string Description { get; set; }
-        IEnumerable<CrackWidthSimpleCalculatorResult>  RebarResults { get; set; }
+        public List<CrackWidthSimpleCalculatorResult>  RebarResults { get; set; }
+
+        public CrackWidthCalculatorResult()
+        {
+            RebarResults = new List<CrackWidthSimpleCalculatorResult>();
+        }
     }
 }

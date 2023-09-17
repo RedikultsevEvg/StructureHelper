@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+﻿using LoaderCalculator.Data.Materials;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Materials.Libraries;
 using System.Collections.Generic;
@@ -88,6 +89,11 @@ namespace StructureHelperLogics.Models.Materials
         }
 
         public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
             throw new NotImplementedException();
         }

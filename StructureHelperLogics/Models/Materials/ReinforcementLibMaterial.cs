@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Loadermaterials = LoaderCalculator.Data.Materials;
 using LMBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
 using LoaderMaterialLogics = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
-
+using LoaderCalculator.Data.Materials;
 
 namespace StructureHelperLogics.Models.Materials
 {
@@ -75,6 +75,11 @@ namespace StructureHelperLogics.Models.Materials
             }
             var tensileStrength = strength.Tensile * tensionFactor;
             return (compressiveStrength, tensileStrength);
+        }
+
+        public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        {
+            return GetLoaderMaterial(limitState, calcTerm);
         }
     }
 }

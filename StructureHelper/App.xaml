@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="Infrastructure/UI/Resources/PrimitiveToolTips.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/ITemEditPanels.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/ForceTemplates.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/IconDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

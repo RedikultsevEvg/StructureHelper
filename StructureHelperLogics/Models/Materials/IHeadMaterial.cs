@@ -17,5 +17,6 @@ namespace StructureHelper.Models.Materials
         Color Color { get; set; }
         IHelperMaterial HelperMaterial { get; set; }
         IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm);
+        IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm);
     }
 }

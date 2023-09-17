@@ -15,7 +15,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
         public void Run_ShouldPass(double termFactor, double rebarStrain, double concreteStrain, double length, double expectedWidth)
         {
             //Arrange
-            var logic = new CrackWidthLogicSP63()
+            var inputData = new CrackWidthLogicInputDataSP63()
             {
                 TermFactor = termFactor,
                 BondFactor = 0.5d,
@@ -25,6 +25,8 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
                 ConcreteStrain = concreteStrain,
                 Length = length
             };
+            var logic = new CrackWidthLogicSP63() { InputData = inputData };
+
             //Act
             var width = logic.GetCrackWidth();
             //Assert

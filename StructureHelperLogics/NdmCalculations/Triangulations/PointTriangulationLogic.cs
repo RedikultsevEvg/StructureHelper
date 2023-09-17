@@ -25,7 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 Material = options.HeadMaterial.GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm)
             };
             List<INdm> ndmCollection = new () { ndm};
-            NdmTransform.SetPrestrain(ndmCollection, StrainTupleService.ConvertToLoaderStrainMatrix(options.Prestrain));
+            NdmTransform.SetPrestrain(ndmCollection, TupleConverter.ConvertToLoaderStrainMatrix(options.Prestrain));
             return ndmCollection;
         }
 

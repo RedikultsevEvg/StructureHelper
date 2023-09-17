@@ -9,65 +9,84 @@
         d:DataContext="{d:DesignInstance vm:GraphViewModel}"
         mc:Ignorable="d"
         Title="Graph" Height="450" Width="800" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+    <DockPanel>
+        <!--<ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Command="{Binding SaveAsImage}">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/ConMaterial32.png"/>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>-->
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="40"/>
-            </Grid.RowDefinitions>
-            <StackPanel>
-                <GroupBox Header="X-axis values">
-                    <StackPanel>
-                        <ComboBox ItemsSource="{Binding XItems.Collection}" SelectedItem="{Binding XItems.SelectedItem}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="20"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <Rectangle Grid.Column="0" Margin="3">
-                                            <Rectangle.Fill>
-                                                <SolidColorBrush Color="{Binding Color}"/>
-                                            </Rectangle.Fill>
-                                        </Rectangle>
-                                        <TextBlock Grid.Column="1" Text="{Binding Name}"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <CheckBox Margin="5" Content="Invert Values" IsChecked="{Binding InvertXValues}"/>
-                    </StackPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <GroupBox Header="X-axis values">
+                        <StackPanel>
+                            <ComboBox ItemsSource="{Binding XItems.Collection}" SelectedItem="{Binding XItems.SelectedItem}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="20"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Rectangle Grid.Column="0" Margin="3">
+                                                <Rectangle.Fill>
+                                                    <SolidColorBrush Color="{Binding Color}"/>
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                            <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <CheckBox Margin="5" Content="Invert Values" IsChecked="{Binding InvertXValues}"/>
+                        </StackPanel>
 
-                </GroupBox>
-                <GroupBox Header="Y-axis values">
-                    <StackPanel>
-                        <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding YItems}"/>
-                        <CheckBox Margin="5" Content="Invert Values" IsChecked="{Binding InvertYValues}"/>
-                    </StackPanel>
-                </GroupBox>
-                <GroupBox Header="Line smoothness">
-                    <StackPanel Orientation="Horizontal">
-                        <Slider x:Name="slider" Width="195" Minimum="0" Maximum="1" Value="{Binding LineSmoothness}"/>
-                        <TextBox Width="40" Text="{Binding LineSmoothness,Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
-                    </StackPanel>
-                </GroupBox>
-            </StackPanel>
-            <StackPanel Grid.Row="1">
-                <Button Margin="3" Content="Draw Lines" ToolTip="Draw Lines" Command="{Binding RedrawLinesCommand}"/>
-            </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Y-axis values">
+                        <StackPanel>
+                            <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding YItems}"/>
+                            <CheckBox Margin="5" Content="Invert Values" IsChecked="{Binding InvertYValues}"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Line properties" DataContext="{Binding VisualProps}">
+                        <StackPanel>
+                            <TextBlock Text="Line smoothness" Margin="0,5,0,5"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Slider x:Name="slider" Width="195" Minimum="0" Maximum="{Binding MaxLineSmoothness}" Value="{Binding LineSmoothness}"/>
+                                <TextBox Width="40" Text="{Binding LineSmoothness,Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
+                            <TextBlock Text="Stroke thickness" Margin="0,5,0,5"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Slider x:Name="StrokeSlider" Width="195" Minimum="0" Maximum="{Binding MaxStrokeSize}" Value="{Binding StrokeSize}"/>
+                                <TextBox Width="40" Text="{Binding StrokeSize,Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                </StackPanel>
+                <StackPanel Grid.Row="1">
+                    <Button Margin="3" Content="Draw Lines" ToolTip="Draw Lines" Command="{Binding RedrawLinesCommand}"/>
+                </StackPanel>
+            </Grid>
+            <lvc:CartesianChart Name="MainChart" Grid.Column="1" Series="{Binding SeriesCollection}" LegendLocation="Bottom" Zoom="Xy">
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis Title="y-value"></lvc:Axis>
+                </lvc:CartesianChart.AxisY>
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis Title="x-value"></lvc:Axis>
+                </lvc:CartesianChart.AxisX>
+            </lvc:CartesianChart>
         </Grid>
-        <lvc:CartesianChart Grid.Column="1" Series="{Binding SeriesCollection}" LegendLocation="Bottom" >
-            <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="y-value"></lvc:Axis>
-            </lvc:CartesianChart.AxisY>
-            <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="x-value"></lvc:Axis>
-            </lvc:CartesianChart.AxisX>
-        </lvc:CartesianChart>
-    </Grid>
+    </DockPanel>
+    
 </Window>

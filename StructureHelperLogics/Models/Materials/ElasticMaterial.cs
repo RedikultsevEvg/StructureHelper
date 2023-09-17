@@ -36,5 +36,10 @@ namespace StructureHelperLogics.Models.Materials
             updateStrategy.Update(newItem, this);
             return newItem;
         }
+
+        public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        {
+            return GetLoaderMaterial(limitState, calcTerm);
+        }
     }
 }

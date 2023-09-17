@@ -4,6 +4,7 @@ using StructureHelperCommon.Models.Materials.Libraries;
 using LMBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
 using LMLogic = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
 using LM = LoaderCalculator.Data.Materials;
+using LoaderCalculator.Data.Materials;
 
 namespace StructureHelperLogics.Models.Materials
 {
@@ -40,16 +41,27 @@ namespace StructureHelperLogics.Models.Materials
 
         public LM.IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
-            optionLogic = new MaterialCommonOptionLogic(MaterialEntity, limitState, calcTerm);
-            optionLogic.SetMaterialOptions(lmOptions);
-            optionLogic = new ConcreteMaterialOptionLogic(this, limitState);
-            optionLogic.SetMaterialOptions(lmOptions);
+            GetOptions(limitState, calcTerm, false);
+            LMBuilders.IBuilderDirector director = GetMaterial(limitState, calcTerm);
+            return director.BuildMaterial();
+        }
+
+        private LMBuilders.IBuilderDirector GetMaterial(LimitStates limitState, CalcTerms calcTerm)
+        {
             var strength = factorLogic.GetTotalFactor(limitState, calcTerm);
             lmOptions.ExternalFactor.Compressive = strength.Compressive;
             lmOptions.ExternalFactor.Tensile = strength.Tensile;
             LMBuilders.IMaterialBuilder builder = new LMBuilders.ConcreteBuilder(lmOptions);
             LMBuilders.IBuilderDirector director = new LMBuilders.BuilderDirector(builder);
-            return director.BuildMaterial();
+            return director;
+        }
+
+        private void GetOptions(LimitStates limitState, CalcTerms calcTerm, bool isSectionCracked)
+        {
+            optionLogic = new MaterialCommonOptionLogic(MaterialEntity, limitState, calcTerm);
+            optionLogic.SetMaterialOptions(lmOptions);
+            optionLogic = new ConcreteMaterialOptionLogic(this, limitState, isSectionCracked);
+            optionLogic.SetMaterialOptions(lmOptions);
         }
 
         public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
@@ -67,6 +79,13 @@ namespace StructureHelperLogics.Models.Materials
                 tensionFactor *= factors.Tensile;
             }
             return (strength.Compressive * compressionFactor, strength.Tensile * tensionFactor);
+        }
+
+        public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        {
+            GetOptions(limitState, calcTerm, true);
+            LMBuilders.IBuilderDirector director = GetMaterial(limitState, calcTerm);
+            return director.BuildMaterial();
         }
     }
 }
