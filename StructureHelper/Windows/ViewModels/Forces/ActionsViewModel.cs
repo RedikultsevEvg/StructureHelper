@@ -52,7 +52,15 @@ namespace StructureHelper.Windows.ViewModels.Forces
             }         
         }
 
-
+        public override void CopyMethod(object parameter)
+        {
+            NewItem = SelectedItem.Clone() as IForceAction;
+            NewItem.Name = $"{NewItem.Name} copy";
+            GlobalRepository.Actions.Create(NewItem);
+            Collection.Add(NewItem);
+            Items.Add(NewItem);
+            SelectedItem = NewItem;
+        }
 
         public override void EditMethod(object parameter)
         {

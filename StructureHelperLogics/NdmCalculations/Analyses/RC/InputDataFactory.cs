@@ -1,4 +1,5 @@
 ﻿using LoaderCalculator.Data.Matrix;
+using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Logics;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -30,7 +31,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": main material is incorrect or null");
             }
             var triangulationOptions = new TriangulationOptions() { LimiteState = limitState, CalcTerm = calcTerm };
-            var ndm = ndmPrimitive.GetNdms(triangulationOptions).Single();
+            var ndms = ndmPrimitive.GetNdms(triangulationOptions);
+            var ndm = ndms.Where(x => x is RebarNdm)
+                .Single();
             if (strainMatrix is not null)
             {
                 inputData.ReinforcementStress = stressLogic.GetStress(strainMatrix, ndm);

@@ -87,6 +87,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
             Items.Add(NewItem);
             SelectedItem = NewItem;
         }
+
         private void AddElastic()
         {
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Elastic200);
