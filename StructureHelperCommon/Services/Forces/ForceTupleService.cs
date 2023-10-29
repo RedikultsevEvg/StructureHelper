@@ -11,7 +11,7 @@ namespace StructureHelperCommon.Services.Forces
         public static void CopyProperties(IForceTuple source, IForceTuple target, double factor = 1d)
         {
             CheckTuples(source, target);
-            SumTupleToTarget(source, target, 0);
+            target.Clear();
             SumTupleToTarget(source, target, factor);
         }
         public static IForceTuple MoveTupleIntoPoint(IForceTuple forceTuple, IPoint2D point2D)
@@ -66,7 +66,7 @@ namespace StructureHelperCommon.Services.Forces
             }
             return tuples;
         }
-        private static void SumTupleToTarget(IForceTuple source, IForceTuple target, double factor = 1d)
+        public static void SumTupleToTarget(IForceTuple source, IForceTuple target, double factor = 1d)
         {
             target.Mx += source.Mx * factor;
             target.My += source.My * factor;

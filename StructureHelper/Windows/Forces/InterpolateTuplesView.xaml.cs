@@ -22,16 +22,28 @@ namespace StructureHelper.Windows.Forces
     /// </summary>
     public partial class InterpolateTuplesView : Window
     {
+        InterpolateTuplesViewModel viewModel;
         public InterpolateTuplesView(InterpolateTuplesViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = viewModel;
+            this.viewModel = viewModel;
+            DataContext = this.viewModel;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
             Close();
+        }
+
+        private void StartValueChanged(object sender, EventArgs e)
+        {
+            viewModel.RefreshStartTuple();
+        }
+
+        private void FinishValueChanged(object sender, EventArgs e)
+        {
+            viewModel.RefreshFinishTuple();
         }
     }
 }

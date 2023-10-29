@@ -18,6 +18,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Geometry
 
         public IResult Result => geometryResult;
 
+        public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public GeometryCalculator(IEnumerable<INdm> ndms, IStrainMatrix strainMatrix)
         {
             parametersLogic = new TextParametersLogic(ndms, strainMatrix);

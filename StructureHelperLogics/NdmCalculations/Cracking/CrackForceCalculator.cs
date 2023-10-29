@@ -29,6 +29,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public IEnumerable<INdm> NdmCollection { get; set; }
         public Accuracy Accuracy {get;set; }
         public IResult Result => result;
+
+        public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public CrackForceCalculator(IForceTupleCalculator forceTupleCalculator)
         {
             StartTuple ??= new ForceTuple();

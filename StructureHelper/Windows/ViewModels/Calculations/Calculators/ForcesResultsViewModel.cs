@@ -126,7 +126,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             showCrackResultLogic.CalcTerm = CalcTerms.ShortTerm; //= SelectedResult.DesignForceTuple.CalcTerm;
             showCrackResultLogic.ForceTuple = SelectedResult.DesignForceTuple.ForceTuple;
             showCrackResultLogic.ndmPrimitives = ndmPrimitives;
-            showCrackResultLogic.Show();
+            showCrackResultLogic.Show(SelectedResult.DesignForceTuple.Clone() as IDesignForceTuple);
         }
 
         public ICommand ShowCrackWidthResultCommand

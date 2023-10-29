@@ -23,6 +23,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public CrackWidthCalculatorInputData InputData { get; set; }
         public IResult Result => result;
 
+        public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public void Run()
         {
             result = new() { IsValid = true, Description = ""};

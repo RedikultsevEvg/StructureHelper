@@ -21,6 +21,16 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public double Mz { get; set; }
 
+        public void Clear()
+        {
+            Mx = 0d;
+            My = 0d;
+            Nz = 0d;
+            Qx = 0d;
+            Qy = 0d;
+            Mz = 0d;
+        }
+
         /// <inheritdoc/>
         public object Clone()
         {

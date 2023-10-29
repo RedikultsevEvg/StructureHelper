@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LoaderCalculator.Data.ResultData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,6 @@ namespace StructureHelperCommon.Models.Calculators
         /// Result of Calculations
         /// </summary>
         IResult Result { get; }
+        Action<IResult> ActionToOutputResults { get; set; }
     }
 }

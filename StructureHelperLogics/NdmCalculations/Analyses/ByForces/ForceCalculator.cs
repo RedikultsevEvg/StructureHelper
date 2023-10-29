@@ -24,6 +24,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public ICompressedMember CompressedMember { get; }
         public IAccuracy Accuracy { get; set; }
         public List<IForceCombinationList> ForceCombinationLists { get; private set; }
+        public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public void Run()
         {
             var checkResult = CheckInputData();

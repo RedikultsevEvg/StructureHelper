@@ -16,13 +16,6 @@
         d:DataContext="{d:DesignInstance local:MainViewModel}"
         Title="StructureHelper" Height="700" Width="1000" MinHeight="400" MinWidth="600">
     <Window.Resources>
-        <Style x:Key="ToolButton" TargetType="Button">
-            <Setter Property="Width" Value="32"/>
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="Margin" Value="2,0,2,0"/>
-            <Setter Property="Background" Value="#FFA19BC3"/>
-            <Setter Property="BorderBrush" Value="#FF857AB9"/>
-        </Style>
         <DataTemplate DataType="{x:Type dataContexts:RectangleViewPrimitive}">
             <dataTemplates:RectangleTemplate/>
         </DataTemplate>

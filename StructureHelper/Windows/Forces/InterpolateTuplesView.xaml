@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.Forces"
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Forces"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance vm:InterpolateTuplesViewModel}"
         mc:Ignorable="d"
-        Title="Interpolate Combinations" Height="200" Width="440" MinHeight="180" MinWidth="440" WindowStartupLocation="CenterScreen">
+        Title="Interpolate Combinations" Height="200" Width="500" MinHeight="180" MinWidth="500" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -32,6 +36,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="1" Text="Moment Mx" HorizontalAlignment="Center"/>
                 <TextBlock Grid.Column="2" Text="Moment My" HorizontalAlignment="Center"/>
@@ -44,12 +49,15 @@
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FinishMx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
                 <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding FinishMy, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
                 <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding FinishNz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
-                <TextBlock Grid.Row="3" Text="Step count"/>
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding StepCount, ValidatesOnExceptions=True}"/>
-                
+                <TextBlock Grid.Row="3" Text="Step count" Visibility="{Binding StepCountVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding StepCount, ValidatesOnExceptions=True}" Visibility="{Binding StepCountVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <uc:MultiplyTuple Grid.Column="4" Grid.Row="1" ForceTuple="{Binding StartDesignForce.ForceTuple}" ValueChanged="StartValueChanged"/>
+                <uc:MultiplyTuple Grid.Column="4" Grid.Row="2" ForceTuple="{Binding FinishDesignForce.ForceTuple}" ValueChanged="FinishValueChanged"/>
             </Grid>
             <StackPanel Grid.Column="1">
                 <Button Content="Invert comb's" Command="{Binding InvertForcesCommand}" />
+                <Button Content="Copy To Finish" Command="{Binding CopyToFinishCommand}" />
+                <Button Content="Copy To Start" Command="{Binding CopyToStartCommand}" />
             </StackPanel>
         </Grid>
         

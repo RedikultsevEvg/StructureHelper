@@ -18,6 +18,8 @@ namespace StructureHelperCommon.Models.Calculators
         public IAccuracy Accuracy {get;set;}
         public IResult Result => result;
 
+        public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public FindParameterCalculator()
         {
             StartValue = 0d;

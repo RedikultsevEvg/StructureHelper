@@ -31,5 +31,6 @@ namespace StructureHelperCommon.Models.Forces
         /// Twisting moment round about z-axis
         /// </summary>
         double Mz { get; set; }
+        void Clear();
     }
 }

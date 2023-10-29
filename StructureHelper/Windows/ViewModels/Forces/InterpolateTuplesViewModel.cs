@@ -13,9 +13,13 @@ namespace StructureHelper.Windows.ViewModels.Forces
     public class InterpolateTuplesViewModel : OkCancelViewModelBase
     {
         private RelayCommand invertForcesCommand;
+        private RelayCommand copyToStartCommand;
+        private RelayCommand copyToFinishCommand;
 
         public IDesignForceTuple StartDesignForce { get; private set; }
         public IDesignForceTuple FinishDesignForce { get; private set; }
+
+        public bool StepCountVisible { get; set; }
         public double StartMx
         {
             get => StartDesignForce.ForceTuple.Mx;
@@ -77,17 +81,50 @@ namespace StructureHelper.Windows.ViewModels.Forces
             get => invertForcesCommand ??= new RelayCommand(o => InvertForces());
         }
 
+        public ICommand CopyToStartCommand
+        {
+            get => copyToStartCommand ??= new RelayCommand(o => CopyFinishToStart());
+        }
+
+        public ICommand CopyToFinishCommand
+        {
+            get => copyToFinishCommand ??= new RelayCommand(o => CopyStartToFinish());
+        }
+
         private void InvertForces()
         {
             var tmpForce = StartDesignForce.Clone() as IDesignForceTuple;
             StartDesignForce = FinishDesignForce;
             FinishDesignForce = tmpForce;
-            OnPropertyChanged(nameof(StartMx));
-            OnPropertyChanged(nameof(StartMy));
-            OnPropertyChanged(nameof(StartNz));
+            StepCountVisible = true;
+            RefreshStartTuple();
+            RefreshFinishTuple();
+        }
+
+        private void CopyStartToFinish()
+        {
+            FinishDesignForce = StartDesignForce.Clone() as IDesignForceTuple;
+            RefreshFinishTuple();
+        }
+
+        private void CopyFinishToStart()
+        {
+            StartDesignForce = FinishDesignForce.Clone() as IDesignForceTuple;
+            RefreshStartTuple();
+        }
+
+        public void RefreshFinishTuple()
+        {
             OnPropertyChanged(nameof(FinishMx));
             OnPropertyChanged(nameof(FinishMy));
             OnPropertyChanged(nameof(FinishNz));
+        }
+
+        public void RefreshStartTuple()
+        {
+            OnPropertyChanged(nameof(StartMx));
+            OnPropertyChanged(nameof(StartMy));
+            OnPropertyChanged(nameof(StartNz));
         }
 
         public InterpolateTuplesViewModel(IDesignForceTuple finishDesignForce, IDesignForceTuple startDesignForce=null, int stepCount = 100)

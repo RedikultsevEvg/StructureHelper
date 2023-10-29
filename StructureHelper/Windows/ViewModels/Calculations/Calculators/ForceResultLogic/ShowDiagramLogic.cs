@@ -39,7 +39,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             string[] labels = GetLabels(unitForce, unitMoment, unitCurvature);
             arrayParameter = new ArrayParameter<double>(resultList.Count(), labels.Count(), labels);
             CalculateWithoutCrack(resultList, unitForce, unitMoment, unitCurvature);
-            SafetyProcessor.RunSafeProcess(ShowWindow, "Errors apearred during showing graph, see detailed information");
+            SafetyProcessor.RunSafeProcess(ShowWindow, "Errors appeared during showing a graph, see detail information");
         }
         public void ShowCracks(List<IForcesTupleResult> results, IEnumerable<INdmPrimitive> ndmPrimitives)
         { 
@@ -51,7 +51,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             string[] labels = GetCrackLabels(unitForce, unitMoment, unitCurvature);
             arrayParameter = new ArrayParameter<double>(resultList.Count(), labels.Count(), labels);
             CalculateWithCrack(resultList, ndmPrimitives, unitForce, unitMoment, unitCurvature);
-            SafetyProcessor.RunSafeProcess(ShowWindow, "Errors apearred during showing graph, see detailed information");
+            SafetyProcessor.RunSafeProcess(ShowWindow, "Errors appeared during showing a graph, see detailed information");
         }
 
         private void CalculateWithCrack(List<IForcesTupleResult> resultList, IEnumerable<INdmPrimitive> ndmPrimitives, IUnit unitForce, IUnit unitMoment, IUnit unitCurvature)

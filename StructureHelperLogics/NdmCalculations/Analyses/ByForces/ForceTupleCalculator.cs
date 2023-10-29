@@ -9,6 +9,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using LoaderCalculator.Data.ResultData;
+using System.Windows;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -17,6 +19,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IForceTupleInputData InputData { get; set; }
         public string Name { get; set; }
         public IResult Result { get; private set; }
+
+        public Action<IResult> ActionToOutputResults { get; set; }
 
         public ForceTupleCalculator(IForceTupleInputData inputData)
         {
@@ -51,6 +55,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                         MaxIterationCount = accuracy.MaxIterationCount,
                         StartForceMatrix = new ForceMatrix { Mx = mx, My = my, Nz = nz }
                     },
+                    ActionToOutputResults = ShowResultToConsole,
                     NdmCollection = ndmCollection
                 };
                 var calculator = new Calculator();
@@ -78,6 +83,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public object Clone()
         {
             throw new NotImplementedException();
+        }
+
+        private static void ShowResultToConsole(ILoaderResults result)
+        {
+            var strain = result.StrainMatrix;
+            //MessageBox.Show($" Текущие результаты  в {result.IterationCounter} итерации:");
         }
     }
 }

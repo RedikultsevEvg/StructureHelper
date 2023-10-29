@@ -27,6 +27,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         public IResult Result { get; private set; }
 
         public IAccuracy Accuracy { get; set; }
+        public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         private (double EtaAlongX, double EtaAlongY) GetBucklingCoefficients()
         {

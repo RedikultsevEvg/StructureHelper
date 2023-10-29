@@ -18,7 +18,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         public void Show(IDesignForceTuple finishDesignTuple, IForceCalculator forceCalculator)
         {
             IDesignForceTuple startDesignTuple;
-            var viewModel = new InterpolateTuplesViewModel(finishDesignTuple, null, 100);
+            var viewModel = new InterpolateTuplesViewModel(finishDesignTuple, null);
             var wndTuples = new InterpolateTuplesView(viewModel);
             wndTuples.ShowDialog();
             if (wndTuples.DialogResult != true) return;
