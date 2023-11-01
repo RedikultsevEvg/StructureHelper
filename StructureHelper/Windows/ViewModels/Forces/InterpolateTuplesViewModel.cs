@@ -16,8 +16,8 @@ namespace StructureHelper.Windows.ViewModels.Forces
         private RelayCommand copyToStartCommand;
         private RelayCommand copyToFinishCommand;
 
-        public IDesignForceTuple StartDesignForce { get; private set; }
-        public IDesignForceTuple FinishDesignForce { get; private set; }
+        public IDesignForceTuple StartDesignForce { get; set; }
+        public IDesignForceTuple FinishDesignForce { get; set; }
 
         public bool StepCountVisible { get; set; }
         public double StartMx
@@ -115,6 +115,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
 
         public void RefreshFinishTuple()
         {
+            OnPropertyChanged(nameof(FinishDesignForce));
             OnPropertyChanged(nameof(FinishMx));
             OnPropertyChanged(nameof(FinishMy));
             OnPropertyChanged(nameof(FinishNz));
@@ -122,6 +123,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
 
         public void RefreshStartTuple()
         {
+            OnPropertyChanged(nameof(StartDesignForce));
             OnPropertyChanged(nameof(StartMx));
             OnPropertyChanged(nameof(StartMy));
             OnPropertyChanged(nameof(StartNz));
@@ -146,6 +148,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
             }
             FinishDesignForce = finishDesignForce;
             StepCount = stepCount;
+            StepCountVisible = true;
         }
     }
 }
