@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.ProgressViews"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:InterpolationProgressViewModel}"
-        Title="InterpolationProgressView" Height="150" Width="200" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
-    <Grid>
+        Title="InterpolationProgressView" Height="150" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None">
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -15,9 +15,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Text="IterationCount"/>
-        <ProgressBar Grid.Column="1" Grid.Row="0" Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" Value="{Binding Value}"/>
+        <TextBlock Text="Progress"/>
+        <ProgressBar Grid.Column="1" Grid.Row="0" Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" Value="{Binding ProgressValue}"/>
+        <TextBlock Grid.Row="1" Text="Total step"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding MaxValue}" IsEnabled="False"/>
+        <TextBlock Grid.Row="2" Text="Current step"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding ProgressValue}" IsEnabled="False"/>
+
     </Grid>
 </Window>

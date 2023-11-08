@@ -25,7 +25,7 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
         {
             InitializeComponent();
             this.viewModel = viewModel;
-            this.DataContext = this.viewModel;
+            DataContext = this.viewModel;
         }
     }
 }

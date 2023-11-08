@@ -24,7 +24,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public ICompressedMember CompressedMember { get; }
         public IAccuracy Accuracy { get; set; }
         public List<IForceCombinationList> ForceCombinationLists { get; private set; }
-        public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Action<IResult> ActionToOutputResults { get; set; }
 
         public void Run()
         {
@@ -97,6 +97,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                         result.DesignForceTuple.CalcTerm = calcTerm;
                         result.DesignForceTuple.ForceTuple = newTuple;
                         ndmResult.ForcesResultList.Add(result);
+                        ActionToOutputResults?.Invoke(ndmResult);
                     }
                 }
             }

@@ -35,5 +35,10 @@ namespace StructureHelperLogics.Services.NdmCalculations
             }
             return calculator;
         }
+
+        public static IForceCalculator InterpolateForceCalculator(IForceCalculator forceCalculator, IDesignForceTuple finishDesignTuple, object startDesignTuple, object stepCount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
