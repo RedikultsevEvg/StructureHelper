@@ -8,18 +8,18 @@ namespace StructureHelperLogics.Services.NdmCalculations
     public static class InterpolateService
     {
         static readonly CompressedMemberUpdateStrategy compressedMemberUpdateStrategy = new();
-        public static IForceCalculator InterpolateForceCalculator(IForceCalculator source, IDesignForceTuple finishDesignForce,IDesignForceTuple startDesignForce, int stepCount)
+        public static ForceCalculator InterpolateForceCalculator(IForceCalculator source, InterpolateTuplesResult interpolateTuplesResult)
         {
-            IForceCalculator calculator = new ForceCalculator();
+            ForceCalculator calculator = new ForceCalculator();
             calculator.LimitStatesList.Clear();
-            calculator.LimitStatesList.Add(finishDesignForce.LimitState);
+            calculator.LimitStatesList.Add(interpolateTuplesResult.StartTuple.LimitState);
             calculator.CalcTermsList.Clear();
-            calculator.CalcTermsList.Add(finishDesignForce.CalcTerm);
+            calculator.CalcTermsList.Add(interpolateTuplesResult.FinishTuple.CalcTerm);
             compressedMemberUpdateStrategy.Update(calculator.CompressedMember, source.CompressedMember);
             calculator.Accuracy = source.Accuracy;
             calculator.Primitives.AddRange(source.Primitives);
             calculator.ForceActions.Clear();
-            var forceTuples = ForceTupleService.InterpolateDesignTuple(finishDesignForce, startDesignForce, stepCount);
+            var forceTuples = ForceTupleService.InterpolateDesignTuple(interpolateTuplesResult.FinishTuple, interpolateTuplesResult.StartTuple, interpolateTuplesResult.StepCount);
             foreach (var forceTuple in forceTuples)
             {
                 var combination = new ForceCombinationList()

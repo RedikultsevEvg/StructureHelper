@@ -7,6 +7,7 @@ using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelper.Windows.ViewModels.Graphs;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Services.Units;
@@ -16,6 +17,7 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,86 +25,62 @@ using System.Windows.Forms;
 
 namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 {
-    internal class ShowDiagramLogic
+    internal class ShowDiagramLogic : ILongProcessLogic
     {
-        static readonly CrackForceCalculator calculator = new();
         ArrayParameter<double> arrayParameter;
+        private IEnumerable<IForcesTupleResult> TupleList;
+        private IEnumerable<INdmPrimitive> NdmPrimitives;
+        private List<IForcesTupleResult> ValidTupleList;
+
         private static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
 
-        public void Show(List<IForcesTupleResult> results)
+        public int StepCount => ValidTupleList.Count();
+
+        public Action<int> SetProgress { get ; set; }
+        public bool Result { get; set; }
+
+        public void WorkerDoWork(object sender, DoWorkEventArgs e)
         {
-            var resultList = results.Where(x => x.IsValid == true).ToList();
+            Show();
+            Result = true;
+        }
+
+        public void WorkerProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            //nothing to do
+        }
+
+        public void WorkerRunWorkCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //nothing to do
+        }
+        public void ShowWindow()
+        {
+            SafetyProcessor.RunSafeProcess(() =>
+            {
+                var wnd = new GraphView(arrayParameter);
+                wnd.ShowDialog();
+            },
+            "Errors appeared during showing a graph, see detailed information");
+        }
+        private void Show()
+        {
+            ValidTupleList = TupleList.Where(x => x.IsValid == true).ToList();
             var unitForce = CommonOperation.GetUnit(UnitTypes.Force, "kN");
             var unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, "kNm");
             var unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature, "1/m");
 
             string[] labels = GetLabels(unitForce, unitMoment, unitCurvature);
-            arrayParameter = new ArrayParameter<double>(resultList.Count(), labels.Count(), labels);
-            CalculateWithoutCrack(resultList, unitForce, unitMoment, unitCurvature);
-            SafetyProcessor.RunSafeProcess(ShowWindow, "Errors appeared during showing a graph, see detail information");
-        }
-        public void ShowCracks(List<IForcesTupleResult> results, IEnumerable<INdmPrimitive> ndmPrimitives)
-        { 
-            var resultList = results.Where(x => x.IsValid == true).ToList();
-            var unitForce = CommonOperation.GetUnit(UnitTypes.Force, "kN");
-            var unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, "kNm");
-            var unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature, "1/m");
-
-            string[] labels = GetCrackLabels(unitForce, unitMoment, unitCurvature);
-            arrayParameter = new ArrayParameter<double>(resultList.Count(), labels.Count(), labels);
-            CalculateWithCrack(resultList, ndmPrimitives, unitForce, unitMoment, unitCurvature);
-            SafetyProcessor.RunSafeProcess(ShowWindow, "Errors appeared during showing a graph, see detailed information");
+            arrayParameter = new ArrayParameter<double>(ValidTupleList.Count(), labels.Count(), labels);
+            CalculateWithoutCrack(ValidTupleList, unitForce, unitMoment, unitCurvature);
         }
 
-        private void CalculateWithCrack(List<IForcesTupleResult> resultList, IEnumerable<INdmPrimitive> ndmPrimitives, IUnit unitForce, IUnit unitMoment, IUnit unitCurvature)
+        public ShowDiagramLogic(IEnumerable<IForcesTupleResult> tupleList, IEnumerable<INdmPrimitive> ndmPrimitives)
         {
-            var data = arrayParameter.Data;
-            for (int i = 0; i < resultList.Count(); i++)
-            {
-                var valueList = new List<double>
-                {
-                    resultList[i].DesignForceTuple.ForceTuple.Mx * unitMoment.Multiplyer,
-                    resultList[i].DesignForceTuple.ForceTuple.My * unitMoment.Multiplyer,
-                    resultList[i].DesignForceTuple.ForceTuple.Nz * unitForce.Multiplyer
-                };
-                calculator.EndTuple = resultList[i].DesignForceTuple.ForceTuple;
-                var limitState = resultList[i].DesignForceTuple.LimitState;
-                var calcTerm = resultList[i].DesignForceTuple.CalcTerm;
-                var ndms = NdmPrimitivesService.GetNdms(ndmPrimitives, limitState, calcTerm);
-                calculator.NdmCollection = ndms;
-                calculator.Run();
-                var result = (CrackForceResult)calculator.Result;
-                if (result.IsValid == false)
-                {
-                    MessageBox.Show(
-                        "Result is not valid",
-                        "Crack results",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-                    return;
-                }
-                valueList.Add(result.CrackedStrainTuple.Mx);
-                valueList.Add(result.CrackedStrainTuple.My);
-                valueList.Add(result.CrackedStrainTuple.Nz);
-
-                valueList.Add(result.ReducedStrainTuple.Mx);
-                valueList.Add(result.ReducedStrainTuple.My);
-                valueList.Add(result.ReducedStrainTuple.Nz);
-
-                valueList.Add(result.SofteningFactors.Mx);
-                valueList.Add(result.SofteningFactors.My);
-                valueList.Add(result.SofteningFactors.Nz);
-
-                valueList.Add(result.PsiS);
-
-                for (int j = 0; j < valueList.Count; j++)
-                {
-                    data[i, j] = valueList[j];
-                }
-            }
+            TupleList = tupleList;
+            NdmPrimitives = ndmPrimitives;
+            ValidTupleList = TupleList.Where(x => x.IsValid == true).ToList();
         }
-
-
 
         private void CalculateWithoutCrack(List<IForcesTupleResult> resultList, IUnit unitForce, IUnit unitMoment, IUnit unitCurvature)
         {
@@ -114,14 +92,10 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 {
                     data[i, j] = valueList[j];
                 }
+                SetProgress?.Invoke(i);
             }
         }
 
-        private void ShowWindow()
-        {
-            var wnd = new GraphView(arrayParameter);
-            wnd.ShowDialog();
-        }
 
         private static List<double> ProcessResultWithouCrack(List<IForcesTupleResult> resultList, IUnit unitForce, IUnit unitMoment, IUnit unitCurvature, int i)
         {
@@ -147,26 +121,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 $"{GeometryNames.StrainTrdName}"
             };
         }
-        private static string[] GetCrackLabels(IUnit unitForce, IUnit unitMoment, IUnit unitCurvature)
-        {
-            const string crc = "Crc";
-            const string crcFactor = "CrcSofteningFactor";
-            return new string[]
-            {
-                $"{GeometryNames.MomFstName}, {unitMoment.Name}",
-                $"{GeometryNames.MomSndName}, {unitMoment.Name}",
-                $"{GeometryNames.LongForceName}, {unitForce.Name}",
-                $"{GeometryNames.CurvFstName}, {unitCurvature.Name}",
-                $"{GeometryNames.CurvSndName}, {unitCurvature.Name}",
-                $"{GeometryNames.StrainTrdName}",
-                $"{crc}{GeometryNames.CurvFstName}, {unitCurvature.Name}",
-                $"{crc}{GeometryNames.CurvSndName}, {unitCurvature.Name}",
-                $"{crc}{GeometryNames.StrainTrdName}",
-                $"{crcFactor}Ix",
-                $"{crcFactor}Iy",
-                $"{crcFactor}Az",
-                $"PsiFactor"
-            };
-        }
+
     }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.Forces"
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Forces"
         xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
-        d:DataContext="{d:DesignInstance vm:InterpolateTuplesViewModel}"
+        d:DataContext="{d:DesignInstance local:InterpolateTuplesViewModel}"
         mc:Ignorable="d"
         Title="Interpolate Combinations" Height="200" Width="400" MinHeight="180" MinWidth="400" WindowStartupLocation="CenterScreen">
     <Window.Resources>

@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.CalculationWindows.ProgressViews
 {
-    public class InterpolationProgressViewModel : ViewModelBase
+    public class ShowProgressViewModel : ViewModelBase
     {
         private double progressValue;
         private double maxValue;
         private double minValue;
+
+        public string WindowTitle { get; set; }
 
         public double MinValue
         {

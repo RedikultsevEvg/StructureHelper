@@ -18,10 +18,10 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
     /// <summary>
     /// Логика взаимодействия для InterpolationProgressView.xaml
     /// </summary>
-    public partial class InterpolationProgressView : Window
+    public partial class ShowProgressView : Window
     {
-        InterpolationProgressViewModel viewModel;
-        public InterpolationProgressView(InterpolationProgressViewModel viewModel)
+        ShowProgressViewModel viewModel;
+        public ShowProgressView(ShowProgressViewModel viewModel)
         {
             InitializeComponent();
             this.viewModel = viewModel;

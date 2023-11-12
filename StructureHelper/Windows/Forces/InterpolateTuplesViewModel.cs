@@ -1,14 +1,10 @@
 ﻿using StructureHelper.Infrastructure;
+using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Forces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace StructureHelper.Windows.ViewModels.Forces
+namespace StructureHelper.Windows.Forces
 {
     public class InterpolateTuplesViewModel : OkCancelViewModelBase
     {
@@ -89,6 +85,16 @@ namespace StructureHelper.Windows.ViewModels.Forces
         public ICommand CopyToFinishCommand
         {
             get => copyToFinishCommand ??= new RelayCommand(o => CopyStartToFinish());
+        }
+
+        public InterpolateTuplesResult Result
+        {
+            get => new()
+            {
+                StartTuple = StartDesignForce,
+                FinishTuple = FinishDesignForce,
+                StepCount = StepCount
+            };
         }
 
         private void InvertForces()

@@ -83,7 +83,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
             else
             {
-                var calculator = SelectedItem as IForceCalculator;
+                var calculator = SelectedItem as ForceCalculator;
                 var vm = new ForcesResultsViewModel(calculator);
                 var wnd = new ForceResultsView(vm);
                 wnd.ShowDialog();
