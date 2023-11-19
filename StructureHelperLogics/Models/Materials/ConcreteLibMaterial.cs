@@ -5,6 +5,7 @@ using LMBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
 using LMLogic = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
 using LM = LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Materials;
+using StructureHelperCommon.Infrastructures.Exceptions;
 
 namespace StructureHelperLogics.Models.Materials
 {
@@ -14,21 +15,32 @@ namespace StructureHelperLogics.Models.Materials
         private IMaterialOptionLogic optionLogic;
         private IFactorLogic factorLogic => new FactorLogic(SafetyFactors);
         private LMLogic.ITrueStrengthLogic strengthLogic;
+        /// <inheritdoc/>
         public ILibMaterialEntity MaterialEntity { get; set; }
+        /// <inheritdoc/>
         public List<IMaterialSafetyFactor> SafetyFactors { get; }
+        /// <inheritdoc/>
         public bool TensionForULS { get ; set; }
+        /// <inheritdoc/>
         public bool TensionForSLS { get; set; }
-        public double Humidity { get; set; }
-
+        /// <summary>
+        /// Humidity of concrete
+        /// </summary>
+        public double RelativeHumidity { get; set; }
+        /// <inheritdoc/>
+        public IMaterialLogic MaterialLogic { get; set; }
+        /// <inheritdoc/>
+        public List<IMaterialLogic> MaterialLogics { get; }
 
         public ConcreteLibMaterial()
         {
+            MaterialLogic = new ConcreteCurveLogic();
             SafetyFactors = new List<IMaterialSafetyFactor>();
             lmOptions = new LMBuilders.ConcreteOptions();
             SafetyFactors.AddRange(PartialCoefficientFactory.GetDefaultConcreteSafetyFactors(ProgramSetting.CodeType));
             TensionForULS = false;
             TensionForSLS = true;
-            Humidity = 0.55d;
+            RelativeHumidity = 0.55d;
         }       
 
         public object Clone()
@@ -39,30 +51,7 @@ namespace StructureHelperLogics.Models.Materials
             return newItem;
         }
 
-        public LM.IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
-        {
-            GetOptions(limitState, calcTerm, false);
-            LMBuilders.IBuilderDirector director = GetMaterial(limitState, calcTerm);
-            return director.BuildMaterial();
-        }
 
-        private LMBuilders.IBuilderDirector GetMaterial(LimitStates limitState, CalcTerms calcTerm)
-        {
-            var strength = factorLogic.GetTotalFactor(limitState, calcTerm);
-            lmOptions.ExternalFactor.Compressive = strength.Compressive;
-            lmOptions.ExternalFactor.Tensile = strength.Tensile;
-            LMBuilders.IMaterialBuilder builder = new LMBuilders.ConcreteBuilder(lmOptions);
-            LMBuilders.IBuilderDirector director = new LMBuilders.BuilderDirector(builder);
-            return director;
-        }
-
-        private void GetOptions(LimitStates limitState, CalcTerms calcTerm, bool isSectionCracked)
-        {
-            optionLogic = new MaterialCommonOptionLogic(MaterialEntity, limitState, calcTerm);
-            optionLogic.SetMaterialOptions(lmOptions);
-            optionLogic = new ConcreteMaterialOptionLogic(this, limitState, isSectionCracked);
-            optionLogic.SetMaterialOptions(lmOptions);
-        }
 
         public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
         {
@@ -83,9 +72,56 @@ namespace StructureHelperLogics.Models.Materials
 
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
-            GetOptions(limitState, calcTerm, true);
-            LMBuilders.IBuilderDirector director = GetMaterial(limitState, calcTerm);
-            return director.BuildMaterial();
+            ConcreteLogicOptions options = SetOptions(limitState, calcTerm);
+            options.WorkInTension = false;
+            MaterialLogic.Options = options;
+            var material = MaterialLogic.GetLoaderMaterial();
+            return material;
+        }
+
+        public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        {
+            ConcreteLogicOptions options = SetOptions(limitState, calcTerm);
+            MaterialLogic.Options = options;
+            var material = MaterialLogic.GetLoaderMaterial();
+            return material;
+        }
+
+        private ConcreteLogicOptions SetOptions(LimitStates limitState, CalcTerms calcTerm)
+        {
+            var options = new ConcreteLogicOptions();
+            options.SafetyFactors = SafetyFactors;
+            options.MaterialEntity = MaterialEntity;
+            options.LimitState = limitState;
+            options.CalcTerm = calcTerm;
+            if (limitState == LimitStates.ULS)
+            {
+                if (TensionForULS == true)
+                {
+                    options.WorkInTension = true;
+                }
+                else
+                {
+                    options.WorkInTension = false;
+                }
+            }
+            else if (limitState == LimitStates.SLS)
+            {
+                if (TensionForSLS == true)
+                {
+                    options.WorkInTension = true;
+                }
+                else
+                {
+                    options.WorkInTension = false;
+                }
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(limitState));
+            }
+            options.RelativeHumidity = RelativeHumidity;
+            return options;
         }
     }
 }

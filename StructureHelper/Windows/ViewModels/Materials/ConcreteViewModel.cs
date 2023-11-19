@@ -36,10 +36,10 @@ namespace StructureHelper.Windows.ViewModels.Materials
         }
         public double Humidity
         {
-            get => concreteMaterial.Humidity;
+            get => concreteMaterial.RelativeHumidity;
             set
             {
-                concreteMaterial.Humidity = value;
+                concreteMaterial.RelativeHumidity = value;
                 OnPropertyChanged(nameof(Humidity));
             }
         }           

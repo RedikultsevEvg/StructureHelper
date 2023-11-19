@@ -16,7 +16,8 @@ namespace StructureHelperLogics.Models.Materials
             libUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.TensionForULS = sourceObject.TensionForULS;
             targetObject.TensionForSLS = sourceObject.TensionForSLS;
-            targetObject.Humidity = sourceObject.Humidity;
+            targetObject.RelativeHumidity = sourceObject.RelativeHumidity;
+            targetObject.MaterialLogic = sourceObject.MaterialLogic;
         }
     }
 }

@@ -20,10 +20,13 @@ namespace StructureHelperLogics.Models.Materials
         private LoaderMaterialLogics.ITrueStrengthLogic strengthLogic;
         public ILibMaterialEntity MaterialEntity { get; set; }
         public List<IMaterialSafetyFactor> SafetyFactors { get; }
+        public IMaterialLogic MaterialLogic { get; set; }
 
+        public List<IMaterialLogic> MaterialLogics { get; }
 
         public ReinforcementLibMaterial()
         {
+            MaterialLogic = new ReinforcementBiLinearLogic();
             SafetyFactors = new List<IMaterialSafetyFactor>();
             lmOptions = new LMBuilders.ReinforcementOptions();
         }
@@ -36,17 +39,24 @@ namespace StructureHelperLogics.Models.Materials
             return newItem;
         }
 
-        public Loadermaterials.IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
-            optionLogic = new MaterialCommonOptionLogic(MaterialEntity, limitState, calcTerm);
-            optionLogic.SetMaterialOptions(lmOptions);
-            var factors = factorLogic.GetTotalFactor(limitState, calcTerm);
-            lmOptions.ExternalFactor.Compressive = factors.Compressive;
-            lmOptions.ExternalFactor.Tensile = factors.Tensile;
-            LMBuilders.IMaterialBuilder builder = new LMBuilders.ReinforcementBuilder(lmOptions);
-            LMBuilders.IBuilderDirector director = new LMBuilders.BuilderDirector(builder);
-            return director.BuildMaterial();
+            ReinforcementLogicOptions options = SetOptions(limitState, calcTerm);
+            MaterialLogic.Options = options;
+            var material = MaterialLogic.GetLoaderMaterial();
+            return material;
         }
+
+        private ReinforcementLogicOptions SetOptions(LimitStates limitState, CalcTerms calcTerm)
+        {
+            var options = new ReinforcementLogicOptions();
+            options.SafetyFactors = SafetyFactors;
+            options.MaterialEntity = MaterialEntity;
+            options.LimitState = limitState;
+            options.CalcTerm = calcTerm;
+            return options;
+        }
+
         public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
         {
             strengthLogic = new LoaderMaterialLogics.TrueStrengthReinforcementLogic(MaterialEntity.MainStrength);

@@ -4,6 +4,7 @@
     {
         public static string UnknownError => "#0000: Unknown error";
         public static string ObjectTypeIsUnknown => "#0001: Object type is unknown";
+        public static string ObjectTypeIsUnknownObj(object obj) => $"{ObjectTypeIsUnknown}: {obj.GetType()}";
         public static string MaterialTypeIsUnknown => "#0002: Material type is unknown";
         public static string DataIsInCorrect => "#0003: Data is not correct";
         public static string ShapeIsNotCorrect => "#0004: Shape is not valid";

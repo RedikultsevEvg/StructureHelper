@@ -7,50 +7,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.Design.AxImporter;
+using LoaderCalculator.Data.Materials.MaterialBuilders;
+using StructureHelperCommon.Models.Materials.Libraries;
 
 namespace StructureHelperLogics.Models.Materials
 {
     internal class ConcreteMaterialOptionLogic : IMaterialOptionLogic
     {
-        private IConcreteLibMaterial material;
-        private LimitStates limitState;
-        bool IsMaterialCracked;
-        public ConcreteMaterialOptionLogic(IConcreteLibMaterial material, LimitStates limitState, bool IsMaterialCracked)
+        private ConcreteLogicOptions options;
+        private MaterialCommonOptionLogic optionLogic;
+        private FactorLogic factorLogic;
+
+        public ConcreteMaterialOptionLogic(ConcreteLogicOptions options)
         {
-            this.material = material;
-            this.limitState = limitState;
-            this.IsMaterialCracked = IsMaterialCracked;
-        }
-        public void SetMaterialOptions(LCMB.IMaterialOptions materialOptions)
-        {
-            Check(materialOptions);
-            var concreteOptions = materialOptions as LCMB.ConcreteOptions;
-            concreteOptions.WorkInTension = false;
-            if (IsMaterialCracked)
-            {
-                concreteOptions.WorkInTension = true;
-                return;
-            }
-            if (limitState == LimitStates.ULS & material.TensionForULS == true)
-            {
-                concreteOptions.WorkInTension = true;
-            }
-            if (limitState == LimitStates.SLS & material.TensionForSLS == true)
-            {
-                concreteOptions.WorkInTension = true;
-            }
+            this.options = options;
         }
 
-        private static void Check(LCMB.IMaterialOptions materialOptions)
+        public void SetMaterialOptions(IMaterialOptions materialOptions)
         {
-            if (materialOptions is null)
+            if (materialOptions is not ConcreteOptions)
             {
-                throw new StructureHelperException(ErrorStrings.ParameterIsNull + $": expected {typeof(LCMB.ConcreteOptions)}, but was null");
+                throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(ConcreteOptions), materialOptions.GetType()));
             }
-            if (materialOptions is not LCMB.ConcreteOptions)
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $": expected {typeof(LCMB.ConcreteOptions)}, but was {materialOptions.GetType()}");
-            }
+            var concreteOptions = materialOptions as ConcreteOptions;
+            optionLogic = new MaterialCommonOptionLogic(options);
+            optionLogic.SetMaterialOptions(concreteOptions);
+            factorLogic = new FactorLogic(options.SafetyFactors);
+            var strength = factorLogic.GetTotalFactor(options.LimitState, options.CalcTerm);
+            concreteOptions.ExternalFactor.Compressive = strength.Compressive;
+            concreteOptions.ExternalFactor.Tensile = strength.Tensile;
+            concreteOptions.WorkInTension = options.WorkInTension;
+            concreteOptions.RelativeHumidity = options.RelativeHumidity;
         }
     }
 }
