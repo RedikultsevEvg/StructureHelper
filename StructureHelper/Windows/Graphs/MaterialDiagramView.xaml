@@ -3,10 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow.Materials"
+        xmlns:local="clr-namespace:StructureHelper.Windows.Graphs"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-        xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Materials"
-        d:DataContext="{d:DesignInstance vm:MaterialDiagramViewModel}"
+        d:DataContext="{d:DesignInstance local:MaterialDiagramViewModel}"
         mc:Ignorable="d"
         Title="Material Diagram" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
@@ -17,6 +16,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>
+                <RowDefinition Height="120"/>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -52,9 +52,12 @@
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
-            <Button Grid.Row="1" Margin="3" Content="Draw Lines" ToolTip="Draw lines" Command="{Binding RedrawLinesCommand}"/>
+            <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResourceKey=LineVisualProperties}" Content="{Binding VisualProps}"/>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Button Margin="3" Content="Draw Lines" ToolTip="Draw lines" Command="{Binding RedrawLinesCommand}"/>
+            </StackPanel>
         </Grid>
-        <lvc:CartesianChart Grid.Column="1" Series="{Binding SeriesCollection}" LegendLocation="Bottom" >
+        <lvc:CartesianChart Grid.Column="1" Series="{Binding SeriesCollection}" LegendLocation="Bottom" Zoom="Xy">
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Stress"></lvc:Axis>
             </lvc:CartesianChart.AxisY>

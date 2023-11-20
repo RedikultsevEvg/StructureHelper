@@ -9,6 +9,7 @@ using Loadermaterials = LoaderCalculator.Data.Materials;
 using LMBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
 using LoaderMaterialLogics = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
 using LoaderCalculator.Data.Materials;
+using StructureHelperCommon.Models.Materials;
 
 namespace StructureHelperLogics.Models.Materials
 {

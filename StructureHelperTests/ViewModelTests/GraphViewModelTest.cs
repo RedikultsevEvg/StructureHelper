@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using StructureHelper.Windows.ViewModels.Graphs;
+﻿using NUnit.Framework;
+using StructureHelper.Windows.Graphs;
 using StructureHelperCommon.Models.Parameters;
 
 namespace StructureHelperTests.ViewModelTests

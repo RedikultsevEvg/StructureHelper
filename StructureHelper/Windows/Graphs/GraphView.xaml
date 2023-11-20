@@ -3,12 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:StructureHelper.Windows.Graphs"
-        xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Graphs"
-        d:DataContext="{d:DesignInstance vm:GraphViewModel}"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        d:DataContext="{d:DesignInstance local:GraphViewModel}"
         mc:Ignorable="d"
-        Title="Graph" Height="450" Width="800" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen">
+        Title="Graph" Height="450" Width="800" MinHeight="400" MinWidth="600" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <!--<ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
@@ -27,8 +26,13 @@
                     <RowDefinition/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <StackPanel>
-                    <GroupBox Header="X-axis values">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="120"/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.Row="0" Header="X-axis values">
                         <StackPanel>
                             <ComboBox ItemsSource="{Binding XItems.Collection}" SelectedItem="{Binding XItems.SelectedItem}">
                                 <ComboBox.ItemTemplate>
@@ -52,28 +56,18 @@
                         </StackPanel>
 
                     </GroupBox>
-                    <GroupBox Header="Y-axis values">
-                        <StackPanel>
+                    <GroupBox Grid.Row="1" Header="Y-axis values">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
                             <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding YItems}"/>
-                            <CheckBox Margin="5" Content="Invert Values" IsChecked="{Binding InvertYValues}"/>
-                        </StackPanel>
+                            <CheckBox Grid.Row="1" Margin="5" Content="Invert Values" IsChecked="{Binding InvertYValues}"/>
+                        </Grid>
                     </GroupBox>
-                    <GroupBox Header="Line properties" DataContext="{Binding VisualProps}">
-                        <StackPanel>
-                            <TextBlock Text="Line smoothness" Margin="0,5,0,5"/>
-                            <StackPanel Orientation="Horizontal">
-                                <Slider x:Name="slider" Width="195" Minimum="0" Maximum="{Binding MaxLineSmoothness}" Value="{Binding LineSmoothness}"/>
-                                <TextBox Width="40" Text="{Binding LineSmoothness,Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
-                            </StackPanel>
-                            <TextBlock Text="Stroke thickness" Margin="0,5,0,5"/>
-                            <StackPanel Orientation="Horizontal">
-                                <Slider x:Name="StrokeSlider" Width="195" Minimum="0" Maximum="{Binding MaxStrokeSize}" Value="{Binding StrokeSize}"/>
-                                <TextBox Width="40" Text="{Binding StrokeSize,Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </GroupBox>
-
-                </StackPanel>
+                    <ContentControl Grid.Row="2" ContentTemplate="{StaticResource ResourceKey=LineVisualProperties}" Content="{Binding VisualProps}"/>
+                </Grid>
                 <StackPanel Grid.Row="1">
                     <Button Margin="3" Content="Draw Lines" ToolTip="Draw Lines" Command="{Binding RedrawLinesCommand}"/>
                 </StackPanel>

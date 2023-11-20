@@ -6,15 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperLogics.Models.Materials
+namespace StructureHelperCommon.Models.Materials
 {
-    public interface IMaterialLogicOptions
+    public class ConcreteLogicOptions : IMaterialLogicOptions
     {
         public List<IMaterialSafetyFactor> SafetyFactors { get; set; }
+        public LimitStates LimitState { get; set; }
+        public CalcTerms CalcTerm { get; set; }
         public ILibMaterialEntity MaterialEntity { get; set; }
-        LimitStates LimitState { get; set; }
-        CalcTerms CalcTerm { get; set; }
-        bool WorkInCompression { get; set; }
-        bool WorkInTension { get; set; }
+        public bool WorkInCompression { get; set; }
+        public bool WorkInTension { get; set; }
+        public double RelativeHumidity { get; set; }
     }
 }

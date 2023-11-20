@@ -1,13 +1,8 @@
 ﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Materials.MaterialBuilders;
-using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Models.Materials.Libraries;
-using System.Windows.Media.Media3D;
-using static System.Windows.Forms.Design.AxImporter;
-using LMBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
 
-namespace StructureHelperLogics.Models.Materials
+namespace StructureHelperCommon.Models.Materials
 {
     public class ConcreteCurveLogic : IMaterialLogic
     {

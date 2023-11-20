@@ -3,19 +3,15 @@ using LiveCharts.Wpf;
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.Converters.Units;
 using StructureHelper.Models.Materials;
-using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Infrastructures.Settings;
-using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace StructureHelper.Windows.ViewModels.Materials
+namespace StructureHelper.Windows.Graphs
 {
     public class MaterialDiagramViewModel : ViewModelBase
     {
@@ -27,6 +23,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         bool positiveInTension;
 
         public string MaterialName => material.Name;
+        public GraphVisualProps VisualProps { get; }
         public double MinValue
         {
             get => minValue;
@@ -84,9 +81,9 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         public MaterialDiagramViewModel(IEnumerable<IHeadMaterial> headMaterials, IHeadMaterial material)
         {
-            MaterialsModel = new SelectItemsViewModel<IHeadMaterial>(headMaterials) { ShowButtons = true};
-            LimitStatesModel = new SelectItemsViewModel<LimitStateEntity>(ProgramSetting.LimitStatesList.LimitStates) { ShowButtons = false};
-            CalcTermsModel = new SelectItemsViewModel<CalcTermEntity>(ProgramSetting.CalcTermList.CalcTerms) { ShowButtons = false};
+            MaterialsModel = new SelectItemsViewModel<IHeadMaterial>(headMaterials) { ShowButtons = true };
+            LimitStatesModel = new SelectItemsViewModel<LimitStateEntity>(ProgramSetting.LimitStatesList.LimitStates) { ShowButtons = false };
+            CalcTermsModel = new SelectItemsViewModel<CalcTermEntity>(ProgramSetting.CalcTermList.CalcTerms) { ShowButtons = false };
             foreach (var item in MaterialsModel.CollectionItems)
             {
                 if (item.Item == material)
@@ -100,6 +97,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
             maxValue = 0.005d;
             stepCount = 50;
             positiveInTension = true;
+            VisualProps = new();
             SetLines();
         }
 
@@ -123,9 +121,13 @@ namespace StructureHelper.Windows.ViewModels.Materials
                     {
                         var loaderMaterial = material.GetLoaderMaterial(limitState.LimitState, calcTerm.CalcTerm);
                         var lineSeries = new LineSeries()
-                        { Title = $"{material.Name} ({calcTerm.ShortName} {limitState.ShortName})",
-                            PointGeometry = null,
+                        {
+                            Title = $"{material.Name} ({calcTerm.ShortName} {limitState.ShortName})",
+                            //Stroke = new SolidColorBrush(material.Color),
                             Fill = Brushes.Transparent,
+                            LineSmoothness = VisualProps.LineSmoothness,
+                            PointGeometry = DefaultGeometries.Circle,
+                            PointGeometrySize = VisualProps.StrokeSize
                         };
                         if (limitStates.Count() == 1 && calcTerms.Count() == 1)
                         {
@@ -139,7 +141,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
                             //var point = new PointF() { X = (float)s, Y = (float)diagramValue };
                             //chartValues.Add(point);
                             chartValues.Add(diagramValue);
-                            labels.Add(Convert.ToString(Math.Round(s , 4)));
+                            labels.Add(Convert.ToString(Math.Round(s, 4)));
                         }
                         lineSeries.Values = chartValues;
                         SeriesCollection.Add(lineSeries);

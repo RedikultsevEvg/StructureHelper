@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using LiveCharts;
 using LiveCharts.Wpf;
 using StructureHelper.Models.Materials;
-using StructureHelper.Windows.ViewModels.Materials;
+using StructureHelper.Windows.Graphs;
 using StructureHelperLogics.Models.Materials;
 
 namespace StructureHelper.Windows.MainWindow.Materials

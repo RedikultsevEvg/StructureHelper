@@ -2,7 +2,7 @@
 using StructureHelperCommon.Infrastructures.Exceptions;
 using LCMB = LoaderCalculator.Data.Materials.MaterialBuilders;
 
-namespace StructureHelperLogics.Models.Materials
+namespace StructureHelperCommon.Models.Materials
 {
     public class MaterialCommonOptionLogic : IMaterialOptionLogic
     {

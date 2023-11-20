@@ -1,5 +1,4 @@
 ﻿using LiveCharts.Wpf;
-using StructureHelper.Windows.ViewModels.Graphs;
 using StructureHelperCommon.Models.Parameters;
 using System;
 using System.Collections.Generic;

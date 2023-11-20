@@ -1,14 +1,10 @@
 ﻿using StructureHelper.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StructureHelper.Windows.ViewModels.Graphs
+namespace StructureHelper.Windows.Graphs
 {
     public class GraphVisualProps : ViewModelBase
-    {       
+    {
         private double lineSmoothness;
         private double strokeSize;
 
@@ -38,7 +34,7 @@ namespace StructureHelper.Windows.ViewModels.Graphs
             }
         }
 
-        public double MaxLineSmoothness { get;}
+        public double MaxLineSmoothness { get; }
         public double MaxStrokeSize { get; }
 
         public GraphVisualProps()

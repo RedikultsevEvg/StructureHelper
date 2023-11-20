@@ -1,10 +1,9 @@
 ﻿using LiveCharts;
 using LiveCharts.Configurations;
-using LiveCharts.Definitions.Charts;
 using LiveCharts.Wpf;
-using LiveCharts.Wpf.Charts.Base;
 using StructureHelper.Infrastructure;
 using StructureHelper.Services.Exports;
+using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.ColorServices;
@@ -12,15 +11,13 @@ using StructureHelperLogics.NdmCalculations.Analyses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace StructureHelper.Windows.ViewModels.Graphs
+namespace StructureHelper.Windows.Graphs
 {
     public class GraphViewModel : ViewModelBase
     {
@@ -142,7 +139,7 @@ namespace StructureHelper.Windows.ViewModels.Graphs
             }
             return items;
         }
-        
+
         private void DrawLines()
         {
             if (XItems.SelectedItem is null || YItems.SelectedCount == 0) return;
@@ -180,11 +177,11 @@ namespace StructureHelper.Windows.ViewModels.Graphs
                 var chartValues = new ChartValues<Point2D>();
                 for (int i = 0; i < yValues.Count(); i++)
                 {
-                    
+
                     double diagramValue = yValues[i] * yFactor;
                     var x = xValues[i] * xFactor;
                     var y = yValues[i] * yFactor;
-                    var point = new Point2D() { X = x, Y =  y};
+                    var point = new Point2D() { X = x, Y = y };
                     chartValues.Add(point);
                     labels.Add(x);
                     localLabels.Add(x);

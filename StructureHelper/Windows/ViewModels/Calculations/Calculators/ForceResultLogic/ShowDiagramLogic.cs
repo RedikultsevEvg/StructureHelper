@@ -1,27 +1,16 @@
-﻿using LoaderCalculator;
-using LoaderCalculator.Data.Materials.MaterialBuilders;
-using LoaderCalculator.Data.Ndms;
-using StructureHelper.Windows.Errors;
-using StructureHelper.Windows.Graphs;
+﻿using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.ViewModels.Errors;
-using StructureHelper.Windows.ViewModels.Graphs;
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 {

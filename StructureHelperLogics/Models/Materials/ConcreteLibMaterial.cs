@@ -6,6 +6,7 @@ using LMLogic = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
 using LM = LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models.Materials;
 
 namespace StructureHelperLogics.Models.Materials
 {

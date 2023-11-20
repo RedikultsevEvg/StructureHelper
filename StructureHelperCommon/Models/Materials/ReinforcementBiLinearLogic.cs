@@ -1,16 +1,8 @@
 ﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Materials.MaterialBuilders;
-using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperLogics.Models.Templates.CrossSections.RCs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.Design.AxImporter;
 
-namespace StructureHelperLogics.Models.Materials
+namespace StructureHelperCommon.Models.Materials
 {
     public class ReinforcementBiLinearLogic : IMaterialLogic
     {

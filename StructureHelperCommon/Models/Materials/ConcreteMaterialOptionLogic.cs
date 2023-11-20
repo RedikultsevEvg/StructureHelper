@@ -10,7 +10,7 @@ using static System.Windows.Forms.Design.AxImporter;
 using LoaderCalculator.Data.Materials.MaterialBuilders;
 using StructureHelperCommon.Models.Materials.Libraries;
 
-namespace StructureHelperLogics.Models.Materials
+namespace StructureHelperCommon.Models.Materials
 {
     internal class ConcreteMaterialOptionLogic : IMaterialOptionLogic
     {
