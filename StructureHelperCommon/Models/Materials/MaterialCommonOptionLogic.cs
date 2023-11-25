@@ -15,6 +15,7 @@ namespace StructureHelperCommon.Models.Materials
 
         public void SetMaterialOptions(LCMB.IMaterialOptions materialOptions)
         {
+            materialOptions.InitModulus = options.MaterialEntity.InitModulus;
             materialOptions.Strength = options.MaterialEntity.MainStrength;
             if (options.MaterialEntity.CodeType == CodeTypes.EuroCode_2_1990)
             {

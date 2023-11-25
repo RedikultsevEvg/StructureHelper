@@ -55,6 +55,7 @@
             <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResourceKey=LineVisualProperties}" Content="{Binding VisualProps}"/>
             <StackPanel Grid.Row="2" Orientation="Horizontal">
                 <Button Margin="3" Content="Draw Lines" ToolTip="Draw lines" Command="{Binding RedrawLinesCommand}"/>
+                <Button Margin="3" Content="Show Areas" ToolTip="Area under lines" Command="{Binding GetAreaCommand}"/>
             </StackPanel>
         </Grid>
         <lvc:CartesianChart Grid.Column="1" Series="{Binding SeriesCollection}" LegendLocation="Bottom" Zoom="Xy">

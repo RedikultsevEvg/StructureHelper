@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Codes;
 using StructureHelperCommon.Models.Codes.Factories;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace StructureHelperCommon.Infrastructures.Settings
 {
     public static class ProgramSetting
     {
+        private static List<IMaterialLogic> materialLogics;
         private static List<ICodeEntity> codesList;
         private static IMaterialRepository materialRepository;
         private static NatSystems natSystem;
@@ -52,5 +54,13 @@ namespace StructureHelperCommon.Infrastructures.Settings
             }
         }
 
+        public static List<IMaterialLogic> MaterialLogics
+        {
+            get
+            {
+                materialLogics ??= MaterialLogicsFactory.GetMaterialLogics();
+                return materialLogics;
+            }
+        }
     }
 }

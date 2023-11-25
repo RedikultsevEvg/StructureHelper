@@ -17,7 +17,6 @@ namespace StructureHelperLogics.Models.Materials
             targetObject.TensionForULS = sourceObject.TensionForULS;
             targetObject.TensionForSLS = sourceObject.TensionForSLS;
             targetObject.RelativeHumidity = sourceObject.RelativeHumidity;
-            targetObject.MaterialLogic = sourceObject.MaterialLogic;
         }
     }
 }

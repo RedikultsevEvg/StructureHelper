@@ -231,21 +231,48 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "A240",
-                    MainStrength = 240e6
+                    InitModulus = 2e11d,
+                    MainStrength = 240e6d
                 },
                 new ReinforcementMaterialEntity(new Guid("ea422282-3465-433c-9b93-c5bbfba5a904"))
                 {
                     CodeType = codeType,
                     Code = code,
                     Name = "A400",
-                    MainStrength = 400e6
+                    InitModulus = 2e11d,
+                    MainStrength = 400e6d
                 },
                 new ReinforcementMaterialEntity(new Guid("045b54b1-0bbf-41fd-a27d-aeb20f600bb4"))
                 {
                     CodeType = codeType,
                     Code = code,
                     Name = "A500",
-                    MainStrength = 500e6
+                    InitModulus = 2e11d,
+                    MainStrength = 500e6d
+                },
+                new ReinforcementMaterialEntity(new Guid("e3cfc6fb-fbd0-47dd-ab4a-79c030704acf"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "A600",
+                    InitModulus = 2e11d,
+                    MainStrength = 600e6d
+                },
+                new ReinforcementMaterialEntity(new Guid("6f0882ef-53bf-464e-acf7-da421a43a825"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "A800",
+                    InitModulus = 2e11d,
+                    MainStrength = 800e6d
+                },
+                new ReinforcementMaterialEntity(new Guid("509fbaae-a3de-43c2-aae6-33387908dc43"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "A1000",
+                    InitModulus = 2e11d,
+                    MainStrength = 1000e6d
                 }
             };
             return range;
@@ -262,6 +289,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "K1400/1670",
+                    InitModulus = 1.95e11d,
                     MainStrength = 1400e6
                 },
                 new ReinforcementMaterialEntity(new Guid("93c48a27-ab37-4bd2-aeb8-2a7247e74a1b"))
@@ -269,6 +297,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "K1500/1770",
+                    InitModulus = 1.95e11d,
                     MainStrength = 1500e6
                 },
                 new ReinforcementMaterialEntity(new Guid("6e0df35e-4839-4cf1-9182-c7ad7f81a548"))
@@ -276,6 +305,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "K1600/1860",
+                    InitModulus = 1.95e11d,
                     MainStrength = 1600e6
                 },
                 new ReinforcementMaterialEntity(new Guid("29d7ef1b-bd30-471e-af0e-8b419eb9f043"))
@@ -283,6 +313,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "K1700/1960",
+                    InitModulus = 1.95e11d,
                     MainStrength = 1700e6
                 },
                 new ReinforcementMaterialEntity(new Guid("494b959f-0194-4f02-9dcf-ff313c5e352b"))
@@ -290,6 +321,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "K1800/2060",
+                    InitModulus = 1.95e11d,
                     MainStrength = 1800e6
                 },
                 new ReinforcementMaterialEntity(new Guid("02031332-fe1e-456d-b339-143eb9ca8293"))
@@ -297,6 +329,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "K1900/2160",
+                    InitModulus = 1.95e11d,
                     MainStrength = 1900e6
                 }
             };

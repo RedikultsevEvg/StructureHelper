@@ -4,6 +4,7 @@ using StructureHelper.Windows.AddMaterialWindow;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Codes;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperLogics.Models.Materials;
 using System;
@@ -22,6 +23,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         ICommand showSafetyFactors;
         SafetyFactorsViewModel safetyFactorsViewModel;
         private ICodeEntity codeEntity;
+        private IMaterialLogic materialLogic;
 
         public ILibMaterialEntity MaterialEntity
         {
@@ -46,6 +48,9 @@ namespace StructureHelper.Windows.ViewModels.Materials
                 FillMaterialKinds();
             }
         }
+
+        public List<IMaterialLogic> MaterialLogics => material.MaterialLogics;
+        public IMaterialLogic MaterialLogic { get => material.MaterialLogic; set => material.MaterialLogic = value; }
 
         private void FillMaterialKinds()
         {

@@ -10,6 +10,10 @@ namespace StructureHelperCommon.Models.Materials.Libraries
         ICodeEntity Code { get; set; }
         string Name { get; }
         /// <summary>
+        /// Initial Young's Modulus, Pa
+        /// </summary>
+        double InitModulus { get; set; }
+        /// <summary>
         /// Strength of material, Pa
         /// </summary>
         double MainStrength { get; }

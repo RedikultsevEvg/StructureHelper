@@ -16,7 +16,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
         public ICodeEntity Code { get; set; }
         public string Name { get; }
         ///<inheritdoc/>
-        public double YoungsModulus { get; set; }
+        public double InitModulus { get; set; }
         ///<inheritdoc/>
         public double MainStrength { get; }
         public FiberMaterialEntity(Guid id)

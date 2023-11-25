@@ -1,4 +1,5 @@
 ﻿using LoaderCalculator.Data.Materials;
+using LoaderCalculator.Data.Materials.MaterialBuilders;
 using StructureHelperCommon.Infrastructures.Enums;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,7 @@ namespace StructureHelperCommon.Models.Materials
         string Name { get; set; }
         IMaterialLogicOptions Options { get; set; }
         IMaterial GetLoaderMaterial();
+        MaterialTypes MaterialType { get; set; }
+        DiagramType DiagramType { get; set; }
     }
 }

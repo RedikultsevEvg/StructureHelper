@@ -12,6 +12,8 @@ namespace StructureHelperLogics.Models.Materials
 {
     public class ConcreteLibMaterial : IConcreteLibMaterial
     {
+        const MaterialTypes materialType = MaterialTypes.Concrete;
+        private readonly List<IMaterialLogic> materialLogics;
         private LMBuilders.ConcreteOptions lmOptions;
         private IMaterialOptionLogic optionLogic;
         private IFactorLogic factorLogic => new FactorLogic(SafetyFactors);
@@ -31,11 +33,11 @@ namespace StructureHelperLogics.Models.Materials
         /// <inheritdoc/>
         public IMaterialLogic MaterialLogic { get; set; }
         /// <inheritdoc/>
-        public List<IMaterialLogic> MaterialLogics { get; }
-
+        public List<IMaterialLogic> MaterialLogics => materialLogics;
         public ConcreteLibMaterial()
         {
-            MaterialLogic = new ConcreteCurveLogic();
+            materialLogics = ProgramSetting.MaterialLogics.Where(x => x.MaterialType == materialType).ToList();
+            MaterialLogic = materialLogics.First();
             SafetyFactors = new List<IMaterialSafetyFactor>();
             lmOptions = new LMBuilders.ConcreteOptions();
             SafetyFactors.AddRange(PartialCoefficientFactory.GetDefaultConcreteSafetyFactors(ProgramSetting.CodeType));

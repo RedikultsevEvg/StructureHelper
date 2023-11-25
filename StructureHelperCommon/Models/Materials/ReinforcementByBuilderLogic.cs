@@ -1,29 +1,30 @@
 ﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Materials.MaterialBuilders;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperCommon.Models.Materials
 {
-    public class ReinforcementBiLinearLogic : IMaterialLogic
+    public class ReinforcementByBuilderLogic : IMaterialLogic
     {
+        private ReinforcementLogicOptions options;
         private ReinforcementOptions materialOptions;
         private IMaterialOptionLogic optionLogic;
-        private ReinforcementLogicOptions options;
-        private IMaterialLogicOptions options1;
 
         public string Name { get; set; }
+        public DiagramType DiagramType { get; set; }
         public IMaterialLogicOptions Options
         {
             get => options;
             set
             {
-                if (value is not ReinforcementLogicOptions)
-                {
-                    throw new StructureHelperException($"{ErrorStrings.ExpectedWas(typeof(ReinforcementLogicOptions), value)}");
-                }
+                CheckObject.CheckType(value, typeof(ReinforcementLogicOptions));
                 options = (ReinforcementLogicOptions)value;
             }
         }
+
+        public MaterialTypes MaterialType { get; set; }
 
         public IMaterial GetLoaderMaterial()
         {
@@ -42,7 +43,7 @@ namespace StructureHelperCommon.Models.Materials
 
         private void GetLoaderOptions()
         {
-            materialOptions = new ReinforcementOptions();
+            materialOptions = new ReinforcementOptions() { DiagramType = DiagramType};
             optionLogic = new MaterialCommonOptionLogic(options);
             optionLogic.SetMaterialOptions(materialOptions);
         }

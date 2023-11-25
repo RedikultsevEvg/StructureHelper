@@ -10,26 +10,28 @@ using LMBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
 using LoaderMaterialLogics = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
 using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Infrastructures.Settings;
 
 namespace StructureHelperLogics.Models.Materials
 {
     public class ReinforcementLibMaterial : IReinforcementLibMaterial
     {
-        private LMBuilders.ReinforcementOptions lmOptions;
-        private IMaterialOptionLogic optionLogic;
+        const MaterialTypes materialType = MaterialTypes.Reinforcement;
+
         private IFactorLogic factorLogic => new FactorLogic(SafetyFactors);
         private LoaderMaterialLogics.ITrueStrengthLogic strengthLogic;
+        private readonly List<IMaterialLogic> materialLogics;
+
         public ILibMaterialEntity MaterialEntity { get; set; }
         public List<IMaterialSafetyFactor> SafetyFactors { get; }
         public IMaterialLogic MaterialLogic { get; set; }
 
-        public List<IMaterialLogic> MaterialLogics { get; }
-
+        public List<IMaterialLogic> MaterialLogics => materialLogics;
         public ReinforcementLibMaterial()
         {
-            MaterialLogic = new ReinforcementBiLinearLogic();
+            materialLogics = ProgramSetting.MaterialLogics.Where(x => x.MaterialType == materialType).ToList();
+            MaterialLogic = materialLogics.First();
             SafetyFactors = new List<IMaterialSafetyFactor>();
-            lmOptions = new LMBuilders.ReinforcementOptions();
         }
 
         public object Clone()

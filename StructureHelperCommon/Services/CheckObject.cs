@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Materials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,15 @@ namespace StructureHelperCommon.Services
         }
         public static void IsNull(object item, string message = "")
         {
-            if (item is null) {throw new StructureHelperException (ErrorStrings.ParameterIsNull + message);}
+            if (item is null) { throw new StructureHelperException(ErrorStrings.ParameterIsNull + message); }
+        }
+
+        public static void CheckType(object sourceObject, Type targetType)
+        {
+            if (sourceObject.GetType() != targetType)
+            {
+                throw new StructureHelperException($"{ErrorStrings.ExpectedWas(targetType, sourceObject.GetType())}");
+            }
         }
     }
 }

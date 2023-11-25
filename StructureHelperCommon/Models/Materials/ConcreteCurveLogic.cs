@@ -1,5 +1,6 @@
 ﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Materials.MaterialBuilders;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 
 namespace StructureHelperCommon.Models.Materials
@@ -24,6 +25,9 @@ namespace StructureHelperCommon.Models.Materials
                 options = (ConcreteLogicOptions)value;
             }
         }
+
+        public MaterialTypes MaterialType { get; set; }
+        public DiagramType DiagramType { get; set; }
 
         public IMaterial GetLoaderMaterial()
         {

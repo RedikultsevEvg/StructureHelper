@@ -11,6 +11,6 @@ namespace StructureHelperCommon.Models.Materials.Libraries
         /// <summary>
         /// Modulus of elasticity, Pa
         /// </summary>
-        double YoungsModulus { get; set; }
+        double InitModulus { get; set; }
     }
 }

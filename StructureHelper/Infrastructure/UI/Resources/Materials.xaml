@@ -28,6 +28,14 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <TextBlock Text="Material Model"/>
+            <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding MaterialLogics}" SelectedItem="{Binding MaterialLogic}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
     </DataTemplate>
     
