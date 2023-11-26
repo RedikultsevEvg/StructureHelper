@@ -4,16 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
-        xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Calculations.Calculators"
-        d:DataContext="{d:DesignInstance vm:ForcesResultsViewModel}"
+        d:DataContext="{d:DesignInstance local:ForcesResultsViewModel}"
         mc:Ignorable="d"
         Title="Calculation Results" Height="350" Width="850" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
-                <Button Style="{StaticResource ToolButton}" 
-                        Command="{Binding ShowCrackResultCommand}"
-                        Content="Fcrc" ToolTip="Calc crack forces"/>
+                <Button Command="{Binding ShowCrackResultCommand}" ToolTip="Show force of cracking">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_crack.png"/>
+                </Button>
+                <Button Command="{Binding InterpolateCommand}" ToolTip="Show result step by step">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_interpolation_1_1.png"/>
+                </Button>
+                <Button Command="{Binding ShowGraphsCommand}" ToolTip="Show diagram moment-curvature">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_graph_2.png"/>
+                </Button>
+                <Button Command="{Binding ShowInteractionDiagramCommand}" ToolTip="Show interaction diagram">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_graph_1.png"/>
+                </Button>
+                
             </ToolBar>
         </ToolBarTray>
         <Grid>
@@ -48,14 +57,11 @@
             </DataGrid>
             <StackPanel Grid.Column="1">
                 <Button Margin="3" Content="Graphic" ToolTip="Show graphic results" Command="{Binding ShowIsoFieldCommand}"/>
-                <Button Margin="3" Content="Diagrams" ToolTip="Show diagrams" Command="{Binding ShowGraphsCommand}"/>
                 <Button Margin="3" Content="CrcDiagrams" ToolTip="Show diagrams for cracked section" Command="{Binding ShowCrackGraphsCommand}"/>
-                <Button Margin="3" Content="Interpolate" ToolTip="Create analysis by substep" Command="{Binding InterpolateCommand}"/>
                 <Button Margin="3" Content="Export" ToolTip="Export results to *.csv" Command="{Binding ExportToCSVCommand}"/>
                 <Button Margin="3" Content="Set Prestrain" ToolTip="Set strains as auto prestrain" Command="{Binding SetPrestrainCommand}"/>
                 <Button Margin="3" Content="Anchorage" ToolTip="Set strains as auto prestrain" Command="{Binding ShowAnchorageCommand}"/>
                 <Button Margin="3" Content="Geometry" ToolTip="Show Geometry Properties" Command="{Binding ShowGeometryResultCommand}"/>
-                <Button Margin="3" Content="Fcrc" ToolTip="Show crack force" Command="{Binding ShowCrackResultCommand}"/>
                 <Button Margin="3" Content="Acrc" ToolTip="Show crack width" Command="{Binding ShowCrackWidthResultCommand}"/>
             </StackPanel>
         </Grid>

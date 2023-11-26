@@ -1,25 +1,16 @@
-﻿using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
-using StructureHelper.Windows.Errors;
+﻿using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.ViewModels.Errors;
-using StructureHelper.Windows.ViewModels.Forces;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelperLogics.Services.NdmCalculations;
 using StructureHelperLogics.Services.NdmPrimitives;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace StructureHelper.Windows.ViewModels.Calculations.Calculators.ForceResultLogic
+namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
     internal class ShowCrackResultLogic
     {

@@ -5,13 +5,11 @@ using StructureHelper.Services.Exports;
 using StructureHelper.Services.Reports;
 using StructureHelper.Services.Reports.CalculationReports;
 using StructureHelper.Services.ResultViewers;
-using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
-using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.GeometryCalculatorViews;
 using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
-using StructureHelper.Windows.ViewModels.Calculations.Calculators.ForceResultLogic;
+using StructureHelper.Windows.ViewModels.Calculations.Calculators;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelper.Windows.ViewModels.PrimitiveProperties;
 using StructureHelperCommon.Infrastructures.Enums;
@@ -32,7 +30,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
-namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
+namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
     public class ForcesResultsViewModel : ViewModelBase
     {
@@ -40,6 +38,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         private ForceCalculator forceCalculator;
         private ILongProcessLogic progressLogic;
         private ShowProgressLogic showProgressLogic;
+        private InteractionDiagramLogic interactionDiagramLogic = new();
         private static readonly ShowCrackResultLogic showCrackResultLogic = new();
         private static readonly ShowCrackWidthLogic showCrackWidthLogic = new();
         private IForcesResults forcesResults;
@@ -61,10 +60,26 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         private ICommand showCrackResult;
         private ICommand showCrackGraphsCommand;
         private RelayCommand showCrackWidthResult;
+        private ICommand showInteractionDiagramCommand;
 
         public IForcesResults ForcesResults
         {
             get => forcesResults;
+        }
+        public ICommand ShowInteractionDiagramCommand
+        {
+            get
+            {
+                return showInteractionDiagramCommand ??
+                    (showInteractionDiagramCommand = new RelayCommand(o =>
+                    {
+                        interactionDiagramLogic.ForceTuple = SelectedResult.DesignForceTuple.ForceTuple.Clone() as ForceTuple;
+                        interactionDiagramLogic.LimitState = SelectedResult.DesignForceTuple.LimitState;
+                        interactionDiagramLogic.CalcTerm = SelectedResult.DesignForceTuple.CalcTerm;
+                        interactionDiagramLogic.NdmPrimitives = ndmPrimitives;
+                        interactionDiagramLogic.ShowWindow();
+                    }, o => SelectedResult != null && SelectedResult.IsValid));
+            }
         }
         public ICommand ShowIsoFieldCommand
         {
@@ -77,7 +92,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     {
                         ShowIsoField();
                     }
-                }, o => (SelectedResult != null) && SelectedResult.IsValid));
+                }, o => SelectedResult != null && SelectedResult.IsValid));
             }
         }
         public ICommand ExportToCSVCommand
@@ -169,7 +184,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             get => showCrackResult ??= new RelayCommand(o =>
             {
                 SafetyProcessor.RunSafeProcess(ShowCrackResult);
-            }, o => (SelectedResult != null) && SelectedResult.IsValid);
+            }, o => SelectedResult != null && SelectedResult.IsValid);
         }
         private void ShowCrackResult()
         {
@@ -185,7 +200,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             get => showCrackWidthResult ??= new RelayCommand(o =>
             {
                 SafetyProcessor.RunSafeProcess(ShowCrackWidthResult);
-            }, o => (SelectedResult != null) && SelectedResult.IsValid);
+            }, o => SelectedResult != null && SelectedResult.IsValid);
         }
 
         private void ShowCrackWidthResult()
@@ -247,7 +262,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
             get
             {
                 return setPrestrainCommand ??
-                    (setPrestrainCommand = new RelayCommand(o=>
+                    (setPrestrainCommand = new RelayCommand(o =>
                     {
                         SetPrestrain();
                     }, o => SelectedResult != null
@@ -272,7 +287,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         {
             get
             {
-                return showAnchorageCommand??
+                return showAnchorageCommand ??
                     (showAnchorageCommand = new RelayCommand(o =>
                     {
                         showAnchorage();
@@ -292,11 +307,13 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 isoFieldReport = new IsoFieldReport(primitiveSets);
                 isoFieldReport.Show();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var vm = new ErrorProcessor()
-                    { ShortText = "Errors apearred during showing isofield, see detailed information",
-                    DetailText = $"{ex}"};
+                {
+                    ShortText = "Errors apearred during showing isofield, see detailed information",
+                    DetailText = $"{ex}"
+                };
                 new ErrorMessage(vm).ShowDialog();
             }
         }
@@ -313,7 +330,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                     var textParametrsLogic = new TextParametersLogic(ndms, strainMatrix);
                     var calculator = new GeometryCalculator(textParametrsLogic);
                     calculator.Run();
-                    var result = calculator.Result as IGeometryResult;         
+                    var result = calculator.Result as IGeometryResult;
                     var wnd = new GeometryCalculatorResultView(result);
                     wnd.ShowDialog();
                 }
@@ -373,7 +390,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 }
                 if (selectedNdmPrimitives.Contains(item) & item.Triangulate == true)
                 {
-                    
+
                     ndmRange.AddRange(item.GetNdms(triangulationOptions));
                 }
             }

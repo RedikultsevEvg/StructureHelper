@@ -1,16 +1,8 @@
-﻿using LoaderCalculator.Data.Matrix;
-using LoaderCalculator.Data.SourceData;
-using LoaderCalculator;
-using StructureHelperCommon.Models.Calculators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using LoaderCalculator;
+using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.ResultData;
-using System.Windows;
+using LoaderCalculator.Data.SourceData;
+using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {

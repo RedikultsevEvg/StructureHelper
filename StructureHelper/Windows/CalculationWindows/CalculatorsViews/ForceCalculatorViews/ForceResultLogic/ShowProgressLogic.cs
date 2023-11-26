@@ -9,7 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 
-namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
+namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
     internal class ShowProgressLogic
     {
@@ -31,7 +31,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
                 WindowTitle = WindowTitle
             };
 
-            wndProgress =new ShowProgressView(progressViewModel);
+            wndProgress = new ShowProgressView(progressViewModel);
             wndProgress.Loaded += RunCalc;
             wndProgress.ShowDialog();
         }

@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
+namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
     internal class ShowDiagramLogic : ILongProcessLogic
     {
@@ -25,7 +25,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 
         public int StepCount => ValidTupleList.Count();
 
-        public Action<int> SetProgress { get ; set; }
+        public Action<int> SetProgress { get; set; }
         public bool Result { get; set; }
 
         public void WorkerDoWork(object sender, DoWorkEventArgs e)
