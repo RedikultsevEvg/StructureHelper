@@ -15,8 +15,6 @@ namespace StructureHelperTests.UnitTests.Calcuators
             //Arrange
             var calculator = new LimitCurveCalculator(new StabLimitCurveLogic())
             {
-                XMax = xmax,
-                Ymax = ymax
             };
             //Act
             calculator.Run();

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace StructureHelperCommon.Services
 {
@@ -42,6 +43,13 @@ namespace StructureHelperCommon.Services
             {
                 throw new StructureHelperException($"{ErrorStrings.ExpectedWas(targetType, sourceObject.GetType())}");
             }
+        }
+
+        public static void CheckMinMax (double value, double minValue, double maxValue)
+        {
+            if (value == null || minValue == null || maxValue == null) { throw new StructureHelperException(ErrorStrings.NullReference); }
+            if (value < minValue) { throw new StructureHelperException($"{ErrorStrings.IncorrectValue}: Value must be greater than {minValue}"); }
+            if (value > maxValue) { throw new StructureHelperException($"{ErrorStrings.IncorrectValue}: Value must be less than {maxValue}"); }
         }
     }
 }

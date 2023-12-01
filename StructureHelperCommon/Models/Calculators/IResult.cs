@@ -12,6 +12,6 @@ namespace StructureHelperCommon.Models.Calculators
         /// True if result of calculation is valid
         /// </summary>
         bool IsValid { get; set; }
-        string Description { get; set; }
+        string? Description { get; set; }
     }
 }
