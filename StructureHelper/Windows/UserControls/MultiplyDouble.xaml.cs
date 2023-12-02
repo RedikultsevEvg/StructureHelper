@@ -23,11 +23,11 @@ namespace StructureHelper.Windows.UserControls
     /// <summary>
     /// Логика взаимодействия для MultiplyTuple.xaml
     /// </summary>
-    public partial class MultiplyTuple : UserControl
+    public partial class MultiplyDouble : UserControl
     {
         public event EventHandler ValueChanged;
 
-        public MultiplyTuple()
+        public MultiplyDouble()
         {
             InitializeComponent();
             //DataContext = this;
@@ -51,15 +51,28 @@ namespace StructureHelper.Windows.UserControls
         }
 
 
-        public static readonly DependencyProperty ForceTupleProperty = DependencyProperty.Register(
-        "ForceTuple", typeof(ForceTuple), typeof(MultiplyTuple), new PropertyMetadata(new ForceTuple()));
+
+        public double DoubleValue
+        {
+            get { return (double)GetValue(DoubleValueProperty); }
+            set { SetValue(DoubleValueProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DoubleValue.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DoubleValueProperty =
+            DependencyProperty.Register("DoubleValue", typeof(double), typeof(MultiplyDouble), new PropertyMetadata(new double()));
+
+
+
+        public static readonly DependencyProperty DoubleFactorProperty = DependencyProperty.Register(
+        "DoubleFactor", typeof(double), typeof(MultiplyDouble), new PropertyMetadata(new double()));
 
         private RelayCommand muliplyByFactor;
 
-        public ForceTuple ForceTuple
+        public double DoubleFactor
         {
-            get { return (ForceTuple)GetValue(ForceTupleProperty); }
-            set { SetValue(ForceTupleProperty, value); }
+            get { return (double)GetValue(DoubleFactorProperty); }
+            set { SetValue(DoubleFactorProperty, value); }
         }
 
         private void Multy0_5_Click(object sender, RoutedEventArgs e)
@@ -73,8 +86,8 @@ namespace StructureHelper.Windows.UserControls
 
         private void ChangeValue(double factor)
         {
-            var tmpTuple = ForceTupleService.MultiplyTuples(ForceTuple, factor);
-            ForceTupleService.CopyProperties(tmpTuple, ForceTuple, 1d);
+            DoubleValue *= factor;
+            DoubleFactor = factor;
             ValueChanged?.Invoke(this, EventArgs.Empty);
         }
 

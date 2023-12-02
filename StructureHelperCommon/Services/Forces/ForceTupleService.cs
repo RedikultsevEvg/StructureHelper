@@ -8,6 +8,12 @@ namespace StructureHelperCommon.Services.Forces
 {
     public static class ForceTupleService
     {
+        /// <summary>
+        /// Copy properties from target to source
+        /// </summary>
+        /// <param name="source">Source tuple</param>
+        /// <param name="target">Target tuple</param>
+        /// <param name="factor">factor</param>
         public static void CopyProperties(IForceTuple source, IForceTuple target, double factor = 1d)
         {
             CheckTuples(source, target);

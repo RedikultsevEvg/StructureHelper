@@ -5,6 +5,7 @@ using StructureHelper.Services.Exports;
 using StructureHelper.Services.Reports;
 using StructureHelper.Services.Reports.CalculationReports;
 using StructureHelper.Services.ResultViewers;
+using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.GeometryCalculatorViews;
 using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.Forces;
@@ -38,7 +39,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private ForceCalculator forceCalculator;
         private ILongProcessLogic progressLogic;
         private ShowProgressLogic showProgressLogic;
-        private InteractionDiagramLogic interactionDiagramLogic = new();
+        private InteractionDiagramLogic interactionDiagramLogic;
         private static readonly ShowCrackResultLogic showCrackResultLogic = new();
         private static readonly ShowCrackWidthLogic showCrackWidthLogic = new();
         private IForcesResults forcesResults;
@@ -73,11 +74,25 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 return showInteractionDiagramCommand ??
                     (showInteractionDiagramCommand = new RelayCommand(o =>
                     {
-                        interactionDiagramLogic.ForceTuple = SelectedResult.DesignForceTuple.ForceTuple.Clone() as ForceTuple;
-                        interactionDiagramLogic.LimitState = SelectedResult.DesignForceTuple.LimitState;
-                        interactionDiagramLogic.CalcTerm = SelectedResult.DesignForceTuple.CalcTerm;
-                        interactionDiagramLogic.NdmPrimitives = ndmPrimitives;
-                        interactionDiagramLogic.ShowWindow();
+                        var tuple = SelectedResult.DesignForceTuple.ForceTuple.Clone() as ForceTuple;
+                        var data = new SurroundData();
+                        data.ConstZ = tuple.My;
+                        var wnd = new SurroundDataView(data);
+                        wnd.ShowDialog();
+                        if (wnd.DialogResult != true) return;
+                        interactionDiagramLogic = new(data)
+                        {
+                            ForceTuple = tuple,
+                            LimitState = SelectedResult.DesignForceTuple.LimitState,
+                            CalcTerm = SelectedResult.DesignForceTuple.CalcTerm,
+                            NdmPrimitives = ndmPrimitives
+                        };
+                        showProgressLogic = new(interactionDiagramLogic)
+                        {
+                            WindowTitle = "Diagram creating...",
+                            ShowResult = interactionDiagramLogic.ShowWindow
+                        };
+                        showProgressLogic.Show();
                     }, o => SelectedResult != null && SelectedResult.IsValid));
             }
         }

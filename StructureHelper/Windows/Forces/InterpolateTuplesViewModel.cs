@@ -11,9 +11,14 @@ namespace StructureHelper.Windows.Forces
         private RelayCommand invertForcesCommand;
         private RelayCommand copyToStartCommand;
         private RelayCommand copyToFinishCommand;
+        private int stepCount;
 
         public IDesignForceTuple StartDesignForce { get; set; }
         public IDesignForceTuple FinishDesignForce { get; set; }
+
+        public double StartFactor { get; set; }
+        public double FinishFactor { get; set; }
+        public double StepCountFactor { get; set; }
 
         public bool StepCountVisible { get; set; }
         public double StartMx
@@ -70,23 +75,27 @@ namespace StructureHelper.Windows.Forces
                 OnPropertyChanged(nameof(FinishNz));
             }
         }
-        public int StepCount { get; set; }
+        public int StepCount
+        {
+            get => stepCount; set
+            {
+                stepCount = value;
+                OnPropertyChanged(nameof(StepCount));
+            }
+        }
 
         public ICommand InvertForcesCommand
         {
             get => invertForcesCommand ??= new RelayCommand(o => InvertForces());
         }
-
         public ICommand CopyToStartCommand
         {
             get => copyToStartCommand ??= new RelayCommand(o => CopyFinishToStart());
         }
-
         public ICommand CopyToFinishCommand
         {
             get => copyToFinishCommand ??= new RelayCommand(o => CopyStartToFinish());
         }
-
         public InterpolateTuplesResult Result
         {
             get => new()

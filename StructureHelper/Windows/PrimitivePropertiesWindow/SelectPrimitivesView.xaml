@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.PrimitivePropertiesWindow"
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.PrimitiveProperties"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance vm:SelectPrimitivesViewModel}"
+        d:DataContext="{d:DesignInstance local:SelectPrimitivesViewModel}"
         Title="Select Primitives" Height="250" Width="250" MinHeight="250" MinWidth="250" MaxHeight="500" MaxWidth="500" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>

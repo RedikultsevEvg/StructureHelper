@@ -16,6 +16,7 @@ using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services;
 using StructureHelperLogics.Services.NdmCalculations;
+using StructureHelperLogics.Services.NdmPrimitives;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace StructureHelper.Windows.MainWindow
         public IPrimitiveRepository PrimitiveRepository => primitiveRepository;
 
         public ICalculationProperty CalculationProperty { get; private set; }
-        
+
         public MainModel(IPrimitiveRepository primitiveRepository, CalculationService calculationService, UnitSystemService unitSystemService)
         {
             this.primitiveRepository = primitiveRepository;
@@ -47,16 +48,16 @@ namespace StructureHelper.Windows.MainWindow
             HeadMaterials = new List<IHeadMaterial>();
             HeadMaterialRepository = new HeadMaterialRepository(this);
         }
-        
+
         public IEnumerable<INdm> GetNdms(ICalculationProperty calculationProperty)
         {
             var ndmPrimitives = Section.SectionRepository.Primitives;
+            return NdmPrimitivesService.GetNdms(ndmPrimitives, calculationProperty.LimitState, calculationProperty.CalcTerm);
+            ////Настройки триангуляции, пока опции могут быть только такие
+            //ITriangulationOptions options = new TriangulationOptions { LimiteState = calculationProperty.LimitState, CalcTerm = calculationProperty.CalcTerm };
 
-            //Настройки триангуляции, пока опции могут быть только такие
-            ITriangulationOptions options = new TriangulationOptions { LimiteState = calculationProperty.LimitState, CalcTerm = calculationProperty.CalcTerm };
-
-            //Формируем коллекцию элементарных участков для расчета в библитеке (т.е. выполняем триангуляцию)
-            return ndmPrimitives.SelectMany(x => x.GetNdms(options));
+            ////Формируем коллекцию элементарных участков для расчета в библитеке (т.е. выполняем триангуляцию)
+            //return ndmPrimitives.SelectMany(x => x.GetNdms(options));
         }
     }
 }

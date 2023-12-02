@@ -12,6 +12,9 @@
     <Compile Update="Windows\Arrays\ArrayView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\SurroundDataView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\GeometryCalculatorViews\GeometryCalculatorResultView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -39,7 +42,7 @@
     <Compile Update="Windows\PrimitiveTemplates\RCs\Beams\CircleView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\UserControls\MultiplyTuple.xaml.cs">
+    <Compile Update="Windows\UserControls\MultiplyDouble.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -57,6 +60,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\Arrays\ArrayView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\SurroundDataView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\CalculationWindows\CalculatorsViews\GeometryCalculatorViews\GeometryCalculatorResultView.xaml">
@@ -86,7 +92,7 @@
     <Page Update="Windows\PrimitiveTemplates\RCs\Beams\CircleView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\UserControls\MultiplyTuple.xaml">
+    <Page Update="Windows\UserControls\MultiplyDouble.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

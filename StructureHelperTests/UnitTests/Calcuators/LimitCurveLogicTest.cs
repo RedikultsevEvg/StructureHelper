@@ -17,7 +17,7 @@ namespace StructureHelperTests.UnitTests.Calcuators
             parameterLogicMock.Setup(p => p.GetParameter()).Returns(2.0); // Mocking the GetParameter method
 
             var limitCurveLogic = new LimitCurveLogic(parameterLogicMock.Object);
-            limitCurveLogic.LimitPredicate = point => point.X <= 0.5d; // Example predicate
+            limitCurveLogic.LimitPredicate = point => point.X >= 0.5d; // Example predicate
 
             var inputPoints = new List<IPoint2D>
         {
@@ -51,7 +51,7 @@ namespace StructureHelperTests.UnitTests.Calcuators
             parameterLogicMock.Setup(p => p.GetParameter()).Returns(2.0);
 
             var limitCurveLogic = new LimitCurveLogic(parameterLogicMock.Object);
-            limitCurveLogic.LimitPredicate = point => false; // Invalid predicate
+            limitCurveLogic.LimitPredicate = point => true; // Invalid predicate
 
             var inputPoints = new List<IPoint2D>
         {

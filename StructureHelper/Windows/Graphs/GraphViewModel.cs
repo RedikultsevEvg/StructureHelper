@@ -165,13 +165,8 @@ namespace StructureHelper.Windows.Graphs
                     .X(point => point.X)
                     .Y(point => point.Y),
                     Title = yParameter.Name,
-                    //PointGeometry = null,
-                    Stroke = new SolidColorBrush(yParameter.Color),
-                    Fill = Brushes.Transparent,
-                    LineSmoothness = VisualProps.LineSmoothness,
-                    PointGeometry = DefaultGeometries.Circle,
-                    PointGeometrySize = VisualProps.StrokeSize
                 };
+                GraphService.SetVisualProps(lineSeries, VisualProps, yParameter.Color);
                 _ = valueList.TryGetValue(xParameter, out double[] xValues);
                 _ = valueList.TryGetValue(yParameter, out double[] yValues);
                 var chartValues = new ChartValues<Point2D>();

@@ -6,7 +6,7 @@ using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public class ForceTupleCalculator : IForceTupleCalculator
+    public class ForceTupleCalculator : IForceTupleCalculator, IHasActionByResult
     {
         public IForceTupleInputData InputData { get; set; }
         public string Name { get; set; }

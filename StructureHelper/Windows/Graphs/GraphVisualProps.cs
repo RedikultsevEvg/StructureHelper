@@ -7,6 +7,7 @@ namespace StructureHelper.Windows.Graphs
     {
         private double lineSmoothness;
         private double strokeSize;
+        private double opacity;
 
         public double LineSmoothness
         {
@@ -37,6 +38,18 @@ namespace StructureHelper.Windows.Graphs
         public double MaxLineSmoothness { get; }
         public double MaxStrokeSize { get; }
 
+        public double Opacity
+        {
+            get => opacity; set
+            {
+                value = Math.Max(value, 0d);
+                value = Math.Min(value, 1d);
+                value = Math.Round(value, 2);
+                opacity = value;
+                OnPropertyChanged(nameof(Opacity));
+            }
+        }
+
         public GraphVisualProps()
         {
             MaxLineSmoothness = 1d;
@@ -44,6 +57,7 @@ namespace StructureHelper.Windows.Graphs
 
             lineSmoothness = 0.3;
             strokeSize = 0;
+            Opacity = 0d;
         }
     }
 }

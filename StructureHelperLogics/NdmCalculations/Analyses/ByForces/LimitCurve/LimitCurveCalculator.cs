@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models.Calculators;
+﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public class LimitCurveCalculator : ICalculator
+    public class LimitCurveCalculator : ICalculator, IHasActionByResult
     {
         private LimitCurveResult result;
         private List<IPoint2D> surroundList;
@@ -50,14 +51,26 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             surroundList = SurroundProcLogic.GetPoints();
             try
             {
+                limitCurveLogic.ActionToOutputResults = GetCurrentStepNumber;
                 factoredList = limitCurveLogic.GetPoints(surroundList);
                 result.Points = factoredList;
             }
             catch (Exception ex)
             {
                 result.IsValid = false;
-                result.Description = ex.Message;
+                result.Description += ex.Message;
             }
-        }        
+        }
+        
+        private void GetCurrentStepNumber(IResult calcResult)
+        {
+            if (calcResult is not FindParameterResult)
+            {
+                throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(FindParameterResult), calcResult));
+            }
+            var parameterResult = calcResult as FindParameterResult;
+            result.IterationNumber = parameterResult.IterationNumber;
+            ActionToOutputResults?.Invoke(result);
+        }
     }
 }

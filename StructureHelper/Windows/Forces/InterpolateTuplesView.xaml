@@ -8,7 +8,7 @@
         xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance local:InterpolateTuplesViewModel}"
         mc:Ignorable="d"
-        Title="Interpolate Combinations" Height="200" Width="400" MinHeight="180" MinWidth="400" WindowStartupLocation="CenterScreen">
+        Title="Interpolate Combinations" Height="200" Width="460" MinHeight="180" MinWidth="460" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <Style TargetType="Button">
@@ -40,7 +40,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="120"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="1" Text="Moment Mx" HorizontalAlignment="Center"/>
                 <TextBlock Grid.Column="2" Text="Moment My" HorizontalAlignment="Center"/>
@@ -99,8 +99,9 @@
                 <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding FinishNz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
                 <TextBlock Grid.Row="4" Text="Step count" Visibility="{Binding StepCountVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding StepCount, ValidatesOnExceptions=True}" Visibility="{Binding StepCountVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <uc:MultiplyTuple Grid.Column="4" Grid.Row="1" ForceTuple="{Binding StartDesignForce.ForceTuple}" ValueChanged="StartValueChanged"/>
-                <uc:MultiplyTuple Grid.Column="4" Grid.Row="3" ForceTuple="{Binding FinishDesignForce.ForceTuple}" ValueChanged="FinishValueChanged"/>
+                <uc:MultiplyDouble Grid.Column="4" Grid.Row="1" DoubleFactor="{Binding StartFactor}" ValueChanged="StartValueChanged"/>
+                <uc:MultiplyDouble Grid.Column="4" Grid.Row="3" DoubleFactor="{Binding FinishFactor}" ValueChanged="FinishValueChanged"/>
+                <uc:MultiplyDouble Grid.Column="4" Grid.Row="4" DoubleFactor="{Binding FinishFactor}" ValueChanged="StepCountValueChanged"/>
             </Grid>
         </Grid>
 

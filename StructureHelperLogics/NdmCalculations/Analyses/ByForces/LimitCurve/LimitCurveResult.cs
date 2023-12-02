@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public class LimitCurveResult : IResult
+    public class LimitCurveResult : IResult, IiterationResult
     {
         public bool IsValid { get; set; }
         public string Description { get; set; }
         public List<IPoint2D> Points { get; set; }
+        public int IterationNumber { get; set; }
+
         public LimitCurveResult()
         {
             Points = new List<IPoint2D>();

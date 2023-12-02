@@ -11,9 +11,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public class LimitCurveLogic : ILimitCurveLogic
     {
+        private FindParameterResult result;
         private IPoint2D currentPoint;
         private ILimitCurveParameterLogic parameterLogic;
         public Predicate<IPoint2D> LimitPredicate { get; set; }
+        public Action<IResult> ActionToOutputResults { get; set; }
+
         public LimitCurveLogic(ILimitCurveParameterLogic parameterLogic)
         {
             this.parameterLogic = parameterLogic;
@@ -24,6 +27,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         }
         public List<IPoint2D> GetPoints(List<IPoint2D> points)
         {
+            result = new();
             List<IPoint2D> resultList = new();
             if (LimitPredicate(new Point2D()) == true)
             {
@@ -48,6 +52,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                     Y = currentPoint.Y * parameter
                 };
                 resultList.Add(resultPoint);
+                result.IterationNumber = resultList.Count;
+                ActionToOutputResults?.Invoke(result);
             }
             return resultList;
         }

@@ -8,20 +8,20 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     public static class Triangulation1
     {
-        public static IEnumerable<INdm> GetNdms(IEnumerable<INdmPrimitive> ndmPrimitives, ITriangulationOptions options)
-        {
-            return ndmPrimitives.SelectMany(x => x.GetNdms(options));
-            //var headMaterials = GetPrimitiveMaterials(ndmPrimitives);
-            //Dictionary<Guid, IMaterial> materials = GetMaterials(headMaterials, options);
-            //foreach (var ndmPrimitive in ndmPrimitives)
-            //{
-            //    IHeadMaterial headMaterial = ndmPrimitive.HeadMaterial;
-            //    IMaterial material;
-            //    if (materials.TryGetValue(headMaterial.Id, out material) == false) { throw new Exception("Material dictionary is not valid"); }
-            //    IEnumerable<INdm> localNdms = GetNdmsByPrimitive(ndmPrimitive, options);
-            //    ndms.AddRange(localNdms);
-            //}
-        }
+        //public static IEnumerable<INdm> GetNdms(IEnumerable<INdmPrimitive> ndmPrimitives, ITriangulationOptions options)
+        //{
+        //    return ndmPrimitives.SelectMany(x => x.GetNdms(options));
+        //    var headMaterials = GetPrimitiveMaterials(ndmPrimitives);
+        //    Dictionary<Guid, IMaterial> materials = GetMaterials(headMaterials, options);
+        //    foreach (var ndmPrimitive in ndmPrimitives)
+        //    {
+        //        IHeadMaterial headMaterial = ndmPrimitive.HeadMaterial;
+        //        IMaterial material;
+        //        if (materials.TryGetValue(headMaterial.Id, out material) == false) { throw new Exception("Material dictionary is not valid"); }
+        //        IEnumerable<INdm> localNdms = GetNdmsByPrimitive(ndmPrimitive, options);
+        //        ndms.AddRange(localNdms);
+        //    }
+        //}
         /// <summary>
         /// Returns dictionary of unique materials by collection of primitives
         /// </summary>

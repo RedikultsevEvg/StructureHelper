@@ -1,0 +1,52 @@
+﻿<Window x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic.SurroundDataView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        d:DataContext ="{d:DesignInstance local:SurroundDataViewModel}"
+        mc:Ignorable="d"
+        Title="Diagram properties" Height="250" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="170"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Maximum axial force"/>
+            <TextBlock Grid.Row="1" Text="Minimum axial force"/>
+            <TextBlock Grid.Row="2" Text="Maximum bending moment Mx"/>
+            <TextBlock Grid.Row="3" Text="Minimum bending moment Mx"/>
+            <TextBlock Grid.Row="4" Text="Minimum bending moment My"/>
+            <TextBlock Grid.Row="5" Text="Point count"/>
+            <TextBox Grid.Column="1" Text="{Binding YMax, Converter={StaticResource ForceConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding YMin, Converter={StaticResource ForceConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding XMax, Converter={StaticResource MomentConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding XMin, Converter={StaticResource MomentConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding ConstZ, Converter={StaticResource MomentConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding PointCount, ValidatesOnDataErrors=True}"/>
+            <uc:MultiplyDouble Margin="2" Grid.Column="4" Grid.Row="0" ValueChanged="YmaxChanged"/>
+            <uc:MultiplyDouble Margin="2" Grid.Column="4" Grid.Row="1" ValueChanged="YminChanged"/>
+            <uc:MultiplyDouble Margin="2" Grid.Column="4" Grid.Row="2" ValueChanged="XmaxChanged"/>
+            <uc:MultiplyDouble Margin="2" Grid.Column="4" Grid.Row="3" ValueChanged="XminChanged"/>
+            <uc:MultiplyDouble Margin="2" Grid.Column="4" Grid.Row="4" ValueChanged="ConstZChanged"/>
+            <uc:MultiplyDouble Margin="2" Grid.Column="4" Grid.Row="5" ValueChanged="PointCountChanged"/>
+        </Grid>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>

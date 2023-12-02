@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Calculators
 {
-    public class FindParameterCalculator : ICalculator
+    public class FindParameterCalculator : ICalculator, IHasActionByResult
     {
         FindParameterResult result;
         public string Name { get; set; }
@@ -18,21 +18,20 @@ namespace StructureHelperCommon.Models.Calculators
         public IAccuracy Accuracy {get;set;}
         public IResult Result => result;
 
-        public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Action<IResult> ActionToOutputResults { get; set; }
 
         public FindParameterCalculator()
         {
             StartValue = 0d;
             EndValue = 1d;
-            Accuracy = new Accuracy() { IterationAccuracy = 0.001, MaxIterationCount = 1000 };
+            Accuracy = new Accuracy() { IterationAccuracy = 0.001d, MaxIterationCount = 1000 };
         }
         public void Run()
         {
-            result = new() { IsValid = true};
+            result = new();
             try
             {
-                result.Parameter = FindMinimumValue(StartValue, EndValue, Predicate);
-                result.Description = "Parameter was found succefully";
+                FindMinimumValue(StartValue, EndValue, Predicate);
             }
             catch(Exception ex)
             {
@@ -45,7 +44,7 @@ namespace StructureHelperCommon.Models.Calculators
             throw new NotImplementedException();
         }
 
-        private double FindMinimumValue(double start, double end, Predicate<double> predicate)
+        private void FindMinimumValue(double start, double end, Predicate<double> predicate)
         {
             if (predicate(end) == false)
             {
@@ -59,7 +58,7 @@ namespace StructureHelperCommon.Models.Calculators
             int iterationNum = 0;
             while (step > precision)
             {
-                if (predicate(current))
+                if (predicate(current) == true)
                 {
                     end = current;
                 }
@@ -71,13 +70,23 @@ namespace StructureHelperCommon.Models.Calculators
                 current = (start + end) / 2;
                 step = (end - start) / 2;
                 iterationNum++;
+
+                result.IsValid = false;
+                result.IterationNumber = iterationNum;
+                result.CurrentAccuracy = step;
+                ActionToOutputResults?.Invoke(result);
+
                 if (iterationNum > maxIterationCount)
                 {
+                    result.Description = "Parameter was not found succefully: \n";
                     throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": violation of iteration count");
                 }
             }
 
-            return current;
+            result.Parameter = current;
+            result.Description = "Parameter was found succefully";
+            result.IsValid = true;
+            ActionToOutputResults?.Invoke(result);
         }
     }
 }

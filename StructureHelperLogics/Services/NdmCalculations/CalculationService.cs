@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using StructureHelperLogics.Services.NdmPrimitives;
 
 namespace StructureHelperLogics.Services.NdmCalculations
 {
@@ -24,8 +25,7 @@ namespace StructureHelperLogics.Services.NdmCalculations
         public IStrainMatrix GetPrimitiveStrainMatrix(INdmPrimitive[] ndmPrimitives, double mx, double my, double nz)
         {
             var ndmCollection = new List<INdm>();
-            ITriangulationOptions options = new TriangulationOptions { LimiteState = calculationProperty.LimitState, CalcTerm = calculationProperty.CalcTerm };
-            ndmCollection.AddRange(ndmPrimitives.SelectMany(x => x.GetNdms(options)));
+            ndmCollection.AddRange(NdmPrimitivesService.GetNdms(ndmPrimitives, calculationProperty.LimitState, calculationProperty.CalcTerm));
             var loaderData = new LoaderOptions
             {
                 Preconditions = new Preconditions

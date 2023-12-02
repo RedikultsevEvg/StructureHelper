@@ -1,4 +1,5 @@
 ﻿using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.Windows.ViewModels;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
+namespace StructureHelper.Windows.PrimitivePropertiesWindow
 {
     public class SelectPrimitivesViewModel : OkCancelViewModelBase
     {

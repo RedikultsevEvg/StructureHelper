@@ -12,7 +12,7 @@ using StructureHelperLogics.Services.NdmPrimitives;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public class ForceCalculator : IForceCalculator
+    public class ForceCalculator : IForceCalculator, IHasActionByResult
     {
         static readonly ForceCalculatorUpdateStrategy updateStrategy = new();
         public string Name { get; set; }

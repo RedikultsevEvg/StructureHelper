@@ -11,8 +11,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public class LimitCurveParameterLogic : ILimitCurveParameterLogic
     {
+        private FindParameterResult result;
         private Predicate<Point2D> limitPredicate;
         public IPoint2D CurrentPoint { get; set; }
+        public Action<IResult> ActionToOutputResults { get; set; }
 
         public LimitCurveParameterLogic(Predicate<Point2D> limitPredicate)
         {
@@ -31,8 +33,16 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             {
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": predicate for point  (x={CurrentPoint.X}, y={CurrentPoint.Y}) is not valid");
             }
-            var result = parameterCalculator.Result as FindParameterResult;
+            result = parameterCalculator.Result as FindParameterResult;
             var parameter = result.Parameter;
+            if (parameter < 0.1d)
+            {
+                parameterCalculator.Accuracy.IterationAccuracy = 0.0001d;
+                parameterCalculator.Run();
+                result = parameterCalculator.Result as FindParameterResult;
+                parameter = result.Parameter;
+            }
+
             return parameter;
         }
 

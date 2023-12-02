@@ -2,8 +2,10 @@
 using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
@@ -18,20 +20,18 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
     internal class InteractionDiagramLogic : ILongProcessLogic
     {
-        const double xmax = 0.7e6d; 
-        const double xmin = -0.7e6d; 
-        const double ymax = 1.5e6d; 
-        const double ymin = -9e6d; 
-
         private ArrayParameter<double> arrayParameter;
+        private IResult result;
+
         private static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
 
-        public int StepCount { get; }
+        public int StepCount => SurroundData.PointCount;
 
         public Action<int> SetProgress { get; set; }
         public bool Result { get; set; }
@@ -40,29 +40,40 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public CalcTerms CalcTerm { get; set; }
         public ForceTuple ForceTuple { get; set; }
 
-        private void Show()
+        public SurroundData SurroundData { get; set; }
+
+        public InteractionDiagramLogic(SurroundData surroundData)
         {
-            var options = new TriangulationOptions() { LimiteState = LimitState, CalcTerm = CalcTerm };
-            var ndmCollection = NdmPrimitives.SelectMany(x => x.GetNdms(options));
-            //var ndmCollection = NdmPrimitivesService.GetNdms(NdmPrimitives, LimitState, CalcTerm);
+            SurroundData = surroundData;
+        }
+
+        private void DoCalculations()
+        {
+            var ndmCollection = NdmPrimitivesService.GetNdms(NdmPrimitives, LimitState, CalcTerm);
 
             var predicateFactory = new PredicateFactory()
             {
-                My = ForceTuple.My,
+                My = SurroundData.ConstZ,
                 Ndms = ndmCollection
             };
-            Predicate<IPoint2D> predicate = predicateFactory.GetResult;
+            Predicate<IPoint2D> predicate = predicateFactory.IsSectionFailure;
+            //Predicate<IPoint2D> predicate = predicateFactory.IsSectionCracked;
             //var logic = new StabLimitCurveLogic();
             var logic = new LimitCurveLogic(predicate);
             var calculator = new LimitCurveCalculator(logic);
-            calculator.SurroundData.XMax = xmax;
-            calculator.SurroundData.XMin = xmin;
-            calculator.SurroundData.YMax = ymax;
-            calculator.SurroundData.YMin = ymin;
-            calculator.SurroundData.PointCount = 40;
+            calculator.SurroundData = SurroundData;
+            calculator.ActionToOutputResults = SetProgressByResult;
+            SafetyProcessor.RunSafeProcess(() =>
+            {
+                CalcResult(calculator);
+            }, "Errors appeared during showing a graph, see detailed information");
+        }
+
+        private void CalcResult(LimitCurveCalculator calculator)
+        {
             calculator.Run();
-            var result = calculator.Result;
-            if (result.IsValid = false) { return; }
+            result = calculator.Result;
+            if (result.IsValid == false) { return; }
             var interactionResult = result as LimitCurveResult;
             var unitForce = CommonOperation.GetUnit(UnitTypes.Force, "kN");
             var unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, "kNm");
@@ -73,16 +84,25 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             for (int i = 0; i < items.Count(); i++)
             {
                 var valueList = new List<double>
-                {
-                    items[i].X * unitForce.Multiplyer,
-                    items[i].Y * unitMoment.Multiplyer
-                };
+                    {
+                        items[i].X * unitForce.Multiplyer,
+                        items[i].Y * unitMoment.Multiplyer
+                    };
                 for (int j = 0; j < valueList.Count; j++)
                 {
                     data[i, j] = valueList[j];
                 }
-                SetProgress?.Invoke(i);
             }
+        }
+
+        private void SetProgressByResult(IResult calcResult)
+        {
+            if (calcResult is not LimitCurveResult)
+            {
+                throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(LimitCurveResult), calcResult));
+            }
+            var parameterResult = calcResult as LimitCurveResult;
+            SetProgress?.Invoke(parameterResult.IterationNumber);
         }
 
         private static string[] GetLabels(IUnit unitForce, IUnit unitMoment)
@@ -96,19 +116,25 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         public void ShowWindow()
         {
-            Show();
             Result = true;
             SafetyProcessor.RunSafeProcess(() =>
             {
-                var wnd = new GraphView(arrayParameter);
-                wnd.ShowDialog();
+                if (result.IsValid == true)
+                {
+                    var wnd = new GraphView(arrayParameter);
+                    wnd.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show(result.Description);
+                }
             },
             "Errors appeared during showing a graph, see detailed information");
         }
 
         public void WorkerDoWork(object sender, DoWorkEventArgs e)
         {
-            Show();
+            DoCalculations();
             Result = true;
         }
 

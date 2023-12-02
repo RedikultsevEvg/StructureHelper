@@ -6,6 +6,7 @@ using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
+using StructureHelperLogics.Services.NdmPrimitives;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
@@ -22,8 +23,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public string Name { get; set; }
         public CrackWidthCalculatorInputData InputData { get; set; }
         public IResult Result => result;
-
-        public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void Run()
         {
@@ -96,10 +95,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                     rebarPrimitives.Add(item as RebarPrimitive);
                 }
             }
-            //rebarPrimitives = ndmPrimitives
-            //    .Select(x => x is RebarPrimitive) as IEnumerable<RebarPrimitive>;
-            var options = new TriangulationOptions() { LimiteState = InputData.LimitState, CalcTerm = InputData.CalcTerm };
-            ndmCollection = ndmPrimitives.SelectMany(x => x.GetNdms(options));
+            ndmCollection = NdmPrimitivesService.GetNdms(ndmPrimitives, InputData.LimitState, InputData.CalcTerm);
         }
 
         private void CalcCrackForce()

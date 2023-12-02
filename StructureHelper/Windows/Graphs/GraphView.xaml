@@ -7,7 +7,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         d:DataContext="{d:DesignInstance local:GraphViewModel}"
         mc:Ignorable="d"
-        Title="Graph" Height="450" Width="800" MinHeight="400" MinWidth="600" WindowStartupLocation="CenterScreen">
+        Title="Graph" Height="550" Width="800" MinHeight="500" MinWidth="600" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <!--<ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
@@ -30,7 +30,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70"/>
                         <RowDefinition/>
-                        <RowDefinition Height="120"/>
+                        <RowDefinition Height="170"/>
                     </Grid.RowDefinitions>
                     <GroupBox Grid.Row="0" Header="X-axis values">
                         <StackPanel>

@@ -6,6 +6,7 @@ using StructureHelper.Models.Materials;
 using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Services.ColorServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -212,15 +213,14 @@ namespace StructureHelper.Windows.Graphs
                         var lineSeries = new LineSeries()
                         {
                             Title = $"{material.Name} ({calcTerm.ShortName} {limitState.ShortName})",
-                            //Stroke = new SolidColorBrush(material.Color),
-                            Fill = Brushes.Transparent,
-                            LineSmoothness = VisualProps.LineSmoothness,
-                            PointGeometry = DefaultGeometries.Circle,
-                            PointGeometrySize = VisualProps.StrokeSize
                         };
                         if (limitStates.Count() == 1 && calcTerms.Count() == 1)
                         {
-                            lineSeries.Stroke = new SolidColorBrush(material.Color);
+                            GraphService.SetVisualProps(lineSeries, VisualProps, material.Color);
+                        }
+                        else
+                        {
+                            GraphService.SetVisualProps(lineSeries, VisualProps, ColorProcessor.GetRandomColor());
                         }
                         var chartValues = new ChartValues<double>();
                         for (double s = minValue; s < maxValue; s += step)
