@@ -13,7 +13,7 @@ namespace StructureHelperCommon.Models.Forces
 {
     public class ForceActionUpdateStrategy : IUpdateStrategy<IForceAction>
     {
-        private readonly IUpdateStrategy<IPoint2D> pointStrategy = new PointShapeUpdateStrategy();
+        private readonly IUpdateStrategy<IPoint2D> pointStrategy = new Point2DUpdateStrategy();
         private readonly IUpdateStrategy<IDesignForcePair> forcePairUpdateStrategy = new ForcePairUpdateStrategy();
         private readonly IUpdateStrategy<IForceCombinationByFactor> factorUpdateStrategy = new FactorCombinationUpdateStrategy();
         private readonly IUpdateStrategy<IForceCombinationList> forceListUpdateStrategy = new ForceCombinationListUpdateStrategy();

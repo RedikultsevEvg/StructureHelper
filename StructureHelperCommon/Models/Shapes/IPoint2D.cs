@@ -1,6 +1,10 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 
+
+//Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
 namespace StructureHelperCommon.Models.Shapes
 {
     /// <summary>

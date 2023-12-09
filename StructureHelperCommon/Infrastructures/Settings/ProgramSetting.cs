@@ -26,7 +26,8 @@ namespace StructureHelperCommon.Infrastructures.Settings
             set
             {
                 natSystem = value;
-                codesList = CodeFactory.GetCodeEntities()
+                codesList = CodeFactory
+                    .GetCodeEntities()
                     .Where(x => x.NatSystem == natSystem)
                     .ToList();
                 materialRepository = new MaterialRepository(codesList);
@@ -38,7 +39,8 @@ namespace StructureHelperCommon.Infrastructures.Settings
         public static List<ICodeEntity> CodesList
         { get
             {
-                codesList ??= CodeFactory.GetCodeEntities()
+                codesList ??= CodeFactory
+                    .GetCodeEntities()
                     .Where(x => x.NatSystem == NatSystem)
                     .ToList();
                 return codesList;

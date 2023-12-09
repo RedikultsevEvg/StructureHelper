@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
+        d:DataContext ="{d:DesignInstance local:InteractionDiagramCalculatorViewModel}"
         mc:Ignorable="d"
-        Title="InteractionDiagramCalculatorView" Height="350" Width="400">
+        Title="Interaction Diagram Calculator" Height="300" Width="400" MinHeight="300" MinWidth="400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <TabControl>
             <TabItem Header="Logic">
@@ -18,15 +19,19 @@
             <TabItem Header="Limits">
 
             </TabItem>
+            <TabItem Header="Primitives">
+                <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding PrimitivesViewModel}"/>
+            </TabItem>
             <TabItem Header="Predicates">
-
+                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding YItems}"/>
             </TabItem>
             <TabItem Header="States">
-
+                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding YItems}"/>
             </TabItem>
             <TabItem Header="Terms">
-
+                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding YItems}"/>
             </TabItem>
         </TabControl>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

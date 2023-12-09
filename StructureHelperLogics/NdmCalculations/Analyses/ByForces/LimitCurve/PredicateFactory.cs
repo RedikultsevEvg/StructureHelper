@@ -18,19 +18,20 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private ForceTuple tuple;
         private ForceTupleInputData inputData;
         public IEnumerable<INdm> Ndms { get; set; }
-        public double My { get; set; }
+        public IConvert2DPointTo3DPointLogic ConvertLogic { get; set; }
         public PredicateFactory()
         {
             inputData = new();
             calculator = new() { InputData = inputData };                  
         }
-        public bool IsSectionFailure(IPoint2D point)
+        public bool IsSectionFailure(IPoint2D point2D)
         {
+            var point3D = ConvertLogic.GetPoint3D(point2D);
             tuple = new()
             {
-                Nz = point.Y,
-                Mx = point.X,
-                My = My
+                Nz = point3D.Z,
+                Mx = point3D.X,
+                My = point3D.Y
             };
             inputData.Tuple = tuple;
             inputData.NdmCollection = Ndms;
@@ -39,14 +40,15 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             return !result.IsValid;
         }
 
-        public bool IsSectionCracked(IPoint2D point)
+        public bool IsSectionCracked(IPoint2D point2D)
         {
             var logic = new HoleSectionCrackedLogic();
+            var point3D = ConvertLogic.GetPoint3D(point2D);
             tuple = new()
             {
-                Nz = point.Y,
-                Mx = point.X,
-                My = My
+                Nz = point3D.Z,
+                Mx = point3D.X,
+                My = point2D.Y
             };
             logic.Tuple = tuple;
             logic.NdmCollection = Ndms;

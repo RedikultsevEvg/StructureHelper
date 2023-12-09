@@ -1,4 +1,6 @@
-﻿using System;
+﻿using StructureHelperCommon.Models.Shapes;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public double YMax { get; set; }
         public double YMin { get; set; }
         public double ConstZ { get; set; }
+        public ConstOneDirectionConverter ConvertLogicEntity { get; set; }
         public int PointCount { get; set; }
         public SurroundData()
         {
@@ -21,6 +24,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             YMax = 1e7d;
             YMin = -1e7d;
             PointCount = 80;
+            ConvertLogicEntity = ConvertLogics.ConverterLogics[0];
         }
     }
 }

@@ -11,6 +11,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
+
+//Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
+
 namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 {
     public class ForceCalculatorViewModel : OkCancelViewModelBase

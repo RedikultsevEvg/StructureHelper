@@ -100,7 +100,9 @@ namespace StructureHelper.Windows.ViewModels.Materials
             {
                 CodeList.Add(item);
             }
-            CodeEntity = codes.Where(x => x == selectedMaterialKind.Code).Single();
+            CodeEntity = codes
+                .Where(x => x == selectedMaterialKind.Code)
+                .Single();
             MaterialEntity = MaterialLibrary
                 .Single(x => x.Id == selectedMaterialKind.Id);
             OnPropertyChanged(nameof(MaterialEntity));

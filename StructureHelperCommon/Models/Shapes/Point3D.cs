@@ -1,6 +1,10 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes.Logics;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 
 //Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
@@ -8,27 +12,30 @@ using System;
 
 namespace StructureHelperCommon.Models.Shapes
 {
-    /// <inheritdoc />
-    public class Point2D : IPoint2D
+    /// <inheritdoc/>
+    public class Point3D : IPoint3D
     {
-        private readonly IUpdateStrategy<IPoint2D> updateStrategy = new Point2DUpdateStrategy();
-        /// <inheritdoc />
-        public Guid Id { get; }
-        /// <inheritdoc />
-        public double X { get; set; }
-        /// <inheritdoc />
-        public double Y { get; set; }
+        private readonly IUpdateStrategy<IPoint3D> updateStrategy = new Point3DUpdateStrategy();
 
-        public Point2D(Guid id)
+        /// <inheritdoc/>
+        public Guid Id { get; }
+        /// <inheritdoc/>
+        public double X { get; set; }
+        /// <inheritdoc/>
+        public double Y { get; set; }
+        /// <inheritdoc/>
+        public double Z { get; set; }
+
+        public Point3D(Guid id)
         {
             Id = id;
         }
 
-        public Point2D() : this(Guid.NewGuid()) { }
+        public Point3D() : this(Guid.NewGuid()) { }
 
         public object Clone()
         {
-            var newItem = new Point2D();
+            var newItem = new Point3D();
             updateStrategy.Update(newItem, this);
             return newItem;
         }

@@ -18,7 +18,7 @@ namespace StructureHelper.Windows.PrimitivePropertiesWindow
         {
             var primitiveViews = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(primitives);
             Items = new SelectItemsViewModel<PrimitiveBase>(primitiveViews) { ShowButtons = true };
-            Items.ItemDataDemplate = Application.Current.Resources["ColoredItemTemplate"] as DataTemplate;
+            Items.ItemDataTemplate = Application.Current.Resources["ColoredItemTemplate"] as DataTemplate;
         }
     }
 }

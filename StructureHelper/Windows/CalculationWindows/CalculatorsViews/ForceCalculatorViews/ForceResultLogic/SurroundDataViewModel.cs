@@ -1,17 +1,45 @@
-﻿using StructureHelper.Windows.ViewModels;
+﻿using StructureHelper.Infrastructure.UI.Converters.Units;
+using StructureHelper.Windows.ViewModels;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic
 {
     public class SurroundDataViewModel : OkCancelViewModelBase, IDataErrorInfo
     {
         private readonly SurroundData surroundData;
+        public IValueConverter XValueConverter { get => new Force(); }
+        public IValueConverter YValueConverter { get => new Moment();}
+        public IValueConverter ZValueConverter { get => new Moment(); }
+        public List<ConstOneDirectionConverter> Logics { get; }
+        public ConstOneDirectionConverter Logic
+        {
+            get
+            {
+                var logic = surroundData.ConvertLogicEntity;
+                return logic;
+            }
+            set
+            {
+                surroundData.ConvertLogicEntity = value;
+                OnPropertyChanged(nameof(Logic));
+                OnPropertyChanged(nameof(XLabel));
+                OnPropertyChanged(nameof(YLabel));
+                OnPropertyChanged(nameof(ZLabel));
+            }
+        }
+
+        public string XLabel { get => surroundData.ConvertLogicEntity.XAxisName; }
+        public string YLabel { get => surroundData.ConvertLogicEntity.YAxisName; }
+        public string ZLabel { get => surroundData.ConvertLogicEntity.ConstAxisName; }
 
         public double XMax
         {
@@ -92,6 +120,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public SurroundDataViewModel(SurroundData surroundData)
         {
             this.surroundData = surroundData;
+            Logics = new();
+            Logics.AddRange(ConvertLogics.ConverterLogics);
+            Logic = Logics
+                .Where(x => x.Id == surroundData.ConvertLogicEntity.Id)
+                .Single();
+            OnPropertyChanged(nameof(Logic));
         }
 
         internal void RefreshAll()

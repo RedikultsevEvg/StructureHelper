@@ -1,33 +1,33 @@
-﻿using LoaderCalculator.Data.Ndms;
-using StructureHelper.Windows.Graphs;
+﻿using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
     internal class InteractionDiagramLogic : ILongProcessLogic
     {
+        const string ForceUnitString = "kN";
+        const string MomentUnitString = "kNm";
+
         private ArrayParameter<double> arrayParameter;
         private IResult result;
+        private IUnit unitForce = CommonOperation.GetUnit(UnitTypes.Force, ForceUnitString);
+        private IUnit unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, MomentUnitString);
 
         private static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
 
@@ -38,7 +38,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public IEnumerable<INdmPrimitive> NdmPrimitives { get; set; }
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }
-        public ForceTuple ForceTuple { get; set; }
+        //public ForceTuple ForceTuple { get; set; }
+
 
         public SurroundData SurroundData { get; set; }
 
@@ -50,11 +51,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private void DoCalculations()
         {
             var ndmCollection = NdmPrimitivesService.GetNdms(NdmPrimitives, LimitState, CalcTerm);
-
+            var convertLogic = SurroundData.ConvertLogicEntity;
+            convertLogic.ConstDirectionValue = SurroundData.ConstZ;
             var predicateFactory = new PredicateFactory()
             {
-                My = SurroundData.ConstZ,
-                Ndms = ndmCollection
+                Ndms = ndmCollection,
+                ConvertLogic = convertLogic.ConvertLogic,
             };
             Predicate<IPoint2D> predicate = predicateFactory.IsSectionFailure;
             //Predicate<IPoint2D> predicate = predicateFactory.IsSectionCracked;
@@ -75,9 +77,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             result = calculator.Result;
             if (result.IsValid == false) { return; }
             var interactionResult = result as LimitCurveResult;
-            var unitForce = CommonOperation.GetUnit(UnitTypes.Force, "kN");
-            var unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, "kNm");
-            string[] labels = GetLabels(unitForce, unitMoment);
+            string[] labels = GetLabels();
             var items = interactionResult.Points;
             arrayParameter = new ArrayParameter<double>(items.Count(), labels.Count(), labels);
             var data = arrayParameter.Data;
@@ -105,13 +105,32 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             SetProgress?.Invoke(parameterResult.IterationNumber);
         }
 
-        private static string[] GetLabels(IUnit unitForce, IUnit unitMoment)
+        private string[] GetLabels()
         {
-            return new string[]
+            string[] strings = new string[2];
+            strings[0] = GetLabel(SurroundData.ConvertLogicEntity.XForceType);
+            strings[1] = GetLabel(SurroundData.ConvertLogicEntity.YForceType);
+            return strings;
+        }
+
+        private string GetLabel(ForceTypes forceType)
+        {
+            if (forceType == ForceTypes.Force)
             {
-                $"{GeometryNames.MomFstName}, {unitMoment.Name}",
-                $"{GeometryNames.LongForceName}, {unitForce.Name}"
-            };
+                return $"{GeometryNames.LongForceName}, {unitForce.Name}";
+            }
+            else if (forceType == ForceTypes.MomentMx)
+            {
+                return $"{GeometryNames.MomFstName}, {unitMoment.Name}";
+            }
+            else if (forceType == ForceTypes.MomentMy)
+            {
+                return $"{GeometryNames.MomSndName}, {unitMoment.Name}";
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(forceType));
+            }
         }
 
         public void ShowWindow()

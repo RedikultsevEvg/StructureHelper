@@ -5,10 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperCommon.Models.Shapes.Logics
+
+//Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
+namespace StructureHelperCommon.Models.Shapes
 {
     /// <inheritdoc />
-    public class PointShapeUpdateStrategy : IUpdateStrategy<IPoint2D>
+    public class Point2DUpdateStrategy : IUpdateStrategy<IPoint2D>
     {
         /// <inheritdoc />
         public void Update(IPoint2D targetObject, IPoint2D sourceObject)

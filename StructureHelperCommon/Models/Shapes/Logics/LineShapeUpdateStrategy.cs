@@ -10,7 +10,7 @@ namespace StructureHelperCommon.Models.Shapes
 {
     public class LineShapeUpdateStrategy : IUpdateStrategy<ILineShape>
     {
-        readonly PointShapeUpdateStrategy pointUpdateStrategy = new();
+        readonly Point2DUpdateStrategy pointUpdateStrategy = new();
         public void Update(ILineShape targetObject, ILineShape sourceObject)
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }

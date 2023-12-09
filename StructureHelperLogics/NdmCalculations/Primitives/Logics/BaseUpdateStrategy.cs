@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Models.Shapes.Logics;
 using StructureHelperCommon.Services.Forces;
 using System;
@@ -12,7 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     internal class BaseUpdateStrategy : IUpdateStrategy<INdmPrimitive>
     {
-        static readonly PointShapeUpdateStrategy pointShapeUpdateStrategy = new();
+        static readonly Point2DUpdateStrategy point2DUpdateStrategy = new();
         readonly ForceTupleUpdateStrategy tupleUpdateStrategy = new();
         readonly VisualPropsUpdateStrategy visualPropsUpdateStrategy = new();
 
@@ -22,7 +23,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             targetObject.Name = sourceObject.Name;
             if (sourceObject.HeadMaterial != null) targetObject.HeadMaterial = sourceObject.HeadMaterial;
             targetObject.Triangulate = sourceObject.Triangulate;
-            pointShapeUpdateStrategy.Update(targetObject.Center, sourceObject.Center);
+            point2DUpdateStrategy.Update(targetObject.Center, sourceObject.Center);
             visualPropsUpdateStrategy.Update(targetObject.VisualProperty, sourceObject.VisualProperty);
             tupleUpdateStrategy.Update(targetObject.UsersPrestrain, sourceObject.UsersPrestrain);
         }
