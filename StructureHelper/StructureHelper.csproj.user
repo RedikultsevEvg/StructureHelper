@@ -12,7 +12,10 @@
     <Compile Update="Windows\Arrays\ArrayView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\SurroundDataView.xaml.cs">
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\LimitCurveDataView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\UserControls\SurroundDataControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\GeometryCalculatorViews\GeometryCalculatorResultView.xaml.cs">
@@ -56,13 +59,19 @@
     <Page Update="Infrastructure\UI\Resources\IconDictionary.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Infrastructure\UI\Resources\LimitCurveTemplates.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Infrastructure\UI\Resources\Materials.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\Arrays\ArrayView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\SurroundDataView.xaml">
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\LimitCurveDataView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\UserControls\SurroundDataControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\CalculationWindows\CalculatorsViews\GeometryCalculatorViews\GeometryCalculatorResultView.xaml">

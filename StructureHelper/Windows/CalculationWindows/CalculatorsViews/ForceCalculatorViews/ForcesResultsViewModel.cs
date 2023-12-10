@@ -77,7 +77,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                         var tuple = SelectedResult.DesignForceTuple.ForceTuple.Clone() as ForceTuple;
                         var data = new SurroundData();
                         //data.ConstZ = tuple.My;
-                        var wnd = new SurroundDataView(data);
+                        var wnd = new LimitCurveDataView(data);
                         wnd.ShowDialog();
                         if (wnd.DialogResult != true) return;
                         interactionDiagramLogic = new(data)

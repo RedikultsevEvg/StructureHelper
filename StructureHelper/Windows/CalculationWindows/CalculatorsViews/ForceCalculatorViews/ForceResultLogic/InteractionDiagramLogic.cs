@@ -85,7 +85,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             {
                 var valueList = new List<double>
                     {
-                        items[i].X * unitForce.Multiplyer,
+                    // to do repair multiplay by surround data    
+                    items[i].X * unitForce.Multiplyer,
                         items[i].Y * unitMoment.Multiplyer
                     };
                 for (int j = 0; j < valueList.Count; j++)

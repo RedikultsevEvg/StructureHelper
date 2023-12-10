@@ -12,7 +12,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     {
         public Action<IResult> ActionToOutputResults { get; set; }
 
-        public List<IPoint2D> GetPoints(List<IPoint2D> points)
+        public List<IPoint2D> GetPoints(IEnumerable<IPoint2D> points)
         {
             var result = new List<IPoint2D>();
             foreach (var item in points)

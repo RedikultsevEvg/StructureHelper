@@ -29,7 +29,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         {
             this.limitCurveLogic = limitCurveLogic;
             SurroundData = new();
-            //SurroundProcLogic = new RoundSurroundProc();
             SurroundProcLogic = new RectSurroundProc();
         }
 

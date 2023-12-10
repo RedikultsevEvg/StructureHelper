@@ -14,10 +14,7 @@
         </Grid.RowDefinitions>
         <TabControl>
             <TabItem Header="Logic">
-                
-            </TabItem>
-            <TabItem Header="Limits">
-
+                <!--<local:SorroundDataControl/>-->
             </TabItem>
             <TabItem Header="Primitives">
                 <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding PrimitivesViewModel}"/>

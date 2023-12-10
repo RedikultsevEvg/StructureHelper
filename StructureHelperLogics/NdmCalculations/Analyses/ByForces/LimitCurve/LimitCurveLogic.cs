@@ -1,17 +1,15 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Models.Calculators;
+﻿using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+//Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public class LimitCurveLogic : ILimitCurveLogic
     {
         private FindParameterResult result;
+        private List<IPoint2D> resultList;
         private IPoint2D currentPoint;
         private ILimitCurveParameterLogic parameterLogic;
         public Predicate<IPoint2D> LimitPredicate { get; set; }
@@ -25,37 +23,46 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         {
             LimitPredicate = limitPredicate;
         }
-        public List<IPoint2D> GetPoints(List<IPoint2D> points)
+        /// <inheritdoc/>
+        public List<IPoint2D> GetPoints(IEnumerable<IPoint2D> points)
         {
             result = new();
-            List<IPoint2D> resultList = new();
+            resultList = new();
             if (LimitPredicate(new Point2D()) == true)
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": predicate for zero value is not valid");
+                var range = points.Select(point => new Point2D { X = point.X * 0d, Y = point.Y * 0d }).ToList();
+                resultList.AddRange(range);
+                return resultList;
+                //throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": predicate for zero value is not valid");
             }
             foreach (var point in points)
             {
-                double parameter;
-                currentPoint = point.Clone() as IPoint2D;
-                parameterLogic.CurrentPoint = currentPoint;
-                if (LimitPredicate(point) == false)
-                {
-                    parameter = 1d;
-                }
-                else
-                {
-                    parameter = parameterLogic.GetParameter();
-                }
-                var resultPoint = new Point2D()
-                {
-                    X = currentPoint.X * parameter,
-                    Y = currentPoint.Y * parameter
-                };
-                resultList.Add(resultPoint);
-                result.IterationNumber = resultList.Count;
-                ActionToOutputResults?.Invoke(result);
+                FindParameter(point);
             }
             return resultList;
+        }
+
+        private void FindParameter(IPoint2D point)
+        {
+            double parameter;
+            currentPoint = point.Clone() as IPoint2D;
+            parameterLogic.CurrentPoint = currentPoint;
+            if (LimitPredicate(point) == false)
+            {
+                parameter = 1d;
+            }
+            else
+            {
+                parameter = parameterLogic.GetParameter();
+            }
+            var resultPoint = new Point2D()
+            {
+                X = currentPoint.X * parameter,
+                Y = currentPoint.Y * parameter
+            };
+            resultList.Add(resultPoint);
+            result.IterationNumber = resultList.Count;
+            ActionToOutputResults?.Invoke(result);
         }
     }
 }

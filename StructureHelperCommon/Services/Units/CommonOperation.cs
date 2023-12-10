@@ -81,7 +81,7 @@ namespace StructureHelperCommon.Services.Units
             return val;
         }
 
-        private static double GetMultiplyer(UnitTypes unitType, string unitName)
+        public static double GetMultiplyer(UnitTypes unitType, string unitName)
         {
             try
             {
