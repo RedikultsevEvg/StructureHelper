@@ -12,6 +12,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private List<IPoint2D> surroundList;
 
         public SurroundData SurroundData { get; set; }
+        public int PointCount { get; set; }
+
         public RoundSurroundProc()
         {
             SurroundData = new();
@@ -23,7 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             var xCenter = (SurroundData.XMax + SurroundData.XMin) / 2;
             var yCenter = (SurroundData.YMax + SurroundData.YMin) / 2;
             surroundList = new();
-            var pointCount = Convert.ToInt32(Math.Ceiling(SurroundData.PointCount / 4d) * 4d);
+            var pointCount = Convert.ToInt32(Math.Ceiling(PointCount / 4d) * 4d);
             double angleStep = 2d * Math.PI / pointCount;
             double angle;
             for (int i = 0; i < pointCount; i++)

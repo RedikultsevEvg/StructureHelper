@@ -86,7 +86,6 @@
     <Folder Include="Infrastructure\UI\DataContexts\Logics\" />
     <Folder Include="Resources\" />
     <Folder Include="Windows\UserControls\MultiplyTuples\" />
-    <Folder Include="Windows\ViewModels\Graphs\" />
   </ItemGroup>
 
   <ItemGroup>

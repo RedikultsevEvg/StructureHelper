@@ -220,7 +220,7 @@ namespace StructureHelper.Windows.Graphs
                         }
                         else
                         {
-                            GraphService.SetVisualProps(lineSeries, VisualProps, ColorProcessor.GetRandomColor());
+                            GraphService.SetVisualProps(lineSeries, VisualProps);
                         }
                         var chartValues = new ChartValues<double>();
                         for (double s = minValue; s < maxValue; s += step)

@@ -1,19 +1,21 @@
 ﻿using LoaderCalculator.Data.Ndms;
-using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Cracking;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+//Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
+    public enum PredicateTypes
+    {
+        Strength,
+        Cracking
+    }
     public class PredicateFactory
     {
-        
         private ForceTupleCalculator calculator;
         private ForceTuple tuple;
         private ForceTupleInputData inputData;
@@ -24,7 +26,23 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             inputData = new();
             calculator = new() { InputData = inputData };                  
         }
-        public bool IsSectionFailure(IPoint2D point2D)
+        public Predicate<IPoint2D> GetPredicate(PredicateTypes predicateType)
+        {
+            if (predicateType == PredicateTypes.Strength)
+            {
+                return point2D => IsSectionFailure(point2D);
+            }
+            else if (predicateType == PredicateTypes.Cracking)
+            {
+                return point2D => IsSectionCracked(point2D);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(predicateType));
+            }
+        }
+
+        private bool IsSectionFailure(IPoint2D point2D)
         {
             var point3D = ConvertLogic.GetPoint3D(point2D);
             tuple = new()
@@ -40,7 +58,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             return !result.IsValid;
         }
 
-        public bool IsSectionCracked(IPoint2D point2D)
+        private bool IsSectionCracked(IPoint2D point2D)
         {
             var logic = new HoleSectionCrackedLogic();
             var point3D = ConvertLogic.GetPoint3D(point2D);
@@ -48,7 +66,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             {
                 Nz = point3D.Z,
                 Mx = point3D.X,
-                My = point2D.Y
+                My = point3D.Y
             };
             logic.Tuple = tuple;
             logic.NdmCollection = Ndms;

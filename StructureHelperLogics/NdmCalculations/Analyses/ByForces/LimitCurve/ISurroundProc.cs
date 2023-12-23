@@ -10,6 +10,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     public interface ISurroundProc
     {
         SurroundData SurroundData { get; set; }
+        int PointCount { get; set; }
         List<IPoint2D> GetPoints();
     }
 }

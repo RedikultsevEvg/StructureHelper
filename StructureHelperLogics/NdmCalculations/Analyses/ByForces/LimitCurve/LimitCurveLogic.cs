@@ -33,16 +33,49 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 var range = points.Select(point => new Point2D { X = point.X * 0d, Y = point.Y * 0d }).ToList();
                 resultList.AddRange(range);
                 return resultList;
-                //throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": predicate for zero value is not valid");
             }
+
+            //MultyProcessPoints(points);
+            MonoProcessPoints(points);
+            return resultList;
+        }
+
+        private void MultyProcessPoints(IEnumerable<IPoint2D> points)
+        {
+            Task<IPoint2D>[] tasks = new Task<IPoint2D>[points.Count()];
+            for (int i = 0; i < points.Count(); i++)
+            {
+                var point = points.ToList()[i];
+                tasks[i] = new Task<IPoint2D>(() => FindResultPoint(point));
+                tasks[i].Start();
+            }
+            Task.WaitAll(tasks);
+            for (int j = 0; j < points.Count(); j++)
+            {
+                var taskResult = tasks[j].Result;
+                resultList.Add(taskResult);
+                result.IterationNumber = resultList.Count;
+                ActionToOutputResults?.Invoke(result);
+            }
+        }
+
+        private void MonoProcessPoints(IEnumerable<IPoint2D> points)
+        {
             foreach (var point in points)
             {
                 FindParameter(point);
             }
-            return resultList;
         }
 
         private void FindParameter(IPoint2D point)
+        {
+            IPoint2D resultPoint = FindResultPoint(point);
+            resultList.Add(resultPoint);
+            result.IterationNumber = resultList.Count;
+            ActionToOutputResults?.Invoke(result);
+        }
+
+        private Point2D FindResultPoint(IPoint2D point)
         {
             double parameter;
             currentPoint = point.Clone() as IPoint2D;
@@ -53,16 +86,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             }
             else
             {
-                parameter = parameterLogic.GetParameter();
+                parameter =  parameterLogic.GetParameter();
             }
             var resultPoint = new Point2D()
             {
                 X = currentPoint.X * parameter,
                 Y = currentPoint.Y * parameter
             };
-            resultList.Add(resultPoint);
-            result.IterationNumber = resultList.Count;
-            ActionToOutputResults?.Invoke(result);
+            return resultPoint;
         }
     }
 }

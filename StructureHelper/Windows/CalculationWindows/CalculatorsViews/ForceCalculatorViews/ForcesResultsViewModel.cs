@@ -21,6 +21,7 @@ using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.NdmCalculations.Analyses.Geometry;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -74,26 +75,21 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 return showInteractionDiagramCommand ??
                     (showInteractionDiagramCommand = new RelayCommand(o =>
                     {
-                        var tuple = SelectedResult.DesignForceTuple.ForceTuple.Clone() as ForceTuple;
-                        var data = new SurroundData();
-                        //data.ConstZ = tuple.My;
-                        var wnd = new LimitCurveDataView(data);
+                        var surroundDdata = new SurroundData();
+                        var vm = new LimitCurveDataViewModel(surroundDdata);
+                        vm.Primitives = ndmPrimitives.ToList();
+                        var wnd = new LimitCurveDataView(vm);
                         wnd.ShowDialog();
                         if (wnd.DialogResult != true) return;
-                        interactionDiagramLogic = new(data)
-                        {
-                            //ForceTuple = tuple,
-                            LimitState = SelectedResult.DesignForceTuple.LimitState,
-                            CalcTerm = SelectedResult.DesignForceTuple.CalcTerm,
-                            NdmPrimitives = ndmPrimitives
-                        };
+                        var inputData = vm.GetLimitCurveInputData();
+                        interactionDiagramLogic = new(inputData);
                         showProgressLogic = new(interactionDiagramLogic)
                         {
                             WindowTitle = "Diagram creating...",
                             ShowResult = interactionDiagramLogic.ShowWindow
                         };
                         showProgressLogic.Show();
-                    }, o => SelectedResult != null && SelectedResult.IsValid));
+                    }));
             }
         }
         public ICommand ShowIsoFieldCommand
@@ -160,7 +156,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                     };
                     showProgressLogic.Show();
                 }
-            }
+            }, o => SelectedResult != null && SelectedResult.IsValid
             );
         }
         public ICommand ShowCrackGraphsCommand
@@ -191,7 +187,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                     };
                     showProgressLogic.Show();
                 }
-            }
+            }, o => SelectedResult != null && SelectedResult.IsValid
             );
         }
         public ICommand ShowCrackResultCommand

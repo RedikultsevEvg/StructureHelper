@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public class LimitCurveCalculator : ICalculator, IHasActionByResult
+    public class LimitCurveCalculator : ILimitCurveCalculator
     {
         private LimitCurveResult result;
         private List<IPoint2D> surroundList;
@@ -19,6 +19,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public string Name { get; set; }
         public SurroundData SurroundData { get; set; }
+        public int PointCount { get; set; }
         public ISurroundProc SurroundProcLogic { get; set; }
 
         public IResult Result => result;
@@ -46,7 +47,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         {
             result = new LimitCurveResult();
             result.IsValid = true;
+            result.Name = Name;
             SurroundProcLogic.SurroundData = SurroundData;
+            SurroundProcLogic.PointCount = PointCount;
             surroundList = SurroundProcLogic.GetPoints();
             try
             {
@@ -60,7 +63,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 result.Description += ex.Message;
             }
         }
-        
+
         private void GetCurrentStepNumber(IResult calcResult)
         {
             if (calcResult is not FindParameterResult)

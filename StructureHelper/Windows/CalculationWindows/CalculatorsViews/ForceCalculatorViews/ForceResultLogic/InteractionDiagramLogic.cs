@@ -9,6 +9,7 @@ using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
@@ -17,6 +18,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 
+//Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
     internal class InteractionDiagramLogic : ILongProcessLogic
@@ -24,46 +28,36 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         const string ForceUnitString = "kN";
         const string MomentUnitString = "kNm";
 
-        private ArrayParameter<double> arrayParameter;
+        //private List<ArrayParameter<double>> arrayParameters;
         private IResult result;
         private IUnit unitForce = CommonOperation.GetUnit(UnitTypes.Force, ForceUnitString);
         private IUnit unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, MomentUnitString);
+        private int stepCount;
 
         private static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
-
-        public int StepCount => SurroundData.PointCount;
+        public LimitCurveInputData InputData { get; set; }
+        public int StepCount { get => stepCount; set => stepCount = value; }
 
         public Action<int> SetProgress { get; set; }
         public bool Result { get; set; }
-        public IEnumerable<INdmPrimitive> NdmPrimitives { get; set; }
-        public LimitStates LimitState { get; set; }
-        public CalcTerms CalcTerm { get; set; }
-        //public ForceTuple ForceTuple { get; set; }
 
-
-        public SurroundData SurroundData { get; set; }
-
-        public InteractionDiagramLogic(SurroundData surroundData)
+        public InteractionDiagramLogic(LimitCurveInputData inputData)
         {
-            SurroundData = surroundData;
+            InputData = inputData;
+            stepCount = InputData.PointCount;
+            stepCount *= InputData.LimitStates.Count();
+            stepCount *= InputData.CalcTerms.Count();
+            stepCount *= InputData.PredicateEntries.Count();
+            //arrayParameters = new();
         }
 
         private void DoCalculations()
         {
-            var ndmCollection = NdmPrimitivesService.GetNdms(NdmPrimitives, LimitState, CalcTerm);
-            var convertLogic = SurroundData.ConvertLogicEntity;
-            convertLogic.ConstDirectionValue = SurroundData.ConstZ;
-            var predicateFactory = new PredicateFactory()
+            var convertLogic = InputData.SurroundData.ConvertLogicEntity;
+            var calculator = new LimitCurvesCalculator()
             {
-                Ndms = ndmCollection,
-                ConvertLogic = convertLogic.ConvertLogic,
+                InputData = InputData
             };
-            Predicate<IPoint2D> predicate = predicateFactory.IsSectionFailure;
-            //Predicate<IPoint2D> predicate = predicateFactory.IsSectionCracked;
-            //var logic = new StabLimitCurveLogic();
-            var logic = new LimitCurveLogic(predicate);
-            var calculator = new LimitCurveCalculator(logic);
-            calculator.SurroundData = SurroundData;
             calculator.ActionToOutputResults = SetProgressByResult;
             SafetyProcessor.RunSafeProcess(() =>
             {
@@ -71,15 +65,34 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             }, "Errors appeared during showing a graph, see detailed information");
         }
 
-        private void CalcResult(LimitCurveCalculator calculator)
+        private void CalcResult(LimitCurvesCalculator calculator)
         {
             calculator.Run();
-            result = calculator.Result;
-            if (result.IsValid == false) { return; }
-            var interactionResult = result as LimitCurveResult;
+            var curvesResult = calculator.Result as LimitCurvesResult;
+            if (curvesResult.IsValid == false) { return; }
+            result = curvesResult;
+            foreach (var curveResult in curvesResult.LimitCurveResults)
+            {
+                ProcessCurveResult(curveResult);
+            }
+        }
+
+        private void ProcessCurveResult(LimitCurveResult curveResult)
+        {
+            if (curveResult.IsValid == false)
+            {
+                SafetyProcessor.ShowMessage("Calculation error", curveResult.Description);
+                return;
+            }
+            //var arrayParameter = GetParametersByCurveResult(curveResult);
+            //arrayParameters.Add(arrayParameter);
+        }
+
+        private ArrayParameter<double> GetParametersByCurveResult(LimitCurveResult curveResult)
+        {
             string[] labels = GetLabels();
-            var items = interactionResult.Points;
-            arrayParameter = new ArrayParameter<double>(items.Count(), labels.Count(), labels);
+            var items = curveResult.Points;
+            var arrayParameter = new ArrayParameter<double>(items.Count(), labels.Count(), labels);
             var data = arrayParameter.Data;
             for (int i = 0; i < items.Count(); i++)
             {
@@ -94,23 +107,25 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                     data[i, j] = valueList[j];
                 }
             }
+            return arrayParameter;
         }
 
         private void SetProgressByResult(IResult calcResult)
         {
-            if (calcResult is not LimitCurveResult)
+            if (calcResult is not LimitCurvesResult)
             {
-                throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(LimitCurveResult), calcResult));
+                throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(LimitCurvesResult), calcResult));
             }
-            var parameterResult = calcResult as LimitCurveResult;
+            var parameterResult = calcResult as LimitCurvesResult;
+            StepCount = stepCount;// parameterResult.MaxIterationCount;
             SetProgress?.Invoke(parameterResult.IterationNumber);
         }
 
         private string[] GetLabels()
         {
             string[] strings = new string[2];
-            strings[0] = GetLabel(SurroundData.ConvertLogicEntity.XForceType);
-            strings[1] = GetLabel(SurroundData.ConvertLogicEntity.YForceType);
+            strings[0] = GetLabel(InputData.SurroundData.ConvertLogicEntity.XForceType);
+            strings[1] = GetLabel(InputData.SurroundData.ConvertLogicEntity.YForceType);
             return strings;
         }
 
@@ -141,7 +156,15 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             {
                 if (result.IsValid == true)
                 {
-                    var wnd = new GraphView(arrayParameter);
+                    var curveResult = result as LimitCurvesResult;
+                    var seriesList = new List<Series>();
+                    foreach (var item in curveResult.LimitCurveResults)
+                    {
+                        var series = new Series(GetParametersByCurveResult(item)) { Name = item.Name };
+                        seriesList.Add(series);
+                    }
+                    var vm = new GraphViewModel(seriesList);
+                    var wnd = new GraphView(vm);
                     wnd.ShowDialog();
                 }
                 else

@@ -48,7 +48,7 @@ namespace StructureHelperCommon.Models.Calculators
         {
             if (predicate(end) == false)
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": pridicate for end value must be true");
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": predicate for end value must be true");
 
             }
             double precision = Accuracy.IterationAccuracy;

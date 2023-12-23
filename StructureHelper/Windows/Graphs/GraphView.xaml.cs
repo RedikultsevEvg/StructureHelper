@@ -35,5 +35,8 @@ namespace StructureHelper.Windows.Graphs
         public GraphView(ArrayParameter<double> arrayParameter) : this(new GraphViewModel(arrayParameter))
         {
         }
+        public GraphView(IEnumerable<ArrayParameter<double>> arrayParameters) : this(new GraphViewModel(arrayParameters))
+        {
+        }
     }
 }

@@ -47,7 +47,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             SafetyProcessor.RunSafeProcess(() =>
             {
-                var wnd = new GraphView(arrayParameter);
+                var series = new Series(arrayParameter) { Name = "Forces and curvatures" };
+                var vm = new GraphViewModel(new List<Series>() { series});
+                var wnd = new GraphView(vm);
                 wnd.ShowDialog();
             },
             "Errors appeared during showing a graph, see detailed information");

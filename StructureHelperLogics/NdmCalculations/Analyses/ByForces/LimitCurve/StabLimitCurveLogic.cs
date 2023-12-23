@@ -18,6 +18,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             foreach (var item in points)
             {
                 result.Add(new Point2D() { X = item.X * 0.5d, Y = item.Y * 0.5d });
+                Thread.Sleep(10);
             }
             return result;
         }

@@ -15,6 +15,10 @@ namespace StructureHelper.Windows.Graphs
         {
             lineSeries.Stroke = new SolidColorBrush(color);
             lineSeries.Fill = new SolidColorBrush(color) { Opacity = visualProps.Opacity };
+            SetVisualProps(lineSeries, visualProps);
+        }
+        public static void SetVisualProps(LineSeries lineSeries, GraphVisualProps visualProps)
+        {
             lineSeries.LineSmoothness = visualProps.LineSmoothness;
             lineSeries.PointGeometry = DefaultGeometries.Circle;
             lineSeries.PointGeometrySize = visualProps.StrokeSize;

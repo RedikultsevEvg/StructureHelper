@@ -13,5 +13,6 @@ namespace StructureHelperCommon.Models.Calculators
         public double Parameter { get; set; }
         public int IterationNumber { get; set; }
         public double CurrentAccuracy { get; set; }
+        public int MaxIterationCount { get; set; }
     }
 }

@@ -26,5 +26,14 @@ namespace StructureHelper.Windows.ViewModels.Errors
                 new ErrorMessage(vm).ShowDialog();
             }
         }
+        public static void ShowMessage(string shortText, string detailText)
+        {
+            var vm = new ErrorProcessor()
+            {
+                ShortText = shortText,
+                DetailText = detailText
+            };
+            new ErrorMessage(vm).ShowDialog();
+        }
     }
 }

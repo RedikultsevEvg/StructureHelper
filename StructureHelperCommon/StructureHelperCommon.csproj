@@ -15,4 +15,8 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructures\Predicates\" />
+  </ItemGroup>
+
 </Project>

@@ -46,6 +46,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         public void ShowProgressResult(int progressValue)
         {
+            progressViewModel.MaxValue = processLogic.StepCount;
             progressViewModel.ProgressValue = progressValue;
         }
 

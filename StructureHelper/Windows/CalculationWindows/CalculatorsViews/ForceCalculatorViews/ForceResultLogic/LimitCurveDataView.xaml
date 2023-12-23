@@ -13,9 +13,23 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <fc:SurroundDataControl x:Name="SurData" SurroundData="{Binding SurroundData}"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Point count"/>
+            <TextBox Grid.Column="1" Text="{Binding PointCount, ValidatesOnDataErrors=True}"/>
+            <uc:MultiplyDouble Margin="2" Grid.Column="3" ValueChanged="PointCountChanged"/>
+        </Grid>
         <!--<ContentControl ContentTemplate="{StaticResource SurroundData}" Content="{Binding SurroundDataViewModel}"/>-->
-        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+        <ContentControl Grid.Row="2" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

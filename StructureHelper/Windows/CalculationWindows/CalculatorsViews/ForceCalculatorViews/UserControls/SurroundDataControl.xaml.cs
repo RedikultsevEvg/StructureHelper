@@ -59,7 +59,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
     {
             if (SurroundData is null)
             {
-                ViewModel = new SurroundDataViewModel(new() { PointCount = 40 });
+                ViewModel = new SurroundDataViewModel(new());
             }
             else
             {
@@ -90,10 +90,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             ViewModel.ConstZ *= ChangeValue(sender);
         }
-        private void PointCountChanged(object sender, EventArgs e)
-        {
-            ViewModel.PointCount = Convert.ToInt32(ViewModel.PointCount * ChangeValue(sender));
-        }
+
 
         private double ChangeValue(object sender)
         {

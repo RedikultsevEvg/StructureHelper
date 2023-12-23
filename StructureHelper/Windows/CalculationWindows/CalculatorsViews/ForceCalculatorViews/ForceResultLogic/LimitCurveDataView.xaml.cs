@@ -31,5 +31,16 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             InitializeComponent();
             SurData.SurroundData = vm.SurroundData;
         }
+        private void PointCountChanged(object sender, EventArgs e)
+        {
+            viewModel.PointCount = Convert.ToInt32(viewModel.PointCount * ChangeValue(sender));
+        }
+
+        private double ChangeValue(object sender)
+        {
+            var obj = (MultiplyDouble)sender;
+            var factor = obj.DoubleFactor;
+            return factor;
+        }
     }
 }

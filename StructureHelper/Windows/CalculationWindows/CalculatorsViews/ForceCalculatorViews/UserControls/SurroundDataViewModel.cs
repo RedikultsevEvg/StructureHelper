@@ -39,7 +39,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             OnPropertyChanged(nameof(YMax));
             OnPropertyChanged(nameof(YMin));
             OnPropertyChanged(nameof(ConstZ));
-            OnPropertyChanged(nameof(PointCount));
             OnPropertyChanged(nameof(XLabel));
             OnPropertyChanged(nameof(YLabel));
             OnPropertyChanged(nameof(ZLabel));
@@ -162,22 +161,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             }
         }
 
-        public int PointCount
-        {
-            get => SurroundData.PointCount; set
-            {
-                try
-                {
-                    SurroundData.PointCount = value;
-                }
-                catch (Exception)
-                {
-                    SurroundData.PointCount = 40;
-                }
-                OnPropertyChanged(nameof(PointCount));
-            }
-        }
-
         public string Error => throw new NotImplementedException();
 
         public string this[string columnName]
@@ -187,12 +170,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 string error = String.Empty;
                 switch (columnName)
                 {
-                    case nameof(PointCount):
-                        if (PointCount < 24)
-                        {
-                            error = "Point count must be greater than 24";
-                        }
-                        break;
+                    //case nameof(PointCount):
+                    //    if (PointCount < 24)
+                    //    {
+                    //        error = "Point count must be greater than 24";
+                    //    }
+                    //    break;
                 }
                 return error;
             }
