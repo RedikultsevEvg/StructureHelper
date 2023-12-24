@@ -15,7 +15,7 @@
                 </StackPanel>
                 <TextBlock Text="Filling opacity" Margin="0,5,0,5"/>
                 <StackPanel Orientation="Horizontal">
-                    <Slider x:Name="OpacitySlider" Width="195" Minimum="0" Maximum="1" Value="{Binding Opacity}"/>
+                    <Slider x:Name="OpacitySlider" Width="195" Minimum="0" Maximum="1" Value="{Binding Opacity}" TickFrequency="0.05" />
                     <TextBox Width="40" Text="{Binding Opacity,Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
                 </StackPanel>
             </StackPanel>

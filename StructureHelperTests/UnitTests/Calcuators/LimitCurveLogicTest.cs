@@ -3,6 +3,7 @@ using NUnit.Framework;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Factories;
 
 namespace StructureHelperTests.UnitTests.Calcuators
 {
@@ -16,8 +17,11 @@ namespace StructureHelperTests.UnitTests.Calcuators
             var parameterLogicMock = new Mock<ILimitCurveParameterLogic>();
             parameterLogicMock.Setup(p => p.GetParameter()).Returns(2.0); // Mocking the GetParameter method
 
-            var limitCurveLogic = new LimitCurveLogic(parameterLogicMock.Object);
-            limitCurveLogic.LimitPredicate = point => point.X >= 0.5d; // Example predicate
+            var getPredicateLogic = new Mock<IGetPredicateLogic>();
+            getPredicateLogic.Setup(p => p.GetPredicate()).Returns(point => point.X >= 0.5d);//
+
+            var limitCurveLogic = new LimitCurveLogic(getPredicateLogic.Object);
+            
 
             var inputPoints = new List<IPoint2D>
         {
@@ -35,8 +39,8 @@ namespace StructureHelperTests.UnitTests.Calcuators
 
             for (int i = 0; i < inputPoints.Count; i++)
             {
-                Assert.AreEqual(inputPoints[i].X * 2.0, result[i].X);
-                Assert.AreEqual(inputPoints[i].Y * 2.0, result[i].Y);
+                Assert.AreEqual(inputPoints[i].X * 0.5, result[i].X);
+                Assert.AreEqual(inputPoints[i].Y * 0.5, result[i].Y);
             }
 
             // Verify that GetParameter was called
@@ -50,8 +54,10 @@ namespace StructureHelperTests.UnitTests.Calcuators
             var parameterLogicMock = new Mock<ILimitCurveParameterLogic>();
             parameterLogicMock.Setup(p => p.GetParameter()).Returns(2.0);
 
-            var limitCurveLogic = new LimitCurveLogic(parameterLogicMock.Object);
-            limitCurveLogic.LimitPredicate = point => true; // Invalid predicate
+            var getPredicateLogic = new Mock<IGetPredicateLogic>();
+            getPredicateLogic.Setup(p => p.GetPredicate()).Returns(point => point.X >= 0.5d);//
+
+            var limitCurveLogic = new LimitCurveLogic(getPredicateLogic.Object);
 
             var inputPoints = new List<IPoint2D>
         {

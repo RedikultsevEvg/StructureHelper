@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public interface ILimitCurveParameterLogic : IHasActionByResult
+    public interface ILimitCurveParameterLogic : IHasActionByResult, ICloneable
     {
+        Predicate<Point2D> LimitPredicate { get; set; }
         IPoint2D CurrentPoint { get; set; }
         double GetParameter();
     }

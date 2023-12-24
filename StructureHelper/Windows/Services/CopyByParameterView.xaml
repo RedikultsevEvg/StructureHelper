@@ -1,0 +1,62 @@
+﻿<Window x:Class="StructureHelper.Windows.Services.CopyByParameterView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.Services"
+        d:DataContext ="{d:DesignInstance local:CopyByParameterViewModel}"
+        mc:Ignorable="d"
+        Title="Copy To" Height="260" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <GroupBox Header="Coordinates">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Delta X"/>
+                    <TextBlock Grid.Row="1" Text="Delta Y"/>
+                    <TextBlock Grid.Row="2" Text="Angle"/>
+                    <TextBlock Grid.Row="3" Text="Distance"/>
+                    <TextBox Grid.Column="1" Text=""/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text=""/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="" IsEnabled="False"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" Text="" IsEnabled="False"/>
+                    <CheckBox Grid.Row="4" Content="Relative coordinates"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Copy count">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBox Grid.Column="1" Text=""/>
+
+                </Grid>
+            </GroupBox>
+        </StackPanel>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>

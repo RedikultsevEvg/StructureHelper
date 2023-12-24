@@ -33,8 +33,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             SurroundProcLogic = new RectSurroundProc();
         }
 
-        public LimitCurveCalculator(Predicate<IPoint2D> limitPredicate)
-            : this(new LimitCurveLogic(limitPredicate))
+        public LimitCurveCalculator(ILimitCurveParameterLogic parameterLogic)
+            : this(new LimitCurveLogic(parameterLogic))
         {
         }
 

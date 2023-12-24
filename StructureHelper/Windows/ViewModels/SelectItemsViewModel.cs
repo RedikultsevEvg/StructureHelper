@@ -25,7 +25,9 @@ namespace StructureHelper.Windows.ViewModels
         private ICommand? unSelectAllCommand;
         private ICommand? invertSelectionCommand;
         private IEnumerable<TItem> selectedItems;
-
+        /// <summary>
+        /// Class for item of collection
+        /// </summary>
         public class CollectionItem : ViewModelBase
         {
             bool isSelected;
@@ -45,9 +47,17 @@ namespace StructureHelper.Windows.ViewModels
         }
 
         public DataTemplate ItemDataTemplate { get; set; }
+        /// <summary>
+        /// Turns buttons on or off
+        /// </summary>
         public bool ShowButtons { get; set; }
+        /// <summary>
+        /// Collections of items
+        /// </summary>
         public ObservableCollection<CollectionItem> CollectionItems { get; }
-
+        /// <summary>
+        /// Selects all items
+        /// </summary>
         public ICommand SelectAllCommand
         {
             get
@@ -55,9 +65,13 @@ namespace StructureHelper.Windows.ViewModels
                 return selectAllCommand ??= new RelayCommand(o => SetIsSelected(true));
             }
         }
-
+        /// <summary>
+        /// Deselects all items
+        /// </summary>
         public ICommand UnSelectAllCommand => unSelectAllCommand ??= new RelayCommand(o => SetIsSelected(false));
-
+        /// <summary>
+        /// Reverts selection of item from on to off
+        /// </summary>
         public ICommand InvertSelectionCommand
         {
             get

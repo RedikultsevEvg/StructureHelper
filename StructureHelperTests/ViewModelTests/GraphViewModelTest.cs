@@ -29,8 +29,8 @@ namespace StructureHelperTests.ViewModelTests
             var vm = new GraphViewModel(array);
             //Assert
             Assert.IsNotNull(vm);
-            Assert.AreEqual(columnCount, vm.XItems.Collection.Count());
-            Assert.AreEqual(columnCount, vm.YItems.CollectionItems.Count());
+            Assert.AreEqual(columnCount, vm.Series[0].XItems.Collection.Count());
+            Assert.AreEqual(columnCount, vm.Series[0].YItems.CollectionItems.Count());
         }
     }
 }

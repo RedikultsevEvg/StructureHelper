@@ -14,6 +14,7 @@ using StructureHelper.Windows.ViewModels.Calculations.Calculators;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelper.Windows.ViewModels.PrimitiveProperties;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Forces;
@@ -30,6 +31,7 @@ using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
@@ -75,23 +77,34 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 return showInteractionDiagramCommand ??
                     (showInteractionDiagramCommand = new RelayCommand(o =>
                     {
-                        var surroundDdata = new SurroundData();
-                        var vm = new LimitCurveDataViewModel(surroundDdata);
-                        vm.Primitives = ndmPrimitives.ToList();
-                        var wnd = new LimitCurveDataView(vm);
-                        wnd.ShowDialog();
-                        if (wnd.DialogResult != true) return;
-                        var inputData = vm.GetLimitCurveInputData();
-                        interactionDiagramLogic = new(inputData);
-                        showProgressLogic = new(interactionDiagramLogic)
-                        {
-                            WindowTitle = "Diagram creating...",
-                            ShowResult = interactionDiagramLogic.ShowWindow
-                        };
-                        showProgressLogic.Show();
+                        ShowInteractionDiagram();
                     }));
             }
         }
+
+        private void ShowInteractionDiagram()
+        {
+            var surroundDdata = new SurroundData();
+            var vm = new LimitCurveDataViewModel(surroundDdata);
+            if (vm.Check() == false)
+            {
+                MessageBox.Show(ErrorStrings.DataIsInCorrect + ": nothing selected"); ;
+                return;
+            }
+            vm.Primitives = ndmPrimitives.ToList();
+            var wnd = new LimitCurveDataView(vm);
+            wnd.ShowDialog();
+            if (wnd.DialogResult != true) return;
+            var inputData = vm.GetLimitCurveInputData();
+            interactionDiagramLogic = new(inputData);
+            showProgressLogic = new(interactionDiagramLogic)
+            {
+                WindowTitle = "Diagram creating...",
+                ShowResult = interactionDiagramLogic.ShowWindow
+            };
+            showProgressLogic.Show();
+        }
+
         public ICommand ShowIsoFieldCommand
         {
             get

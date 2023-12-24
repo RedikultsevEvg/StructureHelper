@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Calculations.CalculationsResults;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Factories;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
@@ -71,7 +72,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
                     foreach (var predicateEntry in InputData.PredicateEntries)
                     {
                         string calcName = $"{predicateEntry.Name}_{limitState}_{calcTerm}";
-                        LimitCurveCalculator calculator = GetCalculator(ndms, predicateEntry, calcName);
+                        LimitCurveCalculator calculator = GetCalculator(ndms, predicateEntry.PredicateType, calcName);
                         calculators.Add(calculator);
                     }
                 }
@@ -79,18 +80,21 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
             return calculators;
         }
 
-        private LimitCurveCalculator GetCalculator(List<INdm> ndms, PredicateEntry predicateEntry, string calcName)
+        private LimitCurveCalculator GetCalculator(List<INdm> ndms, PredicateTypes predicateType, string calcName)
         {
             var factory = new PredicateFactory()
             {
                 Ndms = ndms,
                 ConvertLogic = InputData.SurroundData.ConvertLogicEntity.ConvertLogic
             };
-            var predicateType = predicateEntry.PredicateType;
             var predicate = factory.GetPredicate(predicateType);
-            //Predicate<IPoint2D> predicate = factory.IsSectionCracked;
-            var logic = new LimitCurveLogic(predicate);
-            //var logic = new StabLimitCurveLogic();
+            var getPredicateLogic = new GetPredicateLogic()
+            {
+                Ndms = ndms,
+                ConvertLogic = InputData.SurroundData.ConvertLogicEntity.ConvertLogic,
+                PredicateType = predicateType
+            };
+            var logic = new LimitCurveLogic(getPredicateLogic);
             var calculator = new LimitCurveCalculator(logic)
             {
                 Name = calcName,

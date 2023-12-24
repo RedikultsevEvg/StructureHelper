@@ -45,6 +45,9 @@
     <Compile Update="Windows\PrimitiveTemplates\RCs\Beams\CircleView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\Services\CopyByParameterView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\UserControls\MultiplyDouble.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -99,6 +102,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\PrimitiveTemplates\RCs\Beams\CircleView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Services\CopyByParameterView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\UserControls\MultiplyDouble.xaml">

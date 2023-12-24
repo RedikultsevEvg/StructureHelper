@@ -12,13 +12,13 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     public class LimitCurveParameterLogic : ILimitCurveParameterLogic
     {
         private FindParameterResult result;
-        private Predicate<Point2D> limitPredicate;
+        public Predicate<Point2D> LimitPredicate { get; set; }
         public IPoint2D CurrentPoint { get; set; }
         public Action<IResult> ActionToOutputResults { get; set; }
 
-        public LimitCurveParameterLogic(Predicate<Point2D> limitPredicate)
+        public LimitCurveParameterLogic()
         {
-            this.limitPredicate = limitPredicate;
+            
         }
 
         public double GetParameter()
@@ -49,7 +49,16 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private bool GetFactorPredicate(double factor)
         {
             var newPoint = new Point2D() { X = CurrentPoint.X * factor, Y = CurrentPoint.Y * factor };
-            return limitPredicate(newPoint);
+            return LimitPredicate(newPoint);
+        }
+
+        public object Clone()
+        {
+            var newItem = new LimitCurveParameterLogic();
+            newItem.LimitPredicate = LimitPredicate;
+            newItem.CurrentPoint = (CurrentPoint ?? new Point2D()).Clone() as IPoint2D;
+            newItem.ActionToOutputResults = ActionToOutputResults;
+            return newItem;
         }
     }
 }

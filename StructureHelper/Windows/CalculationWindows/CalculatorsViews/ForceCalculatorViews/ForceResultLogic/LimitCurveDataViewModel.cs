@@ -2,6 +2,9 @@
 using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
@@ -25,6 +28,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         //public SurroundDataViewModel SurroundDataViewModel { get; private set; }
         public SurroundData SurroundData { get; set; }
         public List<INdmPrimitive> Primitives { get; set; }
+        public SelectItemsViewModel<PredicateEntry> PredicateItems { get; private set; }
+        public SelectItemsViewModel<LimitStateEntity> LimitStateItems { get; private set; }
+        public SelectItemsViewModel<CalcTermEntity> CalcTermITems { get; private set; }
         public int PointCount
         {
             get => pointCount; set
@@ -45,7 +51,36 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             //SurroundDataViewModel = new(surroundData);
             SurroundData = surroundData;
+            GetPredicates();
+            GetLimitStates();
+            GetCalcTerms();
             pointCount = 80;
+        }
+
+        private void GetCalcTerms()
+        {
+            CalcTermITems = new SelectItemsViewModel<CalcTermEntity>(ProgramSetting.CalcTermList.CalcTerms);
+            CalcTermITems.ShowButtons = true;
+        }
+
+        private void GetLimitStates()
+        {
+            LimitStateItems = new SelectItemsViewModel<LimitStateEntity>(ProgramSetting.LimitStatesList.LimitStates);
+            LimitStateItems.ShowButtons = true;
+        }
+
+        private void GetPredicates()
+        {
+            PredicateItems = new SelectItemsViewModel<PredicateEntry>(
+            new List<PredicateEntry>()
+            {
+                new PredicateEntry()
+                { Name = "Strength", PredicateType = PredicateTypes.Strength },
+                new PredicateEntry()
+                { Name = "Cracking", PredicateType = PredicateTypes.Cracking },
+            }
+                );
+            PredicateItems.ShowButtons = true;
         }
 
         public LimitCurveDataViewModel() : this (new SurroundData())
@@ -59,14 +94,22 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 SurroundData = SurroundData,
                 PointCount = pointCount
             };
-            inputData.LimitStates.Add(LimitStates.ULS);
-            inputData.LimitStates.Add(LimitStates.SLS);
-            inputData.CalcTerms.Add(CalcTerms.ShortTerm);
-            inputData.CalcTerms.Add(CalcTerms.LongTerm);
-            inputData.PredicateEntries.Add(new PredicateEntry() { Name = "Strength", PredicateType = PredicateTypes.Strength });
-            inputData.PredicateEntries.Add(new PredicateEntry() { Name = "Cracking", PredicateType = PredicateTypes.Cracking });
+            inputData.LimitStates.AddRange(LimitStateItems.SelectedItems.Select(x => x.LimitState));
+            inputData.CalcTerms.AddRange(CalcTermITems.SelectedItems.Select(x => x.CalcTerm));
+            inputData.PredicateEntries.AddRange(PredicateItems.SelectedItems);
             inputData.Primitives = Primitives;
             return inputData;
+        }
+
+        public bool Check()
+        {
+            if (PredicateItems.SelectedCount == 0 ||
+                LimitStateItems.SelectedCount == 0 ||
+                CalcTermITems.SelectedCount == 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         public string Error => throw new NotImplementedException();
