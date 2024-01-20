@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.Materials
 {
-    internal class SafetyFactorsViewModel : SelectedItemViewModel<IMaterialSafetyFactor>
+    internal class SafetyFactorsViewModel : SelectItemVM<IMaterialSafetyFactor>
     {
         List<IMaterialSafetyFactor> safetyFactors;
         private RelayCommand showPartialCommand;

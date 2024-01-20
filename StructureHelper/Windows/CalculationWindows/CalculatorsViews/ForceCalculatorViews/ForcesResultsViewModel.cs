@@ -84,18 +84,25 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private void ShowInteractionDiagram()
         {
-            var surroundDdata = new SurroundData();
-            var vm = new LimitCurveDataViewModel(surroundDdata);
+            var inputData = new LimitCurveInputData(ndmPrimitives);
+            var vm = new LimitCurveDataViewModel(inputData, ndmPrimitives);
+            vm.LimitStateItems.SetIsSelected();
+            vm.CalcTermITems.SetIsSelected();
+            vm.ShowPrimitivesTab = true;
+            var wnd = new LimitCurveDataView(vm);
+            wnd.ShowDialog();
+            if (wnd.DialogResult != true) return;
             if (vm.Check() == false)
             {
                 MessageBox.Show(ErrorStrings.DataIsInCorrect + ": nothing selected"); ;
                 return;
             }
-            vm.Primitives = ndmPrimitives.ToList();
-            var wnd = new LimitCurveDataView(vm);
-            wnd.ShowDialog();
-            if (wnd.DialogResult != true) return;
-            var inputData = vm.GetLimitCurveInputData();
+            vm.RefreshInputData();
+            ShowInteractionDiagramByInputData(inputData);
+        }
+
+        private void ShowInteractionDiagramByInputData(LimitCurveInputData inputData)
+        {
             interactionDiagramLogic = new(inputData);
             showProgressLogic = new(interactionDiagramLogic)
             {

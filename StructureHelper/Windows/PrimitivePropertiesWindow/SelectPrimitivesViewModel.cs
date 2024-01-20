@@ -12,12 +12,12 @@ namespace StructureHelper.Windows.PrimitivePropertiesWindow
 {
     public class SelectPrimitivesViewModel : OkCancelViewModelBase
     {
-        public SelectItemsViewModel<PrimitiveBase> Items { get; }
+        public SelectItemsVM<PrimitiveBase> Items { get; }
 
         public SelectPrimitivesViewModel(IEnumerable<INdmPrimitive> primitives)
         {
             var primitiveViews = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(primitives);
-            Items = new SelectItemsViewModel<PrimitiveBase>(primitiveViews) { ShowButtons = true };
+            Items = new SelectItemsVM<PrimitiveBase>(primitiveViews) { ShowButtons = true };
             Items.ItemDataTemplate = Application.Current.Resources["ColoredItemTemplate"] as DataTemplate;
         }
     }

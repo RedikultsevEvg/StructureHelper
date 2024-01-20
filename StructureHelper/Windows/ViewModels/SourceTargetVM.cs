@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace StructureHelper.Windows.ViewModels
 {
-    public class SourceToTargetViewModel<TItem> : ViewModelBase, ISourceToTargetViewModel<TItem>
+    public class SourceTargetVM<TItem> : ViewModelBase
     {
         private IEnumerable<TItem> allowedItems;
         private IEnumerable<TItem> targetItems;
@@ -65,6 +65,7 @@ namespace StructureHelper.Windows.ViewModels
                     (
                     addSelected = new RelayCommand(o =>
                     {
+                        if (SelectedSourceItem is null) { return; }
                         TargetItems.Add(SelectedSourceItem);
                         SourceItems.Remove(SelectedSourceItem);
                     }, o => SelectedSourceItem != null));
@@ -78,15 +79,15 @@ namespace StructureHelper.Windows.ViewModels
                     (
                     removeSelected = new RelayCommand(o =>
                     {
+                        if (SelectedTargetItem is null) { return; }
                         SourceItems.Add(SelectedTargetItem);
                         TargetItems.Remove(SelectedTargetItem);
                     }, o => SelectedTargetItem != null));
             }
         }
-
         
 
-        public SourceToTargetViewModel()
+        public SourceTargetVM()
         {
             SourceItems = new ObservableCollection<TItem>();
             TargetItems = new ObservableCollection<TItem>();

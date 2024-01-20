@@ -24,7 +24,6 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </Grid>
-
             <GroupBox Header="{Binding YLabel}">
                 <Grid Margin="30,0,0,0">
                     <Grid.RowDefinitions>

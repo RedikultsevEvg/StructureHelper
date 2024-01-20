@@ -8,7 +8,13 @@
                 <ColumnDefinition Width="60"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ListBox ItemsSource="{Binding SourceItems}" SelectedItem="{Binding SelectedSourceItem}" ItemTemplate="{Binding ItemDataDemplate}"/>
+            <ListBox ItemsSource="{Binding SourceItems}"
+                     SelectedItem="{Binding SelectedSourceItem}"
+                     ItemTemplate="{Binding ItemDataDemplate}">
+                <!--<InputBindingCollection>
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding AddSelected}"/>
+                </InputBindingCollection>-->
+            </ListBox>
             <StackPanel Grid.Column="1">
                 <Button Content="Add all" Command="{Binding AddAll}"/>
                 <Button Content="Clear all" Command="{Binding ClearAll}"/>
@@ -16,7 +22,12 @@
                 <Button Content="&lt;&lt;" Command="{Binding RemoveSelected}"/>
             </StackPanel>
             <ListBox Grid.Column="2" ItemsSource="{Binding TargetItems}"
-                     SelectedItem="{Binding SelectedTargetItem}" ItemTemplate="{Binding ItemDataDemplate}"/>
+                     SelectedItem="{Binding SelectedTargetItem}"
+                     ItemTemplate="{Binding ItemDataDemplate}">
+                <!--<InputBindingCollection>
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding RemoveSelected}"/>
+                </InputBindingCollection>-->
+            </ListBox>
         </Grid>
     </DataTemplate>
     <DataTemplate x:Key="SelectItems">

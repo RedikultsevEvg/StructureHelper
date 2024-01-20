@@ -28,7 +28,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
     public static readonly DependencyProperty SurroundDataProperty =
         DependencyProperty.Register(
             "SurroundData",
-            typeof(SurroundData), // Change to the actual type of SurroundData
+            typeof(SurroundData),
             typeof(SurroundDataControl),
             new PropertyMetadata(null, OnSurroundDataChanged));
 

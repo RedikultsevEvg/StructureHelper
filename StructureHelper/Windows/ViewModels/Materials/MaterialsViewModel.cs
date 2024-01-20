@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.Materials
 {
-    public class MaterialsViewModel : SelectedItemViewModel<IHeadMaterial>
+    public class MaterialsViewModel : SelectItemVM<IHeadMaterial>
     {
         ICrossSectionRepository repository;
         private ICommand editMaterialsCommand;

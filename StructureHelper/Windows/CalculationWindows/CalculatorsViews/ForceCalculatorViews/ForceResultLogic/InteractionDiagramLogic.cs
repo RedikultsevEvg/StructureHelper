@@ -45,6 +45,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             InputData = inputData;
             stepCount = InputData.PointCount;
+            stepCount *= inputData.PrimitiveSeries.Count;
             stepCount *= InputData.LimitStates.Count();
             stepCount *= InputData.CalcTerms.Count();
             stepCount *= InputData.PredicateEntries.Count();

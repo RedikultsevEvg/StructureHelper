@@ -26,8 +26,8 @@ namespace StructureHelper.Windows.Graphs
         private bool invertXValues;
         private bool invertYValues;
 
-        public SelectedItemViewModel<IValueParameter<double>> XItems { get; }
-        public SelectItemsViewModel<IValueParameter<double>> YItems { get; }
+        public SelectItemVM<IValueParameter<double>> XItems { get; }
+        public SelectItemsVM<IValueParameter<double>> YItems { get; }
         public bool InvertXValues
         {
             get { return invertXValues; }
@@ -58,8 +58,8 @@ namespace StructureHelper.Windows.Graphs
         {
             this.arrayParameter = arrayParameter;
             valueParameters = GetParameters();
-            XItems = new SelectedItemViewModel<IValueParameter<double>>(valueParameters);
-            YItems = new SelectItemsViewModel<IValueParameter<double>>(valueParameters);
+            XItems = new SelectItemVM<IValueParameter<double>>(valueParameters);
+            YItems = new SelectItemsVM<IValueParameter<double>>(valueParameters);
             YItems.ShowButtons = true;
             XItems.SelectedItem = XItems.Collection[0];
             YItems.UnSelectAllCommand.Execute(null);

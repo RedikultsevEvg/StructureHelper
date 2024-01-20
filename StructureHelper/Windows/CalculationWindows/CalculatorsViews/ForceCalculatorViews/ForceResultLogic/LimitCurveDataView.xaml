@@ -6,49 +6,14 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic"
         xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         xmlns:fc="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
-        d:DataContext ="{d:DesignInstance local:LimitCurveDataViewModel}"
         mc:Ignorable="d"
         Title="Diagram properties" Height="360" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <TabControl>
-            <TabItem Header="Limits">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="35"/>
-                    </Grid.RowDefinitions>
-                    <fc:SurroundDataControl x:Name="SurData" SurroundData="{Binding SurroundData}"/>
-                    <Grid Grid.Row="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="120"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Point count"/>
-                        <TextBox Grid.Column="1" Text="{Binding PointCount, ValidatesOnDataErrors=True}"/>
-                        <uc:MultiplyDouble Margin="2" Grid.Column="3" ValueChanged="PointCountChanged"/>
-                    </Grid>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Predicates">
-                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding PredicateItems}"/>
-            </TabItem>
-            <TabItem Header="States">
-                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding LimitStateItems}"/>
-            </TabItem>
-            <TabItem Header="Terms">
-                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding CalcTermITems}"/>
-            </TabItem>
-        </TabControl>
-        <!--<ContentControl ContentTemplate="{StaticResource SurroundData}" Content="{Binding SurroundDataViewModel}"/>-->
+        <fc:LimitCurveControl x:Name="CurveData" LimitCurveViewModel="{Binding}"/>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

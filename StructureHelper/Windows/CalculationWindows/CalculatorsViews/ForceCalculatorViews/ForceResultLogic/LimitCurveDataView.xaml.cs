@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Windows.UserControls;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,25 +23,13 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
     public partial class LimitCurveDataView : Window
     {
         private LimitCurveDataViewModel viewModel;
-        public LimitCurveDataView(SurroundData surroundData) : this(new LimitCurveDataViewModel(surroundData)) { }
         public LimitCurveDataView(LimitCurveDataViewModel vm)
         {
             viewModel = vm;
             viewModel.ParentWindow = this;
             DataContext = viewModel;
             InitializeComponent();
-            SurData.SurroundData = vm.SurroundData;
-        }
-        private void PointCountChanged(object sender, EventArgs e)
-        {
-            viewModel.PointCount = Convert.ToInt32(viewModel.PointCount * ChangeValue(sender));
-        }
-
-        private double ChangeValue(object sender)
-        {
-            var obj = (MultiplyDouble)sender;
-            var factor = obj.DoubleFactor;
-            return factor;
+            CurveData.LimitCurveViewModel = viewModel;
         }
     }
 }

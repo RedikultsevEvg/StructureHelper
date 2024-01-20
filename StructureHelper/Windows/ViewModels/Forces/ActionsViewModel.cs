@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace StructureHelper.Windows.ViewModels.Forces
 {
-    public class ActionsViewModel : SelectedItemViewModel<IForceAction>
+    public class ActionsViewModel : SelectItemVM<IForceAction>
     {
         readonly IUpdateStrategy<IAction> updateStrategy = new ActionUpdateStrategy();
         ICrossSectionRepository repository;

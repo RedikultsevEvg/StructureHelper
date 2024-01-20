@@ -18,7 +18,7 @@ namespace StructureHelper.Windows.ViewModels
     /// Represents a ViewModel for selecting items from a collection.
     /// </summary>
     /// <typeparam name="TItem">The type of items in the collection.</typeparam>
-    public class SelectItemsViewModel<TItem> : ViewModelBase
+    public class SelectItemsVM<TItem> : ViewModelBase
         where TItem : class
     {
         private ICommand? selectAllCommand;
@@ -80,7 +80,7 @@ namespace StructureHelper.Windows.ViewModels
             }
         }
 
-        private void InvertSelection()
+        public void InvertSelection()
         {
             {
                 foreach (var item in CollectionItems)
@@ -89,8 +89,11 @@ namespace StructureHelper.Windows.ViewModels
                 }
             };
         }
-
-        private void SetIsSelected(bool isSelected)
+        /// <summary>
+        /// Select all if true, deselect all if false
+        /// </summary>
+        /// <param name="isSelected">Default is true</param>
+        public void SetIsSelected(bool isSelected = true)
         {
             foreach (var item in CollectionItems)
             {
@@ -98,7 +101,7 @@ namespace StructureHelper.Windows.ViewModels
             }
         }
 
-        public SelectItemsViewModel(IEnumerable<TItem> items)
+        public SelectItemsVM(IEnumerable<TItem> items)
         {
             CollectionItems = new ObservableCollection<CollectionItem>(
                 items

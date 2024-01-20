@@ -1,18 +1,12 @@
-﻿using Microsoft.VisualBasic;
-using StructureHelper.Infrastructure;
-using StructureHelperCommon.Models.Materials.Libraries;
+﻿using StructureHelper.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels
 {
-    public class SelectedItemViewModel<TItem> : ViewModelBase, ICRUDViewModel<TItem> where TItem : class
+    public class SelectItemVM<TItem> : ViewModelBase, ICRUDViewModel<TItem> where TItem : class
     {
         private ICommand addCommand;
         private ICommand deleteCommand;
@@ -115,7 +109,7 @@ namespace StructureHelper.Windows.ViewModels
             }
         }
 
-        public SelectedItemViewModel(List<TItem> collection)
+        public SelectItemVM(List<TItem> collection)
         {
             Collection = collection;
             Refresh();
@@ -126,7 +120,7 @@ namespace StructureHelper.Windows.ViewModels
             OnPropertyChanged(nameof(Items));
             AfterItemsEdit?.Invoke(this, new CRUDVMEventArgs());
         }
-        public delegate void CRUDHandler(SelectedItemViewModel<TItem> sender, CRUDVMEventArgs e);
+        public delegate void CRUDHandler(SelectItemVM<TItem> sender, CRUDVMEventArgs e);
         public event CRUDHandler? AfterItemsEdit;
     }
 }

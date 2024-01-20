@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
-        d:DataContext ="{d:DesignInstance local:InteractionDiagramCalculatorViewModel}"
+        xmlns:fc="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
+        d:DataContext ="{d:DesignInstance local:LimitCurveCalculatorViewModel}"
         mc:Ignorable="d"
-        Title="Interaction Diagram Calculator" Height="300" Width="400" MinHeight="300" MinWidth="400">
+        Title="Limit Curve Calculator" Height="300" Width="400" MinHeight="300" MinWidth="400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -17,7 +18,25 @@
                 <!--<local:SorroundDataControl/>-->
             </TabItem>
             <TabItem Header="Primitives">
-                <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding PrimitivesViewModel}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            
+                            <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding PrimitivesViewModel}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                    <StackPanel Grid.Column="1" Margin="2">
+                        <Button Style="{StaticResource AddButton}"/>
+                        <Button Style="{StaticResource DeleteButton}"/>
+                        <Button Style="{StaticResource CopyButton}"/>
+                    </StackPanel>
+                </Grid>
             </TabItem>
             <TabItem Header="Predicates">
                 <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding YItems}"/>

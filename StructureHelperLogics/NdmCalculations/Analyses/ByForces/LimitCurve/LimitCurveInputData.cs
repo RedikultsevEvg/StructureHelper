@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
@@ -18,7 +19,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
     {
         public List<LimitStates> LimitStates { get; }
         public List<CalcTerms> CalcTerms { get; }
-        public List<INdmPrimitive> Primitives { get; set; }
+        public List<NamedCollection<INdmPrimitive>> PrimitiveSeries {get;}
         public List<PredicateEntry> PredicateEntries { get; }
         public SurroundData SurroundData { get; set; }
         public int PointCount { get; set; }
@@ -26,10 +27,20 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
         {
             LimitStates = new();
             CalcTerms = new();
-            Primitives = new();
             PredicateEntries = new();
             SurroundData = new();
             PointCount = 80;
+            PrimitiveSeries = new List<NamedCollection<INdmPrimitive>>();
+        }
+        public LimitCurveInputData(IEnumerable<INdmPrimitive> primitives) : this()
+        {
+            PrimitiveSeries.Add
+                (new NamedCollection<INdmPrimitive>()
+                {
+                    Name = "V1",
+                    Collection = primitives.ToList()
+                }
+                );
         }
     }
 }

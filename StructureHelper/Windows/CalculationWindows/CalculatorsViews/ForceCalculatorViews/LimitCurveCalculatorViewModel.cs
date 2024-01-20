@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
-    internal class InteractionDiagramCalculatorViewModel : OkCancelViewModelBase
+    internal class LimitCurveCalculatorViewModel : OkCancelViewModelBase
     {
+
     }
 }

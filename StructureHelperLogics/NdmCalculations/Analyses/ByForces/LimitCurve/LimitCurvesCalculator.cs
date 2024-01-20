@@ -64,16 +64,19 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
         private List<ILimitCurveCalculator> GetCalulators()
         {
             List<ILimitCurveCalculator> calculators = new();
-            foreach (var limitState in InputData.LimitStates)
+            foreach (var primitiveSeries in InputData.PrimitiveSeries)
             {
-                foreach (var calcTerm in InputData.CalcTerms)
+                foreach (var limitState in InputData.LimitStates)
                 {
-                    var ndms = NdmPrimitivesService.GetNdms(InputData.Primitives, limitState, calcTerm);
-                    foreach (var predicateEntry in InputData.PredicateEntries)
+                    foreach (var calcTerm in InputData.CalcTerms)
                     {
-                        string calcName = $"{predicateEntry.Name}_{limitState}_{calcTerm}";
-                        LimitCurveCalculator calculator = GetCalculator(ndms, predicateEntry.PredicateType, calcName);
-                        calculators.Add(calculator);
+                        var ndms = NdmPrimitivesService.GetNdms(primitiveSeries.Collection, limitState, calcTerm);
+                        foreach (var predicateEntry in InputData.PredicateEntries)
+                        {
+                            string calcName = $"{primitiveSeries.Name}_{predicateEntry.Name}_{limitState}_{calcTerm}";
+                            LimitCurveCalculator calculator = GetCalculator(ndms, predicateEntry.PredicateType, calcName);
+                            calculators.Add(calculator);
+                        }
                     }
                 }
             }

@@ -80,9 +80,9 @@ namespace StructureHelper.Windows.Graphs
                 OnPropertyChanged(nameof(MaxValue));
             }
         }
-        public SelectItemsViewModel<IHeadMaterial> MaterialsModel { get; private set; }
-        public SelectItemsViewModel<LimitStateEntity> LimitStatesModel { get; private set; }
-        public SelectItemsViewModel<CalcTermEntity> CalcTermsModel { get; private set; }
+        public SelectItemsVM<IHeadMaterial> MaterialsModel { get; private set; }
+        public SelectItemsVM<LimitStateEntity> LimitStatesModel { get; private set; }
+        public SelectItemsVM<CalcTermEntity> CalcTermsModel { get; private set; }
         public SeriesCollection SeriesCollection { get; set; }
         public List<string> Labels { get; set; }
         public Func<double, string> YFormatter { get; set; }
@@ -103,9 +103,9 @@ namespace StructureHelper.Windows.Graphs
 
         public MaterialDiagramViewModel(IEnumerable<IHeadMaterial> headMaterials, IHeadMaterial material)
         {
-            MaterialsModel = new SelectItemsViewModel<IHeadMaterial>(headMaterials) { ShowButtons = true };
-            LimitStatesModel = new SelectItemsViewModel<LimitStateEntity>(ProgramSetting.LimitStatesList.LimitStates) { ShowButtons = false };
-            CalcTermsModel = new SelectItemsViewModel<CalcTermEntity>(ProgramSetting.CalcTermList.CalcTerms) { ShowButtons = false };
+            MaterialsModel = new SelectItemsVM<IHeadMaterial>(headMaterials) { ShowButtons = true };
+            LimitStatesModel = new SelectItemsVM<LimitStateEntity>(ProgramSetting.LimitStatesList.LimitStates) { ShowButtons = false };
+            CalcTermsModel = new SelectItemsVM<CalcTermEntity>(ProgramSetting.CalcTermList.CalcTerms) { ShowButtons = false };
             foreach (var item in MaterialsModel.CollectionItems)
             {
                 if (item.Item == material)

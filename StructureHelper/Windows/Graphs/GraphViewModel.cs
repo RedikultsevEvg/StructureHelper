@@ -38,8 +38,8 @@ namespace StructureHelper.Windows.Graphs
         private bool invertYValues;
         private RelayCommand saveImageCommand;
 
-        public SelectedItemViewModel<IValueParameter<double>> XItems { get; private set; }
-        public SelectItemsViewModel<IValueParameter<double>> YItems { get; set; }
+        public SelectItemVM<IValueParameter<double>> XItems { get; private set; }
+        public SelectItemsVM<IValueParameter<double>> YItems { get; set; }
         public ObservableCollection<ColumnInfo> Columns { get; } = new ObservableCollection<ColumnInfo>();
         public ObservableCollection<Series> Series { get;}
 

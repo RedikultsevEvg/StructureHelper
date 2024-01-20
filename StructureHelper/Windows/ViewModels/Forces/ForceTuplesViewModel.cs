@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.ViewModels.Forces
 {
-    public class ForceTuplesViewModel : SelectedItemViewModel<IDesignForceTuple>
+    public class ForceTuplesViewModel : SelectItemVM<IDesignForceTuple>
     {
         public override void AddMethod(object parameter)
         {

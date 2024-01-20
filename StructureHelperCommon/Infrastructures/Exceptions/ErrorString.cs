@@ -24,5 +24,6 @@
         public static string ExpectedWas(System.Type expected, System.Type was) => $"{DataIsInCorrect}: Expected {expected}, but was {was}";
         public static string ExpectedWas(System.Type expected, object obj) => ExpectedWas(expected, obj.GetType());
         public static string NullReference => "#0018: Null reference";
+        public static string ObjectNotFound => "#0018: Object not found";
     }
 }
