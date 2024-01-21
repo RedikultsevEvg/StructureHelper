@@ -1,4 +1,4 @@
-﻿<Window x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.InteractionDiagramCalculatorView"
+﻿<Window x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.LimitCurveCalculatorView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,47 +7,25 @@
         xmlns:fc="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
         d:DataContext ="{d:DesignInstance local:LimitCurveCalculatorViewModel}"
         mc:Ignorable="d"
-        Title="Limit Curve Calculator" Height="300" Width="400" MinHeight="300" MinWidth="400">
+        Title="Limit Curve Calculator" Height="390" Width="400" MinHeight="300" MinWidth="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <TabControl>
-            <TabItem Header="Logic">
-                <!--<local:SorroundDataControl/>-->
-            </TabItem>
-            <TabItem Header="Primitives">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="60"/>
-                    </Grid.ColumnDefinitions>
-                    <ListBox>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            
-                            <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding PrimitivesViewModel}"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                    <StackPanel Grid.Column="1" Margin="2">
-                        <Button Style="{StaticResource AddButton}"/>
-                        <Button Style="{StaticResource DeleteButton}"/>
-                        <Button Style="{StaticResource CopyButton}"/>
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Predicates">
-                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding YItems}"/>
-            </TabItem>
-            <TabItem Header="States">
-                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding YItems}"/>
-            </TabItem>
-            <TabItem Header="Terms">
-                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding YItems}"/>
-            </TabItem>
-        </TabControl>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Name"/>
+            <TextBox Grid.Column="1" Text="{Binding Name}"/>
+            <fc:LimitCurveControl Grid.Row="1" Grid.ColumnSpan="2" x:Name="CurveData" LimitCurveViewModel="{Binding LimitCurveDataViewModel}"/>
+        </Grid>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

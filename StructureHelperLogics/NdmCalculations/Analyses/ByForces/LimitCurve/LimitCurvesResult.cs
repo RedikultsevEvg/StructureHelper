@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
+namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public class LimitCurvesResult : IResult, IiterationResult
     {

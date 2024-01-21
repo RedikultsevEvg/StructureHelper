@@ -31,7 +31,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             }
         }
 
-        private void RefreshAll()
+        public void RefreshAll()
         {
             OnPropertyChanged(nameof(Logic));
             OnPropertyChanged(nameof(XMax));

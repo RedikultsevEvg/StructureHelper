@@ -325,10 +325,17 @@
                             </Expander.Header>
                             <Expander.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="Add" Command="{Binding Add}">
-                                        <MenuItem.Icon>
-                                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Calculator32.png" />
-                                        </MenuItem.Icon>
+                                    <MenuItem Header="Add" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.ForceCalculator}">
+                                        <MenuItem Header="Add Force Calculator" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.ForceCalculator}">
+                                            <MenuItem.Icon>
+                                                <Image Width="16" Height="16" Source="/Windows/MainWindow/Calculator32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Add Interaction Diagram Calculator" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.LimitCurveCalculator}">
+                                            <MenuItem.Icon>
+                                                <Image Width="16" Height="16" Source="/Windows/MainWindow/Calculator32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
                                     </MenuItem>
                                 </ContextMenu>
                             </Expander.ContextMenu>

@@ -86,9 +86,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             var inputData = new LimitCurveInputData(ndmPrimitives);
             var vm = new LimitCurveDataViewModel(inputData, ndmPrimitives);
-            vm.LimitStateItems.SetIsSelected();
-            vm.CalcTermITems.SetIsSelected();
-            vm.ShowPrimitivesTab = true;
+            //vm.LimitStateItems.SetIsSelected();
+            //vm.CalcTermITems.SetIsSelected();
+            //vm.PredicateItems.SetIsSelected();
             var wnd = new LimitCurveDataView(vm);
             wnd.ShowDialog();
             if (wnd.DialogResult != true) return;
@@ -382,6 +382,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             forcesResults = forceCalculator.Result as IForcesResults;
             ndmPrimitives = forceCalculator.Primitives;
         }
+
         private void ShowIsoField()
         {
             try

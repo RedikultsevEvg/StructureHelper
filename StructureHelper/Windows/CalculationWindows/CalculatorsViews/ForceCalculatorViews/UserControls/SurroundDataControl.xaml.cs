@@ -23,51 +23,43 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
     /// </summary>
     public partial class SurroundDataControl : UserControl
     {
-    // Using a DependencyProperty as the backing store for SurroundData.
-    // This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty SurroundDataProperty =
-        DependencyProperty.Register(
-            "SurroundData",
-            typeof(SurroundData),
-            typeof(SurroundDataControl),
-            new PropertyMetadata(null, OnSurroundDataChanged));
+    //// Using a DependencyProperty as the backing store for SurroundData.
+    //// This enables animation, styling, binding, etc...
+    //public static readonly DependencyProperty SurroundDataProperty =
+    //    DependencyProperty.Register(
+    //        "SurroundData",
+    //        typeof(SurroundData),
+    //        typeof(SurroundDataControl),
+    //        new PropertyMetadata(null, OnSurroundDataChanged));
 
-    private static void OnSurroundDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        SurroundDataControl surroundDataControl = (SurroundDataControl)d;
-        SurroundData newValue = (SurroundData)e.NewValue;
+    //private static void OnSurroundDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    //{
+    //    SurroundDataControl surroundDataControl = (SurroundDataControl)d;
+    //    SurroundData newValue = (SurroundData)e.NewValue;
 
-        // Handle any additional logic when the SurroundData property changes
+    //        // Handle any additional logic when the SurroundData property changes
 
-        // Example: Update ViewModel.SurroundData
-        surroundDataControl.ViewModel.SurroundData = newValue;
-    }
+    //        // Example: Update ViewModel.SurroundData
+    //    surroundDataControl.ViewModel.SurroundData = newValue;
+    //}
 
-    private SurroundData surroundData;
-    public SurroundDataViewModel ViewModel { get; private set; }
+    //private SurroundData surroundData;
+    public SurroundDataViewModel ViewModel { get; set; }
 
-    public SurroundData SurroundData
-        {
-            get => (SurroundData)GetValue(SurroundDataProperty);
-            set
-            {
-                SetValue(SurroundDataProperty, value);
-            }
-        }
+    //public SurroundData SurroundData
+    //    {
+    //        get => (SurroundData)GetValue(SurroundDataProperty);
+    //        set
+    //        {
+    //            SetValue(SurroundDataProperty, value);
+    //        }
+    //    }
 
         public SurroundDataControl()
-    {
-            if (SurroundData is null)
-            {
-                ViewModel = new SurroundDataViewModel(new());
-            }
-            else
-            {
-                ViewModel = new SurroundDataViewModel(SurroundData);
-            }
-            DataContext = this; // ViewModel;
-        InitializeComponent();
-    }
+        {
+            DataContext = ViewModel;
+            InitializeComponent();
+        }
 
         private void XmaxChanged(object sender, EventArgs e)
         {

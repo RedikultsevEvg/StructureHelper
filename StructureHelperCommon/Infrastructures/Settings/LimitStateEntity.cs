@@ -19,5 +19,15 @@ namespace StructureHelperCommon.Infrastructures.Settings
         {
             Color = ColorProcessor.GetRandomColor();
         }
+
+        public override bool Equals(object? obj)
+        {
+            var item = obj as LimitStateEntity;
+            if (item.LimitState == LimitState & item.Name == Name & item.ShortName == ShortName)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     /// <summary>
     /// Limits of coordinates for workplane
     /// </summary>
-    public class SurroundData
+    public class SurroundData : ICloneable
     {
         public double XMax { get; set; }
         public double XMin { get; set; }
@@ -38,6 +38,19 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             YMax = 1e7d;
             YMin = -1e7d;
             ConvertLogicEntity = ConvertLogics.ConverterLogics[0];
+        }
+
+        public object Clone()
+        {
+            var newItem = new SurroundData()
+            {
+                XMax = XMax,
+                XMin = XMin,
+                YMax = YMax,
+                YMin = YMin,
+                ConvertLogicEntity = ConvertLogics.ConverterLogics[0],
+            };
+            return newItem;
         }
     }
 }

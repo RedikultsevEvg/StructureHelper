@@ -35,13 +35,13 @@ namespace StructureHelper.Windows.ViewModels.Materials
         public override void AddMethod(object parameter)
         {
             CheckParameters(parameter);
-            var paramType = (MaterialType)parameter;
-            if (paramType == MaterialType.Concrete) { AddConcrete(); }
-            else if (paramType == MaterialType.Reinforcement) { AddReinforcement(); }
-            else if (paramType == MaterialType.Elastic) { AddElastic(); }
-            else if (paramType == MaterialType.CarbonFiber) { AddCarbonFiber(); }
-            else if (paramType == MaterialType.GlassFiber) { AddGlassFiber(); }
-            else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Expected: {typeof(MaterialType)}, Actual type: {nameof(paramType)}");
+            var parameterType = (MaterialType)parameter;
+            if (parameterType == MaterialType.Concrete) { AddConcrete(); }
+            else if (parameterType == MaterialType.Reinforcement) { AddReinforcement(); }
+            else if (parameterType == MaterialType.Elastic) { AddElastic(); }
+            else if (parameterType == MaterialType.CarbonFiber) { AddCarbonFiber(); }
+            else if (parameterType == MaterialType.GlassFiber) { AddGlassFiber(); }
+            else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Expected: {typeof(MaterialType)}, Actual type: {nameof(parameterType)}");
             GlobalRepository.Materials.Create(NewItem);
             base.AddMethod(parameter);
         }

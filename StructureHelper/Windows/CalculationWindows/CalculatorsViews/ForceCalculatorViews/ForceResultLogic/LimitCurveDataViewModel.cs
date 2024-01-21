@@ -33,7 +33,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public SelectItemsVM<PredicateEntry> PredicateItems { get; private set; }
         public SelectItemsVM<LimitStateEntity> LimitStateItems { get; private set; }
         public SelectItemsVM<CalcTermEntity> CalcTermITems { get; private set; }
-        public bool ShowPrimitivesTab { get; set; }
 
         public int PointCount
         {
@@ -77,8 +76,11 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         public void RefreshInputData()
         {
+            inputData.LimitStates.Clear();
             inputData.LimitStates.AddRange(LimitStateItems.SelectedItems.Select(x => x.LimitState));
+            inputData.CalcTerms.Clear();
             inputData.CalcTerms.AddRange(CalcTermITems.SelectedItems.Select(x => x.CalcTerm));
+            inputData.PredicateEntries.Clear();
             inputData.PredicateEntries.AddRange(PredicateItems.SelectedItems);
             inputData.PrimitiveSeries.Clear();
             foreach (var item in PrimitiveSeries.Collection)
@@ -127,13 +129,15 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private void GetCalcTerms()
         {
             CalcTermITems = new SelectItemsVM<CalcTermEntity>(ProgramSetting.CalcTermList.CalcTerms);
-            CalcTermITems.SelectedItems = ProgramSetting.CalcTermList.CalcTerms.Where(x => inputData.CalcTerms.Contains(x.CalcTerm));
+            var selectedItems = ProgramSetting.CalcTermList.CalcTerms.Where(x => inputData.CalcTerms.Contains(x.CalcTerm));
+            CalcTermITems.SelectedItems = selectedItems;
             CalcTermITems.ShowButtons = true;
         }
         private void GetLimitStates()
         {
             LimitStateItems = new SelectItemsVM<LimitStateEntity>(ProgramSetting.LimitStatesList.LimitStates);
-            LimitStateItems.SelectedItems = ProgramSetting.LimitStatesList.LimitStates.Where(x => inputData.LimitStates.Contains(x.LimitState));
+            var selectedItems = ProgramSetting.LimitStatesList.LimitStates.Where(x => inputData.LimitStates.Contains(x.LimitState));
+            LimitStateItems.SelectedItems = selectedItems;
             LimitStateItems.ShowButtons = true;
 
         }
@@ -148,6 +152,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 { Name = "Cracking", PredicateType = PredicateTypes.Cracking },
             }
                 );
+            PredicateItems.SelectedItems = inputData.PredicateEntries;
             PredicateItems.ShowButtons = true;
         }
     }

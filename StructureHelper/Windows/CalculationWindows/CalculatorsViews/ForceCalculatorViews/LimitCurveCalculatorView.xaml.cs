@@ -17,11 +17,16 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
     /// <summary>
     /// Логика взаимодействия для InteractionDiagramCalculatorView.xaml
     /// </summary>
-    public partial class InteractionDiagramCalculatorView : Window
+    public partial class LimitCurveCalculatorView : Window
     {
-        public InteractionDiagramCalculatorView()
+        LimitCurveCalculatorViewModel viewModel;
+        public LimitCurveCalculatorView(LimitCurveCalculatorViewModel viewModel)
         {
+            this.viewModel = viewModel;
+            this.viewModel.ParentWindow = this;
             InitializeComponent();
+            this.DataContext = this.viewModel;
+            CurveData.LimitCurveViewModel = this.viewModel.LimitCurveDataViewModel;
         }
     }
 }

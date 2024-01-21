@@ -9,13 +9,13 @@ namespace StructureHelper.Windows.ViewModels
         public Window ParentWindow { get; set; }
         public ICommand OkCommand => new RelayCommand(o => OkAction());
         public ICommand CancelCommand => new RelayCommand(o => CancelAction());
-        private void CancelAction()
+        public virtual void CancelAction()
         {
             ParentWindow.DialogResult = false;
             ParentWindow.Close();
         }
 
-        private void OkAction()
+        public virtual void OkAction()
         {
             ParentWindow.DialogResult = true;
             ParentWindow.Close();

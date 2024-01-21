@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Parameters;
@@ -13,14 +14,14 @@ using System.Threading.Tasks;
 //Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
 
-namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
+namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public class LimitCurveInputData : IInputData
+    public class LimitCurveInputData : IInputData, ICloneable
     {
-        public List<LimitStates> LimitStates { get; }
-        public List<CalcTerms> CalcTerms { get; }
-        public List<NamedCollection<INdmPrimitive>> PrimitiveSeries {get;}
-        public List<PredicateEntry> PredicateEntries { get; }
+        public List<LimitStates> LimitStates { get; private set; }
+        public List<CalcTerms> CalcTerms { get; private set; }
+        public List<NamedCollection<INdmPrimitive>> PrimitiveSeries {get; private set; }
+        public List<PredicateEntry> PredicateEntries { get; private set; }
         public SurroundData SurroundData { get; set; }
         public int PointCount { get; set; }
         public LimitCurveInputData()
@@ -41,6 +42,32 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
                     Collection = primitives.ToList()
                 }
                 );
+        }
+
+        public object Clone()
+        {
+            var newItem = new LimitCurveInputData()
+            {
+                LimitStates = LimitStates.ToList(),
+                CalcTerms = CalcTerms.ToList(),
+                PredicateEntries = PredicateEntries.ToList(),
+                SurroundData = SurroundData.Clone() as SurroundData,
+                PointCount = PointCount
+            };
+            foreach (var item in PrimitiveSeries)
+            {
+                var collection = item.Collection.ToList();
+                newItem.PrimitiveSeries.Add
+                    (
+                    new NamedCollection<INdmPrimitive>()
+                    {
+                        Name = item.Name,
+                        Collection = collection
+                    }
+                    );
+            }
+            return newItem;
+            
         }
     }
 }

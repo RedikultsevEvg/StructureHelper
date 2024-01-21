@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
@@ -19,9 +20,13 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Logics
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);
-            if (targetObject is IForceCalculator force)
+            if (targetObject is IForceCalculator target)
             {
-                new ForceCalculatorUpdateStrategy().Update(force, (IForceCalculator)sourceObject);
+                new ForceCalculatorUpdateStrategy().Update(target, (IForceCalculator)sourceObject);
+            }
+            else if (targetObject is LimitCurvesCalculator limitCurves)
+            {
+                new LimitCurvesCalculatorUpdateStrategy().Update(limitCurves, (LimitCurvesCalculator)sourceObject);
             }
             else
             {

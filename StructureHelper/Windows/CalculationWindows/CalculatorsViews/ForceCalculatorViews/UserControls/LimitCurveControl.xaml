@@ -7,8 +7,9 @@
              xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
              xmlns:fr="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance fr:LimitCurveDataViewModel}"
              d:DesignHeight="325" d:DesignWidth="400">
-    <Grid DataContext="{Binding LimitCurveViewModel}">
+    <Grid>
         <TabControl>
             <TabItem Header="Limits">
                 <Grid>
@@ -16,7 +17,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="35"/>
                     </Grid.RowDefinitions>
-                    <local:SurroundDataControl x:Name="Data" SurroundData="{Binding SurroundData}"/>
+                    <local:SurroundDataControl x:Name="SurData"/>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
@@ -43,7 +44,9 @@
                             <DataTemplate>
                                 <Expander>
                                     <Expander.Header>
-                                        <TextBox  Margin="20,0,0,0" Text="{Binding Name}"/>
+                                        <Grid MinWidth="250">
+                                            <TextBox  Margin="20,0,0,0" Text="{Binding Name}"/>
+                                        </Grid>
                                     </Expander.Header>
                                     <Grid Width="300" Height="200">
                                         <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding Value}"/>

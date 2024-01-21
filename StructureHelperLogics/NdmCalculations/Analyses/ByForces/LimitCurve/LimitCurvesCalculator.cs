@@ -4,6 +4,7 @@ using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Calculations.CalculationsResults;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Factories;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,13 @@ using System.Threading.Tasks;
 //Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
 
-namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
+namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public class LimitCurvesCalculator : ISaveable, ICalculator, IHasActionByResult
     {
         private LimitCurvesResult result;
         private int curvesIterationCount;
+        private LimitCurvesCalculatorUpdateStrategy updateStrategy => new();
 
         public Guid Id { get; }
         public string Name { get; set; }
@@ -27,7 +29,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
         public IResult Result => result;
 
         public Action<IResult> ActionToOutputResults { get; set; }
-
+        public LimitCurvesCalculator()
+        {
+            Name = "New calculator";
+            InputData = new();
+        }
         public void Run()
         {
             GetNewResult();
@@ -110,12 +116,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            var newItem = new LimitCurvesCalculator();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
 
         private void SetCurveCount(IResult locResult)
         {
-            var curveResult = locResult as IiterationResult;;
+            var curveResult = locResult as IiterationResult;
             result.IterationNumber = curvesIterationCount * InputData.PointCount + curveResult.IterationNumber;
             ActionToOutputResults?.Invoke(result);
         }

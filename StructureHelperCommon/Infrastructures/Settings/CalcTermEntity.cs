@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+﻿using LoaderCalculator.Data.Materials.MaterialBuilders;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Services.ColorServices;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,16 @@ namespace StructureHelperCommon.Infrastructures.Settings
         public CalcTermEntity()
         {
             Color = ColorProcessor.GetRandomColor();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            var item = obj as CalcTermEntity;
+            if (item.CalcTerm == CalcTerm & item.Name == Name & item.ShortName == ShortName)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
