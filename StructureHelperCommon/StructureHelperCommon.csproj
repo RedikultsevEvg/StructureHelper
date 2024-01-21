@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NLog" Version="5.2.8" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="LoaderCalculator">
       <HintPath>..\StructureHelper\Libraries\LoaderCalculator.dll</HintPath>
     </Reference>

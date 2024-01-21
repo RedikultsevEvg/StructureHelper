@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IResult Result => result;
 
         public Action<IResult> ActionToOutputResults { get; set; }
+        public ITraceLogger? TraceLogger { get; set; }
 
         public LimitCurveCalculator(ILimitCurveLogic limitCurveLogic)
         {
@@ -45,20 +47,27 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public void Run()
         {
+            if (TraceLogger is not null) { limitCurveLogic.TraceLogger = TraceLogger; }
+            TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLoggerStatuses.Service);
+            TraceLogger?.AddMessage($"Start solution in calculator {Name}");
             result = new LimitCurveResult();
             result.IsValid = true;
             result.Name = Name;
             SurroundProcLogic.SurroundData = SurroundData;
             SurroundProcLogic.PointCount = PointCount;
+            TraceLogger?.AddMessage($"Point count {PointCount}");
             surroundList = SurroundProcLogic.GetPoints();
+            TraceLogger?.AddMessage($"There are {surroundList.Count()} point prepared for calculation");
             try
             {
                 limitCurveLogic.ActionToOutputResults = GetCurrentStepNumber;
                 factoredList = limitCurveLogic.GetPoints(surroundList);
+                TraceLogger?.AddMessage($"Solution was successfully obtained for {factoredList.Count()} point");
                 result.Points = factoredList;
             }
             catch (Exception ex)
             {
+                TraceLogger?.AddMessage($"Calculation result is not valid: {ex.Message}", TraceLoggerStatuses.Error);
                 result.IsValid = false;
                 result.Description += ex.Message;
             }

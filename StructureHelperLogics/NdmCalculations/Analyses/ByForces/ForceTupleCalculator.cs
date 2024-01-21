@@ -3,6 +3,7 @@ using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.ResultData;
 using LoaderCalculator.Data.SourceData;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -13,6 +14,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IResult Result { get; private set; }
 
         public Action<IResult> ActionToOutputResults { get; set; }
+        public ITraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public ForceTupleCalculator(IForceTupleInputData inputData)
         {

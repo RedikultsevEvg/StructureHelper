@@ -3,6 +3,7 @@ using LoaderCalculator.Logics;
 using LoaderCalculator.Logics.Geometry;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Analyses;
@@ -28,6 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
 
         public IAccuracy Accuracy { get; set; }
         public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ITraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         private (double EtaAlongX, double EtaAlongY) GetBucklingCoefficients()
         {

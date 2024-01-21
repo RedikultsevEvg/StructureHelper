@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Sections;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
@@ -25,6 +26,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IAccuracy Accuracy { get; set; }
         public List<IForceCombinationList> ForceCombinationLists { get; private set; }
         public Action<IResult> ActionToOutputResults { get; set; }
+        public ITraceLogger? TraceLogger { get; set; }
 
         public void Run()
         {

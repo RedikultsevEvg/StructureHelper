@@ -5,6 +5,7 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Units;
@@ -40,6 +41,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         public Action<int> SetProgress { get; set; }
         public bool Result { get; set; }
+        public ITraceLogger? TraceLogger { get; set; }
 
         public InteractionDiagramLogic(LimitCurveInputData inputData)
         {
@@ -57,8 +59,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             var convertLogic = InputData.SurroundData.ConvertLogicEntity;
             var calculator = new LimitCurvesCalculator()
             {
-                InputData = InputData
+                InputData = InputData,
             };
+            if (TraceLogger is not null) { calculator.TraceLogger = TraceLogger; }
             calculator.ActionToOutputResults = SetProgressByResult;
             SafetyProcessor.RunSafeProcess(() =>
             {

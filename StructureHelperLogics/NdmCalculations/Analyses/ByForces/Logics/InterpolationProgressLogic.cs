@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Services.NdmCalculations;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
         public bool Result { get; set; }
 
         public int StepCount => interpolateTuplesResult.StepCount + 1;
+
+        public ITraceLogger? TraceLogger { get; set; }
 
         public void WorkerDoWork(object sender, DoWorkEventArgs e)
         {

@@ -1,4 +1,5 @@
 ﻿using LoaderCalculator.Data.ResultData;
+using StructureHelperCommon.Models.Loggers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace StructureHelperCommon.Models.Calculators
 {
     public interface ICalculator : ICloneable
     {
+        ITraceLogger? TraceLogger { get; set; }
         string Name { get; set; }
         /// <summary>
         /// Method for calculating

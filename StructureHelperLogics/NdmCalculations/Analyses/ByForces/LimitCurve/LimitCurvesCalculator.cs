@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Calculations.CalculationsResults;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Factories;
@@ -29,6 +30,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IResult Result => result;
 
         public Action<IResult> ActionToOutputResults { get; set; }
+        public ITraceLogger? TraceLogger { get; set; }
+
         public LimitCurvesCalculator()
         {
             Name = "New calculator";
@@ -36,6 +39,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         }
         public void Run()
         {
+            TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLoggerStatuses.Service);
+            TraceLogger?.AddMessage($"Start solution in calculator {Name}");
             GetNewResult();
             try
             {
@@ -46,7 +51,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                     item.Run();
                     var locResult = item.Result as LimitCurveResult;
                     result.LimitCurveResults.Add(locResult);
-                    if (locResult.IsValid == false) { result.Description += locResult.Description; }
+                    if (locResult.IsValid == false)
+                    {
+                        result.Description += locResult.Description;
+                    }
                     result.IterationNumber = curvesIterationCount * InputData.PointCount + locResult.IterationNumber;
                     ActionToOutputResults?.Invoke(result);
                     curvesIterationCount++;
@@ -54,6 +62,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             }
             catch (Exception ex)
             {
+                TraceLogger?.AddMessage($"Calculation result is not valid: {ex.Message}", TraceLoggerStatuses.Error);
                 result.IsValid = false;
                 result.Description += ex;
             }
@@ -81,6 +90,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                         {
                             string calcName = $"{primitiveSeries.Name}_{predicateEntry.Name}_{limitState}_{calcTerm}";
                             LimitCurveCalculator calculator = GetCalculator(ndms, predicateEntry.PredicateType, calcName);
+                            if (TraceLogger is not null) { calculator.TraceLogger = TraceLogger; }
                             calculators.Add(calculator);
                         }
                     }
@@ -91,18 +101,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private LimitCurveCalculator GetCalculator(List<INdm> ndms, PredicateTypes predicateType, string calcName)
         {
-            var factory = new PredicateFactory()
-            {
-                Ndms = ndms,
-                ConvertLogic = InputData.SurroundData.ConvertLogicEntity.ConvertLogic
-            };
-            var predicate = factory.GetPredicate(predicateType);
             var getPredicateLogic = new GetPredicateLogic()
             {
+                Name = calcName,
                 Ndms = ndms,
                 ConvertLogic = InputData.SurroundData.ConvertLogicEntity.ConvertLogic,
                 PredicateType = predicateType
             };
+            if (TraceLogger is not null) { getPredicateLogic.TraceLogger = TraceLogger; }
             var logic = new LimitCurveLogic(getPredicateLogic);
             var calculator = new LimitCurveCalculator(logic)
             {

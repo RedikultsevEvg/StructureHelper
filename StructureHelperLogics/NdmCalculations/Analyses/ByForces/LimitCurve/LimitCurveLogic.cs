@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Factories;
 
@@ -17,6 +18,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private object lockObject = new object();
         public Action<IResult> ActionToOutputResults { get; set; }
+        public ITraceLogger? TraceLogger { get; set; }
 
         public LimitCurveLogic(ILimitCurveParameterLogic parameterLogic)
         {
@@ -30,22 +32,25 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         /// <inheritdoc/>
         public List<IPoint2D> GetPoints(IEnumerable<IPoint2D> points)
         {
+            if (TraceLogger is not null) { ParameterLogic.TraceLogger = TraceLogger; }
             result = new();
             resultList = new();
+            TraceLogger?.AddMessage($"Predicate name is {GetPredicateLogic.Name}");
             Predicate<IPoint2D> limitPredicate = GetPredicateLogic.GetPredicate();
+            //if predicate is true for point (0,0), then check other point is pointless
             if (limitPredicate(new Point2D()) == true)
             {
-                var range = points.Select(point => new Point2D { X = point.X * 0d, Y = point.Y * 0d }).ToList();
+                TraceLogger?.AddMessage($"Predicate is true for point  (0d, 0d). All point will be skiped", TraceLoggerStatuses.Warning);
+                var range = points.Select(point => new Point2D { X = 0d, Y = 0d }).ToList();
                 resultList.AddRange(range);
                 return resultList;
             }
             pointCount = 0;
-            MultyThreadProc(points);
-            //MonoThreadProc(points);
+            MultiThreadProc(points);
             return resultList;
         }
 
-        private void MultyThreadProc(IEnumerable<IPoint2D> points)
+        private void MultiThreadProc(IEnumerable<IPoint2D> points)
         {
             Task<IPoint2D>[] tasks = new Task<IPoint2D>[points.Count()];
             for (int i = 0; i < points.Count(); i++)
@@ -63,53 +68,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             }
         }
 
-        private void MonoThreadProc(IEnumerable<IPoint2D> points)
-        {
-            foreach (var point in points)
-            {
-                FindParameter(point);
-            }
-        }
-
-        private void FindParameter(IPoint2D point)
-        {
-            IPoint2D resultPoint = FindResultPoint(point);
-            resultList.Add(resultPoint);
-            lock (lockObject)
-            {
-                pointCount++;
-            }
-            result.IterationNumber = pointCount;
-            ActionToOutputResults?.Invoke(result);
-        }
-
         private Point2D FindResultPoint(IPoint2D point)
         {
-            double parameter;
-            var locCurrentPoint = point.Clone() as IPoint2D;
             Predicate<IPoint2D> limitPredicate;
             lock (lockObject)
             {
                 limitPredicate = GetPredicateLogic.GetPredicate();
             }
-            var logic = ParameterLogic.Clone() as ILimitCurveParameterLogic;
-            logic.CurrentPoint = locCurrentPoint;
-            logic.LimitPredicate = limitPredicate;
-
-            if (limitPredicate(locCurrentPoint) == false)
-            {
-                parameter = 1d;
-            }
-            else
-            {
-                parameter = logic.GetParameter();
-            }
-            
-            var resultPoint = new Point2D()
-            {
-                X = locCurrentPoint.X * parameter,
-                Y = locCurrentPoint.Y * parameter
-            };
+            var resultPoint = FindResultPointByPredicate(point, limitPredicate);
             lock (lockObject)
             {
                 pointCount++;
@@ -117,7 +83,39 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             result.IterationNumber = pointCount;
             ActionToOutputResults?.Invoke(result);
             return resultPoint;
-            //}
+        }
+
+        private Point2D FindResultPointByPredicate(IPoint2D point, Predicate<IPoint2D> limitPredicate)
+        {
+            var localCurrentPoint = point.Clone() as IPoint2D;
+            var logic = ParameterLogic.Clone() as ILimitCurveParameterLogic;
+            logic.TraceLogger = new TraceLogger();
+            logic.CurrentPoint = localCurrentPoint;
+            logic.LimitPredicate = limitPredicate;
+            double parameter;
+
+            if (limitPredicate(localCurrentPoint) == false)
+            {
+                parameter = 1d;
+            }
+            else
+            {
+                parameter = logic.GetParameter();
+            }
+
+            var resultPoint = new Point2D()
+            {
+                X = localCurrentPoint.X * parameter,
+                Y = localCurrentPoint.Y * parameter
+            };
+            lock (lockObject)
+            {
+                TraceLogger?.AddMessage($"Source point (X = {localCurrentPoint.X}, Y = {localCurrentPoint.Y})");
+                TraceLogger?.TraceLoggerEntries.AddRange(logic.TraceLogger.TraceLoggerEntries);
+                TraceLogger?.AddMessage($"Parameter value {parameter} was obtained");
+                TraceLogger?.AddMessage($"Calculated point (X={localCurrentPoint.X} * {parameter} = {resultPoint.X}, Y={localCurrentPoint.Y} * {parameter} = {resultPoint.Y})");
+            }
+            return resultPoint;
         }
     }
 }

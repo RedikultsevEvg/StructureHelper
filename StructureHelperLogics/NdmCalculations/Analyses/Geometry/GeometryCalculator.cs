@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Geometry
         public IResult Result => geometryResult;
 
         public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ITraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public GeometryCalculator(IEnumerable<INdm> ndms, IStrainMatrix strainMatrix)
         {

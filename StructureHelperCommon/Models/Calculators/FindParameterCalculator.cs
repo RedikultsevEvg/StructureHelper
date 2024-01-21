@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models.Loggers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,6 +20,7 @@ namespace StructureHelperCommon.Models.Calculators
         public IResult Result => result;
 
         public Action<IResult> ActionToOutputResults { get; set; }
+        public ITraceLogger? TraceLogger { get; set; }
 
         public FindParameterCalculator()
         {
@@ -58,6 +60,7 @@ namespace StructureHelperCommon.Models.Calculators
             int iterationNum = 0;
             while (step > precision)
             {
+                TraceLogger?.AddMessage($"Iteration number {iterationNum}", TraceLoggerStatuses.Debug);
                 if (predicate(current) == true)
                 {
                     end = current;
@@ -66,8 +69,8 @@ namespace StructureHelperCommon.Models.Calculators
                 {
                     start = current;
                 }
-
                 current = (start + end) / 2;
+                TraceLogger?.AddMessage($"Current value {current}", TraceLoggerStatuses.Debug);
                 step = (end - start) / 2;
                 iterationNum++;
 
@@ -78,11 +81,12 @@ namespace StructureHelperCommon.Models.Calculators
 
                 if (iterationNum > maxIterationCount)
                 {
+                    TraceLogger?.AddMessage($"Recuired precision was not achieved, current step {step}, required precision {precision}", TraceLoggerStatuses.Error);
                     result.Description = "Parameter was not found succefully: \n";
                     throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": violation of iteration count");
                 }
             }
-
+            TraceLogger?.AddMessage($"Parameter value {current} was obtained");
             result.Parameter = current;
             result.Description = "Parameter was found succefully";
             result.IsValid = true;

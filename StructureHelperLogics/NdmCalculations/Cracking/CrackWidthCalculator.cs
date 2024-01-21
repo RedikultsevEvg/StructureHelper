@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -23,6 +24,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public string Name { get; set; }
         public CrackWidthCalculatorInputData InputData { get; set; }
         public IResult Result => result;
+
+        public ITraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void Run()
         {

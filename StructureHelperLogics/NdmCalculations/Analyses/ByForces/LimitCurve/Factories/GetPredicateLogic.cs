@@ -1,5 +1,6 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Fac
         public IEnumerable<INdm> Ndms { get; set; }
         public PredicateTypes PredicateType { get; set; }
         public IConvert2DPointTo3DPointLogic ConvertLogic { get; set; }
+        public string Name { get; set; }
+        public ITraceLogger? TraceLogger { get; set; }
 
         public Predicate<IPoint2D> GetPredicate()
         {

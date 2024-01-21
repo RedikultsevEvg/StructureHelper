@@ -6,6 +6,7 @@ using StructureHelper.Windows.ViewModels.Calculations.Calculators;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
@@ -33,7 +34,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             {
                 NewItem = new ForceCalculator()
                 {
-                    Name = "New force calculator"
+                    Name = "New force calculator",
+                    TraceLogger = new TraceLogger(),
                 };
             }
             else if (parameterType == CalculatorTypes.LimitCurveCalculator)
@@ -42,7 +44,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 NewItem = new LimitCurvesCalculator()
                 {
                     Name = "New interaction diagram calculator",
-                    InputData = inputData
+                    InputData = inputData,
+                    TraceLogger = new TraceLogger(),
                 };
             }
             else
@@ -133,7 +136,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             {
                 var calculator = SelectedItem as LimitCurvesCalculator;
                 var inputData = calculator.InputData;
-                ShowInteractionDiagramByInputData(inputData);
+                ShowInteractionDiagramByInputData(calculator);
             }
             else
             {
@@ -151,9 +154,10 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
         }
 
-        private void ShowInteractionDiagramByInputData(LimitCurveInputData inputData)
+        private void ShowInteractionDiagramByInputData(LimitCurvesCalculator calculator)
         {
-            interactionDiagramLogic = new(inputData);
+            interactionDiagramLogic = new(calculator.InputData);
+            interactionDiagramLogic.TraceLogger = calculator.TraceLogger;
             showProgressLogic = new(interactionDiagramLogic)
             {
                 WindowTitle = "Diagram creating...",

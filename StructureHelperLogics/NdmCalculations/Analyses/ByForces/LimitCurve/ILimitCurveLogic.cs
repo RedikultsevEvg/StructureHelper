@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -22,5 +23,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         /// <param name="points"></param>
         /// <returns></returns>
         List<IPoint2D> GetPoints(IEnumerable<IPoint2D> points);
+        ITraceLogger? TraceLogger { get; set; }
     }
 }

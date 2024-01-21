@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,14 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
+    /// <summary>
+    /// Find parameter by point and predicate
+    /// </summary>
     public interface ILimitCurveParameterLogic : IHasActionByResult, ICloneable
     {
         Predicate<Point2D> LimitPredicate { get; set; }
         IPoint2D CurrentPoint { get; set; }
         double GetParameter();
+        ITraceLogger? TraceLogger { get; set; }
     }
 }

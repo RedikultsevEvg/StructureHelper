@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ namespace StructureHelper.Models.Calculators
         public string Name { get; set; }
 
         public IResult Result => result;
+
+        public ITraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void Run()
         {

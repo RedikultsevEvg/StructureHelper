@@ -16,6 +16,7 @@ namespace StructureHelperTests.UnitTests.Calcuators
             var calculator = new LimitCurveCalculator(new StabLimitCurveLogic())
             {
             };
+            calculator.PointCount = 12;
             calculator.SurroundData.XMax = xmax;
             calculator.SurroundData.XMin = -xmax;
             calculator.SurroundData.YMax = ymax;

@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,8 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         int StepCount { get; }
         Action<int> SetProgress { get; set; }
         bool Result { get; set; }
+
+        ITraceLogger? TraceLogger { get; set; }
 
         void WorkerDoWork(object sender, DoWorkEventArgs e);
         void WorkerProgressChanged(object sender, ProgressChangedEventArgs e);

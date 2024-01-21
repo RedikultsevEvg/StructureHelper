@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public Predicate<Point2D> LimitPredicate { get; set; }
         public IPoint2D CurrentPoint { get; set; }
         public Action<IResult> ActionToOutputResults { get; set; }
+        public ITraceLogger? TraceLogger { get; set; }
 
         public LimitCurveParameterLogic()
         {
@@ -27,6 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             {
                 Predicate = GetFactorPredicate,
             };
+            if (TraceLogger is not null) { parameterCalculator.TraceLogger = TraceLogger; }
             parameterCalculator.Accuracy.IterationAccuracy = 0.001d;
             parameterCalculator.Run();
             if (parameterCalculator.Result.IsValid == false)

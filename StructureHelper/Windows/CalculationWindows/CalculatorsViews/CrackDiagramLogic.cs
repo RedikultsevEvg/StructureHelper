@@ -4,6 +4,7 @@ using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
@@ -34,6 +35,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
         public bool Result { get; set; }
 
         public int StepCount => ValidTupleList.Count();
+
+        public ITraceLogger? TraceLogger { get; set; }
 
         public CrackDiagramLogic(IEnumerable<IForcesTupleResult> tupleList, IEnumerable<INdmPrimitive> ndmPrimitives)
         {
