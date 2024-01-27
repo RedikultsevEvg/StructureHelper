@@ -36,7 +36,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 
         public int StepCount => ValidTupleList.Count();
 
-        public ITraceLogger? TraceLogger { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public CrackDiagramLogic(IEnumerable<IForcesTupleResult> tupleList, IEnumerable<INdmPrimitive> ndmPrimitives)
         {

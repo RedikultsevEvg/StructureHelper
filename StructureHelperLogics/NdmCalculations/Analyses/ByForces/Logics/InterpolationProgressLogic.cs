@@ -24,7 +24,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
 
         public int StepCount => interpolateTuplesResult.StepCount + 1;
 
-        public ITraceLogger? TraceLogger { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public void WorkerDoWork(object sender, DoWorkEventArgs e)
         {

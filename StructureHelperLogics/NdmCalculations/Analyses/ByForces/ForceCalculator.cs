@@ -26,7 +26,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IAccuracy Accuracy { get; set; }
         public List<IForceCombinationList> ForceCombinationLists { get; private set; }
         public Action<IResult> ActionToOutputResults { get; set; }
-        public ITraceLogger? TraceLogger { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public void Run()
         {

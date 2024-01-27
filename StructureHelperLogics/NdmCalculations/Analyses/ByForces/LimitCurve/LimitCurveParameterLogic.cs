@@ -16,7 +16,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public Predicate<Point2D> LimitPredicate { get; set; }
         public IPoint2D CurrentPoint { get; set; }
         public Action<IResult> ActionToOutputResults { get; set; }
-        public ITraceLogger? TraceLogger { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public LimitCurveParameterLogic()
         {
@@ -29,7 +29,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             {
                 Predicate = GetFactorPredicate,
             };
-            if (TraceLogger is not null) { parameterCalculator.TraceLogger = TraceLogger; }
+            if (TraceLogger is not null)
+            {
+                parameterCalculator.TraceLogger = TraceLogger;
+            }
             parameterCalculator.Accuracy.IterationAccuracy = 0.001d;
             parameterCalculator.Run();
             if (parameterCalculator.Result.IsValid == false)
@@ -38,8 +41,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             }
             result = parameterCalculator.Result as FindParameterResult;
             var parameter = result.Parameter;
-            if (parameter < 0.1d)
+            var limitparamValue = 0.1d;
+            if (parameter < limitparamValue)
             {
+                var newAccuracy = limitparamValue / 10d;
+                TraceLogger?.AddMessage($"Since current parameter value {parameter} has a low accuracy (less than {limitparamValue}) new parameter calculatin is started", TraceLoggerStatuses.Warning);
                 parameterCalculator.Accuracy.IterationAccuracy = 0.0001d;
                 parameterCalculator.Run();
                 result = parameterCalculator.Result as FindParameterResult;

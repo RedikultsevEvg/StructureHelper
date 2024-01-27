@@ -20,7 +20,7 @@ namespace StructureHelperCommon.Models.Calculators
         public IResult Result => result;
 
         public Action<IResult> ActionToOutputResults { get; set; }
-        public ITraceLogger? TraceLogger { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public FindParameterCalculator()
         {
@@ -48,10 +48,11 @@ namespace StructureHelperCommon.Models.Calculators
 
         private void FindMinimumValue(double start, double end, Predicate<double> predicate)
         {
+            TraceLogger?.AddMessage($"Calculating parameter by iterations is started,\nrequired precision {Accuracy.IterationAccuracy}");
             if (predicate(end) == false)
             {
+                TraceLogger?.AddMessage($"Predicate for end value must be true", TraceLoggerStatuses.Error);
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": predicate for end value must be true");
-
             }
             double precision = Accuracy.IterationAccuracy;
             int maxIterationCount = Accuracy.MaxIterationCount;
@@ -60,18 +61,21 @@ namespace StructureHelperCommon.Models.Calculators
             int iterationNum = 0;
             while (step > precision)
             {
-                TraceLogger?.AddMessage($"Iteration number {iterationNum}", TraceLoggerStatuses.Debug);
+                TraceLogger?.AddMessage($"Iteration number {iterationNum} is started", TraceLoggerStatuses.Debug);
                 if (predicate(current) == true)
                 {
+                    TraceLogger?.AddMessage($"Predicate value in {current} is true", TraceLoggerStatuses.Debug, 50);
                     end = current;
                 }
                 else
                 {
+                    TraceLogger?.AddMessage($"Predicate value in {current} is false", TraceLoggerStatuses.Debug, 50);
                     start = current;
                 }
-                current = (start + end) / 2;
-                TraceLogger?.AddMessage($"Current value {current}", TraceLoggerStatuses.Debug);
-                step = (end - start) / 2;
+                TraceLogger?.AddMessage($"New current value Cur=({start}+{end})/2={current}", TraceLoggerStatuses.Debug);
+                current = (start + end) / 2d;
+                step = (end - start) / 2d;
+                TraceLogger?.AddMessage($"New step S={current}", TraceLoggerStatuses.Debug, 50);
                 iterationNum++;
 
                 result.IsValid = false;
@@ -86,7 +90,7 @@ namespace StructureHelperCommon.Models.Calculators
                     throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": violation of iteration count");
                 }
             }
-            TraceLogger?.AddMessage($"Parameter value {current} was obtained");
+            TraceLogger?.AddMessage($"Parameter value Cur={current} was found,\nCalculation has finished succefully");
             result.Parameter = current;
             result.Description = "Parameter was found succefully";
             result.IsValid = true;

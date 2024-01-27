@@ -41,7 +41,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         public Action<int> SetProgress { get; set; }
         public bool Result { get; set; }
-        public ITraceLogger? TraceLogger { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public InteractionDiagramLogic(LimitCurveInputData inputData)
         {

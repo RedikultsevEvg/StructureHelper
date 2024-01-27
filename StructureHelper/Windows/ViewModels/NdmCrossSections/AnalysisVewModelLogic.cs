@@ -2,6 +2,7 @@
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic;
+using StructureHelper.Windows.CalculationWindows.ProgressViews;
 using StructureHelper.Windows.ViewModels.Calculations.Calculators;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -35,7 +36,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 NewItem = new ForceCalculator()
                 {
                     Name = "New force calculator",
-                    TraceLogger = new TraceLogger(),
+                    TraceLogger = new ShiftTraceLogger(),
                 };
             }
             else if (parameterType == CalculatorTypes.LimitCurveCalculator)
@@ -45,7 +46,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 {
                     Name = "New interaction diagram calculator",
                     InputData = inputData,
-                    TraceLogger = new TraceLogger(),
+                    TraceLogger = new ShiftTraceLogger(),
                 };
             }
             else
@@ -132,11 +133,16 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void RunCalculator()
         {
-            if (SelectedItem is LimitCurvesCalculator)
+            if (SelectedItem is LimitCurvesCalculator calculator)
             {
-                var calculator = SelectedItem as LimitCurvesCalculator;
+                if (calculator.TraceLogger is not null) { calculator.TraceLogger.TraceLoggerEntries.Clear(); }
                 var inputData = calculator.InputData;
                 ShowInteractionDiagramByInputData(calculator);
+                if (calculator.TraceLogger is not null)
+                {
+                    var wnd = new TraceDocumentView(calculator.TraceLogger.TraceLoggerEntries);
+                    wnd.ShowDialog();
+                }
             }
             else
             {

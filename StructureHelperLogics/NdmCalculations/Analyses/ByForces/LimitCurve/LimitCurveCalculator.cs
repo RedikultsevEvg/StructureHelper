@@ -26,7 +26,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IResult Result => result;
 
         public Action<IResult> ActionToOutputResults { get; set; }
-        public ITraceLogger? TraceLogger { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public LimitCurveCalculator(ILimitCurveLogic limitCurveLogic)
         {
@@ -47,7 +47,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public void Run()
         {
-            if (TraceLogger is not null) { limitCurveLogic.TraceLogger = TraceLogger; }
+            if (TraceLogger is not null) { limitCurveLogic.TraceLogger = TraceLogger.GetSimilarTraceLogger(50); }
             TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLoggerStatuses.Service);
             TraceLogger?.AddMessage($"Start solution in calculator {Name}");
             result = new LimitCurveResult();
@@ -58,11 +58,19 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             TraceLogger?.AddMessage($"Point count {PointCount}");
             surroundList = SurroundProcLogic.GetPoints();
             TraceLogger?.AddMessage($"There are {surroundList.Count()} point prepared for calculation");
+            if (TraceLogger is not null)
+            {
+                AddTAbleToTraceLoggerByPoints(surroundList);
+            }
             try
             {
                 limitCurveLogic.ActionToOutputResults = GetCurrentStepNumber;
                 factoredList = limitCurveLogic.GetPoints(surroundList);
                 TraceLogger?.AddMessage($"Solution was successfully obtained for {factoredList.Count()} point");
+                if (TraceLogger is not null)
+                {
+                    AddTAbleToTraceLoggerByPoints(factoredList);
+                }
                 result.Points = factoredList;
             }
             catch (Exception ex)
@@ -71,6 +79,13 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 result.IsValid = false;
                 result.Description += ex.Message;
             }
+        }
+
+        private void AddTAbleToTraceLoggerByPoints(IEnumerable<IPoint2D> pointList)
+        {
+            var table = TraceLoggerTableByPointsFactory.GetTableByPoint2D(pointList);
+            table.Priority = LoggerService.GetPriorityByStatus(TraceLoggerStatuses.Info) + TraceLogger.ShiftPriority;
+            TraceLogger.AddEntry(table);
         }
 
         private void GetCurrentStepNumber(IResult calcResult)

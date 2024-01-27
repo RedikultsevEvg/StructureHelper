@@ -29,7 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
 
         public IAccuracy Accuracy { get; set; }
         public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ITraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IShiftTraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         private (double EtaAlongX, double EtaAlongY) GetBucklingCoefficients()
         {

@@ -30,7 +30,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IResult Result => result;
 
         public Action<IResult> ActionToOutputResults { get; set; }
-        public ITraceLogger? TraceLogger { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public LimitCurvesCalculator()
         {
@@ -90,7 +90,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                         {
                             string calcName = $"{primitiveSeries.Name}_{predicateEntry.Name}_{limitState}_{calcTerm}";
                             LimitCurveCalculator calculator = GetCalculator(ndms, predicateEntry.PredicateType, calcName);
-                            if (TraceLogger is not null) { calculator.TraceLogger = TraceLogger; }
+                            if (TraceLogger is not null)
+                            {
+                                calculator.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
+                            }
                             calculators.Add(calculator);
                         }
                     }

@@ -16,7 +16,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         Action<int> SetProgress { get; set; }
         bool Result { get; set; }
 
-        ITraceLogger? TraceLogger { get; set; }
+        IShiftTraceLogger? TraceLogger { get; set; }
 
         void WorkerDoWork(object sender, DoWorkEventArgs e);
         void WorkerProgressChanged(object sender, ProgressChangedEventArgs e);

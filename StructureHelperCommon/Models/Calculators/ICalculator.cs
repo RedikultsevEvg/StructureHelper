@@ -12,7 +12,7 @@ namespace StructureHelperCommon.Models.Calculators
 {
     public interface ICalculator : ICloneable
     {
-        ITraceLogger? TraceLogger { get; set; }
+        IShiftTraceLogger? TraceLogger { get; set; }
         string Name { get; set; }
         /// <summary>
         /// Method for calculating

@@ -17,6 +17,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         Predicate<Point2D> LimitPredicate { get; set; }
         IPoint2D CurrentPoint { get; set; }
         double GetParameter();
-        ITraceLogger? TraceLogger { get; set; }
+        IShiftTraceLogger? TraceLogger { get; set; }
     }
 }

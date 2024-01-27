@@ -7,7 +7,7 @@
         xmlns:fc="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
         d:DataContext ="{d:DesignInstance local:LimitCurveCalculatorViewModel}"
         mc:Ignorable="d"
-        Title="Limit Curve Calculator" Height="390" Width="400" MinHeight="300" MinWidth="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Interaction Diagram Calculator" Height="390" Width="400" MinHeight="300" MinWidth="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

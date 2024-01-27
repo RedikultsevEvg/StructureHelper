@@ -18,7 +18,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private object lockObject = new object();
         public Action<IResult> ActionToOutputResults { get; set; }
-        public ITraceLogger? TraceLogger { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public LimitCurveLogic(ILimitCurveParameterLogic parameterLogic)
         {
@@ -89,7 +89,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         {
             var localCurrentPoint = point.Clone() as IPoint2D;
             var logic = ParameterLogic.Clone() as ILimitCurveParameterLogic;
-            logic.TraceLogger = new TraceLogger();
+            logic.TraceLogger = new ShiftTraceLogger()
+            {
+                ShiftPriority=100
+            };
             logic.CurrentPoint = localCurrentPoint;
             logic.LimitPredicate = limitPredicate;
             double parameter;

@@ -23,6 +23,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         /// <param name="points"></param>
         /// <returns></returns>
         List<IPoint2D> GetPoints(IEnumerable<IPoint2D> points);
-        ITraceLogger? TraceLogger { get; set; }
+        IShiftTraceLogger? TraceLogger { get; set; }
     }
 }

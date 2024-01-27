@@ -31,7 +31,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public Accuracy Accuracy {get;set; }
         public IResult Result => result;
 
-        public ITraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IShiftTraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public CrackForceCalculator(IForceTupleCalculator forceTupleCalculator)
         {

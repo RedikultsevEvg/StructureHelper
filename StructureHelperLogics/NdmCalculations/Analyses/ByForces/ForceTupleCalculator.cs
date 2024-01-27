@@ -14,7 +14,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IResult Result { get; private set; }
 
         public Action<IResult> ActionToOutputResults { get; set; }
-        public ITraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IShiftTraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public ForceTupleCalculator(IForceTupleInputData inputData)
         {

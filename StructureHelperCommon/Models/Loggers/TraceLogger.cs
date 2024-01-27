@@ -4,18 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace StructureHelperCommon.Models.Loggers
 {
     public class TraceLogger : ITraceLogger
-    {
-        const int fatal = 0;
-        const int error = 1000;
-        const int warning = 200;
-        const int info = 300;
-        const int service = 400;
-        const int debug = 500;
-        
+    {       
         public List<ITraceLoggerEntry> TraceLoggerEntries { get; }
 
         public TraceLogger()
@@ -23,12 +17,15 @@ namespace StructureHelperCommon.Models.Loggers
             TraceLoggerEntries = new();
         }
 
-        public void AddMessage(string message, TraceLoggerStatuses status = TraceLoggerStatuses.Info)
+        public void AddMessage(string message, TraceLoggerStatuses status = TraceLoggerStatuses.Info, int shiftPrioriry = 0)
         {
+            if (status == TraceLoggerStatuses.Fatal) { message = $"Fatal error! {message}"; }
+            if (status == TraceLoggerStatuses.Error) { message = $"Error! {message}"; }
+            if (status == TraceLoggerStatuses.Warning) { message = $"Warning! {message}"; }
             TraceLoggerEntries.Add(new StringLoggerEntry()
             {
                 Message = message,
-                Priority = GetPriorityByStatus(status)
+                Priority = LoggerService.GetPriorityByStatus(status)
             });
         }        
         public void AddMessage(string message, int priority)
@@ -38,20 +35,6 @@ namespace StructureHelperCommon.Models.Loggers
                 Message = message,
                 Priority = priority
             });
-        }
-
-        public static int GetPriorityByStatus(TraceLoggerStatuses status)
-        {
-            if (status == TraceLoggerStatuses.Fatal) { return fatal; }
-            else if (status == TraceLoggerStatuses.Error) { return error; }
-            else if (status == TraceLoggerStatuses.Warning) { return warning; }
-            else if (status == TraceLoggerStatuses.Info) { return info; }
-            else if (status == TraceLoggerStatuses.Service) { return service; }
-            else if (status == TraceLoggerStatuses.Debug) { return debug; }
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(status));
-            }
         }
     }
 }

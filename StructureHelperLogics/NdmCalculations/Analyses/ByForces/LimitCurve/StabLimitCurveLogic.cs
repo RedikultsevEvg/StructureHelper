@@ -12,7 +12,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     public class StabLimitCurveLogic : ILimitCurveLogic
     {
         public Action<IResult> ActionToOutputResults { get; set; }
-        public ITraceLogger? TraceLogger { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public List<IPoint2D> GetPoints(IEnumerable<IPoint2D> points)
         {
