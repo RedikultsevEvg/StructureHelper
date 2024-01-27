@@ -8,18 +8,25 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Loggers
 {
-    public static class TraceLoggerTableByPointsFactory
+    public class TraceTablesFactory
     {
-        public static TableLoggerEntry GetTableByPoint2D(IPoint2D point2D)
+        public int Priority { get; set; }
+        public TraceTablesFactory(TraceLoggerStatuses status = TraceLoggerStatuses.Info, int priorityShift = 0)
+        {
+            Priority = LoggerService.GetPriorityByStatus(status) + priorityShift;
+        }
+        public TableLoggerEntry GetTableByPoint2D(IPoint2D point2D)
         {
             var table = new TableLoggerEntry(2);
+            table.Priority = Priority;
             table.Table.AddRow(GetHeaderRow());
             table.Table.AddRow(GetPointRow(point2D));
             return table;
         }
-        public static TableLoggerEntry GetTableByPoint2D(IEnumerable<IPoint2D> points)
+        public TableLoggerEntry GetTableByPoint2D(IEnumerable<IPoint2D> points)
         {
             var table = new TableLoggerEntry(2);
+            table.Priority = Priority;
             table.Table.AddRow(GetHeaderRow());
             foreach (var item in points)
             {
@@ -28,30 +35,44 @@ namespace StructureHelperCommon.Models.Loggers
             return table;
         }
 
-        private static ShTableRow<ITraceLoggerEntry> GetHeaderRow()
+        private ShTableRow<ITraceLoggerEntry> GetHeaderRow()
         {
             var headerRow = new ShTableRow<ITraceLoggerEntry>(2);
-            headerRow.Elements[0] = new StringLoggerEntry()
+            IShTableCell<ITraceLoggerEntry> tableCell;
+            ITraceLoggerEntry loggerEntry;
+            loggerEntry = new StringLoggerEntry()
             {
                 Message = "X",
                 Priority = LoggerService.GetPriorityByStatus(TraceLoggerStatuses.Info)
             };
-            headerRow.Elements[1] = new StringLoggerEntry()
+            tableCell = new ShTableCell<ITraceLoggerEntry>()
+            {
+                Value = loggerEntry,
+                Role = CellRole.Header,
+            };
+            headerRow.Elements[0] = tableCell;
+            loggerEntry = new StringLoggerEntry()
             {
                 Message = "Y",
                 Priority = LoggerService.GetPriorityByStatus(TraceLoggerStatuses.Info)
             };
+            tableCell = new ShTableCell<ITraceLoggerEntry>()
+            {
+                Value = loggerEntry,
+                Role = CellRole.Header,
+            };
+            headerRow.Elements[1] = tableCell;
             return headerRow;
         }
-        private static ShTableRow<ITraceLoggerEntry> GetPointRow(IPoint2D point2D)
+        private ShTableRow<ITraceLoggerEntry> GetPointRow(IPoint2D point2D)
         {
             var pointRow = new ShTableRow<ITraceLoggerEntry>(2);
-            pointRow.Elements[0] = new StringLoggerEntry()
+            pointRow.Elements[0].Value = new StringLoggerEntry()
             {
                 Message = Convert.ToString(point2D.X),
                 Priority = LoggerService.GetPriorityByStatus(TraceLoggerStatuses.Info)
             };
-            pointRow.Elements[1] = new StringLoggerEntry()
+            pointRow.Elements[1].Value = new StringLoggerEntry()
             {
                 Message = Convert.ToString(point2D.Y),
                 Priority = LoggerService.GetPriorityByStatus(TraceLoggerStatuses.Info)

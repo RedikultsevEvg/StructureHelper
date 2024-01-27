@@ -2,18 +2,8 @@
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services.Forces;
-using StructureHelperLogics.Models.Calculations.CalculationProperties;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Collections.Specialized.BitVector32;
 
 namespace StructureHelperLogics.Services.NdmPrimitives
 {

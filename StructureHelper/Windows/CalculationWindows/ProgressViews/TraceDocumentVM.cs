@@ -4,6 +4,7 @@ using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelper.Windows.ViewModels.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -136,9 +137,20 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
                     }
                     else
                     {
-                        if (cell is StringLoggerEntry stringEntry)
+                        if (cell.Value is StringLoggerEntry stringEntry)
                         {
                             tableCell = new TableCell(GetParagraphByStringEntry(stringEntry));
+                            tableCell.ColumnSpan = cell.ColumnSpan;
+                            if (cell.Role == CellRole.Regular)
+                            {
+                                tableCell.TextAlignment = TextAlignment.Left;
+                                tableCell.Background = Brushes.LightYellow;
+                            }
+                            else if (cell.Role == CellRole.Header)
+                            {
+                                tableCell.TextAlignment = TextAlignment.Center;
+                                tableCell.Background = Brushes.AliceBlue;
+                            }
                         }
                         else
                         {

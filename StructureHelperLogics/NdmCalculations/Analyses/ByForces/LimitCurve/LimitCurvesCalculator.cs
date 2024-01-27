@@ -86,6 +86,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                     foreach (var calcTerm in InputData.CalcTerms)
                     {
                         var ndms = NdmPrimitivesService.GetNdms(primitiveSeries.Collection, limitState, calcTerm);
+                        TraceLogger?.AddMessage($"Number of elementary parts N={ndms.Count()} were obtainded succesfully");
+                        TraceLogger?.AddMessage($"Summary area of elementary parts Asum={ndms.Sum(x=>x.Area)}", TraceLoggerStatuses.Debug);
                         foreach (var predicateEntry in InputData.PredicateEntries)
                         {
                             string calcName = $"{primitiveSeries.Name}_{predicateEntry.Name}_{limitState}_{calcTerm}";

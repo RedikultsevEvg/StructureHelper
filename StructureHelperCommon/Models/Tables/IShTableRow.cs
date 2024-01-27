@@ -4,7 +4,7 @@ namespace StructureHelperCommon.Models.Tables
 {
     public interface IShTableRow<T>
     {
-        List<T> Elements { get; }
+        List<IShTableCell<T>> Elements { get; }
         int RowSize { get; }
     }
 }

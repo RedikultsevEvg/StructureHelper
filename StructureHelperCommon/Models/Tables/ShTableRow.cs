@@ -8,7 +8,7 @@ namespace StructureHelperCommon.Models.Tables
 {
     public class ShTableRow<T> : IShTableRow<T>
     {
-        private List<T> elements;
+        private List<IShTableCell<T>> elements;
 
         public int RowSize { get; }
 
@@ -20,15 +20,16 @@ namespace StructureHelperCommon.Models.Tables
             }
 
             RowSize = rowSize;
-            elements = new List<T>(rowSize);
+            elements = new List<IShTableCell<T>>(rowSize);
             for (int i = 0; i < rowSize; i++)
             {
-                elements.Add(default);
+                var newCell = new ShTableCell<T>();
+                elements.Add(newCell);
             }
         }
 
         // Property to access elements in the row
-        public List<T> Elements => elements;
+        public List<IShTableCell<T>> Elements => elements;
 
         internal void Add(object value)
         {

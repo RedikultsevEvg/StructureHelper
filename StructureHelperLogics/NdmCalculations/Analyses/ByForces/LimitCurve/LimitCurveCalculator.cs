@@ -58,19 +58,19 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             TraceLogger?.AddMessage($"Point count {PointCount}");
             surroundList = SurroundProcLogic.GetPoints();
             TraceLogger?.AddMessage($"There are {surroundList.Count()} point prepared for calculation");
-            if (TraceLogger is not null)
-            {
-                AddTAbleToTraceLoggerByPoints(surroundList);
-            }
+            TraceLogger?.AddEntry(
+                new TraceTablesFactory(
+                    TraceLoggerStatuses.Info, TraceLogger.ShiftPriority)
+                    .GetTableByPoint2D(surroundList));
             try
             {
                 limitCurveLogic.ActionToOutputResults = GetCurrentStepNumber;
                 factoredList = limitCurveLogic.GetPoints(surroundList);
                 TraceLogger?.AddMessage($"Solution was successfully obtained for {factoredList.Count()} point");
-                if (TraceLogger is not null)
-                {
-                    AddTAbleToTraceLoggerByPoints(factoredList);
-                }
+                TraceLogger?.AddEntry(
+                    new TraceTablesFactory(
+                        TraceLoggerStatuses.Info, TraceLogger.ShiftPriority)
+                        .GetTableByPoint2D(factoredList));
                 result.Points = factoredList;
             }
             catch (Exception ex)
@@ -79,13 +79,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 result.IsValid = false;
                 result.Description += ex.Message;
             }
-        }
-
-        private void AddTAbleToTraceLoggerByPoints(IEnumerable<IPoint2D> pointList)
-        {
-            var table = TraceLoggerTableByPointsFactory.GetTableByPoint2D(pointList);
-            table.Priority = LoggerService.GetPriorityByStatus(TraceLoggerStatuses.Info) + TraceLogger.ShiftPriority;
-            TraceLogger.AddEntry(table);
         }
 
         private void GetCurrentStepNumber(IResult calcResult)

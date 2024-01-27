@@ -9,8 +9,8 @@ namespace StructureHelperCommon.Models.Loggers
 {
     public class TableLoggerEntry : ITraceLoggerEntry
     {
-        private ListTable<ITraceLoggerEntry> table;
-        public ListTable<ITraceLoggerEntry> Table {get => table;}
+        private ShTable<ITraceLoggerEntry> table;
+        public ShTable<ITraceLoggerEntry> Table {get => table;}
         public DateTime TimeStamp { get; }
 
         public int Priority { get; set; }

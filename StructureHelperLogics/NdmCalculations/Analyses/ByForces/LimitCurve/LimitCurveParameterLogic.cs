@@ -45,7 +45,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             if (parameter < limitparamValue)
             {
                 var newAccuracy = limitparamValue / 10d;
-                TraceLogger?.AddMessage($"Since current parameter value {parameter} has a low accuracy (less than {limitparamValue}) new parameter calculatin is started", TraceLoggerStatuses.Warning);
+                TraceLogger?.AddMessage($"Since current parameter value {parameter} has a low accuracy (value less than {limitparamValue}) new parameter calculating is started", TraceLoggerStatuses.Warning);
                 parameterCalculator.Accuracy.IterationAccuracy = 0.0001d;
                 parameterCalculator.Run();
                 result = parameterCalculator.Result as FindParameterResult;

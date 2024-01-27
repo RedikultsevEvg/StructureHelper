@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Tables
 {
-    public class ListTable<T>
+    public class ShTable<T>
     {
         private List<IShTableRow<T>> table;
 
         public int RowSize { get; }
 
-        public ListTable(int rowSize)
+        public ShTable(int rowSize)
         {
             if (rowSize <= 0)
             {
@@ -42,7 +42,7 @@ namespace StructureHelperCommon.Models.Tables
             return table;
         }
 
-        public List<T> GetElementsFromRow(int rowIndex)
+        public List<IShTableCell<T>> GetElementsFromRow(int rowIndex)
         {
             if (rowIndex >= 0 && rowIndex < table.Count)
             {
@@ -66,7 +66,7 @@ namespace StructureHelperCommon.Models.Tables
             if (columnIndex >= 0 && columnIndex < RowSize &&
                 rowIndex >= 0 && rowIndex < table.Count)
             {
-                table[rowIndex].Elements[columnIndex] = value;
+                table[rowIndex].Elements[columnIndex].Value = value;
             }
             else
             {
