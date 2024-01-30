@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5DFEC3FD-9677-47BB-9E88-EB71828B5913}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>StructureHelperCommon</RootNamespace>
+    <AssemblyName>StructureHelperCommon</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LoaderCalculator">
+      <HintPath>..\Libraries\LoaderCalculator.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Infrastructures\Enums\CalcTerms.cs" />
+    <Compile Include="Infrastructures\Enums\CodeTypes.cs" />
+    <Compile Include="Infrastructures\Enums\Directions.cs" />
+    <Compile Include="Infrastructures\Enums\LimitStates.cs" />
+    <Compile Include="Infrastructures\Enums\StressStates.cs" />
+    <Compile Include="Infrastructures\Enums\UnitTypes.cs" />
+    <Compile Include="Infrastructures\Exceptions\StructureHelperException.cs" />
+    <Compile Include="Infrastructures\Interfaces\IHasForceCombinations.cs" />
+    <Compile Include="Infrastructures\Interfaces\IHasParent.cs" />
+    <Compile Include="Infrastructures\Interfaces\ISaveable.cs" />
+    <Compile Include="Infrastructures\Settings\ProgramSetting.cs" />
+    <Compile Include="Infrastructures\Strings\ErrorString.cs" />
+    <Compile Include="Infrastructures\Enums\MaterialTypes.cs" />
+    <Compile Include="Models\Calculators\Accuracy.cs" />
+    <Compile Include="Models\Calculators\IAccuracy.cs" />
+    <Compile Include="Models\Calculators\IHelperCalculator.cs" />
+    <Compile Include="Models\Forces\DesignForceTuple.cs" />
+    <Compile Include="Models\Forces\Factories\DesignForceFactory.cs" />
+    <Compile Include="Models\Forces\Factories\ForceCombinationListFactory.cs" />
+    <Compile Include="Models\Forces\ForceCombinationList.cs" />
+    <Compile Include="Models\Forces\ForceTuple.cs" />
+    <Compile Include="Models\Forces\IDesignForceTuple.cs" />
+    <Compile Include="Models\Forces\IForceCombinationList.cs" />
+    <Compile Include="Models\Forces\IForceRepository.cs" />
+    <Compile Include="Models\Forces\IForceTuple.cs" />
+    <Compile Include="Models\Forces\Strains\IStrainTuple.cs" />
+    <Compile Include="Models\Forces\Strains\StrainTuple.cs" />
+    <Compile Include="Models\Materials\Libraries\ConcreteMaterialEntity.cs" />
+    <Compile Include="Models\Materials\Libraries\Factories\ConcreteFactorsFactory.cs" />
+    <Compile Include="Models\Materials\Libraries\Factories\LibMaterialFactory.cs" />
+    <Compile Include="Models\Materials\Libraries\IConcreteMaterialEntity.cs" />
+    <Compile Include="Models\Materials\Libraries\ILibMaterialEntity.cs" />
+    <Compile Include="Models\Materials\Libraries\IMaterialPartialFactor.cs" />
+    <Compile Include="Models\Materials\Libraries\IMaterialSafetyFactor.cs" />
+    <Compile Include="Models\Materials\Libraries\IPartialFactor.cs" />
+    <Compile Include="Models\Materials\Libraries\IReinforcementMaterialEntity.cs" />
+    <Compile Include="Models\Materials\Libraries\LibMaterialPepository.cs" />
+    <Compile Include="Models\Materials\Libraries\MaterialPartialFactor.cs" />
+    <Compile Include="Models\Materials\Libraries\MaterialSafetyFactor.cs" />
+    <Compile Include="Models\Materials\Libraries\ReinforcementMaterialEntity.cs" />
+    <Compile Include="Models\Sections\CompressedMember.cs" />
+    <Compile Include="Models\Sections\ICompressedMember.cs" />
+    <Compile Include="Models\Shapes\Point2D.cs" />
+    <Compile Include="Models\Shapes\IPoint2D.cs" />
+    <Compile Include="Models\Shapes\ICenterShape.cs" />
+    <Compile Include="Models\Shapes\ICircle.cs" />
+    <Compile Include="Models\Shapes\ILineShape.cs" />
+    <Compile Include="Models\Shapes\IPointShape.cs" />
+    <Compile Include="Models\Shapes\IRectangleShape.cs" />
+    <Compile Include="Models\Shapes\IShape.cs" />
+    <Compile Include="Models\Shapes\LineShape.cs" />
+    <Compile Include="Models\Shapes\PointShape.cs" />
+    <Compile Include="Models\Shapes\RectangleShape.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Calculations\AccuracyService.cs" />
+    <Compile Include="Services\ColorServices\ColorProcessor.cs" />
+    <Compile Include="Services\Forces\ForceTupleService.cs" />
+    <Compile Include="Services\Forces\StrainTupleService.cs" />
+    <Compile Include="Services\Sections\CompressedMemberServices.cs" />
+    <Compile Include="Services\ShapeServices\ShapeService.cs" />
+    <Compile Include="Services\Units\IUnit.cs" />
+    <Compile Include="Services\Units\Unit.cs" />
+    <Compile Include="Services\Units\UnitsFactory.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

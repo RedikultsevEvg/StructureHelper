@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataTemplate x:Key="RectangleShapeEdit">
+        <DataTemplate.Resources>
+        </DataTemplate.Resources>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="22"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Text="Width"/>
+            <TextBlock Grid.Row="1" Text="Height"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding Width, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding Height, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="CircleShapeEdit">
+        <DataTemplate.Resources>
+        </DataTemplate.Resources>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Text="Diameter"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding Diameter, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

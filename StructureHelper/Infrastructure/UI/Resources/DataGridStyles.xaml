@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style TargetType="DataGrid" x:Key="DataGridBase">
+        <Style.Setters>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+        </Style.Setters>
+    </Style>
+    <Style TargetType="DataGrid" x:Key="ItemsDataGrid" BasedOn="{StaticResource DataGridBase}">
+        <Style.Setters>
+            <Setter Property="ItemsSource" Value="{Binding Items}"/>
+            <Setter Property="SelectedItem" Value="{Binding SelectedItem}"/>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>

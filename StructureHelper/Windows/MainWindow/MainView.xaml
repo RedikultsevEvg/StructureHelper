@@ -1,0 +1,480 @@
+﻿<Window x:Class="StructureHelper.Windows.MainWindow.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:infrastructure="clr-namespace:StructureHelper.Infrastructure"
+        xmlns:dataTemplates="clr-namespace:StructureHelper.Infrastructure.UI.DataTemplates"
+        xmlns:dataContexts="clr-namespace:StructureHelper.Infrastructure.UI.DataContexts"
+        xmlns:vm="clr-namespace:StructureHelper.Windows.MainWindow"
+        xmlns:mouseEventTriggers="clr-namespace:StructureHelper.Infrastructure.UI.Triggers.MouseEventTriggers"
+        xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow"
+        xmlns:enums="clr-namespace:StructureHelper.Infrastructure.Enums"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance local:MainViewModel}"
+        Title="StructureHelper" Height="700" Width="1000" MinHeight="400" MinWidth="600">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type dataContexts:RectangleViewPrimitive}">
+            <dataTemplates:RectangleTemplate/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type dataContexts:CircleViewPrimitive}">
+            <dataTemplates:EllipseTemplate/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type dataContexts:PointViewPrimitive}">
+            <dataTemplates:EllipseTemplate/>
+        </DataTemplate>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <ContextMenu x:Key="EditCopyDelete">
+            <MenuItem Header="Edit" Command="{Binding Edit}">
+                <MenuItem.Icon>
+                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Edit.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Copy" Command="{Binding Copy}">
+                <MenuItem.Icon>
+                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Copy.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Delete" Command="{Binding Delete}">
+                <MenuItem.Icon>
+                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Delete.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </ContextMenu>
+        <ContextMenu x:Key="PrimitiveCRUD">
+            <MenuItem Header="Edit" Command="{Binding Edit}">
+                <MenuItem.Icon>
+                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Edit.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Copy" Command="{Binding Copy}">
+                <MenuItem.Icon>
+                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Copy.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Delete" Command="{Binding Delete}">
+                <MenuItem.Icon>
+                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Delete.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator/>
+            <MenuItem Header="To Foreground" Command="{Binding SetToFront}">
+                <MenuItem.Icon>
+                    <Image Width="16" Height="16" Source="/Windows/MainWindow/ToForeground.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="To Background" Command="{Binding SetToBack}">
+                <MenuItem.Icon>
+                    <Image Width="16" Height="16" Source="/Windows/MainWindow/ToBackground.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </ContextMenu>
+        <ContextMenu x:Key="AnalisesCRUD">
+            <MenuItem Header="Run" Command="{Binding Run}">
+                <MenuItem.Icon>
+                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator/>
+            <MenuItem Header="Edit" Command="{Binding Edit}">
+                <MenuItem.Icon>
+                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Edit.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Copy" Command="{Binding Copy}">
+                <MenuItem.Icon>
+                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Copy.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Delete" Command="{Binding Delete}">
+                <MenuItem.Icon>
+                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Delete.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </ContextMenu>
+    </Window.Resources>
+    <DockPanel>
+        <!--<Menu DockPanel.Dock="Top" x:Name="menu">
+            <MenuItem Header="File">
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Primitives">
+                    <MenuItem Header="Add">
+                        <Button Content="Rectangle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
+                        <Button Content="Circle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}"/>
+                        <Button Content="Reinforcement" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}"/>
+                        <Button Content="Point" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
+                    </MenuItem>
+                    <Button Content="Edit primitive" Command="{Binding PrimitiveLogic.Edit}"/>
+                    <Button Content="Delete primitive" Command="{Binding PrimitiveLogic.Delete}"/>
+                </MenuItem>
+                <Button Content="Materials" Command="{Binding EditHeadMaterialsCommand}"/>
+                <Button Content="Move primitives to center" Command="{Binding MovePrimitiveToGravityCenterCommand}"/>
+                <MenuItem Header="Templates">
+                    <Button Content="Concrete beam" Command="{Binding AddBeamCase}"/>
+                    <Button Content="Concrete column" Command="{Binding AddColumnCase}"/>
+                    <Button Content="Concrete slab" Command="{Binding AddSlabCase}"/>
+                    <Button Content="Concrete circle" Command="{Binding AddRCCircleCase}"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Tools">
+                <Button Content="Settings" Command="{Binding ShowVisualProperty}"/>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <Button Content="About..." Command="{Binding HelpLogic.ShowAbout}"/>
+            </MenuItem>
+        </Menu>-->
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar DataContext="{Binding CombinationsLogic}" ToolTip="Actions">
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding Add}"
+                         CommandParameter="{x:Static enums:ActionType.ForceCombination}"
+                        Content="Full" ToolTip="Add Full Combination"/>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding Add}"
+                         CommandParameter="{x:Static enums:ActionType.ForceCombinationByFactor}"
+                        Content="Fact" ToolTip="Add Factored Combination"/>
+            </ToolBar>
+            <ToolBar DataContext="{Binding MaterialsLogic}" ToolTip="Materials">
+                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Concrete}">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/ConMaterial32.png"/>
+                </Button>
+                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Reinforcement}" ToolTip="Add Reinforcement Material">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/RFMaterial32.png"/>
+                </Button>
+                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Elastic}" ToolTip="Add Elastic Material">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/ElasticMaterial32.png"/>
+                </Button>
+                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.CarbonFiber}" ToolTip="Add Carbon Fiber Material">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/СarbonMaterial32.png"/>
+                </Button>
+                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.GlassFiber}" ToolTip="Add Glass Fiber Material">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/GlassMaterial32.png"/>
+                </Button>
+                <Button Command="{Binding EditMaterialsCommand}" ToolTip="Show Materials">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Materials32.png"/>
+                </Button>
+            </ToolBar>
+            <ToolBar ToolTip="Base Primitives" DataContext="{Binding PrimitiveLogic}">
+                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}" ToolTip="Add Rectangle Primitive">
+                    <Image Style="{StaticResource ButtonImage32}"  Source="/Windows/MainWindow/Rectangle32.png"/>
+                </Button>
+                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}" ToolTip="Add Circle Primitive">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Circle32.png"/>
+                </Button>
+                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}" ToolTip="Add Rebar Primitive">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Rebar32.png"/>
+                </Button>
+                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}" ToolTip="Add Point Primitive">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Point32.png"/>
+                </Button>
+            </ToolBar>
+            <ToolBar ToolTip="RC Templates">
+                <Button Command="{Binding AddColumnCase}" ToolTip="Add Rectangle RC Column">
+                    <Image Width="32" Height="32" Source="/Windows/MainWindow/RectangleColumn32.png"/>
+                </Button>
+                <Button Command="{Binding AddRCCircleCase}" ToolTip="Add Circle RC Column">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/CircleColumn32.png"/>
+                </Button>
+                <Button Command="{Binding AddBeamCase}" ToolTip="Add RC Beam">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Beam32.png"/>
+                </Button>
+                <Button Command="{Binding AddSlabCase}" ToolTip="Add RC Slab">
+                    <Image Width="32" Height="32" Source="/Windows/MainWindow/Slab32.png"/>
+                </Button>
+            </ToolBar>
+            <ToolBar ToolTip="Analises" DataContext="{Binding CalculatorsLogic}">
+                <Button Command="{Binding Add}" ToolTip="Add Force Calculator">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Calculator32.png"/>
+                </Button>
+                <Button Command="{Binding Run}" ToolTip="Run Calculations">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Analysis32.png"/>
+                </Button>
+            </ToolBar>
+            <ToolBar ToolTip="Tools">
+                <Button Command="{Binding MovePrimitiveToGravityCenterCommand}" ToolTip="Move All Primitives to Gravity Center">
+                    <Image Width="32" Height="32" Source="/Windows/MainWindow/MovePrimitivesToCenter.png"/>
+                </Button>
+                <Button Command="{Binding ShowVisualProperty}" ToolTip="Visual Settings">
+                    <Image Width="32" Height="32" Source="/Windows/MainWindow/Tools_Settings.png"/>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <Expander Header="Actions" MinWidth="20" DataContext="{Binding CombinationsLogic}">
+                            <Expander.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Add">
+                                        <Button Content="Combination" Command="{Binding Add}" CommandParameter="{x:Static enums:ActionType.ForceCombination}"/>
+                                        <Button Content="Combination By Factors" Command="{Binding Add}" CommandParameter="{x:Static enums:ActionType.ForceCombinationByFactor}"/>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Expander.ContextMenu>
+                            <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ContextMenu="{StaticResource EditCopyDelete}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Expander>
+                        <Expander MinWidth="20" DataContext="{Binding MaterialsLogic}">
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Materials32.png"/>
+                                    <TextBlock Text="Materials" Margin="5,0,0,0"/>
+                                </StackPanel>
+                            </Expander.Header>
+                            <Expander.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Materials" Command="{Binding EditMaterialsCommand}">
+                                        <MenuItem.Icon>
+                                            <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Materials32.png" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Add">
+                                        <MenuItem Header="Concrete" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Concrete}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/ConMaterial32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Reinforcement" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Reinforcement}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/RFMaterial32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Elastic" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Elastic}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/ElasticMaterial32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="CarbonFiber" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.CarbonFiber}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/СarbonMaterial32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="GlassFiber" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.GlassFiber}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/GlassMaterial32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Expander.ContextMenu>
+                            <ListBox ItemsSource="{Binding Items}"
+                                     SelectedItem="{Binding SelectedItem}"
+                                     ItemTemplate="{StaticResource ColoredItemTemplate}"
+                                     ContextMenu="{StaticResource EditCopyDelete}"/>
+                        </Expander>
+                        <Expander Header="Geometry" MinWidth="20">
+                            <Expander.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Add" DataContext="{Binding PrimitiveLogic}">
+                                        <MenuItem Header="Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Rectangle32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Circle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Circle32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Rebar" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Rebar32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Point32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Expander.ContextMenu>
+                            <ListBox DataContext="{Binding PrimitiveLogic}"
+                                     ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"
+                                     ItemTemplate="{StaticResource ColoredItemTemplate}" ContextMenu="{StaticResource PrimitiveCRUD}">
+                            </ListBox>
+                        </Expander>
+                        <Expander MinWidth="20" DataContext="{Binding CalculatorsLogic}">
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Analysis32.png" />
+                                    <TextBlock Text="Analisis" Margin="5,0,0,0"/>
+                                </StackPanel>
+                            </Expander.Header>
+                            <Expander.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Add" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.ForceCalculator}">
+                                        <MenuItem Header="Add Force Calculator" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.ForceCalculator}">
+                                            <MenuItem.Icon>
+                                                <Image Width="16" Height="16" Source="/Windows/MainWindow/Calculator32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Add Interaction Diagram Calculator" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.LimitCurveCalculator}">
+                                            <MenuItem.Icon>
+                                                <Image Width="16" Height="16" Source="/Windows/MainWindow/Calculator32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Expander.ContextMenu>
+                            <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ContextMenu="{StaticResource AnalisesCRUD}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Expander>
+                    </StackPanel>
+                </ScrollViewer>
+                <Border BorderBrush="Black" Background="White" BorderThickness="1" Margin="5" Grid.Column="1">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown">
+                            <i:InvokeCommandAction Command="{Binding ClearSelection}" CommandParameter="{Binding}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+                        <Canvas Name="WorkPlane" ClipToBounds="True" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}">
+                            <Canvas.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Add" DataContext="{Binding PrimitiveLogic}">
+                                        <MenuItem Header="Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Rectangle32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Circle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Circle32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Rebar" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Rebar32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Point.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </MenuItem>
+                                    <MenuItem Header="Templates" DataContext="{Binding}">
+                                        <MenuItem Header="Add Rectangle RC Column" Command="{Binding AddColumnCase}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/RectangleColumn32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Add Circle RC Column" Command="{Binding AddRCCircleCase}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/CircleColumn32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Add RC Beam" Command="{Binding AddBeamCase}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Beam32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Add RC slab" Command="{Binding AddSlabCase}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Slab32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Canvas.ContextMenu>
+                            <i:Interaction.Behaviors>
+                                <infrastructure:MouseBehaviour MouseX="{Binding PanelX, Mode=OneWayToSource}" MouseY="{Binding PanelY, Mode=OneWayToSource}"/>
+                            </i:Interaction.Behaviors>
+                            <i:Interaction.Triggers>
+                                <mouseEventTriggers:MouseWheelDownEventTrigger EventName="PreviewMouseWheel">
+                                    <i:InvokeCommandAction Command="{Binding ScaleCanvasDown}"/>
+                                </mouseEventTriggers:MouseWheelDownEventTrigger>
+                                <mouseEventTriggers:MouseWheelUpEventTrigger EventName="PreviewMouseWheel">
+                                    <i:InvokeCommandAction Command="{Binding ScaleCanvasUp}"/>
+                                </mouseEventTriggers:MouseWheelUpEventTrigger>
+                            </i:Interaction.Triggers>
+                            <Canvas.LayoutTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="{Binding ScaleValue}" ScaleY="{Binding ScaleValue}"
+                                            CenterX="{Binding ScrollPanelX}" CenterY="{Binding ScrollPanelY}"/>
+                                </TransformGroup>
+                            </Canvas.LayoutTransform>
+                            <Canvas.Background>
+                                <VisualBrush TileMode="Tile"
+                                Viewport="{Binding CanvasViewportSize}" ViewportUnits="Absolute" 
+                                Viewbox="{Binding CanvasViewportSize}" ViewboxUnits="Absolute">
+                                    <VisualBrush.Visual>
+                                        <Rectangle StrokeThickness="{Binding GridLineThickness}" Height="{Binding GridSize}" Width="{Binding GridSize}" Stroke="Darkgray"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Canvas.Background>
+                            <Line X1="0" X2="{Binding XX2}" Y1="{Binding XY1}" Y2="{Binding XY1}" Stroke="Red" StrokeThickness="{Binding AxisLineThickness}"/>
+                            <Line X1="{Binding YX1}" X2="{Binding YX1}" Y1="0" Y2="{Binding YY2}" Stroke="ForestGreen" StrokeThickness="{Binding AxisLineThickness}"/>
+                            <ItemsControl DataContext="{Binding PrimitiveLogic}" ItemsSource="{Binding Items}" ContextMenu="{StaticResource PrimitiveCRUD}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}"/>
+                                        <Setter Property="Canvas.Left" Value="{Binding PrimitiveLeft}"/>
+                                        <Setter Property="Canvas.Top" Value="{Binding PrimitiveTop}"/>
+                                        <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        <EventSetter Event="MouseDown" Handler="ContentPresenter_MouseLeftButtonDown"/>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                            </ItemsControl>
+                        </Canvas>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+            <StatusBar Grid.Row="1">
+                <StatusBarItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Zoom: "/>
+                        <TextBlock Text="{Binding ScaleValue}"/>
+                    </StackPanel>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Number of primitives: "/>
+                        <TextBlock Text="{Binding PrimitiveLogic.PrimitivesCount}"/>
+                    </StackPanel>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Grid size: "/>
+                        <TextBlock Text="{Binding GridSize, Converter={StaticResource LengthConverter}}"/>
+                    </StackPanel>
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+    </DockPanel>
+</Window>

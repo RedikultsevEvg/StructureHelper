@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <DataTemplate x:Key="ColoredItemTemplate">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Rectangle Grid.Column="0" Margin="3">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="{Binding Color}"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="SimpleItemTemplate">
+        <TextBlock Text="{Binding Name}"/>
+    </DataTemplate>
+</ResourceDictionary>

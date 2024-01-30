@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="StructureHelperCommon\**" />
+    <Compile Remove="StructureHelperLogics\**" />
+    <EmbeddedResource Remove="StructureHelperCommon\**" />
+    <EmbeddedResource Remove="StructureHelperLogics\**" />
+    <None Remove="StructureHelperCommon\**" />
+    <None Remove="StructureHelperLogics\**" />
+    <Page Remove="StructureHelperCommon\**" />
+    <Page Remove="StructureHelperLogics\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FieldVisualizer\FieldVisualizer.csproj" />
+  </ItemGroup>
+
+</Project>

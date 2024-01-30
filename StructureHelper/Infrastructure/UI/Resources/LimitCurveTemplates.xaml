@@ -1,0 +1,100 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls">
+   
+    <DataTemplate x:Key="SurroundData">
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="215"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="35,0,0,0" Text="Logic"/>
+                <ComboBox Grid.Column="1" ItemsSource="{Binding Logics}" SelectedItem="{Binding Logic}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}">
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+
+            <GroupBox Header="{Binding YLabel}">
+                <Grid Margin="30,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Maximum"/>
+                    <TextBlock Grid.Row="1" Text="Minimum"/>
+                    <TextBox Grid.Column="1" Text="{Binding YMax, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding YMin, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding YUnitLabel}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding YUnitLabel}"/>
+                    <!--<uc:MultiplyDouble Margin="2,2,2,2" Grid.Column="3" Grid.Row="0" ValueChanged="YmaxChanged"/>
+                    <uc:MultiplyDouble Margin="2,2,2,2" Grid.Column="3" Grid.Row="1" ValueChanged="YminChanged"/>-->
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="{Binding XLabel}">
+                <Grid Margin="30,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Maximum"/>
+                    <TextBlock Grid.Row="1" Text="Minimum"/>
+                    <TextBox Grid.Column="1" Text="{Binding XMax, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding XMin, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding XUnitLabel}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding XUnitLabel}"/>
+                    <!--<uc:MultiplyDouble Margin="2,2,2,2" Grid.Column="3" Grid.Row="0" ValueChanged="XmaxChanged"/>
+                    <uc:MultiplyDouble Margin="2,2,2,2" Grid.Column="3" Grid.Row="1" ValueChanged="XminChanged"/>-->
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="{Binding ZLabel}">
+                <Grid Margin="30,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Constant value"/>
+                    <TextBox Grid.Column="1" Text="{Binding ConstZ, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding ZUnitLabel}"/>
+                    <!--<uc:MultiplyDouble Margin="2,2,2,2" Grid.Column="3" ValueChanged="ConstZChanged"/>-->
+                </Grid>
+            </GroupBox>
+            <Grid Margin="35,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Point count"/>
+                <TextBox Grid.Column="1" Text="{Binding PointCount, ValidatesOnDataErrors=True}"/>
+                <!--<uc:MultiplyDouble Margin="2" Grid.Column="3" ValueChanged="PointCountChanged"/>-->
+            </Grid>
+        </StackPanel>
+    </DataTemplate>
+    
+</ResourceDictionary>

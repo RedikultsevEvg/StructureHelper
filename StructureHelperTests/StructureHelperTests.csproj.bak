@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<IsPackable>false</IsPackable>
+	<PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="5.1.1" />
+    <PackageReference Include="Moq" Version="4.18.4" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FieldVisualizer\FieldVisualizer.csproj" />
+    <ProjectReference Include="..\StructureHelperCommon\StructureHelperCommon.csproj" />
+    <ProjectReference Include="..\StructureHelperLogics\StructureHelperLogics.csproj" />
+    <ProjectReference Include="..\StructureHelper\StructureHelper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="LoaderCalculator">
+      <HintPath>..\StructureHelper\Libraries\LoaderCalculator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

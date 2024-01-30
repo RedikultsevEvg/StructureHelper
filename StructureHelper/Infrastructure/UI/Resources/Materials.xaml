@@ -1,0 +1,172 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <DataTemplate x:Key="LibraryMaterial">
+        <StackPanel>
+            <TextBlock Text="Material Code"/>
+            <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding CodeList}" SelectedItem="{Binding CodeEntity}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}">
+                            <!--<ToolTip>
+                                <StackPanel>
+                                    <TextBlock FontWeight="Bold" Text="Code short name:"/>
+                                    <TextBlock Text="{Binding Name}"/>
+                                    <TextBlock FontWeight="Bold" Text="Full name:"/>
+                                    <TextBlock Text="{Binding FullName}"/>
+                                </StackPanel>
+                            </ToolTip>-->
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Text="Material Kind"/>
+            <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding MaterialLibrary}" SelectedItem="{Binding MaterialEntity}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Text="Material Model"/>
+            <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding MaterialLogics}" SelectedItem="{Binding MaterialLogic}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="SafetyFactors">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="200"/>
+            </Grid.RowDefinitions>
+            <Button Content="Show Safety Factors" Command="{Binding DataContext.ShowSafetyFactors, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+            <ContentControl Grid.Row="1" ContentTemplate="{StaticResource MaterialSafetyFactors}" Content="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"/>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CarbonProperties">
+        <Expander Header="Fiber Cohesion Properties" IsExpanded="False">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="ULS Concrete Strength"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ULSConcreteStrength, Converter={StaticResource StressConverter}, ValidatesOnExceptions=True}"/>
+                <TextBlock Grid.Row="1" Text="Total Layers Thickness"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SumThickness, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                <TextBlock Grid.Row="2" Text="GammaF2 Factor"/>
+                <TextBox Grid.Row="2" Grid.Column="1" IsEnabled="False" Text="{Binding GammaF2, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
+            </Grid>
+        </Expander>
+
+    </DataTemplate>
+
+    <DataTemplate x:Key="DirectSafetyFactors">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="200"/>
+            </Grid.RowDefinitions>
+            <Button Content="Show Safety Factors" Command="{Binding ShowSafetyFactors}"/>
+            <Button Grid.Row="1" Content="Show Partial Factors" Command="{Binding ShowPartialFactors}"/>
+            <ContentControl Grid.Row="2" ContentTemplate="{StaticResource MaterialSafetyFactors}" Content="{Binding}"/>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ConcreteLibMaterial">
+        <StackPanel>
+            <TextBlock Text="Library material"/>
+            <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding LibConcreteMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ContentControl ContentTemplate="{StaticResource SafetyFactors}"/>
+        </StackPanel>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="ConcreteMaterial">
+        <StackPanel>
+            <ContentControl ContentTemplate="{StaticResource LibraryMaterial}" Content="{Binding}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="22"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Tension for ULS"/>
+                <TextBlock Grid.Row="1" Text="Tension for SLS"/>
+                <TextBlock Grid.Row="2" Text="Relative humidity"/>
+                <CheckBox Grid.Column="1" IsChecked="{Binding TensionForULS}"/>
+                <CheckBox Grid.Column="1" Grid.Row="1" IsChecked="{Binding TensionForSLS}"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Humidity}"/>
+            </Grid>
+            <Button Content="Show Safety Factors" Command="{Binding ShowSafetyFactors}"/>
+            <ContentControl ContentTemplate="{StaticResource MaterialSafetyFactors}" Content="{Binding SafetyFactors}"/>
+        </StackPanel>
+    </DataTemplate>
+    
+    <DataTemplate  x:Key="ReinforcementMaterial">
+        <StackPanel>
+            <ContentControl ContentTemplate="{StaticResource LibraryMaterial}" Content="{Binding}"/>
+            <Button Content="Show Safety Factors" Command="{Binding ShowSafetyFactors}"/>
+            <ContentControl ContentTemplate="{StaticResource MaterialSafetyFactors}" Content="{Binding SafetyFactors}"/>
+        </StackPanel>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="ReinforcementLibMaterial">
+        <StackPanel>
+            <TextBlock Text="Library material"/>
+            <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding LibReinforcementMaterials}" SelectedItem="{Binding SelectedLibMaterial}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ContentControl ContentTemplate="{StaticResource SafetyFactors}"/>
+        </StackPanel>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="ElasticMaterial">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="28"/>
+                <RowDefinition Height="28"/>
+                <RowDefinition Height="28"/>
+                <RowDefinition Height="28"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Elastic material"/>
+            <TextBlock Grid.Row="1" Text="Young's modulus"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Modulus, Converter={StaticResource StressConverter}, ValidatesOnExceptions=True}"/>
+            <TextBlock Grid.Row="2" Text="Compressive strength"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CompressiveStrength, Converter={StaticResource StressConverter}, ValidatesOnExceptions=True}"/>
+            <TextBlock Grid.Row="3" Text="Tensile strength"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding TensileStrength, Converter={StaticResource StressConverter}, ValidatesOnExceptions=True}"/>
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>

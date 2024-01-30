@@ -1,0 +1,70 @@
+﻿<Window x:Class="StructureHelper.Windows.MainWindow.Materials.MaterialDiagramView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.Graphs"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        d:DataContext="{d:DesignInstance local:MaterialDiagramViewModel}"
+        mc:Ignorable="d"
+        Title="Material Diagram" Height="550" Width="800" MinHeight="550" MinWidth="800" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="170"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Expander Header="Materials" IsExpanded="True">
+                        <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding MaterialsModel}"/>
+                    </Expander>
+                    <Expander Header="Limit States">
+                        <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding LimitStatesModel}"/>
+                    </Expander>
+                    <Expander Header="Calculation terms">
+                        <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding CalcTermsModel}"/>
+                    </Expander>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Minimum strain"/>
+                        <TextBox Grid.Column="1" Text="{Binding MinValue, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                        <TextBlock Grid.Row="1" Text="Maximum strain"/>
+                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding MaxValue, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                        <TextBlock Grid.Row="2" Text="Step count"/>
+                        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding StepCount, ValidatesOnDataErrors=True}"/>
+                        <TextBlock Grid.Row="3" Text="Positive in tension"/>
+                        <CheckBox Grid.Column="1" Grid.Row="3" Margin="4" IsChecked="{Binding PositiveInTension}"/>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+            <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResourceKey=LineVisualProperties}" Content="{Binding VisualProps}"/>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Button Margin="3" Content="Draw Lines" ToolTip="Draw lines" Command="{Binding RedrawLinesCommand}"/>
+                <Button Margin="3" Content="Show Areas" ToolTip="Area under lines" Command="{Binding GetAreaCommand}"/>
+            </StackPanel>
+        </Grid>
+        <lvc:CartesianChart Grid.Column="1" Series="{Binding SeriesCollection}" LegendLocation="Bottom" Zoom="Xy">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Stress"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Strain"  Labels="{Binding Labels}"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+        </lvc:CartesianChart>
+    </Grid>
+</Window>

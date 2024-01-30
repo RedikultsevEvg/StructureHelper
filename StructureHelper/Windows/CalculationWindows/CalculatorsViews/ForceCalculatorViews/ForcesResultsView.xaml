@@ -1,0 +1,70 @@
+﻿<Window x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
+        d:DataContext="{d:DesignInstance local:ForcesResultsViewModel}"
+        mc:Ignorable="d"
+        Title="Calculation Results" Height="350" Width="850" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Command="{Binding ShowCrackResultCommand}" ToolTip="Show force of cracking">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_crack.png"/>
+                </Button>
+                <Button Command="{Binding InterpolateCommand}" ToolTip="Show result step by step">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_interpolation_1_1.png"/>
+                </Button>
+                <Button Command="{Binding ShowGraphsCommand}" ToolTip="Show diagram moment-curvature">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_graph_2.png"/>
+                </Button>
+                <Button Command="{Binding ShowInteractionDiagramCommand}" ToolTip="Show interaction diagram">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_graph_1.png"/>
+                </Button>
+                
+            </ToolBar>
+        </ToolBarTray>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="90"/>
+            </Grid.ColumnDefinitions>
+            <DataGrid x:Name="ResultGrid" IsReadOnly="True" AutoGenerateColumns="False"  ItemsSource="{Binding ForcesResults.ForcesResultList}" SelectedItem="{Binding SelectedResult}" >
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsValid}" Value="false">
+                                <Setter Property="Background" Value="Pink"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="Valid" Binding="{Binding Path=IsValid}"/>
+                    <DataGridTextColumn Header="LimitState" Width="70" Binding="{Binding DesignForceTuple.LimitState}"/>
+                    <DataGridTextColumn Header="Duration" Width="70" Binding="{Binding DesignForceTuple.CalcTerm}"/>
+                    <DataGridTextColumn Header="Moment Mx" Width="90" Binding="{Binding DesignForceTuple.ForceTuple.Mx, Converter={StaticResource MomentConverter}}"/>
+                    <DataGridTextColumn Header="Moment My" Width="90" Binding="{Binding DesignForceTuple.ForceTuple.My, Converter={StaticResource MomentConverter}}"/>
+                    <DataGridTextColumn Header="Force Nz" Width="90" Binding="{Binding DesignForceTuple.ForceTuple.Nz, Converter={StaticResource ForceConverter}}"/>
+                    <DataGridTextColumn Header="Kx" Width="90" Binding="{Binding LoaderResults.ForceStrainPair.StrainMatrix.Kx}"/>
+                    <DataGridTextColumn Header="Ky" Width="90" Binding="{Binding LoaderResults.ForceStrainPair.StrainMatrix.Ky}"/>
+                    <DataGridTextColumn Header="EpsZ" Width="90" Binding="{Binding LoaderResults.ForceStrainPair.StrainMatrix.EpsZ}"/>
+                    <DataGridTextColumn Header="Accuracy" Width="90" Binding="{Binding LoaderResults.AccuracyRate}"/>
+                    <DataGridTextColumn Header="Max Iteration" Width="90" Binding="{Binding LoaderResults.IterationCounter}"/>
+                    <DataGridTextColumn Header="Description" Width="300" Binding="{Binding Description}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Grid.Column="1">
+                <Button Margin="3" Content="Graphic" ToolTip="Show graphic results" Command="{Binding ShowIsoFieldCommand}"/>
+                <Button Margin="3" Content="CrcDiagrams" ToolTip="Show diagrams for cracked section" Command="{Binding ShowCrackGraphsCommand}"/>
+                <Button Margin="3" Content="Export" ToolTip="Export results to *.csv" Command="{Binding ExportToCSVCommand}"/>
+                <Button Margin="3" Content="Set Prestrain" ToolTip="Set strains as auto prestrain" Command="{Binding SetPrestrainCommand}"/>
+                <Button Margin="3" Content="Anchorage" ToolTip="Set strains as auto prestrain" Command="{Binding ShowAnchorageCommand}"/>
+                <Button Margin="3" Content="Geometry" ToolTip="Show Geometry Properties" Command="{Binding ShowGeometryResultCommand}"/>
+                <Button Margin="3" Content="Acrc" ToolTip="Show crack width" Command="{Binding ShowCrackWidthResultCommand}"/>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+
+</Window>

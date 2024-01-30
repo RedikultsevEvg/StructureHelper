@@ -1,0 +1,19 @@
+﻿<Window x:Class="StructureHelper.Windows.PrimitivePropertiesWindow.SelectPrimitivesView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.PrimitivePropertiesWindow"
+        xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.PrimitiveProperties"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance local:SelectPrimitivesViewModel}"
+        Title="Select Primitives" Height="250" Width="250" MinHeight="250" MinWidth="250" MaxHeight="500" MaxWidth="500" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding Items}"/>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>

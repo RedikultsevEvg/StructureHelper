@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="StructureHelper.Infrastructure.UI.DataTemplates.RectangleTemplate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StructureHelper"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:infrastructure="clr-namespace:StructureHelper.Infrastructure"
+             xmlns:mouseEventTriggers="clr-namespace:StructureHelper.Infrastructure.UI.Triggers.MouseEventTriggers"
+             xmlns:dataContexts="clr-namespace:StructureHelper.Infrastructure.UI.DataContexts"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance dataContexts:RectangleViewPrimitive}">
+    <UserControl.Resources>
+    </UserControl.Resources>
+    <StackPanel>
+        <Grid>
+            <Rectangle x:Name="Rect" Style="{StaticResource RectangleStyle}" Tag="{Binding}">
+                <Rectangle.ToolTip>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Name: " FontWeight="Bold"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Name}" FontWeight="Bold"/>
+                        <TextBlock Grid.Row="1" Text="Material Name: " FontWeight="Bold"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding HeadMaterial.Name}" FontWeight="Bold"/>
+                        <TextBlock Grid.Row="2" Text="Center X: "/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CenterX, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="3" Text="Center Y: "/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding CenterY, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="4" Text="Width: "/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding PrimitiveWidth, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="5" Text="Height: "/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding PrimitiveHeight, Converter={StaticResource LengthConverter}}"/>
+                    </Grid>
+                </Rectangle.ToolTip>
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <TranslateTransform X="{Binding CenterX}" Y="{Binding InvertedCenterY}"/>
+                        <RotateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+        </Grid>
+    </StackPanel>
+</UserControl>
