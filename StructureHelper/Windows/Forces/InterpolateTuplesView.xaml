@@ -101,7 +101,7 @@
                 <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding StepCount, ValidatesOnExceptions=True}" Visibility="{Binding StepCountVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <uc:MultiplyDouble Grid.Column="4" Grid.Row="1" DoubleFactor="{Binding StartFactor}" ValueChanged="StartValueChanged"/>
                 <uc:MultiplyDouble Grid.Column="4" Grid.Row="3" DoubleFactor="{Binding FinishFactor}" ValueChanged="FinishValueChanged"/>
-                <uc:MultiplyDouble Grid.Column="4" Grid.Row="4" DoubleFactor="{Binding FinishFactor}" ValueChanged="StepCountValueChanged"/>
+                <uc:MultiplyDouble Grid.Column="4" Grid.Row="4" DoubleFactor="{Binding FinishFactor}" ValueChanged="StepCountValueChanged"  Visibility="{Binding StepCountVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
         </Grid>
 

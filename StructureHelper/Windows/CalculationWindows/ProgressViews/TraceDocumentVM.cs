@@ -16,7 +16,7 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
 {
     public class TraceDocumentVM : ViewModelBase
     {
-        const int tabFactor = 500;
+        const double tabFactor = 500d;
         private readonly IEnumerable<ITraceLoggerEntry> loggerEntries;
         private IEnumerable<ITraceLoggerEntry> selectedLoggerEntries;
         private FlowDocument document;
@@ -110,13 +110,13 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(traceEntry));
             }
+            block.Margin = new Thickness(traceEntry.Priority / tabFactor * tabGap, 7, 0, 7);
             return block;
         }
 
         private Block GetBlockByStringEntry(StringLogEntry stringEntry)
         {
             var paragraph = new Paragraph(new Run(stringEntry.Message));
-            paragraph.Margin = new Thickness(stringEntry.Priority / tabFactor * tabGap, 7, 0, 7);
             if (stringEntry.Priority <= LoggerService.GetPriorityByStatus(TraceLogStatuses.Fatal))
             {
                 paragraph.FontSize = 14;

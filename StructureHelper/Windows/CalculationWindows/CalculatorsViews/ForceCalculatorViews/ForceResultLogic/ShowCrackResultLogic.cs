@@ -1,8 +1,11 @@
-﻿using StructureHelper.Windows.Errors;
+﻿using LoaderCalculator;
+using StructureHelper.Windows.CalculationWindows.ProgressViews;
+using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -14,6 +17,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 {
     internal class ShowCrackResultLogic
     {
+        private CrackForceCalculator calculator;
+
         public static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }
@@ -33,7 +38,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private void FindCrackFactor(IForceTuple finishDesignTuple, IForceTuple startDesignTuple)
         {
-            var calculator = new CrackForceCalculator();
+            calculator = new CrackForceCalculator();
+            calculator.TraceLogger = new ShiftTraceLogger();
             calculator.StartTuple = startDesignTuple;
             calculator.EndTuple = finishDesignTuple;
             calculator.NdmCollection = NdmPrimitivesService.GetNdms(ndmPrimitives, LimitState, CalcTerm);
@@ -41,7 +47,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             var result = (CrackForceResult)calculator.Result;
             if (result.IsValid)
             {
-                ShowResult(result);
+                ShowTraceResult();
+                //ShowResult(result);
             }
             else
             {
@@ -79,6 +86,15 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 "Crack results",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
+        }
+
+        private void ShowTraceResult()
+        {
+            if (calculator.TraceLogger is not null)
+            {
+                var wnd = new TraceDocumentView(calculator.TraceLogger.TraceLoggerEntries);
+                wnd.ShowDialog();
+            }
         }
     }
 }

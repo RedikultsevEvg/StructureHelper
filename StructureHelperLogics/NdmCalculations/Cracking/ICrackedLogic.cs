@@ -1,4 +1,5 @@
 ﻿using LoaderCalculator.Data.Ndms;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    internal interface ICrackedLogic
+    internal interface ICrackedLogic : ILogic
     {
         IForceTuple StartTuple { get; set; }
         IForceTuple EndTuple { get; set; }

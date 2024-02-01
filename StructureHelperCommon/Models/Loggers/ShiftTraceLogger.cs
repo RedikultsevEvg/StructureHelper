@@ -41,7 +41,7 @@ namespace StructureHelperCommon.Models
         {
             var newLogger = new ShiftTraceLogger(Logger)
             {
-                ShiftPriority = shiftPriority
+                ShiftPriority = ShiftPriority + shiftPriority
             };
             return newLogger;
         }

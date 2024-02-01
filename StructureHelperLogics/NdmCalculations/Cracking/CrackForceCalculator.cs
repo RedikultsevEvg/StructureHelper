@@ -1,5 +1,6 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
@@ -13,11 +14,12 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     public class CrackForceCalculator : ICalculator
     {
         static readonly CrackedLogic crackedLogic = new();
-        static readonly ExpSofteningLogic softeningLogic = new();
+        ExpSofteningLogic softeningLogic = new();
         static readonly CrackStrainLogic crackStrainLogic = new();
         static readonly SofteningFactorLogic softeningFactorLogic = new();
         IForceTupleCalculator forceTupleCalculator;
         private CrackForceResult result;
+        private FindParameterCalculator parameterCalculator;
 
         public string Name { get; set; }
         public IForceTuple StartTuple { get; set; }
@@ -26,7 +28,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public Accuracy Accuracy {get;set; }
         public IResult Result => result;
 
-        public IShiftTraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public CrackForceCalculator(IForceTupleCalculator forceTupleCalculator)
         {
@@ -40,7 +42,23 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         }
         public void Run()
         {
+            parameterCalculator = new FindParameterCalculator()
+            {
+                Accuracy = Accuracy,
+                Predicate = crackedLogic.IsSectionCracked
+            };
+            if (TraceLogger is not null)
+            {
+                forceTupleCalculator.TraceLogger = TraceLogger.GetSimilarTraceLogger(100);
+                parameterCalculator.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
+                crackedLogic.TraceLogger = TraceLogger.GetSimilarTraceLogger(150);
+            }
+            TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLogStatuses.Service);
             result = new CrackForceResult();
+            TraceLogger?.AddMessage($"Start force combination");
+            TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(StartTuple));
+            TraceLogger?.AddMessage($"Actual (end) force combination");
+            TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(EndTuple));
             crackedLogic.StartTuple = StartTuple;
             crackedLogic.EndTuple = EndTuple;
             crackedLogic.NdmCollection = NdmCollection;
@@ -56,19 +74,17 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             }
             if (crackedLogic.IsSectionCracked(0d) == true)
             {
+                TraceLogger?.AddMessage($"Crack is appeared in start corce combination", TraceLogStatuses.Warning);
                 SectionCrackedAtStart();
                 return;
             }
             if (crackedLogic.IsSectionCracked(1d) == false)
             {
+                TraceLogger?.AddMessage($"Crack is not appeared from actual (end) force combination", TraceLogStatuses.Warning);
                 SectionIsNotCracked();
                 return;
             }
-            var parameterCalculator = new FindParameterCalculator()
-            {
-                Accuracy = Accuracy,
-                Predicate = crackedLogic.IsSectionCracked
-            };
+
             parameterCalculator.Run();
             var paramResult = parameterCalculator.Result as FindParameterResult;
             if (paramResult.IsValid == true)
@@ -79,24 +95,42 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             {
                 result.IsValid = false;
                 result.Description += paramResult.Description;
+                TraceLogger?.AddMessage($"Result of calculation is not valid\n{result.Description}", TraceLogStatuses.Error);
             }
         }
 
         private void SectionIsCrackedBetween(FindParameterResult? paramResult)
         {
             var factorOfCrackAppearance = paramResult.Parameter;
+            softeningLogic = new ExpSofteningLogic();
+            if (TraceLogger is not null)
+            {
+                softeningLogic.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
+                softeningFactorLogic.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
+            }
             softeningLogic.ForceRatio = factorOfCrackAppearance;
             var psiS = softeningLogic.GetSofteningFactor();
+            var tupleOfCrackApeearence = ForceTupleService.InterpolateTuples(EndTuple, StartTuple, factorOfCrackAppearance);
+            TraceLogger?.AddMessage($"Crack is appeared in force combination");
+            TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(tupleOfCrackApeearence));
+            var reducedStrainTuple = GetReducedStrainTuple(factorOfCrackAppearance, psiS);
+            var crackedStrainTuple = GetStrainTuple(EndTuple);
+            TraceLogger?.AddMessage($"Strains in cracked section from actual (end) force");
+            TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(crackedStrainTuple));
+            TraceLogger?.AddMessage($"Average curvatures of cracked part of element");
+            TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(reducedStrainTuple));
+            TraceLogger?.AddMessage($"Calculating factors of reducing of stifness");
+            result.FactorOfCrackAppearance = factorOfCrackAppearance;
             result.IsValid = true;
             result.IsSectionCracked = true;
             result.Description += paramResult.Description;
-            result.FactorOfCrackAppearance = factorOfCrackAppearance;
-            result.TupleOfCrackAppearance = ForceTupleService.InterpolateTuples(EndTuple, StartTuple, factorOfCrackAppearance);
-            var reducedStrainTuple = GetReducedStrainTuple(factorOfCrackAppearance, psiS);
-            result.CrackedStrainTuple = GetStrainTuple(EndTuple);
+            var softeningFactors = GetSofteningFactors(reducedStrainTuple);
+            result.TupleOfCrackAppearance = tupleOfCrackApeearence;
+            result.CrackedStrainTuple = crackedStrainTuple;
             result.ReducedStrainTuple = reducedStrainTuple;
-            result.SofteningFactors=GetSofteningFactors(reducedStrainTuple);
+            result.SofteningFactors= softeningFactors;
             result.PsiS = psiS;
+            TraceLogger?.AddMessage($"Valid result was obtained", TraceLogStatuses.Debug);
         }
 
         private StrainTuple GetSofteningFactors(StrainTuple reducedStrainTuple)
@@ -108,8 +142,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private StrainTuple GetReducedStrainTuple(double factorOfCrackAppearance, double softeningFactor)
         {
-            const double notCrackedFactor = 0.99d;
-            var notCrackedForceTuple = ForceTupleService.InterpolateTuples(EndTuple, StartTuple, factorOfCrackAppearance * notCrackedFactor) as ForceTuple;
+            const double notCrackedForceFactor = 0.99d;
+            var notCrackedForceTuple = ForceTupleService.InterpolateTuples(EndTuple, StartTuple, factorOfCrackAppearance * notCrackedForceFactor) as ForceTuple;
             var crackAppearanceStrainTuple = GetStrainTuple(notCrackedForceTuple);
             var actualStrainTuple = GetStrainTuple(EndTuple);
             crackStrainLogic.BeforeCrackingTuple = crackAppearanceStrainTuple;

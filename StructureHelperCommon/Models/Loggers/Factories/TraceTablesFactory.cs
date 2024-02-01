@@ -37,7 +37,7 @@ namespace StructureHelperCommon.Models
         {
             var table = new TableLogEntry(6);
             table.Priority = Priority;
-            table.Table.AddRow(GetForceTupleHeaderRow());
+            table.Table.AddRow(GetForceTupleHeaderRow(forceTuple));
             table.Table.AddRow(GetForceTupleRow(forceTuple));
             return table;
         }
@@ -66,7 +66,7 @@ namespace StructureHelperCommon.Models
         {
             var table = new TableLogEntry(6);
             table.Priority = Priority;
-            table.Table.AddRow(GetForceTupleHeaderRow());
+            table.Table.AddRow(GetForceTupleHeaderRow(new ForceTuple()));
             foreach (var forceTuple in forceTuples)
             {
                 table.Table.AddRow(GetForceTupleRow(forceTuple));
@@ -81,43 +81,54 @@ namespace StructureHelperCommon.Models
         {
             Priority = LoggerService.GetPriorityByStatus(status);
         }
-        private ShTableRow<ITraceLoggerEntry> GetForceTupleHeaderRow()
+        private ShTableRow<ITraceLoggerEntry> GetForceTupleHeaderRow(IForceTuple forceTuple)
         {
+            const CellRole cellRole = CellRole.Header;
+            string[] ColumnList = new string[] { "Mx", "My", "Nz", "Qx", "Qy", "Mz" };
+            if (forceTuple is StrainTuple)
+            {
+                ColumnList = new string[] { "Kx", "Ky", "EpsZ", "GammaX", "GammaY", "Kz" };
+            }
+
             var forceTupleRow = new ShTableRow<ITraceLoggerEntry>(6);
+            foreach (var item in forceTupleRow.Elements)
+            {
+                item.Role = cellRole;
+            }
 
             forceTupleRow.Elements[0].Value = new StringLogEntry()
             {
-                Message = "Mx",
+                Message = ColumnList[0],
                 Priority = Priority
             };
 
             forceTupleRow.Elements[1].Value = new StringLogEntry()
             {
-                Message = "My",
+                Message = ColumnList[1],
                 Priority = Priority
             };
 
             forceTupleRow.Elements[2].Value = new StringLogEntry()
             {
-                Message = "Nz",
+                Message = ColumnList[2],
                 Priority = Priority
             };
 
             forceTupleRow.Elements[3].Value = new StringLogEntry()
             {
-                Message = "Qx",
+                Message = ColumnList[3],
                 Priority = Priority
             };
 
             forceTupleRow.Elements[4].Value = new StringLogEntry()
             {
-                Message = "Qy",
+                Message = ColumnList[4],
                 Priority = Priority
             };
 
             forceTupleRow.Elements[5].Value = new StringLogEntry()
             {
-                Message = "Mz",
+                Message = ColumnList[5],
                 Priority = Priority
             };
 

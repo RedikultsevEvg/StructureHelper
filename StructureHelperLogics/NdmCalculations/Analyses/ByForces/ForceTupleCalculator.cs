@@ -14,7 +14,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IResult Result { get; private set; }
 
         public Action<IResult> ActionToOutputResults { get; set; }
-        public IShiftTraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public ForceTupleCalculator(IForceTupleInputData inputData)
         {
@@ -31,14 +31,24 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private IForcesTupleResult CalculateResult()
         {
+            TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"Calculator logic based on calculating strain in plain section by elementary parts of finished size");
             var ndmCollection = InputData.NdmCollection;
+            TraceLogger?.AddMessage($"Collection of elementary parts contains {ndmCollection.Count()} parts");
+            TraceLogger?.AddMessage($"Summary area of elementary part collection = {ndmCollection.Sum(x => x.Area * x.StressScale)}", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"Minimum x = {ndmCollection.Min(x => x.CenterX)}", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage($"Maximum x = {ndmCollection.Max(x => x.CenterX)}", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage($"Minimum y = {ndmCollection.Min(x => x.CenterY)}", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage($"Maximum y = {ndmCollection.Max(x => x.CenterY)}", TraceLogStatuses.Debug);
             var tuple = InputData.Tuple;
             var accuracy = InputData.Accuracy;
-
+            TraceLogger?.AddMessage($"Input force combination");
+            TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(tuple));
             var mx = tuple.Mx;
             var my = tuple.My;
             var nz = tuple.Nz;
-
+            TraceLogger?.AddMessage($"Required accuracy rate {accuracy.IterationAccuracy}");
+            TraceLogger?.AddMessage($"Maximum iteration count {accuracy.MaxIterationCount}");
             try
             {
                 var loaderData = new LoaderOptions
@@ -53,23 +63,45 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                     NdmCollection = ndmCollection
                 };
                 var calculator = new Calculator();
+                TraceLogger?.AddMessage($"Calculation is started", TraceLogStatuses.Debug);
                 calculator.Run(loaderData, new CancellationToken());
+                TraceLogger?.AddMessage($"Calculation result is obtained", TraceLogStatuses.Debug);
                 var calcResult = calculator.Result;
                 if (calcResult.AccuracyRate <= accuracy.IterationAccuracy)
                 {
-                    return new ForcesTupleResult() { IsValid = true, Description = "Analysis is done succsefully", LoaderResults = calcResult };
+                    TraceLogger?.AddMessage($"Analisis is done succsesfully");
+                    TraceLogger?.AddMessage($"Current accuracy {calcResult.AccuracyRate}, {calcResult.IterationCounter} iteration has done", TraceLogStatuses.Debug);
+                    return new ForcesTupleResult()
+                    {
+                        IsValid = true,
+                        Description = "Analysis is done succsefully",
+                        LoaderResults = calcResult
+                    };
                 }
                 else
                 {
+                    TraceLogger?.AddMessage($"Required accuracy rate has not achived", TraceLogStatuses.Error);
+                    TraceLogger?.AddMessage($"Current accuracy {calcResult.AccuracyRate}, {calcResult.IterationCounter} iteration has done", TraceLogStatuses.Warning);
                     return new ForcesTupleResult() { IsValid = false, Description = "Required accuracy rate has not achived", LoaderResults = calcResult };
                 }
 
             }
             catch (Exception ex)
             {
-                var result = new ForcesTupleResult() { IsValid = false };
-                if (ex.Message == "Calculation result is not valid: stiffness matrix is equal to zero") { result.Description = "Stiffness matrix is equal to zero \nProbably section was collapsed"; }
-                else { result.Description = $"Error is appeared due to analysis. Error: {ex}"; }
+                TraceLogger?.AddMessage($"Critical error ocured during calculation\n{ex}", TraceLogStatuses.Error);
+                var result = new ForcesTupleResult()
+                {
+                    IsValid = false
+                };
+                if (ex.Message == "Calculation result is not valid: stiffness matrix is equal to zero")
+                {
+                    TraceLogger?.AddMessage($"Stiffness matrix is equal to zero\nProbably section was collapsed", TraceLogStatuses.Error);
+                    result.Description = "Stiffness matrix is equal to zero\nProbably section was collapsed";
+                }
+                else
+                {
+                    result.Description = $"Error is appeared due to analysis. Error: {ex}";
+                }
                 return result;
             }
         }

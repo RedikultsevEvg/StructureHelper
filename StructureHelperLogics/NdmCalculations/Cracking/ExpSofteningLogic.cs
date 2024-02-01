@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,19 +42,30 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 forceRatio = value;
             }
         }
-        public double FiMin {get;set;}
+        public double PsiSMin {get;set;}
+        public IShiftTraceLogger? TraceLogger { get; set; }
+
         public ExpSofteningLogic()
         {
-            FiMin = 0.2d;
+            PsiSMin = 0.2d;
             PowerFactor = 2d;
             BettaFactor = 0.8d;
         }
         public double GetSofteningFactor()
         {
-            double fi;
-            fi = 1 - BettaFactor * Math.Pow(ForceRatio, PowerFactor);
-            fi = Math.Max(fi, FiMin);
-            return fi;
+            TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"Logic of calculation of psi_s factor based on exponential softening model");
+            TraceLogger?.AddMessage($"psi_s = 1 - BettaFactor * ForceRatio ^ PowerFactor");
+            TraceLogger?.AddMessage($"But not less than psi_s_min = {PsiSMin}");
+            TraceLogger?.AddMessage($"BettaFactor = {BettaFactor}");
+            TraceLogger?.AddMessage($"ForceRatio = {ForceRatio}");
+            TraceLogger?.AddMessage($"PowerFactor = {BettaFactor}");
+            double psi;
+            psi = 1 - BettaFactor * Math.Pow(ForceRatio, PowerFactor);
+            TraceLogger?.AddMessage($"psi_s = 1 - BettaFactor * ForceRatio ^ PowerFactor = 1 - {BettaFactor} * {ForceRatio} ^ {PowerFactor} = {psi}");
+            double psi_c = Math.Max(psi, PsiSMin);
+            TraceLogger?.AddMessage($"Since psi_s = {psi} and psi_s_min = {PsiSMin},\npsi_s = {psi_c}");
+            return psi_c;
         }
     }
 }

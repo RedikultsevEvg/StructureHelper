@@ -58,7 +58,7 @@ namespace StructureHelperCommon.Models.Calculators
             double precision = Accuracy.IterationAccuracy;
             int maxIterationCount = Accuracy.MaxIterationCount;
             double current = start;
-            double step = (end - start) / 2;
+            double step = (end - start) / 2d;
             int iterationNum = 0;
             while (step > precision)
             {
@@ -73,8 +73,8 @@ namespace StructureHelperCommon.Models.Calculators
                     TraceLogger?.AddMessage($"Predicate value in {current} is false", TraceLogStatuses.Debug, 50);
                     start = current;
                 }
-                TraceLogger?.AddMessage($"New current value Cur=({start}+{end})/2={current}", TraceLogStatuses.Debug);
                 current = (start + end) / 2d;
+                TraceLogger?.AddMessage($"New current value Cur=({start}+{end})/2={current}", TraceLogStatuses.Debug);
                 step = (end - start) / 2d;
                 TraceLogger?.AddMessage($"New step S={current}", TraceLogStatuses.Debug, 50);
                 iterationNum++;
