@@ -54,6 +54,14 @@ namespace StructureHelperCommon.Models.Tables
             }
         }
 
+        public int RowCount => GetAllRows().Count();
+        public IShTableCell<T> GetCell(int rowIndex, int columnIndex)
+        {
+            var row = GetElementsFromRow(rowIndex);
+            var cell = row[columnIndex];
+            return cell;
+        }
+
         /// <summary>
         /// Set a value at the specified column and row index
         /// </summary>

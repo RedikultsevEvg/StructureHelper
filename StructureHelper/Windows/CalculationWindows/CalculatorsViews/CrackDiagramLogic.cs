@@ -1,10 +1,9 @@
-﻿using LoaderCalculator;
-using StructureHelper.Windows.Graphs;
+﻿using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
-using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
@@ -15,8 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews

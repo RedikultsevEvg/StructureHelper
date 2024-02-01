@@ -1,18 +1,10 @@
-﻿using LoaderCalculator.Data.ResultData;
-using StructureHelperCommon.Models.Loggers;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using TaskManager;
 
 namespace StructureHelperCommon.Models.Calculators
 {
-    public interface ICalculator : ICloneable
-    {
-        IShiftTraceLogger? TraceLogger { get; set; }
+    public interface ICalculator : ILogic, ICloneable
+    {      
         string Name { get; set; }
         /// <summary>
         /// Method for calculating

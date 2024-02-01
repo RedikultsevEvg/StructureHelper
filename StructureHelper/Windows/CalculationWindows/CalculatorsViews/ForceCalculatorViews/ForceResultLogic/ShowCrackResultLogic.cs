@@ -17,7 +17,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }
-        public ForceTuple ForceTuple { get; set; }
+        public IForceTuple ForceTuple { get; set; }
         public IEnumerable<INdmPrimitive> ndmPrimitives { get; set; }
         public void Show(IDesignForceTuple finishDesignTuple)
         {
@@ -31,7 +31,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             FindCrackFactor(endDesignTuple, startDesignTuple);
         }
 
-        private void FindCrackFactor(ForceTuple finishDesignTuple, ForceTuple startDesignTuple)
+        private void FindCrackFactor(IForceTuple finishDesignTuple, IForceTuple startDesignTuple)
         {
             var calculator = new CrackForceCalculator();
             calculator.StartTuple = startDesignTuple;

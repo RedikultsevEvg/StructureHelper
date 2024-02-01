@@ -2,8 +2,8 @@
 using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.ResultData;
 using LoaderCalculator.Data.SourceData;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Loggers;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {

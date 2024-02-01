@@ -1,17 +1,12 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Services;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
@@ -25,8 +20,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private CrackForceResult result;
 
         public string Name { get; set; }
-        public ForceTuple StartTuple { get; set; }
-        public ForceTuple EndTuple { get; set; }
+        public IForceTuple StartTuple { get; set; }
+        public IForceTuple EndTuple { get; set; }
         public IEnumerable<INdm> NdmCollection { get; set; }
         public Accuracy Accuracy {get;set; }
         public IResult Result => result;
@@ -146,7 +141,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             result.SofteningFactors = GetSofteningFactors(result.ReducedStrainTuple);
             result.Description = "Section is not cracked";
         }
-        private StrainTuple GetStrainTuple(ForceTuple forceTuple)
+        private StrainTuple GetStrainTuple(IForceTuple forceTuple)
         {
             ForceTupleInputData inputData = new();
             inputData.NdmCollection = NdmCollection;

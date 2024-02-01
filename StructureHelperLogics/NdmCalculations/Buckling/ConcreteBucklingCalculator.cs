@@ -1,12 +1,11 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Logics;
 using LoaderCalculator.Logics.Geometry;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Materials;
-using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;

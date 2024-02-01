@@ -13,7 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     {
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }
-        public ForceTuple ForceTuple { get; set; }
+        public IForceTuple ForceTuple { get; set; }
         public List<INdmPrimitive> NdmPrimitives {get;set;}
     }
 }

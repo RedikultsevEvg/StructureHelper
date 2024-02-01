@@ -1,11 +1,7 @@
-﻿using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Loggers;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 //Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
@@ -15,7 +11,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     /// <summary>
     /// Logic for build collection of points by surround points
     /// </summary>
-    public interface ILimitCurveLogic : IHasActionByResult
+    public interface ILimitCurveLogic : ILogic, IHasActionByResult
     {
         /// <summary>
         /// Returns list of points by source collection

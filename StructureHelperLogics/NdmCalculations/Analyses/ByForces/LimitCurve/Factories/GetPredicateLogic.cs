@@ -1,12 +1,6 @@
 ﻿using LoaderCalculator.Data.Ndms;
-using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Factories
 {

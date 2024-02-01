@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperCommon.Models.Loggers
+namespace StructureHelperCommon.Models
 {
-    public class TableLoggerEntry : ITraceLoggerEntry
+    public class TableLogEntry : ITraceLoggerEntry
     {
         private ShTable<ITraceLoggerEntry> table;
         public ShTable<ITraceLoggerEntry> Table {get => table;}
         public DateTime TimeStamp { get; }
 
         public int Priority { get; set; }
-        public TableLoggerEntry(int rowSize)
+        public TableLogEntry(int rowSize)
         {
             if (rowSize <= 0)
             {

@@ -1,5 +1,5 @@
 ﻿using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Factories;
 using System.Windows.Media.Media3D;
@@ -42,12 +42,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             var zeroPoint = new Point2D();
             if (limitPredicate(zeroPoint) == true)
             {
-                TraceLogger?.AddMessage($"Predicate is true for point. All point will be skiped", TraceLoggerStatuses.Warning);
-                TraceLogger?.AddEntry(
-                    new TraceTablesFactory(
-                        TraceLoggerStatuses.Warning, 0)
-                    .GetTableByPoint2D(zeroPoint));
-                TraceLogger?.AddMessage($"All point will be skiped", TraceLoggerStatuses.Warning);
+                TraceLogger?.AddMessage($"Predicate is true for point. All point will be skiped", TraceLogStatuses.Warning);
+                TraceLogger?.AddEntry(new TraceTablesFactory(TraceLogStatuses.Warning).GetByPoint2D(zeroPoint));
+                TraceLogger?.AddMessage($"All point will be skiped", TraceLogStatuses.Warning);
                 var range = points.Select(point => new Point2D { X = 0d, Y = 0d }).ToList();
                 resultList.AddRange(range);
                 return resultList;
@@ -121,17 +118,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             lock (lockObject)
             {
                 TraceLogger?.AddMessage($"Source point");
-                TraceLogger?.AddEntry(
-                new TraceTablesFactory(
-                    TraceLoggerStatuses.Info, TraceLogger.ShiftPriority)
-                    .GetTableByPoint2D(localCurrentPoint));
+                TraceLogger?.AddEntry(new TraceTablesFactory(TraceLogStatuses.Info).GetByPoint2D(localCurrentPoint));
                 TraceLogger?.TraceLoggerEntries.AddRange(logic.TraceLogger.TraceLoggerEntries);
                 TraceLogger?.AddMessage($"Parameter value {parameter} was obtained");
                 TraceLogger?.AddMessage($"Calculated point\n(X={localCurrentPoint.X} * {parameter} = {resultPoint.X},\nY={localCurrentPoint.Y} * {parameter} = {resultPoint.Y})");
-                TraceLogger?.AddEntry(
-                new TraceTablesFactory(
-                    TraceLoggerStatuses.Info, TraceLogger.ShiftPriority)
-                    .GetTableByPoint2D(resultPoint));
+                TraceLogger?.AddEntry(new TraceTablesFactory(TraceLogStatuses.Info).GetByPoint2D(resultPoint));
             }
             return resultPoint;
         }

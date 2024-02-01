@@ -1,13 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -48,7 +42,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public void Run()
         {
             if (TraceLogger is not null) { limitCurveLogic.TraceLogger = TraceLogger.GetSimilarTraceLogger(50); }
-            TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLoggerStatuses.Service);
+            TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLogStatuses.Service);
             TraceLogger?.AddMessage($"Start solution in calculator {Name}");
             result = new LimitCurveResult();
             result.IsValid = true;
@@ -58,24 +52,18 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             TraceLogger?.AddMessage($"Point count {PointCount}");
             surroundList = SurroundProcLogic.GetPoints();
             TraceLogger?.AddMessage($"There are {surroundList.Count()} point prepared for calculation");
-            TraceLogger?.AddEntry(
-                new TraceTablesFactory(
-                    TraceLoggerStatuses.Info, TraceLogger.ShiftPriority)
-                    .GetTableByPoint2D(surroundList));
+            TraceLogger?.AddEntry(new TraceTablesFactory().GetByPoint2D(surroundList));
             try
             {
                 limitCurveLogic.ActionToOutputResults = GetCurrentStepNumber;
                 factoredList = limitCurveLogic.GetPoints(surroundList);
                 TraceLogger?.AddMessage($"Solution was successfully obtained for {factoredList.Count()} point");
-                TraceLogger?.AddEntry(
-                    new TraceTablesFactory(
-                        TraceLoggerStatuses.Info, TraceLogger.ShiftPriority)
-                        .GetTableByPoint2D(factoredList));
+                TraceLogger?.AddEntry(new TraceTablesFactory().GetByPoint2D(factoredList));
                 result.Points = factoredList;
             }
             catch (Exception ex)
             {
-                TraceLogger?.AddMessage($"Calculation result is not valid: {ex.Message}", TraceLoggerStatuses.Error);
+                TraceLogger?.AddMessage($"Calculation result is not valid: {ex.Message}", TraceLogStatuses.Error);
                 result.IsValid = false;
                 result.Description += ex.Message;
             }

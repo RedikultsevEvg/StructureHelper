@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperCommon.Models.Loggers
+namespace StructureHelperCommon.Models
 {
     public interface IShiftTraceLogger : ITraceLogger
     {

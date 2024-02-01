@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Models.Loggers;
+﻿using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Factories

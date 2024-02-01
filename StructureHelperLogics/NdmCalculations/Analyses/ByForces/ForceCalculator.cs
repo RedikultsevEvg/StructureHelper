@@ -1,8 +1,8 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Sections;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;

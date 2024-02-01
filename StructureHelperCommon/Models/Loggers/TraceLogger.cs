@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace StructureHelperCommon.Models.Loggers
+namespace StructureHelperCommon.Models
 {
     public class TraceLogger : ITraceLogger
     {       
@@ -17,12 +17,12 @@ namespace StructureHelperCommon.Models.Loggers
             TraceLoggerEntries = new();
         }
 
-        public void AddMessage(string message, TraceLoggerStatuses status = TraceLoggerStatuses.Info, int shiftPrioriry = 0)
+        public void AddMessage(string message, TraceLogStatuses status = TraceLogStatuses.Info, int shiftPrioriry = 0)
         {
-            if (status == TraceLoggerStatuses.Fatal) { message = $"Fatal error! {message}"; }
-            if (status == TraceLoggerStatuses.Error) { message = $"Error! {message}"; }
-            if (status == TraceLoggerStatuses.Warning) { message = $"Warning! {message}"; }
-            TraceLoggerEntries.Add(new StringLoggerEntry()
+            if (status == TraceLogStatuses.Fatal) { message = $"Fatal error! {message}"; }
+            if (status == TraceLogStatuses.Error) { message = $"Error! {message}"; }
+            if (status == TraceLogStatuses.Warning) { message = $"Warning! {message}"; }
+            TraceLoggerEntries.Add(new StringLogEntry()
             {
                 Message = message,
                 Priority = LoggerService.GetPriorityByStatus(status)
@@ -30,7 +30,7 @@ namespace StructureHelperCommon.Models.Loggers
         }        
         public void AddMessage(string message, int priority)
         {
-            TraceLoggerEntries.Add(new StringLoggerEntry()
+            TraceLoggerEntries.Add(new StringLogEntry()
             {
                 Message = message,
                 Priority = priority
