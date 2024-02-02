@@ -25,7 +25,7 @@ using System.Windows.Input;
 
 namespace StructureHelper.Windows.MainWindow
 {
-    public class MainViewModel : ViewModelBase
+    public class CrossSectionViewModel : ViewModelBase
     {
         ICrossSection section;
         ICrossSectionRepository repository => section.SectionRepository;
@@ -44,7 +44,7 @@ namespace StructureHelper.Windows.MainWindow
         public PrimitiveViewModelLogic PrimitiveLogic => primitiveLogic;
         public HelpLogic HelpLogic => new HelpLogic();
 
-        private MainModel Model { get; }
+        private CrossSectionModel Model { get; }
 
         private double panelX, panelY, scrollPanelX, scrollPanelY;
 
@@ -220,7 +220,7 @@ namespace StructureHelper.Windows.MainWindow
         private RelayCommand selectPrimitive;
         private MaterialsViewModel materialsLogic;
 
-        public MainViewModel(MainModel model)
+        public CrossSectionViewModel(CrossSectionModel model)
         {
             visualProperty = new CrossSectionViewVisualProperty();
             Model = model;

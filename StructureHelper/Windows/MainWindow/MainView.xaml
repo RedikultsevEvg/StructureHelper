@@ -54,6 +54,11 @@
                     <Image Width="16" Height="16" Source="/Windows/MainWindow/Copy.png" />
                 </MenuItem.Icon>
             </MenuItem>
+            <MenuItem Header="Copy To" Command="{Binding CopyTo}">
+                <MenuItem.Icon>
+                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Copy.png" />
+                </MenuItem.Icon>
+            </MenuItem>
             <MenuItem Header="Delete" Command="{Binding Delete}">
                 <MenuItem.Icon>
                     <Image Width="16" Height="16" Source="/Windows/MainWindow/Delete.png" />

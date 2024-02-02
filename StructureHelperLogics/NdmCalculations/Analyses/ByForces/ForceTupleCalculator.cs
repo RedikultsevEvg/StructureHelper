@@ -59,7 +59,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                         MaxIterationCount = accuracy.MaxIterationCount,
                         StartForceMatrix = new ForceMatrix { Mx = mx, My = my, Nz = nz }
                     },
-                    ActionToOutputResults = ShowResultToConsole,
+                    ActionToOutputResults = ShowResultToTrace,
                     NdmCollection = ndmCollection
                 };
                 var calculator = new Calculator();
@@ -70,7 +70,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 if (calcResult.AccuracyRate <= accuracy.IterationAccuracy)
                 {
                     TraceLogger?.AddMessage($"Analisis is done succsesfully");
-                    TraceLogger?.AddMessage($"Current accuracy {calcResult.AccuracyRate}, {calcResult.IterationCounter} iteration has done", TraceLogStatuses.Debug);
+                    TraceLogger?.AddMessage($"Current accuracy {calcResult.AccuracyRate} has acheived in {calcResult.IterationCounter} iteration", TraceLogStatuses.Debug);
                     return new ForcesTupleResult()
                     {
                         IsValid = true,
@@ -82,7 +82,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 {
                     TraceLogger?.AddMessage($"Required accuracy rate has not achived", TraceLogStatuses.Error);
                     TraceLogger?.AddMessage($"Current accuracy {calcResult.AccuracyRate}, {calcResult.IterationCounter} iteration has done", TraceLogStatuses.Warning);
-                    return new ForcesTupleResult() { IsValid = false, Description = "Required accuracy rate has not achived", LoaderResults = calcResult };
+                    return new ForcesTupleResult()
+                    {
+                        IsValid = false,
+                        Description = "Required accuracy rate has not achived",
+                        LoaderResults = calcResult
+                    };
                 }
 
             }
@@ -115,6 +120,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         {
             var strain = result.StrainMatrix;
             //MessageBox.Show($" Текущие результаты  в {result.IterationCounter} итерации:");
+        }
+
+        private void ShowResultToTrace(ILoaderResults result)
+        {
+            var strain = result.StrainMatrix;
+            TraceLogger?.AddMessage($"Iteration {result.IterationCounter}, current accuracy rate {result.AccuracyRate}", TraceLogStatuses.Debug,100);
         }
     }
 }

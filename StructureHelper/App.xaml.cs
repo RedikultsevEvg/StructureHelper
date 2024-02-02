@@ -22,8 +22,8 @@ namespace StructureHelper
             builder.RegisterType<PrimitiveRepository>().As<IPrimitiveRepository>().SingleInstance();
             builder.RegisterType<UnitSystemService>().AsSelf().SingleInstance();
             builder.RegisterType<CalculationService>().AsSelf().SingleInstance();
-            builder.RegisterType<MainModel>().AsSelf().SingleInstance();
-            builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
+            builder.RegisterType<CrossSectionModel>().AsSelf().SingleInstance();
+            builder.RegisterType<CrossSectionViewModel>().AsSelf().SingleInstance();
 
             builder.RegisterType<MainView>().AsSelf();
 

@@ -117,9 +117,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             var crackedStrainTuple = GetStrainTuple(EndTuple);
             TraceLogger?.AddMessage($"Strains in cracked section from actual (end) force");
             TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(crackedStrainTuple));
-            TraceLogger?.AddMessage($"Average curvatures of cracked part of element");
+            TraceLogger?.AddMessage($"Average strains of cracked part of element");
             TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(reducedStrainTuple));
-            TraceLogger?.AddMessage($"Calculating factors of reducing of stifness");
+            TraceLogger?.AddMessage($"Factors of reducing of stiffness");
             result.FactorOfCrackAppearance = factorOfCrackAppearance;
             result.IsValid = true;
             result.IsSectionCracked = true;

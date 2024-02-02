@@ -66,7 +66,9 @@ namespace StructureHelperCommon.Models
         {
             var table = new TableLogEntry(6);
             table.Priority = Priority;
-            table.Table.AddRow(GetForceTupleHeaderRow(new ForceTuple()));
+            //type of force tuple for creating a header is taken by first member
+            var firstMember = forceTuples.First();
+            table.Table.AddRow(GetForceTupleHeaderRow(firstMember));
             foreach (var forceTuple in forceTuples)
             {
                 table.Table.AddRow(GetForceTupleRow(forceTuple));

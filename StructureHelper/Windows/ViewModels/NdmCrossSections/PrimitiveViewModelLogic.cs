@@ -19,6 +19,8 @@ using System.Windows.Documents;
 using StructureHelper.Windows.PrimitiveProperiesWindow;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using System.Windows.Input;
+using StructureHelper.Windows.Services;
+using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 {
@@ -32,6 +34,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private ICommand copyCommand;
         private ICommand setToFront;
         private ICommand setToBack;
+        private ICommand copyToCommand;
 
         public double CanvasWidth { get; set; }
         public double CanvasHeight { get; set; }
@@ -186,15 +189,42 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 return copyCommand ??
                     (
                     copyCommand = new RelayCommand(
-                        o => CopySelectedItem(),
+                        o => CopySelectedItem(SelectedItem.GetNdmPrimitive()),
                         o => SelectedItem != null
                     ));
             }
         }
 
-        private void CopySelectedItem()
+        public ICommand CopyTo
         {
-            var oldPrimitive = SelectedItem.GetNdmPrimitive();
+            get
+            {
+                return copyToCommand ??
+                    (
+                    copyToCommand = new RelayCommand(
+                        o => CopyToSelectedItem(SelectedItem.GetNdmPrimitive()),
+                        o => SelectedItem != null
+                    ));
+            }
+        }
+
+        private void CopyToSelectedItem(INdmPrimitive ndmPrimitive)
+        {
+            var copyByParameterVM = new CopyByParameterViewModel(ndmPrimitive.Center);
+            var wnd = new CopyByParameterView(copyByParameterVM);
+            wnd.ShowDialog();
+            if (wnd.DialogResult != true) { return;}
+            var points = copyByParameterVM.GetNewItemCenters();
+            foreach (var item in points)
+            {
+                var newPrimitive = CopySelectedItem(ndmPrimitive);
+                newPrimitive.CenterX = item.X;
+                newPrimitive.CenterY = item.Y;
+            }
+        }
+
+        private PrimitiveBase CopySelectedItem(INdmPrimitive oldPrimitive)
+        {
             var newPrimitive = oldPrimitive.Clone() as INdmPrimitive;
             newPrimitive.Name += " copy";
             repository.Primitives.Add(newPrimitive);
@@ -218,6 +248,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             Items.Add(primitiveBase);
             OnPropertyChanged(nameof(Items));
             OnPropertyChanged(nameof(PrimitivesCount));
+            return primitiveBase;
         }
 
         public int PrimitivesCount => repository.Primitives.Count();

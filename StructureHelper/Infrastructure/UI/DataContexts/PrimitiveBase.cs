@@ -242,7 +242,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             DeltaY = dy;
         }
 
-        public MainViewModel OwnerVM { get; private set; }
+        public CrossSectionViewModel OwnerVM { get; private set; }
 
         public double DeltaX { get; private set; }
         public double DeltaY { get; private set; }

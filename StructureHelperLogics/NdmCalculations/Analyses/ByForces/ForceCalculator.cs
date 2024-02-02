@@ -33,7 +33,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             var checkResult = CheckInputData();
             if (checkResult != "")
             {
-                Result = new ForcesResults() { IsValid = false, Description = checkResult };
+                Result = new ForcesResults()
+                {
+                    IsValid = false,
+                    Description = checkResult
+                };
                 return;
             }
             else

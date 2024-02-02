@@ -8,10 +8,10 @@ namespace StructureHelper.Windows.MainWindow
 {
     public partial class MainView : Window
     {
-        private MainViewModel viewModel;
+        private CrossSectionViewModel viewModel;
         public IPrimitiveRepository PrimitiveRepository { get; }
 
-        public MainView(IPrimitiveRepository primitiveRepository, MainViewModel viewModel)
+        public MainView(IPrimitiveRepository primitiveRepository, CrossSectionViewModel viewModel)
         {
             PrimitiveRepository = primitiveRepository;
             this.viewModel = viewModel;

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.Services"
         d:DataContext ="{d:DesignInstance local:CopyByParameterViewModel}"
         mc:Ignorable="d"
-        Title="Copy To" Height="260" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="Copy To" Height="300" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="TextBox">
             <Setter Property="Margin" Value="2"/>
@@ -35,11 +35,11 @@
                     <TextBlock Grid.Row="1" Text="Delta Y"/>
                     <TextBlock Grid.Row="2" Text="Angle"/>
                     <TextBlock Grid.Row="3" Text="Distance"/>
-                    <TextBox Grid.Column="1" Text=""/>
-                    <TextBox Grid.Column="1" Grid.Row="1" Text=""/>
-                    <TextBox Grid.Column="1" Grid.Row="2" Text="" IsEnabled="False"/>
-                    <TextBox Grid.Column="1" Grid.Row="3" Text="" IsEnabled="False"/>
-                    <CheckBox Grid.Row="4" Content="Relative coordinates"/>
+                    <TextBox Grid.Column="1" Text="{Binding DeltaX, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding DeltaY, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Angle}" IsEnabled="False"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Distance, Converter={StaticResource LengthConverter}}" IsEnabled="False"/>
+                    <CheckBox Grid.Row="4" Content="Relative coordinates" Visibility="Hidden"/>
                 </Grid>
             </GroupBox>
             <GroupBox Header="Copy count">
@@ -52,7 +52,7 @@
                         <RowDefinition Height="27"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBox Grid.Column="1" Text=""/>
+                    <TextBox Grid.Column="1" Text="{Binding CopyCount, ValidatesOnDataErrors=True}"/>
 
                 </Grid>
             </GroupBox>
