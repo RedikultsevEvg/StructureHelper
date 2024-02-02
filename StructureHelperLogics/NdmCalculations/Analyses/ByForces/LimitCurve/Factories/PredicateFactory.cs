@@ -1,5 +1,8 @@
-﻿using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator;
+using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Cracking;
@@ -14,13 +17,17 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         Strength,
         Cracking
     }
-    public class PredicateFactory
+    public class PredicateFactory : ILogic
     {
         private ForceTupleCalculator calculator;
         private ForceTuple tuple;
         private ForceTupleInputData inputData;
+        private IShiftTraceLogger logger;
+
         public IEnumerable<INdm> Ndms { get; set; }
         public IConvert2DPointTo3DPointLogic ConvertLogic { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
+
         public PredicateFactory()
         {
             inputData = new();
@@ -28,6 +35,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         }
         public Predicate<IPoint2D> GetPredicate(PredicateTypes predicateType)
         {
+            if (TraceLogger is not null)
+            {
+                logger = new ShiftTraceLogger() { ShiftPriority = 500, KeepErrorStatus = false };
+                //calculator.TraceLogger = logger; // too much results
+                //ConvertLogic.TraceLogger = logger; //wrong work in different threads
+            }
             if (predicateType == PredicateTypes.Strength)
             {
                 return point2D => IsSectionFailure(point2D);
@@ -44,6 +57,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private bool IsSectionFailure(IPoint2D point2D)
         {
+            logger?.TraceLoggerEntries.Clear();
             var point3D = ConvertLogic.GetPoint3D(point2D);
             tuple = new()
             {
@@ -54,12 +68,17 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             inputData.Tuple = tuple;
             inputData.NdmCollection = Ndms;
             calculator.Run();
+            if (logger is not null)
+            {
+                TraceLogger?.TraceLoggerEntries.AddRange(logger.TraceLoggerEntries);
+            }
             var result = calculator.Result;
             return !result.IsValid;
         }
 
         private bool IsSectionCracked(IPoint2D point2D)
         {
+            logger?.TraceLoggerEntries.Clear();
             var logic = new HoleSectionCrackedLogic();
             var point3D = ConvertLogic.GetPoint3D(point2D);
             tuple = new()
@@ -72,6 +91,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             logic.NdmCollection = Ndms;
             try
             {
+                if (logger is not null)
+                {
+                    TraceLogger?.TraceLoggerEntries.AddRange(logger.TraceLoggerEntries);
+                }
                 var result = logic.IsSectionCracked();
                 return result;
             }

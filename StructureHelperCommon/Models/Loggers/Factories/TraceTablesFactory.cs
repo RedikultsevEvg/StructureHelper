@@ -24,8 +24,8 @@ namespace StructureHelperCommon.Models
         {
             var table = new TableLogEntry(2);
             table.Priority = Priority;
-            table.Table.AddRow(GetPointHeaderRow());
-            table.Table.AddRow(GetPointRow(point2D));
+            table.Table.AddRow(GetPoint2DHeaderRow());
+            table.Table.AddRow(GetPoint2DRow(point2D));
             return table;
         }
         /// <summary>
@@ -50,10 +50,10 @@ namespace StructureHelperCommon.Models
         {
             var table = new TableLogEntry(2);
             table.Priority = Priority;
-            table.Table.AddRow(GetPointHeaderRow());
+            table.Table.AddRow(GetPoint2DHeaderRow());
             foreach (var item in points)
             {
-                table.Table.AddRow(GetPointRow(item));           
+                table.Table.AddRow(GetPoint2DRow(item));           
             }
             return table;
         }
@@ -182,7 +182,7 @@ namespace StructureHelperCommon.Models
             return forceTupleRow;
         }
 
-        private ShTableRow<ITraceLoggerEntry> GetPointHeaderRow()
+        private ShTableRow<ITraceLoggerEntry> GetPoint2DHeaderRow()
         {
             const CellRole cellRole = CellRole.Header;
 
@@ -213,7 +213,7 @@ namespace StructureHelperCommon.Models
             headerRow.Elements[1] = tableCell;
             return headerRow;
         }
-        private ShTableRow<ITraceLoggerEntry> GetPointRow(IPoint2D point2D)
+        private ShTableRow<ITraceLoggerEntry> GetPoint2DRow(IPoint2D point2D)
         {
             var pointRow = new ShTableRow<ITraceLoggerEntry>(2);
             pointRow.Elements[0].Value = new StringLogEntry()

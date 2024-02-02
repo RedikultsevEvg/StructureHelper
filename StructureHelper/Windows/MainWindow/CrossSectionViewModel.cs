@@ -27,21 +27,19 @@ namespace StructureHelper.Windows.MainWindow
 {
     public class CrossSectionViewModel : ViewModelBase
     {
-        ICrossSection section;
-        ICrossSectionRepository repository => section.SectionRepository;
-
-        private CrossSectionViewVisualProperty visualProperty;
-
+        private ICrossSection section;
+        private ICrossSectionRepository repository => section.SectionRepository;
         private readonly double scaleRate = 1.1d;
 
-        public PrimitiveBase SelectedPrimitive { get; set; }
-        //public IForceCombinationList SelectedForceCombinationList { get; set; }
+        public CrossSectionVisualPropertyVM VisualProperty { get; private set; }
 
-        private readonly AnalysisVewModelLogic calculatorsLogic;
-        public AnalysisVewModelLogic CalculatorsLogic { get => calculatorsLogic;}
-        public ActionsViewModel CombinationsLogic { get => combinationsLogic; }
-        public MaterialsViewModel MaterialsLogic { get => materialsLogic; }
-        public PrimitiveViewModelLogic PrimitiveLogic => primitiveLogic;
+
+        public PrimitiveBase SelectedPrimitive { get; set; }
+
+        public AnalysisVewModelLogic CalculatorsLogic { get; private set; }
+        public ActionsViewModel CombinationsLogic { get; }
+        public MaterialsViewModel MaterialsLogic { get; }
+        public PrimitiveViewModelLogic PrimitiveLogic { get; }
         public HelpLogic HelpLogic => new HelpLogic();
 
         private CrossSectionModel Model { get; }
@@ -84,37 +82,26 @@ namespace StructureHelper.Windows.MainWindow
 
         public double AxisLineThickness
         { 
-            get => visualProperty.AxisLineThickness / scaleValue;
+            get => VisualProperty.AxisLineThickness / scaleValue;
         }
 
         public double GridLineThickness
         {
-            get => visualProperty.GridLineThickness / scaleValue;
-        }
-
-        private double xX2, xY1, yX1, yY2;
-        public double CanvasWidth
-        {
-            get => visualProperty.WorkPlainWidth;
-        }
-
-        public double CanvasHeight
-        {
-            get => visualProperty.WorkPlainHeight;
-        }
+            get => VisualProperty.GridLineThickness / scaleValue;
+        }      
 
         public string CanvasViewportSize
         {
             get
             {
-                string s = visualProperty.GridSize.ToString();
+                string s = VisualProperty.GridSize.ToString();
                 s = s.Replace(',', '.');
                 return $"0,0,{s},{s}";
             }
 
         }
 
-        public double GridSize { get => visualProperty.GridSize; }
+        public double GridSize  => VisualProperty.GridSize; 
    
         public ObservableCollection<IHeadMaterial> HeadMaterials
         {
@@ -129,26 +116,22 @@ namespace StructureHelper.Windows.MainWindow
             }
         }
 
-        public double XX2
-        {
-            get => xX2;
-            set => OnPropertyChanged(value, ref xX2);
-        }
-        public double XY1
-        {
-            get => xY1;
-            set => OnPropertyChanged(value, ref xY1);
-        }
-        public double YX1
-        {
-            get => yX1;
-            set => OnPropertyChanged(value, ref yX1);
-        }
-        public double YY2
-        {
-            get => yY2;
-            set => OnPropertyChanged(value, ref yY2);
-        }
+        /// <summary>
+        /// Right edge of work plane, coordinate X
+        /// </summary>
+        public double RightLimitX => VisualProperty.WorkPlainWidth;
+        /// <summary>
+        /// Bottom edge of work plane Y
+        /// </summary>
+        public double BottomLimitY => VisualProperty.WorkPlainHeight;
+        /// <summary>
+        /// Middle of coordinate X
+        /// </summary>
+        public double MiddleLimitX => VisualProperty.WorkPlainWidth / 2d;
+        /// <summary>
+        /// Middle of coordinate Y
+        /// </summary>
+        public double MiddleLimitY => VisualProperty.WorkPlainHeight / 2d;             
 
         public ICommand Calculate { get; }
         public ICommand EditCalculationPropertyCommand { get; }
@@ -160,7 +143,7 @@ namespace StructureHelper.Windows.MainWindow
                 return new RelayCommand(o =>
                 {
                     PrimitiveLogic.AddItems(GetRCCirclePrimitives());
-                    materialsLogic.Refresh();
+                    MaterialsLogic.Refresh();
                 });
             }
         }
@@ -189,11 +172,18 @@ namespace StructureHelper.Windows.MainWindow
                 return showVisualProperty ??
                     (showVisualProperty = new RelayCommand(o=>
                     {
-                        var wnd = new VisualPropertyView(visualProperty);
+                        var wnd = new VisualPropertyView(VisualProperty);
                         wnd.ShowDialog();
                         OnPropertyChanged(nameof(AxisLineThickness));
                         OnPropertyChanged(nameof(CanvasViewportSize));
                         OnPropertyChanged(nameof(GridSize));
+                        OnPropertyChanged(nameof(RightLimitX));
+                        OnPropertyChanged(nameof(BottomLimitY));
+                        OnPropertyChanged(nameof(MiddleLimitX));
+                        OnPropertyChanged(nameof(MiddleLimitY));
+                        PrimitiveLogic.WorkPlaneWidth = VisualProperty.WorkPlainWidth;
+                        PrimitiveLogic.WorkPlaneHeight = VisualProperty.WorkPlainHeight;
+                        PrimitiveLogic.Refresh();
                     }));
             }
         }
@@ -214,27 +204,24 @@ namespace StructureHelper.Windows.MainWindow
         }
 
         private double delta = 0.0005;
-        private ActionsViewModel combinationsLogic;
-        private PrimitiveViewModelLogic primitiveLogic;
         private RelayCommand showVisualProperty;
         private RelayCommand selectPrimitive;
-        private MaterialsViewModel materialsLogic;
 
         public CrossSectionViewModel(CrossSectionModel model)
         {
-            visualProperty = new CrossSectionViewVisualProperty();
+            VisualProperty = new CrossSectionVisualPropertyVM();
             Model = model;
             section = model.Section;
-            combinationsLogic = new ActionsViewModel(repository);
-            materialsLogic = new MaterialsViewModel(repository);
-            materialsLogic.AfterItemsEdit += afterMaterialEdit;
-            calculatorsLogic = new AnalysisVewModelLogic(repository);
-            primitiveLogic = new PrimitiveViewModelLogic(section) { CanvasWidth = CanvasWidth, CanvasHeight = CanvasHeight };
-            XX2 = CanvasWidth;
-            XY1 = CanvasHeight / 2d;
-            YX1 = CanvasWidth / 2d;
-            YY2 = CanvasHeight;
-            scaleValue = 300d;
+            CombinationsLogic = new ActionsViewModel(repository);
+            MaterialsLogic = new MaterialsViewModel(repository);
+            MaterialsLogic.AfterItemsEdit += afterMaterialEdit;
+            CalculatorsLogic = new AnalysisVewModelLogic(repository);
+            PrimitiveLogic = new PrimitiveViewModelLogic(section)
+            {
+                WorkPlaneWidth = VisualProperty.WorkPlainWidth,
+                WorkPlaneHeight = VisualProperty.WorkPlainHeight
+            };
+            scaleValue = 500d;
 
             LeftButtonUp = new RelayCommand(o =>
             {
@@ -260,13 +247,6 @@ namespace StructureHelper.Windows.MainWindow
                 }
             });
 
-            //SetColor = new RelayCommand(o =>
-            //{
-            //    var primitive = o as PrimitiveBase;
-            //    var colorPickerView = new ColorPickerView(primitive);
-            //    colorPickerView.ShowDialog();
-            //});
-
             ScaleCanvasDown = new RelayCommand(o =>
             {
                 ScrollPanelX = PanelX;
@@ -284,19 +264,19 @@ namespace StructureHelper.Windows.MainWindow
             AddBeamCase = new RelayCommand(o =>
             {
                 PrimitiveLogic.AddItems(GetBeamCasePrimitives());
-                materialsLogic.Refresh();
+                MaterialsLogic.Refresh();
             });
 
             AddColumnCase = new RelayCommand(o =>
             {
                 PrimitiveLogic.AddItems(GetColumnCasePrimitives());
-                materialsLogic.Refresh();
+                MaterialsLogic.Refresh();
             });
 
             AddSlabCase = new RelayCommand(o =>
             {
                 PrimitiveLogic.AddItems(GetSlabCasePrimitives());
-                materialsLogic.Refresh();
+                MaterialsLogic.Refresh();
             });
 
             MovePrimitiveToGravityCenterCommand = new RelayCommand(o =>
@@ -328,7 +308,7 @@ namespace StructureHelper.Windows.MainWindow
 
         private void afterMaterialEdit(SelectItemVM<IHeadMaterial> sender, CRUDVMEventArgs e)
         {
-            foreach (var primitive in primitiveLogic.Items)
+            foreach (var primitive in PrimitiveLogic.Items)
             {
                 primitive.RefreshColor();
             }
@@ -336,7 +316,7 @@ namespace StructureHelper.Windows.MainWindow
 
         private bool CheckMaterials()
         {
-            foreach (var item in primitiveLogic.Items)
+            foreach (var item in PrimitiveLogic.Items)
             {
                 if (item.HeadMaterial == null)
                 {
@@ -400,7 +380,7 @@ namespace StructureHelper.Windows.MainWindow
                 var primitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(newRepository.Primitives);
                 foreach (var item in primitives)
                 {
-                    item.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);
+                    item.RegisterDeltas(VisualProperty.WorkPlainWidth / 2, VisualProperty.WorkPlainHeight / 2);
                 }
                 PrimitiveLogic.Refresh();
                 foreach (var item in newRepository.HeadMaterials)

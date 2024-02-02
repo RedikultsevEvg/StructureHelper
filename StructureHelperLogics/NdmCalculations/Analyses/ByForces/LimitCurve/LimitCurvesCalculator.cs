@@ -106,7 +106,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 ConvertLogic = InputData.SurroundData.ConvertLogicEntity.ConvertLogic,
                 PredicateType = predicateType
             };
-            if (TraceLogger is not null) { getPredicateLogic.TraceLogger = TraceLogger; }
+            if (TraceLogger is not null)
+            {
+                //getPredicateLogic.TraceLogger = TraceLogger;
+            }
             var logic = new LimitCurveLogic(getPredicateLogic);
             var calculator = new LimitCurveCalculator(logic)
             {

@@ -33,7 +33,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         /// <inheritdoc/>
         public List<IPoint2D> GetPoints(IEnumerable<IPoint2D> points)
         {
-            if (TraceLogger is not null) { ParameterLogic.TraceLogger = TraceLogger; }
+            if (TraceLogger is not null)
+            {
+                ParameterLogic.TraceLogger = TraceLogger;
+            }
             result = new();
             resultList = new();
             TraceLogger?.AddMessage($"Predicate name is {GetPredicateLogic.Name}");
@@ -74,12 +77,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private Point2D FindResultPoint(IPoint2D point)
         {
-            Predicate<IPoint2D> limitPredicate;
-            lock (lockObject)
-            {
-                limitPredicate = GetPredicateLogic.GetPredicate();
-            }
-            var resultPoint = FindResultPointByPredicate(point, limitPredicate);
+            var resultPoint = FindResultPointByPredicate(point);
             lock (lockObject)
             {
                 pointCount++;
@@ -89,14 +87,23 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             return resultPoint;
         }
 
-        private Point2D FindResultPointByPredicate(IPoint2D point, Predicate<IPoint2D> limitPredicate)
+        private Point2D FindResultPointByPredicate(IPoint2D point)
         {
+            ShiftTraceLogger newLogger;
+            Predicate<IPoint2D> limitPredicate;
+
+            lock (lockObject)
+            {
+                newLogger = new ShiftTraceLogger()
+                {
+                    ShiftPriority = 100
+                };
+                GetPredicateLogic.TraceLogger = newLogger;
+                limitPredicate = GetPredicateLogic.GetPredicate();
+            }
             var localCurrentPoint = point.Clone() as IPoint2D;
             var logic = ParameterLogic.Clone() as ILimitCurveParameterLogic;
-            logic.TraceLogger = new ShiftTraceLogger()
-            {
-                ShiftPriority=100
-            };
+            logic.TraceLogger = newLogger;
             logic.CurrentPoint = localCurrentPoint;
             logic.LimitPredicate = limitPredicate;
             double parameter;
@@ -119,7 +126,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             {
                 TraceLogger?.AddMessage($"Source point");
                 TraceLogger?.AddEntry(new TraceTablesFactory(TraceLogStatuses.Info).GetByPoint2D(localCurrentPoint));
-                TraceLogger?.TraceLoggerEntries.AddRange(logic.TraceLogger.TraceLoggerEntries);
+                TraceLogger?.TraceLoggerEntries.AddRange(newLogger.TraceLoggerEntries);
                 TraceLogger?.AddMessage($"Parameter value {parameter} was obtained");
                 TraceLogger?.AddMessage($"Calculated point\n(X={localCurrentPoint.X} * {parameter} = {resultPoint.X},\nY={localCurrentPoint.Y} * {parameter} = {resultPoint.Y})");
                 TraceLogger?.AddEntry(new TraceTablesFactory(TraceLogStatuses.Info).GetByPoint2D(resultPoint));

@@ -6,12 +6,12 @@ using StructureHelper.Services.Primitives;
 
 namespace StructureHelper.Windows.MainWindow
 {
-    public partial class MainView : Window
+    public partial class CrossSectionView : Window
     {
         private CrossSectionViewModel viewModel;
         public IPrimitiveRepository PrimitiveRepository { get; }
 
-        public MainView(IPrimitiveRepository primitiveRepository, CrossSectionViewModel viewModel)
+        public CrossSectionView(IPrimitiveRepository primitiveRepository, CrossSectionViewModel viewModel)
         {
             PrimitiveRepository = primitiveRepository;
             this.viewModel = viewModel;

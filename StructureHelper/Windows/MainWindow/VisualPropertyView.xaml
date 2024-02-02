@@ -4,10 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow"
+        d:DataContext="{d:DesignInstance local:CrossSectionVisualPropertyVM}"
         mc:Ignorable="d"
         Title="Grid properies" Height="200" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="22"/>
             <RowDefinition Height="22"/>
             <RowDefinition Height="22"/>
             <RowDefinition/>
@@ -18,7 +22,13 @@
         </Grid.ColumnDefinitions>
         <TextBlock Text="Axis grid thickness"/>
         <TextBox Grid.Column="1" Text="{Binding AxisLineThickness, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
-        <TextBlock Grid.Row="1" Text="Mesh size"/>
+        <TextBlock Grid.Row="1" Text="Grid size"/>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding GridSize, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+        <TextBlock Grid.Row="2" Text="Grid line thickness"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding GridLineThickness, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>    
+        <TextBlock Grid.Row="3" Text="Work plane width"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding WorkPlainWidth, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+        <TextBlock Grid.Row="4" Text="Work plane height"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding WorkPlainHeight, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
     </Grid>
 </Window>

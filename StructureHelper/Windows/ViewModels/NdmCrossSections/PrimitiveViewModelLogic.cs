@@ -1,26 +1,21 @@
-﻿using FieldVisualizer.ViewModels;
+﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.Windows.PrimitiveProperiesWindow;
+using StructureHelper.Windows.Services;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.Models.Primitives;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StructureHelper.Services.Primitives;
-using StructureHelper.Infrastructure;
-using StructureHelper.Infrastructure.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperLogics.Models.Primitives;
-using ViewModelBase = StructureHelper.Infrastructure.ViewModelBase;
 using System.Windows.Forms;
-using System.Windows.Documents;
-using StructureHelper.Windows.PrimitiveProperiesWindow;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using System.Windows.Input;
-using StructureHelper.Windows.Services;
-using StructureHelperCommon.Models.Shapes;
+
+//Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 {
@@ -36,8 +31,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private ICommand setToBack;
         private ICommand copyToCommand;
 
-        public double CanvasWidth { get; set; }
-        public double CanvasHeight { get; set; }
+        public double WorkPlaneWidth { get; set; }
+        public double WorkPlaneHeight { get; set; }
 
         public PrimitiveBase SelectedItem { get; set; }
 
@@ -101,7 +96,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 viewPrimitive = new CircleViewPrimitive(primitive);
             }
             else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType)); }
-            viewPrimitive.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);
+            viewPrimitive.RegisterDeltas(WorkPlaneWidth / 2, WorkPlaneHeight / 2);
             repository.Primitives.Add(ndmPrimitive);
             ndmPrimitive.CrossSection = section;
             Items.Add(viewPrimitive);
@@ -244,7 +239,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 
             }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
-            primitiveBase.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);
+            primitiveBase.RegisterDeltas(WorkPlaneWidth / 2, WorkPlaneHeight / 2);
             Items.Add(primitiveBase);
             OnPropertyChanged(nameof(Items));
             OnPropertyChanged(nameof(PrimitivesCount));
@@ -306,6 +301,11 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         public void Refresh()
         {
+            foreach (var item in Items)
+            {
+                item.RegisterDeltas(WorkPlaneWidth / 2, WorkPlaneHeight / 2);
+                item.Refresh();
+            }
             OnPropertyChanged(nameof(PrimitivesCount));
         }
 

@@ -81,7 +81,7 @@ namespace StructureHelper.Windows.Services
         }
         private void RefreshAngle()
         {
-            Angle = Math.Atan2(deltaX, deltaY)  * 180d / Math.PI - 90d;
+            Angle = Math.Atan2(deltaX, deltaY * (-1))  * 180d / Math.PI - 90d;
             Angle = Math.Round(Angle, 1);
             Distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
             Distance = Math.Round(Distance, 3);

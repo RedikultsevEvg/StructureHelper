@@ -11,10 +11,12 @@ namespace StructureHelperCommon.Models
     public class TraceLogger : ITraceLogger
     {       
         public List<ITraceLoggerEntry> TraceLoggerEntries { get; }
+        public bool KeepErrorStatus { get; set; }
 
         public TraceLogger()
         {
             TraceLoggerEntries = new();
+            KeepErrorStatus = true;
         }
 
         public void AddMessage(string message, TraceLogStatuses status = TraceLogStatuses.Info, int shiftPrioriry = 0)

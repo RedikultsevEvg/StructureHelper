@@ -25,12 +25,12 @@ namespace StructureHelper
             builder.RegisterType<CrossSectionModel>().AsSelf().SingleInstance();
             builder.RegisterType<CrossSectionViewModel>().AsSelf().SingleInstance();
 
-            builder.RegisterType<MainView>().AsSelf();
+            builder.RegisterType<CrossSectionView>().AsSelf();
 
             Container = builder.Build();
             Scope = Container.Resolve<ILifetimeScope>();
 
-            var window = Scope.Resolve<MainView>();
+            var window = Scope.Resolve<CrossSectionView>();
             window.Show();
         }
 

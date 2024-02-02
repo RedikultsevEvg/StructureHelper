@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace StructureHelperCommon.Models.Shapes
     /// <summary>
     /// Logic for convert 2DPoint of some plane to point of 3DSpace
     /// </summary>
-    public interface IConvert2DPointTo3DPointLogic
+    public interface IConvert2DPointTo3DPointLogic : ILogic
     {
         /// <summary>
         /// Returns point in 3D-space by 2D point in some workplane

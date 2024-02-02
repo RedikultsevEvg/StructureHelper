@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class ExpSofteningLogic : ICrackSofteningLogic
@@ -25,6 +28,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 powerFactor = value;
             }
         }
+        /// <summary>
+        /// Factor betta in exponential softening model of reinforced concrete
+        /// </summary>
         public double BettaFactor { get; set; }
         public double ForceRatio
         {
@@ -42,6 +48,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 forceRatio = value;
             }
         }
+        /// <inheritdoc/>
         public double PsiSMin {get;set;}
         public IShiftTraceLogger? TraceLogger { get; set; }
 
@@ -51,6 +58,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             PowerFactor = 2d;
             BettaFactor = 0.8d;
         }
+        /// <inheritdoc/>
         public double GetSofteningFactor()
         {
             TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLogStatuses.Service);
@@ -59,7 +67,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             TraceLogger?.AddMessage($"But not less than psi_s_min = {PsiSMin}");
             TraceLogger?.AddMessage($"BettaFactor = {BettaFactor}");
             TraceLogger?.AddMessage($"ForceRatio = {ForceRatio}");
-            TraceLogger?.AddMessage($"PowerFactor = {BettaFactor}");
+            TraceLogger?.AddMessage($"PowerFactor = {PowerFactor}");
             double psi;
             psi = 1 - BettaFactor * Math.Pow(ForceRatio, PowerFactor);
             TraceLogger?.AddMessage($"psi_s = 1 - BettaFactor * ForceRatio ^ PowerFactor = 1 - {BettaFactor} * {ForceRatio} ^ {PowerFactor} = {psi}");
