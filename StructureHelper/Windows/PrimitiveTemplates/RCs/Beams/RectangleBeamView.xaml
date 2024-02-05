@@ -8,10 +8,10 @@
         xmlns:vm ="clr-namespace:StructureHelper.Windows.ViewModels.PrimitiveTemplates.RCs"
         d:DataContext="{d:DesignInstance vm:RectangleBeamViewModel}"
         mc:Ignorable="d"
-        Title="Reinforced rectangle template" Height="220" Width="300" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="{DynamicResource Reinforced rectangle template}" Height="220" Width="300" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Resources>
     </Window.Resources>
-    <Grid>
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="35"/>
@@ -27,7 +27,7 @@
                     <RowDefinition Height="22"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="150"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Text="Cover gap"/>

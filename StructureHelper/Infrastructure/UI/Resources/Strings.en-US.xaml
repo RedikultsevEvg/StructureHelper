@@ -38,9 +38,11 @@
     <system:String x:Key="Add Circle RC Column">Add Circle RC Column</system:String>
     <system:String x:Key="Add RC Beam">Add RC Beam</system:String>
     <system:String x:Key="Add RC Slab">Add RC Slab</system:String>
+    <system:String x:Key="Add Concrete">Add Concrete</system:String>
     <system:String x:Key="Add Reinforcement Material">Add Reinforcement Material</system:String>
     <system:String x:Key="Add Elastic Material">Add Elastic Material</system:String>
     <system:String x:Key="Add Carbon Fiber Material">Add Carbon Fiber Material</system:String>
+    <system:String x:Key="Add Glass Fiber Material">Add Glass Fiber Material</system:String>
     <system:String x:Key="Change Language">Change Language</system:String>
     <system:String x:Key="Visual Settings">Visual Settings</system:String>
     <system:String x:Key="RU_EN">EN</system:String>
@@ -49,5 +51,25 @@
     <system:String x:Key="Tools">Tools</system:String>
     <system:String x:Key="Grid size">Grid size: </system:String>
     <system:String x:Key="Number of primitives">Number of primitives: </system:String>
+    <system:String x:Key="Full">Full</system:String>
+    <system:String x:Key="Fact">Fact</system:String>
+    <system:String x:Key="Run Calculations">Run Calculations</system:String>
+    <system:String x:Key="Move All Primitives to Gravity Center">Move All Primitives to Gravity Center</system:String>
+    <system:String x:Key="Combination By Factors">Combination By Factors</system:String>
+    <system:String x:Key="Combination">Combination</system:String>
+    <system:String x:Key="Templates">Templates</system:String>
+
+    <system:String x:Key="Grid properies">Grid properies</system:String>
+    <system:String x:Key="Axis grid thickness">Axis grid thickness</system:String>
+    <system:String x:Key="Grid line thickness">Grid line thickness</system:String>
+    <system:String x:Key="Work plane width">Work plane width</system:String>
+    <system:String x:Key="Work plane height">Work plane height</system:String>
+
+    <system:String x:Key="Reinforced rectangle template">Reinforced rectangle template</system:String>
+    <system:String x:Key="Width">Width</system:String>
+    <system:String x:Key="Height">Height</system:String>
+    
+    
+    
     <!-- All StringResources Goes Here -->
 </ResourceDictionary> 

@@ -161,10 +161,10 @@ namespace StructureHelper.Windows.MainWindow
          }
       }
 
+      internal ResourceDictionary dict = new ResourceDictionary();
       // Загрузка файлов ресурсов для выбранного языка
       private void SetLanguageDictionary(int local)
       {
-         ResourceDictionary dict = new ResourceDictionary();
          switch (local)
          {
             case 0:
@@ -221,7 +221,9 @@ namespace StructureHelper.Windows.MainWindow
                 (showVisualProperty = new RelayCommand(o =>
                 {
                    var wnd = new VisualPropertyView(VisualProperty);
-                   wnd.ShowDialog();
+                   SetLanguageDictionary(langID);
+                   wnd.Resources.MergedDictionaries.Add(dict);
+                   wnd.ShowDialog();                 
                    OnPropertyChanged(nameof(AxisLineThickness));
                    OnPropertyChanged(nameof(CanvasViewportSize));
                    OnPropertyChanged(nameof(GridSize));
@@ -369,7 +371,8 @@ namespace StructureHelper.Windows.MainWindow
          {
             if (item.HeadMaterial == null)
             {
-               System.Windows.Forms.MessageBox.Show($"Primitive {item.Name} does not has material", "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+               if(langID == 0) { System.Windows.Forms.MessageBox.Show($"Primitive {item.Name} does not has material", "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+               else { System.Windows.Forms.MessageBox.Show($"Примитиву {item.Name} не назначен материал", "Проверьте расчетные данные", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
                return false;
             }
          }
@@ -405,12 +408,17 @@ namespace StructureHelper.Windows.MainWindow
             var rectTemplate = template as IRectangleBeamTemplate;
             geometryLogic = new RectGeometryLogic(rectTemplate);
             wnd = new RectangleBeamView(rectTemplate);
+            SetLanguageDictionary(langID);
+            wnd.Resources.MergedDictionaries.Add(dict);
+
          }
          else if (template is ICircleTemplate)
          {
             var circleTemplate = template as ICircleTemplate;
             geometryLogic = new CircleGeometryLogic(circleTemplate);
             wnd = new CircleView(circleTemplate);
+            SetLanguageDictionary(langID);
+            wnd.Resources.MergedDictionaries.Add(dict);
          }
          else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $"Was: {nameof(template)}"); }
          wnd.ShowDialog();

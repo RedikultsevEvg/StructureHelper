@@ -10,7 +10,7 @@
     <system:String x:Key="Analisis">Расчет</system:String>
     <system:String x:Key="Analises">Расчеты</system:String>
     <system:String x:Key="Add Full Combination">Создать комбинацию явно</system:String>
-    <system:String x:Key="Add Factored Combination">Создать комбинацию коэффициентами</system:String>
+    <system:String x:Key="Add Factored Combination">Создать комбинацию по коэффициентам</system:String>
     <system:String x:Key="Concrete">Бетон</system:String>
     <system:String x:Key="Reinforcement">Арматура</system:String>
     <system:String x:Key="Elastic">Упругий</system:String>
@@ -38,9 +38,11 @@
     <system:String x:Key="Add Circle RC Column">Создать круглую ЖБ колонну</system:String>
     <system:String x:Key="Add RC Beam">Создать ЖБ балку</system:String>
     <system:String x:Key="Add RC Slab">Создать ЖБ плиту</system:String>
+    <system:String x:Key="Add Concrete">Создать бетон</system:String>
     <system:String x:Key="Add Reinforcement Material">Создать материал армирования</system:String>
     <system:String x:Key="Add Elastic Material">Создать упругий материал</system:String>
     <system:String x:Key="Add Carbon Fiber Material">Создать углеволокно</system:String>
+    <system:String x:Key="Add Glass Fiber Material">Создать стекловолокно</system:String>
     <system:String x:Key="Change Language">Смена языка</system:String>
     <system:String x:Key="Visual Settings">Настройки изображения</system:String>
     <system:String x:Key="RU_EN">RU</system:String>
@@ -49,5 +51,22 @@
     <system:String x:Key="Tools">Инструменты</system:String>
     <system:String x:Key="Grid size">Шаг сетки: </system:String>
     <system:String x:Key="Number of primitives">Кол-во примитивов: </system:String>
+    <system:String x:Key="Full">Явно</system:String>
+    <system:String x:Key="Fact">Коэффициент</system:String>
+    <system:String x:Key="Run Calculations">Выполнить расчеты</system:String>
+    <system:String x:Key="Move All Primitives to Gravity Center">Переместить все примитивы в центр тяжести</system:String>
+    <system:String x:Key="Combination By Factors">Комбинация по коэффициентам</system:String>
+    <system:String x:Key="Combination">Комбинация</system:String>
+    <system:String x:Key="Templates">Шаблоны</system:String>
+
+    <system:String x:Key="Grid properies">Свойства сетки</system:String>
+    <system:String x:Key="Axis grid thickness">Толщина координатных осей</system:String>
+    <system:String x:Key="Grid line thickness">Толщина линий сетки</system:String>
+    <system:String x:Key="Work plane width">Ширина рабочей плоскости</system:String>
+    <system:String x:Key="Work plane height">Высота рабочей плоскости</system:String>
+
+    <system:String x:Key="Reinforced rectangle template">Шаблон армированного прямоугольника</system:String>
+    <system:String x:Key="Width">Ширина</system:String>
+    <system:String x:Key="Height">Высота</system:String>
     <!-- All StringResources Goes Here -->
 </ResourceDictionary> 

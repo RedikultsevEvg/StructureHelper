@@ -9,11 +9,11 @@
                 <RowDefinition Height="22"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="150"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Text="Width"/>
-            <TextBlock Grid.Row="1" Text="Height"/>
+            <TextBlock Grid.Row="0" Text="{DynamicResource Width}"/>
+            <TextBlock Grid.Row="1" Text="{DynamicResource Height}"/>
             <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding Width, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
             <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding Height, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
         </Grid>

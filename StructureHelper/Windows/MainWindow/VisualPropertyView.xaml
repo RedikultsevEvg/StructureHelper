@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow"
         d:DataContext="{d:DesignInstance local:CrossSectionVisualPropertyVM}"
         mc:Ignorable="d"
-        Title="Grid properies" Height="200" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
-    <Grid>
+        Title="{DynamicResource Grid properies}" Height="200" Width="320" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="22"/>
             <RowDefinition Height="22"/>
@@ -17,18 +17,18 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="130"/>
+            <ColumnDefinition Width="180"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Axis grid thickness"/>
+        <TextBlock Text="{DynamicResource Axis grid thickness}"/>
         <TextBox Grid.Column="1" Text="{Binding AxisLineThickness, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
-        <TextBlock Grid.Row="1" Text="Grid size"/>
+        <TextBlock Grid.Row="1" Text="{DynamicResource Grid size}"/>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding GridSize, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
-        <TextBlock Grid.Row="2" Text="Grid line thickness"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding GridLineThickness, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>    
-        <TextBlock Grid.Row="3" Text="Work plane width"/>
+        <TextBlock Grid.Row="2" Text="{DynamicResource Grid line thickness}"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding GridLineThickness, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
+        <TextBlock Grid.Row="3" Text="{DynamicResource Work plane width}"/>
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding WorkPlainWidth, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
-        <TextBlock Grid.Row="4" Text="Work plane height"/>
+        <TextBlock Grid.Row="4" Text="{DynamicResource Work plane height}"/>
         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding WorkPlainHeight, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
     </Grid>
 </Window>

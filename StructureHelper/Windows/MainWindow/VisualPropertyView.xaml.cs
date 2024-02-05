@@ -14,15 +14,15 @@ using System.Windows.Shapes;
 
 namespace StructureHelper.Windows.MainWindow
 {
-    /// <summary>
-    /// Логика взаимодействия для VisualPropertyView.xaml
-    /// </summary>
-    public partial class VisualPropertyView : Window
-    {
-        public VisualPropertyView(CrossSectionVisualPropertyVM vm)
-        {
-            InitializeComponent();
-            DataContext = vm;
-        }
-    }
+   /// <summary>
+   /// Логика взаимодействия для VisualPropertyView.xaml
+   /// </summary>
+   public partial class VisualPropertyView : Window
+   {
+      public VisualPropertyView(CrossSectionVisualPropertyVM vm)
+      {
+         DataContext = vm;
+         InitializeComponent();
+      }
+   }
 }
