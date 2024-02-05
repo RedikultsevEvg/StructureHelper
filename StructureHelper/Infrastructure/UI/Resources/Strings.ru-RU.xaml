@@ -1,0 +1,53 @@
+<ResourceDictionary 
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+      xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="Actions">Усилия</system:String>
+    <system:String x:Key="Geometry">Геометрия</system:String>
+    <system:String x:Key="Materials">Материалы</system:String>
+    <system:String x:Key="Show Materials">Показать материалы</system:String>
+    <system:String x:Key="Analisis">Расчет</system:String>
+    <system:String x:Key="Analises">Расчеты</system:String>
+    <system:String x:Key="Add Full Combination">Создать комбинацию явно</system:String>
+    <system:String x:Key="Add Factored Combination">Создать комбинацию коэффициентами</system:String>
+    <system:String x:Key="Concrete">Бетон</system:String>
+    <system:String x:Key="Reinforcement">Арматура</system:String>
+    <system:String x:Key="Elastic">Упругий</system:String>
+    <system:String x:Key="CarbonFiber">Углеволокно</system:String>
+    <system:String x:Key="GlassFiber">Стекловолокно</system:String>
+    <system:String x:Key="Rectangle">Прямоугольник</system:String>
+    <system:String x:Key="Circle">Окружность</system:String>
+    <system:String x:Key="Rebar">Стержень</system:String>
+    <system:String x:Key="Point">Точка</system:String>
+    <system:String x:Key="Run">Выполнить</system:String>
+    <system:String x:Key="Add">Создать</system:String>
+    <system:String x:Key="Edit">Изменить</system:String>
+    <system:String x:Key="Copy">Копировать</system:String>
+    <system:String x:Key="Copy To">Копировать в</system:String>
+    <system:String x:Key="Delete">Удалить</system:String>
+    <system:String x:Key="To Foreground">На передний план</system:String>
+    <system:String x:Key="To Background">На задний план</system:String>
+    <system:String x:Key="Add Force Calculator">Создать расчет по усилиям</system:String>
+    <system:String x:Key="Add Interaction Diagram Calculator">Создать расчет области прочности</system:String>
+    <system:String x:Key="Add Rectangle Primitive">Создать прямоугольник</system:String>
+    <system:String x:Key="Add Circle Primitive">Создать окружность</system:String>
+    <system:String x:Key="Add Rebar Primitive">Создать арматурный стержень</system:String>
+    <system:String x:Key="Add Point Primitive">Создать точку</system:String>
+    <system:String x:Key="Add Rectangle RC Column">Создать прямоугольную ЖБ колонну</system:String>
+    <system:String x:Key="Add Circle RC Column">Создать круглую ЖБ колонну</system:String>
+    <system:String x:Key="Add RC Beam">Создать ЖБ балку</system:String>
+    <system:String x:Key="Add RC Slab">Создать ЖБ плиту</system:String>
+    <system:String x:Key="Add Reinforcement Material">Создать материал армирования</system:String>
+    <system:String x:Key="Add Elastic Material">Создать упругий материал</system:String>
+    <system:String x:Key="Add Carbon Fiber Material">Создать углеволокно</system:String>
+    <system:String x:Key="Change Language">Смена языка</system:String>
+    <system:String x:Key="Visual Settings">Настройки изображения</system:String>
+    <system:String x:Key="RU_EN">RU</system:String>
+    <system:String x:Key="RC Templates">ЖБ шаблоны</system:String>
+    <system:String x:Key="Base Primitives">Базовые примитивы</system:String>
+    <system:String x:Key="Tools">Инструменты</system:String>
+    <system:String x:Key="Grid size">Шаг сетки: </system:String>
+    <system:String x:Key="Number of primitives">Кол-во примитивов: </system:String>
+    <!-- All StringResources Goes Here -->
+</ResourceDictionary> 

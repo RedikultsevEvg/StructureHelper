@@ -74,6 +74,12 @@
     <Page Update="Infrastructure\UI\Resources\Materials.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Infrastructure\UI\Resources\Strings.en-US.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Infrastructure\UI\Resources\Strings.ru-RU.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\Arrays\ArrayView.xaml">
       <SubType>Designer</SubType>
     </Page>

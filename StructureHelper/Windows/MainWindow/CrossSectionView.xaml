@@ -205,6 +205,8 @@
                 <Button Command="{Binding ShowVisualProperty}" ToolTip="Visual Settings">
                     <Image Width="32" Height="32" Source="/Windows/MainWindow/Tools_Settings.png"/>
                 </Button>
+                <Button Command="{Binding ChangeLanguage}" ToolTip="{DynamicResource Change Language}" Content="{DynamicResource RU_EN}">
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <Grid>
@@ -250,33 +252,33 @@
                             </Expander.Header>
                             <Expander.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="Materials" Command="{Binding EditMaterialsCommand}">
+                                    <MenuItem Header="{DynamicResource Materials}" Command="{Binding EditMaterialsCommand}">
                                         <MenuItem.Icon>
                                             <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Materials32.png" />
                                         </MenuItem.Icon>
                                     </MenuItem>
                                     <MenuItem Header="Add">
-                                        <MenuItem Header="Concrete" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Concrete}">
+                                        <MenuItem Header="{DynamicResource Concrete}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Concrete}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/ConMaterial32.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Reinforcement" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Reinforcement}">
+                                        <MenuItem Header="{DynamicResource Reinforcement}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Reinforcement}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/RFMaterial32.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Elastic" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Elastic}">
+                                        <MenuItem Header="{DynamicResource Elastic}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Elastic}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/ElasticMaterial32.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="CarbonFiber" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.CarbonFiber}">
+                                        <MenuItem Header="{DynamicResource CarbonFiber}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.CarbonFiber}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/СarbonMaterial32.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="GlassFiber" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.GlassFiber}">
+                                        <MenuItem Header="{DynamicResource GlassFiber}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.GlassFiber}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/GlassMaterial32.png" />
                                             </MenuItem.Icon>
@@ -289,26 +291,26 @@
                                      ItemTemplate="{StaticResource ColoredItemTemplate}"
                                      ContextMenu="{StaticResource EditCopyDelete}"/>
                         </Expander>
-                        <Expander Header="Geometry" MinWidth="20">
+                        <Expander Header="{DynamicResource Geometry}" MinWidth="20">
                             <Expander.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="Add" DataContext="{Binding PrimitiveLogic}">
-                                        <MenuItem Header="Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}">
+                                    <MenuItem Header="{DynamicResource Add}" DataContext="{Binding PrimitiveLogic}">
+                                        <MenuItem Header="{DynamicResource Rectangle}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Rectangle32.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Circle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}">
+                                        <MenuItem Header="{DynamicResource Circle}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Circle32.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Rebar" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}">
+                                        <MenuItem Header="{DynamicResource Rebar}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Rebar32.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}">
+                                        <MenuItem Header="{DynamicResource Point}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Point32.png" />
                                             </MenuItem.Icon>
@@ -330,7 +332,7 @@
                             </Expander.Header>
                             <Expander.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="Add" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.ForceCalculator}">
+                                    <MenuItem Header="{DynamicResource Add}" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.ForceCalculator}">
                                         <MenuItem Header="Add Force Calculator" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.ForceCalculator}">
                                             <MenuItem.Icon>
                                                 <Image Width="16" Height="16" Source="/Windows/MainWindow/Calculator32.png" />
@@ -367,39 +369,39 @@
                             <Canvas.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Add" DataContext="{Binding PrimitiveLogic}">
-                                        <MenuItem Header="Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}">
+                                        <MenuItem Header="{DynamicResource Rectangle}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Rectangle32.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Circle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}">
+                                        <MenuItem Header="{DynamicResource Circle}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Circle32.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Rebar" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}">
+                                        <MenuItem Header="{DynamicResource Rebar}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Rebar32.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}">
+                                        <MenuItem Header="{DynamicResource Point}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Point.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </MenuItem>
                                     <MenuItem Header="Templates" DataContext="{Binding}">
-                                        <MenuItem Header="Add Rectangle RC Column" Command="{Binding AddColumnCase}">
+                                        <MenuItem Header="{DynamicResource Add Rectangle RC Column}" Command="{Binding AddColumnCase}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/RectangleColumn32.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Add Circle RC Column" Command="{Binding AddRCCircleCase}">
+                                        <MenuItem Header="{DynamicResource Add Circle RC Column}" Command="{Binding AddRCCircleCase}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/CircleColumn32.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Add RC Beam" Command="{Binding AddBeamCase}">
+                                        <MenuItem Header="{DynamicResource Add RC Beam}" Command="{Binding AddBeamCase}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Beam32.png" />
                                             </MenuItem.Icon>
@@ -471,14 +473,14 @@
                 </StatusBarItem>
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Number of primitives: "/>
-                        <TextBlock Text="{Binding PrimitiveLogic.PrimitivesCount}"/>
+                        <TextBlock Text="{DynamicResource Number of primitives}"/>
+                        <TextBlock Margin="5,0,0,0" Text="{Binding PrimitiveLogic.PrimitivesCount}"/>
                     </StackPanel>
                 </StatusBarItem>
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Grid size: "/>
-                        <TextBlock Text="{Binding GridSize, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Text="{DynamicResource Grid size}"/>
+                        <TextBlock Margin="5,0,0,0" Text="{Binding GridSize, Converter={StaticResource LengthConverter}}"/>
                     </StackPanel>
                 </StatusBarItem>
             </StatusBar>

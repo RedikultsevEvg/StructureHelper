@@ -1,0 +1,53 @@
+<ResourceDictionary 
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+      xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="Actions">Actions</system:String>
+    <system:String x:Key="Geometry">Geometry</system:String>
+    <system:String x:Key="Materials">Materials</system:String>
+    <system:String x:Key="Show Materials">Show Materials</system:String>
+    <system:String x:Key="Analisis">Analisis</system:String>
+    <system:String x:Key="Analises">Analises</system:String>
+    <system:String x:Key="Add Full Combination">Add Full Combination</system:String>
+    <system:String x:Key="Add Factored Combination">Add Factored Combination</system:String>
+    <system:String x:Key="Concrete">Concrete</system:String>
+    <system:String x:Key="Reinforcement">Reinforcement</system:String>
+    <system:String x:Key="Elastic">Elastic</system:String>
+    <system:String x:Key="CarbonFiber">CarbonFiber</system:String>
+    <system:String x:Key="GlassFiber">GlassFiber</system:String>
+    <system:String x:Key="Rectangle">Rectangle</system:String>
+    <system:String x:Key="Circle">Circle</system:String>
+    <system:String x:Key="Rebar">Rebar</system:String>
+    <system:String x:Key="Point">Point</system:String>
+    <system:String x:Key="Run">Run</system:String>
+    <system:String x:Key="Add">Add</system:String>
+    <system:String x:Key="Edit">Edit</system:String>
+    <system:String x:Key="Copy">Copy</system:String>
+    <system:String x:Key="Copy To">Copy To</system:String>
+    <system:String x:Key="Delete">Delete</system:String>
+    <system:String x:Key="To Foreground">To Foreground</system:String>
+    <system:String x:Key="To Background">To Background</system:String>
+    <system:String x:Key="Add Force Calculator">Add Force Calculator</system:String>
+    <system:String x:Key="Add Interaction Diagram Calculator">Add Interaction Diagram Calculator</system:String>
+    <system:String x:Key="Add Rectangle Primitive">Add Rectangle Primitive</system:String>
+    <system:String x:Key="Add Circle Primitive">Add Circle Primitive</system:String>
+    <system:String x:Key="Add Rebar Primitive">Add Rebar Primitive</system:String>
+    <system:String x:Key="Add Point Primitive">Add Point Primitive</system:String>
+    <system:String x:Key="Add Rectangle RC Column">Add Rectangle RC Column</system:String>
+    <system:String x:Key="Add Circle RC Column">Add Circle RC Column</system:String>
+    <system:String x:Key="Add RC Beam">Add RC Beam</system:String>
+    <system:String x:Key="Add RC Slab">Add RC Slab</system:String>
+    <system:String x:Key="Add Reinforcement Material">Add Reinforcement Material</system:String>
+    <system:String x:Key="Add Elastic Material">Add Elastic Material</system:String>
+    <system:String x:Key="Add Carbon Fiber Material">Add Carbon Fiber Material</system:String>
+    <system:String x:Key="Change Language">Change Language</system:String>
+    <system:String x:Key="Visual Settings">Visual Settings</system:String>
+    <system:String x:Key="RU_EN">EN</system:String>
+    <system:String x:Key="RC Templates">RC Templates</system:String>
+    <system:String x:Key="Base Primitives">Base Primitives</system:String>
+    <system:String x:Key="Tools">Tools</system:String>
+    <system:String x:Key="Grid size">Grid size: </system:String>
+    <system:String x:Key="Number of primitives">Number of primitives: </system:String>
+    <!-- All StringResources Goes Here -->
+</ResourceDictionary> 
