@@ -68,6 +68,16 @@
     <system:String x:Key="Reinforced rectangle template">Reinforced rectangle template</system:String>
     <system:String x:Key="Width">Width</system:String>
     <system:String x:Key="Height">Height</system:String>
+    <system:String x:Key="Cover gap">Cover gap</system:String>
+    <system:String x:Key="Top Diameter">Top Diameter</system:String>
+    <system:String x:Key="Bottom Diameter">Bottom Diameter</system:String>
+    <system:String x:Key="Width count">Width count</system:String>
+    <system:String x:Key="Height count">Height count</system:String>
+
+    <system:String x:Key="Diameter">Diameter</system:String>
+    <system:String x:Key="Rebar Diameter">Rebar Diameter</system:String>
+    <system:String x:Key="Rebar Count">Rebar Count</system:String>
+    <system:String x:Key="Reinforced circle template">Reinforced circle template</system:String>
     
     
     

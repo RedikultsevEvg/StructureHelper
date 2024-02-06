@@ -9,7 +9,7 @@
                 <RowDefinition Height="22"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="180"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Text="{DynamicResource Width}"/>
@@ -26,10 +26,10 @@
                 <RowDefinition Height="22"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="160"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Text="Diameter"/>
+            <TextBlock Grid.Row="0" Text="{DynamicResource Diameter}"/>
             <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding Diameter, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
         </Grid>
     </DataTemplate>

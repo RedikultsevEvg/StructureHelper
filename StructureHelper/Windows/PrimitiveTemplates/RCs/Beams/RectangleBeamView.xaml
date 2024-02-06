@@ -27,14 +27,14 @@
                     <RowDefinition Height="22"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="180"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Text="Cover gap"/>
-                <TextBlock Grid.Row="1" Text="Top Diameter"/>
-                <TextBlock Grid.Row="2" Text="Bottom Diameter"/>
-                <TextBlock Grid.Row="3" Text="Width count"/>
-                <TextBlock Grid.Row="4" Text="Height count"/>
+                <TextBlock Grid.Row="0" Text="{DynamicResource Cover gap}"/>
+                <TextBlock Grid.Row="1" Text="{DynamicResource Top Diameter}"/>
+                <TextBlock Grid.Row="2" Text="{DynamicResource Bottom Diameter}"/>
+                <TextBlock Grid.Row="3" Text="{DynamicResource Width count}"/>
+                <TextBlock Grid.Row="4" Text="{DynamicResource Height count}"/>
                 <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding CoverGap, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
                 <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding TopDiameter, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding BottomDiameter, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>

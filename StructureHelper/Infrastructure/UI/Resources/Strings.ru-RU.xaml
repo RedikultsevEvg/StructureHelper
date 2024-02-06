@@ -65,8 +65,19 @@
     <system:String x:Key="Work plane width">Ширина рабочей плоскости</system:String>
     <system:String x:Key="Work plane height">Высота рабочей плоскости</system:String>
 
-    <system:String x:Key="Reinforced rectangle template">Шаблон армированного прямоугольника</system:String>
+    <system:String x:Key="Reinforced rectangle template">Шаблон армирования прямоугольника</system:String>
     <system:String x:Key="Width">Ширина</system:String>
     <system:String x:Key="Height">Высота</system:String>
+    <system:String x:Key="Cover gap">Защитный слой</system:String>
+    <system:String x:Key="Top Diameter">Диаметр верхней арматуры</system:String>
+    <system:String x:Key="Bottom Diameter">Диаметр нижней арматуры</system:String>
+    <system:String x:Key="Width count">Число стержней по ширине</system:String>
+    <system:String x:Key="Height count">Число стержней по высоте</system:String>
+
+    <system:String x:Key="Diameter">Диаметр окужности</system:String>
+    <system:String x:Key="Rebar Diameter">Диаметр арматуры</system:String>
+    <system:String x:Key="Rebar Count">Число стержней арматуры</system:String>
+    <system:String x:Key="Reinforced circle template">Шаблон армирования окружности</system:String>
+
     <!-- All StringResources Goes Here -->
 </ResourceDictionary> 

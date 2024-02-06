@@ -23,5 +23,5 @@
             <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding CenterY, Converter={StaticResource LengthConverter}}"/>
         </Grid>
     </DataTemplate>
-    
+
 </ResourceDictionary>

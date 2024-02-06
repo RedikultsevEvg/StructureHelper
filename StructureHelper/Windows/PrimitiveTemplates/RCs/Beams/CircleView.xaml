@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.PrimitiveTemplates.RCs.Beams"
         mc:Ignorable="d"
-        Title="Reinforced circle template" Height="220" Width="300" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
-    <Grid>
+        Title="{DynamicResource Reinforced circle template}" Height="220" Width="300" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="35"/>
@@ -22,12 +22,12 @@
                     <RowDefinition Height="22"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="160"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Text="Cover gap"/>
-                <TextBlock Grid.Row="1" Text="Rebar Diameter"/>
-                <TextBlock Grid.Row="2" Text="Rebar Count"/>
+                <TextBlock Grid.Row="0" Text="{DynamicResource Cover gap}"/>
+                <TextBlock Grid.Row="1" Text="{DynamicResource Rebar Diameter}"/>
+                <TextBlock Grid.Row="2" Text="{DynamicResource Rebar Count}"/>
                 <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding CoverGap, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
                 <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding BarDiameter, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding BarCount, ValidatesOnExceptions=True}"/>
