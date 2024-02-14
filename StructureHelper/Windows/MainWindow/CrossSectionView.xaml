@@ -362,11 +362,17 @@
                             <i:InvokeCommandAction Command="{Binding ClearSelection}" CommandParameter="{Binding}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
-                        <Canvas Name="WorkPlane" ClipToBounds="True" Width="{Binding VisualProperty.WorkPlainWidth}" Height="{Binding VisualProperty.WorkPlainHeight}">
+                    <ScrollViewer
+                        DataContext="{Binding VisualProperty}"
+                        VerticalScrollBarVisibility="Visible"
+                        HorizontalScrollBarVisibility="Visible">
+                        <Canvas Name="WorkPlane"
+                                ClipToBounds="True"
+                                Width="{Binding Width}"
+                                Height="{Binding Height}">
                             <Canvas.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="Add" DataContext="{Binding PrimitiveLogic}">
+                                    <MenuItem Header="Add" DataContext="{Binding ParentViewModel.PrimitiveLogic}">
                                         <MenuItem Header="Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Rectangle32.png" />
@@ -388,7 +394,7 @@
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </MenuItem>
-                                    <MenuItem Header="Templates" DataContext="{Binding}">
+                                    <MenuItem Header="Templates" DataContext="{Binding ParentViewModel}">
                                         <MenuItem Header="Add Rectangle RC Column" Command="{Binding AddColumnCase}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/RectangleColumn32.png" />
@@ -434,15 +440,30 @@
                                 Viewport="{Binding CanvasViewportSize}" ViewportUnits="Absolute" 
                                 Viewbox="{Binding CanvasViewportSize}" ViewboxUnits="Absolute">
                                     <VisualBrush.Visual>
-                                        <Rectangle StrokeThickness="{Binding GridLineThickness}" Height="{Binding GridSize}" Width="{Binding GridSize}" Stroke="Darkgray"/>
+                                        <Rectangle
+                                            Height="{Binding GridSize}"
+                                            Width="{Binding GridSize}"
+                                            Stroke="{Binding GridColorBrush}"
+                                            StrokeThickness="{Binding GridLineThickness}"/>
                                     </VisualBrush.Visual>
                                 </VisualBrush>
                             </Canvas.Background>
                             <!--Horizontal axis line-->
-                            <Line X1="0" X2="{Binding RightLimitX}" Y1="{Binding MiddleLimitY}" Y2="{Binding MiddleLimitY}" Stroke="Red" StrokeThickness="{Binding AxisLineThickness}"/>
+                            <Line
+                                X1="0" X2="{Binding Width}"
+                                Y1="{Binding HalfOfHeight}" Y2="{Binding HalfOfHeight}"
+                                Stroke="{Binding XAxisColorBrush}"
+                                StrokeThickness="{Binding AxisLineThickness}"/>
                             <!--Vertical axis line-->
-                            <Line X1="{Binding MiddleLimitX}" X2="{Binding MiddleLimitX}" Y1="0" Y2="{Binding BottomLimitY}" Stroke="ForestGreen" StrokeThickness="{Binding AxisLineThickness}"/>
-                            <ItemsControl DataContext="{Binding PrimitiveLogic}" ItemsSource="{Binding Items}" ContextMenu="{StaticResource PrimitiveCRUD}">
+                            <Line
+                                X1="{Binding HalfOfWidth}" X2="{Binding HalfOfWidth}"
+                                Y1="0" Y2="{Binding Height}"
+                                Stroke="{Binding YAxisColorBrush}"
+                                StrokeThickness="{Binding AxisLineThickness}"/>
+                            <ItemsControl
+                                DataContext="{Binding ParentViewModel.PrimitiveLogic}"
+                                ItemsSource="{Binding Items}"
+                                ContextMenu="{StaticResource PrimitiveCRUD}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <Canvas/>
@@ -466,7 +487,7 @@
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Zoom: "/>
-                        <TextBlock Text="{Binding ScaleValue}"/>
+                        <TextBlock Text="{Binding VisualProperty.ScaleValue}"/>
                     </StackPanel>
                 </StatusBarItem>
                 <StatusBarItem>
@@ -478,7 +499,7 @@
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Grid size: "/>
-                        <TextBlock Text="{Binding GridSize, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Text="{Binding VisualProperty.GridSize, Converter={StaticResource LengthConverter}}"/>
                     </StackPanel>
                 </StatusBarItem>
             </StatusBar>

@@ -1,13 +1,21 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.Services.Settings;
 using StructureHelper.Windows.PrimitiveProperiesWindow;
+using StructureHelper.Windows.PrimitiveTemplates.RCs.Beams;
+using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
 using StructureHelper.Windows.Services;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Primitives;
+using StructureHelperLogics.Models.Templates.CrossSections.RCs;
+using StructureHelperLogics.Models.Templates.RCs;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,7 +27,7 @@ using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 {
-    public class PrimitiveViewModelLogic : ViewModelBase, ICRUDViewModel<PrimitiveBase>
+    public class PrimitiveViewModelLogic : ViewModelBase, ICRUDViewModel<PrimitiveBase>, IRectangleShape, IObservable<PrimitiveBase>
     {
         private ICrossSection section;
         private ICrossSectionRepository repository => section.SectionRepository;
@@ -31,8 +39,9 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private ICommand setToBack;
         private ICommand copyToCommand;
 
-        public double WorkPlaneWidth { get; set; }
-        public double WorkPlaneHeight { get; set; }
+
+        public double Width { get; set; }
+        public double Height { get; set; }
 
         public PrimitiveBase SelectedItem { get; set; }
 
@@ -42,14 +51,12 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         {
             get
             {
-                return addCommand ??
-                    (
-                    addCommand = new RelayCommand(o =>
+                return addCommand ??= new RelayCommand(o =>
                     {
-                        if (!(o is PrimitiveType primitiveType)) return;
+                        if (o is not PrimitiveType primitiveType) return;
                         AddPrimitive(primitiveType);
                     }
-                    ));
+                    );
             }
         }
 
@@ -96,7 +103,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 viewPrimitive = new CircleViewPrimitive(primitive);
             }
             else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType)); }
-            viewPrimitive.RegisterDeltas(WorkPlaneWidth / 2, WorkPlaneHeight / 2);
+            viewPrimitive.OnNext(this);
             repository.Primitives.Add(ndmPrimitive);
             ndmPrimitive.CrossSection = section;
             Items.Add(viewPrimitive);
@@ -181,12 +188,10 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         {
             get
             {
-                return copyCommand ??
-                    (
-                    copyCommand = new RelayCommand(
+                return                     copyCommand ??= new RelayCommand(
                         o => CopySelectedItem(SelectedItem.GetNdmPrimitive()),
                         o => SelectedItem != null
-                    ));
+                    );
             }
         }
 
@@ -224,8 +229,14 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             newPrimitive.Name += " copy";
             repository.Primitives.Add(newPrimitive);
             PrimitiveBase primitiveBase;
-            if (newPrimitive is IRectanglePrimitive) { primitiveBase = new RectangleViewPrimitive(newPrimitive as IRectanglePrimitive); }
-            else if (newPrimitive is ICirclePrimitive) { primitiveBase = new CircleViewPrimitive(newPrimitive as ICirclePrimitive); }
+            if (newPrimitive is IRectanglePrimitive)
+            {
+                primitiveBase = new RectangleViewPrimitive(newPrimitive as IRectanglePrimitive);
+            }
+            else if (newPrimitive is ICirclePrimitive)
+            {
+                primitiveBase = new CircleViewPrimitive(newPrimitive as ICirclePrimitive);
+            }
             else if (newPrimitive is IPointPrimitive)
             {
                 if (newPrimitive is RebarPrimitive)
@@ -236,10 +247,13 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 {
                     primitiveBase = new PointViewPrimitive(newPrimitive as IPointPrimitive);
                 }
-                
+
             }
-            else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
-            primitiveBase.RegisterDeltas(WorkPlaneWidth / 2, WorkPlaneHeight / 2);
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
+            }
+            primitiveBase.OnNext(this);
             Items.Add(primitiveBase);
             OnPropertyChanged(nameof(Items));
             OnPropertyChanged(nameof(PrimitivesCount));
@@ -252,13 +266,12 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         {
             get
             {
-                return setToFront ??
-                    (setToFront = new RelayCommand(o=>
+                return setToFront ??= new RelayCommand(o=>
                     {
                         int maxZIndex = Items.Select(x => x.GetNdmPrimitive().VisualProperty.ZIndex).Max();
                         SelectedItem.ZIndex = maxZIndex + 1;
                     },o => CheckMaxIndex()
-                    ));
+                    );
             }
         }
         private bool CheckMaxIndex()
@@ -281,15 +294,16 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         {
             get
             {
-                return setToBack ??
-                    (setToBack = new RelayCommand(o =>
+                return setToBack ??= new RelayCommand(o =>
                     {
                         int minZIndex = Items.Select(x => x.GetNdmPrimitive().VisualProperty.ZIndex).Min();
                         SelectedItem.ZIndex = minZIndex - 1;
                     }, o => CheckMinIndex()
-                    ));
+                    );
             }
         }
+
+        public double Angle { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void AddItems(IEnumerable<PrimitiveBase> items)
         {
@@ -301,12 +315,21 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         public void Refresh()
         {
+            NotifyObservers();
+            OnPropertyChanged(nameof(PrimitivesCount));
+        }
+
+        public void NotifyObservers()
+        {
             foreach (var item in Items)
             {
-                item.RegisterDeltas(WorkPlaneWidth / 2, WorkPlaneHeight / 2);
-                item.Refresh();
+                item.OnNext(this);
             }
-            OnPropertyChanged(nameof(PrimitivesCount));
+        }
+
+        public IDisposable Subscribe(IObserver<PrimitiveBase> observer)
+        {
+            throw new NotImplementedException();
         }
 
         public PrimitiveViewModelLogic(ICrossSection section)
@@ -315,5 +338,6 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             Items = new ObservableCollection<PrimitiveBase>();
             AddItems(PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(this.repository.Primitives));
         }
+
     }
 }

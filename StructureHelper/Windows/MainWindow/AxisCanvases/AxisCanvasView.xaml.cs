@@ -17,11 +17,12 @@ namespace StructureHelper.Windows.MainWindow
     /// <summary>
     /// Логика взаимодействия для VisualPropertyView.xaml
     /// </summary>
-    public partial class VisualPropertyView : Window
+    public partial class AxisCanvasView : Window
     {
-        public VisualPropertyView(CrossSectionVisualPropertyVM vm)
+        public AxisCanvasView(AxisCanvasVM vm)
         {
             InitializeComponent();
+            vm.ParentWindow = this;
             DataContext = vm;
         }
     }
