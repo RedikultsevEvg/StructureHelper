@@ -37,7 +37,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         {
             if (TraceLogger is not null)
             {
-                logger = new ShiftTraceLogger() { ShiftPriority = 500, KeepErrorStatus = false };
+                logger = new ShiftTraceLogger()
+                {
+                    ShiftPriority = 500,
+                    KeepErrorStatus = false
+                };
                 //calculator.TraceLogger = logger; // too much results
                 //ConvertLogic.TraceLogger = logger; //wrong work in different threads
             }

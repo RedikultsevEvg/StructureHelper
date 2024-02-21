@@ -135,5 +135,22 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             ActionToOutputResults?.Invoke(result);
         }
 
+        public override bool Equals(object? obj)
+        {
+            if (obj is null)
+            {
+                return false;
+            }
+            if (obj is LimitCurvesCalculator)
+            {
+                var item = obj as LimitCurvesCalculator;
+                if (item.Id == Id)
+                {
+                    return true;
+                }
+            };
+            return false;
+        }
+
     }
 }

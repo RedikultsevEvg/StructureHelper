@@ -16,7 +16,7 @@ using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 {
-    public class AnalysisVewModelLogic : SelectItemVM<ICalculator>
+    public class AnalysisViewModelLogic : SelectItemVM<ICalculator>
     {
         private ICrossSectionRepository repository;
         private RelayCommand runCommand;
@@ -88,7 +88,6 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
             var calculatorCopy = (ICalculator)calculator.Clone();
             var vm = new ForceCalculatorViewModel(repository.Primitives, repository.ForceActions, calculator);
-
             var wnd = new ForceCalculatorView(vm);
             ShowWindow(calculator, calculatorCopy, wnd);
         }
@@ -183,7 +182,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
         }
 
-        public AnalysisVewModelLogic(ICrossSectionRepository sectionRepository) : base(sectionRepository.CalculatorsList)
+        public AnalysisViewModelLogic(ICrossSectionRepository sectionRepository) : base(sectionRepository.CalculatorsList)
         {
             repository = sectionRepository;
         }

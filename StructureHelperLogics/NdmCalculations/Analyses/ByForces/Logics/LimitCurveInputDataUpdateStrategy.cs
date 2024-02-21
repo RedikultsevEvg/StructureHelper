@@ -1,11 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Parameters;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
 {
@@ -22,6 +16,16 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
             targetObject.PredicateEntries.Clear();
             targetObject.PredicateEntries.AddRange(sourceObject.PredicateEntries);
             targetObject.PointCount = sourceObject.PointCount;
+            targetObject.PrimitiveSeries.Clear();
+            foreach (var item in sourceObject.PrimitiveSeries)
+            {
+                var newItem = new NamedCollection<Primitives.INdmPrimitive>()
+                {
+                    Name = item.Name
+                };
+                newItem.Collection.AddRange(item.Collection);
+                targetObject.PrimitiveSeries.Add(newItem);
+            }
             surroundDataUpdateStrategy.Update(targetObject.SurroundData, sourceObject.SurroundData);
         }
     }

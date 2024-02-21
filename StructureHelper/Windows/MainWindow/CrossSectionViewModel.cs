@@ -35,7 +35,7 @@ namespace StructureHelper.Windows.MainWindow
 
         public PrimitiveBase SelectedPrimitive { get; set; }
 
-        public AnalysisVewModelLogic CalculatorsLogic { get; private set; }
+        public AnalysisViewModelLogic CalculatorsLogic { get; private set; }
         public ActionsViewModel CombinationsLogic { get; }
         public MaterialsViewModel MaterialsLogic { get; }
         public PrimitiveViewModelLogic PrimitiveLogic { get; }
@@ -135,7 +135,7 @@ namespace StructureHelper.Windows.MainWindow
             CombinationsLogic = new ActionsViewModel(repository);
             MaterialsLogic = new MaterialsViewModel(repository);
             MaterialsLogic.AfterItemsEdit += AfterMaterialEdit;
-            CalculatorsLogic = new AnalysisVewModelLogic(repository);
+            CalculatorsLogic = new AnalysisViewModelLogic(repository);
             PrimitiveLogic = new PrimitiveViewModelLogic(section)
             {
                 Width = VisualProperty.Width,
