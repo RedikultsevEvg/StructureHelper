@@ -11,6 +11,11 @@ namespace StructureHelperLogics.Models.Materials
     {
         bool TensionForULS { get; set; }
         bool TensionForSLS { get; set; }
+        /// <summary>
+        /// Humidity of concrete
+        /// </summary>
         double RelativeHumidity { get; set; }
+        double MinAge { get; set; }
+        double MaxAge { get; set; }
     }
 }

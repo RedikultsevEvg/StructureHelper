@@ -38,6 +38,7 @@ namespace StructureHelperCommon.Models.Materials
             concreteOptions.ExternalFactor.Tensile = strength.Tensile;
             concreteOptions.WorkInTension = options.WorkInTension;
             concreteOptions.RelativeHumidity = options.RelativeHumidity;
+            concreteOptions.Age = options.Age;
         }
     }
 }

@@ -13,6 +13,7 @@ namespace StructureHelperCommon.Models.Materials
         public List<IMaterialSafetyFactor> SafetyFactors { get; set; }
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }
+        public double Age { get; set; }
         public ILibMaterialEntity MaterialEntity { get; set; }
         public bool WorkInCompression { get; set; }
         public bool WorkInTension { get; set; }

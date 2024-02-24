@@ -1,10 +1,8 @@
 ﻿using FieldVisualizer.Entities.ColorMaps;
 using FieldVisualizer.Entities.ColorMaps.Factories;
 using FieldVisualizer.Entities.Values;
-using FieldVisualizer.InfraStructures.Enums;
 using FieldVisualizer.Services.ColorServices;
 using NUnit.Framework;
-using System.Windows.Media;
 
 namespace StructureHelperTests.FieldsVisualizerTests.ColorOperationTests
 {
