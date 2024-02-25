@@ -10,7 +10,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="120"/>
         </Grid.ColumnDefinitions>
         <FlowDocumentReader Name="DocumentReader" ViewingMode="Scroll"/>
         <StackPanel Grid.Column="1">
@@ -18,7 +18,13 @@
                 <TextBox Text="{Binding TabGap, ValidatesOnExceptions=True}" />
             </GroupBox>
             <GroupBox Header="Max priority">
-                <TextBox Text="{Binding MaxPriority, ValidatesOnExceptions=True}" />
+                <StackPanel>
+                    <TextBox Text="{Binding PriorityLimit, ValidatesOnExceptions=True}" />
+                    <StackPanel Orientation="Horizontal">
+                        <Slider Width="88" Value="{Binding PriorityLimit}" Maximum="{Binding MaxPriority}" Minimum="0"/>
+                        <TextBlock Width="20" FontSize="8" Text="{Binding MaxPriority}"/>
+                    </StackPanel>
+                </StackPanel>
             </GroupBox>
             <Button Margin="3" Content="Rebuild" ToolTip="Rebuild document" Command="{Binding RebuildCommand}"/>
             <Button Margin="3" Content="Print" ToolTip="Print document" Command="{Binding PrintDocumentCommand}"/>

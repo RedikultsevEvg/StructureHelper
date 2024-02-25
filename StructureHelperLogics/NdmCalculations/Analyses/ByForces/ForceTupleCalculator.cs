@@ -4,6 +4,7 @@ using LoaderCalculator.Data.ResultData;
 using LoaderCalculator.Data.SourceData;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -74,7 +75,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                     return new ForcesTupleResult()
                     {
                         IsValid = true,
-                        Description = "Analysis is done succsefully",
+                        Description = LoggerStrings.CalculationHasDone,
                         LoaderResults = calcResult
                     };
                 }
@@ -113,7 +114,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            var newItem = new ForceTupleCalculator();
+            return newItem;
         }
 
         private static void ShowResultToConsole(ILoaderResults result)

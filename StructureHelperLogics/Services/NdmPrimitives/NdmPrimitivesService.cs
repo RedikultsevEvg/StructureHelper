@@ -34,8 +34,14 @@ namespace StructureHelperLogics.Services.NdmPrimitives
 
         public static bool CheckPrimitives(IEnumerable<INdmPrimitive> primitives)
         {
-            if (primitives.Count() == 0) { throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Count of primitive must be greater than zero"); }
-            if (primitives.Count(x => x.Triangulate == true) == 0) { throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": There are not primitives to triangulate"); }
+            if (!primitives.Any())
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Count of primitive must be greater than zero");
+            }
+            if (!primitives.Any(x => x.Triangulate == true))
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": There are not primitives to triangulate");
+            }
             foreach (var item in primitives)
             {
                 if (item.Triangulate == true &

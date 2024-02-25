@@ -128,16 +128,14 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void RunCalculator()
         {
+            if (SelectedItem.TraceLogger is not null)
+            {
+                SelectedItem.TraceLogger.TraceLoggerEntries.Clear();
+            }
             if (SelectedItem is LimitCurvesCalculator calculator)
             {
-                if (calculator.TraceLogger is not null) { calculator.TraceLogger.TraceLoggerEntries.Clear(); }
                 var inputData = calculator.InputData;
                 ShowInteractionDiagramByInputData(calculator);
-                if (calculator.TraceLogger is not null)
-                {
-                    var wnd = new TraceDocumentView(calculator.TraceLogger.TraceLoggerEntries);
-                    wnd.ShowDialog();
-                }
             }
             else
             {
@@ -146,12 +144,16 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 if (result.IsValid == false)
                 {
                     MessageBox.Show(result.Description, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
                 }
                 else
                 {
                     ProcessResult();
                 }
+            }
+            if (SelectedItem.TraceLogger is not null)
+            {
+                var wnd = new TraceDocumentView(SelectedItem.TraceLogger.TraceLoggerEntries);
+                wnd.ShowDialog();
             }
         }
 

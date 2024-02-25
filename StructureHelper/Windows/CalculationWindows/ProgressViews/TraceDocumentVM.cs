@@ -22,26 +22,29 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
         private FlowDocument document;
         private ICommand rebuildCommand;
         private ICommand printDocumentCommand;
-        private int maxPriority;
+        private int priorityLimit;
         private int tabGap;
 
         public FlowDocumentReader DocumentReader { get; set; }
-        public int MaxPriority
+        public int PriorityLimit
         {
-            get => maxPriority; set
+            get => priorityLimit; set
             {
-                var oldValue = maxPriority;
+                var oldValue = priorityLimit;
                 try
                 {
-                    maxPriority = Math.Max(value, 0);
-                    OnPropertyChanged(nameof(MaxPriority));
+                    priorityLimit = Math.Max(value, 0);
+                    OnPropertyChanged(nameof(PriorityLimit));
                 }
                 catch (Exception)
                 {
-                    maxPriority = oldValue;
+                    priorityLimit = oldValue;
                 }
             }
         }
+
+        public int MaxPriority => loggerEntries.Max(x => x.Priority);
+
         public int TabGap
         {
             get => tabGap; set
@@ -61,7 +64,7 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
         public TraceDocumentVM(IEnumerable<ITraceLoggerEntry> loggerEntries)
         {
             this.loggerEntries = loggerEntries;
-            maxPriority = 350;
+            priorityLimit = 350;
             tabGap = 30;
         }
 
@@ -81,7 +84,7 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
         public void Prepare()
         {
             document = new();
-            selectedLoggerEntries = loggerEntries.Where(x => x.Priority <= MaxPriority);
+            selectedLoggerEntries = loggerEntries.Where(x => x.Priority <= PriorityLimit);
             var blocks = selectedLoggerEntries.Select(x => GetBlockByEntry(x));
             document.Blocks.AddRange(blocks);
         }
