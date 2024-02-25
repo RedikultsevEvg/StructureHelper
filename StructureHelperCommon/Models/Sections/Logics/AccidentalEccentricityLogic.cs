@@ -13,25 +13,25 @@ namespace StructureHelperCommon.Models.Sections
         private double sizeFactor;
         private double minEccentricity;
 
-        public ICompressedMember CompressedMember { get; set; }
+        public double Length { get; set; }
         public double SizeX { get; set; }
         public double SizeY { get; set; }
         public IForceTuple InitialForceTuple { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
         public AccidentalEccentricityLogic()
         {
-            lengthFactor = 1d / 600d;
-            sizeFactor = 1d / 30d;
+            lengthFactor = 600d;
+            sizeFactor = 30d;
             minEccentricity = 0.01d;
         }
         public ForceTuple GetForceTuple()
         {
-            var lengthEccetricity = CompressedMember.GeometryLength * lengthFactor;
-            TraceLogger?.AddMessage(string.Format("Accidental eccentricity by length ea = {0}", lengthEccetricity));
-            var sizeXEccetricity = SizeX * sizeFactor;
-            TraceLogger?.AddMessage(string.Format("Accidental eccentricity by SizeX = {0} ea = {1}", SizeX, sizeXEccetricity));
-            var sizeYEccetricity = SizeY * sizeFactor;
-            TraceLogger?.AddMessage(string.Format("Accidental eccentricity by SizeY = {0} ea = {1}", SizeY, sizeYEccetricity));
+            var lengthEccetricity = Length / lengthFactor;
+            TraceLogger?.AddMessage(string.Format("Accidental eccentricity by length ea = {0} / {1} = {2}", Length, lengthFactor, lengthEccetricity));
+            var sizeXEccetricity = SizeX / sizeFactor;
+            TraceLogger?.AddMessage(string.Format("Accidental eccentricity by SizeX ea ={0} / {1} = {2}", SizeX, sizeFactor, sizeXEccetricity));
+            var sizeYEccetricity = SizeY / sizeFactor;
+            TraceLogger?.AddMessage(string.Format("Accidental eccentricity by SizeY ea ={0} / {1} = {2}", SizeY, sizeFactor, sizeYEccetricity));
             TraceLogger?.AddMessage(string.Format("Minimum accidental eccentricity ea = {0}", minEccentricity));
             var xEccentricity = Math.Abs(InitialForceTuple.My / InitialForceTuple.Nz);
             TraceLogger?.AddMessage(string.Format("Actual eccentricity e0,x = {0}", xEccentricity));

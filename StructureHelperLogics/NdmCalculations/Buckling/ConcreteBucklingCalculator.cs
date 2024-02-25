@@ -184,7 +184,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
                 }
 
                 var (EtaFactorX, EtaFactorY) = GetBucklingCoefficients();
-                var messageString = "Eta factor orbitrary {0} axis, Etta{0} = {1} (dimensionless)";
+                var messageString = "Eta factor orbitrary {0} axis, Eta{0} = {1} (dimensionless)";
                 var messageStringX = string.Format(messageString, "X", EtaFactorX);
                 var messageStringY = string.Format(messageString, "Y", EtaFactorY);
                 TraceLogger?.AddMessage(messageStringX);

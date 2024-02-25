@@ -88,47 +88,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 else
                 {
                     newTuple = ProcessAccEccentricity(ndms, newTuple);
-                    var inputData = new BucklingInputData()
-                    {
-                        Combination = combination,
-                        LimitState = limitState,
-                        CalcTerm = calcTerm,
-                        Ndms = ndms,
-                        ForceTuple = newTuple
-                    };
-                    var bucklingResult = ProcessBuckling(inputData);
-
-                    if (bucklingResult.IsValid != true)
-                    {
-                        TraceLogger?.AddMessage(bucklingResult.Description, TraceLogStatuses.Error);
-                        var result = new ForcesTupleResult
-                        {
-                            IsValid = false,
-                            Description = $"Buckling result:\n{bucklingResult.Description}\n",
-                            DesignForceTuple = new DesignForceTuple()
-                            {
-                                ForceTuple = newTuple,
-                                LimitState = limitState,
-                                CalcTerm = calcTerm
-                            }
-                        };
-                        ndmResult.ForcesResultList.Add(result);
-                    }
-                    else
-                    {
-                        newTuple = CalculateBuckling(newTuple, bucklingResult);
-                        TraceLogger?.AddMessage($"Force combination with considering of second order effects");
-                        TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(newTuple));
-
-                        var result = GetPrimitiveStrainMatrix(ndms, newTuple, Accuracy);
-                        result.DesignForceTuple.LimitState = limitState;
-                        result.DesignForceTuple.CalcTerm = calcTerm;
-                        result.DesignForceTuple.ForceTuple = newTuple;
-                        ndmResult.ForcesResultList.Add(result);
-                        ActionToOutputResults?.Invoke(ndmResult);
-                    }
-
+                    newTuple = GetForceTupleByBuckling(ndmResult, combination, limitState, calcTerm, ndms, newTuple);
                 }
+                GetForceResult(ndmResult, limitState, calcTerm, ndms, newTuple);
             }
             else
             {
@@ -137,20 +99,63 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                     string message = string.Format("Second order effect is not considered, despite force Nz={0}", newTuple.Nz);
                     TraceLogger.AddMessage(message, TraceLogStatuses.Warning);
                 }
-                var result = GetPrimitiveStrainMatrix(ndms, newTuple, Accuracy);
-                result.DesignForceTuple.LimitState = limitState;
-                result.DesignForceTuple.CalcTerm = calcTerm;
-                result.DesignForceTuple.ForceTuple = newTuple;
-                ndmResult.ForcesResultList.Add(result);
-                ActionToOutputResults?.Invoke(ndmResult);
+                GetForceResult(ndmResult, limitState, calcTerm, ndms, newTuple);
             }
+        }
+
+        private IForceTuple GetForceTupleByBuckling(ForcesResults ndmResult, IForceCombinationList combination, LimitStates limitState, CalcTerms calcTerm, List<INdm> ndms, IForceTuple newTuple)
+        {
+            var inputData = new BucklingInputData()
+            {
+                Combination = combination,
+                LimitState = limitState,
+                CalcTerm = calcTerm,
+                Ndms = ndms,
+                ForceTuple = newTuple
+            };
+            var bucklingResult = ProcessBuckling(inputData);
+
+            if (bucklingResult.IsValid != true)
+            {
+                TraceLogger?.AddMessage(bucklingResult.Description, TraceLogStatuses.Error);
+                var result = new ForcesTupleResult
+                {
+                    IsValid = false,
+                    Description = $"Buckling result:\n{bucklingResult.Description}\n",
+                    DesignForceTuple = new DesignForceTuple()
+                    {
+                        ForceTuple = newTuple,
+                        LimitState = limitState,
+                        CalcTerm = calcTerm
+                    }
+                };
+                ndmResult.ForcesResultList.Add(result);
+            }
+            else
+            {
+                newTuple = CalculateBuckling(newTuple, bucklingResult);
+                TraceLogger?.AddMessage($"Force combination with considering of second order effects");
+                TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(newTuple));
+            }
+
+            return newTuple;
+        }
+
+        private void GetForceResult(ForcesResults ndmResult, LimitStates limitState, CalcTerms calcTerm, List<INdm> ndms, IForceTuple newTuple)
+        {
+            var result = GetPrimitiveStrainMatrix(ndms, newTuple, Accuracy);
+            result.DesignForceTuple.LimitState = limitState;
+            result.DesignForceTuple.CalcTerm = calcTerm;
+            result.DesignForceTuple.ForceTuple = newTuple;
+            ndmResult.ForcesResultList.Add(result);
+            ActionToOutputResults?.Invoke(ndmResult);
         }
 
         private IForceTuple ProcessAccEccentricity(List<INdm> ndms, IForceTuple newTuple)
         {
             var accLogic = new AccidentalEccentricityLogic()
             {
-                CompressedMember = CompressedMember,
+                Length = CompressedMember.GeometryLength,
                 SizeX = ndms.Max(x => x.CenterX) - ndms.Min(x => x.CenterX),
                 SizeY = ndms.Max(x => x.CenterY) - ndms.Min(x => x.CenterY),
                 InitialForceTuple = newTuple,

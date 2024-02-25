@@ -19,7 +19,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         public double GetCriticalForce()
         {
             double Ncr = - Math.Pow(Math.PI, 2) * StiffnessEI / Math.Pow(DesignLength, 2);
-            string message = string.Format("Ncr = - (PI ^ 2) * D / L0 ^2 = - ({0} * {1} / ({2} ^2)) = {3}, N", Math.PI, StiffnessEI, DesignLength, Ncr);
+            string message = string.Format("Ncr = - (PI ^ 2) * D / L0 ^2 = - ({0}^2 * {1} / ({2} ^2)) = {3}, N", Math.PI, StiffnessEI, DesignLength, Ncr);
             TraceLogger?.AddMessage(message);
             return Ncr;
         }

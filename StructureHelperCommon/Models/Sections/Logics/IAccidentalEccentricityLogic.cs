@@ -16,7 +16,7 @@ namespace StructureHelperCommon.Models.Sections
         /// <summary>
         /// Properties of compressed member
         /// </summary>
-        ICompressedMember CompressedMember {get;set;}
+        double Length { get;set;}
         /// <summary>
         /// Size of cross-section along X-axis, m
         /// </summary>
