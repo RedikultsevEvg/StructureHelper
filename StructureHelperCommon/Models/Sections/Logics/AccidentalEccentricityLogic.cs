@@ -64,8 +64,10 @@ namespace StructureHelperCommon.Models.Sections
                 minEccentricity, yEccentricity,
                 yFullEccentricity);
             TraceLogger?.AddMessage(mesEy);
-            var mx = InitialForceTuple.Nz * yFullEccentricity * Math.Sign(InitialForceTuple.Mx);
-            var my = InitialForceTuple.Nz * xFullEccentricity * Math.Sign(InitialForceTuple.My);
+            var xSign = InitialForceTuple.Mx == 0 ? 1 : Math.Sign(InitialForceTuple.Mx);
+            var ySign = InitialForceTuple.My == 0 ? 1 : Math.Sign(InitialForceTuple.My);
+            var mx = InitialForceTuple.Nz * yFullEccentricity * xSign;
+            var my = InitialForceTuple.Nz * xFullEccentricity * ySign;
             TraceLogger?.AddMessage(string.Format("Bending moment arbitrary X-axis Mx = {0} * {1} = {2}", InitialForceTuple.Nz, yFullEccentricity, mx), TraceLogStatuses.Debug);
             TraceLogger?.AddMessage(string.Format("Bending moment arbitrary Y-axis My = {0} * {1} = {2}", InitialForceTuple.Nz, xFullEccentricity, my), TraceLogStatuses.Debug);
 
