@@ -87,6 +87,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 }
                 else
                 {
+                    TraceLogger?.AddMessage("Get eccentricity for full load");
                     newTuple = ProcessAccEccentricity(ndms, newTuple);
                     newTuple = GetForceTupleByBuckling(ndmResult, combination, limitState, calcTerm, ndms, newTuple);
                 }
@@ -177,6 +178,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             {
                 longTuple = GetLongTuple(inputData.Combination.DesignForces, inputData.LimitState);
             }
+            TraceLogger?.AddMessage("Get eccentricity for long term load");
             longTuple = ProcessAccEccentricity(inputData.Ndms, longTuple);
             var bucklingCalculator = GetBucklingCalculator(CompressedMember, inputData.LimitState, inputData.CalcTerm, inputData.ForceTuple, longTuple);
             if (TraceLogger is not null)
