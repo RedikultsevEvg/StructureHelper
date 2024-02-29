@@ -83,7 +83,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             {
                 if (newTuple.Nz >= 0d)
                 {
-                    TraceLogger.AddMessage(string.Format("Second order effect is not considered as Nz={0} >= 0", newTuple.Nz));
+                    TraceLogger?.AddMessage(string.Format("Second order effect is not considered as Nz={0} >= 0", newTuple.Nz));
                 }
                 else
                 {
@@ -98,7 +98,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 if (newTuple.Nz < 0d)
                 {
                     string message = string.Format("Second order effect is not considered, despite force Nz={0}", newTuple.Nz);
-                    TraceLogger.AddMessage(message, TraceLogStatuses.Warning);
+                    TraceLogger?.AddMessage(message, TraceLogStatuses.Warning);
                 }
                 GetForceResult(ndmResult, limitState, calcTerm, ndms, newTuple);
             }
