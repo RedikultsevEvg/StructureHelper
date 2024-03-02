@@ -8,7 +8,7 @@
         xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance local:InterpolateTuplesViewModel}"
         mc:Ignorable="d"
-        Title="Interpolate Combinations" Height="200" Width="460" MinHeight="180" MinWidth="460" WindowStartupLocation="CenterScreen">
+        Title="Interpolate Combinations" Height="250" Width="460" MinHeight="250" MinWidth="460" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <Style TargetType="Button">
@@ -20,94 +20,7 @@
             <RowDefinition/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="0"/>
-            </Grid.ColumnDefinitions>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="120"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="1" Text="Moment Mx" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Column="2" Text="Moment My" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Column="3" Text="Force Nz" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Row="1" Text="Start Combination"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding StartMx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
-                <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding StartMy, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
-                <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding StartNz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
-                <Button  Grid.Row="2" Grid.Column="1" Command="{Binding CopyToStartCommand}">
-                    <Viewbox>
-                        <Canvas Width="24" Height="24">
-                            <Path Data="M12 0L5 12h 14z M12 12h 4v 9h-8v-9h 4z" Fill="Black"/>
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-                <Button Grid.Row="2" Grid.Column="2" Command="{Binding InvertForcesCommand}">
-                    <StackPanel Orientation="Horizontal">
-                        <Viewbox>
-                            <Canvas Width="24" Height="24">
-                                <Path Data="M12 0L5 12h 14z M12 12h 4v 9h-8v-9h 4z" Fill="Black"/>
-                            </Canvas>
-                        </Viewbox>
-                        <Viewbox RenderTransformOrigin="0.5,0.5">
-                            <Viewbox.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform Angle="180"/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </Viewbox.RenderTransform>
-                            <Canvas Width="24" Height="24">
-                                <Path Data="M12 0L5 12h 14z M12 12h 4v 9h-8v-9h 4z" Fill="Black"/>
-                            </Canvas>
-                        </Viewbox>
-                    </StackPanel>
-                </Button>
-                <Button  Grid.Row="2" Grid.Column="3" Command="{Binding CopyToFinishCommand}">
-                    <Viewbox RenderTransformOrigin="0.5,0.5">
-                        <Viewbox.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="180"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Viewbox.RenderTransform>
-                        <Canvas Width="24" Height="24">
-                            <Path Data="M12 0L5 12h 14z M12 12h 4v 9h-8v-9h 4z" Fill="Black"/>
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-                <TextBlock Grid.Row="3" Text="Finish Combination"/>
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding FinishMx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
-                <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding FinishMy, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
-                <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding FinishNz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
-                <TextBlock Grid.Row="4" Text="Step count" Visibility="{Binding StepCountVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding StepCount, ValidatesOnExceptions=True}" Visibility="{Binding StepCountVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <uc:MultiplyDouble Grid.Column="4" Grid.Row="1" DoubleFactor="{Binding StartFactor}" ValueChanged="StartValueChanged"/>
-                <uc:MultiplyDouble Grid.Column="4" Grid.Row="3" DoubleFactor="{Binding FinishFactor}" ValueChanged="FinishValueChanged"/>
-                <uc:MultiplyDouble Grid.Column="4" Grid.Row="4" DoubleFactor="{Binding FinishFactor}" ValueChanged="StepCountValueChanged"  Visibility="{Binding StepCountVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            </Grid>
-        </Grid>
-
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Style="{StaticResource CancelButton}"/>
-            <Button Style="{StaticResource OkButton}" Click="Button_Click"/>
-        </StackPanel>
+        <local:ForceInterpolationControl x:Name="InterpolationControl"/>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

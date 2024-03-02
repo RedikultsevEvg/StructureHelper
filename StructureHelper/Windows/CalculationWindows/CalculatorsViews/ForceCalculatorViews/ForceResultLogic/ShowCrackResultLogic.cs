@@ -27,12 +27,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public void Show(IDesignForceTuple finishDesignTuple)
         {
             var viewModel = new InterpolateTuplesViewModel(finishDesignTuple, null);
-            viewModel.StepCountVisible = false;
+            viewModel.ForceInterpolationViewModel.StepCountVisible = false;
             var wndTuples = new InterpolateTuplesView(viewModel);
             wndTuples.ShowDialog();
             if (wndTuples.DialogResult != true) return;
-            var startDesignTuple = viewModel.StartDesignForce.ForceTuple;
-            var endDesignTuple = viewModel.FinishDesignForce.ForceTuple;
+            var startDesignTuple = viewModel.ForceInterpolationViewModel.StartDesignForce.ForceTuple;
+            var endDesignTuple = viewModel.ForceInterpolationViewModel.FinishDesignForce.ForceTuple;
             FindCrackFactor(endDesignTuple, startDesignTuple);
         }
 

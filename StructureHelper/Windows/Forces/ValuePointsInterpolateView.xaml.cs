@@ -10,19 +10,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace StructureHelper.Windows.Forces
 {
     /// <summary>
-    /// Логика взаимодействия для ForceTupleControl.xaml
+    /// Логика взаимодействия для ValuePoitsInterpolateView.xaml
     /// </summary>
-    public partial class ForceTupleControl : UserControl
+    public partial class ValuePointsInterpolateView : Window
     {
-        public ForceTupleControl()
+        private ValuePointsInterpolateViewModel viewModel;
+        public ValuePointsInterpolateView(ValuePointsInterpolateViewModel viewModel)
         {
             InitializeComponent();
+            this.viewModel = viewModel;
+            this.viewModel.ParentWindow = this;
+            this.DataContext = this.viewModel;
         }
     }
 }

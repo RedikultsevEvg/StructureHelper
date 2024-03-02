@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Parameters
 {
-    public class ArrayParameter<T> : IArrayParameter<T>
+    /// <inheritdoc/>
+	public class ArrayParameter<T> : IArrayParameter<T>
     {
-		private string[] columnLabels;
-		public string[] ColumnLabels
+		private List<string> columnLabels;
+		/// <inheritdoc/>
+		public List<string> ColumnLabels
 		{
 			get { return columnLabels; }
 			set
@@ -25,12 +27,20 @@ namespace StructureHelperCommon.Models.Parameters
 			}
 		}
 
+		/// <inheritdoc/>
         public T[,] Data { get; private set; }
 
-        public ArrayParameter(int rowCount, int columnCount, string[] columnLabels = null)
+        public ArrayParameter(int rowCount, int columnCount, List<string> columnLabels = null)
         {
 			Data = new T[rowCount, columnCount];
-			if (columnLabels is not null) { ColumnLabels = columnLabels; }
+			if (columnLabels is not null)
+			{
+				if (columnLabels.Count > columnCount)
+				{
+					throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": Count of column labels is greater than count of columns");
+				}
+				ColumnLabels = columnLabels;
+			}
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -53,6 +54,19 @@ namespace StructureHelperLogics.Models.Primitives
             var options = new PointTriangulationLogicOptions(this) { triangulationOptions = triangulationOptions};
             var logic = new PointTriangulationLogic(options);
             return logic.GetNdmCollection();
+        }
+
+        public List<NamedValue<IPoint2D>> GetValuePoints()
+        {
+            var points = new List<NamedValue<IPoint2D>>();
+            NamedValue<IPoint2D> newPoint;
+            newPoint = new NamedValue<IPoint2D>()
+            {
+                Name = "Center",
+                Value = Center.Clone() as Point2D
+            };
+            points.Add(newPoint);
+            return points;
         }
     }
 }

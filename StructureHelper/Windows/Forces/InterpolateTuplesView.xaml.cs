@@ -27,41 +27,17 @@ namespace StructureHelper.Windows.Forces
         InterpolateTuplesViewModel viewModel;
         public InterpolateTuplesView(InterpolateTuplesViewModel viewModel)
         {
-            InitializeComponent();
             this.viewModel = viewModel;
+            this.viewModel.ParentWindow = this;
             DataContext = this.viewModel;
+            InitializeComponent();
+            InterpolationControl.Properties = viewModel.ForceInterpolationViewModel;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
             Close();
-        }
-
-        private void StartValueChanged(object sender, EventArgs e)
-        {
-            var obj = (MultiplyDouble)sender;
-            var tmpTuple = ForceTupleService.MultiplyTuples(viewModel.StartDesignForce.ForceTuple, obj.DoubleFactor);
-            ForceTupleService.CopyProperties(tmpTuple, viewModel.StartDesignForce.ForceTuple, 1d);
-            viewModel.RefreshStartTuple();
-        }
-
-        private void FinishValueChanged(object sender, EventArgs e)
-        {
-            var obj = (MultiplyDouble)sender;
-            var tmpTuple = ForceTupleService.MultiplyTuples(viewModel.FinishDesignForce.ForceTuple, obj.DoubleFactor);
-            ForceTupleService.CopyProperties(tmpTuple, viewModel.FinishDesignForce.ForceTuple, 1d);
-            viewModel.RefreshFinishTuple();
-        }
-
-        private void StepCountValueChanged(object sender, EventArgs e)
-        {
-            var obj = (MultiplyDouble)sender;
-            var factor = obj.DoubleFactor;
-            if (factor > 0d)
-            {
-                viewModel.StepCount = Convert.ToInt32(viewModel.StepCount * factor);
-            }
         }
     }
 }

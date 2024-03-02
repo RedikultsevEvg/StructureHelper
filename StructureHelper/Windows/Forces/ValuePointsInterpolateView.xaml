@@ -1,0 +1,39 @@
+﻿<Window x:Class="StructureHelper.Windows.Forces.ValuePointsInterpolateView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.Forces"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance local:ValuePointsInterpolateViewModel}"
+        Title="Value Poits Interpolation" Height="250" Width="460" MinHeight="250" MinWidth="460" MaxHeight="450" MaxWidth="460" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header="Forces">
+                <local:ForceInterpolationControl x:Name="InterpolationControl"/>
+            </TabItem>
+            <TabItem Header="Points"  DataContext="{Binding PrimitiveLogic}">
+                <ListBox DataContext="{Binding Collection}" ItemsSource="{Binding CollectionItems}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Expander IsExpanded="True">
+                                <Expander.Header>
+                                    <ContentControl ContentTemplate="{StaticResource ResourceKey=ColoredItemTemplate}" Content="{Binding Item.PrimitiveBase}"/>
+                                </Expander.Header>
+                                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding Item.ValuePoints}"/>
+                            </Expander>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+            <TabItem DataContext="{Binding ValueDelegatesLogic}" Header="Values">
+                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding ResultFuncs}"/>
+            </TabItem>
+        </TabControl>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>

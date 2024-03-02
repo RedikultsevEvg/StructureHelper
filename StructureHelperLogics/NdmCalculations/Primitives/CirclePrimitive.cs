@@ -2,6 +2,7 @@
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Triangulations;
@@ -71,6 +72,19 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             var distance = Math.Sqrt(dX * dX + dY * dY);
             if (distance > Diameter / 2) { return false; }
             return true;
+        }
+
+        List<NamedValue<IPoint2D>> INdmPrimitive.GetValuePoints()
+        {
+            var points = new List<NamedValue<IPoint2D>>();
+            NamedValue<IPoint2D> newPoint;
+            newPoint = new NamedValue<IPoint2D>()
+            {
+                Name = "Center",
+                Value = Center.Clone() as Point2D
+            };
+            points.Add(newPoint);
+            return points;
         }
     }
 }

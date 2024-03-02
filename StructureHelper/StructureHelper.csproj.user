@@ -36,6 +36,15 @@
     <Compile Update="Windows\Forces\ForceCombinationByFactorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\Forces\ForceInterpolationControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Forces\ForceTupleInterpolationControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Forces\ValuePointsInterpolateView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\Graphs\GraphView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -99,6 +108,15 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\Forces\ForceCombinationByFactorView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Forces\ForceInterpolationControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Forces\ForceTupleInterpolationControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Forces\ValuePointsInterpolateView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\Graphs\GraphView.xaml">

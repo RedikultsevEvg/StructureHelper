@@ -145,7 +145,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
                 NdmCollection = ndmCollection,
                 Tuple = tuple, Accuracy = Accuracy
             };
-            IForceTupleCalculator calculator = new ForceTupleCalculator(inputData);
+            IForceTupleCalculator calculator = new ForceTupleCalculator() { InputData = inputData };
             return calculator;
         }
 

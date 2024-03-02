@@ -65,7 +65,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private void CalcStrainMatrix()
         {
             IForceTupleInputData inputData = new ForceTupleInputData() { NdmCollection = ndmCollection, Tuple = InputData.ForceTuple};
-            IForceTupleCalculator calculator = new ForceTupleCalculator(inputData);
+            IForceTupleCalculator calculator = new ForceTupleCalculator() { InputData = inputData };
             calculator.Run();
             var forceResult = calculator.Result as IForcesTupleResult;
             strainTuple = TupleConverter.ConvertToStrainTuple(forceResult.LoaderResults.StrainMatrix);

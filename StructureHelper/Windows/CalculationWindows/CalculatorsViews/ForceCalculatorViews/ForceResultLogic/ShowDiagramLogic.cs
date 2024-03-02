@@ -22,8 +22,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private IEnumerable<INdmPrimitive> NdmPrimitives;
         private List<IForcesTupleResult> ValidTupleList;
 
-        private static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
-
         public int StepCount => ValidTupleList.Count();
 
         public Action<int> SetProgress { get; set; }
@@ -63,7 +61,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             var unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, "kNm");
             var unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature, "1/m");
 
-            string[] labels = GetLabels(unitForce, unitMoment, unitCurvature);
+            var labels = LabelsFactory.GetLabels();
             arrayParameter = new ArrayParameter<double>(ValidTupleList.Count(), labels.Count(), labels);
             CalculateWithoutCrack(ValidTupleList, unitForce, unitMoment, unitCurvature);
         }
@@ -102,18 +100,5 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                     resultList[i].LoaderResults.ForceStrainPair.StrainMatrix.EpsZ
                 };
         }
-        private static string[] GetLabels(IUnit unitForce, IUnit unitMoment, IUnit unitCurvature)
-        {
-            return new string[]
-            {
-                $"{GeometryNames.MomFstName}, {unitMoment.Name}",
-                $"{GeometryNames.MomSndName}, {unitMoment.Name}",
-                $"{GeometryNames.LongForceName}, {unitForce.Name}",
-                $"{GeometryNames.CurvFstName}, {unitCurvature.Name}",
-                $"{GeometryNames.CurvSndName}, {unitCurvature.Name}",
-                $"{GeometryNames.StrainTrdName}"
-            };
-        }
-
     }
 }

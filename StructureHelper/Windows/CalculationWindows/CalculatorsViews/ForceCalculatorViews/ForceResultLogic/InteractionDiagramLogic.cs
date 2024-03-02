@@ -90,7 +90,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private ArrayParameter<double> GetParametersByCurveResult(LimitCurveResult curveResult)
         {
-            string[] labels = GetLabels();
+            var labels = GetLabels();
             var items = curveResult.Points;
             var arrayParameter = new ArrayParameter<double>(items.Count(), labels.Count(), labels);
             var data = arrayParameter.Data;
@@ -121,11 +121,13 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             SetProgress?.Invoke(parameterResult.IterationNumber);
         }
 
-        private string[] GetLabels()
+        private List<string> GetLabels()
         {
-            string[] strings = new string[2];
-            strings[0] = GetLabel(InputData.SurroundData.ConvertLogicEntity.XForceType);
-            strings[1] = GetLabel(InputData.SurroundData.ConvertLogicEntity.YForceType);
+            List<string> strings = new()
+            {
+                GetLabel(InputData.SurroundData.ConvertLogicEntity.XForceType),
+                GetLabel(InputData.SurroundData.ConvertLogicEntity.YForceType)
+            };
             return strings;
         }
 

@@ -12,7 +12,7 @@ namespace StructureHelperTests.ViewModelTests
         public void RunShouldPass(int rowCount, int columnCount)
         {
             //Arrange
-            string[] labels = new string[columnCount];
+            var labels = new List<string>();
             for (int i = 0; i < columnCount; i++)
             {
                 labels[i] = $"Column{i}";

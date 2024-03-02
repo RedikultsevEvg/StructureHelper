@@ -39,7 +39,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 Tuple = Tuple,
                 NdmCollection = NdmCollection
             };
-            var calculator = new ForceTupleCalculator(inputData);
+            var calculator = new ForceTupleCalculator() { InputData = inputData };
             if (TraceLogger is not null)
             {
                 calculator.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);

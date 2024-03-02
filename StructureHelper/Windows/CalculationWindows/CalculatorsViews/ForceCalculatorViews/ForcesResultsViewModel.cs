@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Services.Exports;
 using StructureHelper.Services.Reports;
 using StructureHelper.Services.Reports.CalculationReports;
@@ -52,17 +53,18 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
 
         public ForcesTupleResult SelectedResult { get; set; }
-        private ICommand showIsoFieldCommand;
-        private ICommand exportToCSVCommand;
-        private ICommand interpolateCommand;
-        private ICommand setPrestrainCommand;
-        private ICommand showAnchorageCommand;
-        private ICommand showGeometryResultCommand;
-        private ICommand showGraphsCommand;
-        private ICommand showCrackResult;
-        private ICommand showCrackGraphsCommand;
-        private RelayCommand showCrackWidthResult;
-        private ICommand showInteractionDiagramCommand;
+        private ICommand? showIsoFieldCommand;
+        private ICommand? exportToCSVCommand;
+        private ICommand? interpolateCommand;
+        private ICommand? setPrestrainCommand;
+        private ICommand? showAnchorageCommand;
+        private ICommand? showGeometryResultCommand;
+        private ICommand? showGraphsCommand;
+        private ICommand? showCrackResult;
+        private ICommand? showCrackGraphsCommand;
+        private ICommand? showCrackWidthResult;
+        private ICommand? showInteractionDiagramCommand;
+        private ICommand? graphValuepointsCommand;
 
         public IForcesResults ForcesResults
         {
@@ -155,7 +157,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 ShowInterpolationWindow(out interploateTuplesViewModel, out wndTuples);
                 if (wndTuples.DialogResult != true) return;
 
-                var interpolationLogic = new InterpolationProgressLogic(forceCalculator, interploateTuplesViewModel.Result);
+                var interpolationLogic = new InterpolationProgressLogic(forceCalculator, interploateTuplesViewModel.ForceInterpolationViewModel.Result);
                 showProgressLogic = new(interpolationLogic)
                 {
                     WindowTitle = "Interpolate forces"
@@ -186,7 +188,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 ShowInterpolationWindow(out interploateTuplesViewModel, out wndTuples);
                 if (wndTuples.DialogResult != true) return;
 
-                var interpolationLogic = new InterpolationProgressLogic(forceCalculator, interploateTuplesViewModel.Result);
+                var interpolationLogic = new InterpolationProgressLogic(forceCalculator, interploateTuplesViewModel.ForceInterpolationViewModel.Result);
                 showProgressLogic = new(interpolationLogic)
                 {
                     WindowTitle = "Interpolate forces"
@@ -259,10 +261,50 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             ShowInterpolationWindow(out interploateTuplesViewModel, out wndTuples);
             if (wndTuples.DialogResult != true) return;
 
-            var interpolationLogic = new InterpolationProgressLogic(forceCalculator, interploateTuplesViewModel.Result);
+            var interpolationLogic = new InterpolationProgressLogic(forceCalculator, interploateTuplesViewModel.ForceInterpolationViewModel.Result);
             progressLogic = interpolationLogic;
             showProgressLogic = new(interpolationLogic);
             showProgressLogic.ShowResult = ShowInterpolationProgressDialog;
+            showProgressLogic.Show();
+        }
+
+        public ICommand GraphValuePointsCommand
+        {
+            get
+            {
+                return graphValuepointsCommand ??
+                    (graphValuepointsCommand = new RelayCommand(o =>
+                    {
+                        InterpolateValuePoints();
+                    }, o => SelectedResult != null));
+            }
+        }
+
+        private void InterpolateValuePoints()
+        {
+            var inputData = new ValuePointsInterpolationInputData()
+            {
+                FinishDesignForce = SelectedResult.DesignForceTuple.Clone() as IDesignForceTuple,
+                LimitState = SelectedResult.DesignForceTuple.LimitState,
+                CalcTerm = SelectedResult.DesignForceTuple.CalcTerm,
+            };
+            inputData.PrimitiveBases.AddRange(PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(ndmPrimitives));
+            var viewModel = new ValuePointsInterpolateViewModel(inputData);
+            var wnd = new ValuePointsInterpolateView(viewModel);
+            wnd.ShowDialog();
+            if (wnd.DialogResult != true) { return; }
+            var interpolationLogic = new InterpolationProgressLogic(forceCalculator, viewModel.ForceInterpolationViewModel.Result);
+            ShowValuePointDiagramLogic pointGraphLogic = new()
+            {
+                Calculator = interpolationLogic.InterpolateCalculator,
+                PrimitiveLogic = viewModel.PrimitiveLogic,
+                ValueDelegatesLogic = viewModel.ValueDelegatesLogic
+            };
+            progressLogic = interpolationLogic;
+            showProgressLogic = new(interpolationLogic)
+            {
+                ShowResult = pointGraphLogic.ShowGraph
+            };
             showProgressLogic.Show();
         }
 

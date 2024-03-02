@@ -1,4 +1,5 @@
-﻿using StructureHelper.Windows.Graphs;
+﻿using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic;
+using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
@@ -64,7 +65,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
             var unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, "kNm");
             var unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature, "1/m");
 
-            string[] labels = GetCrackLabels(unitForce, unitMoment, unitCurvature);
+            List<string> labels = GetCrackLabels(unitForce, unitMoment, unitCurvature);
             arrayParameter = new ArrayParameter<double>(ValidTupleList.Count(), labels.Count(), labels);
             CalculateWithCrack(ValidTupleList, NdmPrimitives, unitForce, unitMoment, unitCurvature);
         }
@@ -131,18 +132,13 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
             }
         }
 
-        private static string[] GetCrackLabels(IUnit unitForce, IUnit unitMoment, IUnit unitCurvature)
+        private static List<string> GetCrackLabels(IUnit unitForce, IUnit unitMoment, IUnit unitCurvature)
         {
             const string crc = "Crc";
             const string crcFactor = "CrcSofteningFactor";
-            return new string[]
+            var labels = LabelsFactory.GetLabels();
+            var crclabels = new List<string>
             {
-                $"{GeometryNames.MomFstName}, {unitMoment.Name}",
-                $"{GeometryNames.MomSndName}, {unitMoment.Name}",
-                $"{GeometryNames.LongForceName}, {unitForce.Name}",
-                $"{GeometryNames.CurvFstName}, {unitCurvature.Name}",
-                $"{GeometryNames.CurvSndName}, {unitCurvature.Name}",
-                $"{GeometryNames.StrainTrdName}",
                 $"{crc}{GeometryNames.CurvFstName}, {unitCurvature.Name}",
                 $"{crc}{GeometryNames.CurvSndName}, {unitCurvature.Name}",
                 $"{crc}{GeometryNames.StrainTrdName}",
@@ -151,6 +147,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
                 $"{crcFactor}Az",
                 $"PsiFactor"
             };
+            labels.AddRange(crclabels);
+            return labels;
         }
 
     }

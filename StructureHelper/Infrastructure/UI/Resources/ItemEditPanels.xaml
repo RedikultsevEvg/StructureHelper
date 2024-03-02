@@ -33,10 +33,10 @@
     <DataTemplate x:Key="SelectItems">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding ShowButtons, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Height="25" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding ShowButtons, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Button Content="Select All" Command="{Binding SelectAllCommand}"/>
                 <Button Content="Unselect All" Command="{Binding UnSelectAllCommand}"/>
                 <Button Content="Invert Selection" Command="{Binding InvertSelectionCommand}"/>
