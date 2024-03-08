@@ -61,21 +61,27 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 
         public void ShowCracks()
         {
-            var unitForce = CommonOperation.GetUnit(UnitTypes.Force, "kN");
-            var unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, "kNm");
-            var unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature, "1/m");
-
-            List<string> labels = GetCrackLabels(unitForce, unitMoment, unitCurvature);
-            arrayParameter = new ArrayParameter<double>(ValidTupleList.Count(), labels.Count(), labels);
-            CalculateWithCrack(ValidTupleList, NdmPrimitives, unitForce, unitMoment, unitCurvature);
+            List<string> labels = GetCrackLabels();
+            arrayParameter = new ArrayParameter<double>(ValidTupleList.Count(), labels);
+            CalculateWithCrack(ValidTupleList,
+                NdmPrimitives,
+                CommonOperation.GetUnit(UnitTypes.Force),
+                CommonOperation.GetUnit(UnitTypes.Moment),
+                CommonOperation.GetUnit(UnitTypes.Curvature));
         }
 
         public void ShowWindow()
         {
             SafetyProcessor.RunSafeProcess(() =>
             {
-                var series = new Series(arrayParameter) { Name = "Forces and curvatures" };
-                var vm = new GraphViewModel(new List<Series>() { series });
+                var series = new Series(arrayParameter)
+                {
+                    Name = "Forces and curvatures"
+                };
+                var vm = new GraphViewModel(new List<Series>()
+                {
+                    series
+                });
                 var wnd = new GraphView(vm);
                 wnd.ShowDialog();
             },
@@ -132,11 +138,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
             }
         }
 
-        private static List<string> GetCrackLabels(IUnit unitForce, IUnit unitMoment, IUnit unitCurvature)
+        private static List<string> GetCrackLabels()
         {
             const string crc = "Crc";
             const string crcFactor = "CrcSofteningFactor";
-            var labels = LabelsFactory.GetLabels();
+            var labels = LabelsFactory.GetCommonLabels();
+            IUnit unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature);
             var crclabels = new List<string>
             {
                 $"{crc}{GeometryNames.CurvFstName}, {unitCurvature.Name}",

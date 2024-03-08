@@ -11,11 +11,11 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 {
     public static class LabelsFactory
     {
-        private static IUnit unitForce = CommonOperation.GetUnit(UnitTypes.Force, "kN");
-        private static IUnit unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, "kNm");
-        private static IUnit unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature, "1/m");
+        private static IUnit unitForce = CommonOperation.GetUnit(UnitTypes.Force);
+        private static IUnit unitMoment = CommonOperation.GetUnit(UnitTypes.Moment);
+        private static IUnit unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature);
         private static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
-        public static List<string> GetLabels()
+        public static List<string> GetCommonLabels()
         {
             var labels = new List<string>
             {

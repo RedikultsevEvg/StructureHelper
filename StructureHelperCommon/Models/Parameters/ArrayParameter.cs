@@ -42,5 +42,6 @@ namespace StructureHelperCommon.Models.Parameters
 				ColumnLabels = columnLabels;
 			}
         }
+        public ArrayParameter(int rowCount, List<string> columnLabels) : this(rowCount, columnLabels.Count, columnLabels) { }
     }
 }

@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
 namespace StructureHelperCommon.Models.Sections
 {
     public class AccidentalEccentricityLogic : IAccidentalEccentricityLogic
@@ -64,10 +67,10 @@ namespace StructureHelperCommon.Models.Sections
                 minEccentricity, yEccentricity,
                 yFullEccentricity);
             TraceLogger?.AddMessage(mesEy);
-            var xSign = InitialForceTuple.Mx == 0 ? 1 : Math.Sign(InitialForceTuple.Mx);
-            var ySign = InitialForceTuple.My == 0 ? 1 : Math.Sign(InitialForceTuple.My);
-            var mx = InitialForceTuple.Nz * yFullEccentricity * xSign;
-            var my = InitialForceTuple.Nz * xFullEccentricity * ySign;
+            var xSign = InitialForceTuple.Mx == 0d ? -1d : Math.Sign(InitialForceTuple.Mx);
+            var ySign = InitialForceTuple.My == 0d ? -1d : Math.Sign(InitialForceTuple.My);
+            var mx = (-1d) * InitialForceTuple.Nz * yFullEccentricity * xSign;
+            var my = (-1d) * InitialForceTuple.Nz * xFullEccentricity * ySign;
             TraceLogger?.AddMessage(string.Format("Bending moment arbitrary X-axis Mx = {0} * {1} = {2}", InitialForceTuple.Nz, yFullEccentricity, mx), TraceLogStatuses.Debug);
             TraceLogger?.AddMessage(string.Format("Bending moment arbitrary Y-axis My = {0} * {1} = {2}", InitialForceTuple.Nz, xFullEccentricity, my), TraceLogStatuses.Debug);
 

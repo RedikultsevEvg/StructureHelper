@@ -9,6 +9,7 @@ using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperLogics.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -33,18 +34,16 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private IForcesTupleResult CalculateResult()
         {
-            TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLogStatuses.Service);
-            TraceLogger?.AddMessage($"Calculator logic based on calculating strain in plain section by elementary parts of finished size");
+            TraceLogger?.AddMessage(string.Intern($"Calculator type: {GetType()}"), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(string.Intern("Calculator logic based on calculating strain in plain section by elementary parts of finished size"));
             var ndmCollection = InputData.NdmCollection;
-            TraceLogger?.AddMessage($"Collection of elementary parts contains {ndmCollection.Count()} parts");
-            TraceLogger?.AddMessage($"Summary area of elementary part collection = {ndmCollection.Sum(x => x.Area * x.StressScale)}", TraceLogStatuses.Service);
-            TraceLogger?.AddMessage($"Minimum x = {ndmCollection.Min(x => x.CenterX)}", TraceLogStatuses.Debug);
-            TraceLogger?.AddMessage($"Maximum x = {ndmCollection.Max(x => x.CenterX)}", TraceLogStatuses.Debug);
-            TraceLogger?.AddMessage($"Minimum y = {ndmCollection.Min(x => x.CenterY)}", TraceLogStatuses.Debug);
-            TraceLogger?.AddMessage($"Maximum y = {ndmCollection.Max(x => x.CenterY)}", TraceLogStatuses.Debug);
+            if (TraceLogger is not null)
+            {
+                TraceService.TraceNdmCollection(TraceLogger, ndmCollection);
+            }
             var tuple = InputData.Tuple;
             var accuracy = InputData.Accuracy;
-            TraceLogger?.AddMessage($"Input force combination");
+            TraceLogger?.AddMessage(string.Intern("Input force combination"));
             TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(tuple));
             var mx = tuple.Mx;
             var my = tuple.My;
@@ -65,9 +64,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                     NdmCollection = ndmCollection
                 };
                 var calculator = new Calculator();
-                TraceLogger?.AddMessage($"Calculation is started", TraceLogStatuses.Debug);
+                TraceLogger?.AddMessage(string.Intern("Calculation is started"), TraceLogStatuses.Debug);
                 calculator.Run(loaderData, new CancellationToken());
-                TraceLogger?.AddMessage($"Calculation result is obtained", TraceLogStatuses.Debug);
+                TraceLogger?.AddMessage(string.Intern("Calculation result is obtained"), TraceLogStatuses.Debug);
                 var calcResult = calculator.Result;
                 if (calcResult.AccuracyRate <= accuracy.IterationAccuracy)
                 {
@@ -77,18 +76,18 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                         Description = LoggerStrings.CalculationHasDone,
                         LoaderResults = calcResult
                     };
-                    forceTupleTraceResultLogic = new ForceTupleTraceResultLogic(ndmCollection) { TraceLogger = TraceLogger};
+                    forceTupleTraceResultLogic = new ForceTupleTraceResultLogic(ndmCollection) { TraceLogger = TraceLogger };
                     forceTupleTraceResultLogic.TraceResult(result);
                     return result;
                 }
                 else
                 {
-                    TraceLogger?.AddMessage($"Required accuracy rate has not achieved", TraceLogStatuses.Error);
+                    TraceLogger?.AddMessage(string.Intern("Required accuracy rate has not achieved"), TraceLogStatuses.Error);
                     TraceLogger?.AddMessage($"Current accuracy {calcResult.AccuracyRate}, {calcResult.IterationCounter} iteration has done", TraceLogStatuses.Warning);
                     return new ForcesTupleResult()
                     {
                         IsValid = false,
-                        Description = "Required accuracy rate has not achieved",
+                        Description = string.Intern("Required accuracy rate has not achieved"),
                         LoaderResults = calcResult
                     };
                 }
@@ -103,8 +102,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 };
                 if (ex.Message == "Calculation result is not valid: stiffness matrix is equal to zero")
                 {
-                    TraceLogger?.AddMessage($"Stiffness matrix is equal to zero\nProbably section was collapsed", TraceLogStatuses.Error);
-                    result.Description = "Stiffness matrix is equal to zero\nProbably section was collapsed";
+                    TraceLogger?.AddMessage(string.Intern("Stiffness matrix is equal to zero\nProbably section was collapsed"), TraceLogStatuses.Error);
+                    result.Description = string.Intern("Stiffness matrix is equal to zero\nProbably section was collapsed");
                 }
                 else
                 {

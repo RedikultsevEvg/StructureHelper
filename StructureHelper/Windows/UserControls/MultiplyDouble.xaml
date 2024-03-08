@@ -6,7 +6,27 @@
              xmlns:local="clr-namespace:StructureHelper.Windows.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="25" d:DesignWidth="120">
-    <Grid>
+    <Grid x:Name="ButtonGrid" Opacity="0.1">
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="UIElement.MouseEnter" SourceName="ButtonGrid">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="ButtonGrid"
+                                         Storyboard.TargetProperty="Opacity"
+                                         To="1.0" Duration="0:0:0.5" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="UIElement.MouseLeave" SourceName="ButtonGrid">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="ButtonGrid"
+                                         Storyboard.TargetProperty="Opacity"
+                                         To="0.1" Duration="0:0:5.0" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>

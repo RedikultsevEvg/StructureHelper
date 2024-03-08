@@ -1,4 +1,5 @@
-﻿using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator.Data.Materials;
+using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Logics;
 using LoaderCalculator.Logics.Geometry;
 using StructureHelperCommon.Models;
@@ -9,6 +10,7 @@ using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using StructureHelperLogics.Services;
 using StructureHelperLogics.Services.NdmPrimitives;
 
 namespace StructureHelperLogics.NdmCalculations.Buckling
@@ -28,7 +30,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         public IResult Result { get; private set; }
 
         public IAccuracy Accuracy { get; set; }
-        public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Action<IResult> ActionToOutputResults { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
         private (double EtaAlongX, double EtaAlongY) GetBucklingCoefficients()
@@ -50,11 +52,9 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
             Accuracy = accuracy;
 
             var allPrimitives = options.Primitives;
-            var concretePrimitives = GetConcretePrimitives();
-            var otherPrimitives = allPrimitives.Except(concretePrimitives);
             ndmCollection = NdmPrimitivesService.GetNdms(allPrimitives, options.LimitState, options.CalcTerm);
-            concreteNdms = NdmPrimitivesService.GetNdms(concretePrimitives, options.LimitState, options.CalcTerm);
-            otherNdms = NdmPrimitivesService.GetNdms(otherPrimitives, options.LimitState, options.CalcTerm);
+            concreteNdms = ndmCollection.Where(x => x.Material is ICrackMaterial).ToList();
+            otherNdms = ndmCollection.Except(concreteNdms).ToList();
         }
 
         private (IConcreteDeltaELogic DeltaLogicX, IConcreteDeltaELogic DeltaLogicY) GetDeltaLogics()
@@ -78,35 +78,38 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
             return (DeltaElogicAboutX, DeltaElogicAboutY);
         }
 
-        private IEnumerable<INdmPrimitive> GetConcretePrimitives()
-        {
-            var primitives = options.Primitives.Where(x => x.HeadMaterial.HelperMaterial is IConcreteLibMaterial);
-            return primitives;
-        }
-
         private (double DX, double DY) GetStiffness()
         {
+            const string sumStif = "Summary stiffness";
             var gravityCenter = GeometryOperations.GetGravityCenter(ndmCollection);
             string message = string.Format("Gravity center, x = {0}, y = {1}", gravityCenter.Cx, gravityCenter.Cy);
             TraceLogger?.AddMessage(message);
+            if (TraceLogger is not null)
+            {
+                TraceLogger.AddMessage(string.Intern("Concrete elementary parts"));
+                TraceService.TraceNdmCollection(TraceLogger, concreteNdms);
+                TraceLogger.AddMessage(string.Intern("Nonconcrete elementary parts"));
+                TraceService.TraceNdmCollection(TraceLogger, otherNdms);
+            }
+            
             var (EIx, EIy) = GeometryOperations.GetReducedMomentsOfInertia(concreteNdms, gravityCenter);
-            TraceLogger.AddMessage(string.Format("Summary stiffness of concrete parts EIx,c = {0}", EIx));
-            TraceLogger.AddMessage(string.Format("Summary stiffness of concrete parts EIy,c = {0}", EIy));
+            TraceLogger?.AddMessage(string.Format("{0} of concrete parts EIx,c = {1}", sumStif, EIx));
+            TraceLogger?.AddMessage(string.Format("{0} of concrete parts EIy,c = {1}", sumStif, EIy));
             var otherInertia = GeometryOperations.GetReducedMomentsOfInertia(otherNdms, gravityCenter);
-            TraceLogger.AddMessage(string.Format("Summary stiffness of nonconcrete parts EIx,s = {0}", otherInertia.EIy));
-            TraceLogger.AddMessage(string.Format("Summary stiffness of nonconcrete parts EIy,s = {0}", otherInertia.EIy));
+            TraceLogger?.AddMessage(string.Format("{0} of nonconcrete parts EIx,s = {1}", sumStif, otherInertia.EIx));
+            TraceLogger?.AddMessage(string.Format("{0} of nonconcrete parts EIy,s = {1}", sumStif, otherInertia.EIy));
 
             var (Kc, Ks) = stiffnessLogicX.GetStiffnessCoeffitients();
             var dX = Kc * EIx  + Ks * otherInertia.EIx;
-            string mesDx = string.Format("Summary stiffness Dx = Kc * EIx,c + Ks * EIx,s = {0} * {1} + {2} * {3} = {4}",
-                Kc, EIx, Ks, otherInertia.EIx, dX);
-            TraceLogger.AddMessage(mesDx);
+            string mesDx = string.Format("{0} Dx = Kc * EIx,c + Ks * EIx,s = {1} * {2} + {3} * {4} = {5}",
+                sumStif, Kc, EIx, Ks, otherInertia.EIx, dX);
+            TraceLogger?.AddMessage(mesDx);
 
             var stiffnessY = stiffnessLogicY.GetStiffnessCoeffitients();
             var dY = stiffnessY.Kc * EIy + stiffnessY.Ks * otherInertia.EIy;
-            string mesDy = string.Format("Summary stiffness Dy = Kc * EIy,c + Ks * EIy,s = {0} * {1} + {2} * {3} = {4}",
-                stiffnessY.Kc, EIy, stiffnessY.Ks, otherInertia.EIy, dY);
-            TraceLogger.AddMessage(mesDy);
+            string mesDy = string.Format("{0} Dy = Kc * EIy,c + Ks * EIy,s = {1} * {2} + {3} * {4} = {5}",
+                sumStif, stiffnessY.Kc, EIy, stiffnessY.Ks, otherInertia.EIy, dY);
+            TraceLogger?.AddMessage(mesDy);
             return (dX, dY);
         }
 
@@ -132,8 +135,8 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
                     point = new Point2D() { X = item.CenterX, Y = item.CenterY };
                 }
             }
-            TraceLogger.AddMessage(string.Format("Most tensioned (minimum compressed) point: x = {0}, y = {1}", point.X, point.Y));
-            TraceLogger.AddMessage(string.Format("Strain: epsilon = {0}", maxStrain), TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage(string.Format("Most tensioned (minimum compressed) point: x = {0}, y = {1}", point.X, point.Y));
+            TraceLogger?.AddMessage(string.Format("Strain: epsilon = {0}", maxStrain), TraceLogStatuses.Debug);
             return point;
         }
 

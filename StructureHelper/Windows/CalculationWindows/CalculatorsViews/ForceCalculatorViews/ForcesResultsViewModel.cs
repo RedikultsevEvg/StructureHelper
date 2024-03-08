@@ -176,8 +176,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                     };
                     showProgressLogic.Show();
                 }
-            }, o => SelectedResult != null && SelectedResult.IsValid
-            );
+            }, o => SelectedResult != null);
         }
         public ICommand ShowCrackGraphsCommand
         {
@@ -282,11 +281,16 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private void InterpolateValuePoints()
         {
+            if (SelectedResult is null)
+            {
+                throw new StructureHelperException(ErrorStrings.NullReference + ": Nothing is selected");
+            }
+            var tuple = SelectedResult.DesignForceTuple ?? throw new StructureHelperException(ErrorStrings.NullReference + ": Design force combination");
             var inputData = new ValuePointsInterpolationInputData()
             {
-                FinishDesignForce = SelectedResult.DesignForceTuple.Clone() as IDesignForceTuple,
-                LimitState = SelectedResult.DesignForceTuple.LimitState,
-                CalcTerm = SelectedResult.DesignForceTuple.CalcTerm,
+                FinishDesignForce = tuple.Clone() as IDesignForceTuple,
+                LimitState = tuple.LimitState,
+                CalcTerm = tuple.CalcTerm,
             };
             inputData.PrimitiveBases.AddRange(PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(ndmPrimitives));
             var viewModel = new ValuePointsInterpolateViewModel(inputData);
@@ -294,7 +298,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             wnd.ShowDialog();
             if (wnd.DialogResult != true) { return; }
             var interpolationLogic = new InterpolationProgressLogic(forceCalculator, viewModel.ForceInterpolationViewModel.Result);
-            ShowValuePointDiagramLogic pointGraphLogic = new()
+            ShowValuePointDiagramLogic pointGraphLogic = new(ForcesResults.ForcesResultList, ndmPrimitives)
             {
                 Calculator = interpolationLogic.InterpolateCalculator,
                 PrimitiveLogic = viewModel.PrimitiveLogic,
@@ -303,7 +307,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             progressLogic = interpolationLogic;
             showProgressLogic = new(interpolationLogic)
             {
-                ShowResult = pointGraphLogic.ShowGraph
+                ShowResult = pointGraphLogic.ShowWindow
             };
             showProgressLogic.Show();
         }

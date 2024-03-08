@@ -25,5 +25,7 @@
         public static string ExpectedWas(System.Type expected, object obj) => ExpectedWas(expected, obj.GetType());
         public static string NullReference => "#0018: Null reference";
         public static string ObjectNotFound => "#0018: Object not found";
+        public static string ErrorDuring(string operation) => string.Format("Errors appeared during {0}, see detailed information", operation);
+        public static string CalculationError => "#0019: Error of calculation";
     }
 }
