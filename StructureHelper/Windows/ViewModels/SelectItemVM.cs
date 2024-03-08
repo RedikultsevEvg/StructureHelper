@@ -1,4 +1,7 @@
-﻿using StructureHelper.Infrastructure;
+﻿using LoaderCalculator;
+using StructureHelper.Infrastructure;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -97,6 +100,13 @@ namespace StructureHelper.Windows.ViewModels
             if (SelectedItem is ICloneable)
             {
                 NewItem = (SelectedItem as ICloneable).Clone() as TItem;
+            }
+            if (SelectedItem is ILogic logic)
+            {
+                if (logic.TraceLogger is not null)
+                {
+                    (NewItem as ILogic).TraceLogger = logic.TraceLogger.GetSimilarTraceLogger();
+                }
             }
             Collection.Add(NewItem);
             Items.Add(NewItem);

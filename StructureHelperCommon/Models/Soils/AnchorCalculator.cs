@@ -1,6 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

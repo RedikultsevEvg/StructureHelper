@@ -14,6 +14,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StructureHelperLogics", "StructureHelperLogics\StructureHelperLogics.csproj", "{C9192AE7-EE6D-409C-A05C-3549D78CBB34}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FieldVisualizer", "FieldVisualizer\FieldVisualizer.csproj", "{6CAC5B83-81F3-47C2-92A1-0F94A58491C2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F1548BD2-7FE8-46C2-9BC4-9BA813A5C59A} = {F1548BD2-7FE8-46C2-9BC4-9BA813A5C59A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

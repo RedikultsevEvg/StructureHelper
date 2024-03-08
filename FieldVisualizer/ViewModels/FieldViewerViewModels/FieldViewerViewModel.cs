@@ -1,27 +1,22 @@
-﻿using FieldVisualizer.Entities.ColorMaps.Factories;
-using FieldVisualizer.Entities.ColorMaps;
-using FieldVisualizer.Entities.Values.Primitives;
+﻿using FieldVisualizer.Entities.ColorMaps;
+using FieldVisualizer.Entities.ColorMaps.Factories;
 using FieldVisualizer.Entities.Values;
+using FieldVisualizer.Entities.Values.Primitives;
 using FieldVisualizer.Infrastructure.Commands;
-using FieldVisualizer.InfraStructures.Enums;
 using FieldVisualizer.InfraStructures.Exceptions;
 using FieldVisualizer.InfraStructures.Strings;
 using FieldVisualizer.Services.ColorServices;
 using FieldVisualizer.Services.PrimitiveServices;
 using FieldVisualizer.Services.ValueRanges;
+using FieldVisualizer.Windows.UserControls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using FieldVisualizer.Windows.UserControls;
-using System.ComponentModel;
-using System.Xml.Serialization;
 
 namespace FieldVisualizer.ViewModels.FieldViewerViewModels
 {
@@ -177,7 +172,7 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
 
         public FieldViewerViewModel()
         {
-            _ColorMapType = ColorMapsTypes.FullSpectrum;
+            _ColorMapType = ColorMapsTypes.LiraSpectrum;
             RebuildCommand = new RelayCommand(o => ProcessPrimitives(), o => PrimitiveValidation());
             ZoomInCommand = new RelayCommand(o => Zoom(1.2), o => PrimitiveValidation());
             ZoomOutCommand = new RelayCommand(o => Zoom(0.8), o => PrimitiveValidation());

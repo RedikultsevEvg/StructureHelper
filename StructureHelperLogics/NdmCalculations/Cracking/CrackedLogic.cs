@@ -1,4 +1,6 @@
-﻿using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator;
+using LoaderCalculator.Data.Ndms;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services.Forces;
 using System;
@@ -15,6 +17,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public IForceTuple StartTuple { get; set; }
         public IForceTuple EndTuple { get; set; }
         public IEnumerable<INdm> NdmCollection { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
+
         public CrackedLogic(ISectionCrackedLogic sectionLogic)
         {
             sectionCrackedLogic = sectionLogic;
@@ -25,6 +29,10 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         }
         public bool IsSectionCracked(double factor)
         {
+            if (TraceLogger is not null)
+            {
+                sectionCrackedLogic.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
+            }
             var actualTuple = ForceTupleService.InterpolateTuples(EndTuple, StartTuple, factor);
             sectionCrackedLogic.Tuple = actualTuple;
             sectionCrackedLogic.NdmCollection = NdmCollection;

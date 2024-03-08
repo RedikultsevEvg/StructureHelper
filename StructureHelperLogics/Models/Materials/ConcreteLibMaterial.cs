@@ -1,17 +1,17 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+﻿using LoaderCalculator.Data.Materials;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using LMBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
 using LMLogic = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
-using LM = LoaderCalculator.Data.Materials;
-using LoaderCalculator.Data.Materials;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Models.Materials;
 
 namespace StructureHelperLogics.Models.Materials
 {
     public class ConcreteLibMaterial : IConcreteLibMaterial
     {
+        const double maxAge = 70d * 365 * 24 * 60 * 60;
         const MaterialTypes materialType = MaterialTypes.Concrete;
         private readonly List<IMaterialLogic> materialLogics;
         private LMBuilders.ConcreteOptions lmOptions;
@@ -26,14 +26,18 @@ namespace StructureHelperLogics.Models.Materials
         public bool TensionForULS { get ; set; }
         /// <inheritdoc/>
         public bool TensionForSLS { get; set; }
-        /// <summary>
-        /// Humidity of concrete
-        /// </summary>
+        /// <inheritdoc/>
         public double RelativeHumidity { get; set; }
         /// <inheritdoc/>
         public IMaterialLogic MaterialLogic { get; set; }
         /// <inheritdoc/>
+        public double MinAge { get; set; }
+        /// <inheritdoc/>
+        public double MaxAge { get; set; }
+        /// <inheritdoc/>
         public List<IMaterialLogic> MaterialLogics => materialLogics;
+
+
         public ConcreteLibMaterial()
         {
             materialLogics = ProgramSetting.MaterialLogics.Where(x => x.MaterialType == materialType).ToList();
@@ -44,6 +48,8 @@ namespace StructureHelperLogics.Models.Materials
             TensionForULS = false;
             TensionForSLS = true;
             RelativeHumidity = 0.55d;
+            MinAge = 0d;
+            MaxAge = maxAge;
         }       
 
         public object Clone()
@@ -107,6 +113,7 @@ namespace StructureHelperLogics.Models.Materials
                 {
                     options.WorkInTension = false;
                 }
+                options.Age = MinAge;
             }
             else if (limitState == LimitStates.SLS)
             {
@@ -117,6 +124,14 @@ namespace StructureHelperLogics.Models.Materials
                 else
                 {
                     options.WorkInTension = false;
+                }
+                if (calcTerm == CalcTerms.LongTerm)
+                {
+                    options.Age = MaxAge;
+                }
+                else
+                {
+                    options.Age = MinAge;
                 }
             }
             else

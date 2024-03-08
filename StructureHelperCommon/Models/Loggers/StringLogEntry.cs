@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperCommon.Models.Loggers
+namespace StructureHelperCommon.Models
 {
-    public class StringLoggerEntry : ITraceLoggerEntry
+    public class StringLogEntry : ITraceLoggerEntry
     {
         public DateTime TimeStamp { get;}
         public string Message { get; set; }
         public int Priority { get; set; }
 
-        public StringLoggerEntry()
+        public StringLogEntry()
         {
             TimeStamp = DateTime.Now;
         }

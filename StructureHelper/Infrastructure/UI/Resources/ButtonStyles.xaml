@@ -51,6 +51,20 @@
     </Style>
 
     <Style x:Key="ToolButton" TargetType="Button">
+        <Style.Resources>
+            <Style TargetType="Image">
+                <Setter Property="Width" Value="32"/>
+                <Setter Property="Height" Value="32"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.25"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Style.Resources>
         <Setter Property="Width" Value="32"/>
         <Setter Property="Height" Value="32"/>
         <Setter Property="Margin" Value="2,0,2,0"/>

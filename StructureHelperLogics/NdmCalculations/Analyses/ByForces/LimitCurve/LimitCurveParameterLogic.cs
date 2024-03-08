@@ -1,12 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -45,7 +40,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             if (parameter < limitparamValue)
             {
                 var newAccuracy = limitparamValue / 10d;
-                TraceLogger?.AddMessage($"Since current parameter value {parameter} has a low accuracy (value less than {limitparamValue}) new parameter calculating is started", TraceLoggerStatuses.Warning);
+                TraceLogger?.AddMessage($"Since current parameter value {parameter} has a low accuracy (value less than {limitparamValue}) new parameter calculating is started", TraceLogStatuses.Warning);
                 parameterCalculator.Accuracy.IterationAccuracy = 0.0001d;
                 parameterCalculator.Run();
                 result = parameterCalculator.Result as FindParameterResult;

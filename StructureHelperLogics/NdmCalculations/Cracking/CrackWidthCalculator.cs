@@ -1,12 +1,11 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services.NdmPrimitives;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
@@ -66,7 +65,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private void CalcStrainMatrix()
         {
             IForceTupleInputData inputData = new ForceTupleInputData() { NdmCollection = ndmCollection, Tuple = InputData.ForceTuple};
-            IForceTupleCalculator calculator = new ForceTupleCalculator(inputData);
+            IForceTupleCalculator calculator = new ForceTupleCalculator() { InputData = inputData };
             calculator.Run();
             var forceResult = calculator.Result as IForcesTupleResult;
             strainTuple = TupleConverter.ConvertToStrainTuple(forceResult.LoaderResults.StrainMatrix);

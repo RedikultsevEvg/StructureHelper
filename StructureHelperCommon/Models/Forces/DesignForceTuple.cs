@@ -6,7 +6,7 @@ namespace StructureHelperCommon.Models.Forces
     {
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }
-        public ForceTuple ForceTuple { get; set; }
+        public IForceTuple ForceTuple { get; set; }
 
         public DesignForceTuple(LimitStates limitState, CalcTerms calcTerm) : this()
         {

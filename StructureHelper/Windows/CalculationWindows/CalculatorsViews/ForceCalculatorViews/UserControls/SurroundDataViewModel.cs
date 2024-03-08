@@ -157,6 +157,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             {
                 var factor = GetFactor(SurroundData.ConvertLogicEntity.ZForceType);
                 SurroundData.ConstZ = value / factor;
+                SurroundData.ConvertLogicEntity.ConstDirectionValue = SurroundData.ConstZ;
                 OnPropertyChanged(nameof(ConstZ));
             }
         }

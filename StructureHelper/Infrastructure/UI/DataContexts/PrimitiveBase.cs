@@ -2,13 +2,15 @@
 using StructureHelper.Services.Primitives;
 using StructureHelper.Windows.MainWindow;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using System;
 using System.Windows.Input;
 using System.Windows.Media;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
-    public abstract class PrimitiveBase : ViewModelBase
+    public abstract class PrimitiveBase : ViewModelBase, IObserver<IRectangleShape>
     {
         #region Поля
         private IPrimitiveRepository primitiveRepository;
@@ -236,13 +238,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             this.primitive = primitive;
         }
 
-        public void RegisterDeltas(double dx, double dy)
-        {
-            DeltaX = dx;
-            DeltaY = dy;
-        }
-
-        public MainViewModel OwnerVM { get; private set; }
+        public CrossSectionViewModel OwnerVM { get; private set; }
 
         public double DeltaX { get; private set; }
         public double DeltaY { get; private set; }
@@ -253,14 +249,6 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             return primitive;
         }
 
-        //public virtual void RefreshNdmPrimitive()
-        //{
-        //}
-
-        public void RefreshColor()
-        {
-            OnPropertyChanged(nameof(Color));
-        }
         public virtual void Refresh()
         {
             OnPropertyChanged(nameof(Name));
@@ -272,6 +260,23 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             OnPropertyChanged(nameof(Triangulate));
             OnPropertyChanged(nameof(PrimitiveWidth));
             OnPropertyChanged(nameof(PrimitiveHeight));
+        }
+
+        public void OnCompleted()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnError(Exception error)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnNext(IRectangleShape value)
+        {
+            DeltaX = value.Width / 2d;
+            DeltaY = value.Height / 2d;
+            Refresh();
         }
     }
 }

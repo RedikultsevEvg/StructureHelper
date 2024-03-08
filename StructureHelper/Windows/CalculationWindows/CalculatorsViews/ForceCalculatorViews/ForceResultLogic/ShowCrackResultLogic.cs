@@ -1,8 +1,11 @@
-﻿using StructureHelper.Windows.Errors;
+﻿using LoaderCalculator;
+using StructureHelper.Windows.CalculationWindows.ProgressViews;
+using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -14,26 +17,29 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 {
     internal class ShowCrackResultLogic
     {
+        private CrackForceCalculator calculator;
+
         public static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }
-        public ForceTuple ForceTuple { get; set; }
+        public IForceTuple ForceTuple { get; set; }
         public IEnumerable<INdmPrimitive> ndmPrimitives { get; set; }
         public void Show(IDesignForceTuple finishDesignTuple)
         {
             var viewModel = new InterpolateTuplesViewModel(finishDesignTuple, null);
-            viewModel.StepCountVisible = false;
+            viewModel.ForceInterpolationViewModel.StepCountVisible = false;
             var wndTuples = new InterpolateTuplesView(viewModel);
             wndTuples.ShowDialog();
             if (wndTuples.DialogResult != true) return;
-            var startDesignTuple = viewModel.StartDesignForce.ForceTuple;
-            var endDesignTuple = viewModel.FinishDesignForce.ForceTuple;
+            var startDesignTuple = viewModel.ForceInterpolationViewModel.StartDesignForce.ForceTuple;
+            var endDesignTuple = viewModel.ForceInterpolationViewModel.FinishDesignForce.ForceTuple;
             FindCrackFactor(endDesignTuple, startDesignTuple);
         }
 
-        private void FindCrackFactor(ForceTuple finishDesignTuple, ForceTuple startDesignTuple)
+        private void FindCrackFactor(IForceTuple finishDesignTuple, IForceTuple startDesignTuple)
         {
-            var calculator = new CrackForceCalculator();
+            calculator = new CrackForceCalculator();
+            calculator.TraceLogger = new ShiftTraceLogger();
             calculator.StartTuple = startDesignTuple;
             calculator.EndTuple = finishDesignTuple;
             calculator.NdmCollection = NdmPrimitivesService.GetNdms(ndmPrimitives, LimitState, CalcTerm);
@@ -41,7 +47,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             var result = (CrackForceResult)calculator.Result;
             if (result.IsValid)
             {
-                ShowResult(result);
+                ShowTraceResult();
+                //ShowResult(result);
             }
             else
             {
@@ -79,6 +86,15 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 "Crack results",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
+        }
+
+        private void ShowTraceResult()
+        {
+            if (calculator.TraceLogger is not null)
+            {
+                var wnd = new TraceDocumentView(calculator.TraceLogger.TraceLoggerEntries);
+                wnd.ShowDialog();
+            }
         }
     }
 }

@@ -1,12 +1,8 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Models.Calculators
 {

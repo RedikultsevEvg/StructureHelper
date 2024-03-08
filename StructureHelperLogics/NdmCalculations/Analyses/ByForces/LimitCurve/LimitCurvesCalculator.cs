@@ -1,17 +1,10 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Loggers;
-using StructureHelperCommon.Models.Shapes;
-using StructureHelperLogics.Models.Calculations.CalculationsResults;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Factories;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.Services.NdmPrimitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 //Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
@@ -39,7 +32,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         }
         public void Run()
         {
-            TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLoggerStatuses.Service);
+            TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLogStatuses.Service);
             TraceLogger?.AddMessage($"Start solution in calculator {Name}");
             GetNewResult();
             try
@@ -62,7 +55,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             }
             catch (Exception ex)
             {
-                TraceLogger?.AddMessage($"Calculation result is not valid: {ex.Message}", TraceLoggerStatuses.Error);
+                TraceLogger?.AddMessage($"Calculation result is not valid: {ex.Message}", TraceLogStatuses.Error);
                 result.IsValid = false;
                 result.Description += ex;
             }
@@ -87,7 +80,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                     {
                         var ndms = NdmPrimitivesService.GetNdms(primitiveSeries.Collection, limitState, calcTerm);
                         TraceLogger?.AddMessage($"Number of elementary parts N={ndms.Count()} were obtainded succesfully");
-                        TraceLogger?.AddMessage($"Summary area of elementary parts Asum={ndms.Sum(x=>x.Area)}", TraceLoggerStatuses.Debug);
+                        TraceLogger?.AddMessage($"Summary area of elementary parts Asum={ndms.Sum(x=>x.Area * x.StressScale)}", TraceLogStatuses.Debug);
                         foreach (var predicateEntry in InputData.PredicateEntries)
                         {
                             string calcName = $"{primitiveSeries.Name}_{predicateEntry.Name}_{limitState}_{calcTerm}";
@@ -113,7 +106,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 ConvertLogic = InputData.SurroundData.ConvertLogicEntity.ConvertLogic,
                 PredicateType = predicateType
             };
-            if (TraceLogger is not null) { getPredicateLogic.TraceLogger = TraceLogger; }
+            if (TraceLogger is not null)
+            {
+                //getPredicateLogic.TraceLogger = TraceLogger;
+            }
             var logic = new LimitCurveLogic(getPredicateLogic);
             var calculator = new LimitCurveCalculator(logic)
             {
@@ -137,6 +133,23 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             var curveResult = locResult as IiterationResult;
             result.IterationNumber = curvesIterationCount * InputData.PointCount + curveResult.IterationNumber;
             ActionToOutputResults?.Invoke(result);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is null)
+            {
+                return false;
+            }
+            if (obj is LimitCurvesCalculator)
+            {
+                var item = obj as LimitCurvesCalculator;
+                if (item.Id == Id)
+                {
+                    return true;
+                }
+            };
+            return false;
         }
 
     }

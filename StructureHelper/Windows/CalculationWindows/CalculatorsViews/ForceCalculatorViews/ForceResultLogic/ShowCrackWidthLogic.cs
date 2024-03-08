@@ -15,7 +15,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public List<INdmPrimitive> ndmPrimitives { get; set; }
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }
-        public ForceTuple ForceTuple { get; set; }
+        public IForceTuple ForceTuple { get; set; }
 
         internal void Show()
         {

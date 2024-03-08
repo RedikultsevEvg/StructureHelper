@@ -10,17 +10,20 @@
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
-                <Button Command="{Binding ShowCrackResultCommand}" ToolTip="Show force of cracking">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_crack.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding ShowCrackResultCommand}" ToolTip="Show force of cracking">
+                    <Image Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_crack.png"/>
                 </Button>
-                <Button Command="{Binding InterpolateCommand}" ToolTip="Show result step by step">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_interpolation_1_1.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding InterpolateCommand}" ToolTip="Show result step by step">
+                    <Image Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_interpolation_1_1.png"/>
                 </Button>
-                <Button Command="{Binding ShowGraphsCommand}" ToolTip="Show diagram moment-curvature">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_graph_2.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding ShowGraphsCommand}" ToolTip="Show diagram moment-curvature">
+                    <Image Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_graph_2.png"/>
                 </Button>
-                <Button Command="{Binding ShowInteractionDiagramCommand}" ToolTip="Show interaction diagram">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_graph_1.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding GraphValuePointsCommand}" ToolTip="Show diagram by value points">
+                    <Image Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_graph_2.png"/>
+                </Button>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding ShowInteractionDiagramCommand}" ToolTip="Show interaction diagram">
+                    <Image Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_graph_1.png"/>
                 </Button>
                 
             </ToolBar>

@@ -1,26 +1,22 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
-using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic;
 using StructureHelper.Windows.CalculationWindows.ProgressViews;
 using StructureHelper.Windows.ViewModels.Calculations.Calculators;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Analyses.Logics;
-using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
 using System.Windows;
 using System.Windows.Forms;
 using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 {
-    public class AnalysisVewModelLogic : SelectItemVM<ICalculator>
+    public class AnalysisViewModelLogic : SelectItemVM<ICalculator>
     {
         private ICrossSectionRepository repository;
         private RelayCommand runCommand;
@@ -92,7 +88,6 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
             var calculatorCopy = (ICalculator)calculator.Clone();
             var vm = new ForceCalculatorViewModel(repository.Primitives, repository.ForceActions, calculator);
-
             var wnd = new ForceCalculatorView(vm);
             ShowWindow(calculator, calculatorCopy, wnd);
         }
@@ -133,16 +128,14 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void RunCalculator()
         {
+            if (SelectedItem.TraceLogger is not null)
+            {
+                SelectedItem.TraceLogger.TraceLoggerEntries.Clear();
+            }
             if (SelectedItem is LimitCurvesCalculator calculator)
             {
-                if (calculator.TraceLogger is not null) { calculator.TraceLogger.TraceLoggerEntries.Clear(); }
                 var inputData = calculator.InputData;
                 ShowInteractionDiagramByInputData(calculator);
-                if (calculator.TraceLogger is not null)
-                {
-                    var wnd = new TraceDocumentView(calculator.TraceLogger.TraceLoggerEntries);
-                    wnd.ShowDialog();
-                }
             }
             else
             {
@@ -151,12 +144,16 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 if (result.IsValid == false)
                 {
                     MessageBox.Show(result.Description, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
                 }
                 else
                 {
                     ProcessResult();
                 }
+            }
+            if (SelectedItem.TraceLogger is not null)
+            {
+                var wnd = new TraceDocumentView(SelectedItem.TraceLogger.TraceLoggerEntries);
+                wnd.ShowDialog();
             }
         }
 
@@ -187,7 +184,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
         }
 
-        public AnalysisVewModelLogic(ICrossSectionRepository sectionRepository) : base(sectionRepository.CalculatorsList)
+        public AnalysisViewModelLogic(ICrossSectionRepository sectionRepository) : base(sectionRepository.CalculatorsList)
         {
             repository = sectionRepository;
         }

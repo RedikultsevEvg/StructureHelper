@@ -1,10 +1,5 @@
-﻿using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Loggers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {

@@ -24,7 +24,7 @@ using System.Threading;
 
 namespace StructureHelper.Windows.MainWindow
 {
-    public class MainModel
+    public class CrossSectionModel
     {
         public ICrossSection Section { get; private set; }
         private IPrimitiveRepository primitiveRepository;
@@ -37,7 +37,7 @@ namespace StructureHelper.Windows.MainWindow
 
         public ICalculationProperty CalculationProperty { get; private set; }
 
-        public MainModel(IPrimitiveRepository primitiveRepository, CalculationService calculationService, UnitSystemService unitSystemService)
+        public CrossSectionModel(IPrimitiveRepository primitiveRepository, CalculationService calculationService, UnitSystemService unitSystemService)
         {
             this.primitiveRepository = primitiveRepository;
             this.calculationService = calculationService;

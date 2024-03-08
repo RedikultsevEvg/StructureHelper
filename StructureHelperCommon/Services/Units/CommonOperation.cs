@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Documents;
 
 namespace StructureHelperCommon.Services.Units
 {
@@ -47,10 +48,29 @@ namespace StructureHelperCommon.Services.Units
             throw new StructureHelperException(ErrorStrings.DataIsInCorrect);
         }
 
-        public static IUnit GetUnit(UnitTypes unitType, string unitName)
+        public static IUnit GetUnit(UnitTypes unitType, string unitName = null)
         {
+            if (unitName is null)
+            {
+                var boolResult = DefaultUnitNames.TryGetValue(unitType, out unitName);
+                if (boolResult == false)
+                {
+                    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": unit type{unitType} is unknown");
+                }
+            }
             return units.Where(u => u.UnitType == unitType & u.Name == unitName).Single();
         }
+
+        public static Dictionary<UnitTypes, string> DefaultUnitNames => new()
+        {
+            { UnitTypes.Length, "m"},
+            { UnitTypes.Area, "m2"},
+            { UnitTypes.Force, "kN" },
+            { UnitTypes.Moment, "kNm"},
+            { UnitTypes.Stress, "MPa"},
+            { UnitTypes.Curvature, "1/m"},
+        };
+
 
         public static string Convert(IUnit unit, string unitName, object value)
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperCommon.Models.Loggers
+namespace StructureHelperCommon.Models
 {
     public class ShiftTraceLogger : IShiftTraceLogger
     {
@@ -12,15 +12,18 @@ namespace StructureHelperCommon.Models.Loggers
         public int ShiftPriority { get; set; }
 
         public List<ITraceLoggerEntry> TraceLoggerEntries => Logger.TraceLoggerEntries;
+        public bool KeepErrorStatus { get => Logger.KeepErrorStatus; set => Logger.KeepErrorStatus = value; }
+
         public ShiftTraceLogger(ITraceLogger logger)
         {
             Logger = logger;
+            KeepErrorStatus = true;
         }
         public ShiftTraceLogger() : this(new TraceLogger())  {  }
-        public void AddMessage(string message, TraceLoggerStatuses status = TraceLoggerStatuses.Info, int shiftPrioriry = 0)
+        public void AddMessage(string message, TraceLogStatuses status = TraceLogStatuses.Info, int shiftPrioriry = 0)
         {
             // if status in (fatal, error, warning) they must be kept as they are
-            if (status <= TraceLoggerStatuses.Warning)
+            if (status <= TraceLogStatuses.Warning & KeepErrorStatus == true)
             {
                 Logger.AddMessage(message, status);
             }
@@ -41,14 +44,17 @@ namespace StructureHelperCommon.Models.Loggers
         {
             var newLogger = new ShiftTraceLogger(Logger)
             {
-                ShiftPriority = shiftPriority
+                ShiftPriority = ShiftPriority + shiftPriority
             };
             return newLogger;
         }
 
         public void AddEntry(ITraceLoggerEntry loggerEntry)
         {
-            loggerEntry.Priority += ShiftPriority;
+            if (loggerEntry.Priority >= LoggerService.GetPriorityByStatus(TraceLogStatuses.Warning))
+            {
+                loggerEntry.Priority += ShiftPriority;
+            }
             Logger.TraceLoggerEntries.Add(loggerEntry);
         }
     }

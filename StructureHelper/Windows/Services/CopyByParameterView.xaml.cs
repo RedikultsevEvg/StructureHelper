@@ -19,9 +19,13 @@ namespace StructureHelper.Windows.Services
     /// </summary>
     public partial class CopyByParameterView : Window
     {
-        public CopyByParameterView()
+        private CopyByParameterViewModel viewModel;
+        public CopyByParameterView(CopyByParameterViewModel viewModel)
         {
             InitializeComponent();
+            this.viewModel = viewModel;
+            DataContext = this.viewModel;
+            this.viewModel.ParentWindow = this;
         }
     }
 }

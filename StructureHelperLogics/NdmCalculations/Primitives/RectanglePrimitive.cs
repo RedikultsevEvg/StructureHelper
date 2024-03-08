@@ -2,6 +2,7 @@
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Triangulations;
@@ -79,6 +80,25 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                 point.Y < yMin)
             { return false; }
             return true;
+        }
+
+        public List<NamedValue<IPoint2D>> GetValuePoints()
+        {
+            var points = new List<NamedValue<IPoint2D>>();
+            NamedValue<IPoint2D> newPoint;
+            newPoint = new NamedValue<IPoint2D>()
+            {
+                Name = "Center",
+                Value = Center.Clone() as Point2D
+            };
+            points.Add(newPoint);
+            newPoint = new NamedValue<IPoint2D>()
+            {
+                Name = "LeftTop",
+                Value = new Point2D() { X = Center.X - Width / 2d, Y = Center.Y + Height / 2d}
+            };
+            points.Add(newPoint);
+            return points;
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using LoaderCalculator;
+﻿using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic;
 using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
-using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
@@ -15,8 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
@@ -63,21 +61,27 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 
         public void ShowCracks()
         {
-            var unitForce = CommonOperation.GetUnit(UnitTypes.Force, "kN");
-            var unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, "kNm");
-            var unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature, "1/m");
-
-            string[] labels = GetCrackLabels(unitForce, unitMoment, unitCurvature);
-            arrayParameter = new ArrayParameter<double>(ValidTupleList.Count(), labels.Count(), labels);
-            CalculateWithCrack(ValidTupleList, NdmPrimitives, unitForce, unitMoment, unitCurvature);
+            List<string> labels = GetCrackLabels();
+            arrayParameter = new ArrayParameter<double>(ValidTupleList.Count(), labels);
+            CalculateWithCrack(ValidTupleList,
+                NdmPrimitives,
+                CommonOperation.GetUnit(UnitTypes.Force),
+                CommonOperation.GetUnit(UnitTypes.Moment),
+                CommonOperation.GetUnit(UnitTypes.Curvature));
         }
 
         public void ShowWindow()
         {
             SafetyProcessor.RunSafeProcess(() =>
             {
-                var series = new Series(arrayParameter) { Name = "Forces and curvatures" };
-                var vm = new GraphViewModel(new List<Series>() { series });
+                var series = new Series(arrayParameter)
+                {
+                    Name = "Forces and curvatures"
+                };
+                var vm = new GraphViewModel(new List<Series>()
+                {
+                    series
+                });
                 var wnd = new GraphView(vm);
                 wnd.ShowDialog();
             },
@@ -134,18 +138,14 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
             }
         }
 
-        private static string[] GetCrackLabels(IUnit unitForce, IUnit unitMoment, IUnit unitCurvature)
+        private static List<string> GetCrackLabels()
         {
             const string crc = "Crc";
             const string crcFactor = "CrcSofteningFactor";
-            return new string[]
+            var labels = LabelsFactory.GetCommonLabels();
+            IUnit unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature);
+            var crclabels = new List<string>
             {
-                $"{GeometryNames.MomFstName}, {unitMoment.Name}",
-                $"{GeometryNames.MomSndName}, {unitMoment.Name}",
-                $"{GeometryNames.LongForceName}, {unitForce.Name}",
-                $"{GeometryNames.CurvFstName}, {unitCurvature.Name}",
-                $"{GeometryNames.CurvSndName}, {unitCurvature.Name}",
-                $"{GeometryNames.StrainTrdName}",
                 $"{crc}{GeometryNames.CurvFstName}, {unitCurvature.Name}",
                 $"{crc}{GeometryNames.CurvSndName}, {unitCurvature.Name}",
                 $"{crc}{GeometryNames.StrainTrdName}",
@@ -154,6 +154,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
                 $"{crcFactor}Az",
                 $"PsiFactor"
             };
+            labels.AddRange(crclabels);
+            return labels;
         }
 
     }

@@ -1,5 +1,5 @@
 ﻿using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;

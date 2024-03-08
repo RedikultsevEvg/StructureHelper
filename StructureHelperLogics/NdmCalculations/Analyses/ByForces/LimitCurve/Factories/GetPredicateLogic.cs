@@ -1,12 +1,7 @@
 ﻿using LoaderCalculator.Data.Ndms;
-using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Factories
 {
@@ -16,7 +11,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Fac
         public PredicateTypes PredicateType { get; set; }
         public IConvert2DPointTo3DPointLogic ConvertLogic { get; set; }
         public string Name { get; set; }
-        public ITraceLogger? TraceLogger { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
+
+        public object Clone()
+        {
+            throw new NotImplementedException();
+        }
 
         public Predicate<IPoint2D> GetPredicate()
         {
@@ -25,6 +25,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Fac
                 Ndms = Ndms,
                 ConvertLogic = ConvertLogic
             };
+            if (TraceLogger is not null)
+            {
+                factory.TraceLogger = TraceLogger;
+            }
+            TraceLogger?.AddMessage($"Predicate factory was obtained succsefully", TraceLogStatuses.Debug);
             var predicateType = PredicateType;
             var predicate = factory.GetPredicate(predicateType);
             return predicate;

@@ -1,16 +1,11 @@
 ﻿using StructureHelper.Infrastructure;
-using StructureHelper.Windows.AddMaterialWindow;
 using StructureHelper.Windows.ViewModels.Errors;
-using StructureHelper.Windows.ViewModels.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -21,31 +16,35 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
 {
     public class TraceDocumentVM : ViewModelBase
     {
-        IEnumerable<ITraceLoggerEntry> loggerEntries;
-        IEnumerable<ITraceLoggerEntry> selectedLoggerEntries;
-        FlowDocument document;
+        const double tabFactor = 500d;
+        private readonly IEnumerable<ITraceLoggerEntry> loggerEntries;
+        private IEnumerable<ITraceLoggerEntry> selectedLoggerEntries;
+        private FlowDocument document;
         private ICommand rebuildCommand;
         private ICommand printDocumentCommand;
-        private int maxPriority;
+        private int priorityLimit;
         private int tabGap;
 
         public FlowDocumentReader DocumentReader { get; set; }
-        public int MaxPriority
+        public int PriorityLimit
         {
-            get => maxPriority; set
+            get => priorityLimit; set
             {
-                var oldValue = maxPriority;
+                var oldValue = priorityLimit;
                 try
                 {
-                    maxPriority = Math.Max(value, 0);
-                    OnPropertyChanged(nameof(MaxPriority));
+                    priorityLimit = Math.Max(value, 0);
+                    OnPropertyChanged(nameof(PriorityLimit));
                 }
                 catch (Exception)
                 {
-                    maxPriority = oldValue;
+                    priorityLimit = oldValue;
                 }
             }
         }
+
+        public int MaxPriority => loggerEntries.Max(x => x.Priority);
+
         public int TabGap
         {
             get => tabGap; set
@@ -65,8 +64,8 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
         public TraceDocumentVM(IEnumerable<ITraceLoggerEntry> loggerEntries)
         {
             this.loggerEntries = loggerEntries;
-            maxPriority = 350;
-            tabGap = 50;
+            priorityLimit = 350;
+            tabGap = 30;
         }
 
         public ICommand RebuildCommand =>
@@ -81,40 +80,82 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
                 SafetyProcessor.RunSafeProcess(DocumentReader.Print, "Error of printing document");
             });
 
+
+        public void Prepare()
+        {
+            document = new();
+            selectedLoggerEntries = loggerEntries.Where(x => x.Priority <= PriorityLimit);
+            var blocks = selectedLoggerEntries.Select(x => GetBlockByEntry(x));
+            document.Blocks.AddRange(blocks);
+        }
+        public void ShowPrepared()
+        {
+            DocumentReader.Document = document;
+        }
         public void Show()
         {
             Prepare();
             ShowPrepared();
         }
 
-        public void Prepare()
+        private Block GetBlockByEntry(ITraceLoggerEntry traceEntry)
         {
-            document = new();
-            selectedLoggerEntries = loggerEntries.Where(x => x.Priority <= MaxPriority);
-            foreach (var item in selectedLoggerEntries)
+            Block block;
+            if (traceEntry is StringLogEntry stringEntry)
             {
-                ProcessLoggerEntries(item);
+                block = GetBlockByStringEntry(stringEntry);
             }
-        }
-
-        private void ProcessLoggerEntries(ITraceLoggerEntry item)
-        {
-            if (item is StringLoggerEntry stringEntry)
+            else if (traceEntry is TableLogEntry tableEntry)
             {
-                ProcessStringEntry(stringEntry);
-            }
-            else if (item is TableLoggerEntry tableEntry)
-            {
-                ProcessTableEntry(tableEntry);
+                block = GetBlockByTableEntry(tableEntry);
             }
             else
             {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(item));
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(traceEntry));
             }
+            block.Margin = new Thickness(traceEntry.Priority / tabFactor * tabGap, 7, 0, 7);
+            return block;
         }
 
-        private void ProcessTableEntry(TableLoggerEntry tableEntry)
+        private Block GetBlockByStringEntry(StringLogEntry stringEntry)
         {
+            var paragraph = new Paragraph(new Run(stringEntry.Message));
+            if (stringEntry.Priority <= LoggerService.GetPriorityByStatus(TraceLogStatuses.Fatal))
+            {
+                paragraph.FontSize = 14;
+                paragraph.Background = Brushes.Red;
+                paragraph.Foreground = Brushes.Black;
+                paragraph.FontStyle = FontStyles.Italic;
+            }
+            else if (stringEntry.Priority <= LoggerService.GetPriorityByStatus(TraceLogStatuses.Error))
+            {
+                paragraph.FontSize = 14;
+                paragraph.Background = Brushes.Pink;
+                paragraph.Foreground = Brushes.Black;
+            }
+            else if (stringEntry.Priority <= LoggerService.GetPriorityByStatus(TraceLogStatuses.Warning))
+            {
+                paragraph.FontSize = 14;
+                paragraph.Background = Brushes.Yellow;
+                paragraph.Foreground = Brushes.Black;
+            }
+            else if (stringEntry.Priority <= LoggerService.GetPriorityByStatus(TraceLogStatuses.Debug))
+            {
+                paragraph.FontSize = 12;
+                paragraph.Foreground = Brushes.Black;
+            }
+            else
+            {
+                paragraph.FontSize = 10;
+                paragraph.Foreground = Brushes.Gray;
+            }
+
+            return paragraph;
+        }
+
+        private Table GetBlockByTableEntry(TableLogEntry tableEntry)
+        {
+            const int columnWidth = 150;
             var rows = tableEntry.Table.GetAllRows();
             int rowCount = rows.Count();
             int columnCount = tableEntry.Table.RowSize;
@@ -122,96 +163,53 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
             for (int x = 0; x < columnCount; x++)
             {
                 var tableColumn = new TableColumn();
-                tableColumn.Width = new GridLength(150);
+                tableColumn.Width = new GridLength(columnWidth);
                 table.Columns.Add(tableColumn);
             }
             foreach (var row in rows)
             {
-                var newRow = new TableRow();
-                foreach (var cell in row.Elements)
-                {
-                    TableCell tableCell; 
-                    if (cell is null)
-                    {
-                        tableCell = new TableCell(new Paragraph(new Run(string.Empty)));
-                    }
-                    else
-                    {
-                        if (cell.Value is StringLoggerEntry stringEntry)
-                        {
-                            tableCell = new TableCell(GetParagraphByStringEntry(stringEntry));
-                            tableCell.ColumnSpan = cell.ColumnSpan;
-                            if (cell.Role == CellRole.Regular)
-                            {
-                                tableCell.TextAlignment = TextAlignment.Left;
-                                tableCell.Background = Brushes.LightYellow;
-                            }
-                            else if (cell.Role == CellRole.Header)
-                            {
-                                tableCell.TextAlignment = TextAlignment.Center;
-                                tableCell.Background = Brushes.AliceBlue;
-                            }
-                        }
-                        else
-                        {
-                            throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(cell));
-                        }
-                    }
-                    newRow.Cells.Add(tableCell);
-                }
+                TableRow newRow = GetTableRow(row);
                 table.RowGroups.Add(new TableRowGroup());
                 table.RowGroups[0].Rows.Add(newRow);
             }
-            document.Blocks.Add(table);
+            return table;
         }
 
-        private void ProcessStringEntry(StringLoggerEntry stringEntry)
+        private TableRow GetTableRow(IShTableRow<ITraceLoggerEntry> row)
         {
-            var paragraph = GetParagraphByStringEntry(stringEntry);
-            document.Blocks.Add(paragraph);
+            var newRow = new TableRow();
+            foreach (var cell in row.Elements)
+            {
+                TableCell tableCell;
+                if (cell is null)
+                {
+                    tableCell = new TableCell(new Paragraph(new Run(string.Empty)));
+                }
+                else
+                {
+                    var cellvalue = GetBlockByEntry(cell.Value);
+                    tableCell = new TableCell(cellvalue);
+                    AdjustTableCell(cell, tableCell);
+                }
+                newRow.Cells.Add(tableCell);
+            }
+
+            return newRow;
         }
 
-        private Paragraph GetParagraphByStringEntry(StringLoggerEntry stringEntry)
+        private static void AdjustTableCell(IShTableCell<ITraceLoggerEntry>? cell, TableCell tableCell)
         {
-            var paragraph = new Paragraph(new Run(stringEntry.Message));
-            paragraph.Margin = new Thickness(stringEntry.Priority / tabGap);
-            if (stringEntry.Priority <= LoggerService.GetPriorityByStatus(TraceLoggerStatuses.Fatal))
+            tableCell.ColumnSpan = cell.ColumnSpan;
+            if (cell.Role == CellRole.Regular)
             {
-                paragraph.FontSize = 14;
-                paragraph.Background = Brushes.Red;
-                paragraph.Foreground = Brushes.Black;
-                paragraph.FontStyle = FontStyles.Italic;
+                tableCell.TextAlignment = TextAlignment.Left;
+                tableCell.Background = Brushes.LightYellow;
             }
-            else if (stringEntry.Priority <= LoggerService.GetPriorityByStatus(TraceLoggerStatuses.Error))
+            else if (cell.Role == CellRole.Header)
             {
-                paragraph.FontSize = 14;
-                paragraph.Background = Brushes.Pink;
-                paragraph.Foreground = Brushes.Black;
+                tableCell.TextAlignment = TextAlignment.Center;
+                tableCell.Background = Brushes.AliceBlue;
             }
-            else if (stringEntry.Priority <= LoggerService.GetPriorityByStatus(TraceLoggerStatuses.Warning))
-            {
-                paragraph.FontSize = 14;
-                paragraph.Background = Brushes.Yellow;
-                paragraph.Foreground = Brushes.Black;
-            }
-            else if (stringEntry.Priority <= LoggerService.GetPriorityByStatus(TraceLoggerStatuses.Debug))
-            {
-                paragraph.FontSize = 12;
-                paragraph.Foreground = Brushes.Black;
-            }
-            else
-            {
-                paragraph.FontSize = 8;
-                paragraph.Foreground = Brushes.Gray;
-
-            }
-
-            return paragraph;
-        }
-
-        public void ShowPrepared()
-        {
-            DocumentReader.Document = document;
         }
     }
 }

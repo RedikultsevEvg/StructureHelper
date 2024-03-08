@@ -1,5 +1,4 @@
-﻿using StructureHelper.Windows.ViewModels.NdmCrossSections;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +17,12 @@ namespace StructureHelper.Windows.MainWindow
     /// <summary>
     /// Логика взаимодействия для VisualPropertyView.xaml
     /// </summary>
-    public partial class VisualPropertyView : Window
+    public partial class AxisCanvasView : Window
     {
-        public VisualPropertyView(CrossSectionViewVisualProperty vm)
+        public AxisCanvasView(AxisCanvasVM vm)
         {
             InitializeComponent();
+            vm.ParentWindow = this;
             DataContext = vm;
         }
     }

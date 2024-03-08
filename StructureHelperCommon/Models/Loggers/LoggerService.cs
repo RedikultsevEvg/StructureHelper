@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperCommon.Models.Loggers
+namespace StructureHelperCommon.Models
 {
     public static class LoggerService
     {
@@ -16,14 +16,14 @@ namespace StructureHelperCommon.Models.Loggers
         const int info = 300;
         const int service = 400;
         const int debug = 500;
-        public static int GetPriorityByStatus(TraceLoggerStatuses status)
+        public static int GetPriorityByStatus(TraceLogStatuses status)
         {
-            if (status == TraceLoggerStatuses.Fatal) { return fatal; }
-            else if (status == TraceLoggerStatuses.Error) { return error; }
-            else if (status == TraceLoggerStatuses.Warning) { return warning; }
-            else if (status == TraceLoggerStatuses.Info) { return info; }
-            else if (status == TraceLoggerStatuses.Service) { return service; }
-            else if (status == TraceLoggerStatuses.Debug) { return debug; }
+            if (status == TraceLogStatuses.Fatal) { return fatal; }
+            else if (status == TraceLogStatuses.Error) { return error; }
+            else if (status == TraceLogStatuses.Warning) { return warning; }
+            else if (status == TraceLogStatuses.Info) { return info; }
+            else if (status == TraceLogStatuses.Service) { return service; }
+            else if (status == TraceLogStatuses.Debug) { return debug; }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(status));

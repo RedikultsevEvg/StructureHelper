@@ -10,6 +10,7 @@ using System;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Triangulations;
+using StructureHelperCommon.Models.Parameters;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
@@ -28,5 +29,6 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         IVisualProperty VisualProperty {get; }
 
         IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions);
+        List<NamedValue<IPoint2D>> GetValuePoints();
     }
 }

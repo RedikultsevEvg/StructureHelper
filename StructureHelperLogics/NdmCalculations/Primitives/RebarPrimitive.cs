@@ -3,6 +3,7 @@ using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
@@ -74,6 +75,19 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             };
             var logic = new RebarTriangulationLogic(options);
             return logic.GetNdmCollection();
+        }
+
+        public List<NamedValue<IPoint2D>> GetValuePoints()
+        {
+            var points = new List<NamedValue<IPoint2D>>();
+            NamedValue<IPoint2D> newPoint;
+            newPoint = new NamedValue<IPoint2D>()
+            {
+                Name = "Center",
+                Value = Center.Clone() as Point2D
+            };
+            points.Add(newPoint);
+            return points;
         }
     }
 }
