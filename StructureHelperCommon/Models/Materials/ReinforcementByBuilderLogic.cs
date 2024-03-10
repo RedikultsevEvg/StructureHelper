@@ -43,7 +43,10 @@ namespace StructureHelperCommon.Models.Materials
 
         private void GetLoaderOptions()
         {
-            materialOptions = new ReinforcementOptions() { DiagramType = DiagramType};
+            materialOptions = new ReinforcementOptions()
+            {
+                DiagramType = DiagramType
+            };
             optionLogic = new MaterialCommonOptionLogic(options);
             optionLogic.SetMaterialOptions(materialOptions);
         }

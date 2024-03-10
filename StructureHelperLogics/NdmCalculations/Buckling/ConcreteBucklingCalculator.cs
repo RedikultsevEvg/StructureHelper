@@ -57,6 +57,66 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
             otherNdms = ndmCollection.Except(concreteNdms).ToList();
         }
 
+        public void Run()
+        {
+            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.MethodBasedOn + "SP63.13330.2018");
+            var checkResult = CheckInputData();
+            if (checkResult != "")
+            {
+                ProcessFalseResult(checkResult);
+                return;
+            }
+            else
+            {
+                ProcessValidResult();
+            }
+            TraceLogger?.AddMessage(LoggerStrings.CalculationHasDone);
+        }
+
+        private void ProcessValidResult()
+        {
+            var phiLLogic = GetPhiLogic();
+            var (DeltaLogicAboutX, DeltaLogicAboutY) = GetDeltaLogics();
+            stiffnessLogicX = new RCStiffnessLogicSP63(phiLLogic, DeltaLogicAboutX);
+            stiffnessLogicY = new RCStiffnessLogicSP63(phiLLogic, DeltaLogicAboutY);
+            if (TraceLogger is not null)
+            {
+                stiffnessLogicX.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
+                stiffnessLogicY.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
+            }
+            criticalForceLogic = new EilerCriticalForceLogic();
+            if (TraceLogger is not null)
+            {
+                criticalForceLogic.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
+            }
+
+            var (EtaFactorX, EtaFactorY) = GetBucklingCoefficients();
+            var messageString = "Eta factor orbitrary {0} axis, Eta{0} = {1} (dimensionless)";
+            var messageStringX = string.Format(messageString, "X", EtaFactorX);
+            var messageStringY = string.Format(messageString, "Y", EtaFactorY);
+            TraceLogger?.AddMessage(messageStringX);
+            TraceLogger?.AddMessage(messageStringY);
+            Result = new ConcreteBucklingResult()
+            {
+                IsValid = true,
+                EtaFactorAlongX = EtaFactorX,
+                EtaFactorAlongY = EtaFactorY
+            };
+        }
+
+        private void ProcessFalseResult(string checkResult)
+        {
+            TraceLogger?.AddMessage(checkResult, TraceLogStatuses.Error);
+            Result = new ConcreteBucklingResult()
+            {
+                IsValid = false,
+                Description = checkResult,
+                EtaFactorAlongX = double.PositiveInfinity,
+                EtaFactorAlongY = double.PositiveInfinity
+            };
+        }
+
         private (IConcreteDeltaELogic DeltaLogicX, IConcreteDeltaELogic DeltaLogicY) GetDeltaLogics()
         {
             IForceTuple forceTuple = options.CalcForceTuple;
@@ -66,6 +126,15 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
             }
             var eccentricityAlongX = options.CalcForceTuple.My / forceTuple.Nz;
             var eccentricityAlongY = options.CalcForceTuple.Mx / forceTuple.Nz;
+            const string eccMesssage = "Eccentricity along {0}-axis e{0} = {1}(N * m) / {2}(N) = {3}(m)";
+            TraceLogger?.AddMessage(string.Format(eccMesssage,
+                "x",
+                options.CalcForceTuple.My, forceTuple.Nz,
+                eccentricityAlongX));
+            TraceLogger?.AddMessage(string.Format(eccMesssage,
+                "y",
+                options.CalcForceTuple.Mx, forceTuple.Nz,
+                eccentricityAlongY));
             var sizeAlongX = ndmCollection.Max(x => x.CenterX) - ndmCollection.Min(x => x.CenterX);
             var sizeAlongY = ndmCollection.Max(x => x.CenterY) - ndmCollection.Min(x => x.CenterY);
             var DeltaElogicAboutX = new DeltaELogicSP63(eccentricityAlongY, sizeAlongY);
@@ -82,7 +151,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         {
             const string sumStif = "Summary stiffness";
             var gravityCenter = GeometryOperations.GetGravityCenter(ndmCollection);
-            string message = string.Format("Gravity center, x = {0}, y = {1}", gravityCenter.Cx, gravityCenter.Cy);
+            string message = string.Format("Gravity center, x = {0}(m), y = {1}(m)", gravityCenter.Cx, gravityCenter.Cy);
             TraceLogger?.AddMessage(message);
             if (TraceLogger is not null)
             {
@@ -152,55 +221,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
             return calculator;
         }
 
-        public void Run()
-        {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
-            TraceLogger?.AddMessage(LoggerStrings.MethodBasedOn + "SP63.13330.2018");
-            var checkResult = CheckInputData();
-            if (checkResult != "")
-            {
-                TraceLogger?.AddMessage(checkResult, TraceLogStatuses.Error);
-                Result = new ConcreteBucklingResult()
-                {
-                    IsValid = false,
-                    Description = checkResult,
-                    EtaFactorAlongX = double.PositiveInfinity,
-                    EtaFactorAlongY = double.PositiveInfinity
-                };
-                return;
-            }
-            else
-            {
-                var phiLLogic = GetPhiLogic();
-                var (DeltaLogicAboutX, DeltaLogicAboutY) = GetDeltaLogics();
-                stiffnessLogicX = new RCStiffnessLogicSP63(phiLLogic, DeltaLogicAboutX);
-                stiffnessLogicY = new RCStiffnessLogicSP63(phiLLogic, DeltaLogicAboutY);
-                if (TraceLogger is not null)
-                {
-                    stiffnessLogicX.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
-                    stiffnessLogicY.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
-                }
-                criticalForceLogic = new EilerCriticalForceLogic();
-                if (TraceLogger is not null)
-                {
-                    criticalForceLogic.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
-                }
-
-                var (EtaFactorX, EtaFactorY) = GetBucklingCoefficients();
-                var messageString = "Eta factor orbitrary {0} axis, Eta{0} = {1} (dimensionless)";
-                var messageStringX = string.Format(messageString, "X", EtaFactorX);
-                var messageStringY = string.Format(messageString, "Y", EtaFactorY);
-                TraceLogger?.AddMessage(messageStringX);
-                TraceLogger?.AddMessage(messageStringY);
-                Result = new ConcreteBucklingResult()
-                {
-                    IsValid = true,
-                    EtaFactorAlongX = EtaFactorX,
-                    EtaFactorAlongY = EtaFactorY
-                };
-            }
-            TraceLogger?.AddMessage(LoggerStrings.CalculationHasDone);
-        }
+        
 
         private string CheckInputData()
         {

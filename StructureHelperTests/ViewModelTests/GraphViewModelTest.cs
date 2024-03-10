@@ -15,7 +15,7 @@ namespace StructureHelperTests.ViewModelTests
             var labels = new List<string>();
             for (int i = 0; i < columnCount; i++)
             {
-                labels[i] = $"Column{i}";
+                labels.Add($"Column{i}");
             }
             var array = new ArrayParameter<double>(rowCount, columnCount, labels);
             for (int i = 0; i < columnCount; i++)

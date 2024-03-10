@@ -4,13 +4,16 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Sections;
+using StructureHelperCommon.Models.Sections.Logics;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.NdmCalculations.Buckling;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
+using System;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -19,6 +22,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         static readonly ForceCalculatorUpdateStrategy updateStrategy = new();
         private readonly IForceTupleCalculator forceTupleCalculator;
         private ForcesResults result;
+        private IProcessorLogic<IForceTuple> eccentricityLogic;
+        private ForceTupleBucklingLogic bucklingLogic;
 
         public string Name { get; set; }
         public List<LimitStates> LimitStatesList { get; private set; }
@@ -34,6 +39,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public void Run()
         {
+            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
             var checkResult = CheckInputData();
             if (checkResult != "")
             {
@@ -95,13 +101,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             CalcTerms calcTerm = tuple.CalcTerm;
             var ndms = NdmPrimitivesService.GetNdms(Primitives, limitState, calcTerm);
             IPoint2D point2D;
+            IProcessorLogic<IForceTuple> forcelogic = new ForceTupleCopier(tuple.ForceTuple);
             if (combination.SetInGravityCenter == true)
             {
                 var (Cx, Cy) = LoaderCalculator.Logics.Geometry.GeometryOperations.GetGravityCenter(ndms);
-                point2D = new Point2D(){ X = Cx, Y = Cy };
+                point2D = new Point2D() { X = Cx, Y = Cy };
+                forcelogic = new ForceTupleMoveToPointDecorator(forcelogic) { Point2D = point2D};
             }
-            else point2D = combination.ForcePoint;
-            var newTuple = ForceTupleService.MoveTupleIntoPoint(tuple.ForceTuple, point2D);
+            var newTuple = forcelogic.GetValue();
             TraceLogger?.AddMessage($"Input force combination");
             TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(newTuple));
             if (CompressedMember.Buckling == true)
@@ -109,27 +116,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 if (newTuple.Nz >= 0d)
                 {
                     TraceLogger?.AddMessage(string.Format("Second order effect is not considered as Nz={0} >= 0", newTuple.Nz));
+                    tupleResult = GetForceResult(limitState, calcTerm, ndms, newTuple);
                 }
                 else
                 {
-                    TraceLogger?.AddMessage("Get eccentricity for full load");
-                    newTuple = ProcessAccEccentricity(ndms, newTuple);
-                    var buckResult = GetForceTupleByBuckling(combination, limitState, calcTerm, ndms, newTuple);
-                    if (buckResult.isValid == true)
-                    {
-                        newTuple = buckResult.tuple;
-                    }
-                    else
-                    {
-                        return new ForcesTupleResult()
-                        {
-                            IsValid = false,
-                            DesignForceTuple = tuple,
-                            Description = buckResult.description,
-                        };
-                    }
-                }
-                tupleResult = GetForceResult(limitState, calcTerm, ndms, newTuple);
+                    tupleResult = ProcessCompressedMember(combination, tuple, ndms, newTuple);
+                }             
             }
             else
             {
@@ -143,10 +135,19 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             return tupleResult;
         }
 
-        private (bool isValid, IForceTuple tuple, string description)  GetForceTupleByBuckling(IForceCombinationList combination, LimitStates limitState, CalcTerms calcTerm, List<INdm> ndms, IForceTuple newTuple)
+        private IForcesTupleResult ProcessCompressedMember(IForceCombinationList combination, IDesignForceTuple tuple, List<INdm> ndms, IForceTuple newTuple)
         {
-            var tuple = newTuple.Clone() as IForceTuple;
-            var inputData = new BucklingInputData()
+            IForcesTupleResult tupleResult;
+            LimitStates limitState = tuple.LimitState;
+            CalcTerms calcTerm = tuple.CalcTerm;
+
+            TraceLogger?.AddMessage("Get eccentricity for full load");
+            eccentricityLogic = new ProcessEccentricity(CompressedMember, ndms, newTuple)
+            {
+                TraceLogger = TraceLogger ?? null
+            };
+            newTuple = eccentricityLogic.GetValue();
+            var buclingInputData = new BucklingInputData()
             {
                 Combination = combination,
                 LimitState = limitState,
@@ -154,116 +155,41 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 Ndms = ndms,
                 ForceTuple = newTuple
             };
-            var bucklingResult = ProcessBuckling(inputData);
-
-            if (bucklingResult.IsValid != true)
+            bucklingLogic = new ForceTupleBucklingLogic(buclingInputData)
             {
-                TraceLogger?.AddMessage(bucklingResult.Description, TraceLogStatuses.Error);
-                return (false, tuple, $"Buckling result:\n{bucklingResult.Description}");
+                CompressedMember = CompressedMember,
+                Accuracy = Accuracy,
+                Primitives = Primitives,
+                TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
+            };
+            var buckResult = bucklingLogic.GetForceTupleByBuckling();
+            if (buckResult.IsValid == true)
+            {
+                newTuple = buckResult.Value;
             }
             else
             {
-                tuple = CalculateBuckling(tuple, bucklingResult);
-                TraceLogger?.AddMessage(string.Intern("Force combination with considering of second order effects"));
-                TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(tuple));
+                return new ForcesTupleResult()
+                {
+                    IsValid = false,
+                    DesignForceTuple = tuple,
+                    Description = buckResult.Description,
+                };
             }
-
-            return (true, tuple, string.Empty);
+            TraceLogger?.AddMessage(string.Intern("Result of second order was obtained succesfully, new force combination was obtained"));
+            tupleResult = GetForceResult(limitState, calcTerm, ndms, newTuple);
+            return tupleResult;
         }
 
         private IForcesTupleResult GetForceResult(LimitStates limitState, CalcTerms calcTerm, List<INdm> ndms, IForceTuple newTuple)
         {
+            TraceLogger?.AddMessage("Calculation of cross-section is started");
             var tupleResult = GetPrimitiveStrainMatrix(ndms, newTuple, Accuracy);
             tupleResult.DesignForceTuple.LimitState = limitState;
             tupleResult.DesignForceTuple.CalcTerm = calcTerm;
             tupleResult.DesignForceTuple.ForceTuple = newTuple;
             return tupleResult;
-            
         }
-
-        private IForceTuple ProcessAccEccentricity(List<INdm> ndms, IForceTuple tuple)
-        {
-            var newTuple = tuple.Clone() as IForceTuple;
-            var accLogic = new AccidentalEccentricityLogic()
-            {
-                Length = CompressedMember.GeometryLength,
-                SizeX = ndms.Max(x => x.CenterX) - ndms.Min(x => x.CenterX),
-                SizeY = ndms.Max(x => x.CenterY) - ndms.Min(x => x.CenterY),
-                InitialForceTuple = newTuple,
-            };
-            if (TraceLogger is not null)
-            {
-                accLogic.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
-            }
-            newTuple = accLogic.GetForceTuple();
-            return newTuple;
-        }
-
-        private IConcreteBucklingResult ProcessBuckling(BucklingInputData inputData)
-        {
-            IForceTuple resultTuple;
-            IForceTuple longTuple;
-            if (inputData.CalcTerm == CalcTerms.LongTerm)
-            {
-                longTuple = inputData.ForceTuple;
-            }
-            else
-            {
-                longTuple = GetLongTuple(inputData.Combination.DesignForces, inputData.LimitState);
-            }
-            TraceLogger?.AddMessage("Get eccentricity for long term load");
-            longTuple = ProcessAccEccentricity(inputData.Ndms, longTuple);
-            var bucklingCalculator = GetBucklingCalculator(CompressedMember, inputData.LimitState, inputData.CalcTerm, inputData.ForceTuple, longTuple);
-            if (TraceLogger is not null)
-            {
-                bucklingCalculator.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
-            }
-            bucklingCalculator.Run();
-            var bucklingResult = bucklingCalculator.Result as IConcreteBucklingResult;
-          
-            return bucklingResult;
-        }
-
-        private IForceTuple GetLongTuple(List<IDesignForceTuple> designForces, LimitStates limitState)
-        {
-            IForceTuple longTuple;
-            try
-            {
-                longTuple = designForces
-                    .Where(x => x.LimitState == limitState & x.CalcTerm == CalcTerms.LongTerm)
-                    .Single()
-                    .ForceTuple;
-            }
-            catch (Exception)
-            {
-                longTuple = new ForceTuple();
-            }     
-            return longTuple;
-        }
-
-        private IConcreteBucklingCalculator GetBucklingCalculator(ICompressedMember compressedMember, LimitStates limitStates, CalcTerms calcTerms, IForceTuple calcTuple, IForceTuple longTuple)
-        {
-            var options = new ConcreteBucklingOptions()
-            { 
-                CompressedMember = compressedMember,
-                LimitState = limitStates,
-                CalcTerm = calcTerms,
-                CalcForceTuple = calcTuple,
-                LongTermTuple = longTuple,
-                Primitives = Primitives
-            };
-            var bucklingCalculator = new ConcreteBucklingCalculator(options, Accuracy);
-            return bucklingCalculator;
-        }
-
-        private ForceTuple CalculateBuckling(IForceTuple calcTuple, IConcreteBucklingResult bucklingResult)
-        {
-            var newTuple = calcTuple.Clone() as ForceTuple;
-            newTuple.Mx *= bucklingResult.EtaFactorAlongY;
-            newTuple.My *= bucklingResult.EtaFactorAlongX;
-            return newTuple;
-        }
-
 
         private string CheckInputData()
         {
