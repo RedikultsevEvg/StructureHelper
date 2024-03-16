@@ -43,5 +43,62 @@ namespace StructureHelperCommon.Models.Parameters
 			}
         }
         public ArrayParameter(int rowCount, List<string> columnLabels) : this(rowCount, columnLabels.Count, columnLabels) { }
+		public void AddArray(IArrayParameter<T> array)
+		{
+			var rowCount = array.Data.GetLength(0);
+            int existingRowCount = this.Data.GetLength(0);
+            if (rowCount != existingRowCount)
+			{
+				throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": number of rows in new array {rowCount} is not equal existing row count {existingRowCount}");
+			}
+			var existingColumnCount = this.Data.GetLength(1);
+			var newColumnCount = array.Data.GetLength(1);
+			var totalCount = existingColumnCount + newColumnCount;
+			var newData = new T[rowCount, totalCount];
+			var lackColumns = existingColumnCount - ColumnLabels.Count;
+			if (lackColumns > 0)
+			{
+				for (int i = 0; i < lackColumns; i++)
+				{
+					ColumnLabels.Add(string.Empty);
+				}
+			}
+			ColumnLabels.AddRange(array.ColumnLabels);
+			for (int i = 0; i < rowCount; i++)
+			{
+				for (int j = 0; j < existingColumnCount; j++)
+				{
+					newData[i, j] = Data[i, j];
+				}
+                for (int j = 0; j < newColumnCount; j++)
+                {
+                    newData[i, existingColumnCount + j] = array.Data[i,j];
+                }
+            }
+			Data = newData;
+		}
+
+		public void AddRow(int rowNumber, IEnumerable<T> values)
+        {
+            CheckParams(rowNumber, values);
+			var valueList = values.ToList();
+			for (int i = 0; i < values.Count(); i++)
+			{
+				Data[rowNumber, i] = valueList[i];
+			}
+        }
+
+        private void CheckParams(int rowNumber, IEnumerable<T> values)
+        {
+            int rowCount = Data.GetLength(0) - 1;
+            if (rowNumber > rowCount)
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": number of rows {rowNumber} is greater than length of array {rowCount}");
+            }
+            if (values.Count() != Data.GetLength(1))
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": number of colums in values {values.Count()} is not equal existing column count {Data.GetLength(1)}");
+            }
+        }
     }
 }

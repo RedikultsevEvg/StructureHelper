@@ -46,7 +46,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             var concreteNdm = ndms[0];
             var rebarNdm = ndms[1];
             data.ConcreteStrain = concreteNdm.Prestrain;// stressLogic.GetTotalStrain(strainMatrix, concreteNdm) - stressLogic.GetTotalStrainWithPresrain(strainMatrix, concreteNdm);
-            data.RebarStrain = stressLogic.GetTotalStrainWithPresrain(strainMatrix, rebarNdm);
+            data.RebarStrain = stressLogic.GetTotalStrainWithPrestrain(strainMatrix, rebarNdm);
             data.Length = inputData.Length;
         }
     }

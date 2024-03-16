@@ -1,6 +1,8 @@
 ﻿using LoaderCalculator.Logics;
 using StructureHelper.Infrastructure.UI.Converters.Units;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Services.Units;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,11 @@ namespace StructureHelper.Services.ResultViewers
     }
     public static class ResultFuncFactory
     {
+        static IUnit unitForce = CommonOperation.GetUnit(UnitTypes.Force);
+        static IUnit unitStress = CommonOperation.GetUnit(UnitTypes.Stress);
+        static IUnit unitMoment = CommonOperation.GetUnit(UnitTypes.Moment);
+        static IUnit unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature);
+
         static readonly IStressLogic stressLogic = new StressLogic();
         public static List<IResultFunc> GetResultFuncs(FuncsTypes funcsType = FuncsTypes.Full)
         {
@@ -50,7 +57,7 @@ namespace StructureHelper.Services.ResultViewers
         {
             List<IResultFunc> resultFuncs = new List<IResultFunc>();
             resultFuncs.Add(new ResultFunc() { Name = "Total Strain", ResultFunction = stressLogic.GetTotalStrain });
-            resultFuncs.Add(new ResultFunc() { Name = "Total Strain with prestrain", ResultFunction = stressLogic.GetTotalStrainWithPresrain });
+            resultFuncs.Add(new ResultFunc() { Name = "Total Strain with prestrain", ResultFunction = stressLogic.GetTotalStrainWithPrestrain });
             resultFuncs.Add(new ResultFunc() { Name = "Elastic Strain", ResultFunction = stressLogic.GetElasticStrain });
             resultFuncs.Add(new ResultFunc() { Name = "Plastic Strain", ResultFunction = stressLogic.GetPlasticStrain });
             return resultFuncs;
@@ -58,17 +65,17 @@ namespace StructureHelper.Services.ResultViewers
         private static List<IResultFunc> GetStressResultFuncs()
         {
             List<IResultFunc> resultFuncs = new List<IResultFunc>();
-            resultFuncs.Add(new ResultFunc() { Name = "Stress", ResultFunction = stressLogic.GetStress, UnitFactor = UnitConstants.Stress });
-            resultFuncs.Add(new ResultFunc() { Name = "Secant modulus", ResultFunction = stressLogic.GetSecantModulus, UnitFactor = UnitConstants.Stress });
+            resultFuncs.Add(new ResultFunc() { Name = "Stress", ResultFunction = stressLogic.GetStress, UnitFactor = unitStress.Multiplyer, UnitName = unitStress.Name });
+            resultFuncs.Add(new ResultFunc() { Name = "Secant modulus", ResultFunction = stressLogic.GetSecantModulus, UnitFactor = unitStress.Multiplyer, UnitName = unitStress.Name });
             resultFuncs.Add(new ResultFunc() { Name = "Modulus degradation", ResultFunction = stressLogic.GetModulusDegradation });
             return resultFuncs;
         }
         private static List<IResultFunc> GetForcesResultFuncs()
         {
             List<IResultFunc> resultFuncs = new List<IResultFunc>();
-            resultFuncs.Add(new ResultFunc() { Name = "Force", ResultFunction = stressLogic.GetForce, UnitFactor = UnitConstants.Force });
-            resultFuncs.Add(new ResultFunc() { Name = "Moment X", ResultFunction = stressLogic.GetMomentX, UnitFactor = UnitConstants.Force });
-            resultFuncs.Add(new ResultFunc() { Name = "Moment Y", ResultFunction = stressLogic.GetMomentY, UnitFactor = UnitConstants.Force });
+            resultFuncs.Add(new ResultFunc() { Name = "Force", ResultFunction = stressLogic.GetForce, UnitFactor = unitForce.Multiplyer, UnitName = unitForce.Name });
+            resultFuncs.Add(new ResultFunc() { Name = "Moment X", ResultFunction = stressLogic.GetMomentX, UnitFactor = unitMoment.Multiplyer, UnitName = unitMoment.Name });
+            resultFuncs.Add(new ResultFunc() { Name = "Moment Y", ResultFunction = stressLogic.GetMomentY, UnitFactor = unitMoment.Multiplyer, UnitName = unitMoment.Name });
             return resultFuncs;
         }
     }

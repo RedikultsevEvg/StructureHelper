@@ -77,14 +77,14 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             return logic.GetNdmCollection();
         }
 
-        public List<NamedValue<IPoint2D>> GetValuePoints()
+        public List<INamedAreaPoint> GetValuePoints()
         {
-            var points = new List<NamedValue<IPoint2D>>();
-            NamedValue<IPoint2D> newPoint;
-            newPoint = new NamedValue<IPoint2D>()
+            var points = new List<INamedAreaPoint>();
+            var newPoint = new NamedAreaPoint
             {
                 Name = "Center",
-                Value = Center.Clone() as Point2D
+                Point = Center.Clone() as Point2D,
+                Area = Area
             };
             points.Add(newPoint);
             return points;

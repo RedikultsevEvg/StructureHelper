@@ -152,12 +152,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             get => showGraphsCommand ??= new RelayCommand(o =>
             {
-                InterpolateTuplesViewModel interploateTuplesViewModel;
+                InterpolateTuplesViewModel interpolateTuplesViewModel;
                 InterpolateTuplesView wndTuples;
-                ShowInterpolationWindow(out interploateTuplesViewModel, out wndTuples);
+                ShowInterpolationWindow(out interpolateTuplesViewModel, out wndTuples);
                 if (wndTuples.DialogResult != true) return;
 
-                var interpolationLogic = new InterpolationProgressLogic(forceCalculator, interploateTuplesViewModel.ForceInterpolationViewModel.Result);
+                var interpolationLogic = new InterpolationProgressLogic(forceCalculator, interpolateTuplesViewModel.ForceInterpolationViewModel.Result);
                 showProgressLogic = new(interpolationLogic)
                 {
                     WindowTitle = "Interpolate forces"
@@ -298,18 +298,27 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             wnd.ShowDialog();
             if (wnd.DialogResult != true) { return; }
             var interpolationLogic = new InterpolationProgressLogic(forceCalculator, viewModel.ForceInterpolationViewModel.Result);
-            ShowValuePointDiagramLogic pointGraphLogic = new(ForcesResults.ForcesResultList, ndmPrimitives)
-            {
-                Calculator = interpolationLogic.InterpolateCalculator,
-                PrimitiveLogic = viewModel.PrimitiveLogic,
-                ValueDelegatesLogic = viewModel.ValueDelegatesLogic
-            };
             progressLogic = interpolationLogic;
             showProgressLogic = new(interpolationLogic)
             {
-                ShowResult = pointGraphLogic.ShowWindow
+                WindowTitle = "Interpolate forces",
             };
             showProgressLogic.Show();
+            var result = interpolationLogic.InterpolateCalculator.Result;
+            if (result.IsValid == false) { return; }
+            if (result is IForcesResults)
+            {
+                var tupleResult = result as IForcesResults;
+                var pointGraphLogic = new ShowValuePointDiagramLogic(tupleResult.ForcesResultList, ndmPrimitives)
+                {
+                    Calculator = interpolationLogic.InterpolateCalculator,
+                    PrimitiveLogic = viewModel.PrimitiveLogic,
+                    ValueDelegatesLogic = viewModel.ValueDelegatesLogic
+                };
+                pointGraphLogic.SetParameters();
+                pointGraphLogic.ShowWindow();
+            }
+
         }
 
         private void ShowInterpolationWindow(out InterpolateTuplesViewModel interploateTuplesViewModel, out InterpolateTuplesView wndTuples)

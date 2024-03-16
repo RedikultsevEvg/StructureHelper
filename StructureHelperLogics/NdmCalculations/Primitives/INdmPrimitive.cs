@@ -29,6 +29,6 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         IVisualProperty VisualProperty {get; }
 
         IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions);
-        List<NamedValue<IPoint2D>> GetValuePoints();
+        List<INamedAreaPoint> GetValuePoints();
     }
 }

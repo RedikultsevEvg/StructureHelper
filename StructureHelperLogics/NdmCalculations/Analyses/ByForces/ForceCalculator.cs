@@ -109,7 +109,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 forcelogic = new ForceTupleMoveToPointDecorator(forcelogic) { Point2D = point2D};
             }
             var newTuple = forcelogic.GetValue();
-            TraceLogger?.AddMessage($"Input force combination");
+            TraceLogger?.AddMessage("Input force combination");
             TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(newTuple));
             if (CompressedMember.Buckling == true)
             {

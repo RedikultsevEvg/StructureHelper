@@ -2,6 +2,7 @@
 using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,13 @@ namespace StructureHelper.Windows.Forces
     public class PrimitiveValuePoints
     {
         public PrimitiveBase PrimitiveBase {get;set;}
-        public SelectItemsVM<NamedValue<IPoint2D>> ValuePoints { get; set; }
+        public SelectItemsVM<INamedAreaPoint> ValuePoints { get; set; }
 
         public PrimitiveValuePoints(PrimitiveBase primitiveBase)
         {
             var ndmPrimitive = primitiveBase.GetNdmPrimitive();
             var pointCollection = ndmPrimitive.GetValuePoints();
-            ValuePoints = new SelectItemsVM<NamedValue<IPoint2D>>(pointCollection)
+            ValuePoints = new SelectItemsVM<INamedAreaPoint>(pointCollection)
             {
                 ShowButtons = false
             };

@@ -32,7 +32,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             var concreteArea = concreteCollection
                 .Sum(x => x.Area * x.StressScale);
             var concreteTensileArea = concreteCollection
-                .Where(x => stressLogic.GetTotalStrainWithPresrain(StrainMatrix, x) > 0d)
+                .Where(x => stressLogic.GetTotalStrainWithPrestrain(StrainMatrix, x) > 0d)
                 .Sum(x => x.Area * x.StressScale);
             
             concreteTensileArea = Math.Max(concreteTensileArea, rebarArea * minRebarFactor);

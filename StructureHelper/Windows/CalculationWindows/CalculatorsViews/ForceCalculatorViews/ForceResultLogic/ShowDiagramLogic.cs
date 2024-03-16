@@ -58,9 +58,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             validTupleList = tupleList.Where(x => x.IsValid == true).ToList();
 
-            var labels = LabelsFactory.GetCommonLabels();
-            arrayParameter = new ArrayParameter<double>(validTupleList.Count(), labels);
-            Calculate();
+            var factory = new DiagramFactory()
+            {
+                TupleList = validTupleList,
+                SetProgress = SetProgress,
+            };
+            arrayParameter = factory.GetCommonArray();
         }
 
         public ShowDiagramLogic(IEnumerable<IForcesTupleResult> tupleList, IEnumerable<INdmPrimitive> ndmPrimitives)
@@ -68,38 +71,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             this.tupleList = tupleList;
             this.ndmPrimitives = ndmPrimitives;
             validTupleList = tupleList.Where(x => x.IsValid == true).ToList();
-        }
-
-        private void Calculate()
-        {
-            var data = arrayParameter.Data;
-            for (int i = 0; i < validTupleList.Count(); i++)
-            {
-                var valueList = ProcessResult(i);
-                for (int j = 0; j < valueList.Count; j++)
-                {
-                    data[i, j] = valueList[j];
-                }
-                SetProgress?.Invoke(i);
-            }
-        }
-
-
-        private List<double> ProcessResult(int i)
-        {
-            var unitForce = CommonOperation.GetUnit(UnitTypes.Force);
-            var unitMoment = CommonOperation.GetUnit(UnitTypes.Moment);
-            var unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature);
-            
-            return new List<double>
-                {
-                    validTupleList[i].DesignForceTuple.ForceTuple.Mx * unitMoment.Multiplyer,
-                    validTupleList[i].DesignForceTuple.ForceTuple.My * unitMoment.Multiplyer,
-                    validTupleList[i].DesignForceTuple.ForceTuple.Nz * unitForce.Multiplyer,
-                    validTupleList[i].LoaderResults.ForceStrainPair.StrainMatrix.Kx * unitCurvature.Multiplyer,
-                    validTupleList[i].LoaderResults.ForceStrainPair.StrainMatrix.Ky * unitCurvature.Multiplyer,
-                    validTupleList[i].LoaderResults.ForceStrainPair.StrainMatrix.EpsZ
-                };
         }
     }
 }

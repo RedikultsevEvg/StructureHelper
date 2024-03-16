@@ -1,4 +1,5 @@
 ﻿using StructureHelper.Windows.ViewModels;
+using StructureHelper.Windows.ViewModels.Materials;
 using StructureHelperCommon.Models.Forces;
 using System;
 using System.Collections.Generic;

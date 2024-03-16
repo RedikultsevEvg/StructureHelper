@@ -85,11 +85,16 @@ namespace FieldVisualizer.Services.ColorServices
                 return map.Colors[^1];
             }
             double colorPerc = 1d / (map.Colors.Count - 1d); // % of each block of color. the last is the "100% Color"
-            double blockOfColor = valPerc / colorPerc;// the integer part repersents how many block to skip
+            double blockOfColor = valPerc / colorPerc;// the integer part represents how many block to skip
             int blockIdx = (int)Math.Truncate(blockOfColor);// Idx of
             double valPercResidual = valPerc - (blockIdx * colorPerc);//remove the part represented of block 
             double percOfColor = valPercResidual / colorPerc;// % of color of this block that will be filled
 
+            //in some cases due to accuracy of double type percent of color may be less than zero
+            if (percOfColor <= 0d)
+            {
+                return map.Colors[blockIdx];
+            }
             Color c = GetColorByColorMap(map, blockIdx, percOfColor);
             return c;
         }

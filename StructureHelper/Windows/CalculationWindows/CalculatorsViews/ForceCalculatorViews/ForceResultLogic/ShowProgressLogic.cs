@@ -1,4 +1,5 @@
 ﻿using StructureHelper.Windows.CalculationWindows.ProgressViews;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
@@ -82,8 +83,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             }
             catch (Exception ex)
             {
-
-                throw;
+                throw new StructureHelperException(ex);
             }
         }
     }

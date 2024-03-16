@@ -16,8 +16,7 @@ namespace StructureHelper.Windows.Forces
         public ValueDelegatesLogic()
         {
             resultFuncs = new List<IResultFunc>();
-            resultFuncs.AddRange(ResultFuncFactory.GetResultFuncs(FuncsTypes.Strain));
-            resultFuncs.AddRange(ResultFuncFactory.GetResultFuncs(FuncsTypes.Stress));
+            resultFuncs.AddRange(ResultFuncFactory.GetResultFuncs(FuncsTypes.Full));
             ResultFuncs = new SelectItemsVM<IResultFunc>(resultFuncs)
             {
                 ShowButtons = true
