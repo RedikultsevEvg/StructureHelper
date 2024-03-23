@@ -285,40 +285,15 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             {
                 throw new StructureHelperException(ErrorStrings.NullReference + ": Nothing is selected");
             }
-            var tuple = SelectedResult.DesignForceTuple ?? throw new StructureHelperException(ErrorStrings.NullReference + ": Design force combination");
-            var inputData = new ValuePointsInterpolationInputData()
+            var logic = new InterpolateValuePointsLogic()
             {
-                FinishDesignForce = tuple.Clone() as IDesignForceTuple,
-                LimitState = tuple.LimitState,
-                CalcTerm = tuple.CalcTerm,
+                SelectedResult = SelectedResult,
+                ForceCalculator = forceCalculator,
+                NdmPrimitives = ndmPrimitives,
+                ProgressLogic = progressLogic,
+                ShowProgressLogic = showProgressLogic
             };
-            inputData.PrimitiveBases.AddRange(PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(ndmPrimitives));
-            var viewModel = new ValuePointsInterpolateViewModel(inputData);
-            var wnd = new ValuePointsInterpolateView(viewModel);
-            wnd.ShowDialog();
-            if (wnd.DialogResult != true) { return; }
-            var interpolationLogic = new InterpolationProgressLogic(forceCalculator, viewModel.ForceInterpolationViewModel.Result);
-            progressLogic = interpolationLogic;
-            showProgressLogic = new(interpolationLogic)
-            {
-                WindowTitle = "Interpolate forces",
-            };
-            showProgressLogic.Show();
-            var result = interpolationLogic.InterpolateCalculator.Result;
-            if (result.IsValid == false) { return; }
-            if (result is IForcesResults)
-            {
-                var tupleResult = result as IForcesResults;
-                var pointGraphLogic = new ShowValuePointDiagramLogic(tupleResult.ForcesResultList, ndmPrimitives)
-                {
-                    Calculator = interpolationLogic.InterpolateCalculator,
-                    PrimitiveLogic = viewModel.PrimitiveLogic,
-                    ValueDelegatesLogic = viewModel.ValueDelegatesLogic
-                };
-                pointGraphLogic.SetParameters();
-                pointGraphLogic.ShowWindow();
-            }
-
+            logic.InterpolateValuePoints();
         }
 
         private void ShowInterpolationWindow(out InterpolateTuplesViewModel interploateTuplesViewModel, out InterpolateTuplesView wndTuples)

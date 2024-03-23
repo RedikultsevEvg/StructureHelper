@@ -2,6 +2,7 @@
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.CalculationWindows.ProgressViews;
+using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.ViewModels.Calculations.Calculators;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -10,6 +11,7 @@ using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Logics;
+using System;
 using System.Windows;
 using System.Windows.Forms;
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -26,31 +28,63 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         public override void AddMethod(object parameter)
         {
+            if (CheckParameter(parameter) == false) { return; }
+            AddCalculator(parameter);
+            base.AddMethod(parameter);
+        }
+
+        private void AddCalculator(object parameter)
+        {
             var parameterType = (CalculatorTypes)parameter;
             if (parameterType == CalculatorTypes.ForceCalculator)
             {
-                NewItem = new ForceCalculator()
-                {
-                    Name = "New force calculator",
-                    TraceLogger = new ShiftTraceLogger(),
-                };
+                AddForceCalculator();
             }
             else if (parameterType == CalculatorTypes.LimitCurveCalculator)
             {
-                var inputData = new LimitCurveInputData(repository.Primitives);
-                NewItem = new LimitCurvesCalculator()
-                {
-                    Name = "New interaction diagram calculator",
-                    InputData = inputData,
-                    TraceLogger = new ShiftTraceLogger(),
-                };
+                AddLimitCurveCalculator();
             }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(parameterType));
             }
-            base.AddMethod(parameter);
         }
+
+        private void AddLimitCurveCalculator()
+        {
+            var inputData = new LimitCurveInputData(repository.Primitives);
+            NewItem = new LimitCurvesCalculator()
+            {
+                Name = "New interaction diagram calculator",
+                InputData = inputData,
+                TraceLogger = new ShiftTraceLogger(),
+            };
+        }
+
+        private void AddForceCalculator()
+        {
+            NewItem = new ForceCalculator()
+            {
+                Name = "New force calculator",
+                TraceLogger = new ShiftTraceLogger(),
+            };
+        }
+
+        private bool CheckParameter(object parameter)
+        {
+            if (parameter is null)
+            {
+                SafetyProcessor.ShowMessage(ErrorStrings.ParameterIsNull, "It is imposible to add object cause parameter is null");
+                return false;
+            }
+            if (parameter is not CalculatorTypes)
+            {
+                SafetyProcessor.ShowMessage(ErrorStrings.ExpectedWas(typeof(CalculatorTypes), parameter), "Parameter is not correspondent to any type of calculator");
+                return false;
+            }
+            return true;
+        }
+
         public override void EditMethod(object parameter)
         {
             SafetyProcessor.RunSafeProcess(EditCalculator, $"Error of editing: {SelectedItem.Name}");

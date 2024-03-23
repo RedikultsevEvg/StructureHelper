@@ -55,7 +55,7 @@
             <Style TargetType="Image">
                 <Setter Property="Width" Value="32"/>
                 <Setter Property="Height" Value="32"/>
-                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Margin" Value="-2"/>
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Style.Triggers>
@@ -69,7 +69,7 @@
         <Setter Property="Height" Value="32"/>
         <Setter Property="Margin" Value="2,0,2,0"/>
         <Setter Property="Background" Value="#FFA19BC3"/>
-        <Setter Property="BorderBrush" Value="#FF857AB9"/>
+        <Setter Property="BorderBrush" Value="Black"/>
     </Style>
 
     <Style x:Key="ButtonImage16" TargetType="Image">

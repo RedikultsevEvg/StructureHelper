@@ -10,12 +10,18 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 {
+    /// <summary>
+    /// Create array of common values
+    /// </summary>
     public class DiagramFactory
     {
         private ArrayParameter<double> arrayParameter;
+        /// <summary>
+        /// Collection of force results
+        /// </summary>
         public List<IForcesTupleResult> TupleList { get; set; }
 
-        public Action<int> SetProgress { get; set; }
+        //public Action<int> SetProgress { get; set; }
 
         public ArrayParameter<double> GetCommonArray()
         {
@@ -35,7 +41,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
                 {
                     data[i, j] = valueList[j];
                 }
-                SetProgress?.Invoke(i);
+                //SetProgress?.Invoke(i);
             }
         }
 

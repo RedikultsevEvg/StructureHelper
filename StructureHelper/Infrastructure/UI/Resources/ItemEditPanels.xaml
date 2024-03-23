@@ -43,7 +43,14 @@
                 <Button Content="Invert Selection" Command="{Binding InvertSelectionCommand}"/>
             </StackPanel>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                <ListBox ItemsSource="{Binding CollectionItems}" SelectedItem="SelectedItem">
+                <ListBox ItemsSource="{Binding CollectionItems}" SelectedItem="SelectedItem" HorizontalAlignment="Stretch">
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Select All" Command="{Binding SelectAllCommand}"/>
+                            <MenuItem Header="UnSelect All" Command="{Binding UnSelectAllCommand}"/>
+                            <MenuItem Header="Unvert Selection" Command="{Binding InvertSelectionCommand}"/>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>

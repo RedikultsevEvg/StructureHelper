@@ -61,7 +61,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             var factory = new DiagramFactory()
             {
                 TupleList = validTupleList,
-                SetProgress = SetProgress,
+                //SetProgress = SetProgress,
             };
             arrayParameter = factory.GetCommonArray();
         }

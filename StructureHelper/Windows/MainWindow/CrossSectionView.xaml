@@ -143,67 +143,70 @@
                         Content="Fact" ToolTip="Add Factored Combination"/>
             </ToolBar>
             <ToolBar DataContext="{Binding MaterialsLogic}" ToolTip="Materials">
-                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Concrete}">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/ConMaterial32.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Concrete}">
+                    <Image Source="/Windows/MainWindow/ConMaterial32.png"/>
                 </Button>
-                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Reinforcement}" ToolTip="Add Reinforcement Material">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/RFMaterial32.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Reinforcement}" ToolTip="Add Reinforcement Material">
+                    <Image Source="/Windows/MainWindow/RFMaterial32.png"/>
                 </Button>
-                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Elastic}" ToolTip="Add Elastic Material">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/ElasticMaterial32.png"/>
+                <Button  Style="{StaticResource ToolButton}"  Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Elastic}" ToolTip="Add Elastic Material">
+                    <Image Source="/Windows/MainWindow/ElasticMaterial32.png"/>
                 </Button>
                 <Button Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.CarbonFiber}" ToolTip="Add Carbon Fiber Material">
                     <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/СarbonMaterial32.png"/>
                 </Button>
-                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.GlassFiber}" ToolTip="Add Glass Fiber Material">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/GlassMaterial32.png"/>
+                <Button Style="{StaticResource ToolButton}"  Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.GlassFiber}" ToolTip="Add Glass Fiber Material">
+                    <Image Source="/Windows/MainWindow/GlassMaterial32.png"/>
                 </Button>
-                <Button Command="{Binding EditMaterialsCommand}" ToolTip="Show Materials">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Materials32.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding EditMaterialsCommand}" ToolTip="Show Materials">
+                    <Image Source="/Windows/MainWindow/Materials32.png"/>
                 </Button>
             </ToolBar>
             <ToolBar ToolTip="Base Primitives" DataContext="{Binding PrimitiveLogic}">
-                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}" ToolTip="Add Rectangle Primitive">
-                    <Image Style="{StaticResource ButtonImage32}"  Source="/Windows/MainWindow/Rectangle32.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}" ToolTip="Add Rectangle Primitive">
+                    <Image Source="/Windows/MainWindow/Rectangle32.png"/>
                 </Button>
-                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}" ToolTip="Add Circle Primitive">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Circle32.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}" ToolTip="Add Circle Primitive">
+                    <Image Source="/Windows/MainWindow/Circle32.png"/>
                 </Button>
-                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}" ToolTip="Add Rebar Primitive">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Rebar32.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}" ToolTip="Add Rebar Primitive">
+                    <Image Source="/Windows/MainWindow/Rebar32.png"/>
                 </Button>
-                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}" ToolTip="Add Point Primitive">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Point32.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}" ToolTip="Add Point Primitive">
+                    <Image Source="/Windows/MainWindow/Point32.png"/>
                 </Button>
             </ToolBar>
             <ToolBar ToolTip="RC Templates">
-                <Button Command="{Binding AddColumnCase}" ToolTip="Add Rectangle RC Column">
-                    <Image Width="32" Height="32" Source="/Windows/MainWindow/RectangleColumn32.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding AddColumnCase}" ToolTip="Add Rectangle RC Column">
+                    <Image Source="/Windows/MainWindow/RectangleColumn32.png"/>
                 </Button>
-                <Button Command="{Binding AddRCCircleCase}" ToolTip="Add Circle RC Column">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/CircleColumn32.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding AddRCCircleCase}" ToolTip="Add Circle RC Column">
+                    <Image Source="/Windows/MainWindow/CircleColumn32.png"/>
                 </Button>
-                <Button Command="{Binding AddBeamCase}" ToolTip="Add RC Beam">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Beam32.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding AddBeamCase}" ToolTip="Add RC Beam">
+                    <Image Source="/Windows/MainWindow/Beam32.png"/>
                 </Button>
-                <Button Command="{Binding AddSlabCase}" ToolTip="Add RC Slab">
-                    <Image Width="32" Height="32" Source="/Windows/MainWindow/Slab32.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding AddSlabCase}" ToolTip="Add RC Slab">
+                    <Image Source="/Windows/MainWindow/Slab32.png"/>
                 </Button>
             </ToolBar>
             <ToolBar ToolTip="Analises" DataContext="{Binding CalculatorsLogic}">
-                <Button Command="{Binding Add}" ToolTip="Add Force Calculator">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Calculator32.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:CalculatorTypes.ForceCalculator}" ToolTip="Add Force Calculator">
+                    <Image Source="/Windows/MainWindow/Calculator32.png"/>
                 </Button>
-                <Button Command="{Binding Run}" ToolTip="Run Calculations">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/Analysis32.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:CalculatorTypes.LimitCurveCalculator}" ToolTip="Add Interaction Diagram Calculator">
+                    <Image Source="/Windows/MainWindow/Calculator32.png"/>
+                </Button>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding Run}" ToolTip="Run Calculations">
+                    <Image Source="/Windows/MainWindow/Analysis32.png"/>
                 </Button>
             </ToolBar>
             <ToolBar ToolTip="Tools">
-                <Button Command="{Binding MovePrimitiveToGravityCenterCommand}" ToolTip="Move All Primitives to Gravity Center">
-                    <Image Width="32" Height="32" Source="/Windows/MainWindow/MovePrimitivesToCenter.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding MovePrimitiveToGravityCenterCommand}" ToolTip="Move All Primitives to Gravity Center">
+                    <Image Source="/Windows/MainWindow/MovePrimitivesToCenter.png"/>
                 </Button>
-                <Button Command="{Binding ShowVisualProperty}" ToolTip="Visual Settings">
-                    <Image Width="32" Height="32" Source="/Windows/MainWindow/Tools_Settings.png"/>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding ShowVisualProperty}" ToolTip="Visual Settings">
+                    <Image Source="/Windows/MainWindow/Tools_Settings.png"/>
                 </Button>
             </ToolBar>
         </ToolBarTray>

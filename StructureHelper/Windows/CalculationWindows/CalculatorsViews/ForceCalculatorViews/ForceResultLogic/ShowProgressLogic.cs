@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
-    internal class ShowProgressLogic
+    public class ShowProgressLogic
     {
         private ShowProgressViewModel progressViewModel;
         private ShowProgressView wndProgress;

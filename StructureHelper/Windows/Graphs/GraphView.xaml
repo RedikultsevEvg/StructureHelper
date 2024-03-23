@@ -18,8 +18,9 @@
         </ToolBarTray>-->
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition/>
+                <ColumnDefinition MinWidth="250"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
             <Grid>
                 <Grid.RowDefinitions>
@@ -31,7 +32,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Expander Header="{Binding Name}" IsExpanded="True" Background="{Binding Color}">
-                                <Grid >
+                                <Grid HorizontalAlignment="Stretch">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="70"/>
                                         <RowDefinition/>
@@ -81,7 +82,8 @@
                     <Button Margin="3" Content="Draw Lines" ToolTip="Draw Lines" Command="{Binding RedrawLinesCommand}"/>
                 </StackPanel>
             </Grid>
-            <lvc:CartesianChart Name="MainChart" Grid.Column="1" Series="{Binding SeriesCollection}" LegendLocation="Bottom" Zoom="Xy">
+            <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" ShowsPreview="False"/>
+            <lvc:CartesianChart Name="MainChart" Grid.Column="2" Series="{Binding SeriesCollection}" LegendLocation="Bottom" Zoom="Xy">
                 <lvc:CartesianChart.AxisY>
                     <lvc:Axis Title="y-value"></lvc:Axis>
                 </lvc:CartesianChart.AxisY>
