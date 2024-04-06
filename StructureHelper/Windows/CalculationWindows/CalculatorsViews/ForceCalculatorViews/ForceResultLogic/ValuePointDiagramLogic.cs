@@ -142,7 +142,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             var material = valuePoint.ndmPrimitive.HeadMaterial.GetLoaderMaterial(limitState, calcTerm);
             var userPrestrain = valuePoint.ndmPrimitive.UsersPrestrain;
             var autoPrestrain = valuePoint.ndmPrimitive.AutoPrestrain;
-            var ndm = new RebarNdm()
+            var ndm = new Ndm()
             {
                 Area = valuePoint.areaPoint.Area,
                 CenterX = valuePoint.areaPoint.Point.X,

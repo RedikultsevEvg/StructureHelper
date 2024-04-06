@@ -10,6 +10,7 @@ namespace StructureHelper.Infrastructure.Enums
     {
         ForceCalculator,
         LimitCurveCalculator,
+        CrackCalculator,
         FireCalculator
     }
 }

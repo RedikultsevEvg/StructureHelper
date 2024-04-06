@@ -44,10 +44,19 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             {
                 AddLimitCurveCalculator();
             }
+            else if (parameterType == CalculatorTypes.CrackCalculator)
+            {
+                AddCrackCalculator();
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(parameterType));
             }
+        }
+
+        private void AddCrackCalculator()
+        {
+            throw new NotImplementedException();
         }
 
         private void AddLimitCurveCalculator()

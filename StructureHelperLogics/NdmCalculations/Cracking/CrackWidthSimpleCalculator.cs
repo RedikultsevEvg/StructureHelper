@@ -11,8 +11,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public ICrackWidthSimpleCalculatorInputData InputData { get; set; }
         public IResult Result => result;
 
-        public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IShiftTraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Action<IResult> ActionToOutputResults { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public void Run()
         {
@@ -31,9 +31,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 result.Description += "\n" + ex;
             }
             result.RebarPrimitive = InputData.RebarPrimitive;
-            result.CrackWidth = crackWidth;
-            result.RebarStrain = logicInputData.RebarStrain;
-            result.ConcreteStrain = logicInputData.ConcreteStrain;
+            //result.CrackWidth = crackWidth;
+            //result.RebarStrain = logicInputData.RebarStrain;
+            //result.ConcreteStrain = logicInputData.ConcreteStrain;
         }
         public object Clone()
         {

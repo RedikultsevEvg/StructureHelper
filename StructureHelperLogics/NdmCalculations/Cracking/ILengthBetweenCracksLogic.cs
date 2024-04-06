@@ -1,5 +1,6 @@
 ﻿using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public interface ILengthBetweenCracksLogic
+    public interface ILengthBetweenCracksLogic : ILogic
     {
         IEnumerable<INdm> NdmCollection { get; set; }
         IStrainMatrix StrainMatrix { get; set; }

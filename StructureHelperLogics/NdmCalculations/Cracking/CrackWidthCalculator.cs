@@ -1,4 +1,5 @@
 ﻿using LoaderCalculator.Data.Ndms;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
@@ -12,8 +13,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class CrackWidthCalculator : ICalculator
     {
-        static readonly ILengthBetweenCracksLogic lengthLogic = new LengthBetweenCracksLogicSP63();
-        CrackWidthCalculatorResult result;
+        private static readonly ILengthBetweenCracksLogic lengthLogic = new LengthBetweenCracksLogicSP63();
+        private CrackWidthCalculatorResult result;
         private IEnumerable<INdmPrimitive> ndmPrimitives;
         private List<RebarPrimitive>? rebarPrimitives;
         private IEnumerable<INdm> ndmCollection;
@@ -24,7 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public CrackWidthCalculatorInputData InputData { get; set; }
         public IResult Result => result;
 
-        public IShiftTraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public void Run()
         {
@@ -54,17 +55,17 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 crackInputData.RebarPrimitive = item;
                 calculator.Run();
                 var rebarResult = calculator.Result as CrackWidthSimpleCalculatorResult;
-                if (crackForceResult.IsSectionCracked == false)
-                {
-                    rebarResult.CrackWidth = 0d;
-                }
+                //if (crackForceResult.IsSectionCracked == false)
+                //{
+                //    rebarResult.CrackWidth = 0d;
+                //}
                 result.RebarResults.Add(rebarResult);
             }
         }
 
         private void CalcStrainMatrix()
         {
-            IForceTupleInputData inputData = new ForceTupleInputData() { NdmCollection = ndmCollection, Tuple = InputData.ForceTuple};
+            IForceTupleInputData inputData = new ForceTupleInputData() { NdmCollection = ndmCollection, Tuple = InputData.LongTermTuple};
             IForceTupleCalculator calculator = new ForceTupleCalculator() { InputData = inputData };
             calculator.Run();
             var forceResult = calculator.Result as IForcesTupleResult;
@@ -80,7 +81,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             {
                 PsiSFactor = crackForceResult.PsiS,
                 Length = length,
-                LimitState = InputData.LimitState,
                 StrainTuple = strainTuple
             };
             return crackInputData;
@@ -97,13 +97,13 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                     rebarPrimitives.Add(item as RebarPrimitive);
                 }
             }
-            ndmCollection = NdmPrimitivesService.GetNdms(ndmPrimitives, InputData.LimitState, InputData.CalcTerm);
+            ndmCollection = NdmPrimitivesService.GetNdms(ndmPrimitives, LimitStates.SLS, CalcTerms.ShortTerm);
         }
 
         private void CalcCrackForce()
         {
             var calculator = new CrackForceCalculator();
-            calculator.EndTuple = InputData.ForceTuple;
+            calculator.EndTuple = InputData.LongTermTuple;
             calculator.NdmCollection = ndmCollection;
             calculator.Run();
             crackForceResult = calculator.Result as CrackForceResult;

@@ -21,9 +21,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             var inputData = new CrackWidthCalculatorInputData()
             {
-                LimitState = LimitState,
-                CalcTerm = CalcTerm,
-                ForceTuple = ForceTuple,
+                //LimitState = LimitState,
+                //CalcTerm = CalcTerm,
+                LongTermTuple = ForceTuple,
                 NdmPrimitives = ndmPrimitives
             };
             var calculator = new CrackWidthCalculator() { InputData = inputData };

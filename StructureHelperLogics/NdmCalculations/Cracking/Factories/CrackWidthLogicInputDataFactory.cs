@@ -41,7 +41,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private static void ProcessBaseProps(ICrackWidthSimpleCalculatorInputData inputData, ICrackWidthLogicInputData data)
         {
             var strainMatrix = TupleConverter.ConvertToLoaderStrainMatrix(inputData.StrainTuple);
-            var triangulationOptions = new TriangulationOptions { LimiteState = inputData.LimitState, CalcTerm = inputData.CalcTerm };
+            var triangulationOptions = new TriangulationOptions { LimiteState = LimitStates.SLS, CalcTerm = inputData.CalcTerm };
             var ndms = inputData.RebarPrimitive.GetNdms(triangulationOptions).ToArray();
             var concreteNdm = ndms[0];
             var rebarNdm = ndms[1];

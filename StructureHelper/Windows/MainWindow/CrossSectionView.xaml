@@ -79,7 +79,9 @@
         <ContextMenu x:Key="AnalisesCRUD">
             <MenuItem Header="Run" Command="{Binding Run}">
                 <MenuItem.Icon>
-                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                    <Viewbox Width="16" Height="16">
+                        <ContentControl ContentTemplate="{DynamicResource CalculatorRun}"/>
+                    </Viewbox>
                 </MenuItem.Icon>
             </MenuItem>
             <Separator/>
@@ -194,11 +196,20 @@
                 <Button Style="{StaticResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:CalculatorTypes.ForceCalculator}" ToolTip="Add Force Calculator">
                     <Image Source="/Windows/MainWindow/Calculator32.png"/>
                 </Button>
-                <Button Style="{StaticResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:CalculatorTypes.LimitCurveCalculator}" ToolTip="Add Interaction Diagram Calculator">
-                    <Image Source="/Windows/MainWindow/Calculator32.png"/>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:CalculatorTypes.LimitCurveCalculator}" ToolTip="Add Interaction Diagram Calculator">
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource DiagramCalculator}"/>
+                    </Viewbox>
                 </Button>
-                <Button Style="{StaticResource ToolButton}" Command="{Binding Run}" ToolTip="Run Calculations">
-                    <Image Source="/Windows/MainWindow/Analysis32.png"/>
+                <Button Visibility="Hidden" Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:CalculatorTypes.CrackCalculator}" ToolTip="Add Interaction Diagram Calculator">
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource CrackCalculator}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Run}" ToolTip="Run Calculations">
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource CalculatorRun}"/>
+                    </Viewbox>
                 </Button>
             </ToolBar>
             <ToolBar ToolTip="Tools">
@@ -341,7 +352,16 @@
                                         </MenuItem>
                                         <MenuItem Header="Add Interaction Diagram Calculator" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.LimitCurveCalculator}">
                                             <MenuItem.Icon>
-                                                <Image Width="16" Height="16" Source="/Windows/MainWindow/Calculator32.png" />
+                                                <Viewbox Width="16" Height="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource DiagramCalculator}"/>
+                                                </Viewbox>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Visibility="Hidden" Header="Add Crack Calculator" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.CrackCalculator}">
+                                            <MenuItem.Icon>
+                                                <Viewbox Width="16" Height="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource CrackCalculator}"/>
+                                                </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </MenuItem>

@@ -43,7 +43,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private ShowProgressLogic showProgressLogic;
         private InteractionDiagramLogic interactionDiagramLogic;
         private static readonly ShowCrackResultLogic showCrackResultLogic = new();
-        private static readonly ShowCrackWidthLogic showCrackWidthLogic = new();
+        //private static readonly ShowCrackWidthLogic showCrackWidthLogic = new();
         private IForcesResults forcesResults;
         private IEnumerable<INdmPrimitive> ndmPrimitives;
         private IEnumerable<INdmPrimitive> selectedNdmPrimitives;
@@ -225,22 +225,22 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             showCrackResultLogic.Show(SelectedResult.DesignForceTuple.Clone() as IDesignForceTuple);
         }
 
-        public ICommand ShowCrackWidthResultCommand
-        {
-            get => showCrackWidthResult ??= new RelayCommand(o =>
-            {
-                SafetyProcessor.RunSafeProcess(ShowCrackWidthResult);
-            }, o => SelectedResult != null && SelectedResult.IsValid);
-        }
+        //public ICommand ShowCrackWidthResultCommand
+        //{
+        //    get => showCrackWidthResult ??= new RelayCommand(o =>
+        //    {
+        //        SafetyProcessor.RunSafeProcess(ShowCrackWidthResult);
+        //    }, o => SelectedResult != null && SelectedResult.IsValid);
+        //}
 
-        private void ShowCrackWidthResult()
-        {
-            showCrackWidthLogic.LimitState = SelectedResult.DesignForceTuple.LimitState;
-            showCrackWidthLogic.CalcTerm = SelectedResult.DesignForceTuple.CalcTerm;
-            showCrackWidthLogic.ForceTuple = SelectedResult.DesignForceTuple.ForceTuple;
-            showCrackWidthLogic.ndmPrimitives = ndmPrimitives.ToList();
-            showCrackWidthLogic.Show();
-        }
+        //private void ShowCrackWidthResult()
+        //{
+        //    showCrackWidthLogic.LimitState = SelectedResult.DesignForceTuple.LimitState;
+        //    showCrackWidthLogic.CalcTerm = SelectedResult.DesignForceTuple.CalcTerm;
+        //    showCrackWidthLogic.ForceTuple = SelectedResult.DesignForceTuple.ForceTuple;
+        //    showCrackWidthLogic.ndmPrimitives = ndmPrimitives.ToList();
+        //    showCrackWidthLogic.Show();
+        //}
         public ICommand InterpolateCommand
         {
             get

@@ -13,8 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public bool IsValid { get; set; }
         public string Description { get; set; }
         public RebarPrimitive RebarPrimitive { get; set; }
-        public double CrackWidth { get; set; }
-        public double RebarStrain { get; set; }
-        public double ConcreteStrain { get; set; }
+        public CrackWidthTupleResult LongTermResult { get; set; }
+        public CrackWidthTupleResult ShortTermResult { get; set; }
     }
 }

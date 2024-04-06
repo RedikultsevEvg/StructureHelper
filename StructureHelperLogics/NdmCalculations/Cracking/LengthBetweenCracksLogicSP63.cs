@@ -1,5 +1,6 @@
 ﻿using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
+using StructureHelperCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         readonly ITensileAreaLogic tensileAreaLogic;
         public IEnumerable<INdm> NdmCollection { get; set; }
         public IStrainMatrix StrainMatrix { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
+
         public LengthBetweenCracksLogicSP63(IAverageDiameterLogic diameterLogic, ITensileAreaLogic tensileAreaLogic)
         {
             this.diameterLogic = diameterLogic;

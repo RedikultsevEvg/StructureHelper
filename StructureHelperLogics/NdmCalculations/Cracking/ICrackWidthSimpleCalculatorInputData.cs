@@ -11,7 +11,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public interface ICrackWidthSimpleCalculatorInputData
     {
-        LimitStates LimitState { get; set; }
         CalcTerms CalcTerm { get; set; }
         StrainTuple StrainTuple { get; set; }
         double PsiSFactor { get; set; }
