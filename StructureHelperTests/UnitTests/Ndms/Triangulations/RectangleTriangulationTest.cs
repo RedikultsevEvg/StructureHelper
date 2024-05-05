@@ -17,6 +17,8 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
     public class RectangleTriangulationTest
     {
         private Mock<IHeadMaterial> materialMock;
+        private ITriangulatePrimitiveLogic triangulateLogic;
+
         [SetUp]
         public void Setup()
         {
@@ -75,7 +77,13 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             opening.VisualProperty.ZIndex = 1;
             var primitives = new List<INdmPrimitive>() { mainBlock, opening };
             //Act
-            var ndms = NdmPrimitivesService.GetNdms(primitives, LimitStates.ULS, CalcTerms.ShortTerm);
+            triangulateLogic = new TriangulatePrimitiveLogic()
+            {
+                Primitives = primitives,
+                LimitState = LimitStates.ULS,
+                CalcTerm = CalcTerms.ShortTerm
+            };
+            var ndms = triangulateLogic.GetNdms();
             //Assert
             var area = ndms.Sum(x => x.Area);
             var moments = GeometryOperations.GetReducedMomentsOfInertia(ndms);
@@ -106,7 +114,13 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             opening.VisualProperty.ZIndex = 1;
             var primitives = new List<INdmPrimitive>() { mainBlock, opening };
             //Act
-            var ndms = NdmPrimitivesService.GetNdms(primitives, LimitStates.ULS, CalcTerms.ShortTerm);
+            triangulateLogic = new TriangulatePrimitiveLogic()
+            {
+                Primitives = primitives,
+                LimitState = LimitStates.ULS,
+                CalcTerm = CalcTerms.ShortTerm
+            };
+            var ndms = triangulateLogic.GetNdms();
             //Assert
             var area = ndms.Sum(x => x.Area);
             var moments = GeometryOperations.GetReducedMomentsOfInertia(ndms);
@@ -138,7 +152,13 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             opening.VisualProperty.ZIndex = 1;
             var primitives = new List<INdmPrimitive>() { mainBlock, opening };
             //Act
-            var ndms = NdmPrimitivesService.GetNdms(primitives, LimitStates.ULS, CalcTerms.ShortTerm);
+            triangulateLogic = new TriangulatePrimitiveLogic()
+            {
+                Primitives = primitives,
+                LimitState = LimitStates.ULS,
+                CalcTerm = CalcTerms.ShortTerm
+            };
+            var ndms = triangulateLogic.GetNdms();
             //Assert
             var area = ndms.Sum(x => x.Area);
             var moments = GeometryOperations.GetReducedMomentsOfInertia(ndms);

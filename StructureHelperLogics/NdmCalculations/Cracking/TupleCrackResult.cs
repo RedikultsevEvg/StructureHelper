@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CrackWidthCalculatorResult : IResult
+    public class TupleCrackResult : IResult
     {
         public bool IsValid { get; set; }
         public string Description { get; set; }
         public IForceTuple LongTermTuple { get; set; }
         public IForceTuple ShortTermTuple { get; set; }
         public bool IsCracked { get; set; }
-        public List<CrackWidthSimpleCalculatorResult>  RebarResults { get; set; }
+        public List<RebarCrackResult>  RebarResults { get; set; }
         public double MaxLongTermCrackWidth => IsCracked? RebarResults.Select(x => x.LongTermResult.CrackWidth).Max() : 0d;
         public double MaxShortTermCrackWidth => IsCracked? RebarResults.Select(x => x.ShortTermResult.CrackWidth).Max() : 0d;
 
-        public CrackWidthCalculatorResult()
+        public TupleCrackResult()
         {
-            RebarResults = new List<CrackWidthSimpleCalculatorResult>();
+            RebarResults = new ();
         }
     }
 }

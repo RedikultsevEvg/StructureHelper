@@ -21,11 +21,18 @@ namespace StructureHelperLogics.Services.NdmCalculations
     public class CalculationService
     {
         private ICalculationProperty calculationProperty;
+        private ITriangulatePrimitiveLogic triangulateLogic;
 
         public IStrainMatrix GetPrimitiveStrainMatrix(INdmPrimitive[] ndmPrimitives, double mx, double my, double nz)
         {
             var ndmCollection = new List<INdm>();
-            ndmCollection.AddRange(NdmPrimitivesService.GetNdms(ndmPrimitives, calculationProperty.LimitState, calculationProperty.CalcTerm));
+            triangulateLogic = new TriangulatePrimitiveLogic()
+            {
+                Primitives = ndmPrimitives,
+                LimitState = calculationProperty.LimitState,
+                CalcTerm = calculationProperty.CalcTerm
+            };
+            ndmCollection.AddRange(triangulateLogic.GetNdms());
             var loaderData = new LoaderOptions
             {
                 Preconditions = new Preconditions

@@ -201,7 +201,7 @@
                         <ContentControl ContentTemplate="{DynamicResource DiagramCalculator}"/>
                     </Viewbox>
                 </Button>
-                <Button Visibility="Hidden" Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:CalculatorTypes.CrackCalculator}" ToolTip="Add Interaction Diagram Calculator">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:CalculatorTypes.CrackCalculator}" ToolTip="Add Crack Calculator">
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource CrackCalculator}"/>
                     </Viewbox>
@@ -357,7 +357,7 @@
                                                 </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Visibility="Hidden" Header="Add Crack Calculator" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.CrackCalculator}">
+                                        <MenuItem Header="Add Crack Calculator" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.CrackCalculator}">
                                             <MenuItem.Icon>
                                                 <Viewbox Width="16" Height="16">
                                                     <ContentControl ContentTemplate="{DynamicResource CrackCalculator}"/>

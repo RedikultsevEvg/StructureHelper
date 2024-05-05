@@ -19,14 +19,14 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         internal void Show()
         {
-            var inputData = new CrackWidthCalculatorInputData()
+            var inputData = new TupleCrackInputData()
             {
                 //LimitState = LimitState,
                 //CalcTerm = CalcTerm,
                 LongTermTuple = ForceTuple,
                 NdmPrimitives = ndmPrimitives
             };
-            var calculator = new CrackWidthCalculator() { InputData = inputData };
+            var calculator = new TupleCrackCalculator() { InputData = inputData };
             calculator.Run();
             var result = calculator.Result;
 

@@ -2,6 +2,7 @@
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Logics;
 using LoaderCalculator.Logics.Geometry;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
@@ -24,6 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         private List<INdm> concreteNdms;
         private List<INdm> otherNdms;
         IForcesTupleResult forcesResults;
+        private ITriangulatePrimitiveLogic triangulateLogic;
 
         public string Name { get; set; }
 
@@ -52,7 +54,13 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
             Accuracy = accuracy;
 
             var allPrimitives = options.Primitives;
-            ndmCollection = NdmPrimitivesService.GetNdms(allPrimitives, options.LimitState, options.CalcTerm);
+            triangulateLogic = new TriangulatePrimitiveLogic()
+            {
+                Primitives = allPrimitives,
+                LimitState = options.LimitState,
+                CalcTerm = options.CalcTerm
+            };
+            ndmCollection = triangulateLogic.GetNdms();
             concreteNdms = ndmCollection.Where(x => x.Material is ICrackMaterial).ToList();
             otherNdms = ndmCollection.Except(concreteNdms).ToList();
         }

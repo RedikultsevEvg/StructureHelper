@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CrackWidthCalculatorInputData : IInputData
+    public class TupleCrackInputData : IInputData
     {
-        public IForceTuple LongTermTuple { get; set; }
-        public IForceTuple ShortTermTuple { get; set; }
-        public List<INdmPrimitive> NdmPrimitives {get;set;}
+        public bool IsValid { get; set; }
+        public IForceTuple? LongTermTuple { get; set; }
+        public IForceTuple? ShortTermTuple { get; set; }
+        public List<INdmPrimitive>? NdmPrimitives {get;set;}
     }
 }

@@ -29,6 +29,8 @@ namespace StructureHelper.Windows.MainWindow
     {
         private ICrossSection section;
         private ICrossSectionRepository repository => section.SectionRepository;
+        private ITriangulatePrimitiveLogic triangulateLogic;
+
 
         public CrossSectionVisualPropertyVM VisualProperty { get; private set; }
 
@@ -172,7 +174,13 @@ namespace StructureHelper.Windows.MainWindow
             MovePrimitiveToGravityCenterCommand = new RelayCommand(o =>
             {
                 if (CheckMaterials() == false) { return;}
-                var ndms = NdmPrimitivesService.GetNdms(repository.Primitives, LimitStates.SLS, CalcTerms.ShortTerm);
+                triangulateLogic = new TriangulatePrimitiveLogic()
+                {
+                    Primitives = repository.Primitives,
+                    LimitState = LimitStates.SLS,
+                    CalcTerm = CalcTerms.ShortTerm
+                };
+                var ndms = triangulateLogic.GetNdms();
                 var center = GeometryOperations.GetGravityCenter(ndms);
                 foreach (var item in PrimitiveLogic.Items)
                 {

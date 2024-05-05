@@ -22,6 +22,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
     internal class CrackDiagramLogic : ILongProcessLogic
     {
         static readonly CrackForceCalculator calculator = new();
+        private ITriangulatePrimitiveLogic triangulateLogic;
+
         private List<IForcesTupleResult> ValidTupleList { get; set; }
         ArrayParameter<double> arrayParameter;
         private IEnumerable<IForcesTupleResult> TupleList { get; set; }
@@ -102,7 +104,14 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
                 calculator.EndTuple = validTupleList[i].DesignForceTuple.ForceTuple;
                 var limitState = validTupleList[i].DesignForceTuple.LimitState;
                 var calcTerm = validTupleList[i].DesignForceTuple.CalcTerm;
-                var ndms = NdmPrimitivesService.GetNdms(ndmPrimitives, limitState, calcTerm);
+                triangulateLogic = new TriangulatePrimitiveLogic()
+                {
+                    Primitives = ndmPrimitives,
+                    LimitState = limitState,
+                    CalcTerm = calcTerm,
+                    TraceLogger = TraceLogger
+                };
+                var ndms = triangulateLogic.GetNdms();
                 calculator.NdmCollection = ndms;
                 calculator.Run();
                 var result = (CrackForceResult)calculator.Result;

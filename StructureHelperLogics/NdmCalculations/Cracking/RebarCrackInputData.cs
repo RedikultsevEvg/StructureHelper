@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CrackWidthSimpleCalculatorInputData : ICrackWidthSimpleCalculatorInputData
+    public class RebarCrackInputData : ICrackWidthSimpleCalculatorInputData
     {
         public CalcTerms CalcTerm { get; set; }
         public StrainTuple StrainTuple { get; set; }

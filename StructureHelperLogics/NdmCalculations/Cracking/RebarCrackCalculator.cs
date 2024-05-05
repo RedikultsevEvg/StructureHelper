@@ -3,10 +3,10 @@ using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CrackWidthSimpleCalculator : ICalculator
+    public class RebarCrackCalculator : ICalculator
     {
         ICrackWidthLogic crackWidthLogic = new CrackWidthLogicSP63();
-        CrackWidthSimpleCalculatorResult result;
+        RebarCrackResult result;
         public string Name { get; set; }
         public ICrackWidthSimpleCalculatorInputData InputData { get; set; }
         public IResult Result => result;

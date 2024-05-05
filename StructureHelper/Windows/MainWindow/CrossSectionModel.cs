@@ -1,4 +1,5 @@
 ﻿using LoaderCalculator;
+using LoaderCalculator.Data.Materials.MaterialBuilders;
 using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.ResultData;
@@ -9,6 +10,7 @@ using StructureHelper.Services.Primitives;
 using StructureHelper.UnitSystem;
 using StructureHelper.UnitSystem.Systems;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
 using StructureHelperLogics.Models.CrossSections;
@@ -26,6 +28,8 @@ namespace StructureHelper.Windows.MainWindow
 {
     public class CrossSectionModel
     {
+        private ITriangulatePrimitiveLogic triangulateLogic;
+
         public ICrossSection Section { get; private set; }
         private IPrimitiveRepository primitiveRepository;
         public IHeadMaterialRepository HeadMaterialRepository { get; }
@@ -52,7 +56,13 @@ namespace StructureHelper.Windows.MainWindow
         public IEnumerable<INdm> GetNdms(ICalculationProperty calculationProperty)
         {
             var ndmPrimitives = Section.SectionRepository.Primitives;
-            return NdmPrimitivesService.GetNdms(ndmPrimitives, calculationProperty.LimitState, calculationProperty.CalcTerm);
+            triangulateLogic = new TriangulatePrimitiveLogic()
+            {
+                Primitives = ndmPrimitives,
+                LimitState = calculationProperty.LimitState,
+                CalcTerm = calculationProperty.CalcTerm
+            };
+            return triangulateLogic.GetNdms();
             ////Настройки триангуляции, пока опции могут быть только такие
             //ITriangulationOptions options = new TriangulationOptions { LimiteState = calculationProperty.LimitState, CalcTerm = calculationProperty.CalcTerm };
 

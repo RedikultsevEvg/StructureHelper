@@ -1,6 +1,5 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
@@ -8,12 +7,10 @@ using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Sections;
 using StructureHelperCommon.Models.Sections.Logics;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.NdmCalculations.Buckling;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
-using System;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -24,6 +21,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private ForcesResults result;
         private IProcessorLogic<IForceTuple> eccentricityLogic;
         private ForceTupleBucklingLogic bucklingLogic;
+        private ITriangulatePrimitiveLogic triangulateLogic;
+
 
         public string Name { get; set; }
         public List<LimitStates> LimitStatesList { get; private set; }
@@ -99,7 +98,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             IForcesTupleResult tupleResult;
             LimitStates limitState = tuple.LimitState;
             CalcTerms calcTerm = tuple.CalcTerm;
-            var ndms = NdmPrimitivesService.GetNdms(Primitives, limitState, calcTerm);
+            triangulateLogic = new TriangulatePrimitiveLogic()
+            {
+                Primitives = Primitives,
+                LimitState = limitState,
+                CalcTerm = calcTerm,
+                TraceLogger = TraceLogger
+            };
+            var ndms = triangulateLogic.GetNdms();
             IPoint2D point2D;
             IProcessorLogic<IForceTuple> forcelogic = new ForceTupleCopier(tuple.ForceTuple);
             if (combination.SetInGravityCenter == true)
@@ -196,7 +202,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             string result = "";
             try
             {
-                NdmPrimitivesService.CheckPrimitives(Primitives);
+                triangulateLogic = new TriangulatePrimitiveLogic()
+                {
+                    Primitives = Primitives
+                };
+                triangulateLogic.CheckPrimitives(Primitives);
             }
             catch (Exception ex)
             {

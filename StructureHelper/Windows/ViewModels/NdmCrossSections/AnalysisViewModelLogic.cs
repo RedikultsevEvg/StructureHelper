@@ -11,6 +11,7 @@ using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Logics;
+using StructureHelperLogics.NdmCalculations.Cracking;
 using System;
 using System.Windows;
 using System.Windows.Forms;
@@ -56,7 +57,13 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void AddCrackCalculator()
         {
-            throw new NotImplementedException();
+            var inputData = new CrackInputData();
+            var calculator = new CrackCalculator(inputData)
+            {
+                Name = "New crack calculator",
+                TraceLogger = new ShiftTraceLogger(),
+            };
+            NewItem = calculator;
         }
 
         private void AddLimitCurveCalculator()
@@ -102,20 +109,15 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void EditCalculator()
         {
-            if (SelectedItem is ForceCalculator)
-            {
-                var calculator = SelectedItem as ForceCalculator;
-                EditForceCalculator(calculator);
-            }
-            else if (SelectedItem is LimitCurvesCalculator)
-            {
-                var calculator = SelectedItem as LimitCurvesCalculator;
-                EditLimitCurveCalculator(calculator);
-            }
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));
-            }
+            if (SelectedItem is ForceCalculator forceCalculator) { EditForceCalculator(forceCalculator);}
+            else if (SelectedItem is LimitCurvesCalculator limitCurvesCalculator) { EditLimitCurveCalculator(limitCurvesCalculator);            }
+            else if (SelectedItem is CrackCalculator crackCalculator) { EditCrackCalculator(crackCalculator);}
+            else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));}
+        }
+
+        private void EditCrackCalculator(CrackCalculator crackCalculator)
+        {
+            throw new NotImplementedException();
         }
 
         private void EditLimitCurveCalculator(LimitCurvesCalculator calculator)
@@ -193,6 +195,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                     ProcessResult();
                 }
             }
+
             if (SelectedItem.TraceLogger is not null)
             {
                 var wnd = new TraceDocumentView(SelectedItem.TraceLogger.TraceLoggerEntries);
@@ -214,12 +217,15 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void ProcessResult()
         {
-            if (SelectedItem is IForceCalculator)
+            if (SelectedItem is ForceCalculator forceCalculator)
             {
-                var calculator = SelectedItem as ForceCalculator;
-                var vm = new ForcesResultsViewModel(calculator);
+                var vm = new ForcesResultsViewModel(forceCalculator);
                 var wnd = new ForceResultsView(vm);
                 wnd.ShowDialog();
+            }
+            else if (SelectedItem is CrackCalculator crackCalculator)
+            {
+
             }
             else
             {

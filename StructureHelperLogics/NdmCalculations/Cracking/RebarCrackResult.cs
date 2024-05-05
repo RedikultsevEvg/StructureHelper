@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CrackWidthSimpleCalculatorResult : IResult
+    public class RebarCrackResult : IResult
     {
         public bool IsValid { get; set; }
         public string Description { get; set; }
