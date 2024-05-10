@@ -48,11 +48,11 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             TraceLogger?.AddMessage($"Minimum concrete effective area from area of rebar Ac,eff = {rebarArea} * {minRebarFactor} = {areaByRebar}");
             concreteTensileArea = Math.Max(concreteTensileArea, areaByRebar);
             double areaByMinConcreteFactor = concreteArea * minConcreteFactor;
-            TraceLogger?.AddMessage($"Concrete area is considered not less than {minConcreteFactor} of area of rebars");
+            TraceLogger?.AddMessage($"Concrete area is considered not less than {minConcreteFactor} of area of concrete");
             TraceLogger?.AddMessage($"Minimum concrete effective area Ac,eff = {concreteArea} * {minConcreteFactor} = {areaByMinConcreteFactor}");
             concreteTensileArea = Math.Max(concreteTensileArea, areaByMinConcreteFactor);
             double areaByMaxConcreteFactor = concreteArea * maxConcreteFactor;
-            TraceLogger?.AddMessage($"Concrete area is considered not greater than {maxConcreteFactor} of area of rebars");
+            TraceLogger?.AddMessage($"Concrete area is considered not greater than {maxConcreteFactor} of area of concrete");
             TraceLogger?.AddMessage($"Maximum concrete effective area Ac,eff = {concreteArea} * {maxConcreteFactor} = {areaByMaxConcreteFactor}");
             concreteTensileArea = Math.Min(concreteTensileArea, areaByMaxConcreteFactor);
             TraceLogger?.AddMessage($"Concrete effective area Ac,eff = {concreteTensileArea}");
