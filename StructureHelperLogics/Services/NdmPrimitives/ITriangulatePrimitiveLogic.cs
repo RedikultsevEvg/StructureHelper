@@ -11,6 +11,5 @@ namespace StructureHelperLogics.Services.NdmPrimitives
         LimitStates LimitState { get; set; }
         CalcTerms CalcTerm { get; set; }
         List<INdm> GetNdms();
-        bool CheckPrimitives(IEnumerable<INdmPrimitive> primitives);
     }
 }

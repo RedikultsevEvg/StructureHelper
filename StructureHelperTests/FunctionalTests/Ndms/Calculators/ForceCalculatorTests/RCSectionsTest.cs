@@ -15,7 +15,13 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
         public void Run_ShouldPass(double width, double height, double topDiametr, double bottomDiametr, int widthCount, int heightCount, bool isBuckling, double expectedKx, double expectedKy, double expectedEpsZ)
         {
             //Arrange
-            var template = new RectangleBeamTemplate(width, height) { TopDiameter = topDiametr, BottomDiameter = bottomDiametr, WidthCount = widthCount, HeightCount = heightCount};
+            var template = new RectangleBeamTemplate(width, height)
+            {
+                TopDiameter = topDiametr,
+                BottomDiameter = bottomDiametr,
+                WidthCount = widthCount,
+                HeightCount = heightCount
+            };
             var newSection = new SectionTemplate(new RectGeometryLogic(template)).GetCrossSection();
             var calculator = newSection.SectionRepository.CalculatorsList[0] as IForceCalculator;
             calculator.CompressedMember.Buckling = isBuckling;

@@ -2,7 +2,10 @@
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 
@@ -10,49 +13,85 @@ namespace StructureHelperLogics.Services.NdmPrimitives
 {
     public class TriangulatePrimitiveLogic : ITriangulatePrimitiveLogic
     {
+        private IMeshHasDivisionLogic divisionLogic;
+        private IMeshPrimitiveLogic meshLogic;
         private List<INdm> ndmCollection;
+        private ICheckPrimitivesForMeshingLogic checkLogic;
 
         public IEnumerable<INdmPrimitive> Primitives { get; set; }
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }
-        public bool ConsiderCracking { get; set; }
+
         public IShiftTraceLogger? TraceLogger { get; set; }
-        public TriangulatePrimitiveLogic()
+
+        public TriangulatePrimitiveLogic(IMeshPrimitiveLogic meshPrimitiveLogic)
         {
-            ConsiderCracking = false;
+            meshLogic = meshPrimitiveLogic;
         }
+
+        public TriangulatePrimitiveLogic() : this (new MeshPrimitiveLogic()) { }
+
         public List<INdm> GetNdms()
         {
-            TraceLogger?.AddMessage($"Total count of primitives n = {Primitives.Count()}", TraceLogStatuses.Service);
-            TraceLogger?.AddMessage($"Limit state is {LimitState}", TraceLogStatuses.Service);
-            TraceLogger?.AddMessage($"Calc term  is {CalcTerm}", TraceLogStatuses.Service);
-            var orderedNdmPrimitives = Primitives.OrderBy(x => x.VisualProperty.ZIndex);
+            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            CheckPrimitives();
             ndmCollection = new List<INdm>();
-            foreach (var item in orderedNdmPrimitives)
+            SetLogics();
+            TraceInitialSettings();
+            TriangulatePrimitives();
+            return ndmCollection;
+        }
+
+        private void TriangulatePrimitives()
+        {
+            var orderedNdmPrimitives = Primitives.OrderBy(x => x.VisualProperty.ZIndex);
+            foreach (var primitive in orderedNdmPrimitives)
             {
-                TraceLogger?.AddMessage($"Triangulation of primitive {item.Name} has started", TraceLogStatuses.Service);
-                ProcessHasDivision(item);
-                TriangulatePrimitive(item);
+                TriangulatePrimitive(primitive);
             }
             if (TraceLogger is not null)
             {
                 TraceService.TraceNdmCollection(TraceLogger, ndmCollection);
             }
-            return ndmCollection;
+            TraceLogger?.AddMessage($"Triangulation of primitives has finished, {ndmCollection.Count} part(s) were obtained", TraceLogStatuses.Service);
         }
 
-        private void TriangulatePrimitive(INdmPrimitive item)
+        private void TraceInitialSettings()
         {
-            if (item.Triangulate == true)
+            TraceLogger?.AddMessage($"Total count of primitives n = {Primitives.Count()}", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"Limit state is {LimitState}", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"Calc term  is {CalcTerm}", TraceLogStatuses.Service);
+        }
+
+        private void SetLogics()
+        {
+            divisionLogic = new MeshHasDivisionLogic()
             {
-                var triangulationOptions = new TriangulationOptions()
-                {
-                    LimiteState = LimitState,
-                    CalcTerm = CalcTerm
-                };
-                var itemNdms = item.GetNdms(triangulationOptions);
-                ndmCollection.AddRange(itemNdms);
-                TraceLogger?.AddMessage($"Triangulation of primitive {item.Name} was finished, {itemNdms.Count()} part(s) were obtained", TraceLogStatuses.Service);
+                NdmCollection = ndmCollection,
+                TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
+            };
+            var triangulationOptions = new TriangulationOptions()
+            {
+                LimiteState = LimitState,
+                CalcTerm = CalcTerm
+            };
+            meshLogic.TriangulationOptions = triangulationOptions;
+            meshLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
+        }
+
+        private void TriangulatePrimitive(INdmPrimitive primitive)
+        {
+            TraceLogger?.AddMessage($"Triangulation of primitive {primitive.Name} has started", TraceLogStatuses.Service);
+            if (primitive is IHasDivisionSize hasDivision)
+            {
+                divisionLogic.Primitive = hasDivision;
+                divisionLogic.MeshHasDivision();
+            }
+            if (primitive.Triangulate == true)
+            {
+                meshLogic.Primitive = primitive;
+                var ndms = meshLogic.MeshPrimitive();
+                ndmCollection.AddRange(ndms);
             }
             else
             {
@@ -60,45 +99,14 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             }
         }
 
-        private void ProcessHasDivision(INdmPrimitive? item)
+        private bool CheckPrimitives()
         {
-            if (item is IHasDivisionSize hasDivision)
+            checkLogic = new CheckPrimitivesForMeshingLogic()
             {
-                if (hasDivision.ClearUnderlying == true)
-                {
-                    TraceLogger?.AddMessage("Removing of background part has started", TraceLogStatuses.Service);
-                    ndmCollection
-                        .RemoveAll(x =>
-                        hasDivision
-                            .IsPointInside(new Point2D() { X = x.CenterX, Y = x.CenterY }) == true);
-                }
-            }
-        }
-
-        public bool CheckPrimitives(IEnumerable<INdmPrimitive> primitives)
-        {
-            if (!primitives.Any())
-            {
-                string errorMessage = string.Intern(ErrorStrings.DataIsInCorrect + $": Count of primitive must be greater than zero");
-                TraceLogger?.AddMessage(errorMessage, TraceLogStatuses.Error);
-                throw new StructureHelperException(errorMessage);
-            }
-            if (!primitives.Any(x => x.Triangulate == true))
-            {
-                string errorMessage = string.Intern(ErrorStrings.DataIsInCorrect + $": There are not primitives to triangulate");
-                TraceLogger?.AddMessage(errorMessage, TraceLogStatuses.Error);
-                throw new StructureHelperException(errorMessage);
-            }
-            foreach (var item in primitives)
-            {
-                if (item.Triangulate == true &
-                    item.HeadMaterial is null)
-                {
-                    string errorMessage = string.Intern(ErrorStrings.DataIsInCorrect + $": Primitive: {item.Name} can't be triangulated since material is null");
-                    TraceLogger?.AddMessage(errorMessage, TraceLogStatuses.Error);
-                    throw new StructureHelperException(errorMessage);
-                }
-            }
+                Primitives = Primitives,
+                TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
+            };
+            checkLogic.Check();
             return true;
         }
     }

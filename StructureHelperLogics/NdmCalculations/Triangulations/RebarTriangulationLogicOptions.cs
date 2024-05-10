@@ -22,7 +22,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public double Area { get; }
         public StrainTuple Prestrain { get; set; }
         public IHeadMaterial HeadMaterial { get; set; }
-        public IHeadMaterial HostMaterial { get; set; }
+        public INdmPrimitive HostPrimitive { get; set; }
+
 
         /// <inheritdoc />
         public RebarTriangulationLogicOptions(RebarPrimitive primitive)
@@ -30,7 +31,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Center = primitive.Center.Clone() as Point2D;
             Area = primitive.Area;
             HeadMaterial = primitive.HeadMaterial;
-            HostMaterial = primitive.HostPrimitive.HeadMaterial;
+            HostPrimitive = primitive.HostPrimitive;
             Prestrain = ForceTupleService.SumTuples(primitive.UsersPrestrain, primitive.AutoPrestrain) as StrainTuple;
         }
     }

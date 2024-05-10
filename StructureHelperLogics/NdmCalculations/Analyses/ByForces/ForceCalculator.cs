@@ -40,7 +40,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         {
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
             var checkResult = CheckInputData();
-            if (checkResult != "")
+            if (checkResult != string.Empty)
             {
                 Result = new ForcesResults()
                 {
@@ -49,11 +49,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 };
                 return;
             }
-            else
-            {
-                GetCombinations();
-                CalculateResult();
-            }
+            GetCombinations();
+            CalculateResult();
         }
 
         private void CalculateResult()
@@ -199,18 +196,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private string CheckInputData()
         {
-            string result = "";
-            try
+            string result = string.Empty;
+            if (! Primitives.Any())
             {
-                triangulateLogic = new TriangulatePrimitiveLogic()
-                {
-                    Primitives = Primitives
-                };
-                triangulateLogic.CheckPrimitives(Primitives);
-            }
-            catch (Exception ex)
-            {
-                result += ex;
+                result += "Calculator does not contain any primitives \n";
             }
             if (ForceActions.Count == 0)
             {
@@ -222,8 +211,20 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             }
             if (CalcTermsList.Count == 0)
             {
-                result += "Calculator does not contain any duration \n";
+                result += "Calculator does not contain any calc term \n";
             }
+            //try
+            //{
+            //    triangulateLogic = new TriangulatePrimitiveLogic()
+            //    {
+            //        Primitives = Primitives
+            //    };
+            //    triangulateLogic.CheckPrimitives(Primitives);
+            //}
+            //catch (Exception ex)
+            //{
+            //    result += ex;
+            //}
             return result;
         }
 
