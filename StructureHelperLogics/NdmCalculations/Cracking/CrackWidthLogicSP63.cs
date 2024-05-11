@@ -29,7 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             double rebarElongation = inputData.RebarStrain - inputData.ConcreteStrain;
             if (rebarElongation < 0d)
             {
-                TraceLogger?.AddMessage($"Elongation of rebar is negative, may be rebar is under compression, width of crack a,crc = 0(dimensionless)");
+                TraceLogger?.AddMessage($"Elongation of rebar is negative, may be rebar is under compression, width of crack a,crc = 0");
                 return 0d;
             }
             TraceLogger?.AddMessage($"Rebar elongation Epsilon = {inputData.RebarStrain} - {inputData.ConcreteStrain} = {rebarElongation}(dimensionless)");
