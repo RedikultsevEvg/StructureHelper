@@ -5,18 +5,20 @@ using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using System.Diagnostics.Eventing.Reader;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    internal class HoleSectionCrackedLogic : ISectionCrackedLogic
+    internal class SectionCrackedLogic : ISectionCrackedLogic
     {
         static readonly IStressLogic stressLogic = new StressLogic();
         public IForceTuple Tuple { get; set; }
+        public IEnumerable<INdm> CheckedNdmCollection { get; set; }
         public IEnumerable<INdm> NdmCollection { get; set; }
         public Accuracy Accuracy { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public HoleSectionCrackedLogic()
+        public SectionCrackedLogic()
         {
             if (Accuracy is null)
             {
@@ -52,7 +54,16 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 throw new StructureHelperException(ErrorStrings.ResultIsNotValid + ": Result of Section Calculation is not valid");
             }
             var strainMatrix = calcResult.LoaderResults.ForceStrainPair.StrainMatrix;
-            var isSectionCracked = stressLogic.IsSectionCracked(strainMatrix, NdmCollection);
+            IEnumerable<INdm> checkedNdmCollection;
+            if (CheckedNdmCollection is null)
+            {
+                checkedNdmCollection = NdmCollection;
+            }
+            else
+            {
+                checkedNdmCollection = CheckedNdmCollection;
+            }
+            var isSectionCracked = stressLogic.IsSectionCracked(strainMatrix, checkedNdmCollection);
             if (isSectionCracked == true)
             {
                 TraceLogger?.AddMessage($"Cracks are appeared in cross-section for current force combination");

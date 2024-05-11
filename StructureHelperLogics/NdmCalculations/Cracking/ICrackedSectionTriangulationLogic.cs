@@ -29,6 +29,11 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <returns></returns>
         List<INdm> GetCrackedNdmCollection();
         /// <summary>
+        /// Returns collection of ndm elementary parts where all material are elastic ones
+        /// </summary>
+        /// <returns></returns>
+        List<INdm> GetElasticNdmCollection();
+        /// <summary>
         /// Return collection of primitives which contain only rebars
         /// </summary>
         /// <returns></returns>

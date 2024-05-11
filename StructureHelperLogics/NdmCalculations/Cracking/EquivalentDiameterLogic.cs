@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class AverageDiameterLogic : IAverageDiameterLogic
+    public class EquivalentDiameterLogic : IAverageDiameterLogic
     {
         public IEnumerable<RebarNdm> Rebars { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
@@ -21,13 +21,13 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             Check();
             var rebarArea = Rebars
                 .Sum(x => x.Area);
-            TraceLogger?.AddMessage($"Summary rebar area As = {rebarArea}");
+            TraceLogger?.AddMessage($"Summary rebar area As = {rebarArea}(m^2)");
             var rebarCount = Rebars.Count();
             TraceLogger?.AddMessage($"Rebar count n = {rebarCount}");
             var averageArea = rebarArea / rebarCount;
-            TraceLogger?.AddMessage($"Average rebar area As = {averageArea}");
-            var diameter = Math.Sqrt(averageArea / Math.PI);
-            TraceLogger?.AddMessage($"Average rebar diameter ds = {diameter}");
+            TraceLogger?.AddMessage($"Equivalent rebar area As,eq = {averageArea}");
+            var diameter = 2d * Math.Sqrt(averageArea / Math.PI);
+            TraceLogger?.AddMessage($"Equivalent rebar diameter ds,eq = 2 * Sqrt( PI / As,eq) = 2 * Sqrt( PI / {averageArea}) = {diameter}(m)");
             return diameter;
         }
         private void Check()

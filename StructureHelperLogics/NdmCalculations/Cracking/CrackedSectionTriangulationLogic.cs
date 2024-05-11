@@ -78,5 +78,19 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             TraceLogger?.AddMessage($"Obtained {rebarPrimitives.Count} rebar primitives");
             return rebarPrimitives;
         }
+
+        public List<INdm> GetElasticNdmCollection()
+        {
+            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(ndmPrimitiveCountMessage, TraceLogStatuses.Debug);
+            triangulateLogic = new TriangulatePrimitiveLogic(new MeshElasticLogic())
+            {
+                LimitState = limitState,
+                CalcTerm = shortTerm,
+                Primitives = NdmPrimitives,
+                TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
+            };
+            return triangulateLogic.GetNdms();
+        }
     }
 }

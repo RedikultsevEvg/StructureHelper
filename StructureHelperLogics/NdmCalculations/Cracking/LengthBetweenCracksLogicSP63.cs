@@ -19,7 +19,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         const double maxDiameterFactor = 40d;
         const double minLength = 0.1d;
         const double maxLength = 0.4d;
-
+        private const double areaFactor = 0.5d;
         readonly IAverageDiameterLogic diameterLogic;
         readonly ITensileAreaLogic tensileAreaLogic;
         IStressLogic stressLogic;
@@ -35,7 +35,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         }
         public LengthBetweenCracksLogicSP63() :
             this
-            (   new AverageDiameterLogic(),
+            (   new EquivalentDiameterLogic(),
                 new TensileAreaLogicSP63())
         {      }
         public double GetLength()
@@ -65,18 +65,20 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             tensileAreaLogic.StrainMatrix = StrainMatrix;
             var concreteArea = tensileAreaLogic.GetTensileArea();
             TraceLogger?.AddMessage($"Concrete effective area Ac,eff = {concreteArea}(m^2)");
-            var length = concreteArea / rebarArea * rebarDiameter;
-            TraceLogger?.AddMessage($"Base length between cracks Lcrc = {concreteArea} / {rebarArea} * {rebarDiameter} = {length}(m)");
+            var length = areaFactor * concreteArea / rebarArea * rebarDiameter;
+            TraceLogger?.AddMessage($"Base length between cracks Lcrc = {areaFactor} * {concreteArea} / {rebarArea} * {rebarDiameter} = {length}(m)");
             double minLengthByDiameter = minDiameterFactor * rebarDiameter;
             TraceLogger?.AddMessage($"Minimum length by diameter Lcrc = {minDiameterFactor} * {rebarDiameter} = {minLengthByDiameter}(m)");
-            TraceLogger?.AddMessage($"Minimum length Lcrc = {minLength}");
-            length = new List<double> { length, minLengthByDiameter, minLength }.Max();
-            TraceLogger?.AddMessage($"Minimum length Lcrc = max({length}, {minLengthByDiameter}, {minLength}) = {length}(m)");
+            TraceLogger?.AddMessage($"Minimum absolute length Lcrc = {minLength}(m)");
+            var restrictedByMinLength = new List<double> { length, minLengthByDiameter, minLength }.Max();
+            TraceLogger?.AddMessage($"Consider minimum length restriction Lcrc = max({length}(m), {minLengthByDiameter}(m), {minLength}(m)) = {length}(m)");
             double maxLengthByDiameter = maxDiameterFactor * rebarDiameter;
             TraceLogger?.AddMessage($"Maximum length by diameter Lcrc = {maxDiameterFactor} * {rebarDiameter} = {maxLengthByDiameter}(m)");
-            TraceLogger?.AddMessage($"Maximum length Lcrc = {maxLength}");
-            length = new List<double> { length, maxLengthByDiameter, maxLength }.Min();
-            TraceLogger?.AddMessage($"Maximun length Lcrc = min({length}, {maxLengthByDiameter}, {maxLength}) = {length}(m)");
+            TraceLogger?.AddMessage($"Maximum absolute length Lcrc = {maxLength}(m)");
+            var restrictedByMaxLength = new List<double> { restrictedByMinLength, maxLengthByDiameter, maxLength }.Min();
+            TraceLogger?.AddMessage($"Consider maximum length restriction Lcrc = max({restrictedByMinLength}(m), {maxLengthByDiameter}(m), {maxLength}(m)) = {restrictedByMaxLength}(m)");
+            length = restrictedByMaxLength;
+            TraceLogger?.AddMessage($"Finally Lcrc = {length}(m)");
             return length;
         }
     }

@@ -21,10 +21,13 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private List<RebarPrimitive>? rebarPrimitives;
         private IEnumerable<INdm> defaultNdms;
         private IEnumerable<INdm> fulyCrackedNdms;
+        private IEnumerable<INdm> elasticNdms;
         private CrackForceResult crackForceResult;
         private StrainTuple longDefaultStrainTuple;
         private StrainTuple shortDefaultStrainTuple;
         private ITriangulatePrimitiveLogic triangulateLogic;
+        private double longLength;
+        private double shortLength;
 
         public string Name { get; set; }
         public TupleCrackInputData InputData { get; set; }
@@ -66,27 +69,52 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             CheckInputData();
             Triangulate();
-            longDefaultStrainTuple = CalcStrainMatrix(InputData.LongTermTuple, defaultNdms);
-            shortDefaultStrainTuple = CalcStrainMatrix(InputData.LongTermTuple, defaultNdms);
-            var longLength = GetLengthBetweenCracks(longDefaultStrainTuple);
-            var shortLength = GetLengthBetweenCracks(shortDefaultStrainTuple);
+            longDefaultStrainTuple = CalcStrainMatrix(InputData.LongTermTuple as ForceTuple, defaultNdms);
+            shortDefaultStrainTuple = CalcStrainMatrix(InputData.LongTermTuple as ForceTuple, defaultNdms);
+            var longElasticStrainTuple = CalcStrainMatrix(InputData.LongTermTuple as ForceTuple, elasticNdms);
+            var shortElasticStrainTuple = CalcStrainMatrix(InputData.ShortTermTuple as ForceTuple, elasticNdms);
+            if (result.IsValid == false) { return; }
+            longLength = GetLengthBetweenCracks(longElasticStrainTuple);
+            shortLength = GetLengthBetweenCracks(shortElasticStrainTuple);
             CalcCrackForce();
-            var crackInputData = GetCrackInputData();
-            var calculator = new RebarCrackCalculator
+            foreach (var rebar in rebarPrimitives)
             {
-                InputData = crackInputData,
-                TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
-            };
-            foreach (var item in rebarPrimitives)
-            {
-                crackInputData.RebarPrimitive = item;
+                RebarCrackCalculatorInputData rebarCalculatorData = GetRebarCalculatorInputData(rebar);
+                var calculator = new RebarCrackCalculator
+                {
+                    InputData = rebarCalculatorData,
+                    TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
+                };
                 calculator.Run();
                 var rebarResult = calculator.Result as RebarCrackResult;
                 result.RebarResults.Add(rebarResult);
             }
         }
 
-        private StrainTuple CalcStrainMatrix(IForceTuple forceTuple, IEnumerable<INdm> ndms)
+        private RebarCrackCalculatorInputData GetRebarCalculatorInputData(RebarPrimitive rebar)
+        {
+            var longRebarData = new RebarCrackInputData()
+            {
+                NdmCollection = fulyCrackedNdms,
+                ForceTuple = InputData.LongTermTuple as ForceTuple,
+                Length = longLength
+            };
+            var shortRebarData = new RebarCrackInputData()
+            {
+                NdmCollection = fulyCrackedNdms,
+                ForceTuple = InputData.ShortTermTuple as ForceTuple,
+                Length = shortLength
+            };
+            var rebarCalculatorData = new RebarCrackCalculatorInputData()
+            {
+                RebarPrimitive = rebar,
+                LongRebarData = longRebarData,
+                ShortRebarData = shortRebarData
+            };
+            return rebarCalculatorData;
+        }
+
+        private StrainTuple CalcStrainMatrix(ForceTuple forceTuple, IEnumerable<INdm> ndms)
         {
             IForceTupleInputData inputData = new ForceTupleInputData()
             {
@@ -100,29 +128,20 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             };
             calculator.Run();
             var forceResult = calculator.Result as IForcesTupleResult;
+            if (forceResult.IsValid == false)
+            {
+                result.IsValid = false;
+                result.Description += forceResult.Description;
+            }
             var strain = TupleConverter.ConvertToStrainTuple(forceResult.LoaderResults.StrainMatrix);
             return strain;
-        }
-
-        private RebarCrackInputData GetCrackInputData()
-        {
-            lengthLogic.NdmCollection = defaultNdms;
-            lengthLogic.StrainMatrix = TupleConverter.ConvertToLoaderStrainMatrix(longDefaultStrainTuple);
-            var length = lengthLogic.GetLength();
-            var crackInputData = new RebarCrackInputData
-            {
-                PsiSFactor = crackForceResult.PsiS,
-                Length = length,
-                StrainTuple = longDefaultStrainTuple
-            };
-            return crackInputData;
         }
 
         private double GetLengthBetweenCracks(StrainTuple strainTuple)
         {
             var logic = new LengthBetweenCracksLogicSP63()
             {
-                NdmCollection = defaultNdms,
+                NdmCollection = elasticNdms,
                 TraceLogger = TraceLogger
             };
             logic.StrainMatrix = TupleConverter.ConvertToLoaderStrainMatrix(strainTuple);
@@ -138,6 +157,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             rebarPrimitives = triangulationLogic.GetRebarPrimitives();
             defaultNdms = triangulationLogic.GetNdmCollection();
             fulyCrackedNdms = triangulationLogic.GetCrackedNdmCollection();
+            elasticNdms = triangulationLogic.GetElasticNdmCollection();
         }
 
         private void CalcCrackForce()

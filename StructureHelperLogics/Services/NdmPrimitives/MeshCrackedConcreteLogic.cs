@@ -1,4 +1,5 @@
 ﻿using LoaderCalculator.Data.Ndms;
+using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
@@ -31,38 +32,55 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             List<INdm> ndmCollection = new();
             if (Primitive.HeadMaterial.HelperMaterial is ICrackedMaterial)
             {
-                TraceLogger?.AddMessage($"Primitive {Primitive.Name} is crackable primitive", TraceLogStatuses.Service);
-                var newPrimititve = Primitive.Clone() as INdmPrimitive;
-                SetNewMaterial(newPrimititve);
-                List<INdm> ndms = GetNdms(newPrimititve);
-                ndmCollection.AddRange(ndms);
+                ProcessICracked(ndmCollection);
             }
             else if (Primitive is RebarPrimitive rebar)
             {
-                TraceLogger?.AddMessage($"Primitive {Primitive.Name} is rebar primitive", TraceLogStatuses.Service);
-                var newPrimititve = rebar.Clone() as RebarPrimitive;
-                var newHostPrimitive = rebar.HostPrimitive.Clone() as INdmPrimitive;
-                SetNewMaterial(newHostPrimitive);
-                newPrimititve.HostPrimitive = newHostPrimitive;
-                List<INdm> ndms = GetNdms(newPrimititve);
-                ndmCollection.AddRange(ndms);
+                ProcessRebar(ndmCollection, rebar);
             }
             else
             {
-                TraceLogger?.AddMessage($"Primitive {Primitive.Name} is non-crackable primitive", TraceLogStatuses.Service);
-                List<INdm> ndms = GetNdms(Primitive);
-                ndmCollection.AddRange(ndms);
+                ProcessNonCracked(ndmCollection);
             }
             return ndmCollection;
+        }
+
+        private void ProcessNonCracked(List<INdm> ndmCollection)
+        {
+            TraceLogger?.AddMessage($"Primitive {Primitive.Name} is non-crackable primitive", TraceLogStatuses.Service);
+            List<INdm> ndms = GetNdms(Primitive);
+            ndmCollection.AddRange(ndms);
+        }
+
+        private void ProcessRebar(List<INdm> ndmCollection, RebarPrimitive rebar)
+        {
+            TraceLogger?.AddMessage($"Primitive {Primitive.Name} is rebar primitive", TraceLogStatuses.Service);
+            var newPrimititve = rebar.Clone() as RebarPrimitive;
+            var newHostPrimitive = rebar.HostPrimitive.Clone() as INdmPrimitive;
+            SetNewMaterial(newHostPrimitive);
+            newPrimititve.HostPrimitive = newHostPrimitive;
+            List<INdm> ndms = GetNdms(newPrimititve);
+            ndmCollection.AddRange(ndms);
+        }
+
+        private void ProcessICracked(List<INdm> ndmCollection)
+        {
+            TraceLogger?.AddMessage($"Primitive {Primitive.Name} is crackable primitive", TraceLogStatuses.Service);
+            var newPrimititve = Primitive.Clone() as INdmPrimitive;
+            SetNewMaterial(newPrimititve);
+            List<INdm> ndms = GetNdms(newPrimititve);
+            ndmCollection.AddRange(ndms);
         }
 
         private void SetNewMaterial(INdmPrimitive? newPrimititve)
         {
             TraceLogger?.AddMessage($"Process material {newPrimititve.HeadMaterial.Name} has started");
-            var newMaterial = newPrimititve.HeadMaterial.HelperMaterial.Clone() as ICrackedMaterial;
+            var newHeadMaterial = newPrimititve.HeadMaterial.Clone() as IHeadMaterial;
+            var newMaterial = newHeadMaterial.HelperMaterial.Clone() as ICrackedMaterial;
             TraceLogger?.AddMessage($"Set work in tension zone for material {newPrimititve.HeadMaterial.Name}");
             newMaterial.TensionForSLS = false;
-            newPrimititve.HeadMaterial.HelperMaterial = newMaterial as IHelperMaterial;
+            newHeadMaterial.HelperMaterial = newMaterial as IHelperMaterial;
+            newPrimititve.HeadMaterial = newHeadMaterial;
         }
 
         private List<INdm> GetNdms(INdmPrimitive primitive)

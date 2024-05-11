@@ -15,7 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public IForceTuple LongTermTuple { get; set; }
         public IForceTuple ShortTermTuple { get; set; }
         public bool IsCracked { get; set; }
-        public List<RebarCrackResult>  RebarResults { get; set; }
+        public List<RebarCrackResult>  RebarResults { get; private set; }
         public double MaxLongTermCrackWidth => IsCracked? RebarResults.Select(x => x.LongTermResult.CrackWidth).Max() : 0d;
         public double MaxShortTermCrackWidth => IsCracked? RebarResults.Select(x => x.ShortTermResult.CrackWidth).Max() : 0d;
 

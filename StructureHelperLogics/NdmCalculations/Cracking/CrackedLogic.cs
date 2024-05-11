@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    internal class CrackedLogic : ICrackedLogic
+    public class CrackedLogic : ICrackedLogic
     {
-        ISectionCrackedLogic sectionCrackedLogic;
+        private ISectionCrackedLogic sectionCrackedLogic;
         public IForceTuple StartTuple { get; set; }
         public IForceTuple EndTuple { get; set; }
         public IEnumerable<INdm> NdmCollection { get; set; }
@@ -23,16 +23,14 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             sectionCrackedLogic = sectionLogic;
         }
-        public CrackedLogic() : this (new HoleSectionCrackedLogic())
+        public CrackedLogic() : this (new SectionCrackedLogic())
         {
             
         }
         public bool IsSectionCracked(double factor)
         {
-            if (TraceLogger is not null)
-            {
-                sectionCrackedLogic.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
-            }
+            sectionCrackedLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
+
             var actualTuple = ForceTupleService.InterpolateTuples(EndTuple, StartTuple, factor);
             sectionCrackedLogic.Tuple = actualTuple;
             sectionCrackedLogic.NdmCollection = NdmCollection;

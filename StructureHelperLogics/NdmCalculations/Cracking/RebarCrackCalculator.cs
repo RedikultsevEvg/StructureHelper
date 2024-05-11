@@ -1,5 +1,8 @@
-﻿using StructureHelperCommon.Models;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
+using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
@@ -8,7 +11,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         ICrackWidthLogic crackWidthLogic = new CrackWidthLogicSP63();
         RebarCrackResult result;
         public string Name { get; set; }
-        public ICrackWidthSimpleCalculatorInputData InputData { get; set; }
+        public RebarCrackCalculatorInputData InputData { get; set; }
         public IResult Result => result;
 
         public Action<IResult> ActionToOutputResults { get; set; }
@@ -16,14 +19,31 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public void Run()
         {
-            result = new() { IsValid = true};
-            var crackWidthLogicType = CrackWidthLogicType.SP63;
-            var logicInputData = CrackWidthLogicInputDataFactory.GetCrackWidthLogicInputData(crackWidthLogicType, InputData);
-            crackWidthLogic.InputData = logicInputData;
-            double crackWidth = 0d;
+            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            result = new()
+            {
+                IsValid = true
+            };
+            TraceLogger?.AddMessage($"Rebar primitive {InputData.RebarPrimitive.Name}");
+
+            //double acrc1 = GetCrackWidth()
+
+
+            crackWidthLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
             try
             {
-                crackWidth = crackWidthLogic.GetCrackWidth();
+                var dataAcrc1 = GetCrackWidthInputData(InputData.LongRebarData, CalcTerms.LongTerm);
+                var dataAcrc2 = GetCrackWidthInputData(InputData.LongRebarData, CalcTerms.ShortTerm);
+                var dataAcrc3 = GetCrackWidthInputData(InputData.ShortRebarData, CalcTerms.ShortTerm);
+
+                crackWidthLogic.InputData = dataAcrc1;       
+                var acrc1 = crackWidthLogic.GetCrackWidth();
+
+                var longRebarResult = new CrackWidthTupleResult()
+                {
+                    CrackWidth = acrc1,
+                };
+                result.LongTermResult = longRebarResult;
             }
             catch (Exception ex)
             {
@@ -31,10 +51,21 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 result.Description += "\n" + ex;
             }
             result.RebarPrimitive = InputData.RebarPrimitive;
-            //result.CrackWidth = crackWidth;
-            //result.RebarStrain = logicInputData.RebarStrain;
-            //result.ConcreteStrain = logicInputData.ConcreteStrain;
         }
+
+        private ICrackWidthLogicInputData GetCrackWidthInputData(RebarCrackInputData inputData, CalcTerms calcTerm)
+        {
+            var factoryInputData = new CrackWidthLogicInputDataFactory()
+            {
+                CalcTerm = calcTerm,
+                InputData = inputData,
+                RebarPrimitive = InputData.RebarPrimitive,
+                TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
+            };
+            var crackWidthInputData = factoryInputData.GetCrackWidthLogicInputData();
+            return crackWidthInputData;
+        }
+
         public object Clone()
         {
             throw new NotImplementedException();

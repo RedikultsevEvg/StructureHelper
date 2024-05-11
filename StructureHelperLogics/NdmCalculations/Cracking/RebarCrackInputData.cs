@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+﻿using LoaderCalculator.Data.Ndms;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
@@ -9,13 +11,10 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class RebarCrackInputData : ICrackWidthSimpleCalculatorInputData
+    public class RebarCrackInputData : IInputData
     {
-        public CalcTerms CalcTerm { get; set; }
-        public StrainTuple StrainTuple { get; set; }
-        public double PsiSFactor { get; set; }
+        public IEnumerable<INdm> NdmCollection { get; set; }
+        public ForceTuple ForceTuple { get; set; }
         public double Length { get; set; }
-        public SectionStressStates StressState { get; set; }
-        public RebarPrimitive RebarPrimitive { get; set; }
     }
 }
