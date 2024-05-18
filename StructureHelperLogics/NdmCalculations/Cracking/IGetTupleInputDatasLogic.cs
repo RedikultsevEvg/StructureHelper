@@ -11,5 +11,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         CalcTerms LongTerm { get; set; }
         CalcTerms ShortTerm { get; set; }
         List<TupleCrackInputData> GetTupleInputDatas();
+        UserCrackInputData UserCrackInputData { get; set; }
     }
 }

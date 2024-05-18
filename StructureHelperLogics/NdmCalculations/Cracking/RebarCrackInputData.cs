@@ -13,7 +13,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class RebarCrackInputData : IInputData
     {
-        public IEnumerable<INdm> NdmCollection { get; set; }
+        public IEnumerable<INdm> CrackableNdmCollection { get; set; }
+        public IEnumerable<INdm> CrackedNdmCollection { get; set; }
         public ForceTuple ForceTuple { get; set; }
         public double Length { get; set; }
     }

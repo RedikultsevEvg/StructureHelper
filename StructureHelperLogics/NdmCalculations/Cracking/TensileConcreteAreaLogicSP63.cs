@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class TensileAreaLogicSP63 : ITensileAreaLogic
+    public class TensileConcreteAreaLogicSP63 : ITensileConcreteAreaLogic
     {
         const double maxConcreteFactor = 0.5d;
         const double minConcreteFactor = 0.1d;

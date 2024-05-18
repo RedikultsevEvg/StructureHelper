@@ -16,5 +16,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public IForceTuple? LongTermTuple { get; set; }
         public IForceTuple? ShortTermTuple { get; set; }
         public List<INdmPrimitive>? NdmPrimitives {get;set;}
+        public UserCrackInputData UserCrackInputData { get; set; }
     }
 }

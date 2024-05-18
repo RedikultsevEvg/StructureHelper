@@ -60,7 +60,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private void ProcessCalculations()
         {
-            datasLogic = new GetTupleInputDatasLogic(InputData.Primitives, InputData.ForceActions)
+            datasLogic = new GetTupleInputDatasLogic(InputData.Primitives, InputData.ForceActions, InputData.UserCrackInputData)
             {
                 LimitState = limitState,
                 LongTerm = longTerm,

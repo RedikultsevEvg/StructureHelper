@@ -10,7 +10,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class CrackCalculatorUpdateStrategy : IUpdateStrategy<CrackCalculator>
     {
-        private CrackInputDataUpdateStrategy inputDataUpdateStrategy => new(); 
+        private CrackInputDataUpdateStrategy crackInputDataUpdateStrategy => new(); 
         public void Update(CrackCalculator targetObject, CrackCalculator sourceObject)
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
@@ -18,7 +18,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
             targetObject.Name = sourceObject.Name;
             targetObject.InputData ??= new();
-            inputDataUpdateStrategy.Update(targetObject.InputData, sourceObject.InputData);
+            crackInputDataUpdateStrategy.Update(targetObject.InputData, sourceObject.InputData);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         }
         public bool IsSectionCracked(double factor)
         {
-            sectionCrackedLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
+            sectionCrackedLogic.TraceLogger ??= TraceLogger?.GetSimilarTraceLogger(50);
 
             var actualTuple = ForceTupleService.InterpolateTuples(EndTuple, StartTuple, factor);
             sectionCrackedLogic.Tuple = actualTuple;

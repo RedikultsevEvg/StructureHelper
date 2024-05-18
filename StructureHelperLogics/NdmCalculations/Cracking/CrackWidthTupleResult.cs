@@ -11,6 +11,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     {
         public IForceTuple? ForceTuple { get; set; }
         public double CrackWidth { get; set; }
+        public double UltimateCrackWidth { get; set; }
+        public bool IsCrackLessThanUltimate => CrackWidth <= UltimateCrackWidth;
         public double RebarStrain { get; set; }
         public double ConcreteStrain { get; set; }
     }

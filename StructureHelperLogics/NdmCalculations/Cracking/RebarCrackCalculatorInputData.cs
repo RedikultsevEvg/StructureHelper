@@ -23,5 +23,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// </summary>
         public RebarCrackInputData? ShortRebarData { get; set; }
         public RebarPrimitive RebarPrimitive { get; set; }
+        public UserCrackInputData UserCrackInputData { get; set; }
     }
 }

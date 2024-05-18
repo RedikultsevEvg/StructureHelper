@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
+    /// <summary>
+    /// Logic of calculating of factor of softening by power expression
+    /// </summary>
     public class ExpSofteningLogic : ICrackSofteningLogic
     {
         private double forceRatio;

@@ -13,7 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     /// <summary>
     /// Logic fo calculating of tensile area of RC crosssection
     /// </summary>
-    public interface ITensileAreaLogic : ILogic
+    public interface ITensileConcreteAreaLogic : ILogic
     {
         IEnumerable<INdm> NdmCollection { get; set; }
         IStrainMatrix StrainMatrix { get; set; }

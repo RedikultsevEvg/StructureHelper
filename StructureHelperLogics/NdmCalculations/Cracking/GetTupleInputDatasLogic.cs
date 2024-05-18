@@ -22,11 +22,13 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public LimitStates LimitState { get; set; }
         public CalcTerms LongTerm { get; set; }
         public CalcTerms ShortTerm { get; set; }
+        public UserCrackInputData UserCrackInputData { get; set; }
 
-        public GetTupleInputDatasLogic(List<INdmPrimitive> primitives, List<IForceAction> forceActions)
+        public GetTupleInputDatasLogic(List<INdmPrimitive> primitives, List<IForceAction> forceActions, UserCrackInputData userCrackInputData)
         {
             Primitives = primitives;
             ForceActions = forceActions;
+            UserCrackInputData = userCrackInputData;
         }
 
         public List<TupleCrackInputData> GetTupleInputDatas()
@@ -52,7 +54,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                         IsValid = true,
                         LongTermTuple = tuple.LongTuple,
                         ShortTermTuple = tuple.ShortTuple,
-                        NdmPrimitives = Primitives
+                        NdmPrimitives = Primitives,
+                        UserCrackInputData = UserCrackInputData
                     });
                 }
             }
@@ -64,7 +67,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             if (ForceActions is null)
             {
-                TraceLogger?.AddMessage("Force action is null", TraceLogStatuses.Error);
+                TraceLogger?.AddMessage("Force action list is null", TraceLogStatuses.Error);
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": {nameof(ForceActions)} is null");
             }
         }

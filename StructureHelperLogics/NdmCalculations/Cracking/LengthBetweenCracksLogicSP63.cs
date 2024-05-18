@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
+    /// <summary>
+    /// Logic for obtaining of length between cracks according to SP63.13330.2018
+    /// </summary>
     public class LengthBetweenCracksLogicSP63 : ILengthBetweenCracksLogic
     {
         const double minDiameterFactor = 10d;
@@ -21,50 +24,57 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         const double maxLength = 0.4d;
         private const double areaFactor = 0.5d;
         readonly IAverageDiameterLogic diameterLogic;
-        readonly ITensileAreaLogic tensileAreaLogic;
-        IStressLogic stressLogic;
+        readonly ITensileConcreteAreaLogic concreteAreaLogic;
+        ITensionRebarAreaLogic rebarAreaLogic;
+
+        /// <inheritdoc/>
         public IEnumerable<INdm> NdmCollection { get; set; }
+        /// <inheritdoc/>
         public IStrainMatrix StrainMatrix { get; set; }
+        /// <inheritdoc/>
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public LengthBetweenCracksLogicSP63(IAverageDiameterLogic diameterLogic, ITensileAreaLogic tensileAreaLogic)
+        public LengthBetweenCracksLogicSP63(IAverageDiameterLogic diameterLogic, ITensileConcreteAreaLogic concreteAreaLogic, ITensionRebarAreaLogic rebarAreaLogic)
         {
             this.diameterLogic = diameterLogic;
-            this.tensileAreaLogic = tensileAreaLogic;
-            stressLogic = new StressLogic();
+            this.concreteAreaLogic = concreteAreaLogic;
+            this.rebarAreaLogic = rebarAreaLogic;
         }
         public LengthBetweenCracksLogicSP63() :
             this
             (   new EquivalentDiameterLogic(),
-                new TensileAreaLogicSP63())
+                new TensileConcreteAreaLogicSP63(),
+                new TensionRebarAreaSimpleSumLogic())
         {      }
+        /// <inheritdoc/>
         public double GetLength()
         {
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            IEnumerable<RebarNdm?> rebars = GetRebars();
+            double rebarArea = GetRebarArea(rebars);
+            double rebarDiameter = GetAverageDiameter(rebars);
+            double concreteArea = GetConcreteArea();
+            double length = GetLengthBetweenCracks(rebarArea, rebarDiameter, concreteArea);
+            return length;
+        }
+
+        private IEnumerable<RebarNdm?> GetRebars()
+        {
             var rebars = NdmCollection
-                .Where(x => x is RebarNdm & stressLogic.GetTotalStrain(StrainMatrix, x) > 0d)
+                .Where(x => x is RebarNdm)
                 .Select(x => x as RebarNdm);
-            if (! rebars.Any())
+            if (!rebars.Any())
             {
                 string errorString = ErrorStrings.DataIsInCorrect + ": Collection of rebars does not contain any tensile rebars";
                 TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
                 throw new StructureHelperException(errorString);
             }
-            if (TraceLogger is not null)
-            {
-                TraceService.TraceNdmCollection(TraceLogger, rebars);
-            }
-            var rebarArea = rebars.Sum(x => x.Area * x.StressScale);
-            TraceLogger?.AddMessage($"Summary rebar area As = {rebarArea}");
-            diameterLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
-            diameterLogic.Rebars = rebars;
-            var rebarDiameter = diameterLogic.GetAverageDiameter();
-            TraceLogger?.AddMessage($"Average rebar diameter ds = {rebarDiameter}");
-            tensileAreaLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
-            tensileAreaLogic.NdmCollection = NdmCollection;
-            tensileAreaLogic.StrainMatrix = StrainMatrix;
-            var concreteArea = tensileAreaLogic.GetTensileArea();
-            TraceLogger?.AddMessage($"Concrete effective area Ac,eff = {concreteArea}(m^2)");
+
+            return rebars;
+        }
+
+        private double GetLengthBetweenCracks(double rebarArea, double rebarDiameter, double concreteArea)
+        {
             var length = areaFactor * concreteArea / rebarArea * rebarDiameter;
             TraceLogger?.AddMessage($"Base length between cracks Lcrc = {areaFactor} * {concreteArea} / {rebarArea} * {rebarDiameter} = {length}(m)");
             double minLengthByDiameter = minDiameterFactor * rebarDiameter;
@@ -80,6 +90,35 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             length = restrictedByMaxLength;
             TraceLogger?.AddMessage($"Finally Lcrc = {length}(m)");
             return length;
+        }
+
+        private double GetConcreteArea()
+        {
+            concreteAreaLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
+            concreteAreaLogic.NdmCollection = NdmCollection;
+            concreteAreaLogic.StrainMatrix = StrainMatrix;
+            var concreteArea = concreteAreaLogic.GetTensileArea();
+            TraceLogger?.AddMessage($"Concrete effective area Ac,eff = {concreteArea}(m^2)");
+            return concreteArea;
+        }
+
+        private double GetAverageDiameter(IEnumerable<RebarNdm?> rebars)
+        {
+            diameterLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
+            diameterLogic.Rebars = rebars;
+            var rebarDiameter = diameterLogic.GetAverageDiameter();
+            TraceLogger?.AddMessage($"Average rebar diameter ds = {rebarDiameter}");
+            return rebarDiameter;
+        }
+
+        private double GetRebarArea(IEnumerable<RebarNdm?> rebars)
+        {
+            rebarAreaLogic.StrainMatrix = StrainMatrix;
+            rebarAreaLogic.Rebars = rebars;
+            rebarAreaLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
+            var rebarArea = rebarAreaLogic.GetTensionRebarArea();
+            TraceLogger?.AddMessage($"Summary rebar area As = {rebarArea}(m^2)");
+            return rebarArea;
         }
     }
 }
