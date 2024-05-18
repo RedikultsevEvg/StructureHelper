@@ -12,6 +12,15 @@
     <Compile Update="Windows\Arrays\ArrayView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackResultView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\TupleCrackResultView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\LimitCurveDataView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -84,6 +93,15 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\Arrays\ArrayView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackResultView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\TupleCrackResultView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\LimitCurveDataView.xaml">

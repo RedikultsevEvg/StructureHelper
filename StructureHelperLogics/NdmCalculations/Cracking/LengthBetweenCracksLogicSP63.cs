@@ -26,6 +26,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         readonly IAverageDiameterLogic diameterLogic;
         readonly ITensileConcreteAreaLogic concreteAreaLogic;
         ITensionRebarAreaLogic rebarAreaLogic;
+        private IStressLogic stressLogic => new StressLogic();
 
         /// <inheritdoc/>
         public IEnumerable<INdm> NdmCollection { get; set; }
@@ -44,7 +45,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             this
             (   new EquivalentDiameterLogic(),
                 new TensileConcreteAreaLogicSP63(),
-                new TensionRebarAreaSimpleSumLogic())
+                new TensionRebarAreaByStrainLogic())
         {      }
         /// <inheritdoc/>
         public double GetLength()
@@ -104,8 +105,10 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private double GetAverageDiameter(IEnumerable<RebarNdm?> rebars)
         {
+            var tesileRebars = rebars
+                .Where(x => stressLogic.GetTotalStrain(StrainMatrix, x) > 0d);
             diameterLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
-            diameterLogic.Rebars = rebars;
+            diameterLogic.Rebars = tesileRebars;
             var rebarDiameter = diameterLogic.GetAverageDiameter();
             TraceLogger?.AddMessage($"Average rebar diameter ds = {rebarDiameter}");
             return rebarDiameter;

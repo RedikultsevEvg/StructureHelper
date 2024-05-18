@@ -20,27 +20,64 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class RebarStressSofteningLogic : ICrackSofteningLogic
     {
-        private IStressLogic stressLogic;
-        private RebarStressResult afterCrackingRebarResult;
+        /// <summary>
+        /// Rebar result immediately after cracking appearance
+        /// </summary>
+        private RebarStressResult crackRebarResult;
+        /// <summary>
+        /// Rebar resul for actual force combination
+        /// </summary>
         private RebarStressResult actualRebarResult;
 
 
-        private INdm concreteNdm;
-        private INdm rebarNdm;
+        private INdm? concreteNdm;
+        private INdm? rebarNdm;
 
-        private double rebarStrainActual;
+        private double rebarActualStrain;
         private double concreteStrainActual;
-        private double rebarStressActual;
+        private double rebarActualStress;
+        private double softeningFactor;
+        private double minValueOfFactor = 0.2d;
+        private RebarPrimitive rebarPrimitive;
+        private RebarCrackInputData inputData;
 
-        public double MinValueOfFactor { get; set; } = 0.2d;
-        public RebarPrimitive RebarPrimitive { get; set; }
-        public RebarCrackInputData InputData { get; set; }
+        public double MinValueOfFactor
+        {
+            get => minValueOfFactor; set
+            {
+                minValueOfFactor = value;
+                IsResultActual = false;
+            }
+        }
+        public RebarPrimitive RebarPrimitive
+        {
+            get => rebarPrimitive; set
+            {
+                rebarPrimitive = value;
+                IsResultActual = false;
+            }
+        }
+        public RebarCrackInputData InputData
+        {
+            get => inputData; set
+            {
+                inputData = value;
+                IsResultActual = false;
+            }
+        }
         public IShiftTraceLogger? TraceLogger { get; set; }
+        public bool IsResultActual { get; private set; } = false;
 
         public double GetSofteningFactor()
         {
-            GetNdms();
-            return GetPsiSFactor(InputData.ForceTuple, InputData.CrackableNdmCollection, InputData.CrackedNdmCollection);
+            if (IsResultActual == false)
+            {
+                GetNdms();
+                softeningFactor = GetPsiSFactor(InputData.ForceTuple, InputData.CrackableNdmCollection);
+                IsResultActual = true;
+            }
+            return softeningFactor;
+            
         }
 
         private void GetNdms()
@@ -55,7 +92,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             rebarNdm = RebarPrimitive.GetRebarNdm(options);
         }
 
-        private double GetPsiSFactor(ForceTuple forceTuple, IEnumerable<INdm> crackableNndms, IEnumerable<INdm> crackedNndms)
+        private double GetPsiSFactor(ForceTuple forceTuple, IEnumerable<INdm> crackableNndms)
         {
 
             var crackResult = calculateCrackTuples(forceTuple, crackableNndms);
@@ -66,11 +103,10 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 throw new StructureHelperException(errorString);
             }
 
-
             actualRebarResult = GetRebarStressResult(forceTuple);
-            rebarStrainActual = actualRebarResult.RebarStrain;
-            rebarStressActual = actualRebarResult.RebarStress;
-            TraceLogger?.AddMessage($"Actual strain of rebar EpsilonS = {rebarStrainActual}(dimensionless)");
+            rebarActualStrain = actualRebarResult.RebarStrain;
+            rebarActualStress = actualRebarResult.RebarStress;
+            TraceLogger?.AddMessage($"Actual strain of rebar EpsilonS = {rebarActualStrain}(dimensionless)");
             concreteStrainActual = concreteNdm.Prestrain;
             //concreteStrainActual = stressLogic.GetTotalStrain(TupleConverter.ConvertToLoaderStrainMatrix(strainTupleActual), concreteNdm);
             TraceLogger?.AddMessage($"Actual strain of concrete on the axis of rebar EpsilonC = {concreteStrainActual}(dimensionless)");
@@ -84,11 +120,11 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 TraceLogger?.AddMessage($"Section is cracked in start force combination, PsiS = 1.0");
                 return 1d;
             }
-            afterCrackingRebarResult = GetRebarStressResult(crackResult.TupleOfCrackAppearance as ForceTuple);
+            crackRebarResult = GetRebarStressResult(crackResult.TupleOfCrackAppearance as ForceTuple);
 
-            var stressInCracking = afterCrackingRebarResult.RebarStress;
+            var stressInCracking = crackRebarResult.RebarStress;
             TraceLogger?.AddMessage($"Stress in rebar immediately after cracking Sigma,scrc = {stressInCracking}(Pa)");
-            TraceLogger?.AddMessage($"Actual stress in rebar Sigma,s = {rebarStressActual}(Pa)");
+            TraceLogger?.AddMessage($"Actual stress in rebar Sigma,s = {rebarActualStress}(Pa)");
             double psiS = GetExponentialSofteningFactor(stressInCracking);
             TraceLogger?.AddMessage($"PsiS = {psiS}");
             //return 0.94d;
@@ -97,7 +133,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private double GetExponentialSofteningFactor(double stressInCracking)
         {
-            var stressRatio = stressInCracking / rebarStressActual;
+            var stressRatio = stressInCracking / rebarActualStress;
             var logic = new ExpSofteningLogic()
             {
                 ForceRatio = stressRatio,
@@ -116,13 +152,13 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             {
                 NdmCollection = ndms,
                 CheckedNdmCollection = new List<INdm>() { concreteNdm },
-                TraceLogger = TraceLogger?.GetSimilarTraceLogger(100)
+                //TraceLogger = TraceLogger?.GetSimilarTraceLogger(100)
             };
             var crackedLogis = new CrackedLogic(sectionCrackedLogic)
             {
                 StartTuple = new ForceTuple(),
                 EndTuple = forceTuple,
-                TraceLogger = TraceLogger?.GetSimilarTraceLogger(100)
+                //TraceLogger = TraceLogger?.GetSimilarTraceLogger(100)
             };
             var calculator = new CrackForceCalculator(crackedLogis)
             {
@@ -133,7 +169,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                     IterationAccuracy = 0.01d,
                     MaxIterationCount = 1000
                 },
-                TraceLogger = TraceLogger?.GetSimilarTraceLogger(150)
+                //TraceLogger = TraceLogger?.GetSimilarTraceLogger(150)
             };
             calculator.Run();
             return calculator.Result as CrackForceResult;

@@ -97,8 +97,12 @@
     <Color x:Key="ButtonLight" A="255" B="255" G="255" R="255"/>
     <Color x:Key="CalculatorColor" A="255" B="149" G="149" R="211"/>
     <Color x:Key="CalculatorFrameColor" A="255" B="109" G="109" R="166"/>
+    <Color x:Key="ResultColor" A="255" B="200" G="200" R="200"/>
+    <Color x:Key="ResultFrameColor" A="255" B="100" G="100" R="100"/>
     <SolidColorBrush x:Key="CalculatorCanvas" Color="{DynamicResource CalculatorColor}"/>
     <SolidColorBrush x:Key="CalculatorFrame" Color="{DynamicResource CalculatorFrameColor}"/>
+    <SolidColorBrush x:Key="ResultCanvas" Color="{DynamicResource ResultColor}"/>
+    <SolidColorBrush x:Key="ResultFrame" Color="{DynamicResource ResultFrameColor}"/>
 
     <Style x:Key="ButtonCanvas" TargetType="Canvas">
         <Setter Property="Width" Value="32"/>
@@ -109,6 +113,10 @@
 
     <Style x:Key="ButtonCalculatorCanvas" TargetType="Canvas" BasedOn="{StaticResource ButtonCanvas}">
         <Setter Property="Background" Value="{DynamicResource CalculatorCanvas}"/>
+    </Style>
+
+    <Style x:Key="ButtonResultCanvas" TargetType="Canvas" BasedOn="{StaticResource ButtonCanvas}">
+        <Setter Property="Background" Value="{DynamicResource ResultCanvas}"/>
     </Style>
 
     <Style x:Key="ButtonRect" TargetType="Rectangle">
@@ -137,6 +145,17 @@
             </LinearGradientBrush>
         </Rectangle.Fill>
     </Rectangle>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ButtonResultRectangle">
+        <Rectangle Style="{DynamicResource ButtonRect}" Stroke="{DynamicResource ResultFrame}">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="{DynamicResource ButtonLight}" Offset="0.2"/>
+                    <GradientStop Color="{DynamicResource ResultColor}" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
     </DataTemplate>
 
     <DataTemplate x:Key="DiagramCalculator">
@@ -176,5 +195,16 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-    
+
+    <DataTemplate x:Key="IsoFieldResult">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <Path Margin="4" Data="M 0 0 h 20 A 20 20 90 0 1 0 24 z" Fill="Gray"/>
+                <Path Margin="4" Data="M 0 0 h 16 A 16 16 90 0 1 0 18 z" Fill="DarkGray"/>
+                <Path Margin="4" Data="M 0 0 h 10 A 10 10 90 0 1 0 10 z" Fill="LightGray"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
 </ResourceDictionary>

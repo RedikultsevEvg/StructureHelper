@@ -13,7 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public double CrackWidth { get; set; }
         public double UltimateCrackWidth { get; set; }
         public bool IsCrackLessThanUltimate => CrackWidth <= UltimateCrackWidth;
-        public double RebarStrain { get; set; }
-        public double ConcreteStrain { get; set; }
+        public RebarStressResult RebarStressResult { get; set; }
+        public double SofteningFactor { get; set; }
     }
 }

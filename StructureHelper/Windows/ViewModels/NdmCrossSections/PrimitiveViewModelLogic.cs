@@ -7,6 +7,8 @@ using StructureHelper.Windows.PrimitiveTemplates.RCs.Beams;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
 using StructureHelper.Windows.Services;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
@@ -14,6 +16,7 @@ using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.Models.Templates.CrossSections.RCs;
 using StructureHelperLogics.Models.Templates.RCs;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
@@ -135,8 +138,23 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 {
                     if (calc is IForceCalculator)
                     {
-                        var forceCalc = calc as IForceCalculator;
+                        var forceCalc = calc as IHasPrimitives;
                         forceCalc.Primitives.Remove(ndmPrimitive);
+                    }
+                    else if (calc is LimitCurvesCalculator calculator)
+                    {
+                        //to do
+                        //var forceCalc = calculator.InputData as IHasPrimitives;
+                        //forceCalc.Primitives.Remove(ndmPrimitive);
+                    }
+                    else if (calc is CrackCalculator crackCalculator)
+                    {
+                        var forceCalc = crackCalculator.InputData as IHasPrimitives;
+                        forceCalc.Primitives.Remove(ndmPrimitive);
+                    }
+                    else
+                    {
+                        throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(ICalculator), calc));
                     }
                 }
                 foreach (var primitive in repository.Primitives)

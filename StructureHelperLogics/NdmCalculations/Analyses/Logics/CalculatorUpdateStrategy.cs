@@ -5,6 +5,7 @@ using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
+using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Logics
             else if (targetObject is LimitCurvesCalculator limitCurves)
             {
                 new LimitCurvesCalculatorUpdateStrategy().Update(limitCurves, (LimitCurvesCalculator)sourceObject);
+            }
+            else if (targetObject is CrackCalculator crackCalculator)
+            {
+                new CrackCalculatorUpdateStrategy().Update(crackCalculator, (CrackCalculator)sourceObject);
             }
             else
             {

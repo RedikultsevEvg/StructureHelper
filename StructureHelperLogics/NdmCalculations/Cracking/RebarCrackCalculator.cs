@@ -47,9 +47,12 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 {
                     CrackWidth = acrc1,
                     UltimateCrackWidth = InputData.UserCrackInputData.UltimateLongCrackWidth,
-                    RebarStrain = rebarStressResult.RebarStrain,
-                    ConcreteStrain = rebarStressResult.ConcreteStrain
+                    RebarStressResult = rebarStressResult
                 };
+                TraceLogger?.AddMessage($"Long crack width acrc = acrc,1 = {acrc1}(m)");
+                TraceLogger?.AddMessage($"Ultimate long crack width acrc,ult = {longRebarResult.UltimateCrackWidth}(m)");
+                TraceCrackResult(longRebarResult);
+
 
                 GetSofteningLogic(InputData.ShortRebarData);
                 rebarStressResult = GetRebarStressResult(InputData.ShortRebarData);
@@ -61,14 +64,16 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 var acrc3 = crackWidthLogic.GetCrackWidth();
 
                 double acrcShort = acrc1 - acrc2 + acrc3;
-                TraceLogger?.AddMessage($"Long crack width acrc = acrc,1 = {acrc1}(m)");
                 TraceLogger?.AddMessage($"Short crack width acrc = acrc,1 - acrc,2 + acrc,3 = {acrc1} - {acrc2} + {acrc3} = {acrcShort}(m)");
                 var shortRebarResult = new CrackWidthTupleResult()
                 {
                     CrackWidth = acrcShort,
-                    UltimateCrackWidth = InputData.UserCrackInputData.UltimateShortCrackWidth
+                    UltimateCrackWidth = InputData.UserCrackInputData.UltimateShortCrackWidth,
+                    RebarStressResult = rebarStressResult
                 };
+                TraceCrackResult(shortRebarResult);
                 result.LongTermResult = longRebarResult;
+                result.ShortTermResult = shortRebarResult;
             }
             catch (Exception ex)
             {
@@ -76,6 +81,18 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 result.Description += "\n" + ex;
             }
             result.RebarPrimitive = InputData.RebarPrimitive;
+        }
+
+        private void TraceCrackResult(CrackWidthTupleResult rebarResult)
+        {
+            if (rebarResult.IsCrackLessThanUltimate == false)
+            {
+                TraceLogger?.AddMessage($"Checking crack width is failure, actual crack width acrc = {rebarResult.CrackWidth} > ultimate crack width acrc,ult = {rebarResult.UltimateCrackWidth}", TraceLogStatuses.Warning);
+            }
+            else
+            {
+                TraceLogger?.AddMessage($"Checking crack width is ok, actual crack width acrc = {rebarResult.CrackWidth} <= ultimate crack width acrc,ult = {rebarResult.UltimateCrackWidth}");
+            }
         }
 
         private void GetSofteningLogic(RebarCrackInputData rebarData)

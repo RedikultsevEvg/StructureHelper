@@ -1,5 +1,7 @@
-﻿using StructureHelper.Infrastructure;
+﻿using LoaderCalculator;
+using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
+using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.CalculationWindows.ProgressViews;
 using StructureHelper.Windows.Errors;
@@ -115,9 +117,12 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));}
         }
 
-        private void EditCrackCalculator(CrackCalculator crackCalculator)
+        private void EditCrackCalculator(CrackCalculator calculator)
         {
-            throw new NotImplementedException();
+            var calculatorCopy = calculator.Clone() as CrackCalculator;
+            var vm = new CrackCalculatorInputDataViewModel(repository.Primitives, repository.ForceActions, calculator);
+            var wnd = new CrackCalculatorInputDataView(vm);
+            ShowWindow(calculator, calculatorCopy, wnd);
         }
 
         private void EditLimitCurveCalculator(LimitCurvesCalculator calculator)
