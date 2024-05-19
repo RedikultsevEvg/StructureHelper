@@ -19,7 +19,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         const LimitStates limitState = LimitStates.SLS;
         const CalcTerms longTerm = CalcTerms.LongTerm;
         const CalcTerms shortTerm = CalcTerms.ShortTerm;
-
+        private const double maxSizeOfCrossSection = 1d;
         private CrackResult result;
         private IGetTupleInputDatasLogic datasLogic;
         private CrackCalculatorUpdateStrategy updateStrategy = new();
@@ -67,6 +67,14 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 ShortTerm = shortTerm,
                 TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
             };
+            var dx = InputData.Primitives.Max(x => x.GetValuePoints().Max(y => y.Point.X)) - InputData.Primitives.Min(x => x.GetValuePoints().Min(y => y.Point.X));
+            var dy = InputData.Primitives.Max(x => x.GetValuePoints().Max(y => y.Point.Y)) - InputData.Primitives.Min(x => x.GetValuePoints().Min(y => y.Point.Y));
+            if (dx > maxSizeOfCrossSection || dy > maxSizeOfCrossSection)
+            {
+                string message = $"At least one of size of cross-section is greater than ultimate size MaxSize = {maxSizeOfCrossSection}(m)";
+                result.Description += "Warning! " + message;
+                TraceLogger?.AddMessage(message, TraceLogStatuses.Warning);
+            }
             var datas = datasLogic.GetTupleInputDatas();
             foreach (var data in datas)
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructureHelperLogics.NdmCalculations.Cracking;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,17 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
     /// </summary>
     public partial class CrackResultView : Window
     {
-        public CrackResultView()
+        private readonly CrackResultViewModel viewModel;
+
+        public CrackResultView(CrackResultViewModel viewModel)
         {
+            this.viewModel = viewModel;
             InitializeComponent();
+            this.DataContext = this.viewModel;
+        }
+        public CrackResultView(CrackResult result) : this(new CrackResultViewModel(result))
+        {
+            
         }
     }
 }

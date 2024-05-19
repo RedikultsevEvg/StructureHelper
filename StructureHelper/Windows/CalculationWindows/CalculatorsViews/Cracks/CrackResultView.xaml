@@ -4,11 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews"
+        d:DataContext="{d:DesignInstance local:CrackResultViewModel}"
         mc:Ignorable="d"
-        Title="CrackResultView" Height="450" Width="800">
+        Title="Result of calculations of crack" Height="450" Width="800" MinHeight="300" MinWidth="600" MaxHeight="800" MaxWidth="1000">
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowRebarsCommand}" ToolTip="Show isofield results">
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource ShowRebarsResult}"/>
+                    </Viewbox>
+                </Button>
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowIsoFieldCommand}" ToolTip="Show isofield results">
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource IsoFieldResult}"/>
@@ -17,7 +23,11 @@
             </ToolBar>
         </ToolBarTray>
         <Grid>
-            <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding ForcesResults.ForcesResultList}" SelectedItem="{Binding SelectedResult}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <DataGrid IsReadOnly="True" AutoGenerateColumns="False"  ItemsSource="{Binding TupleResults}" SelectedItem="{Binding SelectedResult}">
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
                         <Style.Triggers>
@@ -29,19 +39,100 @@
                 </DataGrid.RowStyle>
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Header="Valid" Binding="{Binding Path=IsValid}"/>
-                    <DataGridTextColumn Header="LimitState" Width="70" Binding="{Binding DesignForceTuple.LimitState}"/>
-                    <DataGridTextColumn Header="Duration" Width="70" Binding="{Binding DesignForceTuple.CalcTerm}"/>
-                    <DataGridTextColumn Header="Moment Mx" Width="90" Binding="{Binding DesignForceTuple.ForceTuple.Mx, Converter={StaticResource MomentConverter}}"/>
-                    <DataGridTextColumn Header="Moment My" Width="90" Binding="{Binding DesignForceTuple.ForceTuple.My, Converter={StaticResource MomentConverter}}"/>
-                    <DataGridTextColumn Header="Force Nz" Width="90" Binding="{Binding DesignForceTuple.ForceTuple.Nz, Converter={StaticResource ForceConverter}}"/>
-                    <DataGridTextColumn Header="Kx" Width="90" Binding="{Binding LoaderResults.ForceStrainPair.StrainMatrix.Kx}"/>
-                    <DataGridTextColumn Header="Ky" Width="90" Binding="{Binding LoaderResults.ForceStrainPair.StrainMatrix.Ky}"/>
-                    <DataGridTextColumn Header="EpsZ" Width="90" Binding="{Binding LoaderResults.ForceStrainPair.StrainMatrix.EpsZ}"/>
-                    <DataGridTextColumn Header="Accuracy" Width="90" Binding="{Binding LoaderResults.AccuracyRate}"/>
-                    <DataGridTextColumn Header="Max Iteration" Width="90" Binding="{Binding LoaderResults.IterationCounter}"/>
+                    <DataGridTemplateColumn Header="Combination term" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="Long-term" />
+                                    <TextBlock Grid.Row="1" Text="Short-term" />
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Moment Mx" Width="90">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.Mx, Converter={StaticResource MomentConverter}}" />
+                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.Mx, Converter={StaticResource MomentConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Moment My" Width="90">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.My, Converter={StaticResource MomentConverter}}" />
+                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.My, Converter={StaticResource MomentConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Force Nz" Width="90">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.Nz, Converter={StaticResource MomentConverter}}" />
+                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.Nz, Converter={StaticResource ForceConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Crack width" Width="140">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding LongTermResult.CrackWidth, Converter={StaticResource LengthConverter}}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding LongTermResult.IsCrackLessThanUltimate}" Value="false">
+                                                        <Setter Property="Background" Value="Red" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <TextBlock Grid.Row="1" Text="{Binding ShortTermResult.CrackWidth, Converter={StaticResource LengthConverter}}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ShortTermResult.IsCrackLessThanUltimate}" Value="false">
+                                                        <Setter Property="Background" Value="Red" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Description" Width="300" Binding="{Binding Description}"/>
                 </DataGrid.Columns>
             </DataGrid>
+            <TextBlock Grid.Row="1" Text="{Binding CrackResult.Description}"/>
         </Grid>
     </DockPanel>
 </Window>

@@ -230,7 +230,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
             else if (SelectedItem is CrackCalculator crackCalculator)
             {
-
+                var wnd = new CrackResultView(crackCalculator.Result as CrackResult);
+                wnd.ShowDialog();
             }
             else
             {

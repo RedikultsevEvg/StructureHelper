@@ -24,6 +24,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     {
         private const double longTermFactor = 1.4d;
         private const double shortTermFactor = 1d;
+        private IStressStateFactorLogic stressStateFactorLogic;
         private ICrackSofteningLogic softeningLogic;
 
         public double RebarStrain { get; set; }
@@ -40,7 +41,11 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public ICrackWidthLogicInputData GetCrackWidthLogicInputData()
         {
-            
+            stressStateFactorLogic = new StressStateFactorLogic()
+            {
+                ForceTuple = InputData.ForceTuple,
+                TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
+            };
             CrackWidthLogicInputDataSP63 data = new();
             if (CalcTerm == CalcTerms.LongTerm)
             {
@@ -51,7 +56,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 data.TermFactor = shortTermFactor;
             }
             data.PsiSFactor = softeningLogic.GetSofteningFactor();
-            data.StressStateFactor = 1.0d;
+            data.StressStateFactor = stressStateFactorLogic.GetStressStateFactor();
             data.BondFactor = 0.5d;
             data.Length = InputData.Length;
             data.ConcreteStrain = ConcreteStrain;

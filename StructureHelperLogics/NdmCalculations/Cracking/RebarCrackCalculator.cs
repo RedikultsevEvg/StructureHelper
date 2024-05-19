@@ -40,10 +40,10 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 GetSofteningLogic(InputData.LongRebarData);
                 rebarStressResult = GetRebarStressResult(InputData.LongRebarData);
                 var dataAcrc1 = GetCrackWidthInputData(InputData.LongRebarData, CalcTerms.LongTerm);
-                var dataAcrc2 = GetCrackWidthInputData(InputData.LongRebarData, CalcTerms.ShortTerm);
+                var dataAcrc3 = GetCrackWidthInputData(InputData.LongRebarData, CalcTerms.ShortTerm);
                 crackWidthLogic.InputData = dataAcrc1;
                 var acrc1 = crackWidthLogic.GetCrackWidth();
-                var longRebarResult = new CrackWidthTupleResult()
+                var longRebarResult = new CrackWidthRebarTupleResult()
                 {
                     CrackWidth = acrc1,
                     UltimateCrackWidth = InputData.UserCrackInputData.UltimateLongCrackWidth,
@@ -56,16 +56,16 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
                 GetSofteningLogic(InputData.ShortRebarData);
                 rebarStressResult = GetRebarStressResult(InputData.ShortRebarData);
-                var dataAcrc3 = GetCrackWidthInputData(InputData.ShortRebarData, CalcTerms.ShortTerm);
+                var dataAcrc2 = GetCrackWidthInputData(InputData.ShortRebarData, CalcTerms.ShortTerm);
 
-                crackWidthLogic.InputData = dataAcrc2;
-                var acrc2 = crackWidthLogic.GetCrackWidth();
                 crackWidthLogic.InputData = dataAcrc3;
                 var acrc3 = crackWidthLogic.GetCrackWidth();
+                crackWidthLogic.InputData = dataAcrc2;
+                var acrc2 = crackWidthLogic.GetCrackWidth();
 
-                double acrcShort = acrc1 - acrc2 + acrc3;
-                TraceLogger?.AddMessage($"Short crack width acrc = acrc,1 - acrc,2 + acrc,3 = {acrc1} - {acrc2} + {acrc3} = {acrcShort}(m)");
-                var shortRebarResult = new CrackWidthTupleResult()
+                double acrcShort = acrc1 + acrc2 - acrc3;
+                TraceLogger?.AddMessage($"Short crack width acrc = acrc,1 + acrc,2 - acrc,3 = {acrc1} + {acrc2} - {acrc3} = {acrcShort}(m)");
+                var shortRebarResult = new CrackWidthRebarTupleResult()
                 {
                     CrackWidth = acrcShort,
                     UltimateCrackWidth = InputData.UserCrackInputData.UltimateShortCrackWidth,
@@ -83,7 +83,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             result.RebarPrimitive = InputData.RebarPrimitive;
         }
 
-        private void TraceCrackResult(CrackWidthTupleResult rebarResult)
+        private void TraceCrackResult(CrackWidthRebarTupleResult rebarResult)
         {
             if (rebarResult.IsCrackLessThanUltimate == false)
             {

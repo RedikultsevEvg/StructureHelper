@@ -59,7 +59,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             result = new()
             {
                 IsValid = true,
-                Description = string.Empty
+                Description = string.Empty,
+                InputData = InputData
             };
         }
 
@@ -96,6 +97,16 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 var rebarResult = calculator.Result as RebarCrackResult;
                 result.RebarResults.Add(rebarResult);
             }
+            result.LongTermResult = new()
+            {
+                CrackWidth = result.RebarResults.Max(x => x.LongTermResult.CrackWidth),
+                UltimateCrackWidth = InputData.UserCrackInputData.UltimateLongCrackWidth
+            };
+            result.ShortTermResult = new()
+            {
+                CrackWidth = result.RebarResults.Max(x => x.ShortTermResult.CrackWidth),
+                UltimateCrackWidth = InputData.UserCrackInputData.UltimateShortCrackWidth
+            };
         }
 
         private RebarCrackCalculatorInputData GetRebarCalculatorInputData(RebarPrimitive rebar)

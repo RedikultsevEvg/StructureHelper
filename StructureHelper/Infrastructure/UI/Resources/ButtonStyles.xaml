@@ -207,4 +207,15 @@
         </Canvas>
     </DataTemplate>
 
+    <DataTemplate x:Key="ShowRebarsResult">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <Rectangle Canvas.Left="8" Canvas.Top="6" Width="16" Height="21" Fill="LightGray" Stroke ="Black"/>
+                <Ellipse Canvas.Left="10" Canvas.Top="21" Width="4" Height="4" Fill="DarkGray" Stroke ="Black"/>
+                <Ellipse Canvas.Left="18" Canvas.Top="21" Width="4" Height="4" Fill="DarkGray" Stroke ="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
 </ResourceDictionary>

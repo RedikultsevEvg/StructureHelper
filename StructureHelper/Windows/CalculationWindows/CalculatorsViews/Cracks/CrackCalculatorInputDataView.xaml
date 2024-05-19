@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews"
         d:DataContext="{d:DesignInstance local:CrackCalculatorInputDataViewModel}"
         mc:Ignorable="d"
-        Title="CrackCalculatorInputDataView" Height="390" Width="400" MinHeight="300" MinWidth="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="CrackCalculatorInputDataView" Height="390" Width="400" MinHeight="300" MinWidth="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
