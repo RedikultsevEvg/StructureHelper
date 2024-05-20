@@ -20,7 +20,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
             TraceLogger?.AddMessage("Method of crack width calculation based on SP 63.13330.2018");
             CheckOptions();
-            TraceLogger?.AddMessage($"Term factor fi1= {InputData.Length}", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"Term factor fi1= {inputData.TermFactor}", TraceLogStatuses.Service);
             TraceLogger?.AddMessage($"Bond factor fi2= {inputData.BondFactor}", TraceLogStatuses.Service);
             TraceLogger?.AddMessage($"Stress state factor fi3= {inputData.StressStateFactor}", TraceLogStatuses.Service);
             TraceLogger?.AddMessage($"PsiS factor PsiS= {inputData.PsiSFactor}", TraceLogStatuses.Service);

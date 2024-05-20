@@ -45,7 +45,7 @@
                     <TextBlock Grid.Row="5" Text="Long-term"/>
                     <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding UltLongTermCrackWidth, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"
                              Margin="3"/>
-                    <TextBlock Grid.Row="6" Text="Short-tem"/>
+                    <TextBlock Grid.Row="6" Text="Short-term"/>
                     <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding UltShortTermCrackWidth, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"
                              Margin="3"/>
                 </Grid>

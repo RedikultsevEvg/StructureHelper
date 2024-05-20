@@ -83,7 +83,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(longTuple));
                 shortTuple = GetTupleByCombination(combinations, LimitState, ShortTerm);
                 TraceLogger?.AddMessage("Short term force combination");
-                TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(longTuple));
+                TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(shortTuple));
             }
             catch (Exception ex)
             {
