@@ -20,7 +20,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     {
         /// <inheritdoc/>
         public bool IsValid { get; set; }
-        public string TupleName { get; set; }
+        public string TupleName { get; set; } = string.Empty;
         /// <summary>
         /// Force tuple for long term calculations
         /// </summary>

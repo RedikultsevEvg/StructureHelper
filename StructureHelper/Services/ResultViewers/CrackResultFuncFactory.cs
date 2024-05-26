@@ -37,15 +37,15 @@ namespace StructureHelper.Services.ResultViewers
                 {
                     Name = "Long softening factor",
                     ResultFunction = (RebarCrackResult rebar) => rebar.LongTermResult.SofteningFactor,
-                    UnitFactor = unitLength.Multiplyer,
-                    UnitName = unitLength.Name
+                    UnitFactor = 1,
+                    UnitName = "Dimensionless"
                 },
                 new()
                 {
                     Name = "Short softening factor",
                     ResultFunction = (RebarCrackResult rebar) => rebar.ShortTermResult.SofteningFactor,
-                    UnitFactor = unitLength.Multiplyer,
-                    UnitName = unitLength.Name
+                    UnitFactor = 1,
+                    UnitName = "Dimensionless"
                 },
                 new()
                 {

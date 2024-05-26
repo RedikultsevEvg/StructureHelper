@@ -24,7 +24,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public void Run()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
             result = new()
             {
                 IsValid = true

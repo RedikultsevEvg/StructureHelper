@@ -11,6 +11,9 @@ using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
 
+//Copyright (c) 2024 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class TupleCrackCalculator : ICalculator
