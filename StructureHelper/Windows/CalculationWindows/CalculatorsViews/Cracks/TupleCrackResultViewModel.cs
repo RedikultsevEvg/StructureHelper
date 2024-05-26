@@ -27,6 +27,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
         public TupleCrackResult CrackResult => crackResult;
         public List<RebarCrackResult> RebarResults => crackResult.RebarResults;
         public RebarCrackResult SelectedResult { get; set; }
+        public string WindowName => "Result of calculation of cracks for action " + crackResult.InputData.TupleName;
         public ICommand ShowIsoFieldCommand
         {
             get

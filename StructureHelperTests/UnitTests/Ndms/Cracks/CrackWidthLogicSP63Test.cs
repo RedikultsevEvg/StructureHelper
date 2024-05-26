@@ -8,7 +8,7 @@ using StructureHelperLogics.NdmCalculations.Cracking;
 
 namespace StructureHelperTests.UnitTests.Ndms.Cracks
 {
-    public class CrackWidthLogicTest
+    public class CrackWidthLogicSP63Test
     {
         [TestCase(1.4d, 0.001d, 0d, 0.3d, 0.00020999999999999998d)]
         [TestCase(1.4d, 0.001d, 0.001d, 0.3d, 0d)]

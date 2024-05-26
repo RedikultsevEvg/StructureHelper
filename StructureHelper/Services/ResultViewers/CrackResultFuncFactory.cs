@@ -35,6 +35,20 @@ namespace StructureHelper.Services.ResultViewers
                 },
                 new()
                 {
+                    Name = "Long softening factor",
+                    ResultFunction = (RebarCrackResult rebar) => rebar.LongTermResult.SofteningFactor,
+                    UnitFactor = unitLength.Multiplyer,
+                    UnitName = unitLength.Name
+                },
+                new()
+                {
+                    Name = "Short softening factor",
+                    ResultFunction = (RebarCrackResult rebar) => rebar.ShortTermResult.SofteningFactor,
+                    UnitFactor = unitLength.Multiplyer,
+                    UnitName = unitLength.Name
+                },
+                new()
+                {
                     Name = "Long rebar stress",
                     ResultFunction = (RebarCrackResult rebar) => rebar.LongTermResult.RebarStressResult.RebarStress,
                     UnitFactor = unitStress.Multiplyer,

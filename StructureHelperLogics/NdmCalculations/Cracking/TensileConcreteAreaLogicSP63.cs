@@ -39,7 +39,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 .Sum(x => x.Area * x.StressScale);
             TraceLogger?.AddMessage($"Concrete area Ac = {concreteArea}");
             var concreteTensileArea = concreteCollection
-                .Where(x => stressLogic.GetTotalStrainWithPrestrain(StrainMatrix, x) > 0d)
+                .Where(x => stressLogic.GetTotalStrain(StrainMatrix, x) > 0d)
                 .Sum(x => x.Area * x.StressScale);
             TraceLogger?.AddMessage($"Concrete tensile area Ac,t = {concreteTensileArea}");
 

@@ -20,10 +20,10 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
             TraceLogger?.AddMessage("Method of crack width calculation based on SP 63.13330.2018");
             CheckOptions();
-            TraceLogger?.AddMessage($"Term factor fi1= {inputData.TermFactor}", TraceLogStatuses.Service);
-            TraceLogger?.AddMessage($"Bond factor fi2= {inputData.BondFactor}", TraceLogStatuses.Service);
-            TraceLogger?.AddMessage($"Stress state factor fi3= {inputData.StressStateFactor}", TraceLogStatuses.Service);
-            TraceLogger?.AddMessage($"PsiS factor PsiS= {inputData.PsiSFactor}", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"Term factor fi1 = {inputData.TermFactor}", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"Bond factor fi2 = {inputData.BondFactor}", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"Stress state factor fi3 = {inputData.StressStateFactor}", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"PsiS factor PsiS = {inputData.PsiSFactor}", TraceLogStatuses.Service);
             TraceLogger?.AddMessage($"Length between cracks Ls = {inputData.Length}", TraceLogStatuses.Service);
             //check if strain of concrete greater than strain of rebar
             double rebarElongation = inputData.RebarStrain - inputData.ConcreteStrain;
@@ -49,26 +49,26 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             inputData = InputData as CrackWidthLogicInputDataSP63;
             if (inputData.Length <=0d)
             {
-                errorString = ErrorStrings.DataIsInCorrect + $": length between cracks Ls={inputData.Length} must be greate than zero";
+                errorString = ErrorStrings.DataIsInCorrect + $": length between cracks Lcrc={inputData.Length} must be greater than zero";
             }
             if (inputData.TermFactor <= 0d)
             {
-                errorString = ErrorStrings.DataIsInCorrect + $": Term factor fi1 {inputData.TermFactor} must be greate than zero";
+                errorString = ErrorStrings.DataIsInCorrect + $": Term factor fi1 {inputData.TermFactor} must be greater than zero";
 
             }
             if (inputData.BondFactor <= 0d)
             {
-                errorString = ErrorStrings.DataIsInCorrect + $": Bond factor fi2 {inputData.BondFactor} must be greate than zero";
+                errorString = ErrorStrings.DataIsInCorrect + $": Bond factor fi2 {inputData.BondFactor} must be greater than zero";
 
             }
             if (inputData.StressStateFactor <= 0d)
             {
-                errorString = ErrorStrings.DataIsInCorrect + $": Stress factor fi3 factor {inputData.StressStateFactor} must be greate than zero";
+                errorString = ErrorStrings.DataIsInCorrect + $": Stress factor fi3 factor {inputData.StressStateFactor} must be greater than zero";
 
             }
             if (inputData.PsiSFactor <= 0d)
             {
-                 errorString = ErrorStrings.DataIsInCorrect + $": PsiS factor {inputData.PsiSFactor} must be greate than zero";
+                 errorString = ErrorStrings.DataIsInCorrect + $": PsiS factor {inputData.PsiSFactor} must be greater than zero";
             }
             if (errorString != string.Empty)
             {

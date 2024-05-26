@@ -57,7 +57,7 @@ namespace StructureHelper.Services.ResultViewers
         {
             List<ForceResultFunc> resultFuncs = new ();
             resultFuncs.Add(new ForceResultFunc() { Name = "Section Strain", ResultFunction = stressLogic.GetSectionStrain });
-            resultFuncs.Add(new ForceResultFunc() { Name = "Total Strain", ResultFunction = stressLogic.GetTotalStrainWithPrestrain });
+            resultFuncs.Add(new ForceResultFunc() { Name = "Total Strain", ResultFunction = stressLogic.GetTotalStrain });
             resultFuncs.Add(new ForceResultFunc() { Name = "Prestrain", ResultFunction = stressLogic.GetPrestrain });
             resultFuncs.Add(new ForceResultFunc() { Name = "Elastic Strain", ResultFunction = stressLogic.GetElasticStrain });
             resultFuncs.Add(new ForceResultFunc() { Name = "Plastic Strain", ResultFunction = stressLogic.GetPlasticStrain });

@@ -47,7 +47,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 {
                     CrackWidth = acrc1,
                     UltimateCrackWidth = InputData.UserCrackInputData.UltimateLongCrackWidth,
-                    RebarStressResult = rebarStressResult
+                    RebarStressResult = rebarStressResult,
+                    SofteningFactor = crackSofteningLogic.GetSofteningFactor()
                 };
                 TraceLogger?.AddMessage($"Long crack width acrc = acrc,1 = {acrc1}(m)");
                 TraceLogger?.AddMessage($"Ultimate long crack width acrc,ult = {longRebarResult.UltimateCrackWidth}(m)");
@@ -69,7 +70,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 {
                     CrackWidth = acrcShort,
                     UltimateCrackWidth = InputData.UserCrackInputData.UltimateShortCrackWidth,
-                    RebarStressResult = rebarStressResult
+                    RebarStressResult = rebarStressResult,
+                    SofteningFactor = crackSofteningLogic.GetSofteningFactor()
                 };
                 TraceCrackResult(shortRebarResult);
                 result.LongTermResult = longRebarResult;

@@ -30,14 +30,17 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public IResult Result => result;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
-        public CrackCalculator(CrackInputData inputData)
+        public CrackCalculator(CrackInputData inputData, ICheckInputDataLogic checkInputDataLogic)
         {
             InputData = inputData;
+            this.checkInputDataLogic = checkInputDataLogic;
         }
 
         public object Clone()
         {
-            var newItem = new CrackCalculator(new CrackInputData());
+            CrackInputData crackInputData = new CrackInputData();
+            var checkDataLogic = new CheckCrackCalculatorInputDataLogic(InputData);
+            var newItem = new CrackCalculator(crackInputData, checkDataLogic);
             updateStrategy.Update(newItem, this);
             return newItem;
         }
@@ -62,10 +65,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private void CheckInputData()
         {
-            checkInputDataLogic = new CheckCrackCalculatorInputDataLogic(InputData)
-            {
-                TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
-            };
+            checkInputDataLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
             if (checkInputDataLogic.Check() == false)
             {
                 result.IsValid = false;
