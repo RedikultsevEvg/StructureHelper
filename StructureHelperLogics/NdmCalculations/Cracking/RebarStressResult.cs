@@ -10,7 +10,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class RebarStressResult : IResult
     {
+        /// <inheritdoc/>
         public bool IsValid { get; set; }
+        /// <inheritdoc/>
         public string? Description { get; set; }
         public StrainTuple StrainTuple { get; set; } 
         public double RebarStress { get; set; }

@@ -205,7 +205,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
             var stressLogic = new StressLogic();
             foreach (var item in ndmCollection)
             {
-                var strain = stressLogic.GetTotalStrain(strains, item); 
+                var strain = stressLogic.GetSectionStrain(strains, item); 
                 if (strain > maxStrain)
                 {
                     maxStrain = strain;

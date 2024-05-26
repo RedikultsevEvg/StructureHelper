@@ -1,4 +1,5 @@
 ﻿using LoaderCalculator.Data.Ndms;
+using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
@@ -26,6 +27,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private StrainTuple shortDefaultStrainTuple;
         private double longLength;
         private double shortLength;
+        private object locker = new();
 
         public string Name { get; set; }
         public TupleCrackInputData InputData { get; set; }
@@ -68,6 +70,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             CheckInputData();
             Triangulate();
+
             longDefaultStrainTuple = CalcStrainMatrix(InputData.LongTermTuple as ForceTuple, crackableNdms);
             shortDefaultStrainTuple = CalcStrainMatrix(InputData.LongTermTuple as ForceTuple, crackableNdms);
             var longElasticStrainTuple = CalcStrainMatrix(InputData.LongTermTuple as ForceTuple, elasticNdms);
@@ -85,17 +88,28 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 shortLength = GetLengthBetweenCracks(shortElasticStrainTuple);
             }
             CalcCrackForce();
-            foreach (var rebar in rebarPrimitives)
-            {
-                RebarCrackCalculatorInputData rebarCalculatorData = GetRebarCalculatorInputData(rebar);
-                var calculator = new RebarCrackCalculator
+            //for (int j = 0; j < 100000; j++)
+            //{
+                result.RebarResults.Clear();
+                int rebarCount = rebarPrimitives.Count;
+                Task<RebarCrackResult>[] tasks = new Task<RebarCrackResult>[rebarCount];
+                for (int i = 0; i < rebarCount; i++)
                 {
-                    InputData = rebarCalculatorData,
-                    TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
-                };
-                calculator.Run();
-                var rebarResult = calculator.Result as RebarCrackResult;
-                result.RebarResults.Add(rebarResult);
+                    var rebar = rebarPrimitives[i];
+                    tasks[i] = new Task<RebarCrackResult>(() => ProcessRebar(rebar));
+                    tasks[i].Start();
+                }
+                Task.WaitAll(tasks);
+                for (int i = 0; i < rebarCount; i++)
+                {
+                    result.RebarResults.Add(tasks[i].Result);
+                }
+            //}
+            
+            if (result.RebarResults.Any(x => x.IsValid == false))
+            {
+                result.IsValid = false;
+                return;
             }
             result.LongTermResult = new()
             {
@@ -109,25 +123,50 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             };
         }
 
+        private RebarCrackResult ProcessRebar(RebarPrimitive rebar)
+        {
+            RebarCrackCalculatorInputData rebarCalculatorData = GetRebarCalculatorInputData(rebar);
+            var calculator = new RebarCrackCalculator
+            {
+                InputData = rebarCalculatorData,
+                TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
+            };
+            calculator.Run();
+            var rebarResult = calculator.Result as RebarCrackResult;
+            return rebarResult;
+        }
+
         private RebarCrackCalculatorInputData GetRebarCalculatorInputData(RebarPrimitive rebar)
         {
+            IEnumerable<INdm> crackableNdmsLoc = null;
+            IEnumerable<INdm> crackedNdmsLoc = null;
+            RebarPrimitive rebarCopy = null;
+            lock (locker)
+            {
+                rebarCopy = rebar.Clone() as RebarPrimitive;
+                rebarCopy.HeadMaterial = rebarCopy.HeadMaterial.Clone() as IHeadMaterial;
+                var triangulationLogicLoc = new CrackedSectionTriangulationLogic(InputData.Primitives);
+                crackableNdmsLoc = triangulationLogicLoc.GetNdmCollection();
+                crackedNdmsLoc = triangulationLogicLoc.GetCrackedNdmCollection();
+            }
+
             var longRebarData = new RebarCrackInputData()
             {
-                CrackableNdmCollection = crackableNdms,
-                CrackedNdmCollection = crackedNdms,
-                ForceTuple = InputData.LongTermTuple as ForceTuple,
+                CrackableNdmCollection = crackableNdmsLoc,
+                CrackedNdmCollection = crackedNdmsLoc,
+                ForceTuple = InputData.LongTermTuple.Clone() as ForceTuple,
                 Length = longLength
             };
             var shortRebarData = new RebarCrackInputData()
             {
                 CrackableNdmCollection = crackableNdms,
                 CrackedNdmCollection = crackedNdms,
-                ForceTuple = InputData.ShortTermTuple as ForceTuple,
+                ForceTuple = InputData.ShortTermTuple.Clone() as ForceTuple,
                 Length = shortLength
             };
             var rebarCalculatorData = new RebarCrackCalculatorInputData()
             {
-                RebarPrimitive = rebar,
+                RebarPrimitive = rebarCopy,
                 LongRebarData = longRebarData,
                 ShortRebarData = shortRebarData,
                 UserCrackInputData = InputData.UserCrackInputData
@@ -153,6 +192,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             {
                 result.IsValid = false;
                 result.Description += forceResult.Description;
+                TraceLogger?.AddMessage("Bearing capacity of cross-section is not enough for action", TraceLogStatuses.Error);
+                return null;
             }
             var strain = TupleConverter.ConvertToStrainTuple(forceResult.LoaderResults.StrainMatrix);
             return strain;
@@ -171,7 +212,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private void Triangulate()
         {
-            triangulationLogic = new CrackedSectionTriangulationLogic(InputData.NdmPrimitives)
+            triangulationLogic = new CrackedSectionTriangulationLogic(InputData.Primitives)
             {
                 //TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
             };
@@ -192,7 +233,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private void CheckInputData()
         {
-            if (InputData.NdmPrimitives is null || InputData.NdmPrimitives.Count == 0)
+            if (InputData.Primitives is null || InputData.Primitives.Count == 0)
             {
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": input data doesn't have any primitives");
             }    

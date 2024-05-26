@@ -4,11 +4,104 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews"
+        d:DataContext="{d:DesignInstance local:TupleCrackResultViewModel}"
         mc:Ignorable="d"
-        Title="TupleCrackResultView" Height="450" Width="800">
-    <Grid>
-        <DataGrid>
-            
+        Title="TupleCrackResultView" Height="450" Width="800" MinHeight="300" MinWidth="500" MaxHeight="1000" MaxWidth="1200" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Windows/CalculationWindows/CalculatorsViews/Cracks/Cracks.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowIsoFieldCommand}" ToolTip="Show isofield results">
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource IsoFieldResult}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <DataGrid IsReadOnly="True" AutoGenerateColumns="False"  ItemsSource="{Binding RebarResults}" SelectedItem="{Binding SelectedResult}">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsValid}" Value="false">
+                            <Setter Property="Background" Value="{StaticResource ErrorColorBrush}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Valid" Binding="{Binding IsValid}"/>
+                <DataGridTextColumn Header="Rebar name" Binding="{Binding RebarPrimitive.Name}" Width="120" CanUserSort="True"/>
+                <DataGridTemplateColumn Header="Combination term" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="Long-term" />
+                                <TextBlock Grid.Row="1" Text="Short-term" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Rebar stress" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="{Binding LongTermResult.RebarStressResult.RebarStress, Converter={StaticResource StressConverter}}"/>
+                                <TextBlock Grid.Row="1" Text="{Binding ShortTermResult.RebarStressResult.RebarStress, Converter={StaticResource StressConverter}}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Rebar strain" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="{Binding LongTermResult.RebarStressResult.RebarStrain}"/>
+                                <TextBlock Grid.Row="1" Text="{Binding ShortTermResult.RebarStressResult.RebarStrain}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Ref. concrete strain" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="{Binding LongTermResult.RebarStressResult.ConcreteStrain}"/>
+                                <TextBlock Grid.Row="1" Text="{Binding ShortTermResult.RebarStressResult.ConcreteStrain}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Crack width" Width="140">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ContentControl ContentTemplate="{StaticResource CrackGrid}" Content="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Description" Width="300" Binding="{Binding Description}"/>
+            </DataGrid.Columns>
         </DataGrid>
-    </Grid>
+    </DockPanel>
 </Window>

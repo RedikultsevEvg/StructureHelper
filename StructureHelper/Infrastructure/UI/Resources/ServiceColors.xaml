@@ -1,0 +1,7 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="ErrorColor" R="255" G="192" B="203" A="100" />
+    <Color x:Key="WarningColor" R="255" G="255" B="0" A="100" />
+    <SolidColorBrush x:Key="ErrorColorBrush" Color="{DynamicResource ErrorColor}"/>
+    <SolidColorBrush x:Key="WarningColorBrush" Color="{DynamicResource WarningColor}"/>
+</ResourceDictionary>

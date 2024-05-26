@@ -106,7 +106,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private double GetAverageDiameter(IEnumerable<RebarNdm?> rebars)
         {
             var tesileRebars = rebars
-                .Where(x => stressLogic.GetTotalStrain(StrainMatrix, x) > 0d);
+                .Where(x => stressLogic.GetSectionStrain(StrainMatrix, x) > 0d);
             diameterLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
             diameterLogic.Rebars = tesileRebars;
             var rebarDiameter = diameterLogic.GetAverageDiameter();

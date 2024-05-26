@@ -52,9 +52,10 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                     resultList.Add(new TupleCrackInputData()
                     {
                         IsValid = true,
+                        TupleName = action.Name,
                         LongTermTuple = tuple.LongTuple,
                         ShortTermTuple = tuple.ShortTuple,
-                        NdmPrimitives = Primitives,
+                        Primitives = Primitives,
                         UserCrackInputData = UserCrackInputData
                     });
                 }

@@ -26,11 +26,11 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
         };
 
             // Setup the mock to return positive strains
-            mockStressLogic.Setup(s => s.GetTotalStrain(It.IsAny<IStrainMatrix>(), It.Is<RebarNdm>(r => r.Area == 1.0)))
+            mockStressLogic.Setup(s => s.GetSectionStrain(It.IsAny<IStrainMatrix>(), It.Is<RebarNdm>(r => r.Area == 1.0)))
                            .Returns(0.5);
-            mockStressLogic.Setup(s => s.GetTotalStrain(It.IsAny<IStrainMatrix>(), It.Is<RebarNdm>(r => r.Area == 2.0)))
+            mockStressLogic.Setup(s => s.GetSectionStrain(It.IsAny<IStrainMatrix>(), It.Is<RebarNdm>(r => r.Area == 2.0)))
                            .Returns(1.0);
-            mockStressLogic.Setup(s => s.GetTotalStrain(It.IsAny<IStrainMatrix>(), It.Is<RebarNdm>(r => r.Area == 3.0)))
+            mockStressLogic.Setup(s => s.GetSectionStrain(It.IsAny<IStrainMatrix>(), It.Is<RebarNdm>(r => r.Area == 3.0)))
                            .Returns(1.5);
 
             var logic = new TensionRebarAreaSimpleSumLogic(mockStressLogic.Object)
@@ -64,7 +64,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
         };
 
             // Setup the mock to return non-positive strain
-            mockStressLogic.Setup(s => s.GetTotalStrain(It.IsAny<IStrainMatrix>(), It.IsAny<RebarNdm>()))
+            mockStressLogic.Setup(s => s.GetSectionStrain(It.IsAny<IStrainMatrix>(), It.IsAny<RebarNdm>()))
                            .Returns(0.0);
 
             var logic = new TensionRebarAreaSimpleSumLogic(mockStressLogic.Object)

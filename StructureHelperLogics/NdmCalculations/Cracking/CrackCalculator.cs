@@ -23,6 +23,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private CrackResult result;
         private IGetTupleInputDatasLogic datasLogic;
         private CrackCalculatorUpdateStrategy updateStrategy = new();
+        private ICheckInputDataLogic checkInputDataLogic;
 
         public string Name { get; set; }
         public CrackInputData InputData { get; set; }
@@ -44,6 +45,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public void Run()
         {
             PrepareNewResult();
+            CheckInputData();
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
             try
             {
@@ -55,6 +57,19 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 result.IsValid = false;
                 result.Description += ex;
                 TraceLogger?.AddMessage(LoggerStrings.CalculationError + ex, TraceLogStatuses.Error);
+            }
+        }
+
+        private void CheckInputData()
+        {
+            checkInputDataLogic = new CheckCrackCalculatorInputDataLogic(InputData)
+            {
+                TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
+            };
+            if (checkInputDataLogic.Check() == false)
+            {
+                result.IsValid = false;
+                result.Description += checkInputDataLogic.CheckResult;
             }
         }
 

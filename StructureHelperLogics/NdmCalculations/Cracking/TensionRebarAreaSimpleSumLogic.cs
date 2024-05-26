@@ -11,6 +11,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Copyright (c) 2024 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class TensionRebarAreaSimpleSumLogic : ITensionRebarAreaLogic
@@ -32,7 +35,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
             TraceLogger?.AddMessage("Method of obtaining of summary area of rebars in tension based on ordinary summarizing of areas");
             var rebars = Rebars
-                .Where(x => stressLogic.GetTotalStrain(StrainMatrix, x) > 0d);
+                .Where(x => stressLogic.GetSectionStrain(StrainMatrix, x) > 0d);
             if (!rebars.Any())
             {
                 string errorString = ErrorStrings.DataIsInCorrect + ": Collection of rebars does not contain any tensile rebars";

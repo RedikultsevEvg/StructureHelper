@@ -50,7 +50,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             Point2D minPoint = new(), maxPoint = new();
             foreach (var item in ndmCollection)
             {
-                var strain = stressLogic.GetTotalStrain(strainMatrix, item);
+                var strain = stressLogic.GetSectionStrain(strainMatrix, item);
                 if (strain < minStrain)
                 {
                     minStrain = strain;

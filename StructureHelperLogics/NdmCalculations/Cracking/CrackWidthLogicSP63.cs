@@ -35,7 +35,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             TraceLogger?.AddMessage($"Rebar elongation Epsilon = {inputData.RebarStrain} - {inputData.ConcreteStrain} = {rebarElongation}(dimensionless)");
             double width = rebarElongation * inputData.Length;
             width *= inputData.TermFactor * inputData.BondFactor * inputData.StressStateFactor * inputData.PsiSFactor;
-            TraceLogger?.AddMessage($"Width of crack a,crc = {width}(m)");
+            TraceLogger?.AddMessage($"Width of crack a,crc = {inputData.TermFactor} * {inputData.BondFactor} * {inputData.StressStateFactor} * {inputData.PsiSFactor} * {rebarElongation} * {inputData.Length}(m) = {width}(m)");
             return width;
         }
 

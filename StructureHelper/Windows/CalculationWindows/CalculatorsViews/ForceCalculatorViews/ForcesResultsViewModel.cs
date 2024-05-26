@@ -416,7 +416,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             try
             {
                 IStrainMatrix strainMatrix = SelectedResult.LoaderResults.ForceStrainPair.StrainMatrix;
-                var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, ResultFuncFactory.GetResultFuncs());
+                var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, ForceResultFuncFactory.GetResultFuncs());
                 isoFieldReport = new IsoFieldReport(primitiveSets);
                 isoFieldReport.Show();
             }
@@ -429,7 +429,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 };
                 new ErrorMessage(vm).ShowDialog();
             }
-
         }
         private void GetNdms()
         {

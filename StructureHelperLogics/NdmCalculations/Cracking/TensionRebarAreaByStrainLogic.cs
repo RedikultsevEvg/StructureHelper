@@ -32,7 +32,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
             TraceLogger?.AddMessage("Method of obtaining of summary area of rebars in tension based on areas which are proportional by maximum strain");
             var rebars = Rebars
-                .Where(x => stressLogic.GetTotalStrain(StrainMatrix, x) > 0d);
+                .Where(x => stressLogic.GetSectionStrain(StrainMatrix, x) > 0d);
             if (!rebars.Any())
             {
                 string errorString = ErrorStrings.DataIsInCorrect + ": Collection of rebars does not contain any tensile rebars";
@@ -40,7 +40,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 throw new StructureHelperException(errorString);
             }
             var maxStrain = rebars
-                .Select(x => stressLogic.GetTotalStrain(StrainMatrix, x))
+                .Select(x => stressLogic.GetSectionStrain(StrainMatrix, x))
                 .Max();
             TraceLogger?.AddMessage($"Maximum strain maxStrain = {maxStrain}");
             if (TraceLogger is not null)
@@ -51,7 +51,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             foreach (var rebar in rebars)
             {
                 double area = rebar.Area * rebar.StressScale;
-                double strain = stressLogic.GetTotalStrain(StrainMatrix, rebar);
+                double strain = stressLogic.GetSectionStrain(StrainMatrix, rebar);
                 TraceLogger?.AddMessage($"Rebar area = {area}(m^2)");
                 TraceLogger?.AddMessage($"Rebar strain = {strain}");
                 var reducedArea = area * strain / maxStrain;

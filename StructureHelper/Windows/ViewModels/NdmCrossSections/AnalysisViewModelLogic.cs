@@ -184,7 +184,6 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
             if (SelectedItem is LimitCurvesCalculator calculator)
             {
-                var inputData = calculator.InputData;
                 ShowInteractionDiagramByInputData(calculator);
             }
             else
@@ -193,7 +192,13 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 var result = SelectedItem.Result;
                 if (result.IsValid == false)
                 {
-                    MessageBox.Show(result.Description, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    var vm = new ErrorProcessor()
+                    {
+                        ShortText = "Errors apearred during calculations, see detailed information",
+                        DetailText = SelectedItem.Result.Description
+                    };
+                    new ErrorMessage(vm).ShowDialog();
+                    return;
                 }
                 else
                 {

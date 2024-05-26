@@ -62,7 +62,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public void Run()
         {
-            GetNdms();
+            GetNdmCollectionFromPrimitives();
             result = new RebarStressResult()
             {
                 IsValid = true,
@@ -71,13 +71,13 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             var strainTuple = GetStrainTuple();
             result.StrainTuple = strainTuple;
             var strainMatrix = TupleConverter.ConvertToLoaderStrainMatrix(strainTuple);
-            result.RebarStrain = stressLogic.GetTotalStrain(strainMatrix, rebarNdm);
+            result.RebarStrain = stressLogic.GetSectionStrain(strainMatrix, rebarNdm);
             result.RebarStress = stressLogic.GetStress(strainMatrix, rebarNdm);
             result.ConcreteStrain = concreteNdm.Prestrain;
         }
 
 
-        private void GetNdms()
+        private void GetNdmCollectionFromPrimitives()
         {
             var options = new TriangulationOptions()
             {

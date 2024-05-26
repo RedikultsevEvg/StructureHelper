@@ -30,8 +30,17 @@ namespace StructureHelperCommon.Models.Materials
         {
             GetLoaderOptions();
             IBuilderDirector director = GetMaterialDirector();
-            var material = director.BuildMaterial();
-            return material;
+            try
+            {
+                var material = director.BuildMaterial();
+                return material;
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         private IBuilderDirector GetMaterialDirector()
@@ -45,7 +54,7 @@ namespace StructureHelperCommon.Models.Materials
         {
             materialOptions = new ReinforcementOptions()
             {
-                DiagramType = DiagramType
+                DiagramType = DiagramType,
             };
             optionLogic = new MaterialCommonOptionLogic(options);
             optionLogic.SetMaterialOptions(materialOptions);

@@ -6,11 +6,18 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews"
         d:DataContext="{d:DesignInstance local:CrackResultViewModel}"
         mc:Ignorable="d"
-        Title="Result of calculations of crack" Height="450" Width="800" MinHeight="300" MinWidth="600" MaxHeight="800" MaxWidth="1000">
+        Title="Result of calculations of crack" Height="450" Width="800" MinHeight="300" MinWidth="600" MaxHeight="800" MaxWidth="1000" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Windows/CalculationWindows/CalculatorsViews/Cracks/Cracks.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
-                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowRebarsCommand}" ToolTip="Show isofield results">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowRebarsCommand}" ToolTip="Show results by rebars">
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource ShowRebarsResult}"/>
                     </Viewbox>
@@ -32,13 +39,14 @@
                     <Style TargetType="DataGridRow">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsValid}" Value="false">
-                                <Setter Property="Background" Value="Pink"/>
+                                <Setter Property="Background" Value="{StaticResource ErrorColorBrush}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </DataGrid.RowStyle>
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Header="Valid" Binding="{Binding Path=IsValid}"/>
+                    <DataGridTextColumn Header="Action name" Binding="{Binding InputData.TupleName}" Width="120"/>
                     <DataGridTemplateColumn Header="Combination term" Width="120">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -98,34 +106,7 @@
                     <DataGridTemplateColumn Header="Crack width" Width="140">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding LongTermResult.CrackWidth, Converter={StaticResource LengthConverter}}">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding LongTermResult.IsCrackLessThanUltimate}" Value="false">
-                                                        <Setter Property="Background" Value="Red" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                    <TextBlock Grid.Row="1" Text="{Binding ShortTermResult.CrackWidth, Converter={StaticResource LengthConverter}}">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ShortTermResult.IsCrackLessThanUltimate}" Value="false">
-                                                        <Setter Property="Background" Value="Red" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                </Grid>
+                                <ContentControl ContentTemplate="{StaticResource CrackGrid}" Content="{Binding}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

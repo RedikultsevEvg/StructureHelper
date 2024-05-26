@@ -22,7 +22,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private List<(INamedAreaPoint areaPoint, INdmPrimitive ndmPrimitive)> pointCollection;
         private List<IForcesTupleResult> validTuplesList;
         private ArrayParameter<double> arrayOfValuesByPoint;
-        private IEnumerable<IResultFunc> selectedDelegates;
+        private IEnumerable<ForceResultFunc> selectedDelegates;
         private string exceptionMessage;
 
         public IEnumerable<IForcesTupleResult> TupleList { get; set; }
@@ -154,7 +154,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 + userPrestrain.Nz + autoPrestrain.Nz;
             return ndm;
         }
-        private List<string> GetValueLabels(IEnumerable<IResultFunc> selectedDelegates)
+        private List<string> GetValueLabels(IEnumerable<ForceResultFunc> selectedDelegates)
         {
             List<string> strings = new();
             foreach (var valuePoint in pointCollection)

@@ -24,7 +24,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 //LimitState = LimitState,
                 //CalcTerm = CalcTerm,
                 LongTermTuple = ForceTuple,
-                NdmPrimitives = ndmPrimitives
+                Primitives = ndmPrimitives
             };
             var calculator = new TupleCrackCalculator() { InputData = inputData };
             calculator.Run();

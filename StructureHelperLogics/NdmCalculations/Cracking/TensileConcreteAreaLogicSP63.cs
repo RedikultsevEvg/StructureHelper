@@ -29,7 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
 
             var rebarCollection = NdmCollection
-                .Where(x => x is RebarNdm & stressLogic.GetTotalStrain(StrainMatrix, x) > 0d);
+                .Where(x => x is RebarNdm & stressLogic.GetSectionStrain(StrainMatrix, x) > 0d);
             var rebarArea = rebarCollection.
                 Sum(x => x.Area * x.StressScale);
             TraceLogger?.AddMessage($"Summary rebar area As = {rebarArea}");

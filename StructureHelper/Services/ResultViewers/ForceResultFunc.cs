@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Services.ResultViewers
 {
-    public class ResultFunc : IResultFunc
+    public class ForceResultFunc : IResultFunc<Func<IStrainMatrix, INdm, double>>
     {
         public string Name { get; set; }
         public Func<IStrainMatrix, INdm, double> ResultFunction { get; set; }
         public string UnitName { get; set; }
         public double UnitFactor { get; set; }
 
-        public ResultFunc()
+        public ForceResultFunc()
         {
             UnitFactor = 1d;
         }

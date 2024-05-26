@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="Infrastructure/UI/Resources/IconDictionary.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/GraphsTemplates.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/LimitCurveTemplates.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/ServiceColors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
