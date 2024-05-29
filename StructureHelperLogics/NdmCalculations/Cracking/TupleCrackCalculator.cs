@@ -90,7 +90,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 longLength = GetLengthBetweenCracks(longElasticStrainTuple);
                 shortLength = GetLengthBetweenCracks(shortElasticStrainTuple);
             }
-            CalcCrackForce();
+            //CalcCrackForce();
             //for (int j = 0; j < 100000; j++)
             //{
                 result.RebarResults.Clear();

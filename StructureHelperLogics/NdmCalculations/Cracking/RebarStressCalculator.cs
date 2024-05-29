@@ -73,7 +73,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             var strainMatrix = TupleConverter.ConvertToLoaderStrainMatrix(strainTuple);
             result.RebarStrain = stressLogic.GetSectionStrain(strainMatrix, rebarNdm);
             result.RebarStress = stressLogic.GetStress(strainMatrix, rebarNdm);
-            result.ConcreteStrain = concreteNdm.Prestrain;
+            result.ConcreteStrain = - concreteNdm.Prestrain;
         }
 
 
