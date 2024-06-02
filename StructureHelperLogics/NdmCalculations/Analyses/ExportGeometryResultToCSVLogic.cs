@@ -55,7 +55,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses
                         {
                             item.Name,
                             item.ShortName,
-                            item.MeasurementUnit,
+                            item.Text,
                             item.Value.ToString(),
                             item.Description
                         };

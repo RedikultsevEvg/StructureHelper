@@ -15,6 +15,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
     /// </summary>
     public class DiagramFactory
     {
+        IConvertUnitLogic operationLogic = new ConvertUnitLogic();
+        IGetUnitLogic unitLogic = new GetUnitLogic();
         private ArrayParameter<double> arrayParameter;
         /// <summary>
         /// Collection of force results
@@ -48,9 +50,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 
         private List<double> ProcessResult(int i)
         {
-            var unitForce = CommonOperation.GetUnit(UnitTypes.Force);
-            var unitMoment = CommonOperation.GetUnit(UnitTypes.Moment);
-            var unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature);
+            var unitForce = unitLogic.GetUnit(UnitTypes.Force);
+            var unitMoment = unitLogic.GetUnit(UnitTypes.Moment);
+            var unitCurvature = unitLogic.GetUnit(UnitTypes.Curvature);
 
             return new List<double>
                 {

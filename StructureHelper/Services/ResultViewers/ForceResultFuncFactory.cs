@@ -20,10 +20,11 @@ namespace StructureHelper.Services.ResultViewers
     }
     public static class ForceResultFuncFactory
     {
-        static IUnit unitForce = CommonOperation.GetUnit(UnitTypes.Force);
-        static IUnit unitStress = CommonOperation.GetUnit(UnitTypes.Stress);
-        static IUnit unitMoment = CommonOperation.GetUnit(UnitTypes.Moment);
-        static IUnit unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature);
+        static IGetUnitLogic unitLogic = new GetUnitLogic();
+        static IUnit unitForce = unitLogic.GetUnit(UnitTypes.Force);
+        static IUnit unitStress = unitLogic.GetUnit(UnitTypes.Stress);
+        static IUnit unitMoment = unitLogic.GetUnit(UnitTypes.Moment);
+        static IUnit unitCurvature = unitLogic.GetUnit(UnitTypes.Curvature);
 
         static readonly IStressLogic stressLogic = new StressLogic();
         public static List<ForceResultFunc> GetResultFuncs(FuncsTypes funcsType = FuncsTypes.Full)

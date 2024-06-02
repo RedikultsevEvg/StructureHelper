@@ -18,6 +18,9 @@ namespace StructureHelperLogics.Services.NdmPrimitives
     {
         const string prefixInitial = "Initial";
         const string prefixActual = "Actual";
+        IConvertUnitLogic operationLogic = new ConvertUnitLogic();
+        IGetUnitLogic unitLogic = new GetUnitLogic();
+
         static string firstAxisName => ProgramSetting.GeometryNames.FstAxisName;
         static string secondAxisName => ProgramSetting.GeometryNames.SndAxisName;
         static IEnumerable<IUnit> units = UnitsFactory.GetUnitCollection();
@@ -42,7 +45,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             const string name = "Summary Area";
             const string shortName = "A";
             var parameters = new List<IValueParameter<string>>();
-            var unitArea = CommonOperation.GetUnit(UnitTypes.Area, "mm2");
+            var unitArea = unitLogic.GetUnit(UnitTypes.Area, "mm2");
             var unitName = $"{unitArea.Name}";
             var unitMultiPlayer = unitArea.Multiplyer;
             var firstParameter = new ValueParameter<string>()
@@ -50,7 +53,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 IsValid = true,
                 Name = $"{name}",
                 ShortName = $"{shortName}",
-                MeasurementUnit = unitName,
+                Text = unitName,
                 Description = $"{name} of cross-section without reduction"
             };
             try
@@ -71,8 +74,8 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             const string name = "Bending stiffness";
             const string shortName = "EI";
             var parameters = new List<IValueParameter<string>>();
-            var unitArea = CommonOperation.GetUnit(UnitTypes.Area, "mm2");
-            var unitStress = CommonOperation.GetUnit(UnitTypes.Stress, "MPa");
+            var unitArea = unitLogic.GetUnit(UnitTypes.Area, "mm2");
+            var unitStress = unitLogic.GetUnit(UnitTypes.Stress, "MPa");
             var unitName = $"{unitStress.Name} * {unitArea.Name} * {unitArea.Name}";
             var unitMultiPlayer = unitArea.Multiplyer * unitArea.Multiplyer * unitStress.Multiplyer;
             var firstParameter = new ValueParameter<string>()
@@ -80,7 +83,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 IsValid = true,
                 Name = $"{prefix} {name} {firstAxisName.ToUpper()}",
                 ShortName = $"{shortName}{firstAxisName}",
-                MeasurementUnit = unitName,
+                Text = unitName,
                 Description = $"{prefix} {name} of cross-section arbitrary {firstAxisName}-axis multiplied by {prefix} modulus"
             };
             var secondParameter = new ValueParameter<string>()
@@ -88,7 +91,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 IsValid = true,
                 Name = $"{prefix} {name} {secondAxisName}",
                 ShortName = $"{shortName}{secondAxisName}",
-                MeasurementUnit = unitName,
+                Text = unitName,
                 Description = $"{prefix} {name} of cross-section arbitrary {secondAxisName}-axis multiplied by {prefix} modulus"
             };
             try
@@ -120,7 +123,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 IsValid = true,
                 Name = $"{prefixActual}/{prefixInitial} {name} {firstAxisName.ToUpper()} ratio",
                 ShortName = $"{shortName}{firstAxisName}-ratio",
-                MeasurementUnit = "-",
+                Text = "-",
                 Description = $"{prefixActual}/{prefixInitial} {name} of cross-section arbitrary {firstAxisName}-axis ratio"
             };
             var secondParameter = new ValueParameter<string>()
@@ -128,7 +131,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 IsValid = true,
                 Name = $"{prefixActual}/{prefixInitial} {name} {secondAxisName} ratio",
                 ShortName = $"{shortName}{secondAxisName}-ratio",
-                MeasurementUnit = "-",
+                Text = "-",
                 Description = $"{prefixActual}/{prefixInitial} {name} of cross-section arbitrary {secondAxisName}-axis ratio"
             };
             try
@@ -155,8 +158,8 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             const string name = "Longitudinal stiffness";
             const string shortName = "EA";
             var parameters = new List<IValueParameter<string>>();
-            var unitArea = CommonOperation.GetUnit(UnitTypes.Area, "mm2");
-            var unitStress = CommonOperation.GetUnit(UnitTypes.Stress, "MPa");
+            var unitArea = unitLogic.GetUnit(UnitTypes.Area, "mm2");
+            var unitStress = unitLogic.GetUnit(UnitTypes.Stress, "MPa");
             var unitName = $"{unitStress.Name} * {unitArea.Name}" ;
             var unitMultiPlayer = unitArea.Multiplyer * unitStress.Multiplyer;
             var firstParameter = new ValueParameter<string>()
@@ -164,7 +167,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 IsValid = true,
                 Name = $"{prefix} {name}",
                 ShortName = $"{shortName}",
-                MeasurementUnit = unitName,
+                Text = unitName,
                 Description = $"{prefix} {name} of cross-section multiplied by {prefix} modulus"
             };
             try
@@ -190,7 +193,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 IsValid = true,
                 Name = $"{prefixActual}/{prefixInitial} {name} ratio",
                 ShortName = $"{shortName}-ratio",
-                MeasurementUnit = "-",
+                Text = "-",
                 Description = $"{prefixActual}/{prefixInitial} {name}-ratio of cross-section"
             };
             try
@@ -216,7 +219,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
         {
             var parameters = new List<IValueParameter<string>>();
             var unitType = UnitTypes.Length;
-            var unit = CommonOperation.GetUnit(unitType, "mm");
+            var unit = unitLogic.GetUnit(unitType, "mm");
             var unitName = unit.Name;
             var unitMultiPlayer = unit.Multiplyer;
             var firstParameter = new ValueParameter<string>()
@@ -224,7 +227,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 IsValid = true,
                 Name = $"{prefix} Center{firstAxisName.ToUpper()}",
                 ShortName = $"{firstAxisName.ToUpper()}c",
-                MeasurementUnit = unitName,
+                Text = unitName,
                 Description = $"{prefix} Displacement of center of gravity of cross-section along {firstAxisName}-axis"
             };
             var secondParameter = new ValueParameter<string>()
@@ -232,7 +235,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 IsValid = true,
                 Name = $"{prefix} Center{secondAxisName.ToUpper()}",
                 ShortName = $"{secondAxisName.ToUpper()}c",
-                MeasurementUnit = unitName,
+                Text = unitName,
                 Description = $"{prefix} Displacement of center of gravity of cross-section along {secondAxisName}-axis"
             };
             try

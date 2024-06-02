@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews"
         d:DataContext="{d:DesignInstance local:TupleCrackResultViewModel}"
         mc:Ignorable="d"
-        Title="{Binding WindowName}" Height="450" Width="1000" MinHeight="300" MinWidth="500" MaxHeight="1000" MaxWidth="1200" WindowStartupLocation="CenterScreen">
+        Title="{Binding WindowTitle}" Height="450" Width="900" MinHeight="300" MinWidth="500" MaxHeight="1000" MaxWidth="1400" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -51,7 +51,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Softening factor" Width="120">
+                <DataGridTemplateColumn Header="Softening factor" Width="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
@@ -59,13 +59,13 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" Text="{Binding LongTermResult.SofteningFactor, Converter={StaticResource PlainDouble}}" />
-                                <TextBlock Grid.Row="1" Text="{Binding ShortTermResult.SofteningFactor, Converter={StaticResource PlainDouble}}" />
+                                <TextBlock Grid.Row="0" Text="{Binding LongTermResult.SofteningFactor, Converter={StaticResource PlainDouble}, StringFormat=F3}" HorizontalAlignment="Right" />
+                                <TextBlock Grid.Row="1" Text="{Binding ShortTermResult.SofteningFactor, Converter={StaticResource PlainDouble}, StringFormat=F3}" HorizontalAlignment="Right" />
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Rebar stress" Width="120">
+                <DataGridTemplateColumn Header="Rebar stress" Width="80">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
@@ -73,13 +73,13 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" Text="{Binding LongTermResult.RebarStressResult.RebarStress, Converter={StaticResource StressConverter}}"/>
-                                <TextBlock Grid.Row="1" Text="{Binding ShortTermResult.RebarStressResult.RebarStress, Converter={StaticResource StressConverter}}"/>
+                                <TextBlock Grid.Row="0" Text="{Binding LongTermResult.RebarStressResult.RebarStress, Converter={StaticResource StressConverter}, ConverterParameter='Smart3'}" HorizontalAlignment="Right"/>
+                                <TextBlock Grid.Row="1" Text="{Binding ShortTermResult.RebarStressResult.RebarStress, Converter={StaticResource StressConverter}, ConverterParameter='Smart3'}" HorizontalAlignment="Right"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Rebar strain" Width="120">
+                <DataGridTemplateColumn Header="Rebar strain" Width="80">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
@@ -87,8 +87,8 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" Text="{Binding LongTermResult.RebarStressResult.RebarStrain}"/>
-                                <TextBlock Grid.Row="1" Text="{Binding ShortTermResult.RebarStressResult.RebarStrain}"/>
+                                <TextBlock Grid.Row="0" Text="{Binding LongTermResult.RebarStressResult.RebarStrain, StringFormat=F5}" HorizontalAlignment="Right"/>
+                                <TextBlock Grid.Row="1" Text="{Binding ShortTermResult.RebarStressResult.RebarStrain, StringFormat=F5}" HorizontalAlignment="Right"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -101,13 +101,13 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" Text="{Binding LongTermResult.RebarStressResult.ConcreteStrain}"/>
-                                <TextBlock Grid.Row="1" Text="{Binding ShortTermResult.RebarStressResult.ConcreteStrain}"/>
+                                <TextBlock Grid.Row="0" Text="{Binding LongTermResult.RebarStressResult.ConcreteStrain, StringFormat=F5}" HorizontalAlignment="Right"/>
+                                <TextBlock Grid.Row="1" Text="{Binding ShortTermResult.RebarStressResult.ConcreteStrain, StringFormat=F5}" HorizontalAlignment="Right"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Crack width" Width="140">
+                <DataGridTemplateColumn Header="Crack width" Width="80">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ContentControl ContentTemplate="{StaticResource CrackGrid}" Content="{Binding}"/>

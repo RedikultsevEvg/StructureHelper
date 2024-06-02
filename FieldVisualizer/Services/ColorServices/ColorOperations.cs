@@ -1,6 +1,7 @@
 ﻿using FieldVisualizer.Entities.ColorMaps;
 using FieldVisualizer.Entities.Values;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,7 @@ namespace FieldVisualizer.Services.ColorServices
     public static class ColorOperations
     {
         const byte Alpha = 0xff;
+        static IMathRoundLogic roundLogic = new SmartRoundLogic(); 
         /// <summary>
         /// 
         /// </summary>
@@ -23,15 +25,18 @@ namespace FieldVisualizer.Services.ColorServices
             var colorRanges = new List<IValueColorRange>(); 
             foreach (var valueRange in valueRanges)
             {
-                IValueColorRange valueColorRange = new ValueColorRange
+                var valueColorRange = new ValueColorRange
                 {
                     IsActive = true,
-                    BottomValue = valueRange.BottomValue,
-                    AverageValue = (valueRange.BottomValue + valueRange.TopValue) / 2,
-                    TopValue = valueRange.TopValue
                 };
-                valueColorRange.BottomColor = GetColorByValue(fullRange, colorMap, valueColorRange.BottomValue);
-                valueColorRange.TopColor = GetColorByValue(fullRange, colorMap, valueColorRange.TopValue);
+                valueColorRange.ExactValues.BottomValue = valueRange.BottomValue;
+                valueColorRange.ExactValues.AverageValue = (valueRange.BottomValue + valueRange.TopValue) / 2;
+                valueColorRange.ExactValues.TopValue = valueRange.TopValue;
+                valueColorRange.ExactValues.BottomColor = GetColorByValue(fullRange, colorMap, valueColorRange.ExactValues.BottomValue);
+                valueColorRange.ExactValues.TopColor = GetColorByValue(fullRange, colorMap, valueColorRange.ExactValues.TopValue);
+                valueColorRange.RoundedValues.BottomValue = roundLogic.RoundValue(valueColorRange.ExactValues.BottomValue);
+                valueColorRange.RoundedValues.AverageValue = roundLogic.RoundValue(valueColorRange.ExactValues.AverageValue);
+                valueColorRange.RoundedValues.TopValue = roundLogic.RoundValue(valueColorRange.ExactValues.TopValue);
                 colorRanges.Add(valueColorRange);
             }
             return colorRanges;

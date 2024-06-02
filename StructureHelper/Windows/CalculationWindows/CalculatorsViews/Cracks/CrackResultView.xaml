@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews"
         d:DataContext="{d:DesignInstance local:CrackResultViewModel}"
         mc:Ignorable="d"
-        Title="Result of calculations of crack" Height="450" Width="800" MinHeight="300" MinWidth="600" MaxHeight="800" MaxWidth="1000" WindowStartupLocation="CenterScreen">
+        Title="Result of calculations of crack" Height="450" Width="800" MinHeight="300" MinWidth="600" MaxHeight="800" MaxWidth="1000" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -55,8 +55,8 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="Long-term" />
-                                    <TextBlock Grid.Row="1" Text="Short-term" />
+                                    <TextBlock Grid.Row="0" Text="Long-term"/>
+                                    <TextBlock Grid.Row="1" Text="Short-term"/>
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -69,8 +69,8 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.Mx, Converter={StaticResource MomentConverter}}" />
-                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.Mx, Converter={StaticResource MomentConverter}}" />
+                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.Mx, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.Mx, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right" />
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -83,8 +83,8 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.My, Converter={StaticResource MomentConverter}}" />
-                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.My, Converter={StaticResource MomentConverter}}" />
+                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.My, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right"/>
+                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.My, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right" />
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -97,13 +97,13 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.Nz, Converter={StaticResource MomentConverter}}" />
-                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.Nz, Converter={StaticResource ForceConverter}}" />
+                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.Nz, Converter={StaticResource ForceConverter}}" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.Nz, Converter={StaticResource ForceConverter}}" HorizontalAlignment="Right" />
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Crack width" Width="140">
+                    <DataGridTemplateColumn Header="Crack width" Width="80">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ContentControl ContentTemplate="{StaticResource CrackGrid}" Content="{Binding}"/>

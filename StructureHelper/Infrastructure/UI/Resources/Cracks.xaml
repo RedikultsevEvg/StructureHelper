@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <DataTemplate x:Key="CrackTextBox">
-        <TextBlock Grid.Row="0" Text="{Binding CrackWidth, Converter={StaticResource LengthConverter}}">
+        <TextBlock Grid.Row="0" Text="{Binding CrackWidth, Converter={StaticResource LengthConverter}}" HorizontalAlignment="Right">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Style.Triggers>

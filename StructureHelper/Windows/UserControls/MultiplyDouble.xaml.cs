@@ -25,6 +25,7 @@ namespace StructureHelper.Windows.UserControls
     /// </summary>
     public partial class MultiplyDouble : UserControl
     {
+        IConvertUnitLogic operationLogic = new ConvertUnitLogic();
         public event EventHandler ValueChanged;
 
         public MultiplyDouble()
@@ -40,7 +41,7 @@ namespace StructureHelper.Windows.UserControls
                 try
                 {
                     string s = (string)o;
-                    double factor = CommonOperation.ConvertToDoubleChangeComma(s);
+                    double factor = ProcessString.ConvertCommaToCultureSettings(s);
                     ChangeValue(factor);
                 }
                 catch(Exception ex)

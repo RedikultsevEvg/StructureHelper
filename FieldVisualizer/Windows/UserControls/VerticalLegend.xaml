@@ -20,23 +20,23 @@
                                 <ColumnDefinition Width="10"/>
                             </Grid.ColumnDefinitions>
                             <CheckBox Name="ActiveCheckBox" Grid.Column="0" IsChecked="{Binding Path=IsActive}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Rectangle Grid.Column="1"  Margin="0,2,0,2" ToolTip="{Binding Path=BottomValue}">
+                            <Rectangle Grid.Column="1"  Margin="0,2,0,2" ToolTip="{Binding Path=RoundedValues.BottomValue}">
                                 <Rectangle.Fill>
-                                    <SolidColorBrush Color="{Binding Path=BottomColor}"/>
+                                    <SolidColorBrush Color="{Binding Path=ExactValues.BottomColor}"/>
                                 </Rectangle.Fill>
                             </Rectangle>
                             <Rectangle Grid.Column="2"  Margin="0,2,0,2">
                                 <Rectangle.Fill>
                                     <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                        <GradientStop Color="{Binding Path=BottomColor}"/>
-                                        <GradientStop Color="{Binding Path=TopColor}" Offset="1"/>
+                                        <GradientStop Color="{Binding Path=ExactValues.BottomColor}"/>
+                                        <GradientStop Color="{Binding Path=ExactValues.TopColor}" Offset="1"/>
                                     </LinearGradientBrush>
                                 </Rectangle.Fill>
                             </Rectangle>
-                            <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF868686" Text="{Binding AverageValue}"/>
-                            <Rectangle Grid.Column="3" Margin="0,2,0,2" ToolTip="{Binding Path=TopValue}">
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF868686" Text="{Binding RoundedValues.AverageValue}"/>
+                            <Rectangle Grid.Column="3" Margin="0,2,0,2" ToolTip="{Binding Path=RoundedValues.TopValue}">
                                 <Rectangle.Fill>
-                                    <SolidColorBrush Color="{Binding Path=TopColor}"/>
+                                    <SolidColorBrush Color="{Binding Path=ExactValues.TopColor}"/>
                                 </Rectangle.Fill>
                             </Rectangle>
                         </Grid>

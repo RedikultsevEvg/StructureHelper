@@ -5,6 +5,7 @@ using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.ResultData;
 using LoaderCalculator.Logics;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using System;
@@ -17,6 +18,7 @@ namespace StructureHelper.Services.ResultViewers
 {
     public static class ShowIsoFieldResult
     {
+        static IMathRoundLogic roundLogic = new SmartRoundLogic() { DigitQuant = 3 };
         public static void ShowResult(IStrainMatrix strainMatrix, IEnumerable<INdm> ndms, IEnumerable<ForceResultFunc> resultFuncs)
         {
             var primitiveSets = GetPrimitiveSets(strainMatrix, ndms, resultFuncs);
@@ -59,7 +61,9 @@ namespace StructureHelper.Services.ResultViewers
 
         private static IValuePrimitive ProcessNdm(CrackResultFunc valDelegate, RebarCrackResult rebarResult)
         {
-            var val = valDelegate.ResultFunction.Invoke(rebarResult) * valDelegate.UnitFactor;
+            double delegateResult = valDelegate.ResultFunction.Invoke(rebarResult);
+            var val = delegateResult * valDelegate.UnitFactor;
+            //val = roundLogic.RoundValue(val);
             IValuePrimitive valuePrimitive;
             var rebarNdm = rebarResult.RebarPrimitive.GetRebarNdm(new TriangulationOptions()
             {
@@ -73,7 +77,9 @@ namespace StructureHelper.Services.ResultViewers
 
         private static IValuePrimitive ProcessNdm(IStrainMatrix strainMatrix, ForceResultFunc valDelegate, INdm ndm)
         {
-            double val = valDelegate.ResultFunction.Invoke(strainMatrix, ndm) * valDelegate.UnitFactor;
+            double delegateResult = valDelegate.ResultFunction.Invoke(strainMatrix, ndm);
+            double val = delegateResult * valDelegate.UnitFactor;
+            //val = roundLogic.RoundValue(val);
             IValuePrimitive valuePrimitive;
             if (ndm is IRectangleNdm shapeNdm)
             {

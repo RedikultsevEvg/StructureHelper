@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperCommon.Services.Units
+namespace StructureHelperCommon.Models.Parameters
 {
-    internal class StringDoublePair : IStringDoublePair
+    /// <inheritdoc/>
+    public class ValuePair<T> : IValuePair<T>
     {
-        public double Digit { get; set; }
         public string Text { get; set; }
+        public T Value { get; set; }
     }
 }

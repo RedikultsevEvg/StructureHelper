@@ -21,6 +21,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 {
     internal class CrackDiagramLogic : ILongProcessLogic
     {
+        static IConvertUnitLogic operationLogic = new ConvertUnitLogic();
+        static IGetUnitLogic unitLogic = new GetUnitLogic();
         static readonly CrackForceCalculator calculator = new();
         private ITriangulatePrimitiveLogic triangulateLogic;
 
@@ -67,9 +69,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
             arrayParameter = new ArrayParameter<double>(ValidTupleList.Count(), labels);
             CalculateWithCrack(ValidTupleList,
                 NdmPrimitives,
-                CommonOperation.GetUnit(UnitTypes.Force),
-                CommonOperation.GetUnit(UnitTypes.Moment),
-                CommonOperation.GetUnit(UnitTypes.Curvature));
+                unitLogic.GetUnit(UnitTypes.Force),
+                unitLogic.GetUnit(UnitTypes.Moment),
+                unitLogic.GetUnit(UnitTypes.Curvature));
         }
 
         public void ShowWindow()
@@ -152,7 +154,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
             const string crc = "Crc";
             const string crcFactor = "CrcSofteningFactor";
             var labels = LabelsFactory.GetCommonLabels();
-            IUnit unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature);
+            IUnit unitCurvature = unitLogic.GetUnit(UnitTypes.Curvature);
             var crclabels = new List<string>
             {
                 $"{crc}{GeometryNames.CurvFstName}, {unitCurvature.Name}",

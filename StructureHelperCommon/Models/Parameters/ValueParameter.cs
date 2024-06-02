@@ -13,7 +13,7 @@ namespace StructureHelperCommon.Models.Parameters
         public string Name { get; set; }
         public string ShortName { get; set; }
         public Color Color { get; set; }
-        public string MeasurementUnit { get; set; }
+        public string Text { get; set; }
         public T Value { get; set; }
         public string Description { get; set; }
     }

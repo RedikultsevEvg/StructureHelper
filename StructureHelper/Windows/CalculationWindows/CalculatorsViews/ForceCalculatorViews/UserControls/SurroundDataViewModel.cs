@@ -21,7 +21,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
     {
         const string ForceUnitString = "kN";
         const string MomentUnitString = "kNm";
-
+        static IConvertUnitLogic operationLogic = new ConvertUnitLogic();
+        static IGetUnitLogic unitLogic = new GetUnitLogic();
         public SurroundData SurroundData
         {
             get => surroundData; set
@@ -47,8 +48,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             OnPropertyChanged(nameof(ZUnitLabel));
         }
 
-        private static readonly IUnit unitForce = CommonOperation.GetUnit(UnitTypes.Force, ForceUnitString);
-        private static readonly IUnit unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, MomentUnitString);
+        private static IUnit unitForce = unitLogic.GetUnit(UnitTypes.Force, ForceUnitString);
+        private static IUnit unitMoment = unitLogic.GetUnit(UnitTypes.Moment, MomentUnitString);
         private SurroundData surroundData;
 
         public IValueConverter ForceConverter { get => new Force(); }

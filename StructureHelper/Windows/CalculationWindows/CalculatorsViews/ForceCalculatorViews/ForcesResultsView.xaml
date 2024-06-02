@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
         d:DataContext="{d:DesignInstance local:ForcesResultsViewModel}"
         mc:Ignorable="d"
-        Title="Calculation Results" Height="350" Width="850" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen">
+        Title="Calculation Results" Height="350" Width="850" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>

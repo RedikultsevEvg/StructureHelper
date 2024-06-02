@@ -14,7 +14,7 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
     internal class Area : UnitBase
     {
         public override UnitTypes UnitType { get => UnitTypes.Area; }
-        public override IUnit CurrentUnit { get => CommonOperation.GetUnit(UnitType, "mm2"); }
+        public override IUnit CurrentUnit { get => UnitLogic.GetUnit(UnitType, "mm2"); }
         public override string UnitName { get => "Area"; }
     }
 }

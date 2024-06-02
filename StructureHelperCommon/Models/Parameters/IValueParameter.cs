@@ -7,14 +7,12 @@ using System.Windows.Media;
 
 namespace StructureHelperCommon.Models.Parameters
 {
-    public interface IValueParameter<T>
+    public interface IValueParameter<T> : IValuePair<T>
     {
         bool IsValid { get; set; }
         string Name { get; set; }
         string ShortName { get; set; }
         Color Color { get; set; }
-        string MeasurementUnit { get; set; }
-        T Value { get; set; }
         string Description { get; set; }
     }
 }

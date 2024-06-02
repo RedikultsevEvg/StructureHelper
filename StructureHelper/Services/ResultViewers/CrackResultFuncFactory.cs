@@ -12,8 +12,11 @@ namespace StructureHelper.Services.ResultViewers
     
     public static class CrackResultFuncFactory
     {
-        static IUnit unitStress = CommonOperation.GetUnit(UnitTypes.Stress);
-        static IUnit unitLength = CommonOperation.GetUnit(UnitTypes.Length, "mm");
+        private static readonly IConvertUnitLogic operationLogic = new ConvertUnitLogic();
+        private static readonly IGetUnitLogic UnitLogic = new GetUnitLogic();
+
+        static IUnit unitStress = UnitLogic.GetUnit(UnitTypes.Stress);
+        static IUnit unitLength = UnitLogic.GetUnit(UnitTypes.Length, "mm");
 
         public static List<CrackResultFunc> GetResultFuncs()
         {

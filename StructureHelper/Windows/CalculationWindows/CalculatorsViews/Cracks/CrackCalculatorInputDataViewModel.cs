@@ -14,12 +14,25 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 {
     public class CrackCalculatorInputDataViewModel : OkCancelViewModelBase
     {
+        private CrackCalculator calculator;
         CrackInputData crackInputData;
         private bool setUserValueSofteningFactor;
         private double softeningFactor;
+        private string name;
 
         public SourceTargetVM<IForceAction> CombinationViewModel { get; }
         public SourceTargetVM<PrimitiveBase> PrimitivesViewModel { get; private set; }
+        public string WindowTitle => "Crack calculator: " + Name;
+        public string Name
+        {
+            get => calculator.Name;
+            set
+            {
+                calculator.Name = value;
+                OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(WindowTitle));
+            }
+        }
         public bool SetSofteningFactor
         {
             get => crackInputData.UserCrackInputData.SetSofteningFactor;
@@ -78,7 +91,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 
         public CrackCalculatorInputDataViewModel(IEnumerable<INdmPrimitive> allowedPrimitives, IEnumerable<IForceAction> allowedCombinations, CrackCalculator crackCalculator)
         {
-            crackInputData = crackCalculator.InputData;
+            calculator = crackCalculator;
+            crackInputData = calculator.InputData;
             CombinationViewModel = SourceTargetFactory.GetSourceTargetVM(allowedCombinations, crackInputData.ForceActions);
             PrimitivesViewModel = SourceTargetFactory.GetSourceTargetVM(allowedPrimitives, crackInputData.Primitives);
         }
