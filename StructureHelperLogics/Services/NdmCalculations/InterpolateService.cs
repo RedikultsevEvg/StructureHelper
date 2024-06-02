@@ -1,40 +1,44 @@
 ﻿using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Sections;
 using StructureHelperCommon.Services.Forces;
-using StructureHelperCommon.Services.Sections;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Services.NdmCalculations
 {
     public static class InterpolateService
     {
-        public static IForceCalculator InterpolateForceCalculator(IForceCalculator source, IDesignForceTuple finishDesignForce,IDesignForceTuple startDesignForce, int stepCount)
+        static readonly CompressedMemberUpdateStrategy compressedMemberUpdateStrategy = new();
+        public static ForceCalculator InterpolateForceCalculator(IForceCalculator source, InterpolateTuplesResult interpolateTuplesResult)
         {
-            IForceCalculator calculator = new ForceCalculator();
+            ForceCalculator calculator = new ForceCalculator();
             calculator.LimitStatesList.Clear();
-            calculator.LimitStatesList.Add(finishDesignForce.LimitState);
+            calculator.LimitStatesList.Add(interpolateTuplesResult.StartTuple.LimitState);
             calculator.CalcTermsList.Clear();
-            calculator.CalcTermsList.Add(finishDesignForce.CalcTerm);
-            CompressedMemberServices.CopyProperties(source.CompressedMember, calculator.CompressedMember);
+            calculator.CalcTermsList.Add(interpolateTuplesResult.FinishTuple.CalcTerm);
+            compressedMemberUpdateStrategy.Update(calculator.CompressedMember, source.CompressedMember);
             calculator.Accuracy = source.Accuracy;
             calculator.Primitives.AddRange(source.Primitives);
-            calculator.ForceCombinationLists.Clear();
-            var combination = new ForceCombinationList()
+            calculator.ForceActions.Clear();
+            var forceTuples = ForceTupleService.InterpolateDesignTuple(interpolateTuplesResult.FinishTuple, interpolateTuplesResult.StartTuple, interpolateTuplesResult.StepCount);
+            foreach (var forceTuple in forceTuples)
             {
-                Name = "New combination",
-                SetInGravityCenter = false
-            };
-            combination.DesignForces.Clear();
-            combination.DesignForces.AddRange(ForceTupleService.InterpolateDesignTuple(finishDesignForce, startDesignForce, stepCount));
-            combination.ForcePoint.X = 0;
-            combination.ForcePoint.Y = 0;
-            calculator.ForceCombinationLists.Add(combination);
+                var combination = new ForceCombinationList()
+                {
+                    Name = "New combination",
+                    SetInGravityCenter = false
+                };
+                combination.DesignForces.Clear();
+                combination.DesignForces.Add(forceTuple);
+                combination.ForcePoint.X = 0;
+                combination.ForcePoint.Y = 0;
+                calculator.ForceActions.Add(combination);
+            }
             return calculator;
+        }
+
+        public static IForceCalculator InterpolateForceCalculator(IForceCalculator forceCalculator, IDesignForceTuple finishDesignTuple, object startDesignTuple, object stepCount)
+        {
+            throw new NotImplementedException();
         }
     }
 }

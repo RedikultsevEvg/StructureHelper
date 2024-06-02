@@ -25,6 +25,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public ForceCalculatorView(ForceCalculatorViewModel _forceCalculatorViewModel)
         {
             viewModel = _forceCalculatorViewModel;
+            viewModel.ParentWindow = this;
             DataContext = viewModel;
             InitializeComponent();
         }

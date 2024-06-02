@@ -1,7 +1,8 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
+﻿using LoaderCalculator.Data.Materials;
+using StructureHelper.Models.Materials;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperLogics.Models.Primitives;
+using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
@@ -9,34 +10,26 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
     /// <summary>
     /// 
     /// </summary>
-    public class PointTriangulationLogicOptions : IPointTriangulationLogicOptions
+    public class PointTriangulationLogicOptions : ITriangulationLogicOptions
     {
+        public ITriangulationOptions triangulationOptions { get; set; }
         /// <summary>
         /// 
         /// </summary>
         public IPoint2D Center { get; }
         /// <inheritdoc />
         public double Area { get; }
-        /// <inheritdoc />
-        public double PrestrainKx { get; }
-        /// <inheritdoc />
-        public double PrestrainKy { get; }
-        /// <inheritdoc />
-        public double PrestrainEpsZ { get; }
+        public StrainTuple Prestrain { get; set; }
+        public IHeadMaterial HeadMaterial { get; set; }
 
-        public PointTriangulationLogicOptions(IPoint2D center, double area)
-        {
-            Center = center;
-            Area = area;
-        }
+        /// <inheritdoc />
 
         public PointTriangulationLogicOptions(IPointPrimitive primitive)
         {
-            Center = new Point2D() { X = primitive.CenterX, Y = primitive.CenterY };
+            Center = primitive.Center.Clone() as Point2D;
             Area = primitive.Area;
-            PrestrainKx = primitive.UsersPrestrain.Kx + primitive.AutoPrestrain.Kx;
-            PrestrainKy = primitive.UsersPrestrain.Ky + primitive.AutoPrestrain.Ky;
-            PrestrainEpsZ = primitive.UsersPrestrain.EpsZ + primitive.AutoPrestrain.EpsZ;
+            HeadMaterial = primitive.HeadMaterial;
+            Prestrain = ForceTupleService.SumTuples(primitive.UsersPrestrain, primitive.AutoPrestrain) as StrainTuple;
         }
     }
 }

@@ -6,30 +6,14 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.PrimitivePropertiesWindow"
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.PrimitiveProperties"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance vm:SelectPrimitivesViewModel}"
-        Title="Select Primitives" Height="250" Width="250" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        d:DataContext="{d:DesignInstance local:SelectPrimitivesViewModel}"
+        Title="Select Primitives" Height="250" Width="250" MinHeight="250" MinWidth="250" MaxHeight="500" MaxWidth="500" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <ListBox ItemsSource="{Binding Items.CollectionItems}" SelectedItem="Items.SelectedItem">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="22"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <CheckBox IsChecked="{Binding IsSelected}"/>
-                        <ContentControl Grid.Column="1" ContentTemplate="{StaticResource ColoredItemTemplate}" Content="{Binding Item}"/>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Style="{StaticResource CancelButton}"/>
-            <Button Style="{StaticResource OkButton}" Click="Button_Click"/>
-        </StackPanel>
+        <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding Items}"/>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

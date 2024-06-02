@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="StructureHelper.Windows.UserControls.MultiplyDouble"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StructureHelper.Windows.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="25" d:DesignWidth="120">
+    <Grid x:Name="ButtonGrid" Opacity="0.1">
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="UIElement.MouseEnter" SourceName="ButtonGrid">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="ButtonGrid"
+                                         Storyboard.TargetProperty="Opacity"
+                                         To="1.0" Duration="0:0:0.5" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="UIElement.MouseLeave" SourceName="ButtonGrid">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="ButtonGrid"
+                                         Storyboard.TargetProperty="Opacity"
+                                         To="0.1" Duration="0:0:5.0" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="MultyM1_2" Grid.Column="0" Content="*-1" Click="MultyM1_2_Click"/>
+        <Button x:Name="Multy0_0" Grid.Column="1" Content="*0" Click="Multy0_Click"/>
+        <Button x:Name="Multy0_5" Grid.Column="2" Content="*0.5" Click="Multy0_5_Click"/>
+        <Button x:Name="Multy2_0" Grid.Column="3" Content="*2.0"  Click="Multy2_0_Click"/>
+        <!--<Grid.ToolTip>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="MultyM1_2" Grid.Column="1" Content="*(-1)"  Click="MultyM1_2_Click"/>
+                <Button x:Name="Multy02" Grid.Column="1" Content="*0"  Click="Multy0_Click"/>
+                <Button x:Name="Multy0_12" Grid.Column="1" Content="*0.1"  Click="Multy0_12_Click"/>
+                <Button x:Name="Multy0_52" Grid.Column="0" Content="*0.5" Click="Multy0_5_Click"/>
+                <Button x:Name="Multy2_02" Grid.Column="1" Content="*2.0"  Click="Multy2_0_Click"/>
+                <Button x:Name="Multy10_02" Grid.Column="1" Content="*10.0"  Click="Multy10_02_Click"/>
+            </StackPanel>
+        </Grid.ToolTip>-->
+    </Grid>
+</UserControl>

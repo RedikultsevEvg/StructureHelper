@@ -1,35 +1,34 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Models.Materials;
-using StructureHelper.Windows.ColorPickerWindow;
 using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelper.Windows.ViewModels.NdmCrossSections;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.ColorServices;
-using StructureHelperLogics.Models.Materials;
+using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Xml.Linq;
 using PointViewPrimitive = StructureHelper.Infrastructure.UI.DataContexts.PointViewPrimitive;
 using RectangleViewPrimitive = StructureHelper.Infrastructure.UI.DataContexts.RectangleViewPrimitive;
 
 namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
 {
-    public class PrimitivePropertiesViewModel : ViewModelBase, IDataErrorInfo
+    public class PrimitivePropertiesViewModel : OkCancelViewModelBase, IDataErrorInfo
     {
         private PrimitiveBase primitive;
-        private IHasHeadMaterials hasHeadMaterials;
+        private ICrossSectionRepository sectionRepository;
 
         public ICommand EditColorCommand { get; private set; }
         public ICommand EditMaterialCommand { get; private set; }
 
         public ObservableCollection<IHeadMaterial> HeadMaterials { get; private set; }
+        public ObservableCollection<PrimitiveBase> HostPrimitives { get; private set; }
 
         public string Name
         {
@@ -53,7 +52,42 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 }
             }
         }
-
+        public PrimitiveBase? HostPrimitive
+        {
+            get
+            {
+                if (primitive is not IHasHostPrimitive)
+                {
+                    return null;
+                }
+                else 
+                {
+                    var sPrimitive = ((IHasHostPrimitive)primitive).HostPrimitive;
+                    if (sPrimitive is null) { return null; }
+                    foreach (var item in HostPrimitives)
+                    {
+                        if (item.GetNdmPrimitive() == sPrimitive)
+                        {
+                            return item;
+                        }
+                    }
+                    return null;
+                }
+            }
+            set
+            {
+                if (value is not null)
+                {
+                    if (primitive is IHasHostPrimitive)
+                    {
+                        var sPrimitive = value.GetNdmPrimitive();
+                        ((IHasHostPrimitive)primitive).HostPrimitive = sPrimitive;
+                        OnPropertyChanged(nameof(HostPrimitive));
+                    }
+                    else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $", Actual type: {value.GetType()}");
+                }
+            }
+        }
         public double CenterX
         {
             get => primitive.CenterX;
@@ -73,7 +107,15 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 OnPropertyChanged(nameof(CenterY));
             }
         }
-
+        public bool Triangulate
+        {
+            get { return primitive.Triangulate; }
+            set
+            {
+                primitive.Triangulate = value;
+                OnPropertyChanged(nameof(Triangulate));
+            }
+        }
         public double PrestrainKx
         {
             get => primitive.PrestrainKx;
@@ -94,25 +136,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
         public double AutoPrestrainKy => primitive.AutoPrestrainKy;
         public double AutoPrestrainEpsZ => primitive.AutoPrestrainEpsZ;
 
-        public int MinElementDivision
-        {
-            get => (primitive as IHasDivision).NdmMinDivision;
-            set
-            {
-                (primitive as IHasDivision).NdmMinDivision = value; 
-                OnPropertyChanged(nameof(MinElementDivision));
-            }
-        }
-
-        public double MaxElementSize
-        {
-            get => (primitive as IHasDivision).NdmMaxSize;
-            set
-            {
-                (primitive as IHasDivision).NdmMaxSize = value;
-                OnPropertyChanged(nameof(MaxElementSize));
-            }
-        }
+        public HasDivisionViewModel DivisionViewModel => primitive.DivisionViewModel;
 
         public double Width
         {
@@ -135,7 +159,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 CenterX = CenterX;
             }
         }
-
         public double Height
         {
             get
@@ -157,7 +180,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 CenterY = CenterY; ;
             }
     }
-
         public double Area
         {
             get
@@ -180,7 +202,28 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 }
             }
         }
-
+        public double Diameter
+        {
+            get
+            {
+                if (primitive is CircleViewPrimitive)
+                {
+                    var shape = primitive as CircleViewPrimitive;
+                    return shape.Diameter;
+                }
+                return 0d;
+            }
+            set
+            {
+                if (primitive is CircleViewPrimitive)
+                {
+                    var shape = primitive as CircleViewPrimitive;
+                    shape.Diameter = value;
+                    OnPropertyChanged(nameof(Area));
+                    OnPropertyChanged(nameof(shape.Diameter));
+                }
+            }
+        }
         public Color Color
         {
             get => primitive.Color;
@@ -190,7 +233,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 OnPropertyChanged(nameof(Color));
             }
         }
-
         public bool SetMaterialColor
         {
             get => primitive.SetMaterialColor;
@@ -201,7 +243,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 OnPropertyChanged(nameof(SetMaterialColor));
             }
         }
-
         public int ZIndex
         {   get => primitive.ZIndex;
             set
@@ -209,7 +250,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 primitive.ZIndex = value;
             }
         }
-
         public bool IsVisible
         {
             get => primitive.IsVisible;
@@ -219,7 +259,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 OnPropertyChanged(nameof(IsVisible));
             }
         }
-
         public double Opacity
         {
             get => primitive.Opacity * 100d;
@@ -231,7 +270,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 OnPropertyChanged(nameof(Opacity));
             }
         }
-
         public string this[string columnName]
         {
             get
@@ -253,23 +291,54 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
 
         public string Error => throw new NotImplementedException();
 
-        public PrimitivePropertiesViewModel(PrimitiveBase primitive, IHasHeadMaterials hasHeadMaterials)
+        public PrimitivePropertiesViewModel(PrimitiveBase primitive, ICrossSectionRepository sectionRepository)
         {
             this.primitive = primitive;
-            this.hasHeadMaterials = hasHeadMaterials;
+            this.sectionRepository = sectionRepository;
             HeadMaterials = new ObservableCollection<IHeadMaterial>();
-            foreach (var material in hasHeadMaterials.HeadMaterials)
+            foreach (var material in sectionRepository.HeadMaterials)
             {
                 HeadMaterials.Add(material);
             }
             EditColorCommand = new RelayCommand(o => EditColor(), o => !SetMaterialColor);
             EditMaterialCommand = new RelayCommand(o => EditMaterial());
+            HostPrimitives = new ObservableCollection<PrimitiveBase>();
+            foreach (var item in sectionRepository.Primitives)
+            {
+                if (item is RectanglePrimitive || item is CirclePrimitive)
+                {
+                    CheckHost(primitive, item);
+                    HostPrimitives.Add(PrimitiveOperations.ConvertNdmPrimitiveToPrimitiveBase(item));
+                }
+            }
+        }
 
+        private void CheckHost(PrimitiveBase primitive, INdmPrimitive item)
+        {
+            var ndm = primitive.GetNdmPrimitive();
+            if (ndm is RebarPrimitive)
+            {
+                var host = item as IHasDivisionSize;
+                var reinforcement = ndm as RebarPrimitive;
+                if (host.IsPointInside(new Point2D() { X = reinforcement.Center.X, Y = reinforcement.Center.Y })
+                    && reinforcement.HostPrimitive is null)
+                {
+                    var dialogResult = MessageBox.Show($"Primitive {reinforcement.Name} is inside primitive {item.Name}",
+                        "Assign new host?", 
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        reinforcement.HostPrimitive = item;
+                    }
+                }
+
+            }
         }
 
         private void EditMaterial()
         {
-            var wnd = new HeadMaterialsView(hasHeadMaterials);
+            var wnd = new HeadMaterialsView(sectionRepository);
             wnd.ShowDialog();
         }
 

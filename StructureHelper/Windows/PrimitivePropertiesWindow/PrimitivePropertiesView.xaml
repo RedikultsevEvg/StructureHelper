@@ -28,6 +28,21 @@
                 </Grid>
             </Expander>
         </DataTemplate>
+        <DataTemplate x:Key="CircleProperties">
+            <Expander Header="Circle" IsExpanded="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="22"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Text="Diameter"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Diameter, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                </Grid>
+            </Expander>
+        </DataTemplate>
         <DataTemplate x:Key="PointProperties">
             <Expander Header="Point" IsExpanded="True">
                 <Grid>
@@ -43,10 +58,42 @@
                 </Grid>
             </Expander>
         </DataTemplate>
+        <DataTemplate x:Key="ReinforcementProperties">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Text="Host"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HostPrimitives}" SelectedItem="{Binding HostPrimitive}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Column="0" Margin="3">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{Binding Color}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+        </DataTemplate>
         <DataTemplate x:Key="TriangulationProperties">
-            <Expander Header="Triangulation" IsExpanded="False">
+            <Expander Header="Triangulation" DataContext="{Binding DivisionViewModel}" IsExpanded="False">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
                         <RowDefinition Height="22"/>
                         <RowDefinition Height="22"/>
                     </Grid.RowDefinitions>
@@ -56,125 +103,137 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0" Text="Minimum element division"/>
                     <TextBlock Grid.Row="1" Text="Maximum element size"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding MinElementDivision, ValidatesOnExceptions=True}"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding MaxElementSize, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                    <TextBlock Grid.Row="2" Text="Clear underlying"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding NdmMinDivision, ValidatesOnExceptions=True}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding NdmMaxSize, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding ClearUnderlying}"/>
                 </Grid>
             </Expander>
         </DataTemplate>
     </Window.Resources>
-    <TabControl>
-        <TabItem Header="Main">
-            <ScrollViewer>
-                <StackPanel x:Name="StpProperties">
-                    <Expander Header="Common properties" IsExpanded="True">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="0" Text="Name"/>
-                            <TextBlock Grid.Row="1" Text="Name of material"/>
-                            <TextBlock Grid.Row="2" Text="Center X"/>
-                            <TextBlock Grid.Row="3" Text="Center Y"/>
-                            <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Name}"/>
-                            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding PrimitiveMaterial}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="20"/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <Rectangle Grid.Column="0" Margin="3">
-                                                <Rectangle.Fill>
-                                                    <SolidColorBrush Color="{Binding Color}"/>
-                                                </Rectangle.Fill>
-                                            </Rectangle>
-                                            <TextBlock Grid.Column="1" Text="{Binding Name}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding CenterX, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
-                            <TextBox Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding CenterY, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
-                        </Grid>
-                    </Expander>
-                    <Expander Header="Prestrain" IsExpanded="False">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="1" Text="User's / Auto" HorizontalAlignment="Center"/>
-                            <TextBlock Grid.Row="1" Text="k_x"/>
-                            <TextBlock Grid.Row="3" Text="k_y"/>
-                            <TextBlock Grid.Row="5" Text="epsilon_z"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding PrestrainKx, Converter={StaticResource Curvature}, ValidatesOnDataErrors=True}"/>
-                            <TextBox Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding PrestrainKy, Converter={StaticResource Curvature}, ValidatesOnDataErrors=True}"/>
-                            <TextBox Grid.Row="5" Grid.Column="1" Margin="1" Text="{Binding PrestrainEpsZ, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" Margin="1" IsEnabled="False" Text="{Binding AutoPrestrainKx, Converter={StaticResource Curvature}, Mode=OneWay}"/>
-                            <TextBox Grid.Row="4" Grid.Column="1" Margin="1" IsEnabled="False" Text="{Binding AutoPrestrainKy, Converter={StaticResource Curvature}, Mode=OneWay}"/>
-                            <TextBox Grid.Row="6" Grid.Column="1" Margin="1" IsEnabled="False" Text="{Binding AutoPrestrainEpsZ, Converter={StaticResource PlainDouble}, Mode=OneWay}"/>
-                        </Grid>
-                    </Expander>
-                </StackPanel>
-            </ScrollViewer>
-        </TabItem>
-        <TabItem Header="Visual">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="22"/>
-                    <RowDefinition Height="22"/>
-                    <RowDefinition Height="22"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="22"/>
-                    <RowDefinition Height="22"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Text="Visible"/>
-                <TextBlock Grid.Row="1" Text="Material color"/>
-                <TextBlock Grid.Row="2" Text="Z-index (integer)"/>
-                <TextBlock Grid.Row="3" Text="Opacity"/>
-                <CheckBox Grid.Column="1" IsChecked="{Binding IsVisible}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <CheckBox IsChecked="{Binding SetMaterialColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,20,0"/>
-                    <Rectangle Width="50" Margin="5,0,10,0">
-                        <Rectangle.Fill>
-                            <SolidColorBrush Color="{Binding Color}"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Button Width="50" Content="..." Command="{Binding EditColorCommand}"/>
-                </StackPanel>
-                <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding ZIndex}"/>
-                <Grid Grid.Row="3" Grid.Column="1">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header="Main">
+                <ScrollViewer>
+                    <StackPanel x:Name="StpProperties">
+                        <Expander Header="Common properties" IsExpanded="True">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Row="0" Text="Name"/>
+                                <TextBlock Grid.Row="1" Text="Name of material"/>
+                                <TextBlock Grid.Row="2" Text="Center X"/>
+                                <TextBlock Grid.Row="3" Text="Center Y"/>
+                                <TextBlock Grid.Row="4" Text="Triangulate"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Name}"/>
+                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding PrimitiveMaterial}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="20"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Rectangle Grid.Column="0" Margin="3">
+                                                    <Rectangle.Fill>
+                                                        <SolidColorBrush Color="{Binding Color}"/>
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
+                                                <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding CenterX, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding CenterY, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                                <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding Triangulate}"/>
+                            </Grid>
+                        </Expander>
+                        <Expander Header="Prestrain" IsExpanded="False">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="User's / Auto" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Row="1" Text="k_x"/>
+                                <TextBlock Grid.Row="3" Text="k_y"/>
+                                <TextBlock Grid.Row="5" Text="epsilon_z"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding PrestrainKx, Converter={StaticResource Curvature}, ValidatesOnDataErrors=True}"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding PrestrainKy, Converter={StaticResource Curvature}, ValidatesOnDataErrors=True}"/>
+                                <TextBox Grid.Row="5" Grid.Column="1" Margin="1" Text="{Binding PrestrainEpsZ, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" Margin="1" IsEnabled="False" Text="{Binding AutoPrestrainKx, Converter={StaticResource Curvature}, Mode=OneWay}"/>
+                                <TextBox Grid.Row="4" Grid.Column="1" Margin="1" IsEnabled="False" Text="{Binding AutoPrestrainKy, Converter={StaticResource Curvature}, Mode=OneWay}"/>
+                                <TextBox Grid.Row="6" Grid.Column="1" Margin="1" IsEnabled="False" Text="{Binding AutoPrestrainEpsZ, Converter={StaticResource PlainDouble}, Mode=OneWay}"/>
+                            </Grid>
+                        </Expander>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Visual">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="100"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Text="{Binding Opacity, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}" Margin="5"/>
-                    <Slider Grid.Column="1" Value="{Binding Opacity}" Maximum="100" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True" Margin="2"/>
+                    <TextBlock Grid.Row="0" Text="Visible"/>
+                    <TextBlock Grid.Row="1" Text="Material color"/>
+                    <TextBlock Grid.Row="2" Text="Z-index (integer)"/>
+                    <TextBlock Grid.Row="3" Text="Opacity"/>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding IsVisible}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <CheckBox IsChecked="{Binding SetMaterialColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                        <Rectangle Width="50" Margin="5,0,10,0">
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="{Binding Color}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Button Width="50" Content="..." Command="{Binding EditColorCommand}"/>
+                    </StackPanel>
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding ZIndex}"/>
+                    <Grid Grid.Row="3" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Opacity, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}" Margin="5"/>
+                        <Slider Grid.Column="1" Value="{Binding Opacity}" Maximum="100" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True" Margin="2"/>
+                    </Grid>
                 </Grid>
-
-            </Grid>
-        </TabItem>
-    </TabControl>
+            </TabItem>
+        </TabControl>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+    
     
 </Window>

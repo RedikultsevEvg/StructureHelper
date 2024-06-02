@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using StructureHelperCommon.Models.Calculators;
+using System.Collections.Generic;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public interface IForcesResults : INdmResult
+    public interface IForcesResults : IResult
     {
-        string Desctription { get; set; }
+        string Description { get; set; }
         List<IForcesTupleResult> ForcesResultList { get; }
         bool IsValid { get; set; }
     }

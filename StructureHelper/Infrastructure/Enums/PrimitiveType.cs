@@ -3,6 +3,8 @@
     public enum PrimitiveType
     {
         Point,
-        Rectangle
+        Rectangle,
+        Circle,
+        Reinforcement
     }
 }

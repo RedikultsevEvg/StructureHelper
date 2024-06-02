@@ -1,4 +1,5 @@
 ﻿using StructureHelper.Models.Materials;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.Models.Primitives;
@@ -14,7 +15,7 @@ namespace StructureHelperLogics.Models.CrossSections
 {
     public interface ICrossSectionRepository : IHasHeadMaterials, IHasPrimitives
     {
-        List<IForceCombinationList> ForceCombinationLists { get; }
-        List<INdmCalculator> CalculatorsList { get; }
+        List<IForceAction> ForceActions { get; }
+        List<ICalculator> CalculatorsList { get; }
     }
 }

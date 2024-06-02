@@ -30,5 +30,10 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
             InitializeComponent();
             //DataContext = this.viewModel;
         }
+
+        private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

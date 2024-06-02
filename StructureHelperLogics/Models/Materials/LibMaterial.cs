@@ -1,6 +1,7 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+﻿using LoaderCalculator.Data.Materials;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using System.Collections.Generic;
 using LCM = LoaderCalculator.Data.Materials;
@@ -23,6 +24,9 @@ namespace StructureHelperLogics.Models.Materials
         public ILibMaterialEntity MaterialEntity { get; set; }
 
         public List<IMaterialSafetyFactor> SafetyFactors { get; }
+        public IMaterialLogic MaterialLogic { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public List<IMaterialLogic> MaterialLogics => throw new NotImplementedException();
 
         public LibMaterial(MaterialTypes materialType, CodeTypes codeType, string name, double mainStrength)
         {
@@ -69,7 +73,7 @@ namespace StructureHelperLogics.Models.Materials
             {
                 materialOptions.CodesType = LCMB.CodesType.EC2_1990;
             }
-            else if (codeType == CodeTypes.SP63_13330_2018)
+            else if (codeType == CodeTypes.SP63_2018)
             {
                 materialOptions.CodesType = LCMB.CodesType.SP63_2018;
             }
@@ -86,6 +90,16 @@ namespace StructureHelperLogics.Models.Materials
         public object Clone()
         {
             return new LibMaterial(this.MaterialType, this.codeType, this.Name, this.MainStrength);
+        }
+
+        public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        {
+            throw new NotImplementedException();
         }
     }
 }

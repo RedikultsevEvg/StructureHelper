@@ -1,32 +1,29 @@
-﻿using FieldVisualizer.Entities.ColorMaps.Factories;
-using FieldVisualizer.Entities.ColorMaps;
-using FieldVisualizer.Entities.Values.Primitives;
+﻿using FieldVisualizer.Entities.ColorMaps;
+using FieldVisualizer.Entities.ColorMaps.Factories;
 using FieldVisualizer.Entities.Values;
+using FieldVisualizer.Entities.Values.Primitives;
 using FieldVisualizer.Infrastructure.Commands;
-using FieldVisualizer.InfraStructures.Enums;
 using FieldVisualizer.InfraStructures.Exceptions;
 using FieldVisualizer.InfraStructures.Strings;
 using FieldVisualizer.Services.ColorServices;
 using FieldVisualizer.Services.PrimitiveServices;
 using FieldVisualizer.Services.ValueRanges;
+using FieldVisualizer.Windows.UserControls;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using FieldVisualizer.Windows.UserControls;
-using System.ComponentModel;
-using System.Xml.Serialization;
 
 namespace FieldVisualizer.ViewModels.FieldViewerViewModels
 {
     public class FieldViewerViewModel : ViewModelBase, IDataErrorInfo
     {
+        private IMathRoundLogic roundLogic = new SmartRoundLogic() { DigitQuant = 3 };
         public ICommand RebuildCommand { get; }
         public ICommand ZoomInCommand { get; }
         public ICommand ZoomOutCommand { get; }
@@ -164,8 +161,8 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
         private ColorMapsTypes _ColorMapType;
         private IColorMap _ColorMap;
         private IValueRange valueRange;
-        private IEnumerable<IValueRange> _ValueRanges;
-        private IEnumerable<IValueColorRange> _ValueColorRanges;
+        private IEnumerable<IValueRange> valueRanges;
+        private IEnumerable<IValueColorRange> valueColorRanges;
         private bool setMinValue;
         private bool setMaxValue;
         private double crossLineX;
@@ -177,7 +174,7 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
 
         public FieldViewerViewModel()
         {
-            _ColorMapType = ColorMapsTypes.FullSpectrum;
+            _ColorMapType = ColorMapsTypes.LiraSpectrum;
             RebuildCommand = new RelayCommand(o => ProcessPrimitives(), o => PrimitiveValidation());
             ZoomInCommand = new RelayCommand(o => Zoom(1.2), o => PrimitiveValidation());
             ZoomOutCommand = new RelayCommand(o => Zoom(0.8), o => PrimitiveValidation());
@@ -195,7 +192,7 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             if ((PrimitiveSet is null) == false)
             {
                 ProcessPrimitives();
-                Legend.ValueColorRanges = _ValueColorRanges;
+                Legend.ValueColorRanges = valueColorRanges;
                 Legend.Refresh();
             }
         }
@@ -262,14 +259,14 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
         {
             SolidColorBrush brush = new SolidColorBrush();
             brush.Color = ColorOperations.GetColorByValue(valueRange, _ColorMap, valuePrimitive.Value);
-            foreach (var valueRange in _ValueColorRanges)
+            foreach (var valueRange in valueColorRanges)
             {
-                if (valuePrimitive.Value >= valueRange.BottomValue & valuePrimitive.Value <= valueRange.TopValue & (!valueRange.IsActive))
+                if (valuePrimitive.Value >= valueRange.ExactValues.BottomValue & valuePrimitive.Value <= valueRange.ExactValues.TopValue & (!valueRange.IsActive))
                 {
                     brush.Color = Colors.Gray;
                 }
             }
-            shape.ToolTip = valuePrimitive.Value;
+            shape.ToolTip = roundLogic.RoundValue(valuePrimitive.Value);
             shape.Tag = valuePrimitive;
             shape.Fill = brush;
             Canvas.SetLeft(shape, valuePrimitive.CenterX - addX - dX);
@@ -306,10 +303,24 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             {
                 UserValueRange.TopValue = UserValueRange.BottomValue;
             }
-            if (SetMinValue) { valueRange.BottomValue = UserValueRange.BottomValue; } else { UserValueRange.BottomValue = valueRange.BottomValue; }
-            if (SetMaxValue) { valueRange.TopValue = UserValueRange.TopValue; } else { UserValueRange.TopValue = valueRange.TopValue; }
-            _ValueRanges = ValueRangeOperations.DivideValueRange(valueRange, RangeNumber);
-            _ValueColorRanges = ColorOperations.GetValueColorRanges(valueRange, _ValueRanges, _ColorMap);
+            if (SetMinValue == true)
+            {
+                valueRange.BottomValue = UserValueRange.BottomValue;
+            }
+            else
+            {
+                UserValueRange.BottomValue = valueRange.BottomValue;
+            }
+            if (SetMaxValue == true)
+            {
+                valueRange.TopValue = UserValueRange.TopValue;
+            }
+            else
+            {
+                UserValueRange.TopValue = valueRange.TopValue;
+            }
+            valueRanges = ValueRangeOperations.DivideValueRange(valueRange, RangeNumber);
+            valueColorRanges = ColorOperations.GetValueColorRanges(valueRange, valueRanges, _ColorMap);
         }
         private void SetCrossLine(object commandParameter)
         {

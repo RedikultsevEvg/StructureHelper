@@ -12,7 +12,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         /// <inheritdoc/>
         public bool IsValid { get; set; }
         /// <inheritdoc/>
-        public string Desctription { get; set; }
+        public string Description { get; set; }
         /// <inheritdoc/>
         public double EtaFactorAlongX { get; set; }
         /// <inheritdoc/>

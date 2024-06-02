@@ -1,15 +1,9 @@
-﻿using StructureHelper.Infrastructure.Enums;
-using StructureHelper.UnitSystem.Systems;
-using StructureHelper.Windows.MainWindow;
-using StructureHelperLogics.Models.Materials;
-using StructureHelperCommon.Models.Shapes;
-using System;
-using StructureHelperLogics.Models.Primitives;
+﻿using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
-    public class RectangleViewPrimitive : PrimitiveBase, IHasDivision, IHasCenter
+    public class RectangleViewPrimitive : PrimitiveBase, IHasCenter
     {
         private IRectanglePrimitive primitive;
 
@@ -42,30 +36,18 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         {
             get => DeltaY - primitive.Height / 2d;
         }
-        public int NdmMinDivision
-        {
-            get => primitive.NdmMinDivision;
-            set
-            {
-                primitive.NdmMinDivision = value;
-                OnPropertyChanged(nameof(NdmMinDivision));
-            }
-        }
-        public double NdmMaxSize
-        {
-            get => primitive.NdmMaxSize;
-            set
-            {
-                primitive.NdmMaxSize = value;
-                OnPropertyChanged(nameof(NdmMaxSize));
-            }
-        }
 
         public RectangleViewPrimitive(IRectanglePrimitive _primitive) : base(_primitive)
         {
             primitive = _primitive;
+            DivisionViewModel = new HasDivisionViewModel(primitive);
         }
-
+        public override void Refresh()
+        {
+            OnPropertyChanged(nameof(PrimitiveLeft));
+            OnPropertyChanged(nameof(PrimitiveTop));
+            base.Refresh();
+        }
         public override INdmPrimitive GetNdmPrimitive()
         {           
             return primitive;

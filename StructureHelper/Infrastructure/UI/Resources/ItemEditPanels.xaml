@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
+    
     <DataTemplate x:Key="SourceToTarget">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -8,7 +8,13 @@
                 <ColumnDefinition Width="60"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ListBox ItemsSource="{Binding SourceItems}" SelectedItem="{Binding SelectedSourceItem}" ItemTemplate="{Binding ItemDataDemplate}"/>
+            <ListBox ItemsSource="{Binding SourceItems}"
+                     SelectedItem="{Binding SelectedSourceItem}"
+                     ItemTemplate="{Binding ItemDataDemplate}">
+                <!--<InputBindingCollection>
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding AddSelected}"/>
+                </InputBindingCollection>-->
+            </ListBox>
             <StackPanel Grid.Column="1">
                 <Button Content="Add all" Command="{Binding AddAll}"/>
                 <Button Content="Clear all" Command="{Binding ClearAll}"/>
@@ -16,7 +22,49 @@
                 <Button Content="&lt;&lt;" Command="{Binding RemoveSelected}"/>
             </StackPanel>
             <ListBox Grid.Column="2" ItemsSource="{Binding TargetItems}"
-                     SelectedItem="{Binding SelectedTargetItem}" ItemTemplate="{Binding ItemDataDemplate}"/>
+                     SelectedItem="{Binding SelectedTargetItem}"
+                     ItemTemplate="{Binding ItemDataDemplate}"
+                     >
+                <!--<InputBindingCollection>
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding RemoveSelected}"/>
+                </InputBindingCollection>-->
+            </ListBox>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="SelectItems">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Height="25" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding ShowButtons, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Button Content="Select All" Command="{Binding SelectAllCommand}"/>
+                <Button Content="Unselect All" Command="{Binding UnSelectAllCommand}"/>
+                <Button Content="Invert Selection" Command="{Binding InvertSelectionCommand}"/>
+            </StackPanel>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                <ListBox ItemsSource="{Binding CollectionItems}" SelectedItem="SelectedItem" HorizontalAlignment="Stretch">
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Select All" Command="{Binding SelectAllCommand}"/>
+                            <MenuItem Header="UnSelect All" Command="{Binding UnSelectAllCommand}"/>
+                            <MenuItem Header="Unvert Selection" Command="{Binding InvertSelectionCommand}"/>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="22"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox IsChecked="{Binding IsSelected}"/>
+                                <ContentControl Grid.Column="1" ContentTemplate="{StaticResource ColoredItemTemplate}" Content="{Binding Item}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

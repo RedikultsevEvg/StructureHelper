@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels
 {
@@ -13,10 +14,10 @@ namespace StructureHelper.Windows.ViewModels
     {
         TItem SelectedItem { get; set; }
         ObservableCollection<TItem> Items { get; }
-        RelayCommand Add { get; }
-        RelayCommand Delete { get; }
-        RelayCommand Edit { get; }
-        RelayCommand Copy { get; }
+        ICommand Add { get; }
+        ICommand Delete { get; }
+        ICommand Edit { get; }
+        ICommand Copy { get; }
         void AddItems(IEnumerable<TItem> items);
     }
 }

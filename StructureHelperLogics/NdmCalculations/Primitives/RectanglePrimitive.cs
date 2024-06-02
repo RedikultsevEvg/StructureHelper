@@ -1,70 +1,122 @@
 ﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services.ShapeServices;
-using StructureHelperLogics.Models.Primitives;
+using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Triangulations;
-using StructureHelperLogics.Services.NdmPrimitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public class RectanglePrimitive : IRectanglePrimitive
     {
-        public int Id { get; set; }
+        readonly RectangleUpdateStrategy updateStrategy = new();
+        public Guid Id { get;}
         public string Name { get; set; }
-        public double CenterX { get; set; }
-        public double CenterY { get; set; }
-        public IHeadMaterial HeadMaterial { get; set; }
-        public IStrainTuple UsersPrestrain { get; private set; }
-        public IStrainTuple AutoPrestrain { get; private set; }
+        public IHeadMaterial? HeadMaterial { get; set; }
+        public StrainTuple UsersPrestrain { get; private set; }
+        public StrainTuple AutoPrestrain { get; private set; }
         public double NdmMaxSize { get; set; }
         public int NdmMinDivision { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
         public double Angle { get; set; }
-
+        public bool ClearUnderlying { get; set; }
+        public bool Triangulate { get; set; }
         public IVisualProperty VisualProperty { get; }
+        public ICrossSection? CrossSection { get; set; }
 
-        public RectanglePrimitive()
+        public IPoint2D Center { get; private set; }
+
+        public RectanglePrimitive(Guid id)
         {
+            Id = id;
             Name = "New Rectangle";
             NdmMaxSize = 0.01d;
             NdmMinDivision = 10;
+            Center = new Point2D();
             VisualProperty = new VisualProperty { Opacity = 0.8d};
             UsersPrestrain = new StrainTuple();
             AutoPrestrain = new StrainTuple();
+            ClearUnderlying = false;
+            Triangulate = true;
+        }
+        public RectanglePrimitive() : this(Guid.NewGuid())
+        {
+                
         }
 
         public RectanglePrimitive(IHeadMaterial material) : this() { HeadMaterial = material; }
 
         public object Clone()
         {
-            RectanglePrimitive primitive = new RectanglePrimitive();
-            NdmPrimitivesService.CopyDivisionProperties(this, primitive);
-            ShapeService.CopyRectangleProperties(this, primitive);
+            var primitive = new RectanglePrimitive();
+            updateStrategy.Update(primitive, this);
             return primitive;
         }
 
-        public IEnumerable<INdm> GetNdms(IMaterial material)
+        public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
         {
-            List<INdm> ndms = new List<INdm>();
-            var options = new RectangleTriangulationLogicOptions(this);
-            ITriangulationLogic logic = new RectangleTriangulationLogic(options);
-            ndms.AddRange(logic.GetNdmCollection(material));
+            var ndms = new List<INdm>();
+            var options = new RectangleTriangulationLogicOptions(this)
+            {
+                triangulationOptions = triangulationOptions
+            };
+            var logic = new RectangleTriangulationLogic(options);
+            ndms.AddRange(logic.GetNdmCollection());
             return ndms;
         }
 
-        public void Save()
+        public bool IsPointInside(IPoint2D point)
         {
-            throw new NotImplementedException();
+            var xMax = Center.X + Width / 2;
+            var xMin = Center.X - Width / 2;
+            var yMax = Center.Y + Height / 2;
+            var yMin = Center.Y - Height / 2;
+            if (point.X > xMax ||
+                point.X < xMin ||
+                point.Y > yMax ||
+                point.Y < yMin)
+            { return false; }
+            return true;
+        }
+
+        public List<INamedAreaPoint> GetValuePoints()
+        {
+            var points = new List<INamedAreaPoint>();
+            INamedAreaPoint newPoint;
+            newPoint = new NamedAreaPoint()
+            {
+                Name = "Center",
+                Point = Center.Clone() as Point2D
+            };
+            points.Add(newPoint);
+            newPoint = new NamedAreaPoint()
+            {
+                Name = "LeftTop",
+                Point = new Point2D() { X = Center.X - Width / 2d, Y = Center.Y + Height / 2d}
+            };
+            points.Add(newPoint);
+            newPoint = new NamedAreaPoint()
+            {
+                Name = "RightTop",
+                Point = new Point2D() { X = Center.X + Width / 2d, Y = Center.Y + Height / 2d }
+            };
+            points.Add(newPoint);
+            newPoint = new NamedAreaPoint()
+            {
+                Name = "LeftBottom",
+                Point = new Point2D() { X = Center.X - Width / 2d, Y = Center.Y - Height / 2d }
+            };
+            points.Add(newPoint);
+            newPoint = new NamedAreaPoint()
+            {
+                Name = "RightBottom",
+                Point = new Point2D() { X = Center.X + Width / 2d, Y = Center.Y - Height / 2d }
+            };
+            points.Add(newPoint);
+            return points;
         }
     }
 }

@@ -6,6 +6,7 @@
         Concrete,
         Reinforcement,
         //Steel,
-        //CarbonFiber,
+        CarbonFiber,
+        GlassFiber,
     }
 }

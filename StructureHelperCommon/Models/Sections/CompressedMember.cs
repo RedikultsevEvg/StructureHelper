@@ -1,14 +1,24 @@
-﻿using StructureHelperCommon.Services.Sections;
-
-namespace StructureHelperCommon.Models.Sections
+﻿namespace StructureHelperCommon.Models.Sections
 {
+
+    //Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
+    //All rights reserved.
+
+    /// <inheritdoc/>
     public class CompressedMember : ICompressedMember
     {
+        static readonly CompressedMemberUpdateStrategy updateStrategy = new();
+        /// <inheritdoc/>
         public bool Buckling { get; set; }
+        /// <inheritdoc/>
         public double GeometryLength { get; set; }
+        /// <inheritdoc/>
         public double LengthFactorX { get; set; }
+        /// <inheritdoc/>
         public double DiagramFactorX { get; set; }
+        /// <inheritdoc/>
         public double LengthFactorY { get; set; }
+        /// <inheritdoc/>
         public double DiagramFactorY { get; set; }
         
 
@@ -24,9 +34,9 @@ namespace StructureHelperCommon.Models.Sections
 
         public object Clone()
         {
-            var target = new CompressedMember();
-            CompressedMemberServices.CopyProperties(this, target);
-            return target;
+            var newItem = new CompressedMember();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

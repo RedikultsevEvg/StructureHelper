@@ -4,11 +4,8 @@ using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public interface IForceCombinationList : ICloneable
+    public interface IForceCombinationList : IForceAction
     {
-        string Name { get; set; }
-        bool SetInGravityCenter { get; set; }
-        Point2D ForcePoint {get ;}
-        List<IDesignForceTuple> DesignForces { get; }
+        List<IDesignForceTuple> DesignForces { get;}
     }
 }

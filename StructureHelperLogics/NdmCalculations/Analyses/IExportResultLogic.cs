@@ -8,6 +8,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses
 {
     public interface IExportResultLogic
     {
-        void Export(INdmResult ndmResult);
+        string FileName { get; set; }
+        void Export();
     }
 }

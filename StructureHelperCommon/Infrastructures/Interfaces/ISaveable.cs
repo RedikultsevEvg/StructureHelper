@@ -1,8 +1,13 @@
-﻿namespace StructureHelperCommon.Infrastructures.Interfaces
+﻿using System;
+
+namespace StructureHelperCommon.Infrastructures.Interfaces
 {
     public interface ISaveable
     {
-        int Id { get; set; }
-        void Save();
+        /// <summary>
+        /// Unique identifier
+        /// </summary>
+        Guid Id { get;}
+        //void Save();
     }
 }

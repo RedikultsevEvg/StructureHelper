@@ -27,13 +27,11 @@ namespace StructureHelper.Windows.Forces
             viewModel = _viewModel;
             DataContext = viewModel;
             InitializeComponent();
+            viewModel.ParentWindow = this;
         }
 
-        public ForceCombinationView(IForceCombinationList combinationList)
+        public ForceCombinationView(IForceCombinationList combinationList) : this(new ForceCombinationViewModel(combinationList))
         {
-            viewModel = new ForceCombinationViewModel(combinationList);
-            DataContext = viewModel;
-            InitializeComponent();
         }
     }
 }

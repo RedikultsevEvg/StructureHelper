@@ -11,31 +11,31 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 {
     public class SetPrestrainViewModel : ViewModelBase
     {
-        IStrainTuple SourceTuple;
-        private double coeffcient;
+        StrainTuple SourceTuple;
+        private double coefficient;
 
         public double Coefficient
         {
             get
             {
-                return coeffcient;
+                return coefficient;
             }
             set
             {
-                SetProperty(ref coeffcient, value);
+                SetProperty(ref coefficient, value);
             }
         }
 
-        public SetPrestrainViewModel(IStrainTuple sourceTuple)
+        public SetPrestrainViewModel(StrainTuple sourceTuple)
         {
             SourceTuple = sourceTuple;
-            coeffcient = 1d;
+            coefficient = 1d;
         }
 
-        public IStrainTuple GetStrainTuple()
+        public StrainTuple GetStrainTuple()
         {
             var result = new StrainTuple();
-            StrainTupleService.CopyProperties(SourceTuple, result, coeffcient);
+            ForceTupleService.CopyProperties(SourceTuple, result, coefficient);
             return result;
         }
     }

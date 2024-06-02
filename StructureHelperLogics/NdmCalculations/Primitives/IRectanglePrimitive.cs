@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public interface IRectanglePrimitive : IHasDivisionSize, IRectangleShape
+    public interface IRectanglePrimitive : INdmPrimitive, IHasDivisionSize, IRectangleShape
     {
     }
 }

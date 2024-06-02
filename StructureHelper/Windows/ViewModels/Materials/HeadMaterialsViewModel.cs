@@ -3,6 +3,7 @@ using StructureHelper.Models.Materials;
 using StructureHelper.Services.Primitives;
 using StructureHelper.Windows.AddMaterialWindow;
 using StructureHelper.Windows.MainWindow;
+using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials.Libraries;
@@ -45,7 +46,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         private void AddElasticMaterial()
         {
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Elastic200, ProgramSetting.CodeType);
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Elastic200);
             material.Name = "New Elastic Material";
             HeadMaterials.Add(material);
             headMaterials.Add(material);
@@ -53,19 +54,24 @@ namespace StructureHelper.Windows.ViewModels.Materials
         }
 
         public ICommand CopyHeadMaterialCommand { get; set; }
-        public ICommand EditColorCommand { get; set; }
+        public ICommand EditColorCommand => editColorCommand ??= new RelayCommand(o => EditColor(), o => SelectedMaterial is not null);
+        public ICommand EditCommand => editCommand ??= new RelayCommand(o => Edit(), o => SelectedMaterial is not null);
+
+        private void Edit()
+        {
+            var wnd = new HeadMaterialView(SelectedMaterial);
+            wnd.ShowDialog();
+        }
+
         public ICommand DeleteMaterialCommand { get; set; }
-        public ICommand EditHeadMaterial;
 
-        private RelayCommand showSafetyfactors;
+        private ICommand showSafetyFactors;
 
-        public RelayCommand ShowSafetyFactors
+        public ICommand ShowSafetyFactors
         {
             get
             {
-                return showSafetyfactors ??
-                    (
-                    showSafetyfactors = new RelayCommand(o =>
+                return showSafetyFactors ??= new RelayCommand(o =>
                     {
                         if (selectedMaterial.HelperMaterial is ILibMaterial)
                         {
@@ -75,12 +81,30 @@ namespace StructureHelper.Windows.ViewModels.Materials
                             OnPropertyChanged(nameof(Items));
                         }
                     }, o=> SelectedLibMaterial != null
-                    ));
+                    );
+            }
+        }
+
+        public ICommand ShowMaterialDiagram
+        {
+            get
+            {
+                return showMaterialDiagram ??= new RelayCommand(o =>
+                    {
+                        var material = selectedMaterial;
+                        var wnd = new MaterialDiagramView(headMaterials, material);
+                        wnd.ShowDialog();
+
+                    }, o => SelectedMaterial != null
+                    );
             }
         }
 
 
-        private ICommand addElasticMaterialCommand;
+        private ICommand? addElasticMaterialCommand;
+        private ICommand? showMaterialDiagram;
+        private ICommand? editColorCommand;
+        private ICommand editCommand;
 
         public ObservableCollection<IHeadMaterial> HeadMaterials { get; private set; }
         public IHeadMaterial SelectedMaterial
@@ -89,7 +113,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
             set
             {
                 OnPropertyChanged(value, ref selectedMaterial);
-                if (!(selectedMaterial is null))
+                if (selectedMaterial is not null && selectedMaterial.HelperMaterial is ILibMaterial)
                 {
                     var libMaterial = selectedMaterial.HelperMaterial as ILibMaterial;
                     selectedLibMaterial = libMaterial.MaterialEntity;
@@ -139,7 +163,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         {
             get
             {
-                return LibMaterialPepository.GetConcreteRepository(ProgramSetting.CodeType);
+                return LibMaterialPepository.GetConcreteRepository();
             }
         }
 
@@ -147,7 +171,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         {
             get
             {
-                return LibMaterialPepository.GetReinforcementRepository(ProgramSetting.CodeType);
+                return LibMaterialPepository.GetReinforcementRepository();
             }
         }
 
@@ -166,7 +190,6 @@ namespace StructureHelper.Windows.ViewModels.Materials
             AddNewConcreteMaterialCommand = new RelayCommand(o => AddConcreteMaterial());
             AddNewReinforcementMaterialCommand = new RelayCommand(o => AddReinforcementMaterial());
             CopyHeadMaterialCommand = new RelayCommand(o => CopyMaterial(), o => !(SelectedMaterial is null));
-            EditColorCommand = new RelayCommand(o => EditColor(), o=> ! (SelectedMaterial is null));
             DeleteMaterialCommand = new RelayCommand(o => DeleteMaterial(), o => !(SelectedMaterial is null));
         }
 
@@ -213,7 +236,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         private void AddConcreteMaterial()
         {
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40, ProgramSetting.CodeType);
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
             material.Name = "New Concrete";
             HeadMaterials.Add(material);
             headMaterials.Add(material);
@@ -222,7 +245,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         private void AddReinforcementMaterial()
         {
-            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforecement400, ProgramSetting.CodeType);
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforcement400);
             material.Name = "New Reinforcement";
             HeadMaterials.Add(material);
             headMaterials.Add(material);

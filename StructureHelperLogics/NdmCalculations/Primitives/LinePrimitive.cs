@@ -1,17 +1,9 @@
 ﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services.ShapeServices;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
@@ -34,9 +26,12 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public IVisualProperty VisualProperty => throw new NotImplementedException();
 
-        public IStrainTuple UsersPrestrain => throw new NotImplementedException();
+        public StrainTuple UsersPrestrain => throw new NotImplementedException();
 
-        public IStrainTuple AutoPrestrain => throw new NotImplementedException();
+        public StrainTuple AutoPrestrain => throw new NotImplementedException();
+
+        public bool ClearUnderlying { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool Triangulate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public LinePrimitive()
         {
@@ -51,8 +46,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public object Clone()
         {
             var primitive = new LinePrimitive();
-            NdmPrimitivesService.CopyDivisionProperties(this, primitive);
-            ShapeService.CopyLineProperties(this, primitive);
+            throw new NotImplementedException();
+
             return primitive;
         }
 
@@ -62,6 +57,11 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         }
 
         public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsPointInside(IPoint2D point)
         {
             throw new NotImplementedException();
         }

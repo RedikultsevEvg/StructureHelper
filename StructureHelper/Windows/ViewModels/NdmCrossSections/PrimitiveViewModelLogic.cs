@@ -1,56 +1,65 @@
-﻿using FieldVisualizer.ViewModels;
+﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.Services.Settings;
+using StructureHelper.Windows.PrimitiveProperiesWindow;
+using StructureHelper.Windows.PrimitiveTemplates.RCs.Beams;
+using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
+using StructureHelper.Windows.Services;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.Models.Primitives;
+using StructureHelperLogics.Models.Templates.CrossSections.RCs;
+using StructureHelperLogics.Models.Templates.RCs;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StructureHelper.Services.Primitives;
-using StructureHelper.Infrastructure;
-using StructureHelper.Infrastructure.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperLogics.Models.Primitives;
-using StructureHelperCommon.Infrastructures.Strings;
-using ViewModelBase = StructureHelper.Infrastructure.ViewModelBase;
 using System.Windows.Forms;
-using System.Windows.Documents;
-using StructureHelper.Windows.PrimitiveProperiesWindow;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using System.Windows.Input;
+
+//Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 {
-    public class PrimitiveViewModelLogic : ViewModelBase, IPrimitiveViewModelLogic
+    public class PrimitiveViewModelLogic : ViewModelBase, ICRUDViewModel<PrimitiveBase>, IRectangleShape, IObservable<PrimitiveBase>
     {
-        private readonly ICrossSectionRepository repository;
-        private RelayCommand addCommand;
-        private RelayCommand deleteCommand;
-        private RelayCommand editCommand;
-        private RelayCommand copyCommand;
-        private RelayCommand setToFront;
-        private RelayCommand setToBack;
+        private ICrossSection section;
+        private ICrossSectionRepository repository => section.SectionRepository;
+        private ICommand addCommand;
+        private ICommand deleteCommand;
+        private ICommand editCommand;
+        private ICommand copyCommand;
+        private ICommand setToFront;
+        private ICommand setToBack;
+        private ICommand copyToCommand;
 
-        public double CanvasWidth { get; set; }
-        public double CanvasHeight { get; set; }
+
+        public double Width { get; set; }
+        public double Height { get; set; }
 
         public PrimitiveBase SelectedItem { get; set; }
 
         public ObservableCollection<PrimitiveBase> Items { get; private set; }
 
-        public RelayCommand Add
+        public ICommand Add
         {
             get
             {
-                return addCommand ??
-                    (
-                    addCommand = new RelayCommand(o =>
+                return addCommand ??= new RelayCommand(o =>
                     {
-                        if (!(o is PrimitiveType primitiveType)) return;
+                        if (o is not PrimitiveType primitiveType) return;
                         AddPrimitive(primitiveType);
                     }
-                    ));
+                    );
             }
         }
 
@@ -69,6 +78,15 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 viewPrimitive = new RectangleViewPrimitive(primitive);
 
             }
+            else if (primitiveType == PrimitiveType.Reinforcement)
+            {
+                var primitive = new RebarPrimitive
+                {
+                    Area = 0.0005d
+                };
+                ndmPrimitive = primitive;
+                viewPrimitive = new ReinforcementViewPrimitive(primitive);
+            }
             else if (primitiveType == PrimitiveType.Point)
             {
                 var primitive = new PointPrimitive
@@ -78,16 +96,25 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 ndmPrimitive = primitive;
                 viewPrimitive = new PointViewPrimitive(primitive);
             }
-
+            else if (primitiveType == PrimitiveType.Circle)
+            {
+                var primitive = new CirclePrimitive
+                {
+                    Diameter = 0.5d
+                };
+                ndmPrimitive = primitive;
+                viewPrimitive = new CircleViewPrimitive(primitive);
+            }
             else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType)); }
-            viewPrimitive.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);
+            viewPrimitive.OnNext(this);
             repository.Primitives.Add(ndmPrimitive);
+            ndmPrimitive.CrossSection = section;
             Items.Add(viewPrimitive);
             OnPropertyChanged(nameof(Items));
             OnPropertyChanged(nameof(PrimitivesCount));
         }
 
-        public RelayCommand Delete
+        public ICommand Delete
         {
             get
             {
@@ -111,8 +138,31 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 {
                     if (calc is IForceCalculator)
                     {
-                        var forceCalc = calc as IForceCalculator;
+                        var forceCalc = calc as IHasPrimitives;
                         forceCalc.Primitives.Remove(ndmPrimitive);
+                    }
+                    else if (calc is LimitCurvesCalculator calculator)
+                    {
+                        //to do
+                        //var forceCalc = calculator.InputData as IHasPrimitives;
+                        //forceCalc.Primitives.Remove(ndmPrimitive);
+                    }
+                    else if (calc is CrackCalculator crackCalculator)
+                    {
+                        var forceCalc = crackCalculator.InputData as IHasPrimitives;
+                        forceCalc.Primitives.Remove(ndmPrimitive);
+                    }
+                    else
+                    {
+                        throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(ICalculator), calc));
+                    }
+                }
+                foreach (var primitive in repository.Primitives)
+                {
+                    if (primitive is IHasHostPrimitive)
+                    {
+                        var sPrimitive = primitive as IHasHostPrimitive;
+                        if (sPrimitive.HostPrimitive == ndmPrimitive) { sPrimitive.HostPrimitive = null; }
                     }
                 }
                 Items.Remove(SelectedItem);
@@ -121,7 +171,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             OnPropertyChanged(nameof(PrimitivesCount));
         }
 
-        public RelayCommand Edit
+        public ICommand Edit
         {
             get
             {
@@ -135,56 +185,116 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void EditSelectedItem()
         {
+            var ndmPrimitive = SelectedItem.GetNdmPrimitive();
+            var primitiveCopy = ndmPrimitive.Clone() as INdmPrimitive;
             var wnd = new PrimitivePropertiesView(SelectedItem, repository);
             wnd.ShowDialog();
+            if (wnd.DialogResult == true)
+            {
+                // to do save into repository
+            }
+            else
+            {
+                var updateStrategy = new NdmPrimitiveUpdateStrategy();
+                updateStrategy.Update(ndmPrimitive, primitiveCopy);
+                SelectedItem.Refresh();
+            }
+
         }
 
-        public RelayCommand Copy
+        public ICommand Copy
         {
             get
             {
-                return copyCommand ??
+                return                     copyCommand ??= new RelayCommand(
+                        o => CopySelectedItem(SelectedItem.GetNdmPrimitive()),
+                        o => SelectedItem != null
+                    );
+            }
+        }
+
+        public ICommand CopyTo
+        {
+            get
+            {
+                return copyToCommand ??
                     (
-                    copyCommand = new RelayCommand(
-                        o => CopySelectedItem(),
+                    copyToCommand = new RelayCommand(
+                        o => CopyToSelectedItem(SelectedItem.GetNdmPrimitive()),
                         o => SelectedItem != null
                     ));
             }
         }
 
-        private void CopySelectedItem()
+        private void CopyToSelectedItem(INdmPrimitive ndmPrimitive)
         {
-            var oldPrimitive = SelectedItem.GetNdmPrimitive();
+            var copyByParameterVM = new CopyByParameterViewModel(ndmPrimitive.Center);
+            var wnd = new CopyByParameterView(copyByParameterVM);
+            wnd.ShowDialog();
+            if (wnd.DialogResult != true) { return;}
+            var points = copyByParameterVM.GetNewItemCenters();
+            foreach (var item in points)
+            {
+                var newPrimitive = CopySelectedItem(ndmPrimitive);
+                newPrimitive.CenterX = item.X;
+                newPrimitive.CenterY = item.Y;
+            }
+        }
+
+        private PrimitiveBase CopySelectedItem(INdmPrimitive oldPrimitive)
+        {
             var newPrimitive = oldPrimitive.Clone() as INdmPrimitive;
+            newPrimitive.Name += " copy";
             repository.Primitives.Add(newPrimitive);
             PrimitiveBase primitiveBase;
-            if (newPrimitive is IRectanglePrimitive) { primitiveBase = new RectangleViewPrimitive(newPrimitive as IRectanglePrimitive); }
-            else if (newPrimitive is IPointPrimitive) { primitiveBase = new PointViewPrimitive(newPrimitive as IPointPrimitive); }
-            else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
-            primitiveBase.RegisterDeltas(CanvasWidth / 2, CanvasHeight / 2);
+            if (newPrimitive is IRectanglePrimitive)
+            {
+                primitiveBase = new RectangleViewPrimitive(newPrimitive as IRectanglePrimitive);
+            }
+            else if (newPrimitive is ICirclePrimitive)
+            {
+                primitiveBase = new CircleViewPrimitive(newPrimitive as ICirclePrimitive);
+            }
+            else if (newPrimitive is IPointPrimitive)
+            {
+                if (newPrimitive is RebarPrimitive)
+                {
+                    primitiveBase = new ReinforcementViewPrimitive(newPrimitive as RebarPrimitive);
+                }
+                else
+                {
+                    primitiveBase = new PointViewPrimitive(newPrimitive as IPointPrimitive);
+                }
+
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
+            }
+            primitiveBase.OnNext(this);
             Items.Add(primitiveBase);
             OnPropertyChanged(nameof(Items));
             OnPropertyChanged(nameof(PrimitivesCount));
+            return primitiveBase;
         }
 
         public int PrimitivesCount => repository.Primitives.Count();
 
-        public RelayCommand SetToFront
+        public ICommand SetToFront
         {
             get
             {
-                return setToFront ??
-                    (setToFront = new RelayCommand(o=>
+                return setToFront ??= new RelayCommand(o=>
                     {
                         int maxZIndex = Items.Select(x => x.GetNdmPrimitive().VisualProperty.ZIndex).Max();
                         SelectedItem.ZIndex = maxZIndex + 1;
                     },o => CheckMaxIndex()
-                    ));
+                    );
             }
         }
         private bool CheckMaxIndex()
         {
-            if (SelectedItem is null) return false;
+            if (SelectedItem is null || Items.Count == 0) return false;
             int maxZIndex = Items.Select(x => x.GetNdmPrimitive().VisualProperty.ZIndex).Max();
             if (SelectedItem.ZIndex <= maxZIndex) return true;
             else return false;
@@ -192,25 +302,26 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private bool CheckMinIndex()
         {
-            if (SelectedItem is null) return false;
+            if (SelectedItem is null || Items.Count == 0) return false;
             int minZIndex = Items.Select(x => x.GetNdmPrimitive().VisualProperty.ZIndex).Min();
             if (SelectedItem.ZIndex >= minZIndex) return true;
             else return false;
         }
 
-        public RelayCommand SetToBack
+        public ICommand SetToBack
         {
             get
             {
-                return setToBack ??
-                    (setToBack = new RelayCommand(o =>
+                return setToBack ??= new RelayCommand(o =>
                     {
                         int minZIndex = Items.Select(x => x.GetNdmPrimitive().VisualProperty.ZIndex).Min();
                         SelectedItem.ZIndex = minZIndex - 1;
                     }, o => CheckMinIndex()
-                    ));
+                    );
             }
         }
+
+        public double Angle { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void AddItems(IEnumerable<PrimitiveBase> items)
         {
@@ -222,14 +333,29 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         public void Refresh()
         {
+            NotifyObservers();
             OnPropertyChanged(nameof(PrimitivesCount));
         }
 
-        public PrimitiveViewModelLogic(ICrossSectionRepository repository)
+        public void NotifyObservers()
         {
-            this.repository = repository;
+            foreach (var item in Items)
+            {
+                item.OnNext(this);
+            }
+        }
+
+        public IDisposable Subscribe(IObserver<PrimitiveBase> observer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PrimitiveViewModelLogic(ICrossSection section)
+        {
+            this.section = section;
             Items = new ObservableCollection<PrimitiveBase>();
             AddItems(PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(this.repository.Primitives));
         }
+
     }
 }

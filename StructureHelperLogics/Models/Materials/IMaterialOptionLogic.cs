@@ -7,6 +7,6 @@ namespace StructureHelperLogics.Models.Materials
 {
     public interface IMaterialOptionLogic
     {
-        LCMB.IMaterialOptions SetMaterialOptions(ILibMaterialEntity materialEntity, LimitStates limitState, CalcTerms calcTerm);
+        void SetMaterialOptions(LCMB.IMaterialOptions materialOptions);
     }
 }

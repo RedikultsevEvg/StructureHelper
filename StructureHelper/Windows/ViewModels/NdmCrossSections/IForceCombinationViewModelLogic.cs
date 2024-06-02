@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 {
-    public interface IForceCombinationViewModelLogic : ICRUDViewModel<IForceCombinationList>
+    public interface IForceCombinationViewModelLogic : ICRUDViewModel<IForceAction>
     {
     }
 }

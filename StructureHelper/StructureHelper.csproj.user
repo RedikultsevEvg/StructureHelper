@@ -1,10 +1,171 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup />
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\Source\Repos\StructureHelper\StructureHelper\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Update="Windows\Arrays\ArrayView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackResultView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\TupleCrackResultView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\LimitCurveDataView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\UserControls\LimitCurveControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\UserControls\SurroundDataControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\GeometryCalculatorViews\GeometryCalculatorResultView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\ProgressViews\ShowProgressView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\ProgressViews\TraceDocumentView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Errors\ErrorMessage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Forces\ForceCombinationByFactorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Forces\ForceInterpolationControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Forces\ForceTupleInterpolationControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Forces\ValuePointsInterpolateView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Graphs\GraphView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\MainWindow\AboutView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\MainWindow\Materials\HeadMaterialView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Graphs\MaterialDiagramView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\PrimitiveTemplates\RCs\Beams\CircleView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Services\CopyByParameterView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\UserControls\MultiplyDouble.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Infrastructure\UI\Resources\Cracks.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Infrastructure\UI\Resources\ForceTemplates.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Infrastructure\UI\Resources\GraphsTemplates.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Infrastructure\UI\Resources\IconDictionary.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Infrastructure\UI\Resources\LimitCurveTemplates.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Infrastructure\UI\Resources\Materials.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Infrastructure\UI\Resources\ServiceColors.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Arrays\ArrayView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackResultView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\Cracks.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\TupleCrackResultView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\LimitCurveDataView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\UserControls\LimitCurveControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\UserControls\SurroundDataControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\GeometryCalculatorViews\GeometryCalculatorResultView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\ProgressViews\ShowProgressView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\ProgressViews\TraceDocumentView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Errors\ErrorMessage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Forces\ForceCombinationByFactorView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Forces\ForceInterpolationControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Forces\ForceTupleInterpolationControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Forces\ValuePointsInterpolateView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Graphs\GraphView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\MainWindow\AboutView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\MainWindow\Materials\HeadMaterialView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Graphs\MaterialDiagramView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\PrimitiveTemplates\RCs\Beams\CircleView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Services\CopyByParameterView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\UserControls\MultiplyDouble.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
 </Project>

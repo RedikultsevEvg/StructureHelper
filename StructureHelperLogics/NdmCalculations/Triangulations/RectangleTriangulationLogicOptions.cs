@@ -1,14 +1,13 @@
-﻿using System;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
+﻿using StructureHelper.Models.Materials;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperLogics.Models.Primitives;
+using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     /// <inheritdoc />
-    public class RectangleTriangulationLogicOptions : IRectangleTriangulationLogicOptions
+    public class RectangleTriangulationLogicOptions : IShapeTriangulationLogicOptions
     {
         /// <inheritdoc />
         public IPoint2D Center { get; }
@@ -19,11 +18,9 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         /// <inheritdoc />
         public int NdmMinDivision { get; }
         /// <inheritdoc />
-        public double PrestrainKx { get;}
-        /// <inheritdoc />
-        public double PrestrainKy { get; }
-        /// <inheritdoc />
-        public double PrestrainEpsZ { get;}
+        public StrainTuple Prestrain { get; set; }
+        public ITriangulationOptions triangulationOptions { get; set; }
+        public IHeadMaterial HeadMaterial { get; set; }
 
         public RectangleTriangulationLogicOptions(IPoint2D center, IRectangleShape rectangle, double ndmMaxSize, int ndmMinDivision)
         {
@@ -31,17 +28,17 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Rectangle = rectangle;
             NdmMaxSize = ndmMaxSize;
             NdmMinDivision = ndmMinDivision;
+            Prestrain = new StrainTuple();
         }
 
         public RectangleTriangulationLogicOptions(IRectanglePrimitive primitive)
         {
-            Center = new Point2D() { X = primitive.CenterX, Y = primitive.CenterY };
+            Center = new Point2D() {X = primitive.Center.X, Y = primitive.Center.Y };
             Rectangle = primitive;
             NdmMaxSize = primitive.NdmMaxSize;
             NdmMinDivision = primitive.NdmMinDivision;
-            PrestrainKx = primitive.UsersPrestrain.Kx + primitive.AutoPrestrain.Kx;
-            PrestrainKy = primitive.UsersPrestrain.Ky + primitive.AutoPrestrain.Ky;
-            PrestrainEpsZ = primitive.UsersPrestrain.EpsZ + primitive.AutoPrestrain.EpsZ;
+            HeadMaterial = primitive.HeadMaterial;
+            Prestrain = ForceTupleService.SumTuples(primitive.UsersPrestrain, primitive.AutoPrestrain) as StrainTuple;
         }
     }
 }

@@ -15,6 +15,11 @@
                 <ResourceDictionary Source="Infrastructure/UI/Resources/ShapeEditTemplates.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/PrimitiveToolTips.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/ITemEditPanels.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/ForceTemplates.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/IconDictionary.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/GraphsTemplates.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/LimitCurveTemplates.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/ServiceColors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

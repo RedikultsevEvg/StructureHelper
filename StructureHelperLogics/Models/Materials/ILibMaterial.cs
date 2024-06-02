@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperLogics.Models.Materials;
 using System;
@@ -11,5 +12,8 @@ namespace StructureHelperLogics.Models.Materials
     {
         ILibMaterialEntity MaterialEntity { get; set; }
         List<IMaterialSafetyFactor> SafetyFactors { get; }
+        IMaterialLogic MaterialLogic { get; set; }
+        List<IMaterialLogic> MaterialLogics { get; }
+        (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm);
     }
 }

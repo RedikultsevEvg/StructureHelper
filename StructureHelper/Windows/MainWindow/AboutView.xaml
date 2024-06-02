@@ -1,0 +1,28 @@
+﻿<Window x:Class="StructureHelper.Windows.MainWindow.AboutView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow"
+        xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Help"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance vm:AboutViewModel}"
+        Title="Structure Helper" Height="200" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Authors"/>
+        <TextBlock Grid.Row="1" Text="{Binding Authors}"/>
+        <TextBlock Grid.Row="2" Text="Version"/>
+        <TextBlock Grid.Row="3" Text="{Binding Version}"/>
+        <TextBlock Grid.Row="4" Text="Copy Right (c) Redikultsev Evgeny"/>
+        <Button Grid.Row="6" Style="{StaticResource OkButton}" Click="Button_Click"/>
+    </Grid>
+</Window>

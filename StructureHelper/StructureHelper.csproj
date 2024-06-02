@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows7.0</TargetFramework>
+	<PublishSingleFile>true</PublishSingleFile>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ImplicitUsings>disable</ImplicitUsings>
@@ -22,7 +23,41 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_crack.png" />
+    <None Remove="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_graph_1.png" />
+    <None Remove="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_graph_2.png" />
+    <None Remove="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_interpolation_1_1.png" />
+    <None Remove="Windows\MainWindow\Analysis32.png" />
+    <None Remove="Windows\MainWindow\Beam32.png" />
+    <None Remove="Windows\MainWindow\Calculator32.png" />
+    <None Remove="Windows\MainWindow\Circle32.png" />
+    <None Remove="Windows\MainWindow\CircleColumn32.png" />
+    <None Remove="Windows\MainWindow\ConMaterial32.png" />
+    <None Remove="Windows\MainWindow\Copy.png" />
+    <None Remove="Windows\MainWindow\Delete.png" />
+    <None Remove="Windows\MainWindow\Edit.png" />
+    <None Remove="Windows\MainWindow\ElasticMaterial32.png" />
+    <None Remove="Windows\MainWindow\GlassMaterial32.png" />
+    <None Remove="Windows\MainWindow\Materials32.png" />
+    <None Remove="Windows\MainWindow\MovePrimitivesToCenter.png" />
+    <None Remove="Windows\MainWindow\Point32.png" />
+    <None Remove="Windows\MainWindow\Rebar32.png" />
+    <None Remove="Windows\MainWindow\Rectangle32.png" />
+    <None Remove="Windows\MainWindow\RectangleColumn32.png" />
+    <None Remove="Windows\MainWindow\RFMaterial32.png" />
+    <None Remove="Windows\MainWindow\Run.png" />
+    <None Remove="Windows\MainWindow\Slab32.png" />
+    <None Remove="Windows\MainWindow\ToBackground.png" />
+    <None Remove="Windows\MainWindow\ToForeground.png" />
+    <None Remove="Windows\MainWindow\Tools_Settings.png" />
+    <None Remove="Windows\MainWindow\СarbonMaterial32.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="6.5.0" />
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="LiveCharts.Wpf.Core" Version="0.9.8" />
+    <PackageReference Include="LiveCharts.Wpf.NetCore3" Version="0.9.7" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
@@ -44,6 +79,59 @@
     <None Update="Libraries\NLog.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Documentation\Manuals\" />
+    <Folder Include="Infrastructure\UI\DataContexts\Logics\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Windows\UserControls\MultiplyTuples\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_crack.png" />
+    <Resource Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_graph_1.png" />
+    <Resource Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_graph_2.png" />
+    <Resource Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_interpolation_1_1.png" />
+    <Resource Include="Windows\MainWindow\Analysis32.png" />
+    <Resource Include="Windows\MainWindow\Beam32.png" />
+    <Resource Include="Windows\MainWindow\Calculator32.png" />
+    <Resource Include="Windows\MainWindow\Circle32.png" />
+    <Resource Include="Windows\MainWindow\CircleColumn32.png" />
+    <Resource Include="Windows\MainWindow\ConMaterial32.png" />
+    <Resource Include="Windows\MainWindow\Copy.png" />
+    <Resource Include="Windows\MainWindow\Delete.png" />
+    <Resource Include="Windows\MainWindow\Edit.png" />
+    <Resource Include="Windows\MainWindow\ElasticMaterial32.png" />
+    <Resource Include="Windows\MainWindow\GlassMaterial32.png" />
+    <Resource Include="Windows\MainWindow\Materials32.png" />
+    <Resource Include="Windows\MainWindow\MovePrimitivesToCenter.png" />
+    <Resource Include="Windows\MainWindow\Point32.png" />
+    <Resource Include="Windows\MainWindow\Rebar32.png" />
+    <Resource Include="Windows\MainWindow\Rectangle32.png" />
+    <Resource Include="Windows\MainWindow\RectangleColumn32.png" />
+    <Resource Include="Windows\MainWindow\RFMaterial32.png" />
+    <Resource Include="Windows\MainWindow\Run.png" />
+    <Resource Include="Windows\MainWindow\Slab32.png" />
+    <Resource Include="Windows\MainWindow\ToBackground.png" />
+    <Resource Include="Windows\MainWindow\ToForeground.png" />
+    <Resource Include="Windows\MainWindow\Tools_Settings.png" />
+    <Resource Include="Windows\MainWindow\СarbonMaterial32.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

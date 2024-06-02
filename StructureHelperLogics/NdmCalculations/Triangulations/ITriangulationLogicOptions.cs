@@ -1,9 +1,13 @@
-﻿namespace StructureHelperLogics.NdmCalculations.Triangulations
+﻿using StructureHelper.Models.Materials;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Forces;
+
+namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     public interface ITriangulationLogicOptions
     {
-        double PrestrainKx { get;}
-        double PrestrainKy { get;}
-        double PrestrainEpsZ { get;}
+        ITriangulationOptions triangulationOptions { get; set; }
+        StrainTuple Prestrain { get; set; }
+        IHeadMaterial HeadMaterial { get; set; }
     }
 }

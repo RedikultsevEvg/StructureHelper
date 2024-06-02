@@ -1,10 +1,9 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 
 namespace StructureHelperCommon.Models.Materials.Libraries
 {
-    public enum FactorType
+    public enum ConcreteFactorType
     {
         LongTermFactor,
         BleedingFactor,
@@ -13,11 +12,11 @@ namespace StructureHelperCommon.Models.Materials.Libraries
 
     public static class ConcreteFactorsFactory
     {
-        public static IMaterialSafetyFactor GetFactor(FactorType factorType)
+        public static IMaterialSafetyFactor GetFactor(ConcreteFactorType factorType)
         {
-            if (factorType == FactorType.LongTermFactor) { return LongTerm(); }
-            else if (factorType == FactorType.BleedingFactor) { return Bleeding(); }
-            else if (factorType == FactorType.PlainConcreteFactor) { return PlainConcrete(); }
+            if (factorType == ConcreteFactorType.LongTermFactor) { return LongTerm(); }
+            else if (factorType == ConcreteFactorType.BleedingFactor) { return Bleeding(); }
+            else if (factorType == ConcreteFactorType.PlainConcreteFactor) { return PlainConcrete(); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
         }
 

@@ -1,43 +1,43 @@
-﻿using LoaderCalculator.Data.Materials;
-using LoaderCalculator.Data.Ndms;
-using System;
-using System.Collections.Generic;
+﻿using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.Ndms.Transformations;
-using LoaderCalculator.Data.Matrix;
+using StructureHelperCommon.Infrastructures.Exceptions;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
-    public class RectangleTriangulationLogic : IRectangleTriangulationLogic
+    public class RectangleTriangulationLogic : ITriangulationLogic
     {
-        public ITriangulationLogicOptions Options { get; }
-
-        public IEnumerable<INdm> GetNdmCollection(IMaterial material)
+        private readonly RectangleTriangulationLogicOptions options;
+        public RectangleTriangulationLogic(ITriangulationLogicOptions options)
         {
-            IRectangleTriangulationLogicOptions rectangleOptions = Options as IRectangleTriangulationLogicOptions;
-            double width = rectangleOptions.Rectangle.Width;
-            double height = rectangleOptions.Rectangle.Height;
-            double ndmMaxSize = rectangleOptions.NdmMaxSize;
-            int ndmMinDivision = rectangleOptions.NdmMinDivision;
+            ValidateOptions(options);
+            this.options = options as RectangleTriangulationLogicOptions;
+        }
+        public IEnumerable<INdm> GetNdmCollection()
+        {
+            double width = options.Rectangle.Width;
+            double height = options.Rectangle.Height;
+            double ndmMaxSize = options.NdmMaxSize;
+            int ndmMinDivision = options.NdmMinDivision;
             LoaderCalculator.Triangulations.RectangleTriangulationLogicOptions logicOptions = new LoaderCalculator.Triangulations.RectangleTriangulationLogicOptions(width, height, ndmMaxSize, ndmMinDivision);
             var logic = LoaderCalculator.Triangulations.Triangulation.GetLogicInstance(logicOptions);
-            var ndmCollection = logic.GetNdmCollection(new LoaderCalculator.Data.Planes.RectangularPlane { Material = material });
-            double dX = rectangleOptions.Center.X;
-            double dY = rectangleOptions.Center.Y;
-            NdmTransform.Move(ndmCollection, dX, dY);
-            double angle = rectangleOptions.Rectangle.Angle;
+            var ndmCollection = logic.GetNdmCollection(new LoaderCalculator.Data.Planes.RectangularPlane
+            {
+                Material = options.HeadMaterial.GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm)
+            });
+            TriangulationService.CommonTransform(ndmCollection, options);
+            double angle = options.Rectangle.Angle;
             NdmTransform.Rotate(ndmCollection, angle);
-            NdmTransform.SetPrestrain(ndmCollection, new StrainMatrix() { Kx = Options.PrestrainKx, Ky = Options.PrestrainKy, EpsZ = Options.PrestrainEpsZ });
+            TriangulationService.SetPrestrain(ndmCollection, options.Prestrain);
             return ndmCollection;
         }
 
         public void ValidateOptions(ITriangulationLogicOptions options)
         {
-            throw new NotImplementedException();
+            if (options is not RectangleTriangulationLogicOptions)
+            {
+                throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(RectangleTriangulationLogicOptions), options.GetType()));
+            }
         }
 
-        public RectangleTriangulationLogic(ITriangulationLogicOptions options)
-        {
-            Options = options;
-        }
     }
 }

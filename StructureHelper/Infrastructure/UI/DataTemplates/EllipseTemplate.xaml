@@ -7,10 +7,9 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mouseEventTriggers="clr-namespace:StructureHelper.Infrastructure.UI.Triggers.MouseEventTriggers"
              xmlns:dataContexts="clr-namespace:StructureHelper.Infrastructure.UI.DataContexts"
-             xmlns:userControls="clr-namespace:StructureHelper.Infrastructure.UI.UserControls"
              mc:Ignorable="d">
     <StackPanel>
-        <Ellipse Style="{StaticResource EllipseStyle}" d:DataContext="{d:DesignInstance dataContexts:PointViewPrimitive}">
+        <Ellipse Style="{StaticResource EllipseStyle}" d:DataContext="{d:DesignInstance dataContexts:PointViewPrimitive}" Tag ="{Binding}">
             <Ellipse.ToolTip>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -43,6 +42,5 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <userControls:PrimitivePopup Type="Rectangle" IsOpen="{Binding ParamsPanelVisibilty}" d:DataContext="{d:DesignInstance dataContexts:PrimitiveBase}"/>
     </StackPanel>
 </UserControl>

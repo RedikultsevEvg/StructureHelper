@@ -1,27 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Documents;
+﻿using StructureHelper.Models.Materials;
+using StructureHelper.Services.Primitives;
+using StructureHelper.Windows.MainWindow;
+using StructureHelper.Windows.ViewModels.NdmCrossSections;
+using StructureHelperCommon.Models.Shapes;
+using StructureHelperLogics.NdmCalculations.Primitives;
+using System;
 using System.Windows.Input;
 using System.Windows.Media;
-using StructureHelper.Infrastructure.Enums;
-using StructureHelper.Infrastructure.UI.Converters.Units;
-using StructureHelper.Models.Materials;
-using StructureHelper.Services.Primitives;
-using StructureHelper.UnitSystem.Systems;
-using StructureHelper.Windows.MainWindow;
-using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
-using StructureHelperLogics.Models.Materials;
-using StructureHelperCommon.Services.ColorServices;
-using StructureHelperLogics.Models.Primitives;
-using System.Windows.Controls;
-using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
-    public abstract class PrimitiveBase : ViewModelBase
+    public abstract class PrimitiveBase : ViewModelBase, IObserver<IRectangleShape>
     {
         #region Поля
         private IPrimitiveRepository primitiveRepository;
@@ -34,6 +23,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         #endregion
 
         #region Свойства
+        public HasDivisionViewModel DivisionViewModel { get; set; }
         public INdmPrimitive NdmPrimitive
         {
             get => primitive;
@@ -51,52 +41,61 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         }
         public double CenterX
         {
-            get => primitive.CenterX;
+            get => primitive.Center.X;
             set
             {
-                primitive.CenterX = value;
+                primitive.Center.X = value;
                 OnPropertyChanged(nameof(CenterX));
             }
         }
         public double CenterY
         {
-            get => primitive.CenterY;
+            get => primitive.Center.Y;
             set
             {
-                primitive.CenterY = value;
+                primitive.Center.Y = value;
                 OnPropertyChanged(nameof(CenterY));
                 OnPropertyChanged(nameof(InvertedCenterY));
             }
         }
-        public double InvertedCenterY => - CenterY;
-        public double PrestrainKx
-        {   get => primitive.UsersPrestrain.Kx;
+        public bool Triangulate
+        {
+            get => primitive.Triangulate;
             set
             {
-                primitive.UsersPrestrain.Kx = value;
+                primitive.Triangulate = value;
+                OnPropertyChanged(nameof(Triangulate));
+            }
+        }
+        public double InvertedCenterY => - CenterY;
+        public double PrestrainKx
+        {   get => primitive.UsersPrestrain.Mx;
+            set
+            {
+                primitive.UsersPrestrain.Mx = value;
                 OnPropertyChanged(nameof(PrestrainKx));
             }
         }
         public double PrestrainKy
-        {   get => primitive.UsersPrestrain.Ky;
+        {   get => primitive.UsersPrestrain.My;
             set
             {
-                primitive.UsersPrestrain.Ky = value;
+                primitive.UsersPrestrain.My = value;
                 OnPropertyChanged(nameof(PrestrainKy));
             }
         }
         public double PrestrainEpsZ
-        {   get => primitive.UsersPrestrain.EpsZ;
+        {   get => primitive.UsersPrestrain.Nz;
             set
             {
-                primitive.UsersPrestrain.EpsZ = value;
+                primitive.UsersPrestrain.Nz = value;
                 OnPropertyChanged(nameof(PrestrainEpsZ));
             }
         }
 
-        public double AutoPrestrainKx => primitive.AutoPrestrain.Kx;
-        public double AutoPrestrainKy => primitive.AutoPrestrain.Ky;
-        public double AutoPrestrainEpsZ => primitive.AutoPrestrain.EpsZ;
+        public double AutoPrestrainKx => primitive.AutoPrestrain.Mx;
+        public double AutoPrestrainKy => primitive.AutoPrestrain.My;
+        public double AutoPrestrainEpsZ => primitive.AutoPrestrain.Nz;
 
         public IHeadMaterial HeadMaterial
         {
@@ -239,30 +238,45 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             this.primitive = primitive;
         }
 
-        public void RegisterDeltas(double dx, double dy)
-        {
-            DeltaX = dx;
-            DeltaY = dy;
-        }
-
-        public MainViewModel OwnerVM { get; private set; }
+        public CrossSectionViewModel OwnerVM { get; private set; }
 
         public double DeltaX { get; private set; }
         public double DeltaY { get; private set; }
 
         public virtual INdmPrimitive GetNdmPrimitive()
         {
-            RefreshNdmPrimitive();
+            //RefreshNdmPrimitive();
             return primitive;
         }
 
-        public virtual void RefreshNdmPrimitive()
+        public virtual void Refresh()
         {
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(Color));
+            OnPropertyChanged(nameof(CenterX));
+            OnPropertyChanged(nameof(CenterY));
+            OnPropertyChanged(nameof(InvertedCenterY));
+            OnPropertyChanged(nameof(SetMaterialColor));
+            OnPropertyChanged(nameof(Triangulate));
+            OnPropertyChanged(nameof(PrimitiveWidth));
+            OnPropertyChanged(nameof(PrimitiveHeight));
         }
 
-        public void RefreshColor()
+        public void OnCompleted()
         {
-            OnPropertyChanged(nameof(Color));
+            throw new NotImplementedException();
+        }
+
+        public void OnError(Exception error)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnNext(IRectangleShape value)
+        {
+            DeltaX = value.Width / 2d;
+            DeltaY = value.Height / 2d;
+            Refresh();
         }
     }
 }

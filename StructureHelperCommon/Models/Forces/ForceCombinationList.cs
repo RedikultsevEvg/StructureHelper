@@ -1,43 +1,72 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services.Forces;
 
 namespace StructureHelperCommon.Models.Forces
 {
+    /// <inheritdoc/>
     public class ForceCombinationList : IForceCombinationList
     {
-
+        readonly IUpdateStrategy<IAction> updateStrategy = new ActionUpdateStrategy();
+        /// <inheritdoc/>
+        public Guid Id { get; }
+        /// <inheritdoc/>
         public string Name { get; set; }
+        /// <inheritdoc/>
         public bool SetInGravityCenter { get; set; }
-        public Point2D ForcePoint { get; private set; }
+        /// <inheritdoc/>
+        public IPoint2D ForcePoint { get; set; }
+        /// <inheritdoc/>
         public List<IDesignForceTuple> DesignForces { get; private set; }
-        
 
-        public ForceCombinationList()
+
+        public ForceCombinationList(Guid id)
         {
+            Id = id;
             SetInGravityCenter = true;
             ForcePoint = new Point2D() { X = 0, Y = 0 };
-            DesignForces = new List<IDesignForceTuple>();
-            DesignForces.Add(new DesignForceTuple(LimitStates.ULS, CalcTerms.ShortTerm));
-            DesignForces.Add(new DesignForceTuple(LimitStates.ULS, CalcTerms.LongTerm));
-            DesignForces.Add(new DesignForceTuple(LimitStates.SLS, CalcTerms.ShortTerm));
-            DesignForces.Add(new DesignForceTuple(LimitStates.SLS, CalcTerms.LongTerm));
+            DesignForces = new List<IDesignForceTuple>
+            {
+                new DesignForceTuple(LimitStates.ULS, CalcTerms.ShortTerm),
+                new DesignForceTuple(LimitStates.ULS, CalcTerms.LongTerm),
+                new DesignForceTuple(LimitStates.SLS, CalcTerms.ShortTerm),
+                new DesignForceTuple(LimitStates.SLS, CalcTerms.LongTerm)
+            };
         }
-
+        public ForceCombinationList() : this (Guid.NewGuid()) { }
+        /// <inheritdoc/>
         public object Clone()
         {
             var newItem = new ForceCombinationList();
-            newItem.Name = Name + " copy";
-            newItem.SetInGravityCenter = SetInGravityCenter;
-            newItem.ForcePoint.X = ForcePoint.X;
-            newItem.ForcePoint.Y = ForcePoint.Y;
-            newItem.DesignForces.Clear();
-            foreach (var item in DesignForces)
-            {
-                var newForce = item.Clone() as IDesignForceTuple;
-                newItem.DesignForces.Add(newForce);
-            }
+            updateStrategy.Update(newItem, this);
             return newItem;
+        }
+        /// <inheritdoc/>
+        public IForceCombinationList GetCombinations()
+        {
+            var result = Clone() as IForceCombinationList;
+            result.DesignForces.Clear();
+            var limitStates = new List<LimitStates>() { LimitStates.ULS, LimitStates.SLS };
+            var calcTerms = new List<CalcTerms>() { CalcTerms.ShortTerm, CalcTerms.LongTerm };
+            foreach (var limitState in limitStates)
+            {
+                foreach (var calcTerm in calcTerms)
+                {
+                    var designForceTuple = new DesignForceTuple() { LimitState = limitState, CalcTerm = calcTerm };
+                    var forceTupleList = DesignForces.Where(x => x.LimitState == limitState & x.CalcTerm == calcTerm);
+                    foreach (var item in forceTupleList)
+                    {
+                        designForceTuple.ForceTuple = ForceTupleService.SumTuples(designForceTuple.ForceTuple, item.ForceTuple) as ForceTuple;
+                    }
+                    result.DesignForces.Add(designForceTuple);
+                }
+            }
+            return result;
         }
     }
 }

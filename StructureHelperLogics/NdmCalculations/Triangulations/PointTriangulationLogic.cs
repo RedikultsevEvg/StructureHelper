@@ -1,37 +1,40 @@
-﻿using LoaderCalculator.Data.Materials;
-using LoaderCalculator.Data.Ndms;
-using System;
-using System.Collections.Generic;
-using StructureHelperCommon.Models.Shapes;
-using LoaderCalculator.Data.Matrix;
+﻿using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.Ndms.Transformations;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Services.Forces;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
-    public class PointTriangulationLogic : IPointTriangulationLogic
+    public class PointTriangulationLogic : ITriangulationLogic
     {
-        public ITriangulationLogicOptions Options { get; }
+        private readonly PointTriangulationLogicOptions options;
 
         public PointTriangulationLogic(ITriangulationLogicOptions options)
         {
-            Options = options;
+            ValidateOptions(options);
+            this.options = options as  PointTriangulationLogicOptions;
         }
 
-        public IEnumerable<INdm> GetNdmCollection(IMaterial material)
+        public IEnumerable<INdm> GetNdmCollection()
         {
-            IPointTriangulationLogicOptions options = Options as IPointTriangulationLogicOptions;
-            IPoint2D center = options.Center;
-            double area = options.Area;
-            List<INdm> ndmCollection = new List<INdm>();
-            INdm ndm = new Ndm { CenterX = center.X, CenterY = center.Y, Area = area, Material = material };
-            ndmCollection.Add(ndm);
-            NdmTransform.SetPrestrain(ndmCollection, new StrainMatrix() { Kx = Options.PrestrainKx, Ky = Options.PrestrainKy, EpsZ = Options.PrestrainEpsZ });
+            var ndm = new Ndm
+            {
+                CenterX = options.Center.X,
+                CenterY = options.Center.Y,
+                Area = options.Area,
+                Material = options.HeadMaterial.GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm)
+            };
+            List<INdm> ndmCollection = new () { ndm};
+            NdmTransform.SetPrestrain(ndmCollection, TupleConverter.ConvertToLoaderStrainMatrix(options.Prestrain));
             return ndmCollection;
         }
 
         public void ValidateOptions(ITriangulationLogicOptions options)
         {
-            throw new NotImplementedException();
+            if (options is not PointTriangulationLogicOptions)
+            {
+                throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(PointTriangulationLogicOptions), options.GetType()));
+            }
         }
     }
 }

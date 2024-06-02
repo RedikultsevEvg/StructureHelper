@@ -1,5 +1,4 @@
-﻿using StructureHelper.Windows.ViewModels.PrimitiveProperties;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,16 +19,13 @@ namespace StructureHelper.Windows.PrimitivePropertiesWindow
     /// </summary>
     public partial class SelectPrimitivesView : Window
     {
+        SelectPrimitivesViewModel viewModel;
         public SelectPrimitivesView(SelectPrimitivesViewModel vm)
         {
+            viewModel = vm;
             InitializeComponent();
-            DataContext = vm;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = true;
-            this.Close();
+            DataContext = viewModel;
+            viewModel.ParentWindow = this;
         }
     }
 }

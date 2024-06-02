@@ -10,7 +10,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     {
         public bool IsValid { get; set; }
         public List<IForcesTupleResult> ForcesResultList { get; }
-        public string Desctription { get; set; }
+        public string Description { get; set; }
 
         public ForcesResults()
         {

@@ -22,7 +22,7 @@ namespace StructureHelperCommon.Models.Forces
         public object Clone()
         {
             var newTuple = new DesignForceTuple(this.LimitState, this.CalcTerm);
-            newTuple.ForceTuple = this.ForceTuple.Clone() as IForceTuple;
+            newTuple.ForceTuple = this.ForceTuple.Clone() as ForceTuple;
             return newTuple;
         }
     }

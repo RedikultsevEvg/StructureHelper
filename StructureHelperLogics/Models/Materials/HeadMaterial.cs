@@ -18,7 +18,7 @@ namespace StructureHelper.Models.Materials
     {
         private Color color;
 
-        public string Id { get; }
+        public Guid Id { get; }
         public string Name { get; set; }
         public Color Color
         {
@@ -31,10 +31,14 @@ namespace StructureHelper.Models.Materials
         }
         public IHelperMaterial HelperMaterial {get; set;}
 
-        public HeadMaterial()
+        public HeadMaterial(Guid id)
         {
-            Id = Convert.ToString(Guid.NewGuid());
+            Id = id;
             Color = ColorProcessor.GetRandomColor();
+        }
+
+        public HeadMaterial() : this(Guid.NewGuid())
+        {        
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -46,14 +50,21 @@ namespace StructureHelper.Models.Materials
 
         public object Clone()
         {
-            IHeadMaterial material = new HeadMaterial
-            {
-                Name = Name,
-                Color = Color,
-                HelperMaterial = HelperMaterial.Clone() as IHelperMaterial
-            };
-            return material;
+            var newItem = new HeadMaterial();
+            newItem.HelperMaterial = this.HelperMaterial.Clone() as IHelperMaterial;
+            var updateStrategy = new MaterialUpdateStrategy();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
 
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        {
+            return HelperMaterial.GetCrackedLoaderMaterial(limitState, calcTerm);
+        }
     }
 }

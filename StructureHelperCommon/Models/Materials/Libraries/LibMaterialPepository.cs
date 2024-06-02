@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Settings;
 
 namespace StructureHelperCommon.Models.Materials.Libraries
 {
@@ -9,19 +10,31 @@ namespace StructureHelperCommon.Models.Materials.Libraries
         private static List<ILibMaterialEntity> libMaterials;
         public static List<ILibMaterialEntity> GetRepository()
         {
-            if (libMaterials is null) { libMaterials = LibMaterialFactory.GetLibMaterials(); }
-
+            libMaterials = LibMaterialFactory.GetLibMaterials();
+            //if (libMaterials is null)
+            //{
+            //}
             return libMaterials;
         }
 
-        public static IEnumerable<ILibMaterialEntity> GetConcreteRepository(CodeTypes code)
+        public static List<ILibMaterialEntity> GetConcreteRepository()
         {
-            return GetRepository().Where(x => x.CodeType == code & x is IConcreteMaterialEntity); ;
+            var natCodes = ProgramSetting.CodesList;
+            var rep = GetRepository();
+            var repository = rep
+                .Where(x => natCodes.Contains(x.Code) & x is IConcreteMaterialEntity)
+                .ToList();
+            return repository;
         }
 
-        public static IEnumerable<ILibMaterialEntity> GetReinforcementRepository(CodeTypes code)
+        public static List<ILibMaterialEntity> GetReinforcementRepository()
         {
-            return GetRepository().Where(x => x.CodeType == code & x is IReinforcementMaterialEntity);
+            var natCodes = ProgramSetting.CodesList;
+            var rep = GetRepository();
+            var repository = rep
+                .Where(x => natCodes.Contains(x.Code) & x is IReinforcementMaterialEntity)
+                .ToList();
+            return repository;
         }
     }
 }

@@ -7,7 +7,6 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:infrastructure="clr-namespace:StructureHelper.Infrastructure"
              xmlns:mouseEventTriggers="clr-namespace:StructureHelper.Infrastructure.UI.Triggers.MouseEventTriggers"
-             xmlns:userControls="clr-namespace:StructureHelper.Infrastructure.UI.UserControls"
              xmlns:dataContexts="clr-namespace:StructureHelper.Infrastructure.UI.DataContexts"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance dataContexts:RectangleViewPrimitive}">
@@ -52,6 +51,5 @@
                 </Rectangle.RenderTransform>
             </Rectangle>
         </Grid>
-        <userControls:PrimitivePopup IsOpen="{Binding ParamsPanelVisibilty}"/>
     </StackPanel>
 </UserControl>

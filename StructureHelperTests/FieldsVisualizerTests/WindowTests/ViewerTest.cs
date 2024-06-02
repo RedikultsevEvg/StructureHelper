@@ -1,14 +1,7 @@
-﻿using FieldVisualizer.Entities.ColorMaps;
-using FieldVisualizer.Entities.ColorMaps.Factories;
-using FieldVisualizer.Entities.Values;
-using FieldVisualizer.Entities.Values.Primitives;
-using FieldVisualizer.InfraStructures.Enums;
-using FieldVisualizer.Services.ColorServices;
+﻿using FieldVisualizer.Entities.Values.Primitives;
 using FieldVisualizer.Services.PrimitiveServices;
 using FieldVisualizer.Windows;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Windows.Media;
 
 namespace StructureHelperTests.FieldsVisualizerTests.WindowTests
 {

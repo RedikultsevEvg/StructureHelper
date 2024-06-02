@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services;
 using StructureHelperCommon.Services.Units;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,19 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
 {
     internal class Stress : UnitBase
     {
+
         public override UnitTypes UnitType { get => UnitTypes.Stress; }
-        public override IUnit CurrentUnit { get => CommonOperation.GetUnit(UnitType, "MPa"); }
+        public override IUnit CurrentUnit { get => UnitLogic.GetUnit(UnitType, "MPa"); }
         public override string UnitName { get => "Stress"; }
+        public Stress()
+        {
+            OperationLogic = new ConvertUnitLogic()
+            {
+                MathRoundLogic = new SmartRoundLogic()
+                {
+                    DigitQuant = 3
+                }
+            };
+        }
     }
 }

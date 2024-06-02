@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.ViewModels.Materials
 {
-    internal class PartialFactorsViewModel : CRUDViewModelBase<IMaterialPartialFactor>
+    internal class PartialFactorsViewModel : SelectItemVM<IMaterialPartialFactor>
     {
         public override void AddMethod(object parameter)
         {

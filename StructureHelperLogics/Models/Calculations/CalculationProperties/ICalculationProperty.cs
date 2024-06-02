@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Calculators;
 using System.Collections.Generic;
 
 namespace StructureHelperLogics.Models.Calculations.CalculationProperties
@@ -8,6 +9,6 @@ namespace StructureHelperLogics.Models.Calculations.CalculationProperties
         List<IForceCombination> ForceCombinations { get; set; }
         LimitStates LimitState { get; set; }
         CalcTerms CalcTerm { get; set; }
-        IIterationProperty IterationProperty {get;}
+        IAccuracy Accuracy {get;}
     }
 }

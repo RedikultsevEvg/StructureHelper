@@ -1,5 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
+using StructureHelperCommon.Services.Units;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,6 +12,8 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
 {
     internal class PlainDouble : IValueConverter
     {
+        IConvertUnitLogic operationLogic = new ConvertUnitLogic();
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             try
@@ -28,7 +30,7 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
         {
             try
             {
-                return CommonOperation.ConvertToDoubleChangeComma((string)value);
+                return ProcessString.ConvertCommaToCultureSettings((string)value);
             }
             catch (Exception)
             {

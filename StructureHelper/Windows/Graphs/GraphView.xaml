@@ -1,0 +1,97 @@
+﻿<Window x:Class="StructureHelper.Windows.Graphs.GraphView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.Graphs"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        d:DataContext="{d:DesignInstance local:GraphViewModel}"
+        mc:Ignorable="d"
+        Title="Graph" Height="550" Width="800" MinHeight="500" MinWidth="600" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <!--<ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Command="{Binding SaveAsImage}">
+                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/ConMaterial32.png"/>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="250"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="170"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <ListBox ItemsSource="{Binding Series}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Expander Header="{Binding Name}" IsExpanded="True" Background="{Binding Color}">
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="70"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <GroupBox Grid.Row="0" Margin="10,0,10,0" Header="X-axis values">
+                                        <StackPanel>
+                                            <ComboBox ItemsSource="{Binding XItems.Collection}" SelectedItem="{Binding XItems.SelectedItem}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20"/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Rectangle Grid.Column="0" Margin="3">
+                                                                <Rectangle.Fill>
+                                                                    <SolidColorBrush Color="{Binding Color}"/>
+                                                                </Rectangle.Fill>
+                                                            </Rectangle>
+                                                            <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                            <CheckBox Margin="5" Content="Invert Values" IsChecked="{Binding InvertXValues}"/>
+                                        </StackPanel>
+
+                                    </GroupBox>
+                                    <GroupBox Grid.Row="1" Margin="10,0,10,0" Header="Y-axis values">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="30"/>
+                                            </Grid.RowDefinitions>
+                                            <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding YItems}"/>
+                                            <CheckBox Grid.Row="1" Margin="5" Content="Invert Values" IsChecked="{Binding InvertYValues}"/>
+                                        </Grid>
+                                    </GroupBox>
+                                </Grid>
+                            </Expander>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResourceKey=LineVisualProperties}" Content="{Binding VisualProps}"/>
+                
+                <StackPanel Grid.Row="2">
+                    <Button Margin="3" Content="Draw Lines" ToolTip="Draw Lines" Command="{Binding RedrawLinesCommand}"/>
+                </StackPanel>
+            </Grid>
+            <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" ShowsPreview="False"/>
+            <lvc:CartesianChart Name="MainChart" Grid.Column="2" Series="{Binding SeriesCollection}" LegendLocation="Bottom" Zoom="Xy">
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis Title="y-value"></lvc:Axis>
+                </lvc:CartesianChart.AxisY>
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis Title="x-value"></lvc:Axis>
+                </lvc:CartesianChart.AxisX>
+            </lvc:CartesianChart>
+        </Grid>
+    </DockPanel>
+    
+</Window>

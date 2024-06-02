@@ -1,5 +1,4 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Strings;
 using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
@@ -17,21 +16,37 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         public static ObservableCollection<PrimitiveBase> ConvertNdmPrimitivesToPrimitiveBase(IEnumerable<INdmPrimitive> primitives)
         {
             ObservableCollection<PrimitiveBase> viewItems = new ObservableCollection<PrimitiveBase>();
-            foreach (var item in primitives)
+            foreach (var primitive in primitives)
             {
-                if (item is IPointPrimitive)
-                {
-                    var point = item as IPointPrimitive;
-                    viewItems.Add(new PointViewPrimitive(point));
-                }
-                else if (item is IRectanglePrimitive)
-                {
-                    var rect = item as IRectanglePrimitive;
-                    viewItems.Add(new RectangleViewPrimitive(rect));
-                }
-                else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
+                viewItems.Add(ConvertNdmPrimitiveToPrimitiveBase(primitive));
             }
             return viewItems;
+        }
+        public static PrimitiveBase ConvertNdmPrimitiveToPrimitiveBase(INdmPrimitive primitive)
+        {
+            PrimitiveBase viewItem;
+            if (primitive is IRectanglePrimitive)
+            {
+                var rect = primitive as IRectanglePrimitive;
+                viewItem = new RectangleViewPrimitive(rect);
+            }
+            else if (primitive is ICirclePrimitive)
+            {
+                var circle = primitive as ICirclePrimitive;
+                viewItem = new CircleViewPrimitive(circle);
+            }
+            else if (primitive is IPointPrimitive & primitive is not RebarPrimitive)
+            {
+                var point = primitive as IPointPrimitive;
+                viewItem = new PointViewPrimitive(point);
+            }
+            else if (primitive is RebarPrimitive)
+            {
+                var point = primitive as RebarPrimitive;
+                viewItem = new ReinforcementViewPrimitive(point);
+            }
+            else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Actual type: {primitive.GetType()}");
+            return viewItem;
         }
     }
 }

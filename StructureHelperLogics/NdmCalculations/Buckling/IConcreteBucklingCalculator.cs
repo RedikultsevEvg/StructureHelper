@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Buckling
 {
-    internal interface IConcreteBucklingCalculator : INdmCalculator
+    internal interface IConcreteBucklingCalculator : ICalculator
     {
         IAccuracy Accuracy { get; set; }
     }

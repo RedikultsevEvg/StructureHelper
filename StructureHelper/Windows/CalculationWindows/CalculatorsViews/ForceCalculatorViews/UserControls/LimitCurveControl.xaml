@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.LimitCurveControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
+             xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+             xmlns:fr="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance fr:LimitCurveDataViewModel}"
+             d:DesignHeight="325" d:DesignWidth="400">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Limits">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+                    <local:SurroundDataControl x:Name="SurData"/>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Point count"/>
+                        <TextBox Grid.Column="1" Text="{Binding PointCount, ValidatesOnDataErrors=True}"/>
+                        <uc:MultiplyDouble Margin="2" Grid.Column="3" ValueChanged="PointCountChanged"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Primitives" DataContext="{Binding PrimitiveSeries}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Expander>
+                                    <Expander.Header>
+                                        <Grid MinWidth="250">
+                                            <TextBox  Margin="20,0,0,0" Text="{Binding Name}"/>
+                                        </Grid>
+                                    </Expander.Header>
+                                    <Grid Width="300" Height="200">
+                                        <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding Value}"/>
+                                    </Grid>
+                                </Expander>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <StackPanel Grid.Column="1" Margin="2">
+                        <Button Style="{StaticResource AddButton}"/>
+                        <Button Style="{StaticResource DeleteButton}"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Predicates">
+                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding PredicateItems}"/>
+            </TabItem>
+            <TabItem Header="States">
+                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding LimitStateItems}"/>
+            </TabItem>
+            <TabItem Header="Terms">
+                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding CalcTermITems}"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

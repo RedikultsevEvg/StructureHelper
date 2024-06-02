@@ -1,19 +1,29 @@
-﻿using StructureHelperLogics.NdmCalculations.Analyses;
+﻿using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StructureHelperLogics.NdmCalculations.Cracking;
 
 namespace StructureHelperLogics.Models.Templates.CrossSections
 {
     internal class CalculatorLogic : ICalculatorLogic
     {
-        public IEnumerable<INdmCalculator> GetNdmCalculators()
+        public IEnumerable<ICalculator> GetNdmCalculators()
         {
-            var calculators = new List<INdmCalculator>();
-            calculators.Add(new ForceCalculator() { Name = "New Force Calculator"});
+            var calculators = new List<ICalculator>();
+            var forceCalculator = new ForceCalculator()
+            {
+                Name = "New Force Calculator",
+                TraceLogger = new ShiftTraceLogger()
+            };
+            calculators.Add(forceCalculator);
+            CrackInputData newInputData = new CrackInputData();
+            var checkLogic = new CheckCrackCalculatorInputDataLogic(newInputData);
+            var crackCalculator = new CrackCalculator(newInputData, checkLogic)
+            {
+                Name = "New Crack Calculator",
+                TraceLogger = new ShiftTraceLogger()
+            };
+            calculators.Add(crackCalculator);
             return calculators;
         }
     }

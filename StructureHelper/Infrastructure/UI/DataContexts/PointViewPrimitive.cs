@@ -42,7 +42,11 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         {
             return primitive;
         }
-
+        public override void Refresh()
+        {
+            RefreshPlacement();
+            base.Refresh();
+        }
         private void RefreshPlacement()
         {
             OnPropertyChanged(nameof(Area));

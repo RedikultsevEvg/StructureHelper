@@ -19,12 +19,12 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
     {
         private readonly ICrossSectionRepository repository;
 
-        public IForceCombinationList SelectedItem { get; set; }
+        public IForceAction SelectedItem { get; set; }
 
-        public ObservableCollection<IForceCombinationList> Items { get; private set; }
+        public ObservableCollection<IForceAction> Items { get; private set; }
 
-        private RelayCommand addForceCombinationCommand;
-        public RelayCommand Add
+        private ICommand addForceCombinationCommand;
+        public ICommand Add
         {
             get
             {
@@ -41,10 +41,10 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         {
             var item = new ForceCombinationList() { Name = "New Force Combination" };
             Items.Add(item);
-            repository.ForceCombinationLists.Add(item);
+            repository.ForceActions.Add(item);
         }
-        private RelayCommand deleteForceCombinationCommand;
-        public RelayCommand Delete
+        private ICommand deleteForceCombinationCommand;
+        public ICommand Delete
         {
             get
             {
@@ -62,13 +62,13 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             var dialogResult = MessageBox.Show("Delete action?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                repository.ForceCombinationLists.Remove(SelectedItem);
+                repository.ForceActions.Remove(SelectedItem);
             }
         }
-        private RelayCommand editForceCombinationCommand;
-        private RelayCommand copyCommand;
+        private ICommand editForceCombinationCommand;
+        private ICommand copyCommand;
 
-        public RelayCommand Edit
+        public ICommand Edit
         {
             get
             {
@@ -78,13 +78,13 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                     {
                         EditForceCombination();
                         Items.Clear();
-                        AddItems(repository.ForceCombinationLists);
+                        AddItems(repository.ForceActions);
                         OnPropertyChanged(nameof(Items));
                     }, o => SelectedItem != null));
             }
         }
 
-        public RelayCommand Copy
+        public ICommand Copy
         {
             get
             {
@@ -93,7 +93,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 copyCommand = new RelayCommand(o =>
                 {
                     var item = SelectedItem.Clone() as IForceCombinationList;
-                    repository.ForceCombinationLists.Add(item);
+                    repository.ForceActions.Add(item);
                     Items.Add(item);
                     OnPropertyChanged(nameof(Items));
                 }, o => SelectedItem != null));
@@ -102,11 +102,11 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void EditForceCombination()
         {
-            var wnd = new ForceCombinationView(SelectedItem);
-            wnd.ShowDialog();
+            //var wnd = new ForceCombinationView(SelectedItem);
+            //wnd.ShowDialog();
         }
 
-        public void AddItems(IEnumerable<IForceCombinationList> items)
+        public void AddItems(IEnumerable<IForceAction> items)
         {
             foreach (var item in items)
             {
@@ -117,8 +117,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         public ForceCombinationViewModelLogic(ICrossSectionRepository repository)
         { 
             this.repository = repository;
-            Items = new ObservableCollection<IForceCombinationList>();
-            AddItems(this.repository.ForceCombinationLists);
+            Items = new ObservableCollection<IForceAction>();
+            AddItems(this.repository.ForceActions);
         }
     }
 }

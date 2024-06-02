@@ -6,8 +6,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     public interface ITriangulationLogic
     {
-        ITriangulationLogicOptions Options { get; }
-        IEnumerable<INdm> GetNdmCollection(IMaterial material);
+        IEnumerable<INdm> GetNdmCollection();
         void ValidateOptions(ITriangulationLogicOptions options);
     }
 }

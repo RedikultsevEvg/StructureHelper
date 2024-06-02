@@ -11,7 +11,7 @@ namespace StructureHelper.Infrastructure.UI.Converters.Units
     internal class Curvature : UnitBase
     {
         public override UnitTypes UnitType { get => UnitTypes.Curvature; }
-        public override IUnit CurrentUnit { get => CommonOperation.GetUnit(UnitType, "1/mm"); }
+        public override IUnit CurrentUnit { get => UnitLogic.GetUnit(UnitType, "1/mm"); }
         public override string UnitName { get => "Curvature"; }
     }
 }
