@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.Forces"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:ValuePointsInterpolateViewModel}"
-        Title="Value Poits Interpolation" Height="250" Width="460" MinHeight="250" MinWidth="460" MaxHeight="450" MaxWidth="460" WindowStartupLocation="CenterScreen">
+        Title="Value Points Interpolation" Height="250" Width="460" MinHeight="250" MinWidth="460" MaxHeight="450" MaxWidth="460" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -24,7 +24,7 @@
                                 <Expander.Header>
                                     <ContentControl ContentTemplate="{StaticResource ResourceKey=ColoredItemTemplate}" Content="{Binding Item.PrimitiveBase}"/>
                                 </Expander.Header>
-                                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding Item.ValuePoints}"/>
+                                <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding Item.ValuePoints}" Width="400"/>
                             </Expander>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

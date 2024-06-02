@@ -18,6 +18,8 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.CrackCalculatorT
 {
     internal class CrackCalculatorTest
     {
+        private ITriangulatePrimitiveLogic triangulateLogic;
+
         [TestCase(0.4d, 0.6d, 0.012d, 0.025d, 2, 2, 0.81d)]
         public void Run_ShouldPass(double width, double height, double topDiametr, double bottomDiametr, int widthCount, int heightCount, double expectedFactor)
         {
@@ -25,7 +27,13 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.CrackCalculatorT
             var template = new RectangleBeamTemplate(width, height) { TopDiameter = topDiametr, BottomDiameter = bottomDiametr, WidthCount = widthCount, HeightCount = heightCount };
             var newSection = new SectionTemplate(new RectGeometryLogic(template)).GetCrossSection();
             var ndmPrimitives = newSection.SectionRepository.Primitives;
-            var ndms = NdmPrimitivesService.GetNdms(ndmPrimitives, LimitStates.SLS, CalcTerms.ShortTerm);
+            triangulateLogic = new TriangulatePrimitiveLogic()
+            {
+                Primitives = ndmPrimitives,
+                LimitState = LimitStates.SLS,
+                CalcTerm = CalcTerms.ShortTerm
+            };
+            var ndms = triangulateLogic.GetNdms();
             var calculator = new CrackForceCalculator();
             calculator.EndTuple = new ForceTuple() { Mx = -50e3d, My = -50e3d, Nz = 0d };
             calculator.NdmCollection = ndms;

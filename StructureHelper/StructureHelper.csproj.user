@@ -12,6 +12,15 @@
     <Compile Update="Windows\Arrays\ArrayView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackResultView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\TupleCrackResultView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\LimitCurveDataView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -68,6 +77,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Infrastructure\UI\Resources\Cracks.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Infrastructure\UI\Resources\ForceTemplates.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -83,7 +95,22 @@
     <Page Update="Infrastructure\UI\Resources\Materials.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Infrastructure\UI\Resources\ServiceColors.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\Arrays\ArrayView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackResultView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\Cracks.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\TupleCrackResultView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\LimitCurveDataView.xaml">

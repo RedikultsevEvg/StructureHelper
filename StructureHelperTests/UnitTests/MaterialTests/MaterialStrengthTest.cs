@@ -7,8 +7,8 @@ namespace StructureHelperTests.UnitTests.MaterialTests
 {
     public class MaterialStrengthTest
     {
-        [TestCase(HeadmaterialType.Reinforcement400, CodeTypes.SP63_2018, LimitStates.ULS, CalcTerms.ShortTerm, 347826086.95652175d, 347826086.95652175d)]
-        [TestCase(HeadmaterialType.Reinforcement400, CodeTypes.SP63_2018, LimitStates.SLS, CalcTerms.ShortTerm, 400000000d, 400000000d)]
+        [TestCase(HeadmaterialType.Reinforcement400, CodeTypes.SP63_2018, LimitStates.ULS, CalcTerms.ShortTerm, 339130434.78260875d, 339130434.78260875d)]
+        [TestCase(HeadmaterialType.Reinforcement400, CodeTypes.SP63_2018, LimitStates.SLS, CalcTerms.ShortTerm, 390000000d, 390000000d)]
         [TestCase(HeadmaterialType.Reinforecement500, CodeTypes.SP63_2018, LimitStates.ULS, CalcTerms.ShortTerm, 400000000.0d, 434782608.69565225d)]
         [TestCase(HeadmaterialType.Reinforecement500, CodeTypes.SP63_2018, LimitStates.ULS, CalcTerms.LongTerm, 434782608.69565225d, 434782608.69565225d)]
         [TestCase(HeadmaterialType.Reinforecement500, CodeTypes.SP63_2018, LimitStates.SLS, CalcTerms.ShortTerm, 5e8d, 5e8d)]

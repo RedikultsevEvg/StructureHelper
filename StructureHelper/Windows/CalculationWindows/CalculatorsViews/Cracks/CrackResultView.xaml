@@ -1,0 +1,119 @@
+﻿<Window x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.CrackResultView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews"
+        d:DataContext="{d:DesignInstance local:CrackResultViewModel}"
+        mc:Ignorable="d"
+        Title="Result of calculations of crack" Height="450" Width="800" MinHeight="300" MinWidth="600" MaxHeight="800" MaxWidth="1000" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Windows/CalculationWindows/CalculatorsViews/Cracks/Cracks.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowRebarsCommand}" ToolTip="Show results by rebars">
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource ShowRebarsResult}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowIsoFieldCommand}" ToolTip="Show isofield results">
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource IsoFieldResult}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <DataGrid IsReadOnly="True" AutoGenerateColumns="False"  ItemsSource="{Binding TupleResults}" SelectedItem="{Binding SelectedResult}">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsValid}" Value="false">
+                                <Setter Property="Background" Value="{StaticResource ErrorColorBrush}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="Valid" Binding="{Binding Path=IsValid}"/>
+                    <DataGridTextColumn Header="Action name" Binding="{Binding InputData.TupleName}" Width="120"/>
+                    <DataGridTemplateColumn Header="Combination term" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="Long-term"/>
+                                    <TextBlock Grid.Row="1" Text="Short-term"/>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Moment Mx" Width="90">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.Mx, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.Mx, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right" />
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Moment My" Width="90">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.My, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right"/>
+                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.My, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right" />
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Force Nz" Width="90">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.Nz, Converter={StaticResource ForceConverter}}" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.Nz, Converter={StaticResource ForceConverter}}" HorizontalAlignment="Right" />
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Crack width" Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ContentControl ContentTemplate="{StaticResource CrackGrid}" Content="{Binding}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Description" Width="300" Binding="{Binding Description}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock Grid.Row="1" Text="{Binding CrackResult.Description}"/>
+        </Grid>
+    </DockPanel>
+</Window>

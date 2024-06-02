@@ -6,7 +6,7 @@
         xmlns:FieldViewerControl="clr-namespace:FieldVisualizer.Windows.UserControls"
         xmlns:local="clr-namespace:FieldVisualizer.Windows"
         mc:Ignorable="d"
-        Title="FieldViewer" Height="800" Width="1200" WindowStartupLocation="CenterOwner">
+        Title="FieldViewer" Height="800" Width="1200" MinHeight="400" MinWidth="800" MaxHeight="1000" MaxWidth="1500" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>

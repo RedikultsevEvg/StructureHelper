@@ -16,7 +16,7 @@ namespace StructureHelperCommon.Models.Materials
     {
         private ConcreteLogicOptions options;
         private MaterialCommonOptionLogic optionLogic;
-        private FactorLogic factorLogic;
+        
 
         public ConcreteMaterialOptionLogic(ConcreteLogicOptions options)
         {
@@ -32,10 +32,6 @@ namespace StructureHelperCommon.Models.Materials
             var concreteOptions = materialOptions as ConcreteOptions;
             optionLogic = new MaterialCommonOptionLogic(options);
             optionLogic.SetMaterialOptions(concreteOptions);
-            factorLogic = new FactorLogic(options.SafetyFactors);
-            var strength = factorLogic.GetTotalFactor(options.LimitState, options.CalcTerm);
-            concreteOptions.ExternalFactor.Compressive = strength.Compressive;
-            concreteOptions.ExternalFactor.Tensile = strength.Tensile;
             concreteOptions.WorkInTension = options.WorkInTension;
             concreteOptions.RelativeHumidity = options.RelativeHumidity;
             concreteOptions.Age = options.Age;

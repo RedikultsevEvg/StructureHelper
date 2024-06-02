@@ -60,14 +60,16 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private void MultiThreadProc(IEnumerable<IPoint2D> points)
         {
             Task<IPoint2D>[] tasks = new Task<IPoint2D>[points.Count()];
-            for (int i = 0; i < points.Count(); i++)
+            int pointCount = points.Count();
+            List<IPoint2D> PointList = points.ToList();
+            for (int i = 0; i < pointCount; i++)
             {
-                var point = points.ToList()[i];
+                var point = PointList[i];
                 tasks[i] = new Task<IPoint2D>(() => FindResultPoint(point));
                 tasks[i].Start();
             }
             Task.WaitAll(tasks);
-            for (int j = 0; j < points.Count(); j++)
+            for (int j = 0; j < pointCount; j++)
             {
                 var taskResult = tasks[j].Result;
                 resultList.Add(taskResult);

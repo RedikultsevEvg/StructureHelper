@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    internal interface ISectionCrackedLogic : ILogic
+    public interface ISectionCrackedLogic : ILogic
     {
         IForceTuple Tuple { get; set; }
         IEnumerable<INdm> NdmCollection { get; set; }

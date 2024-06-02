@@ -33,8 +33,16 @@ namespace StructureHelperCommon.Models.Materials
         {
             GetLoaderOptions();
             IBuilderDirector director = GetMaterialDirector();
-            var material = director.BuildMaterial();
-            return material;
+            try
+            {
+                var material = director.BuildMaterial();
+                return material;
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
         }
 
         private IBuilderDirector GetMaterialDirector()

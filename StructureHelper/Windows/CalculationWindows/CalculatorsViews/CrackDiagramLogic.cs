@@ -21,7 +21,11 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 {
     internal class CrackDiagramLogic : ILongProcessLogic
     {
+        static IConvertUnitLogic operationLogic = new ConvertUnitLogic();
+        static IGetUnitLogic unitLogic = new GetUnitLogic();
         static readonly CrackForceCalculator calculator = new();
+        private ITriangulatePrimitiveLogic triangulateLogic;
+
         private List<IForcesTupleResult> ValidTupleList { get; set; }
         ArrayParameter<double> arrayParameter;
         private IEnumerable<IForcesTupleResult> TupleList { get; set; }
@@ -65,9 +69,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
             arrayParameter = new ArrayParameter<double>(ValidTupleList.Count(), labels);
             CalculateWithCrack(ValidTupleList,
                 NdmPrimitives,
-                CommonOperation.GetUnit(UnitTypes.Force),
-                CommonOperation.GetUnit(UnitTypes.Moment),
-                CommonOperation.GetUnit(UnitTypes.Curvature));
+                unitLogic.GetUnit(UnitTypes.Force),
+                unitLogic.GetUnit(UnitTypes.Moment),
+                unitLogic.GetUnit(UnitTypes.Curvature));
         }
 
         public void ShowWindow()
@@ -102,7 +106,14 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
                 calculator.EndTuple = validTupleList[i].DesignForceTuple.ForceTuple;
                 var limitState = validTupleList[i].DesignForceTuple.LimitState;
                 var calcTerm = validTupleList[i].DesignForceTuple.CalcTerm;
-                var ndms = NdmPrimitivesService.GetNdms(ndmPrimitives, limitState, calcTerm);
+                triangulateLogic = new TriangulatePrimitiveLogic()
+                {
+                    Primitives = ndmPrimitives,
+                    LimitState = limitState,
+                    CalcTerm = calcTerm,
+                    TraceLogger = TraceLogger
+                };
+                var ndms = triangulateLogic.GetNdms();
                 calculator.NdmCollection = ndms;
                 calculator.Run();
                 var result = (CrackForceResult)calculator.Result;
@@ -143,7 +154,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
             const string crc = "Crc";
             const string crcFactor = "CrcSofteningFactor";
             var labels = LabelsFactory.GetCommonLabels();
-            IUnit unitCurvature = CommonOperation.GetUnit(UnitTypes.Curvature);
+            IUnit unitCurvature = unitLogic.GetUnit(UnitTypes.Curvature);
             var crclabels = new List<string>
             {
                 $"{crc}{GeometryNames.CurvFstName}, {unitCurvature.Name}",

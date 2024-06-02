@@ -69,22 +69,44 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
         {
+            List<INdm> ndms = new()
+            {
+                GetConcreteNdm(triangulationOptions),
+                GetRebarNdm(triangulationOptions)
+            };
+            return ndms;
+        }
+
+        public RebarNdm GetRebarNdm(ITriangulationOptions triangulationOptions)
+        {
             var options = new RebarTriangulationLogicOptions(this)
             {
                 triangulationOptions = triangulationOptions
             };
             var logic = new RebarTriangulationLogic(options);
-            return logic.GetNdmCollection();
+            var rebar = logic.GetRebarNdm();
+            return rebar;
         }
 
-        public List<NamedValue<IPoint2D>> GetValuePoints()
+        public Ndm GetConcreteNdm(ITriangulationOptions triangulationOptions)
         {
-            var points = new List<NamedValue<IPoint2D>>();
-            NamedValue<IPoint2D> newPoint;
-            newPoint = new NamedValue<IPoint2D>()
+            var options = new RebarTriangulationLogicOptions(this)
+            {
+                triangulationOptions = triangulationOptions
+            };
+            var logic = new RebarTriangulationLogic(options);
+            var concrete = logic.GetConcreteNdm();
+            return concrete;
+        }
+
+        public List<INamedAreaPoint> GetValuePoints()
+        {
+            var points = new List<INamedAreaPoint>();
+            var newPoint = new NamedAreaPoint
             {
                 Name = "Center",
-                Value = Center.Clone() as Point2D
+                Point = Center.Clone() as Point2D,
+                Area = Area
             };
             points.Add(newPoint);
             return points;

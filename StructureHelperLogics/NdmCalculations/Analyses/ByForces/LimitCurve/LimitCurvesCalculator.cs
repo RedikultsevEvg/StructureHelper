@@ -15,6 +15,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     {
         private LimitCurvesResult result;
         private int curvesIterationCount;
+        private ITriangulatePrimitiveLogic triangulateLogic;
+
         private LimitCurvesCalculatorUpdateStrategy updateStrategy => new();
 
         public Guid Id { get; }
@@ -78,7 +80,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 {
                     foreach (var calcTerm in InputData.CalcTerms)
                     {
-                        var ndms = NdmPrimitivesService.GetNdms(primitiveSeries.Collection, limitState, calcTerm);
+                        triangulateLogic = new TriangulatePrimitiveLogic()
+                        {
+                            Primitives = primitiveSeries.Collection,
+                            LimitState = limitState,
+                            CalcTerm = calcTerm,
+                            TraceLogger = TraceLogger
+                        };
+                        var ndms = triangulateLogic.GetNdms();
                         TraceLogger?.AddMessage($"Number of elementary parts N={ndms.Count()} were obtainded succesfully");
                         TraceLogger?.AddMessage($"Summary area of elementary parts Asum={ndms.Sum(x=>x.Area * x.StressScale)}", TraceLogStatuses.Debug);
                         foreach (var predicateEntry in InputData.PredicateEntries)

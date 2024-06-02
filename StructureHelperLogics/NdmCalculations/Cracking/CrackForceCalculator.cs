@@ -13,7 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class CrackForceCalculator : ICalculator
     {
-        static readonly CrackedLogic crackedLogic = new();
+        private CrackedLogic crackedLogic;
         ExpSofteningLogic softeningLogic = new();
         static readonly CrackStrainLogic crackStrainLogic = new();
         static readonly SofteningFactorLogic softeningFactorLogic = new();
@@ -30,13 +30,14 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public CrackForceCalculator(IForceTupleCalculator forceTupleCalculator)
+        public CrackForceCalculator(CrackedLogic crackedLogic)
         {
             StartTuple ??= new ForceTuple();
             Accuracy ??= new Accuracy() { IterationAccuracy = 0.0001d, MaxIterationCount = 10000 };
-            this.forceTupleCalculator = forceTupleCalculator;
+            forceTupleCalculator = new ForceTupleCalculator();
+            this.crackedLogic = crackedLogic;
         }
-        public CrackForceCalculator() : this(new ForceTupleCalculator())
+        public CrackForceCalculator() : this(new CrackedLogic())
         {
             
         }

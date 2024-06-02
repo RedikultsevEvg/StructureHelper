@@ -3,8 +3,10 @@ using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.Ndms.Transformations;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
+using StructureHelperLogics.Models.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +25,20 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         }
         public IEnumerable<INdm> GetNdmCollection()
         {
-            var concreteNdm = new Ndm
+            List<INdm> ndmCollection = new();
+            if (options.HostPrimitive is not null)
             {
-                CenterX = options.Center.X,
-                CenterY = options.Center.Y,
-                Area = options.Area,
-                Material = options.HostMaterial.GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm),
-                StressScale = -1d
-            };
+                var concreteNdm = GetConcreteNdm();
+                ndmCollection.Add(concreteNdm);
+            }
+
+            var rebarNdm = GetRebarNdm();
+            ndmCollection.Add(rebarNdm);
+            return ndmCollection;
+        }
+
+        public RebarNdm GetRebarNdm()
+        {
             var rebarNdm = new RebarNdm
             {
                 CenterX = options.Center.X,
@@ -38,9 +46,32 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 Area = options.Area,
                 Material = options.HeadMaterial.GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm)
             };
-            List<INdm> ndmCollection = new() { concreteNdm, rebarNdm};
-            NdmTransform.SetPrestrain(ndmCollection, TupleConverter.ConvertToLoaderStrainMatrix(options.Prestrain));
-            return ndmCollection;
+            ;
+            NdmTransform.SetPrestrain(rebarNdm, TupleConverter.ConvertToLoaderStrainMatrix(options.Prestrain));
+            return rebarNdm;
+        }
+
+        public Ndm GetConcreteNdm()
+        {
+            var hostPrimitive = options.HostPrimitive;
+            var material = hostPrimitive
+                .HeadMaterial
+                .GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm);
+            
+            var prestrain = ForceTupleService.SumTuples(hostPrimitive.UsersPrestrain,
+                hostPrimitive.AutoPrestrain)
+                as StrainTuple;
+
+            var concreteNdm = new Ndm
+            {
+                CenterX = options.Center.X,
+                CenterY = options.Center.Y,
+                Area = options.Area,
+                Material = material,
+                StressScale = -1d
+            };
+            NdmTransform.SetPrestrain(concreteNdm, TupleConverter.ConvertToLoaderStrainMatrix(prestrain));
+            return concreteNdm;
         }
 
         public void ValidateOptions(ITriangulationLogicOptions options)

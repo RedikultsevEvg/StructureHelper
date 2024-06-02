@@ -23,7 +23,8 @@
             </StackPanel>
             <ListBox Grid.Column="2" ItemsSource="{Binding TargetItems}"
                      SelectedItem="{Binding SelectedTargetItem}"
-                     ItemTemplate="{Binding ItemDataDemplate}">
+                     ItemTemplate="{Binding ItemDataDemplate}"
+                     >
                 <!--<InputBindingCollection>
                     <MouseBinding Gesture="LeftDoubleClick" Command="{Binding RemoveSelected}"/>
                 </InputBindingCollection>-->
@@ -41,8 +42,16 @@
                 <Button Content="Unselect All" Command="{Binding UnSelectAllCommand}"/>
                 <Button Content="Invert Selection" Command="{Binding InvertSelectionCommand}"/>
             </StackPanel>
-            <ListBox Grid.Row="1" ItemsSource="{Binding CollectionItems}" SelectedItem="SelectedItem">
-                <ListBox.ItemTemplate>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                <ListBox ItemsSource="{Binding CollectionItems}" SelectedItem="SelectedItem" HorizontalAlignment="Stretch">
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Select All" Command="{Binding SelectAllCommand}"/>
+                            <MenuItem Header="UnSelect All" Command="{Binding UnSelectAllCommand}"/>
+                            <MenuItem Header="Unvert Selection" Command="{Binding InvertSelectionCommand}"/>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                    <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -54,7 +63,8 @@
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-            </ListBox>
+                </ListBox>
+            </ScrollViewer>
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

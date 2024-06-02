@@ -1,18 +1,13 @@
 ﻿using StructureHelper.Infrastructure.Enums;
-using StructureHelper.Models.Materials;
 using StructureHelper.Services.Settings;
 using StructureHelper.Windows.Forces;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
-using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StructureHelperLogics.NdmCalculations.Cracking;
 using System.Windows.Forms;
 
 namespace StructureHelper.Windows.ViewModels.Forces
@@ -98,23 +93,39 @@ namespace StructureHelper.Windows.ViewModels.Forces
         {
             bool result = true;
             var calcRepository = repository.CalculatorsList;
-            foreach (var item in calcRepository)
+            foreach (var calc in calcRepository)
             {
-                if (item is IForceCalculator)
+                if (calc is IForceCalculator)
                 {
-                    var forceCalculator = item as IForceCalculator;
-                    var containSelected = forceCalculator.ForceActions.Contains(SelectedItem);
-                    if (containSelected)
-                    {
-                        var dialogResultCalc = MessageBox.Show($"Action is contained in calculator {item.Name}", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                        if (dialogResultCalc == DialogResult.Yes)
-                        {
-                            forceCalculator.ForceActions.Remove(SelectedItem);
-                        }
-                        else result = false;
-                    }
+                    var forceCombinations = calc as IHasForceCombinations;
+                    result = DeleteActionFromHost(result, calc, forceCombinations);
+                }
+                else if (calc is CrackCalculator calculator)
+                {
+                    var forceCombinations = calculator.InputData as IHasForceCombinations;
+                    result = DeleteActionFromHost(result, calc, forceCombinations);
+                }
+                else
+                {
+                    throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(ICalculator), calc));
                 }
             }
+            return result;
+        }
+
+        private bool DeleteActionFromHost(bool result, ICalculator item, IHasForceCombinations? forceCombinations)
+        {
+            var containSelected = forceCombinations.ForceActions.Contains(SelectedItem);
+            if (containSelected)
+            {
+                var dialogResultCalc = MessageBox.Show($"Action is contained in calculator {item.Name}", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (dialogResultCalc == DialogResult.Yes)
+                {
+                    forceCombinations.ForceActions.Remove(SelectedItem);
+                }
+                else result = false;
+            }
+
             return result;
         }
     }

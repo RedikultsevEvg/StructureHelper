@@ -25,10 +25,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         const string ForceUnitString = "kN";
         const string MomentUnitString = "kNm";
 
+        IConvertUnitLogic operationLogic;
+
         //private List<ArrayParameter<double>> arrayParameters;
         private IResult result;
-        private IUnit unitForce = CommonOperation.GetUnit(UnitTypes.Force, ForceUnitString);
-        private IUnit unitMoment = CommonOperation.GetUnit(UnitTypes.Moment, MomentUnitString);
+        private IUnit unitForce;
+        private IUnit unitMoment;
         private int stepCount;
 
         private static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
@@ -48,7 +50,11 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             stepCount *= InputData.CalcTerms.Count();
             stepCount *= InputData.PredicateEntries.Count();
             //arrayParameters = new();
-        }
+            operationLogic = new ConvertUnitLogic();
+            IGetUnitLogic unitLogic = new GetUnitLogic();
+            unitForce = unitLogic.GetUnit(UnitTypes.Force, ForceUnitString);
+            unitMoment = unitLogic.GetUnit(UnitTypes.Moment, MomentUnitString);
+    }
 
         private void DoCalculations()
         {

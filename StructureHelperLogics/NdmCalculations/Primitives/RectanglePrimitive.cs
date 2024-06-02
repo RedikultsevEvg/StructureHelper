@@ -82,20 +82,38 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             return true;
         }
 
-        public List<NamedValue<IPoint2D>> GetValuePoints()
+        public List<INamedAreaPoint> GetValuePoints()
         {
-            var points = new List<NamedValue<IPoint2D>>();
-            NamedValue<IPoint2D> newPoint;
-            newPoint = new NamedValue<IPoint2D>()
+            var points = new List<INamedAreaPoint>();
+            INamedAreaPoint newPoint;
+            newPoint = new NamedAreaPoint()
             {
                 Name = "Center",
-                Value = Center.Clone() as Point2D
+                Point = Center.Clone() as Point2D
             };
             points.Add(newPoint);
-            newPoint = new NamedValue<IPoint2D>()
+            newPoint = new NamedAreaPoint()
             {
                 Name = "LeftTop",
-                Value = new Point2D() { X = Center.X - Width / 2d, Y = Center.Y + Height / 2d}
+                Point = new Point2D() { X = Center.X - Width / 2d, Y = Center.Y + Height / 2d}
+            };
+            points.Add(newPoint);
+            newPoint = new NamedAreaPoint()
+            {
+                Name = "RightTop",
+                Point = new Point2D() { X = Center.X + Width / 2d, Y = Center.Y + Height / 2d }
+            };
+            points.Add(newPoint);
+            newPoint = new NamedAreaPoint()
+            {
+                Name = "LeftBottom",
+                Point = new Point2D() { X = Center.X - Width / 2d, Y = Center.Y - Height / 2d }
+            };
+            points.Add(newPoint);
+            newPoint = new NamedAreaPoint()
+            {
+                Name = "RightBottom",
+                Point = new Point2D() { X = Center.X + Width / 2d, Y = Center.Y - Height / 2d }
             };
             points.Add(newPoint);
             return points;

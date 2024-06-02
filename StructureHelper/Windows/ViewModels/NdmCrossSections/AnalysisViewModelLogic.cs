@@ -1,7 +1,10 @@
-﻿using StructureHelper.Infrastructure;
+﻿using LoaderCalculator;
+using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
+using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.CalculationWindows.ProgressViews;
+using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.ViewModels.Calculations.Calculators;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -10,6 +13,8 @@ using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Logics;
+using StructureHelperLogics.NdmCalculations.Cracking;
+using System;
 using System.Windows;
 using System.Windows.Forms;
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -26,31 +31,78 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         public override void AddMethod(object parameter)
         {
+            if (CheckParameter(parameter) == false) { return; }
+            AddCalculator(parameter);
+            base.AddMethod(parameter);
+        }
+
+        private void AddCalculator(object parameter)
+        {
             var parameterType = (CalculatorTypes)parameter;
             if (parameterType == CalculatorTypes.ForceCalculator)
             {
-                NewItem = new ForceCalculator()
-                {
-                    Name = "New force calculator",
-                    TraceLogger = new ShiftTraceLogger(),
-                };
+                AddForceCalculator();
             }
             else if (parameterType == CalculatorTypes.LimitCurveCalculator)
             {
-                var inputData = new LimitCurveInputData(repository.Primitives);
-                NewItem = new LimitCurvesCalculator()
-                {
-                    Name = "New interaction diagram calculator",
-                    InputData = inputData,
-                    TraceLogger = new ShiftTraceLogger(),
-                };
+                AddLimitCurveCalculator();
+            }
+            else if (parameterType == CalculatorTypes.CrackCalculator)
+            {
+                AddCrackCalculator();
             }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(parameterType));
             }
-            base.AddMethod(parameter);
         }
+
+        private void AddCrackCalculator()
+        {
+            var inputData = new CrackInputData();
+            var calculator = new CrackCalculator(inputData, new CheckCrackCalculatorInputDataLogic(inputData))
+            {
+                Name = "New crack calculator",
+                TraceLogger = new ShiftTraceLogger(),
+            };
+            NewItem = calculator;
+        }
+
+        private void AddLimitCurveCalculator()
+        {
+            var inputData = new LimitCurveInputData(repository.Primitives);
+            NewItem = new LimitCurvesCalculator()
+            {
+                Name = "New interaction diagram calculator",
+                InputData = inputData,
+                TraceLogger = new ShiftTraceLogger(),
+            };
+        }
+
+        private void AddForceCalculator()
+        {
+            NewItem = new ForceCalculator()
+            {
+                Name = "New force calculator",
+                TraceLogger = new ShiftTraceLogger(),
+            };
+        }
+
+        private bool CheckParameter(object parameter)
+        {
+            if (parameter is null)
+            {
+                SafetyProcessor.ShowMessage(ErrorStrings.ParameterIsNull, "It is imposible to add object cause parameter is null");
+                return false;
+            }
+            if (parameter is not CalculatorTypes)
+            {
+                SafetyProcessor.ShowMessage(ErrorStrings.ExpectedWas(typeof(CalculatorTypes), parameter), "Parameter is not correspondent to any type of calculator");
+                return false;
+            }
+            return true;
+        }
+
         public override void EditMethod(object parameter)
         {
             SafetyProcessor.RunSafeProcess(EditCalculator, $"Error of editing: {SelectedItem.Name}");
@@ -59,20 +111,18 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void EditCalculator()
         {
-            if (SelectedItem is ForceCalculator)
-            {
-                var calculator = SelectedItem as ForceCalculator;
-                EditForceCalculator(calculator);
-            }
-            else if (SelectedItem is LimitCurvesCalculator)
-            {
-                var calculator = SelectedItem as LimitCurvesCalculator;
-                EditLimitCurveCalculator(calculator);
-            }
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));
-            }
+            if (SelectedItem is ForceCalculator forceCalculator) { EditForceCalculator(forceCalculator);}
+            else if (SelectedItem is LimitCurvesCalculator limitCurvesCalculator) { EditLimitCurveCalculator(limitCurvesCalculator);            }
+            else if (SelectedItem is CrackCalculator crackCalculator) { EditCrackCalculator(crackCalculator);}
+            else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));}
+        }
+
+        private void EditCrackCalculator(CrackCalculator calculator)
+        {
+            var calculatorCopy = calculator.Clone() as CrackCalculator;
+            var vm = new CrackCalculatorInputDataViewModel(repository.Primitives, repository.ForceActions, calculator);
+            var wnd = new CrackCalculatorInputDataView(vm);
+            ShowWindow(calculator, calculatorCopy, wnd);
         }
 
         private void EditLimitCurveCalculator(LimitCurvesCalculator calculator)
@@ -134,7 +184,6 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
             if (SelectedItem is LimitCurvesCalculator calculator)
             {
-                var inputData = calculator.InputData;
                 ShowInteractionDiagramByInputData(calculator);
             }
             else
@@ -143,13 +192,20 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 var result = SelectedItem.Result;
                 if (result.IsValid == false)
                 {
-                    MessageBox.Show(result.Description, "Check data for analisys", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    var vm = new ErrorProcessor()
+                    {
+                        ShortText = "Errors apearred during calculations, see detailed information",
+                        DetailText = SelectedItem.Result.Description
+                    };
+                    new ErrorMessage(vm).ShowDialog();
+                    return;
                 }
                 else
                 {
                     ProcessResult();
                 }
             }
+
             if (SelectedItem.TraceLogger is not null)
             {
                 var wnd = new TraceDocumentView(SelectedItem.TraceLogger.TraceLoggerEntries);
@@ -171,11 +227,15 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void ProcessResult()
         {
-            if (SelectedItem is IForceCalculator)
+            if (SelectedItem is ForceCalculator forceCalculator)
             {
-                var calculator = SelectedItem as ForceCalculator;
-                var vm = new ForcesResultsViewModel(calculator);
+                var vm = new ForcesResultsViewModel(forceCalculator);
                 var wnd = new ForceResultsView(vm);
+                wnd.ShowDialog();
+            }
+            else if (SelectedItem is CrackCalculator crackCalculator)
+            {
+                var wnd = new CrackResultView(crackCalculator.Result as CrackResult);
                 wnd.ShowDialog();
             }
             else

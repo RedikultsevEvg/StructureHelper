@@ -1,4 +1,5 @@
 ﻿using StructureHelper.Windows.CalculationWindows.ProgressViews;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
@@ -11,7 +12,7 @@ using System.Windows.Forms;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
-    internal class ShowProgressLogic
+    public class ShowProgressLogic
     {
         private ShowProgressViewModel progressViewModel;
         private ShowProgressView wndProgress;
@@ -82,8 +83,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             }
             catch (Exception ex)
             {
-
-                throw;
+                throw new StructureHelperException(ex);
             }
         }
     }

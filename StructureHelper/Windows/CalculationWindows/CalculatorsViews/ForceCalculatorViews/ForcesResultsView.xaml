@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
         d:DataContext="{d:DesignInstance local:ForcesResultsViewModel}"
         mc:Ignorable="d"
-        Title="Calculation Results" Height="350" Width="850" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen">
+        Title="Calculation Results" Height="350" Width="850" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
@@ -25,7 +25,11 @@
                 <Button Style="{StaticResource ToolButton}" Command="{Binding ShowInteractionDiagramCommand}" ToolTip="Show interaction diagram">
                     <Image Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_graph_1.png"/>
                 </Button>
-                
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowIsoFieldCommand}" ToolTip="Show isofield results">
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource IsoFieldResult}"/>
+                    </Viewbox>
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <Grid>
@@ -59,13 +63,11 @@
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Grid.Column="1">
-                <Button Margin="3" Content="Graphic" ToolTip="Show graphic results" Command="{Binding ShowIsoFieldCommand}"/>
                 <Button Margin="3" Content="CrcDiagrams" ToolTip="Show diagrams for cracked section" Command="{Binding ShowCrackGraphsCommand}"/>
                 <Button Margin="3" Content="Export" ToolTip="Export results to *.csv" Command="{Binding ExportToCSVCommand}"/>
                 <Button Margin="3" Content="Set Prestrain" ToolTip="Set strains as auto prestrain" Command="{Binding SetPrestrainCommand}"/>
                 <Button Margin="3" Content="Anchorage" ToolTip="Set strains as auto prestrain" Command="{Binding ShowAnchorageCommand}"/>
                 <Button Margin="3" Content="Geometry" ToolTip="Show Geometry Properties" Command="{Binding ShowGeometryResultCommand}"/>
-                <Button Margin="3" Content="Acrc" ToolTip="Show crack width" Command="{Binding ShowCrackWidthResultCommand}"/>
             </StackPanel>
         </Grid>
     </DockPanel>

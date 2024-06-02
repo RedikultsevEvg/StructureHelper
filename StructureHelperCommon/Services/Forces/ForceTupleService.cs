@@ -20,13 +20,6 @@ namespace StructureHelperCommon.Services.Forces
             target.Clear();
             SumTupleToTarget(source, target, factor);
         }
-        public static IForceTuple MoveTupleIntoPoint(IForceTuple forceTuple, IPoint2D point2D)
-        {
-            var newTuple = forceTuple.Clone() as IForceTuple;
-            newTuple.Mx += newTuple.Nz * point2D.Y;
-            newTuple.My -= newTuple.Nz * point2D.X;
-            return newTuple;
-        }
         public static IForceTuple SumTuples(IForceTuple first, IForceTuple second, double factor = 1d)
         {
             CheckTuples(first, second);

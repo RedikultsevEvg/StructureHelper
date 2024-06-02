@@ -240,7 +240,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     Code = code,
                     Name = "A400",
                     InitModulus = 2e11d,
-                    MainStrength = 400e6d
+                    MainStrength = 390e6d
                 },
                 new ReinforcementMaterialEntity(new Guid("045b54b1-0bbf-41fd-a27d-aeb20f600bb4"))
                 {

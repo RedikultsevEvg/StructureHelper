@@ -5,6 +5,10 @@ namespace StructureHelperCommon.Services.Units
 {
     public static class UnitsFactory
     {
+        /// <summary>
+        /// Returns collection of unit
+        /// </summary>
+        /// <returns></returns>
         public static List<IUnit> GetUnitCollection()
         {
             List<IUnit> units = new List<IUnit>();
@@ -28,8 +32,8 @@ namespace StructureHelperCommon.Services.Units
             type = UnitTypes.Moment;
             units.Add(new Unit() { UnitType = type, Name = "Nm", Multiplyer = 1d });
             units.Add(new Unit() { UnitType = type, Name = "kNm", Multiplyer = 1e-3d });
-            units.Add(new Unit() { UnitType = type, Name = "kgfm", Multiplyer = 9.8d });
-            units.Add(new Unit() { UnitType = type, Name = "tfm", Multiplyer = 9.8e-3d });
+            units.Add(new Unit() { UnitType = type, Name = "kgfm", Multiplyer = 9.81d });
+            units.Add(new Unit() { UnitType = type, Name = "tfm", Multiplyer = 9.81e-3d });
             type = UnitTypes.Curvature;
             units.Add(new Unit() { UnitType = type, Name = "1/m", Multiplyer = 1d });
             units.Add(new Unit() { UnitType = type, Name = "1/mm", Multiplyer = 1e-3d });

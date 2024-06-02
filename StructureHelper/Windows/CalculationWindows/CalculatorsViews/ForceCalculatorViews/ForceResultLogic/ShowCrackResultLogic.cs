@@ -18,6 +18,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
     internal class ShowCrackResultLogic
     {
         private CrackForceCalculator calculator;
+        private ITriangulatePrimitiveLogic triangulateLogic;
 
         public static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
         public LimitStates LimitState { get; set; }
@@ -42,7 +43,13 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             calculator.TraceLogger = new ShiftTraceLogger();
             calculator.StartTuple = startDesignTuple;
             calculator.EndTuple = finishDesignTuple;
-            calculator.NdmCollection = NdmPrimitivesService.GetNdms(ndmPrimitives, LimitState, CalcTerm);
+            triangulateLogic = new TriangulatePrimitiveLogic()
+            {
+                Primitives = ndmPrimitives,
+                LimitState = LimitState,
+                CalcTerm = CalcTerm
+            };
+            calculator.NdmCollection = triangulateLogic.GetNdms();
             calculator.Run();
             var result = (CrackForceResult)calculator.Result;
             if (result.IsValid)

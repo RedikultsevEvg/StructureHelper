@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Services.ResultViewers
 {
-    public interface IResultFunc
+    public interface IResultFunc <T>
     {
         string Name { get; }
-        Func<IStrainMatrix, INdm, double> ResultFunction { get; }
+        T ResultFunction { get; }
+        string UnitName { get; set; }
         double UnitFactor { get; }
     }
 }

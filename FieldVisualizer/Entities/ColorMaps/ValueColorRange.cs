@@ -7,15 +7,10 @@ namespace FieldVisualizer.Entities.ColorMaps
     {
         /// <inheritdoc/>
         public bool IsActive { get; set; }
-        /// <inheritdoc/>
-        public double BottomValue { get; set; }
-        /// <inheritdoc/>
-        public double AverageValue { get; set; }
-        /// <inheritdoc/>
-        public double TopValue { get; set; }
-        /// <inheritdoc/>
-        public Color BottomColor { get; set; }
-        /// <inheritdoc/>
-        public Color TopColor { get; set; }
+
+        public IValueColorArray ExactValues { get; private set; } = new ValueColorArray();
+
+        public IValueColorArray RoundedValues { get; private set; } = new ValueColorArray();
+
     }
 }

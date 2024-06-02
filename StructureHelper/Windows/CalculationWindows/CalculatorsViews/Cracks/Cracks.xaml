@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataTemplate x:Key="CrackTextBox">
+        <TextBlock Grid.Row="0" Text="{Binding CrackWidth, Converter={StaticResource CrackWidth}, ConverterParameter='Fixed3'}" HorizontalAlignment="Right">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCrackLessThanUltimate}" Value="false">
+                            <Setter Property="Background" Value="{StaticResource WarningColorBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </DataTemplate>
+    <DataTemplate x:Key="CrackGrid">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ContentControl ContentTemplate="{StaticResource CrackTextBox}" Content="{Binding LongTermResult}"/>
+            <ContentControl Grid.Row="1" ContentTemplate="{StaticResource CrackTextBox}" Content="{Binding ShortTermResult}"/>
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>

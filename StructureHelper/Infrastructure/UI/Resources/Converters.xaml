@@ -12,5 +12,6 @@
     <convertersUnits:Moment x:Key="MomentConverter"/>
     <convertersUnits:Stress x:Key="StressConverter"/>
     <convertersUnits:Curvature x:Key="Curvature"/>
+    <convertersUnits:CrackWidth x:Key="CrackWidth"/>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 </ResourceDictionary>
