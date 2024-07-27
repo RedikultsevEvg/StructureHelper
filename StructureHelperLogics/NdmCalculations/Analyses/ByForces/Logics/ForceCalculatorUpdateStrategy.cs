@@ -4,24 +4,20 @@ using StructureHelperCommon.Models.Sections;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
 {
-    public class ForceCalculatorUpdateStrategy : IUpdateStrategy<IForceCalculator>
+    public class ForceCalculatorUpdateStrategy : IUpdateStrategy<ForceCalculator>
     {
-        static readonly AccuracyUpdateStrategy accuracyUpdateStrategy = new();
-        static readonly CompressedMemberUpdateStrategy compressedMemberUpdateStrategy = new();
-        public void Update(IForceCalculator targetObject, IForceCalculator sourceObject)
+        private readonly IUpdateStrategy<ForceInputData> inputDataUpdateStrategy;
+        public ForceCalculatorUpdateStrategy(IUpdateStrategy<ForceInputData> inputDataUpdateStrategy)
+        {
+            this.inputDataUpdateStrategy = inputDataUpdateStrategy;
+        }
+        public ForceCalculatorUpdateStrategy() : this(new ForceCalculatorInputDataUpdateStrategy()) {        }
+        public void Update(ForceCalculator targetObject, ForceCalculator sourceObject)
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
-            targetObject.LimitStatesList.Clear();
-            targetObject.LimitStatesList.AddRange(sourceObject.LimitStatesList);
-            targetObject.CalcTermsList.Clear();
-            targetObject.CalcTermsList.AddRange(sourceObject.CalcTermsList);
-            accuracyUpdateStrategy.Update(targetObject.Accuracy, sourceObject.Accuracy);
-            compressedMemberUpdateStrategy.Update(targetObject.CompressedMember, sourceObject.CompressedMember);
-            targetObject.Primitives.Clear();
-            targetObject.Primitives.AddRange(sourceObject.Primitives);
-            targetObject.ForceActions.Clear();
-            targetObject.ForceActions.AddRange(sourceObject.ForceActions);
+            targetObject.InputData ??= new ForceInputData();
+            inputDataUpdateStrategy.Update(targetObject.InputData, sourceObject.InputData);
         }
     }
 }

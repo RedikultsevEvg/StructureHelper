@@ -10,30 +10,22 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CheckTupleCalculatorInputData : ICheckInputDataLogic
+    public class CheckTupleCalculatorInputData : ICheckInputDataLogic<TupleCrackInputData>
     {
         private string checkResult;
-        private TupleCrackInputData inputData;
         private bool result;
 
-        public IInputData InputData
-        {
-            get => inputData; set
-            {
-                if (value is TupleCrackInputData data)
-                {
-                    inputData = data;
-                }
-                else
-                {
-                    throw new StructureHelperException(ErrorStrings.DataIsInCorrect);
-                }
-            }
-        }
+        public TupleCrackInputData InputData { get; set; }
+
 
         public string CheckResult => checkResult;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
+
+        public CheckTupleCalculatorInputData(TupleCrackInputData inputData)
+        {
+            InputData = inputData;
+        }
 
         public bool Check()
         {

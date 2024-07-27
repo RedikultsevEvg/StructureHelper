@@ -4,6 +4,7 @@ using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Templates.RCs;
 using StructureHelperLogics.NdmCalculations.Analyses;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
@@ -58,10 +59,9 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
         {
             foreach (var calculator in calculators)
             {
-                if (calculator is IHasForceCombinations)
+                if (calculator is ForceCalculator forceCalculator)
                 {
-                    var forceCalculator = calculator as IHasForceCombinations;
-                    forceCalculator.ForceActions.AddRange(combinations);
+                    forceCalculator.InputData.ForceActions.AddRange(combinations);
                 }
                 if (calculator is CrackCalculator crackCalculator)
                 {
@@ -73,10 +73,9 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
         {
             foreach (var calculator in calculators)
             {
-                if (calculator is IHasPrimitives)
+                if (calculator is ForceCalculator forceCalculator)
                 {
-                    var primitiveCalculator = calculator as IHasPrimitives;
-                    primitiveCalculator.Primitives.AddRange(primitives);
+                    forceCalculator.InputData.Primitives.AddRange(primitives);
                 }
                 if (calculator is CrackCalculator crackCalculator)
                 {

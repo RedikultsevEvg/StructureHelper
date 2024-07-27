@@ -8,17 +8,17 @@ namespace StructureHelperLogics.Services.NdmCalculations
     public static class InterpolateService
     {
         static readonly CompressedMemberUpdateStrategy compressedMemberUpdateStrategy = new();
-        public static ForceCalculator InterpolateForceCalculator(IForceCalculator source, InterpolateTuplesResult interpolateTuplesResult)
+        public static ForceCalculator InterpolateForceCalculator(ForceCalculator source, InterpolateTuplesResult interpolateTuplesResult)
         {
             ForceCalculator calculator = new ForceCalculator();
-            calculator.LimitStatesList.Clear();
-            calculator.LimitStatesList.Add(interpolateTuplesResult.StartTuple.LimitState);
-            calculator.CalcTermsList.Clear();
-            calculator.CalcTermsList.Add(interpolateTuplesResult.FinishTuple.CalcTerm);
-            compressedMemberUpdateStrategy.Update(calculator.CompressedMember, source.CompressedMember);
-            calculator.Accuracy = source.Accuracy;
-            calculator.Primitives.AddRange(source.Primitives);
-            calculator.ForceActions.Clear();
+            calculator.InputData.LimitStatesList.Clear();
+            calculator.InputData.LimitStatesList.Add(interpolateTuplesResult.StartTuple.LimitState);
+            calculator.InputData.CalcTermsList.Clear();
+            calculator.InputData.CalcTermsList.Add(interpolateTuplesResult.FinishTuple.CalcTerm);
+            compressedMemberUpdateStrategy.Update(calculator.InputData.CompressedMember, source.InputData.CompressedMember);
+            calculator.InputData.Accuracy = source.InputData.Accuracy;
+            calculator.InputData.Primitives.AddRange(source.InputData.Primitives);
+            calculator.InputData.ForceActions.Clear();
             var forceTuples = ForceTupleService.InterpolateDesignTuple(interpolateTuplesResult.FinishTuple, interpolateTuplesResult.StartTuple, interpolateTuplesResult.StepCount);
             foreach (var forceTuple in forceTuples)
             {
@@ -31,12 +31,12 @@ namespace StructureHelperLogics.Services.NdmCalculations
                 combination.DesignForces.Add(forceTuple);
                 combination.ForcePoint.X = 0;
                 combination.ForcePoint.Y = 0;
-                calculator.ForceActions.Add(combination);
+                calculator.InputData.ForceActions.Add(combination);
             }
             return calculator;
         }
 
-        public static IForceCalculator InterpolateForceCalculator(IForceCalculator forceCalculator, IDesignForceTuple finishDesignTuple, object startDesignTuple, object stepCount)
+        public static ForceCalculator InterpolateForceCalculator(ForceCalculator forceCalculator, IDesignForceTuple finishDesignTuple, object startDesignTuple, object stepCount)
         {
             throw new NotImplementedException();
         }

@@ -23,18 +23,21 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private CrackResult result;
         private IGetTupleInputDatasLogic datasLogic;
         private CrackCalculatorUpdateStrategy updateStrategy = new();
-        private ICheckInputDataLogic checkInputDataLogic;
+        private ICheckInputDataLogic<CrackInputData> checkInputDataLogic;
 
         public string Name { get; set; }
         public CrackInputData InputData { get; set; }
         public IResult Result => result;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
-        public CrackCalculator(CrackInputData inputData, ICheckInputDataLogic checkInputDataLogic)
+        public CrackCalculator(CrackInputData inputData, ICheckInputDataLogic<CrackInputData> checkInputDataLogic)
         {
             InputData = inputData;
             this.checkInputDataLogic = checkInputDataLogic;
+            Name = string.Empty;
         }
+
+        public CrackCalculator(CrackInputData inputData) : this(inputData, new CheckCrackCalculatorInputDataLogic(inputData)) { }
 
         public object Clone()
         {

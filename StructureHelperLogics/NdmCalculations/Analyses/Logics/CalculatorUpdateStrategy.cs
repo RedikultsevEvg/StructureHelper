@@ -21,9 +21,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Logics
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);
-            if (targetObject is IForceCalculator target)
+            if (targetObject is ForceCalculator target)
             {
-                new ForceCalculatorUpdateStrategy().Update(target, (IForceCalculator)sourceObject);
+                new ForceCalculatorUpdateStrategy().Update(target, (ForceCalculator)sourceObject);
             }
             else if (targetObject is LimitCurvesCalculator limitCurves)
             {

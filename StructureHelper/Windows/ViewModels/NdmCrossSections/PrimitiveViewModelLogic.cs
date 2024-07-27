@@ -136,9 +136,9 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 repository.Primitives.Remove(ndmPrimitive);
                 foreach (var calc in repository.CalculatorsList)
                 {
-                    if (calc is IForceCalculator)
+                    if (calc is ForceCalculator forceCalculator)
                     {
-                        var forceCalc = calc as IHasPrimitives;
+                        var forceCalc = forceCalculator.InputData as IHasPrimitives;
                         forceCalc.Primitives.Remove(ndmPrimitive);
                     }
                     else if (calc is LimitCurvesCalculator calculator)

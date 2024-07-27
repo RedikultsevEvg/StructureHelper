@@ -79,6 +79,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             }
             catch (Exception ex)
             {
+                TraceLogger?.AddMessage($"Error of crack width calculation {ex}", TraceLogStatuses.Error);
                 result.IsValid = false;
                 result.Description += "\n" + ex;
             }

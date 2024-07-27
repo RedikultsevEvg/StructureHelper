@@ -23,8 +23,8 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
                 HeightCount = heightCount
             };
             var newSection = new SectionTemplate(new RectGeometryLogic(template)).GetCrossSection();
-            var calculator = newSection.SectionRepository.CalculatorsList[0] as IForceCalculator;
-            calculator.CompressedMember.Buckling = isBuckling;
+            var calculator = newSection.SectionRepository.CalculatorsList[0] as ForceCalculator;
+            calculator.InputData.CompressedMember.Buckling = isBuckling;
             //Act
             calculator.Run();
             var result = calculator.Result as IForcesResults;
@@ -48,8 +48,8 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
             //Arrange
             var template = new RectangleBeamTemplate(width, height) { TopDiameter = topDiametr, BottomDiameter = bottomDiametr, WidthCount = widthCount, HeightCount = heightCount };
             var newSection = new SectionTemplate(new RectGeometryLogic(template)).GetCrossSection();
-            var calculator = newSection.SectionRepository.CalculatorsList[0] as IForceCalculator;
-            calculator.CompressedMember.Buckling = isBuckling;
+            var calculator = newSection.SectionRepository.CalculatorsList[0] as ForceCalculator;
+            calculator.InputData.CompressedMember.Buckling = isBuckling;
             //Act
             calculator.Run();
             var result = calculator.Result as IForcesResults;
@@ -65,8 +65,8 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
             //Arrange
             var template = new RectangleBeamTemplate(width, height) { TopDiameter = topDiametr, BottomDiameter = bottomDiametr, WidthCount = widthCount, HeightCount = heightCount };
             var newSection = new SectionTemplate(new RectGeometryLogic(template)).GetCrossSection();
-            var calculator = newSection.SectionRepository.CalculatorsList[0] as IForceCalculator;
-            calculator.CompressedMember.Buckling = false;
+            var calculator = newSection.SectionRepository.CalculatorsList[0] as ForceCalculator;
+            calculator.InputData.CompressedMember.Buckling = false;
             calculator.Run();
             var ndmPrimitives = newSection.SectionRepository.Primitives;
             var result = calculator.Result as IForcesResults;

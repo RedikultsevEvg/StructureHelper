@@ -9,6 +9,7 @@ using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services.NdmPrimitives;
 
 //Copyright (c) 2024 Redikultsev Evgeny, Ekaterinburg, Russia
@@ -18,6 +19,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class TupleCrackCalculator : ICalculator
     {
+        private const CalcTerms crackingTerm = CalcTerms.ShortTerm;
+        private const LimitStates crackingLimitState = LimitStates.SLS;
         private static readonly ILengthBetweenCracksLogic lengthLogic = new LengthBetweenCracksLogicSP63();
         private TupleCrackResult result;
         private ICrackedSectionTriangulationLogic triangulationLogic;
@@ -143,6 +146,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             IEnumerable<INdm> crackableNdmsLoc = null;
             IEnumerable<INdm> crackedNdmsLoc = null;
+            INdm concreteNdmUnderRebar;
             RebarPrimitive rebarCopy = null;
             lock (locker)
             {
@@ -151,6 +155,11 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 var triangulationLogicLoc = new CrackedSectionTriangulationLogic(InputData.Primitives);
                 crackableNdmsLoc = triangulationLogicLoc.GetNdmCollection();
                 crackedNdmsLoc = triangulationLogicLoc.GetCrackedNdmCollection();
+                //concreteNdmUnderRebar = rebarCopy.GetConcreteNdm(new TriangulationOptions()
+                //{ CalcTerm = crackingTerm,
+                //    LimiteState = crackingLimitState });
+                //concreteNdmUnderRebar.StressScale = 1d;
+                //crackableNdmsLoc = new List<INdm>() { concreteNdmUnderRebar};
             }
 
             var longRebarData = new RebarCrackInputData()
@@ -162,7 +171,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             };
             var shortRebarData = new RebarCrackInputData()
             {
-                CrackableNdmCollection = crackableNdms,
+                CrackableNdmCollection = crackableNdmsLoc,
                 CrackedNdmCollection = crackedNdms,
                 ForceTuple = InputData.ShortTermTuple.Clone() as ForceTuple,
                 Length = shortLength

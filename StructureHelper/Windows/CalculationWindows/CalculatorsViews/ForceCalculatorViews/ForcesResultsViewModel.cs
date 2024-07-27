@@ -408,7 +408,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             this.forceCalculator = forceCalculator;
             forcesResults = forceCalculator.Result as IForcesResults;
-            ndmPrimitives = forceCalculator.Primitives;
+            ndmPrimitives = forceCalculator.InputData.Primitives;
         }
 
         private void ShowIsoField()

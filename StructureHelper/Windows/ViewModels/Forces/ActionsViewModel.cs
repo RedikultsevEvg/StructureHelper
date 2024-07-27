@@ -95,9 +95,9 @@ namespace StructureHelper.Windows.ViewModels.Forces
             var calcRepository = repository.CalculatorsList;
             foreach (var calc in calcRepository)
             {
-                if (calc is IForceCalculator)
+                if (calc is ForceCalculator forceCalculator)
                 {
-                    var forceCombinations = calc as IHasForceCombinations;
+                    var forceCombinations = forceCalculator.InputData as IHasForceCombinations;
                     result = DeleteActionFromHost(result, calc, forceCombinations);
                 }
                 else if (calc is CrackCalculator calculator)

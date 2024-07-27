@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
-    public interface ICheckInputDataLogic : ICheckLogic
+    public interface ICheckInputDataLogic<TInputData> : ICheckLogic where TInputData : IInputData
     {
-        IInputData InputData { get; set; }
+        TInputData InputData { get; set; }
     }
 }

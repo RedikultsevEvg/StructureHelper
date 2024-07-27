@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
+    /// <inheritdoc/>
     public class CrackedSectionTriangulationLogic : ICrackedSectionTriangulationLogic
     {
         const LimitStates limitState = LimitStates.SLS;
@@ -35,6 +36,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
             };
         }
+        /// <inheritdoc/>
         public List<INdm> GetNdmCollection()
         {
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
@@ -48,6 +50,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             };
             return triangulateLogic.GetNdms();
         }
+        /// <inheritdoc/>
         public List<INdm> GetCrackedNdmCollection()
         {
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
@@ -62,6 +65,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             return triangulateLogic.GetNdms();
         }
 
+        /// <inheritdoc/>
         public List<RebarPrimitive> GetRebarPrimitives()
         {
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
@@ -79,6 +83,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             return rebarPrimitives;
         }
 
+        /// <inheritdoc/>
         public List<INdm> GetElasticNdmCollection()
         {
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);

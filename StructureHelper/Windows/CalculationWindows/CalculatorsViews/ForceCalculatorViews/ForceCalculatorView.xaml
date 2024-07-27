@@ -12,86 +12,95 @@
         <Style x:Key="cbStyle" TargetType="CheckBox">
             <Setter Property="Margin" Value="0,5,0,5"/>
         </Style>
+        <DataTemplate x:Key="InputDataTemplate">
+            <TabControl>
+                <TabItem Header="General">
+                    <StackPanel>
+                        <GroupBox Header="Limit States">
+                            <StackPanel>
+                                <CheckBox Style="{StaticResource cbStyle}" Content="Ultimate Limit State" IsChecked="{Binding ULS}"/>
+                                <CheckBox Style="{StaticResource cbStyle}" Content="Serviceability Limit State"  IsChecked="{Binding SLS}"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Duration">
+                            <StackPanel>
+                                <CheckBox Style="{StaticResource cbStyle}" Content="Short Term" IsChecked="{Binding ShortTerm}"/>
+                                <CheckBox Style="{StaticResource cbStyle}" Content="Long Term" IsChecked="{Binding LongTerm}"/>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Forces">
+                    <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding CombinationViewModel}"/>
+                </TabItem>
+                <TabItem Header="Primitives">
+                    <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding PrimitivesViewModel}"/>
+                </TabItem>
+                <TabItem Header="S-Order">
+                    <Grid DataContext="{Binding SecondOrder}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Consider second order effects"/>
+                        <TextBlock Grid.Row="1" Text="Geometry length"/>
+                        <TextBlock Grid.Row="2" Text="Buckling factor x-axis"/>
+                        <TextBlock Grid.Row="3" Text="Buckling factor y-axis"/>
+                        <CheckBox Grid.Column="1" IsChecked="{Binding Buckling}"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding GeometryLength, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding LengthFactorX, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding LengthFactorY, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Iterations">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="170"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Required Accuracy" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+                        <TextBox Style="{StaticResource ValidatedError}" Grid.Column="2" Margin="5,5,5,5" Text="{Binding IterationAccuracy, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                        <TextBlock Grid.Row="1" Text="Maximum Iteration Count" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+                        <TextBox Style="{StaticResource ValidatedError}" Grid.Column="2" Grid.Row="1" Margin="5,5,5,5" Text="{Binding MaxIterationCount, ValidatesOnDataErrors=True}"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <TabControl>
-            <TabItem Header="General">
-                <StackPanel>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="300"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Name"/>
-                        <TextBox Grid.Column="1" Text="{Binding Name}"/>
-                    </Grid>
-                    <GroupBox Header="Limit States">
-                        <StackPanel>
-                            <CheckBox Style="{StaticResource cbStyle}" Content="Ultimate Limit State" IsChecked="{Binding ULS}"/>
-                            <CheckBox Style="{StaticResource cbStyle}" Content="Serviceability Limit State"  IsChecked="{Binding SLS}"/>
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Duration">
-                        <StackPanel>
-                            <CheckBox Style="{StaticResource cbStyle}" Content="Short Term" IsChecked="{Binding ShortTerm}"/>
-                            <CheckBox Style="{StaticResource cbStyle}" Content="Long Term" IsChecked="{Binding LongTerm}"/>
-                        </StackPanel>
-                    </GroupBox>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Forces">
-                <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding CombinationViewModel}"/>
-            </TabItem>
-            <TabItem Header="Primitives">
-                <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding PrimitivesViewModel}"/>
-            </TabItem>
-            <TabItem Header="S-Order">
-                <Grid DataContext="{Binding SecondOrder}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="22"/>
-                        <RowDefinition Height="22"/>
-                        <RowDefinition Height="22"/>
-                        <RowDefinition Height="22"/>
-                        <RowDefinition Height="22"/>
-                        <RowDefinition Height="22"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="Consider second order effects"/>
-                    <TextBlock Grid.Row="1" Text="Geometry length"/>
-                    <TextBlock Grid.Row="2" Text="Buckling factor x-axis"/>
-                    <TextBlock Grid.Row="3" Text="Buckling factor y-axis"/>
-                    <CheckBox Grid.Column="1" IsChecked="{Binding Buckling}"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding GeometryLength, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding LengthFactorX, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
-                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding LengthFactorY, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Iterations">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="170"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Required Accuracy" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
-                    <TextBox Style="{StaticResource ValidatedError}" Grid.Column="2" Margin="5,5,5,5" Text="{Binding IterationAccuracy, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
-                    <TextBlock Grid.Row="1" Text="Maximum Iteration Count" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
-                    <TextBox Style="{StaticResource ValidatedError}" Grid.Column="2" Grid.Row="1" Margin="5,5,5,5" Text="{Binding MaxIterationCount, ValidatesOnDataErrors=True}"/>
-                </Grid>
-            </TabItem>
-        </TabControl>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="300"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Name"/>
+                <TextBox Grid.Column="1" Text="{Binding Name}"/>
+            </Grid>
+            <ContentControl Grid.Row="1" ContentTemplate="{StaticResource InputDataTemplate}" Content="{Binding InputData}" />
+        </Grid>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>
