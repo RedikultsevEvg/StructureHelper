@@ -16,40 +16,26 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     /// <summary>
     /// Logic of checking of input data for crack calcultor 
     /// </summary>
-    public class CheckCrackCalculatorInputDataLogic : ICheckInputDataLogic
+    public class CheckCrackCalculatorInputDataLogic : ICheckInputDataLogic<CrackInputData>
     {
-        private string checkResult;
-        private CrackInputData inputData;
         private bool result;
 
-        public IInputData InputData
-        {
-            get => inputData;
-            set
-            {
-                if (value is CrackInputData data)
-                {
-                    inputData = data;
-                }
-                else
-                {
-                    throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(CrackInputData), value));
-                }
-            }
-        }
+        public CrackInputData InputData {  get; set; }
 
-        public string CheckResult => checkResult;
+
+        public string CheckResult { get; private set; }
 
         public IShiftTraceLogger? TraceLogger { get; set; }
         public CheckCrackCalculatorInputDataLogic(CrackInputData inputData)
         {
-            this.inputData = inputData;
+            InputData = inputData;
+            CheckResult = string.Empty;
         }
         public bool Check()
         {
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
             result = true;
-            checkResult = string.Empty;
+            CheckResult = string.Empty;
             CheckPrimitives();
             CheckActions();
             return result;
@@ -57,27 +43,27 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private void CheckActions()
         {
-            if (inputData.ForceActions is null || (!inputData.ForceActions.Any()))
+            if (InputData.ForceActions is null || (!InputData.ForceActions.Any()))
             {
                 result = false;
                 string message = "Calculator does not contain any actions\n";
-                checkResult += message;
+                CheckResult += message;
                 TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
             };
         }
 
         private void CheckPrimitives()
         {
-            if (inputData.Primitives is null || (!inputData.Primitives.Any()))
+            if (InputData.Primitives is null || (!InputData.Primitives.Any()))
             {
                 result = false;
                 string message = "Calculator does not contain any primitives\n";
-                checkResult += message;
+                CheckResult += message;
                 TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
             }
             else
             {
-                foreach (var primitive in inputData.Primitives)
+                foreach (var primitive in InputData.Primitives)
                 {
                     if (primitive is RebarPrimitive rebar)
                     {
@@ -93,12 +79,12 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             {
                 result = false;
                 string message = $"Primitive {rebar.Name} does not have a host\n";
-                checkResult += message;
+                CheckResult += message;
                 TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
             }
             else
             {
-                bool isPrimitivesContainRebarHost = inputData.Primitives.Contains(rebar.HostPrimitive);
+                bool isPrimitivesContainRebarHost = InputData.Primitives.Contains(rebar.HostPrimitive);
                 if (isPrimitivesContainRebarHost == false)
                 {
                     result = false;
