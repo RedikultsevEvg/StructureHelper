@@ -8,7 +8,7 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class RebarCrackCalculator : ICalculator
+    public class RebarCrackCalculator : IRebarCrackCalculator
     {
         private ICrackSofteningLogic crackSofteningLogic;
         private ICrackWidthLogic crackWidthLogic = new CrackWidthLogicSP63();
@@ -120,7 +120,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private ICrackWidthLogicInputData GetCrackWidthInputData(RebarCrackInputData inputData, CalcTerms calcTerm)
         {
-            
+
             var factoryInputData = new CrackWidthLogicInputDataFactory(crackSofteningLogic)
             {
                 CalcTerm = calcTerm,

@@ -89,7 +89,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 {
                     result = false;
                     string message = $"Host {rebar.Name} ({rebar.HostPrimitive.Name}) is not included in primitives\n";
-                    checkResult += message;
+                    CheckResult += message;
                     TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
                 }
             }
@@ -97,7 +97,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             {
                 result = false;
                 string message = $"Material of host of {rebar.Name} ({rebar.HostPrimitive.HeadMaterial.Name})  does not support cracking\n";
-                checkResult += message;
+                CheckResult += message;
                 TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
             }
         }
