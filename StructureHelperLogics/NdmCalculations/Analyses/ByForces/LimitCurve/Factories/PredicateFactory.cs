@@ -92,7 +92,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 My = point3D.Y
             };
             logic.Tuple = tuple;
-            logic.NdmCollection = Ndms;
+            logic.SectionNdmCollection = Ndms;
             try
             {
                 if (logger is not null)

@@ -37,12 +37,19 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             Name = string.Empty;
         }
 
-        public CrackCalculator(CrackInputData inputData) : this(inputData, new CheckCrackCalculatorInputDataLogic(inputData)) { }
+        public CrackCalculator(CrackInputData inputData)
+            : this(inputData,
+                  new CheckCrackCalculatorInputDataLogic()
+                  { InputData = inputData}
+                  ) { }
 
         public object Clone()
         {
             CrackInputData crackInputData = new CrackInputData();
-            var checkDataLogic = new CheckCrackCalculatorInputDataLogic(InputData);
+            var checkDataLogic = new CheckCrackCalculatorInputDataLogic()
+            {
+                InputData = InputData
+            };
             var newItem = new CrackCalculator(crackInputData, checkDataLogic);
             updateStrategy.Update(newItem, this);
             return newItem;

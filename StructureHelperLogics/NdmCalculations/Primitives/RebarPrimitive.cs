@@ -20,7 +20,7 @@ using System.Windows.Media.Media3D;
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     /// <inheritdoc/>
-    public class RebarPrimitive : IPointPrimitive, IHasHostPrimitive
+    public class RebarPrimitive : IRebarPrimitive
     {
         static readonly RebarUpdateStrategy updateStrategy = new();
 
@@ -30,17 +30,21 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public IPoint2D Center { get; private set; }
         /// <inheritdoc/>
         public IHeadMaterial? HeadMaterial { get; set; }
+        /// <inheritdoc/>
         public bool Triangulate { get; set; }
-
+        /// <inheritdoc/>
         public StrainTuple UsersPrestrain { get; private set; }
-
+        /// <inheritdoc/>
         public StrainTuple AutoPrestrain { get; private set; }
-
+        /// <inheritdoc/>
         public IVisualProperty VisualProperty { get; private set; }
-
+        /// <inheritdoc/>
         public Guid Id { get; set; }
+        /// <inheritdoc/>
         public double Area { get; set; }
+        /// <inheritdoc/>
         public INdmPrimitive HostPrimitive { get; set; }
+        /// <inheritdoc/>
         public ICrossSection? CrossSection { get; set; }
 
 
@@ -57,7 +61,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         }
         public RebarPrimitive() : this(Guid.NewGuid())
         {
-                
+
         }
 
         public object Clone()

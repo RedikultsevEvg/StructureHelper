@@ -33,7 +33,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
             var actualTuple = ForceTupleService.InterpolateTuples(EndTuple, StartTuple, factor);
             sectionCrackedLogic.Tuple = actualTuple;
-            sectionCrackedLogic.NdmCollection = NdmCollection;
+            sectionCrackedLogic.SectionNdmCollection = NdmCollection;
             return sectionCrackedLogic.IsSectionCracked();
         }
     }

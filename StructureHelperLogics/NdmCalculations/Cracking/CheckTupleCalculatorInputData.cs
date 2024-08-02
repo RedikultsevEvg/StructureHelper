@@ -10,11 +10,15 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
+    /// <inheritdoc/>
     public class CheckTupleCalculatorInputData : ICheckInputDataLogic<TupleCrackInputData>
     {
-        private string checkResult;
-        private bool result;
+        const string userDataIsNull = "User crack input data is null";
+        private const string CollectionOfPrimitivesIsNull = "Collection does not have any primitives";
+        private string? checkResult;
 
+        private bool result;
+        /// <inheritdoc/>
         public TupleCrackInputData InputData { get; set; }
 
 
@@ -22,15 +26,42 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public CheckTupleCalculatorInputData(TupleCrackInputData inputData)
-        {
-            InputData = inputData;
-        }
 
         public bool Check()
         {
             result = true;
+            checkResult = string.Empty;
+            if (InputData is null)
+            {
+                result = false;
+                string v = ErrorStrings.ParameterIsNull + ": InputData";
+                checkResult += v;
+                TraceLogger?.AddMessage(v, TraceLogStatuses.Error);
+                return false;
+            }
+            CheckPrimitives();
+            CheckUserData();
             return result;
+        }
+
+        private void CheckPrimitives()
+        {
+            if (InputData.Primitives is null || !InputData.Primitives.Any())
+            {
+                result = false;
+                checkResult += CollectionOfPrimitivesIsNull;
+                TraceLogger?.AddMessage(CollectionOfPrimitivesIsNull, TraceLogStatuses.Error);
+            }
+        }
+
+        private void CheckUserData()
+        {
+            if (InputData.UserCrackInputData is null)
+            {
+                result = false;
+                checkResult += userDataIsNull;
+                TraceLogger?.AddMessage(userDataIsNull, TraceLogStatuses.Error);
+            }
         }
     }
 }

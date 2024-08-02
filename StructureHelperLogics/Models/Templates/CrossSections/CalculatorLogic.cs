@@ -17,7 +17,10 @@ namespace StructureHelperLogics.Models.Templates.CrossSections
             };
             calculators.Add(forceCalculator);
             CrackInputData newInputData = new CrackInputData();
-            var checkLogic = new CheckCrackCalculatorInputDataLogic(newInputData);
+            var checkLogic = new CheckCrackCalculatorInputDataLogic
+            {
+                InputData = newInputData
+            };
             var crackCalculator = new CrackCalculator(newInputData, checkLogic)
             {
                 Name = "New Crack Calculator",

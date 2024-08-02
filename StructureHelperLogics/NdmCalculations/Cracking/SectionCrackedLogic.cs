@@ -9,12 +9,13 @@ using System.Diagnostics.Eventing.Reader;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
+    /// <inheritdoc/>
     internal class SectionCrackedLogic : ISectionCrackedLogic
     {
         static readonly IStressLogic stressLogic = new StressLogic();
         public IForceTuple Tuple { get; set; }
         public IEnumerable<INdm> CheckedNdmCollection { get; set; }
-        public IEnumerable<INdm> NdmCollection { get; set; }
+        public IEnumerable<INdm> SectionNdmCollection { get; set; }
         public Accuracy Accuracy { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
@@ -39,7 +40,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             {
                 Accuracy = Accuracy,
                 Tuple = Tuple,
-                NdmCollection = NdmCollection
+                NdmCollection = SectionNdmCollection
             };
             var calculator = new ForceTupleCalculator() { InputData = inputData };
             if (TraceLogger is not null)
@@ -57,7 +58,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             IEnumerable<INdm> checkedNdmCollection;
             if (CheckedNdmCollection is null)
             {
-                checkedNdmCollection = NdmCollection;
+                checkedNdmCollection = SectionNdmCollection;
             }
             else
             {

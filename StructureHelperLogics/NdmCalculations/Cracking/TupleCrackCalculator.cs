@@ -2,6 +2,7 @@
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
@@ -33,12 +34,23 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private StrainTuple shortDefaultStrainTuple;
         private double longLength;
         private double shortLength;
+        private ICheckInputDataLogic<TupleCrackInputData> checkInputDataLogic;
 
         public string Name { get; set; }
         public TupleCrackInputData InputData { get; set; }
         public IResult Result => result;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
+
+        public TupleCrackCalculator(ICheckInputDataLogic<TupleCrackInputData> checkInputDataLogic)
+        {
+            this.checkInputDataLogic = checkInputDataLogic;
+        }
+
+        public TupleCrackCalculator() : this (new CheckTupleCalculatorInputData())
+        {
+            
+        }
 
         public void Run()
         {
@@ -73,9 +85,12 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private void ProcessCalculations()
         {
-            CheckInputData();
-            Triangulate();
 
+            Triangulate();
+            if (CheckInputData() == false)
+            {
+                return;
+            }
             longDefaultStrainTuple = CalcStrainMatrix(InputData.LongTermTuple as ForceTuple, crackableNdms);
             shortDefaultStrainTuple = CalcStrainMatrix(InputData.LongTermTuple as ForceTuple, crackableNdms);
             GetLengthBeetwenCracks();
@@ -183,12 +198,17 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             elasticNdms = triangulationLogic.GetElasticNdmCollection();
         }
 
-        private void CheckInputData()
+        private bool CheckInputData()
         {
-            if (InputData.Primitives is null || InputData.Primitives.Count == 0)
+            checkInputDataLogic.InputData = InputData;
+            if (checkInputDataLogic.Check() == false)
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": input data doesn't have any primitives");
-            }    
+                result.IsValid = false;
+                result.Description += checkInputDataLogic.CheckResult;
+                TraceLogger?.AddMessage($"Input data is not correct: {checkInputDataLogic.CheckResult}", TraceLogStatuses.Error);
+                return false;
+            };
+            return true;
         }
 
         public object Clone()

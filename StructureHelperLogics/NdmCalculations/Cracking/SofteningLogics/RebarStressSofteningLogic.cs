@@ -150,7 +150,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             var sectionCrackedLogic = new SectionCrackedLogic()
             {
-                NdmCollection = ndms,
+                SectionNdmCollection = ndms,
                 CheckedNdmCollection = new List<INdm>() { concreteNdm },
                 //TraceLogger = TraceLogger?.GetSimilarTraceLogger(100)
             };

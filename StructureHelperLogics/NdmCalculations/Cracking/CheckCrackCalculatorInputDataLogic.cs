@@ -5,11 +5,13 @@ using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using StructureHelperLogics.NdmCalculations.Primitives.Logics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
@@ -19,6 +21,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     public class CheckCrackCalculatorInputDataLogic : ICheckInputDataLogic<CrackInputData>
     {
         private bool result;
+        private ICheckPrimitiveCollectionLogic checkPrimitiveCollectionLogic;
 
         public CrackInputData InputData {  get; set; }
 
@@ -26,11 +29,17 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public string CheckResult { get; private set; }
 
         public IShiftTraceLogger? TraceLogger { get; set; }
-        public CheckCrackCalculatorInputDataLogic(CrackInputData inputData)
+
+        public CheckCrackCalculatorInputDataLogic(ICheckPrimitiveCollectionLogic checkPrimitiveCollectionLogic)
         {
-            InputData = inputData;
-            CheckResult = string.Empty;
+            this.checkPrimitiveCollectionLogic = checkPrimitiveCollectionLogic;
         }
+
+        public CheckCrackCalculatorInputDataLogic() : this (new CheckPrimitiveCollectionLogic())
+        {
+            
+        }
+
         public bool Check()
         {
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
@@ -39,6 +48,22 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             CheckPrimitives();
             CheckActions();
             return result;
+        }
+
+        private void CheckPrimitives()
+        {
+            if (checkPrimitiveCollectionLogic is null)
+            {
+                throw new StructureHelperException(ErrorStrings.ParameterIsNull + ": check primitive logic");
+            }
+            checkPrimitiveCollectionLogic.HasPrimitives = InputData;
+            checkPrimitiveCollectionLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger();
+            if (checkPrimitiveCollectionLogic.Check() == false)
+            {
+                result = false;
+                CheckResult += checkPrimitiveCollectionLogic.CheckResult;
+                TraceLogger?.AddMessage(checkPrimitiveCollectionLogic.CheckResult, TraceLogStatuses.Error);
+            }
         }
 
         private void CheckActions()
@@ -52,54 +77,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             };
         }
 
-        private void CheckPrimitives()
-        {
-            if (InputData.Primitives is null || (!InputData.Primitives.Any()))
-            {
-                result = false;
-                string message = "Calculator does not contain any primitives\n";
-                CheckResult += message;
-                TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
-            }
-            else
-            {
-                foreach (var primitive in InputData.Primitives)
-                {
-                    if (primitive is RebarPrimitive rebar)
-                    {
-                        CheckRebar(rebar);
-                    }
-                }
-            }
-        }
 
-        private void CheckRebar(RebarPrimitive rebar)
-        {
-            if (rebar.HostPrimitive is null)
-            {
-                result = false;
-                string message = $"Primitive {rebar.Name} does not have a host\n";
-                CheckResult += message;
-                TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
-            }
-            else
-            {
-                bool isPrimitivesContainRebarHost = InputData.Primitives.Contains(rebar.HostPrimitive);
-                if (isPrimitivesContainRebarHost == false)
-                {
-                    result = false;
-                    string message = $"Host {rebar.Name} ({rebar.HostPrimitive.Name}) is not included in primitives\n";
-                    CheckResult += message;
-                    TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
-                }
-            }
-            if (rebar.HostPrimitive.HeadMaterial.HelperMaterial is not ICrackedMaterial)
-            {
-                result = false;
-                string message = $"Material of host of {rebar.Name} ({rebar.HostPrimitive.HeadMaterial.Name})  does not support cracking\n";
-                CheckResult += message;
-                TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
-            }
-        }
     }
 }

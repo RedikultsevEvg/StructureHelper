@@ -9,13 +9,21 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
+    /// <inheritdoc/>
     public class CrackedConcreteNdmLogic : ISectionCrackedLogic
     {
+        /// <inheritdoc/>
         public INdm ConcreteNdm { get; set; }
+        /// <inheritdoc/>
         public IForceTuple Tuple { get; set; }
-        public IEnumerable<INdm> NdmCollection { get;set; }
+        /// <inheritdoc/>
+        public IEnumerable<INdm> CheckedNdmCollection { get; set; }
+        /// <inheritdoc/>
+        public IEnumerable<INdm> SectionNdmCollection { get; set; }
+        /// <inheritdoc/>
         public IShiftTraceLogger? TraceLogger { get; set; }
 
+        /// <inheritdoc/>
         public bool IsSectionCracked()
         {
             throw new NotImplementedException();
