@@ -10,16 +10,17 @@ using System.Diagnostics.Eventing.Reader;
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     /// <inheritdoc/>
-    internal class SectionCrackedLogic : ISectionCrackedLogic
+    internal class IsSectionCrackedByForceLogic : IIsSectionCrackedByForceLogic
     {
         static readonly IStressLogic stressLogic = new StressLogic();
+        /// <inheritdoc/>
         public IForceTuple Tuple { get; set; }
         public IEnumerable<INdm> CheckedNdmCollection { get; set; }
         public IEnumerable<INdm> SectionNdmCollection { get; set; }
         public Accuracy Accuracy { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public SectionCrackedLogic()
+        public IsSectionCrackedByForceLogic()
         {
             if (Accuracy is null)
             {
@@ -56,15 +57,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             }
             var strainMatrix = calcResult.LoaderResults.ForceStrainPair.StrainMatrix;
             IEnumerable<INdm> checkedNdmCollection;
-            if (CheckedNdmCollection is null)
-            {
-                checkedNdmCollection = SectionNdmCollection;
-            }
-            else
-            {
-                checkedNdmCollection = CheckedNdmCollection;
-            }
-            var isSectionCracked = stressLogic.IsSectionCracked(strainMatrix, checkedNdmCollection);
+            var isSectionCracked = stressLogic.IsSectionCracked(strainMatrix, CheckedNdmCollection);
             if (isSectionCracked == true)
             {
                 TraceLogger?.AddMessage($"Cracks are appeared in cross-section for current force combination");

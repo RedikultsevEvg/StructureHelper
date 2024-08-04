@@ -23,7 +23,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
     {
         static IConvertUnitLogic operationLogic = new ConvertUnitLogic();
         static IGetUnitLogic unitLogic = new GetUnitLogic();
-        static readonly CrackForceCalculator calculator = new();
+        static readonly CrackForceBynarySearchCalculator calculator = new();
         private ITriangulatePrimitiveLogic triangulateLogic;
 
         private List<IForcesTupleResult> ValidTupleList { get; set; }
@@ -103,7 +103,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
                     validTupleList[i].DesignForceTuple.ForceTuple.My * unitMoment.Multiplyer,
                     validTupleList[i].DesignForceTuple.ForceTuple.Nz * unitForce.Multiplyer
                 };
-                calculator.EndTuple = validTupleList[i].DesignForceTuple.ForceTuple;
+                calculator.InputData.EndTuple = validTupleList[i].DesignForceTuple.ForceTuple;
                 var limitState = validTupleList[i].DesignForceTuple.LimitState;
                 var calcTerm = validTupleList[i].DesignForceTuple.CalcTerm;
                 triangulateLogic = new TriangulatePrimitiveLogic()
@@ -114,7 +114,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
                     TraceLogger = TraceLogger
                 };
                 var ndms = triangulateLogic.GetNdms();
-                calculator.NdmCollection = ndms;
+                calculator.InputData.CheckedNdmCollection = calculator.InputData.SectionNdmCollection = ndms;
                 calculator.Run();
                 var result = (CrackForceResult)calculator.Result;
                 if (result.IsValid == false)

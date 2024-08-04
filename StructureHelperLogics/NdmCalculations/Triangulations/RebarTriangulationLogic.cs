@@ -66,9 +66,11 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             {
                 CenterX = options.Center.X,
                 CenterY = options.Center.Y,
-                Area = options.Area,
+                //Area = options.Area, //to do solve problem with additional concrete ndm
+                Area = 0,//options.Area, //to do solve problem with additional concrete ndm
                 Material = material,
-                StressScale = -1d
+                //StressScale = -1d
+                StressScale = 1d//-1d
             };
             NdmTransform.SetPrestrain(concreteNdm, TupleConverter.ConvertToLoaderStrainMatrix(prestrain));
             return concreteNdm;

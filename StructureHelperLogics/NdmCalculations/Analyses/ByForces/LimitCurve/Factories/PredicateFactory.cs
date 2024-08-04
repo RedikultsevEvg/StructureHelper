@@ -83,7 +83,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private bool IsSectionCracked(IPoint2D point2D)
         {
             logger?.TraceLoggerEntries.Clear();
-            var logic = new SectionCrackedLogic();
+            var logic = new IsSectionCrackedByForceLogic();
             var point3D = ConvertLogic.GetPoint3D(point2D);
             tuple = new()
             {

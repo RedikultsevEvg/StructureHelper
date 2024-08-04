@@ -59,7 +59,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void AddCrackCalculator()
         {
-            var inputData = new CrackInputData();
+            var inputData = new CrackCalculatorInputData();
             var calculator = new CrackCalculator(inputData)
             {
                 Name = "New crack calculator",

@@ -12,14 +12,14 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     /// <summary>
     /// Logic for checking collection of ndms for appearance of crack
     /// </summary>
-    public interface ISectionCrackedLogic : ILogic
+    public interface IIsSectionCrackedByForceLogic : ILogic
     {
         /// <summary>
         /// Force tuple for checking of cracks appearence
         /// </summary>
         IForceTuple Tuple { get; set; }
         /// <summary>
-        /// Collection of ndms which is checking fo cracking
+        /// Collection of ndms which is checking for cracking
         /// </summary>
         IEnumerable<INdm> CheckedNdmCollection { get; set; }
         /// <summary>

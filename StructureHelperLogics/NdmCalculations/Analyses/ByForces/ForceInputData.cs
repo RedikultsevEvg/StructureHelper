@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public class ForceInputData : IInputData, IHasPrimitives, IHasForceCombinations
+    public class ForceInputData : IForceInputData
     {
         public List<LimitStates> LimitStatesList { get; private set; }
         public List<CalcTerms> CalcTermsList { get; private set; }

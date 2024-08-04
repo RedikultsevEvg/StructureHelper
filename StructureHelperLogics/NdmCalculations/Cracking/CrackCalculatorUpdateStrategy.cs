@@ -10,9 +10,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class CrackCalculatorUpdateStrategy : IUpdateStrategy<CrackCalculator>
     {
-        private IUpdateStrategy<CrackInputData> inputDataUpdateStrategy;
+        private IUpdateStrategy<CrackCalculatorInputData> inputDataUpdateStrategy;
 
-        public CrackCalculatorUpdateStrategy(IUpdateStrategy<CrackInputData> inputDataUpdateStrategy)
+        public CrackCalculatorUpdateStrategy(IUpdateStrategy<CrackCalculatorInputData> inputDataUpdateStrategy)
         {
             this.inputDataUpdateStrategy = inputDataUpdateStrategy;
         }

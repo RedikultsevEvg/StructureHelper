@@ -54,14 +54,14 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 CrackableNdmCollection = crackableNdmsLoc,
                 CrackedNdmCollection = crackedNdmsLoc,
                 ForceTuple = InputData.LongTermTuple.Clone() as ForceTuple,
-                Length = LongLength
+                LengthBeetwenCracks = LongLength
             };
             var shortRebarData = new RebarCrackInputData()
             {
                 CrackableNdmCollection = crackableNdmsLoc,
                 CrackedNdmCollection = crackedNdmsLoc,
                 ForceTuple = InputData.ShortTermTuple.Clone() as ForceTuple,
-                Length = ShortLength
+                LengthBeetwenCracks = ShortLength
             };
             var rebarCalculatorData = new RebarCrackCalculatorInputData()
             {

@@ -13,9 +13,21 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class RebarCrackInputData : IInputData
     {
+        /// <summary>
+        /// Collection of ndms where work of crackable material in tension was assigned according to material properties
+        /// </summary>
         public IEnumerable<INdm> CrackableNdmCollection { get; set; }
+        /// <summary>
+        /// Collection of ndms where work of concrete is disabled
+        /// </summary>
         public IEnumerable<INdm> CrackedNdmCollection { get; set; }
+        /// <summary>
+        /// Force tuple for calculation
+        /// </summary>
         public ForceTuple ForceTuple { get; set; }
-        public double Length { get; set; }
+        /// <summary>
+        /// Base length beetwen cracks
+        /// </summary>
+        public double LengthBeetwenCracks { get; set; }
     }
 }

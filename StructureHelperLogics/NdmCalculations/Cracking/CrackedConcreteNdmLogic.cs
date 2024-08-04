@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     /// <inheritdoc/>
-    public class CrackedConcreteNdmLogic : ISectionCrackedLogic
+    public class CrackedConcreteNdmLogic : IIsSectionCrackedByForceLogic
     {
         /// <inheritdoc/>
         public INdm ConcreteNdm { get; set; }

@@ -10,14 +10,12 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Calculators
 {
-    public class FindParameterCalculator : ICalculator, IHasActionByResult
+    public class FindParameterCalculator : IFindParameterCalculator
     {
         FindParameterResult result;
         public string Name { get; set; }
-        public double StartValue { get; set; }
-        public double EndValue { get; set; }
-        public Predicate<double> Predicate { get; set; }
-        public IAccuracy Accuracy {get;set;}
+        public IFindParameterCalculatorInputData InputData { get; set; }
+        public IAccuracy Accuracy { get; set; }
         public IResult Result => result;
 
         public Action<IResult> ActionToOutputResults { get; set; }
@@ -25,18 +23,21 @@ namespace StructureHelperCommon.Models.Calculators
 
         public FindParameterCalculator()
         {
-            StartValue = 0d;
-            EndValue = 1d;
-            Accuracy = new Accuracy() { IterationAccuracy = 0.001d, MaxIterationCount = 1000 };
+            InputData = new FindParameterCalculatorInputData();
+            Accuracy = new Accuracy()
+            {
+                IterationAccuracy = 0.001d,
+                MaxIterationCount = 1000
+            };
         }
         public void Run()
         {
             result = new();
             try
             {
-                FindMinimumValue(StartValue, EndValue, Predicate);
+                FindMinimumValue(InputData.StartValue, InputData.EndValue, InputData.Predicate);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.IsValid = false;
                 result.Description += ex;

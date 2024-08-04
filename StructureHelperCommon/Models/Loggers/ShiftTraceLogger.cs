@@ -20,7 +20,7 @@ namespace StructureHelperCommon.Models
             KeepErrorStatus = true;
         }
         public ShiftTraceLogger() : this(new TraceLogger())  {  }
-        public void AddMessage(string message, TraceLogStatuses status = TraceLogStatuses.Info, int shiftPrioriry = 0)
+        public void AddMessage(string message, TraceLogStatuses status, int shiftPrioriry = 0)
         {
             // if status in (fatal, error, warning) they must be kept as they are
             if (status <= TraceLogStatuses.Warning & KeepErrorStatus == true)
@@ -56,6 +56,11 @@ namespace StructureHelperCommon.Models
                 loggerEntry.Priority += ShiftPriority;
             }
             Logger.TraceLoggerEntries.Add(loggerEntry);
+        }
+
+        public void AddMessage(string message)
+        {
+            AddMessage(message, TraceLogStatuses.Info,0);
         }
     }
 }

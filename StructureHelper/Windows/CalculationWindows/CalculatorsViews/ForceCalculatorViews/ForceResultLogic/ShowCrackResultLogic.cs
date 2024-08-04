@@ -17,7 +17,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 {
     internal class ShowCrackResultLogic
     {
-        private CrackForceCalculator calculator;
+        private CrackForceBynarySearchCalculator calculator;
         private ITriangulatePrimitiveLogic triangulateLogic;
 
         public static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
@@ -39,17 +39,18 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private void FindCrackFactor(IForceTuple finishDesignTuple, IForceTuple startDesignTuple)
         {
-            calculator = new CrackForceCalculator();
+            calculator = new CrackForceBynarySearchCalculator();
             calculator.TraceLogger = new ShiftTraceLogger();
-            calculator.StartTuple = startDesignTuple;
-            calculator.EndTuple = finishDesignTuple;
+            calculator.InputData.StartTuple = startDesignTuple;
+            calculator.InputData.EndTuple = finishDesignTuple;
             triangulateLogic = new TriangulatePrimitiveLogic()
             {
                 Primitives = ndmPrimitives,
                 LimitState = LimitState,
                 CalcTerm = CalcTerm
             };
-            calculator.NdmCollection = triangulateLogic.GetNdms();
+            var ndms = triangulateLogic.GetNdms();
+            calculator.InputData.CheckedNdmCollection = calculator.InputData.SectionNdmCollection = ndms;
             calculator.Run();
             var result = (CrackForceResult)calculator.Result;
             if (result.IsValid)

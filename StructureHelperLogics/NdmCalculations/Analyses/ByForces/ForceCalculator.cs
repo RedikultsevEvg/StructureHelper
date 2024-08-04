@@ -8,8 +8,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public class ForceCalculator : ICalculator, IHasActionByResult
     {
-        private IUpdateStrategy<ForceCalculator> updateStrategy = new ForceCalculatorUpdateStrategy();
-        private ICheckInputDataLogic<ForceInputData> checkInputDataLogic;
+        private IUpdateStrategy<ForceCalculator> updateStrategy;
+        private ICheckInputDataLogic<IForceInputData> checkInputDataLogic;
         private IForceCalculatorLogic forceCalculatorLogic;
 
 
@@ -19,11 +19,30 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IShiftTraceLogger? TraceLogger { get; set; }
         public IResult Result { get; private set; }
 
+        public ForceCalculator(ICheckInputDataLogic<IForceInputData> checkInputDataLogic,
+                IForceCalculatorLogic forceCalculatorLogic,
+                IUpdateStrategy<ForceCalculator> updateStrategy
+                )
+        {
+            this.checkInputDataLogic = checkInputDataLogic;
+            this.forceCalculatorLogic = forceCalculatorLogic;
+            this.updateStrategy = updateStrategy;
+
+            InputData = new ForceInputData();
+        }
+
+        public ForceCalculator() :
+            this(new CheckForceCalculatorInputData(),
+                new ForceCalculatorLogic(),
+                new ForceCalculatorUpdateStrategy())
+        {
+        }
+
         public void Run()
         {
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
-            checkInputDataLogic = new CheckForceCalculatorInputData(InputData);
-            checkInputDataLogic.TraceLogger?.GetSimilarTraceLogger(50);
+            checkInputDataLogic.InputData = InputData;
+            checkInputDataLogic.TraceLogger = TraceLogger;
             if (checkInputDataLogic.Check() != true)
             {
                 Result = new ForcesResults()
@@ -33,6 +52,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 };
                 return;
             }
+            forceCalculatorLogic.InputData = InputData;
             if (ActionToOutputResults is not null)
             {
                 forceCalculatorLogic.ActionToOutputResults = ActionToOutputResults;
@@ -46,31 +66,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             throw new NotImplementedException();
         }
 
-        public ForceCalculator(ForceInputData inputData,
-            ICheckInputDataLogic<ForceInputData> checkInputDataLogic,
-            IForceCalculatorLogic forceCalculatorLogic,
-            IUpdateStrategy<ForceCalculator> updateStrategy
-            )
-        {
-            this.InputData = inputData;
-            this.checkInputDataLogic = checkInputDataLogic;
-            this.forceCalculatorLogic = forceCalculatorLogic;
-            this.updateStrategy = updateStrategy;
-        }
-
-        public ForceCalculator(ForceInputData inputData) :
-            this(inputData,
-                new CheckForceCalculatorInputData(inputData),
-                new ForceCalculatorLogic(inputData),
-                new ForceCalculatorUpdateStrategy())
-        {           
-        }
-
-        public ForceCalculator() : this(new ForceInputData())  { }
-
         public object Clone()
         {
-            var newCalculator = new ForceCalculator(new ForceInputData());
+            var newCalculator = new ForceCalculator();
             updateStrategy.Update(newCalculator, this);
             return newCalculator;
         }

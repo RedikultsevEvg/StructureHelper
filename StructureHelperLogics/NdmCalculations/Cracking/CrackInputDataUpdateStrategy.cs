@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CrackInputDataUpdateStrategy : IUpdateStrategy<CrackInputData>
+    public class CrackInputDataUpdateStrategy : IUpdateStrategy<CrackCalculatorInputData>
     {
         private IUpdateStrategy<UserCrackInputData> userCrackInputDataUpdateStrategy;
         public CrackInputDataUpdateStrategy(IUpdateStrategy<UserCrackInputData> userCrackInputDataUpdateStrategy)
@@ -20,7 +20,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             
         }
-        public void Update(CrackInputData targetObject, CrackInputData sourceObject)
+        public void Update(CrackCalculatorInputData targetObject, CrackCalculatorInputData sourceObject)
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);

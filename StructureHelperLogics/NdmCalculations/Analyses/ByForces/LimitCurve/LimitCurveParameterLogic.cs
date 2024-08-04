@@ -20,10 +20,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public double GetParameter()
         {
-            var parameterCalculator = new FindParameterCalculator()
-            {
-                Predicate = GetFactorPredicate,
-            };
+            var parameterCalculator = new FindParameterCalculator();
+            parameterCalculator.InputData.Predicate = GetFactorPredicate;
             if (TraceLogger is not null)
             {
                 parameterCalculator.TraceLogger = TraceLogger;

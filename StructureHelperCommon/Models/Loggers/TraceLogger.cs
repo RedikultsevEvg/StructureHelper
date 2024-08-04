@@ -19,7 +19,7 @@ namespace StructureHelperCommon.Models
             KeepErrorStatus = true;
         }
 
-        public void AddMessage(string message, TraceLogStatuses status = TraceLogStatuses.Info, int shiftPrioriry = 0)
+        public void AddMessage(string message, TraceLogStatuses status, int shiftPrioriry = 0)
         {
             if (status == TraceLogStatuses.Fatal) { message = $"Fatal error! {message}"; }
             if (status == TraceLogStatuses.Error) { message = $"Error! {message}"; }
@@ -37,6 +37,11 @@ namespace StructureHelperCommon.Models
                 Message = message,
                 Priority = priority
             });
+        }
+
+        public void AddMessage(string message)
+        {
+            AddMessage(message, TraceLogStatuses.Info,0);
         }
     }
 }

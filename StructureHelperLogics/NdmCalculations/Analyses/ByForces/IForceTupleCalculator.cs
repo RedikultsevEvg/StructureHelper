@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public interface IForceTupleCalculator : ICalculator
+    public interface IForceTupleCalculator : ICalculator, IHasActionByResult
     {
         IForceTupleInputData InputData {get;set;}
     }

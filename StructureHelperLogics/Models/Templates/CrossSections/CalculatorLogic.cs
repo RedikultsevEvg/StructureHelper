@@ -16,7 +16,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections
                 TraceLogger = new ShiftTraceLogger()
             };
             calculators.Add(forceCalculator);
-            CrackInputData newInputData = new CrackInputData();
+            CrackCalculatorInputData newInputData = new CrackCalculatorInputData();
             var checkLogic = new CheckCrackCalculatorInputDataLogic
             {
                 InputData = newInputData

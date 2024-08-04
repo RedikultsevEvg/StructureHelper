@@ -58,7 +58,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             data.PsiSFactor = softeningLogic.GetSofteningFactor();
             data.StressStateFactor = stressStateFactorLogic.GetStressStateFactor();
             data.BondFactor = 0.5d;
-            data.Length = InputData.Length;
+            data.Length = InputData.LengthBeetwenCracks;
             data.ConcreteStrain = ConcreteStrain;
             data.RebarStrain = RebarStrain;
             return data;

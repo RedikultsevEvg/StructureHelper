@@ -15,7 +15,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
     public class CrackCalculatorInputDataViewModel : OkCancelViewModelBase
     {
         private CrackCalculator calculator;
-        CrackInputData crackInputData;
+        CrackCalculatorInputData crackInputData;
         private bool setUserValueSofteningFactor;
         private double softeningFactor;
         private string name;

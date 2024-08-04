@@ -11,30 +11,29 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CrackedLogic : ICrackedLogic
+    public class IsSectionCrackedByFactorLogic : IIsSectionCrackedByFactorLogic
     {
-        private ISectionCrackedLogic sectionCrackedLogic;
+        public IIsSectionCrackedByForceLogic IsSectionCrackedByForceLogic { get; set; }
         public IForceTuple StartTuple { get; set; }
         public IForceTuple EndTuple { get; set; }
-        public IEnumerable<INdm> NdmCollection { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public CrackedLogic(ISectionCrackedLogic sectionLogic)
+        public IsSectionCrackedByFactorLogic(IIsSectionCrackedByForceLogic sectionLogic)
         {
-            sectionCrackedLogic = sectionLogic;
+            IsSectionCrackedByForceLogic = sectionLogic;
         }
-        public CrackedLogic() : this (new SectionCrackedLogic())
+
+        public IsSectionCrackedByFactorLogic() : this(new IsSectionCrackedByForceLogic())
         {
             
         }
+
         public bool IsSectionCracked(double factor)
         {
-            sectionCrackedLogic.TraceLogger ??= TraceLogger?.GetSimilarTraceLogger(50);
-
+            IsSectionCrackedByForceLogic.TraceLogger ??= TraceLogger?.GetSimilarTraceLogger(50);
             var actualTuple = ForceTupleService.InterpolateTuples(EndTuple, StartTuple, factor);
-            sectionCrackedLogic.Tuple = actualTuple;
-            sectionCrackedLogic.SectionNdmCollection = NdmCollection;
-            return sectionCrackedLogic.IsSectionCracked();
+            IsSectionCrackedByForceLogic.Tuple = actualTuple;
+            return IsSectionCrackedByForceLogic.IsSectionCracked();
         }
     }
 }

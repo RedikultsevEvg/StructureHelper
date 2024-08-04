@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public interface IForceTupleInputData
+    public interface IForceTupleInputData : IInputData
     {
         IEnumerable<INdm> NdmCollection { get; set; }
         IForceTuple Tuple { get; set; }

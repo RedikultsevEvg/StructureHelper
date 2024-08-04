@@ -148,22 +148,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private CrackForceResult calculateCrackTuples(ForceTuple forceTuple, IEnumerable<INdm> ndms)
         {
-            var sectionCrackedLogic = new SectionCrackedLogic()
+            var calculator = new CrackForceBynarySearchCalculator()
             {
-                SectionNdmCollection = ndms,
-                CheckedNdmCollection = new List<INdm>() { concreteNdm },
-                //TraceLogger = TraceLogger?.GetSimilarTraceLogger(100)
-            };
-            var crackedLogis = new CrackedLogic(sectionCrackedLogic)
-            {
-                StartTuple = new ForceTuple(),
-                EndTuple = forceTuple,
-                //TraceLogger = TraceLogger?.GetSimilarTraceLogger(100)
-            };
-            var calculator = new CrackForceCalculator(crackedLogis)
-            {
-                NdmCollection = ndms,
-                EndTuple = forceTuple,
                 Accuracy = new Accuracy()
                 {
                     IterationAccuracy = 0.01d,
@@ -171,6 +157,10 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 },
                 //TraceLogger = TraceLogger?.GetSimilarTraceLogger(150)
             };
+            calculator.InputData.StartTuple = new ForceTuple();
+            calculator.InputData.EndTuple = forceTuple;
+            calculator.InputData.CheckedNdmCollection = new List<INdm>() { concreteNdm };
+            calculator.InputData.SectionNdmCollection = ndms;
             calculator.Run();
             return calculator.Result as CrackForceResult;
         }

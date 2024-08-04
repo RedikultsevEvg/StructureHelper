@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CrackInputData : IInputData, IHasPrimitives, IHasForceCombinations
+    public class CrackCalculatorInputData : IInputData, IHasPrimitives, IHasForceCombinations
     {
         /// <inheritdoc/>
         public List<INdmPrimitive> Primitives { get; private set; }
         /// <inheritdoc/>
         public List<IForceAction> ForceActions { get; private set; }
         public UserCrackInputData UserCrackInputData { get; set; }
-        public CrackInputData()
+        public CrackCalculatorInputData()
         {
             Primitives = new();
             ForceActions = new();

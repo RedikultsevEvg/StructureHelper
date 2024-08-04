@@ -34,9 +34,9 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.CrackCalculatorT
                 CalcTerm = CalcTerms.ShortTerm
             };
             var ndms = triangulateLogic.GetNdms();
-            var calculator = new CrackForceCalculator();
-            calculator.EndTuple = new ForceTuple() { Mx = -50e3d, My = -50e3d, Nz = 0d };
-            calculator.NdmCollection = ndms;
+            var calculator = new CrackForceBynarySearchCalculator();
+            calculator.InputData.EndTuple = new ForceTuple() { Mx = -50e3d, My = -50e3d, Nz = 0d };
+            calculator.InputData.CheckedNdmCollection = calculator.InputData.SectionNdmCollection = ndms;
             //Act
             calculator.Run();
             var result = (CrackForceResult)calculator.Result;
