@@ -31,7 +31,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public double ConcreteStrain { get; set;}
 
         public CalcTerms CalcTerm { get; set; }
-        public RebarCrackInputData InputData { get; set; }
+        public IRebarCrackInputData InputData { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
         public CrackWidthLogicInputDataFactory(ICrackSofteningLogic softeningLogic)
@@ -58,7 +58,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             data.PsiSFactor = softeningLogic.GetSofteningFactor();
             data.StressStateFactor = stressStateFactorLogic.GetStressStateFactor();
             data.BondFactor = 0.5d;
-            data.Length = InputData.LengthBeetwenCracks;
+            data.LengthBetweenCracks = InputData.LengthBeetwenCracks;
             data.ConcreteStrain = ConcreteStrain;
             data.RebarStrain = RebarStrain;
             return data;

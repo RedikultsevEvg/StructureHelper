@@ -47,7 +47,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             this.checkInputDataLogic = checkInputDataLogic;
         }
 
-        public TupleCrackCalculator() : this (new CheckTupleCalculatorInputData())
+        public TupleCrackCalculator() : this (new CheckTupleCalculatorInputDataLogic())
         {
             
         }
@@ -155,7 +155,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             IForceTupleInputData inputData = new ForceTupleInputData()
             {
                 NdmCollection = ndms,
-                Tuple = forceTuple
+                ForceTuple = forceTuple
             };
             IForceTupleCalculator calculator = new ForceTupleCalculator()
             {

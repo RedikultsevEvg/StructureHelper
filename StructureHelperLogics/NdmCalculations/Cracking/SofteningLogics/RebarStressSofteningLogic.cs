@@ -28,8 +28,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// Rebar resul for actual force combination
         /// </summary>
         private RebarStressResult actualRebarResult;
-
-
+        private TriangulationOptions options;
         private INdm? concreteNdm;
         private INdm? rebarNdm;
 
@@ -38,8 +37,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private double rebarActualStress;
         private double softeningFactor;
         private double minValueOfFactor = 0.2d;
-        private RebarPrimitive rebarPrimitive;
-        private RebarCrackInputData inputData;
+        private IRebarPrimitive rebarPrimitive;
+        private IRebarCrackInputData inputData;
 
         public double MinValueOfFactor
         {
@@ -49,7 +48,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 IsResultActual = false;
             }
         }
-        public RebarPrimitive RebarPrimitive
+        public IRebarPrimitive RebarPrimitive
         {
             get => rebarPrimitive; set
             {
@@ -57,7 +56,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 IsResultActual = false;
             }
         }
-        public RebarCrackInputData InputData
+        public IRebarCrackInputData InputData
         {
             get => inputData; set
             {
@@ -72,7 +71,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             if (IsResultActual == false)
             {
-                GetNdms();
+                GetRebarAndConcreteNdms();
                 softeningFactor = GetPsiSFactor(InputData.ForceTuple, InputData.CrackableNdmCollection);
                 IsResultActual = true;
             }
@@ -80,9 +79,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             
         }
 
-        private void GetNdms()
+        private void GetRebarAndConcreteNdms()
         {
-            var options = new TriangulationOptions()
+            options = new TriangulationOptions()
             {
                 CalcTerm = CalcTerms.ShortTerm,
                 LimiteState = LimitStates.SLS,
@@ -92,10 +91,10 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             rebarNdm = RebarPrimitive.GetRebarNdm(options);
         }
 
-        private double GetPsiSFactor(ForceTuple forceTuple, IEnumerable<INdm> crackableNndms)
+        private double GetPsiSFactor(ForceTuple forceTuple, IEnumerable<INdm> crackableNdms)
         {
 
-            var crackResult = calculateCrackTuples(forceTuple, crackableNndms);
+            var crackResult = calculateCrackTuples(forceTuple, crackableNdms);
             if (crackResult.IsValid == false)
             {
                 string errorString = LoggerStrings.CalculationError + crackResult.Description;
@@ -103,7 +102,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 throw new StructureHelperException(errorString);
             }
 
-            actualRebarResult = GetRebarStressResult(forceTuple);
+            actualRebarResult = GetRebarStressResultByForceTuple(forceTuple);
             rebarActualStrain = actualRebarResult.RebarStrain;
             rebarActualStress = actualRebarResult.RebarStress;
             TraceLogger?.AddMessage($"Actual strain of rebar EpsilonS = {rebarActualStrain}(dimensionless)");
@@ -120,7 +119,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 TraceLogger?.AddMessage($"Section is cracked in start force combination, PsiS = 1.0");
                 return 1d;
             }
-            crackRebarResult = GetRebarStressResult(crackResult.TupleOfCrackAppearance as ForceTuple);
+            crackRebarResult = GetRebarStressResultByForceTuple(crackResult.TupleOfCrackAppearance as ForceTuple);
 
             var stressInCracking = crackRebarResult.RebarStress;
             TraceLogger?.AddMessage($"Stress in rebar immediately after cracking Sigma,scrc = {stressInCracking}(Pa)");
@@ -165,14 +164,12 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             return calculator.Result as CrackForceResult;
         }
 
-        private RebarStressResult GetRebarStressResult(ForceTuple forceTuple)
+        private RebarStressResult GetRebarStressResultByForceTuple(ForceTuple forceTuple)
         {
-            var calculator = new RebarStressCalculator()
-            {
-                ForceTuple = forceTuple,
-                NdmCollection = InputData.CrackedNdmCollection,
-                RebarPrimitive = RebarPrimitive
-            };
+            var calculator = new RebarStressCalculator();
+            calculator.InputData.ForceTuple = forceTuple;
+            calculator.InputData.NdmCollection = InputData.CrackedNdmCollection;
+            calculator.InputData.RebarPrimitive = RebarPrimitive;
             calculator.Run();
             var result = calculator.Result as RebarStressResult;
             if (result.IsValid == false)

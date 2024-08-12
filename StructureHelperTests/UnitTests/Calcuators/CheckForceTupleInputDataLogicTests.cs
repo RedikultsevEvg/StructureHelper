@@ -62,7 +62,7 @@ namespace StructureHelperTests.UnitTests.Calcuators
         {
             // Arrange
             _mockInputData.Setup(x => x.NdmCollection).Returns(new List<INdm>());
-            _mockInputData.Setup(x => x.Tuple).Returns((IForceTuple)null);
+            _mockInputData.Setup(x => x.ForceTuple).Returns((IForceTuple)null);
 
             // Act
             var result = _checkLogic.Check();
@@ -78,7 +78,7 @@ namespace StructureHelperTests.UnitTests.Calcuators
         {
             // Arrange
             _mockInputData.Setup(x => x.NdmCollection).Returns(new List<INdm>());
-            _mockInputData.Setup(x => x.Tuple).Returns(new ForceTuple());
+            _mockInputData.Setup(x => x.ForceTuple).Returns(new ForceTuple());
             _mockInputData.Setup(x => x.Accuracy).Returns((IAccuracy)null);
 
             // Act
@@ -99,7 +99,7 @@ namespace StructureHelperTests.UnitTests.Calcuators
             mockAccuracy.Setup(x => x.MaxIterationCount).Returns(0);
 
             _mockInputData.Setup(x => x.NdmCollection).Returns(new List<INdm>());
-            _mockInputData.Setup(x => x.Tuple).Returns(new ForceTuple());
+            _mockInputData.Setup(x => x.ForceTuple).Returns(new ForceTuple());
             _mockInputData.Setup(x => x.Accuracy).Returns(mockAccuracy.Object);
 
             // Act
@@ -121,7 +121,7 @@ namespace StructureHelperTests.UnitTests.Calcuators
             mockAccuracy.Setup(x => x.MaxIterationCount).Returns(10);
 
             _mockInputData.Setup(x => x.NdmCollection).Returns(new List<INdm> { new Mock<INdm>().Object });
-            _mockInputData.Setup(x => x.Tuple).Returns(new ForceTuple());
+            _mockInputData.Setup(x => x.ForceTuple).Returns(new ForceTuple());
             _mockInputData.Setup(x => x.Accuracy).Returns(mockAccuracy.Object);
 
             // Act

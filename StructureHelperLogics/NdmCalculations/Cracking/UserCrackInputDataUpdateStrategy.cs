@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    internal class UserCrackInputDataUpdateStrategy : IUpdateStrategy<UserCrackInputData>
+    internal class UserCrackInputDataUpdateStrategy : IUpdateStrategy<IUserCrackInputData>
     {
-        public void Update(UserCrackInputData targetObject, UserCrackInputData sourceObject)
+        public void Update(IUserCrackInputData targetObject, IUserCrackInputData sourceObject)
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);

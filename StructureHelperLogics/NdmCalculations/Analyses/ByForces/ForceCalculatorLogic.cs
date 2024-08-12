@@ -188,7 +188,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             var inputData = new ForceTupleInputData()
             {
                 NdmCollection = ndmCollection,
-                Tuple = tuple,
+                ForceTuple = tuple,
                 Accuracy = accuracy
             };
             var calculator = new ForceTupleCalculator();

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     /// <inheritdoc/>
-    public class CheckTupleCalculatorInputData : ICheckInputDataLogic<TupleCrackInputData>
+    public class CheckTupleCalculatorInputDataLogic : ICheckInputDataLogic<TupleCrackInputData>
     {
         const string userDataIsNull = "User crack input data is null";
         private const string CollectionOfPrimitivesIsNull = "Collection does not have any primitives";

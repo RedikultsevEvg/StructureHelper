@@ -40,7 +40,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             var inputData = new ForceTupleInputData()
             {
                 Accuracy = Accuracy,
-                Tuple = Tuple,
+                ForceTuple = Tuple,
                 NdmCollection = SectionNdmCollection
             };
             var calculator = new ForceTupleCalculator() { InputData = inputData };

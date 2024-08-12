@@ -12,17 +12,15 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     /// <summary>
     /// Class of input data for rebar crack calculator
     /// </summary>
-    public class RebarCrackCalculatorInputData : IInputData
+    public class RebarCrackCalculatorInputData : IRebarCrackCalculatorInputData
     {
-        /// <summary>
-        /// Long term rebar data
-        /// </summary>
-        public RebarCrackInputData? LongRebarData { get; set; }
-        /// <summary>
-        /// Short term rebar data
-        /// </summary>
-        public RebarCrackInputData? ShortRebarData { get; set; }
-        public RebarPrimitive RebarPrimitive { get; set; }
-        public UserCrackInputData UserCrackInputData { get; set; }
+        /// <inheritdoc/>
+        public IRebarCrackInputData? LongRebarData { get; set; }
+        /// <inheritdoc/>
+        public IRebarCrackInputData? ShortRebarData { get; set; }
+        /// <inheritdoc/>
+        public IRebarPrimitive RebarPrimitive { get; set; }
+        /// <inheritdoc/>
+        public IUserCrackInputData? UserCrackInputData { get; set; }
     }
 }

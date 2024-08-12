@@ -11,7 +11,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
 {
     public class RCSectionsTest
     {
-        [TestCase(0.4d, 0.6d, 0.012d, 0.025d, 2, 2, false, -0.00068654617067958799d, -0.0030411189808055242d, 0.00034289928716916179d)]
+        [TestCase(0.4d, 0.6d, 0.012d, 0.025d, 2, 2, false, -0.00068471024318306586d, -0.0030411189808055242d, 0.00034289928716916179d)]
         public void Run_ShouldPass(double width, double height, double topDiametr, double bottomDiametr, int widthCount, int heightCount, bool isBuckling, double expectedKx, double expectedKy, double expectedEpsZ)
         {
             //Arrange

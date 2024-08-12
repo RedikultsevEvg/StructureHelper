@@ -23,7 +23,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
                 PsiSFactor = 1d,
                 RebarStrain = rebarStrain,
                 ConcreteStrain = concreteStrain,
-                Length = length
+                LengthBetweenCracks = length
             };
             var logic = new CrackWidthLogicSP63() { InputData = inputData };
 

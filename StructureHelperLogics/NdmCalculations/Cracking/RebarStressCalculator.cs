@@ -12,28 +12,75 @@ using StructureHelperLogics.NdmCalculations.Triangulations;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class RebarStressCalculator : ICalculator
+    public class RebarStressCalculator : IRebarStressCalculator
     {
+        private const CalcTerms termOfLoadForCrackCalculation = CalcTerms.ShortTerm;
+        private const LimitStates limitStateForCrackCalcultion = LimitStates.SLS;
         private IStressLogic stressLogic;
         private Ndm concreteNdm;
         private RebarNdm rebarNdm;
         private RebarStressResult result;
 
-        public ForceTuple ForceTuple { get; set; }
-        public IEnumerable<INdm> NdmCollection { get; set; }
-        public RebarPrimitive RebarPrimitive { get; set; }
+        public IRebarStressCalculatorInputData InputData { get; set; }
         public string Name { get; set; }
 
         public IResult Result => result;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public StrainTuple GetStrainTuple()
+
+        public RebarStressCalculator(IStressLogic stressLogic)
+        {
+            this.stressLogic = stressLogic;
+            InputData = new RebarStressCalculatorInputData();
+        }
+        public RebarStressCalculator() : this(new StressLogic())
+        {
+
+        }
+
+
+        public void Run()
+        {
+            PrepareNewResult();
+            if (CheckInputData() != true)
+            {
+                return;
+            }
+            GetNdmCollectionByPrimitives();
+            ProcessResult();
+        }
+
+        private bool CheckInputData()
+        {
+            return true;
+        }
+
+        private void ProcessResult()
+        {
+            var strainTuple = GetStrainTuple();
+            result.StrainTuple = strainTuple;
+            var strainMatrix = TupleConverter.ConvertToLoaderStrainMatrix(strainTuple);
+            result.RebarStrain = stressLogic.GetSectionStrain(strainMatrix, rebarNdm);
+            result.RebarStress = stressLogic.GetStress(strainMatrix, rebarNdm);
+            result.ConcreteStrain = -concreteNdm.Prestrain;
+        }
+
+        private void PrepareNewResult()
+        {
+            result = new RebarStressResult()
+            {
+                IsValid = true,
+                Description = string.Empty
+            };
+        }
+
+        private StrainTuple GetStrainTuple()
         {
             IForceTupleInputData inputData = new ForceTupleInputData()
             {
-                NdmCollection = NdmCollection,
-                Tuple = ForceTuple
+                NdmCollection = InputData.NdmCollection,
+                ForceTuple = InputData.ForceTuple
             };
             IForceTupleCalculator calculator = new ForceTupleCalculator()
             {
@@ -50,45 +97,19 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             var strain = TupleConverter.ConvertToStrainTuple(forceResult.LoaderResults.StrainMatrix);
             return strain;
         }
-        public RebarStressCalculator(IStressLogic stressLogic)
-        {
-            this.stressLogic = stressLogic;
-        }
-        public RebarStressCalculator() : this(new StressLogic())
-        {
-            
-        }
 
-
-        public void Run()
-        {
-            GetNdmCollectionFromPrimitives();
-            result = new RebarStressResult()
-            {
-                IsValid = true,
-                Description = string.Empty
-            };
-            var strainTuple = GetStrainTuple();
-            result.StrainTuple = strainTuple;
-            var strainMatrix = TupleConverter.ConvertToLoaderStrainMatrix(strainTuple);
-            result.RebarStrain = stressLogic.GetSectionStrain(strainMatrix, rebarNdm);
-            result.RebarStress = stressLogic.GetStress(strainMatrix, rebarNdm);
-            result.ConcreteStrain = - concreteNdm.Prestrain;
-        }
-
-
-        private void GetNdmCollectionFromPrimitives()
+        private void GetNdmCollectionByPrimitives()
         {
             var options = new TriangulationOptions()
             {
-                CalcTerm = CalcTerms.ShortTerm,
-                LimiteState = LimitStates.SLS,
+                CalcTerm = termOfLoadForCrackCalculation,
+                LimiteState = limitStateForCrackCalcultion,
             };
-            concreteNdm = RebarPrimitive.GetConcreteNdm(options);
+            concreteNdm = InputData.RebarPrimitive.GetConcreteNdm(options);
             concreteNdm.StressScale = 1d;
-            rebarNdm = RebarPrimitive.GetRebarNdm(options);
+            rebarNdm = InputData.RebarPrimitive.GetRebarNdm(options);
         }
-
+        /// <inheritdoc/>
         public object Clone()
         {
             throw new NotImplementedException();

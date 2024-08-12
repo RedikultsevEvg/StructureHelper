@@ -10,12 +10,12 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks.InputDataTests;
 [TestFixture]
 public class CheckTupleCalculatorInputDataTests
 {
-    private CheckTupleCalculatorInputData _checkTupleCalculatorInputData;
+    private CheckTupleCalculatorInputDataLogic _checkTupleCalculatorInputData;
 
     [SetUp]
     public void SetUp()
     {
-        _checkTupleCalculatorInputData = new CheckTupleCalculatorInputData();
+        _checkTupleCalculatorInputData = new CheckTupleCalculatorInputDataLogic();
     }
 
     [Test]

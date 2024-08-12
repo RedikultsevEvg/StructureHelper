@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructureHelperCommon.Models.Calculators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public interface ICrackWidthLogicInputData
+    public interface ICrackWidthLogicInputData : IInputData
     {
         /// <summary>
         /// strain of rebar, dimensionless
@@ -19,6 +20,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <summary>
         /// Length between cracks in meters
         /// </summary>
-        double Length { get; set; }
+        double LengthBetweenCracks { get; set; }
     }
 }

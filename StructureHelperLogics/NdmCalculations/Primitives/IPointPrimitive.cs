@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
+    /// <summary>
+    /// Geometry primitive of point
+    /// </summary>
     public interface IPointPrimitive : INdmPrimitive, IPointShape
     {
     }

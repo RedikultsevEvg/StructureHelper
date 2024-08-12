@@ -19,7 +19,7 @@ namespace StructureHelperCommon.Models
             KeepErrorStatus = true;
         }
 
-        public void AddMessage(string message, TraceLogStatuses status, int shiftPrioriry = 0)
+        public void AddMessage(string message, TraceLogStatuses status, int shiftPrioriry)
         {
             if (status == TraceLogStatuses.Fatal) { message = $"Fatal error! {message}"; }
             if (status == TraceLogStatuses.Error) { message = $"Error! {message}"; }
@@ -27,7 +27,7 @@ namespace StructureHelperCommon.Models
             TraceLoggerEntries.Add(new StringLogEntry()
             {
                 Message = message,
-                Priority = LoggerService.GetPriorityByStatus(status)
+                Priority = LoggerService.GetPriorityByStatus(status) + shiftPrioriry,
             });
         }        
         public void AddMessage(string message, int priority)
@@ -35,13 +35,22 @@ namespace StructureHelperCommon.Models
             TraceLoggerEntries.Add(new StringLogEntry()
             {
                 Message = message,
-                Priority = priority
+                Priority = priority,
             });
         }
 
         public void AddMessage(string message)
         {
             AddMessage(message, TraceLogStatuses.Info,0);
+        }
+
+        public void AddMessage(string message, TraceLogStatuses status)
+        {
+            TraceLoggerEntries.Add(new StringLogEntry()
+            {
+                Message = message,
+                Priority = LoggerService.GetPriorityByStatus(status)
+            });
         }
     }
 }

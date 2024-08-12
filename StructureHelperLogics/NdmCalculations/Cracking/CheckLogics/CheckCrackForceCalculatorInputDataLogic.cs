@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CheckCrackForceCalculatorInputData : ICheckInputDataLogic<ICrackForceCalculatorInputData>
+    public class CheckCrackForceCalculatorInputDataLogic : ICheckInputDataLogic<ICrackForceCalculatorInputData>
     {
         private string checkResult;
         private bool result;

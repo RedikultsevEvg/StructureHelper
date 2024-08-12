@@ -45,7 +45,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             forceTupleCalculator = new ForceTupleCalculator();
             InputData = new CrackForceCalculatorInputData();
         }
-        public CrackForceBynarySearchCalculator() : this(new IsSectionCrackedByFactorLogic(), new CheckCrackForceCalculatorInputData())
+        public CrackForceBynarySearchCalculator() : this(new IsSectionCrackedByFactorLogic(), new CheckCrackForceCalculatorInputDataLogic())
         {
 
         }
@@ -195,7 +195,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             ForceTupleInputData inputData = new();
             inputData.NdmCollection = InputData.SectionNdmCollection;
-            inputData.Tuple = forceTuple;
+            inputData.ForceTuple = forceTuple;
             forceTupleCalculator.InputData = inputData;
             forceTupleCalculator.Run();
             var result = forceTupleCalculator.Result as IForcesTupleResult;

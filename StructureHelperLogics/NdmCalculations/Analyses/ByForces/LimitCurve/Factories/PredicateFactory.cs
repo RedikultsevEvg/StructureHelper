@@ -69,7 +69,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 Mx = point3D.X,
                 My = point3D.Y
             };
-            inputData.Tuple = tuple;
+            inputData.ForceTuple = tuple;
             inputData.NdmCollection = Ndms;
             calculator.Run();
             if (logger is not null)

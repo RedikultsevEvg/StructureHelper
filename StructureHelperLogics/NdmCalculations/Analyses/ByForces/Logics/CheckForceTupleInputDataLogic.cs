@@ -47,7 +47,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 string errorString = "\nNdm collection is null or empty";
                 TraceMessage(errorString);
             }
-            if (InputData.Tuple is null)
+            if (InputData.ForceTuple is null)
             {
                 result = false;
                 string errorString = "\nForce tuple is null";

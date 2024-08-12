@@ -223,7 +223,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
             IForceTupleInputData inputData = new ForceTupleInputData()
             {
                 NdmCollection = ndmCollection,
-                Tuple = tuple, Accuracy = Accuracy
+                ForceTuple = tuple, Accuracy = Accuracy
             };
             IForceTupleCalculator calculator = new ForceTupleCalculator() { InputData = inputData };
             return calculator;

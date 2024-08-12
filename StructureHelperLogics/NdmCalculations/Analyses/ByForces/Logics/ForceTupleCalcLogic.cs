@@ -68,7 +68,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 TraceService.TraceNdmCollection(TraceLogger, InputData.NdmCollection);
             }
             TraceLogger?.AddMessage(string.Intern("Input force combination"));
-            TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(InputData.Tuple));
+            TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(InputData.ForceTuple));
             TraceLogger?.AddMessage($"Required accuracy rate {InputData.Accuracy.IterationAccuracy}");
             TraceLogger?.AddMessage($"Maximum iteration count {InputData.Accuracy.MaxIterationCount}");
         }
@@ -131,9 +131,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                     MaxIterationCount = InputData.Accuracy.MaxIterationCount,
                     StartForceMatrix = new ForceMatrix
                     {
-                        Mx = InputData.Tuple.Mx,
-                        My = InputData.Tuple.My,
-                        Nz = InputData.Tuple.Nz
+                        Mx = InputData.ForceTuple.Mx,
+                        My = InputData.ForceTuple.My,
+                        Nz = InputData.ForceTuple.Nz
                     }
                 },
                 ActionToOutputResults = ShowResultToTrace,

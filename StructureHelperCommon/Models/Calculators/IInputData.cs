@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Calculators
 {
+    /// <summary>
+    /// Base interface of input data for calculation
+    /// </summary>
     public interface IInputData
     {
     }
