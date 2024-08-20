@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CrackCalculatorUpdateStrategy : IUpdateStrategy<CrackCalculator>
+    public class CrackCalculatorUpdateStrategy : IUpdateStrategy<ICrackCalculator>
     {
-        private IUpdateStrategy<CrackCalculatorInputData> inputDataUpdateStrategy;
+        private IUpdateStrategy<ICrackCalculatorInputData> inputDataUpdateStrategy;
 
-        public CrackCalculatorUpdateStrategy(IUpdateStrategy<CrackCalculatorInputData> inputDataUpdateStrategy)
+        public CrackCalculatorUpdateStrategy(IUpdateStrategy<ICrackCalculatorInputData> inputDataUpdateStrategy)
         {
             this.inputDataUpdateStrategy = inputDataUpdateStrategy;
         }
         public CrackCalculatorUpdateStrategy() : this(new CrackInputDataUpdateStrategy()) { }
-        public void Update(CrackCalculator targetObject, CrackCalculator sourceObject)
+        public void Update(ICrackCalculator targetObject, ICrackCalculator sourceObject)
         {
-            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
 
             targetObject.Name = sourceObject.Name;
-            targetObject.InputData ??= new();
+            targetObject.InputData ??= new CrackCalculatorInputData();
             inputDataUpdateStrategy.Update(targetObject.InputData, sourceObject.InputData);
         }
     }

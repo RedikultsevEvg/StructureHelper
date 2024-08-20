@@ -16,16 +16,18 @@ namespace StructureHelperLogics.Models.Templates.CrossSections
                 TraceLogger = new ShiftTraceLogger()
             };
             calculators.Add(forceCalculator);
-            CrackCalculatorInputData newInputData = new CrackCalculatorInputData();
+            var newInputData = new CrackCalculatorInputData();
             var checkLogic = new CheckCrackCalculatorInputDataLogic
             {
                 InputData = newInputData
             };
-            var crackCalculator = new CrackCalculator(newInputData, checkLogic)
+            checkLogic.InputData = newInputData;
+            var crackCalculator = new CrackCalculator(checkLogic, new CrackCalculatorUpdateStrategy(), null)
             {
                 Name = "New Crack Calculator",
                 TraceLogger = new ShiftTraceLogger()
             };
+            crackCalculator.InputData = newInputData;
             calculators.Add(crackCalculator);
             return calculators;
         }

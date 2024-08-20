@@ -85,6 +85,11 @@
         <Setter Property="BorderBrush" Value="Black"/>
     </Style>
 
+    <Style x:Key="ToolButton24" TargetType="Button" BasedOn="{StaticResource ToolButton}">
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="Width" Value="24"/>
+    </Style>
+
     <Style x:Key="ButtonImage16" TargetType="Image">
         <Setter Property="Height" Value="16"/>
         <Setter Property="Width" Value="16"/>
@@ -214,6 +219,110 @@
                 <Rectangle Canvas.Left="8" Canvas.Top="6" Width="16" Height="21" Fill="LightGray" Stroke ="Black"/>
                 <Ellipse Canvas.Left="10" Canvas.Top="21" Width="4" Height="4" Fill="DarkGray" Stroke ="Black"/>
                 <Ellipse Canvas.Left="18" Canvas.Top="21" Width="4" Height="4" Fill="DarkGray" Stroke ="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="FileOpen">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Path Margin="4" Data="M 2 6 l 8 0 l 3 3 l 6 0 l 0 12 l -17 0 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+                <Path Margin="4" Data="M 6 12 l 20 0 l -5 10 l -19 0 z" Fill="LightGray" Stroke="Black" StrokeThickness="1"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="FileSave">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Rectangle Height="26" Width="26" Canvas.Left="3" Canvas.Top="3"
+                            Fill="DarkGray" Stroke="Black" StrokeThickness="1"
+                            RadiusX="2" RadiusY="2"/>
+                <Rectangle Height="8" Width="12" Canvas.Left="10" Canvas.Top="4"
+                            Fill="LightGray" Stroke="Black" StrokeThickness="0.5"/>
+                <Rectangle Height="6" Width="4" Canvas.Left="16" Canvas.Top="5"
+                            Fill="DarkGray" Stroke="Black" StrokeThickness="0.5"/>
+                <Rectangle Height="14" Width="22" Canvas.Left="5" Canvas.Top="13"
+                            Fill="LightGray" Stroke="Black" StrokeThickness="0.5"
+                            RadiusX="2" RadiusY="2"/>
+                <Line X1="7" Y1="18" X2="24" Y2="18" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="7" Y1="21" X2="24" Y2="21" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="7" Y1="24" X2="24" Y2="24" Stroke="Black" StrokeThickness="0.5"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="Diagrams">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="2" Y1="16" X2="30" Y2="16" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="16" Y1="2" X2="16" Y2="30" Stroke="Black" StrokeThickness="0.5"/>
+                <Path Margin="2" Data="M 0 21 l 6 0 l 9 -8 l 9 -8 l 4 0" Stroke="Black" StrokeThickness="1"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="NdmCrossSection">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Rectangle Height="16" Width="8" Canvas.Left="12" Canvas.Top="12"
+                            Fill="DarkGray" Stroke="Black" StrokeThickness="1"/> 
+                <Rectangle Height="6" Width="16" Canvas.Left="8" Canvas.Top="7"
+                            Fill="LightGray" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="2" Y1="16" X2="30" Y2="16" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="16" Y1="2" X2="16" Y2="30" Stroke="Black" StrokeThickness="0.5"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SelectAll">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="True"/>
+                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="True"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="DeSelectAll">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="False"/>
+                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="False"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="InvertSelection">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="True"/>
+                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="False"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RunAnalisis">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Path Margin="4" Data="M 4 2 l 12 10 l -12 10 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EditAnalisis">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Path Margin="4" Data="M 2 22 l 4 -6 l 15 -16 l 4 4 l -15 14 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="DeleteAnalisis">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="4" Y1="4" X2="26" Y2="26" Stroke="Black" StrokeThickness="2"/>
+                <Line X1="4" Y1="26" X2="26" Y2="4" Stroke="Black" StrokeThickness="2"/>
             </Canvas.Children>
         </Canvas>
     </DataTemplate>

@@ -21,7 +21,7 @@ namespace StructureHelperLogics.Models.Materials
         /// <inheritdoc/>
         public ILibMaterialEntity MaterialEntity { get; set; }
         /// <inheritdoc/>
-        public List<IMaterialSafetyFactor> SafetyFactors { get; }
+        public List<IMaterialSafetyFactor> SafetyFactors { get; set; }
         /// <inheritdoc/>
         public bool TensionForULS { get ; set; }
         /// <inheritdoc/>

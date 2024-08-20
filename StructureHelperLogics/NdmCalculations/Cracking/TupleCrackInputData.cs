@@ -34,6 +34,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <summary>
         /// Settings ajusted by user
         /// </summary>
-        public UserCrackInputData UserCrackInputData { get; set; }
+        public IUserCrackInputData UserCrackInputData { get; set; }
     }
 }

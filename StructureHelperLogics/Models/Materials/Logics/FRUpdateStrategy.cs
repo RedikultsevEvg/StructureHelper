@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,13 @@ namespace StructureHelperLogics.Models.Materials
     {
         public void Update(IFRMaterial targetObject, IFRMaterial sourceObject)
         {
+            CheckObject.ReferenceEquals(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Modulus = sourceObject.Modulus;
             targetObject.CompressiveStrength = sourceObject.CompressiveStrength;
-            targetObject.TensileStrength = targetObject.TensileStrength;
-            targetObject.ULSConcreteStrength = targetObject.ULSConcreteStrength;
-            targetObject.SumThickness = targetObject.SumThickness;
+            targetObject.TensileStrength = sourceObject.TensileStrength;
+            targetObject.ULSConcreteStrength = sourceObject.ULSConcreteStrength;
+            targetObject.SumThickness = sourceObject.SumThickness;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,20 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Materials
 {
-    internal class ReinforcementLibUpdateStrategy : IUpdateStrategy<IReinforcementLibMaterial>
+    public class ReinforcementLibUpdateStrategy : IUpdateStrategy<IReinforcementLibMaterial>
     {
-        LibMaterialUpdateStrategy libUpdateStrategy = new LibMaterialUpdateStrategy();
+        private IUpdateStrategy<ILibMaterial> libUpdateStrategy;
+        public ReinforcementLibUpdateStrategy(IUpdateStrategy<ILibMaterial> libUpdateStrategy)
+        {
+            this.libUpdateStrategy = libUpdateStrategy;
+        }
+        public ReinforcementLibUpdateStrategy() : this(new LibMaterialUpdateStrategy())
+        {
+            
+        }
         public void Update(IReinforcementLibMaterial targetObject, IReinforcementLibMaterial sourceObject)
         {
+            CheckObject.CompareTypes(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             libUpdateStrategy.Update(targetObject, sourceObject);
         }

@@ -23,7 +23,7 @@ namespace StructureHelperLogics.Models.Materials
 
         public ILibMaterialEntity MaterialEntity { get; set; }
 
-        public List<IMaterialSafetyFactor> SafetyFactors { get; }
+        public List<IMaterialSafetyFactor> SafetyFactors { get; set; }
         public IMaterialLogic MaterialLogic { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public List<IMaterialLogic> MaterialLogics => throw new NotImplementedException();

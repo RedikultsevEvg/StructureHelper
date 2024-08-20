@@ -25,7 +25,7 @@ namespace StructureHelperCommon.Services
         public static void CompareTypes(object targetObject, object sourceObject)
         {
             IsNull(targetObject, "target object");
-            IsNull(targetObject, "source object");
+            IsNull(sourceObject, "source object");
             if (targetObject.GetType() != sourceObject.GetType())
             {
                 throw new StructureHelperException
@@ -34,7 +34,10 @@ namespace StructureHelperCommon.Services
         }
         public static void IsNull(object item, string message = "")
         {
-            if (item is null) { throw new StructureHelperException(ErrorStrings.ParameterIsNull + message); }
+            if (item is null)
+            {
+                throw new StructureHelperException(ErrorStrings.ParameterIsNull + ": "+ message);
+            }
         }
 
         public static void CheckType(object sourceObject, Type targetType)

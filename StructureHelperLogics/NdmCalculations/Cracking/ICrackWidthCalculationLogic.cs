@@ -8,8 +8,5 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         RebarCrackResult Result { get; }
 
         void Run();
-        CrackWidthRebarTupleResult ProcessLongTermCalculations();
-        CrackWidthRebarTupleResult ProcessShortTermCalculations();
-        RebarStressResult GetRebarStressResult(IRebarCrackInputData inputData);
     }
 }

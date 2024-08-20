@@ -22,9 +22,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public LimitStates LimitState { get; set; }
         public CalcTerms LongTerm { get; set; }
         public CalcTerms ShortTerm { get; set; }
-        public UserCrackInputData UserCrackInputData { get; set; }
+        public IUserCrackInputData UserCrackInputData { get; set; }
 
-        public GetTupleInputDatasLogic(List<INdmPrimitive> primitives, List<IForceAction> forceActions, UserCrackInputData userCrackInputData)
+        public GetTupleInputDatasLogic(List<INdmPrimitive> primitives, List<IForceAction> forceActions, IUserCrackInputData userCrackInputData)
         {
             Primitives = primitives;
             ForceActions = forceActions;

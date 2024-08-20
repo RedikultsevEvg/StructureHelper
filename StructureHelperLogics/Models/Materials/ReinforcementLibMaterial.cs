@@ -23,7 +23,7 @@ namespace StructureHelperLogics.Models.Materials
         private readonly List<IMaterialLogic> materialLogics;
 
         public ILibMaterialEntity MaterialEntity { get; set; }
-        public List<IMaterialSafetyFactor> SafetyFactors { get; }
+        public List<IMaterialSafetyFactor> SafetyFactors { get; set; }
         public IMaterialLogic MaterialLogic { get; set; }
 
         public List<IMaterialLogic> MaterialLogics => materialLogics;

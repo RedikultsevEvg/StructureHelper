@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CrackCalculatorInputData : IInputData, IHasPrimitives, IHasForceCombinations
+    public class CrackCalculatorInputData : ICrackCalculatorInputData
     {
         /// <inheritdoc/>
         public List<INdmPrimitive> Primitives { get; private set; }
         /// <inheritdoc/>
         public List<IForceAction> ForceActions { get; private set; }
-        public UserCrackInputData UserCrackInputData { get; set; }
+        public IUserCrackInputData UserCrackInputData { get; set; }
         public CrackCalculatorInputData()
         {
             Primitives = new();
             ForceActions = new();
-            UserCrackInputData = new()
+            UserCrackInputData = new UserCrackInputData()
             {
                 SetSofteningFactor = true,
                 SofteningFactor = 1d,

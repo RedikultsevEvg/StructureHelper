@@ -1,24 +1,37 @@
 ﻿using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Materials
 {
     public class MaterialUpdateStrategy : IUpdateStrategy<IHeadMaterial>
     {
-        private readonly IUpdateStrategy<IElasticMaterial> elasticStrategy = new ElasticUpdateStrategy();
-        private readonly IUpdateStrategy<IFRMaterial> frStrategy = new FRUpdateStrategy();
-        private readonly IUpdateStrategy<IConcreteLibMaterial> concreteStrategy = new ConcreteLibUpdateStrategy();
-        private readonly IUpdateStrategy<IReinforcementLibMaterial> reinforcementStrategy = new ReinforcementLibUpdateStrategy();
+        private IUpdateStrategy<IElasticMaterial> elasticStrategy;
+        private IUpdateStrategy<IFRMaterial> frStrategy;
+        private IUpdateStrategy<IConcreteLibMaterial> concreteStrategy;
+        private IUpdateStrategy<IReinforcementLibMaterial> reinforcementStrategy;
+        public MaterialUpdateStrategy(IUpdateStrategy<IElasticMaterial> elasticStrategy,
+            IUpdateStrategy<IFRMaterial> frStrategy,
+            IUpdateStrategy<IConcreteLibMaterial> concreteStrategy,
+            IUpdateStrategy<IReinforcementLibMaterial> reinforcementStrategy
+            )
+        {
+            this.elasticStrategy = elasticStrategy;
+            this.frStrategy = frStrategy;
+            this.concreteStrategy = concreteStrategy;
+            this.reinforcementStrategy= reinforcementStrategy;
+        }
+        public MaterialUpdateStrategy() : this(
+            new ElasticUpdateStrategy(),
+            new FRUpdateStrategy(),
+            new ConcreteLibUpdateStrategy(),
+            new ReinforcementLibUpdateStrategy()
+        )  {         }
+
         public void Update(IHeadMaterial targetObject, IHeadMaterial sourceObject)
         {
+            CheckObject.CompareTypes(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.Color = sourceObject.Color;

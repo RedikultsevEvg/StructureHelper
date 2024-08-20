@@ -13,10 +13,11 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class CrackWidthCalculationLogic : ICrackWidthCalculationLogic
     {
+        private IRebarStressResultLogic rebarStressResultLogic;
         private ICrackWidthLogic crackWidthLogic;
         private RebarCrackResult result;
         private ICrackSofteningLogic crackSofteningLogic;
-        private RebarStressResult rebarStressResult;
+        private IRebarStressResult rebarStressResult;
         private ICrackWidthLogicInputData acrc2InputData;
         private ICrackWidthLogicInputData acrc1InputData;
         private ICrackWidthLogicInputData acrc3InputData;
@@ -39,14 +40,14 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public CrackWidthCalculationLogic(IRebarStressCalculator rebarStressCalculator, ICrackWidthLogic crackWidthLogic, IShiftTraceLogger? traceLogger)
+        public CrackWidthCalculationLogic(IRebarStressResultLogic rebarStressResultLogic, ICrackWidthLogic crackWidthLogic, IShiftTraceLogger? traceLogger)
         {
-            this.rebarStressCalculator = rebarStressCalculator;
+            this.rebarStressResultLogic = rebarStressResultLogic;
             this.crackWidthLogic = crackWidthLogic;
             this.TraceLogger = traceLogger;
         }
 
-        public CrackWidthCalculationLogic() : this (new RebarStressCalculator(), new CrackWidthLogicSP63(), null)
+        public CrackWidthCalculationLogic() : this (new RebarStressResultLogic(), new CrackWidthLogicSP63(), null)
         {
             
         }
@@ -74,7 +75,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             result.ShortTermResult = shortRebarResult;
         }
 
-        public CrackWidthRebarTupleResult ProcessShortTermCalculations()
+        private CrackWidthRebarTupleResult ProcessShortTermCalculations()
         {
             crackSofteningLogic = GetSofteningLogic(InputData.ShortRebarData);
             rebarStressResult = GetRebarStressResult(InputData.ShortRebarData);
@@ -98,7 +99,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             return shortRebarResult;
         }
 
-        public CrackWidthRebarTupleResult ProcessLongTermCalculations()
+        private CrackWidthRebarTupleResult ProcessLongTermCalculations()
         {
             crackSofteningLogic = GetSofteningLogic(InputData.LongRebarData);
             rebarStressResult = GetRebarStressResult(InputData.LongRebarData);
@@ -168,20 +169,12 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             return crackWidthInputData;
         }
 
-        public RebarStressResult GetRebarStressResult(IRebarCrackInputData inputData)
+        private IRebarStressResult GetRebarStressResult(IRebarCrackInputData rebarCrackInputData)
         {
-            rebarStressCalculator.InputData.ForceTuple = inputData.ForceTuple;
-            rebarStressCalculator.InputData.NdmCollection = inputData.CrackedNdmCollection;
-            rebarStressCalculator.InputData.RebarPrimitive = InputData.RebarPrimitive;
-            rebarStressCalculator.Run();
-            var result = rebarStressCalculator.Result as RebarStressResult;
-            if (result.IsValid == false)
-            {
-                string errorString = LoggerStrings.CalculationError + result.Description;
-                TraceLogger?.AddMessage($"Rebar name: {InputData.RebarPrimitive.Name}\n" + errorString, TraceLogStatuses.Error);
-                throw new StructureHelperException(errorString);
-            }
-            return result;
+            rebarStressResultLogic.RebarCrackInputData = rebarCrackInputData;
+            rebarStressResultLogic.RebarPrimitive = InputData.RebarPrimitive;
+            rebarStressResultLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
+            return rebarStressResultLogic.GetRebarStressResult();
         }
 
     }

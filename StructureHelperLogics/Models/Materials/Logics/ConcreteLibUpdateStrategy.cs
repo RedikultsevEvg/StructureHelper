@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,20 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Materials
 {
-    internal class ConcreteLibUpdateStrategy : IUpdateStrategy<IConcreteLibMaterial>
+    public class ConcreteLibUpdateStrategy : IUpdateStrategy<IConcreteLibMaterial>
     {
-        LibMaterialUpdateStrategy libUpdateStrategy = new LibMaterialUpdateStrategy();
+        private IUpdateStrategy<ILibMaterial> libUpdateStrategy;
+        public ConcreteLibUpdateStrategy(IUpdateStrategy<ILibMaterial> libUpdateStrategy)
+        {
+            this.libUpdateStrategy = libUpdateStrategy;
+        }
+        public ConcreteLibUpdateStrategy() : this(new LibMaterialUpdateStrategy())
+        {
+            
+        }
         public void Update(IConcreteLibMaterial targetObject, IConcreteLibMaterial sourceObject)
         {
+            CheckObject.CompareTypes(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             libUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.TensionForULS = sourceObject.TensionForULS;

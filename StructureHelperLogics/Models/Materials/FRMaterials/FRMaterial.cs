@@ -1,5 +1,6 @@
 ﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials.Libraries;
 using System;
@@ -14,6 +15,7 @@ namespace StructureHelperLogics.Models.Materials
     {
         private IElasticMaterialLogic elasticMaterialLogic => new ElasticMaterialLogic();
         private MaterialTypes materialType;
+        IUpdateStrategy<IFRMaterial> fRUpdateStrategy = new FRUpdateStrategy();
         public double Modulus{ get; set; }
         public double CompressiveStrength { get; set; }
         public double TensileStrength { get; set; }
@@ -49,7 +51,7 @@ namespace StructureHelperLogics.Models.Materials
         public object Clone()
         {
             var newItem = new FRMaterial(this.materialType);
-            var updateStrategy = new FRUpdateStrategy();
+            var updateStrategy = fRUpdateStrategy;
             updateStrategy.Update(newItem, this);
             return newItem;
         }

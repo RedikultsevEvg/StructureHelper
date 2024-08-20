@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CrackCalculator : ICalculator
+    public class CrackCalculator : ICrackCalculator
     {
         const LimitStates limitState = LimitStates.SLS;
         const CalcTerms longTerm = CalcTerms.LongTerm;
@@ -22,26 +22,30 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private const double maxSizeOfCrossSection = 1d;
         private CrackResult result;
         private IGetTupleInputDatasLogic datasLogic;
-        private CrackCalculatorUpdateStrategy updateStrategy = new();
-        private ICheckInputDataLogic<CrackCalculatorInputData> checkInputDataLogic;
+        private IUpdateStrategy<ICrackCalculator> updateStrategy;
+        private ICheckInputDataLogic<ICrackCalculatorInputData> checkInputDataLogic;
 
         public string Name { get; set; }
-        public CrackCalculatorInputData InputData { get; set; }
+        public ICrackCalculatorInputData InputData { get; set; }
         public IResult Result => result;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
-        public CrackCalculator(CrackCalculatorInputData inputData, ICheckInputDataLogic<CrackCalculatorInputData> checkInputDataLogic)
+        public CrackCalculator(ICheckInputDataLogic<ICrackCalculatorInputData> checkInputDataLogic,
+            IUpdateStrategy<ICrackCalculator> updateStrategy,
+            IShiftTraceLogger traceLogger
+            )
         {
-            InputData = inputData;
             this.checkInputDataLogic = checkInputDataLogic;
+            this.updateStrategy = updateStrategy;
+            this.TraceLogger = traceLogger;
             Name = string.Empty;
         }
 
-        public CrackCalculator(CrackCalculatorInputData inputData)
-            : this(inputData,
-                  new CheckCrackCalculatorInputDataLogic()
-                  { InputData = inputData}
-                  ) { }
+        public CrackCalculator()
+            : this(new CheckCrackCalculatorInputDataLogic(),
+                  new CrackCalculatorUpdateStrategy(),
+                  new ShiftTraceLogger())
+        { }
 
         public object Clone()
         {
@@ -50,7 +54,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             {
                 InputData = InputData
             };
-            var newItem = new CrackCalculator(crackInputData, checkDataLogic);
+            var newItem = new CrackCalculator(checkDataLogic, new CrackCalculatorUpdateStrategy(), new ShiftTraceLogger());
+            newItem.InputData = crackInputData;
             updateStrategy.Update(newItem, this);
             return newItem;
         }
@@ -75,6 +80,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private void CheckInputData()
         {
+            checkInputDataLogic.InputData = InputData;
             checkInputDataLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
             if (checkInputDataLogic.Check() == false)
             {

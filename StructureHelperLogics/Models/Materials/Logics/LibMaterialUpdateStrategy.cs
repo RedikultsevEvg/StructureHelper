@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +9,23 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Materials
 {
-    internal class LibMaterialUpdateStrategy : IUpdateStrategy<ILibMaterial>
+    public class LibMaterialUpdateStrategy : IUpdateStrategy<ILibMaterial>
     {
         public void Update(ILibMaterial targetObject, ILibMaterial sourceObject)
         {
+            CheckObject.CompareTypes(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.MaterialEntity = sourceObject.MaterialEntity;
-            targetObject.SafetyFactors.Clear();
-            targetObject.MaterialLogic = sourceObject.MaterialLogic;
-            foreach (var item in sourceObject.SafetyFactors)
+            if (targetObject.SafetyFactors is not null & sourceObject.SafetyFactors is not null)
             {
-                targetObject.SafetyFactors.Add(item.Clone() as IMaterialSafetyFactor);
+                targetObject.SafetyFactors.Clear();
+                foreach (var item in sourceObject.SafetyFactors)
+                {
+                    targetObject.SafetyFactors.Add(item.Clone() as IMaterialSafetyFactor);
+                }
             }
+            targetObject.MaterialLogic = sourceObject.MaterialLogic;
+
         }
     }
 }

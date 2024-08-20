@@ -12,13 +12,15 @@ namespace StructureHelperLogics.Models.Materials
 {
     internal class ElasticMaterialLogic : IElasticMaterialLogic
     {
+        private List<double> parameters;
+
         public IMaterial GetLoaderMaterial(IElasticMaterial elasticMaterial, LimitStates limitState, CalcTerms calcTerm, double factor = 1d)
         { 
             IMaterial material = new Material();
             material.InitModulus = elasticMaterial.Modulus;
             IFactorLogic factorLogic = new FactorLogic(elasticMaterial.SafetyFactors);
             var factors = factorLogic.GetTotalFactor(limitState, calcTerm);
-            IEnumerable<double> parameters = new List<double>()
+            parameters = new List<double>()
             {
                 elasticMaterial.Modulus,
                 elasticMaterial.CompressiveStrength * factors.Compressive * factor,
@@ -29,7 +31,7 @@ namespace StructureHelperLogics.Models.Materials
         return material;
         }
 
-    private double GetStressByStrain(IEnumerable<double> parameters, double strain)
+    private double GetStressByStrain(IEnumerable<double> parameters1, double strain)
     {
         double modulus = parameters.First();
         double stress = modulus * strain;

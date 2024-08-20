@@ -10,11 +10,19 @@ namespace StructureHelperCommon.Models.Forces
 {
     public class FactorCombinationUpdateStrategy : IUpdateStrategy<IForceCombinationByFactor>
     {
-        readonly IUpdateStrategy<IForceTuple> tupleUpdateStrategy = new ForceTupleUpdateStrategy();
+        private IUpdateStrategy<IForceTuple> tupleUpdateStrategy;
+        public FactorCombinationUpdateStrategy(IUpdateStrategy<IForceTuple> tupleUpdateStrategy)
+        {
+            this.tupleUpdateStrategy = tupleUpdateStrategy;
+        }
+        public FactorCombinationUpdateStrategy() : this(new ForceTupleUpdateStrategy())
+        {
+            
+        }
         public void Update(IForceCombinationByFactor targetObject, IForceCombinationByFactor sourceObject)
         {
-            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
             tupleUpdateStrategy.Update(targetObject.FullSLSForces, sourceObject.FullSLSForces);
             targetObject.ULSFactor = sourceObject.ULSFactor;
             targetObject.LongTermFactor = sourceObject.LongTermFactor;

@@ -18,12 +18,12 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     /// <summary>
     /// Logic of checking of input data for crack calcultor 
     /// </summary>
-    public class CheckCrackCalculatorInputDataLogic : ICheckInputDataLogic<CrackCalculatorInputData>
+    public class CheckCrackCalculatorInputDataLogic : ICheckInputDataLogic<ICrackCalculatorInputData>
     {
         private bool result;
         private ICheckPrimitiveCollectionLogic checkPrimitiveCollectionLogic;
 
-        public CrackCalculatorInputData InputData {  get; set; }
+        public ICrackCalculatorInputData InputData {  get; set; }
 
 
         public string CheckResult { get; private set; }

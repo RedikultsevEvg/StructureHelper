@@ -11,7 +11,7 @@ namespace StructureHelperLogics.Models.Materials
     public interface ILibMaterial : IHelperMaterial
     {
         ILibMaterialEntity MaterialEntity { get; set; }
-        List<IMaterialSafetyFactor> SafetyFactors { get; }
+        List<IMaterialSafetyFactor> SafetyFactors { get; set; }
         IMaterialLogic MaterialLogic { get; set; }
         List<IMaterialLogic> MaterialLogics { get; }
         (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm);
