@@ -62,7 +62,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             var point = new RebarPrimitive()
             {
                 Area = area1,
-                Name = "Left bottom point",
+                Name = "Left bottom rebar",
                 HeadMaterial = reinforcement,
                 HostPrimitive=concreteBlock
             };
@@ -72,7 +72,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             point = new RebarPrimitive()
             {   
                 Area = area1,
-                Name = "Right bottom point",
+                Name = "Right bottom rebar",
                 HeadMaterial = reinforcement,
                 HostPrimitive = concreteBlock
             };
@@ -82,7 +82,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             point = new RebarPrimitive()
             {
                 Area = area2,
-                Name = "Left top point",
+                Name = "Left top rebar",
                 HeadMaterial = reinforcement,
                 HostPrimitive = concreteBlock
             };
@@ -92,7 +92,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             point = new RebarPrimitive()
             {
                 Area = area2,
-                Name = "Right top point",
+                Name = "Right top rebar",
                 HeadMaterial = reinforcement,
                 HostPrimitive = concreteBlock
             };
@@ -115,11 +115,11 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                 double dist = (xs[1] - xs[0]) / count;
                 for (int i = 1; i < count; i++)
                 {
-                    point = new RebarPrimitive() { Area = area1, Name = $"Bottom point {i}", HeadMaterial = reinforcement, HostPrimitive = concreteBlock };
+                    point = new RebarPrimitive() { Area = area1, Name = $"Bottom rebar {i}", HeadMaterial = reinforcement, HostPrimitive = concreteBlock };
                     point.Center.X = xs[0] + dist * i;
                     point.Center.Y = ys[0];
                     primitives.Add(point);
-                    point = new RebarPrimitive() {Area = area2, Name = $"Top point {i}", HeadMaterial = reinforcement, HostPrimitive = concreteBlock };
+                    point = new RebarPrimitive() {Area = area2, Name = $"Top rebar {i}", HeadMaterial = reinforcement, HostPrimitive = concreteBlock };
                     point.Center.X = xs[0] + dist * i;
                     point.Center.Y = ys[1];
                    primitives.Add(point);

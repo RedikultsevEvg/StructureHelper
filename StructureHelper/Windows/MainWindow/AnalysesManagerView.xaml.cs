@@ -17,9 +17,9 @@ namespace StructureHelper.Windows.MainWindow
     /// <summary>
     /// Логика взаимодействия для AnalisesManagerView.xaml
     /// </summary>
-    public partial class AnalisesManagerView : Window
+    public partial class AnalysesManagerView : Window
     {
-        public AnalisesManagerView()
+        public AnalysesManagerView()
         {
             InitializeComponent();
         }

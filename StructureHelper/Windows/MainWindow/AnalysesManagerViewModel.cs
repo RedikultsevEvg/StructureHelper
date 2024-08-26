@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.MainWindow
 {
-    public class AnalisesManagerViewModel : ViewModelBase
+    public class AnalysesManagerViewModel : ViewModelBase
     {
         public FileLogic FileLogic { get; }
         public DiagramLogic DiagramLogic { get; }
         public AnalisesLogic AnalisesLogic { get; }
 
-        public AnalisesManagerViewModel()
+        public AnalysesManagerViewModel()
         {
             FileLogic = new();
             DiagramLogic = new();

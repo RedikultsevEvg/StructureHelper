@@ -339,7 +339,7 @@
                             <Expander.Header>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Analysis32.png" />
-                                    <TextBlock Text="Analisis" Margin="5,0,0,0"/>
+                                    <TextBlock Text="Analysis" Margin="5,0,0,0"/>
                                 </StackPanel>
                             </Expander.Header>
                             <Expander.ContextMenu>

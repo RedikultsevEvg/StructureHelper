@@ -149,9 +149,10 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 CenterY = valuePoint.areaPoint.Point.Y,
                 Material = material,
             };
-            ndm.Prestrain = (userPrestrain.Mx + autoPrestrain.Mx) * valuePoint.areaPoint.Point.Y
+            var prestrain = (userPrestrain.Mx + autoPrestrain.Mx) * valuePoint.areaPoint.Point.Y
                 + (userPrestrain.My + autoPrestrain.My) * valuePoint.areaPoint.Point.X
                 + userPrestrain.Nz + autoPrestrain.Nz;
+            ndm.PrestrainLogic.Add(PrestrainTypes.Prestrain, prestrain);
             return ndm;
         }
         private List<string> GetValueLabels(IEnumerable<ForceResultFunc> selectedDelegates)

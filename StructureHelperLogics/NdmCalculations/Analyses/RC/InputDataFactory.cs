@@ -42,7 +42,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
             {
                 inputData.ReinforcementStress = inputData.ReinforcementStrength;
             }
-            inputData.IsPrestressed = ndm.Prestrain > 0.0005d ? true : false; 
+            inputData.IsPrestressed = ndm.PrestrainLogic.GetByType(PrestrainTypes.Prestrain).Sum(x => x.PrestrainValue) > 0.0005d ? true : false; 
             inputData.LappedCountRate = lappedCountRate;
             return inputData;
         }

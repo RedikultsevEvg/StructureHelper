@@ -69,6 +69,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public double GetSofteningFactor()
         {
+            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
             if (IsResultActual == false)
             {
                 GetRebarAndConcreteNdms();
@@ -106,8 +107,10 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             rebarActualStrain = actualRebarResult.RebarStrain;
             rebarActualStress = actualRebarResult.RebarStress;
             TraceLogger?.AddMessage($"Actual strain of rebar EpsilonS = {rebarActualStrain}(dimensionless)");
-            concreteStrainActual = concreteNdm.Prestrain;
-            //concreteStrainActual = stressLogic.GetTotalStrain(TupleConverter.ConvertToLoaderStrainMatrix(strainTupleActual), concreteNdm);
+            concreteStrainActual = concreteNdm
+                .PrestrainLogic
+                .GetAll()
+                .Sum(x => x.PrestrainValue);
             TraceLogger?.AddMessage($"Actual strain of concrete on the axis of rebar EpsilonC = {concreteStrainActual}(dimensionless)");
             if (crackResult.IsSectionCracked == false)
             {
@@ -126,7 +129,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             TraceLogger?.AddMessage($"Actual stress in rebar Sigma,s = {rebarActualStress}(Pa)");
             double psiS = GetExponentialSofteningFactor(stressInCracking);
             TraceLogger?.AddMessage($"PsiS = {psiS}");
-            //return 0.94d;
             return psiS;
         }
 

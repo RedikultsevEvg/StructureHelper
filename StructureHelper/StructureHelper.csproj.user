@@ -60,7 +60,7 @@
     <Compile Update="Windows\MainWindow\AboutView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\MainWindow\AnalisesManagerView.xaml.cs">
+    <Compile Update="Windows\MainWindow\AnalysesManagerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\MainWindow\Materials\HeadMaterialView.xaml.cs">
@@ -155,7 +155,7 @@
     <Page Update="Windows\MainWindow\AboutView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\MainWindow\AnalisesManagerView.xaml">
+    <Page Update="Windows\MainWindow\AnalysesManagerView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MainWindow\Materials\HeadMaterialView.xaml">

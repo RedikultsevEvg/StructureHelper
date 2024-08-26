@@ -38,10 +38,11 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 var material = ndm.Material;
                 var materialFunc = material.Diagram;
                 var newMaterialFunc = (IEnumerable<double> parameters, double strain) => strain * material.InitModulus;
-                var existingPrestrain = ndm.Prestrain;
+                var existingPrestrain = ndm.PrestrainLogic.GetAll().Sum(x => x.PrestrainValue);
                 var newPrestrain = materialFunc(null, existingPrestrain) / material.InitModulus;
                 ndm.Material.Diagram = newMaterialFunc;
-                ndm.Prestrain = newPrestrain;
+                ndm.PrestrainLogic.DeleteAll();
+                ndm.PrestrainLogic.Add(PrestrainTypes.Prestrain, newPrestrain);
             }
             return ndms;
         }

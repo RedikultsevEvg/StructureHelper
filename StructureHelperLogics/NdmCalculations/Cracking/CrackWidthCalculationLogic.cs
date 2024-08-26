@@ -32,7 +32,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <summary>
         /// Width of crack from long term loads with short term properties of concrete
         /// </summary>
-        private double longTermLoadShortConcreteWidth;
+        private double longTermLoadShortConcreteCrackWidth;
         private IRebarStressCalculator rebarStressCalculator;
 
         public IRebarCrackCalculatorInputData InputData { get; set; }
@@ -54,6 +54,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public void Run()
         {
+            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
             PrepareNewResult();
             ProcessCrackWidthCalculation();
         }
@@ -69,25 +70,31 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private void ProcessCrackWidthCalculation()
         {
+            crackWidthLogic.TraceLogger = TraceLogger;
             CrackWidthRebarTupleResult longRebarResult = ProcessLongTermCalculations();
             CrackWidthRebarTupleResult shortRebarResult = ProcessShortTermCalculations();
             result.LongTermResult = longRebarResult;
+            TraceLogger?.AddMessage("Long term result has been obtained succesfully", TraceLogStatuses.Debug);
             result.ShortTermResult = shortRebarResult;
+            TraceLogger?.AddMessage("Short term result has been obtained succesfully", TraceLogStatuses.Debug);
         }
 
         private CrackWidthRebarTupleResult ProcessShortTermCalculations()
         {
+            TraceLogger?.AddMessage($"Short term softening factor calculation");
             crackSofteningLogic = GetSofteningLogic(InputData.ShortRebarData);
             rebarStressResult = GetRebarStressResult(InputData.ShortRebarData);
-            acrc2InputData = GetCrackWidthInputData(crackSofteningLogic, InputData.ShortRebarData, CalcTerms.ShortTerm);
-
+            acrc3InputData = GetCrackWidthInputData(crackSofteningLogic, InputData.LongRebarData, CalcTerms.ShortTerm);
             crackWidthLogic.InputData = acrc3InputData;
-            longTermLoadShortConcreteWidth = crackWidthLogic.GetCrackWidth();
+            longTermLoadShortConcreteCrackWidth = crackWidthLogic.GetCrackWidth();
+            TraceLogger?.AddMessage($"Crack width from long term load with short term factor of concrete acrc,3 = {longTermLoadShortConcreteCrackWidth}(m)", TraceLogStatuses.Debug);
+            acrc2InputData = GetCrackWidthInputData(crackSofteningLogic, InputData.ShortRebarData, CalcTerms.ShortTerm);
             crackWidthLogic.InputData = acrc2InputData;
             fullLoadShortConcreteCrackWidth = crackWidthLogic.GetCrackWidth();
+            TraceLogger?.AddMessage($"Crack width from full load with short term factor of concrete acrc,2 = {fullLoadShortConcreteCrackWidth}(m)", TraceLogStatuses.Debug);
 
-            double acrcShort = longTermLoadLongTermConcreteCrackWidth + fullLoadShortConcreteCrackWidth - longTermLoadShortConcreteWidth;
-            TraceLogger?.AddMessage($"Short crack width acrc = acrc,1 + acrc,2 - acrc,3 = {longTermLoadLongTermConcreteCrackWidth} + {fullLoadShortConcreteCrackWidth} - {longTermLoadShortConcreteWidth} = {acrcShort}(m)");
+            double acrcShort = longTermLoadLongTermConcreteCrackWidth + fullLoadShortConcreteCrackWidth - longTermLoadShortConcreteCrackWidth;
+            TraceLogger?.AddMessage($"Short crack width acrc = acrc,1 + acrc,2 - acrc,3 = {longTermLoadLongTermConcreteCrackWidth} + {fullLoadShortConcreteCrackWidth} - {longTermLoadShortConcreteCrackWidth} = {acrcShort}(m)");
             var shortRebarResult = new CrackWidthRebarTupleResult()
             {
                 CrackWidth = acrcShort,
@@ -101,12 +108,13 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private CrackWidthRebarTupleResult ProcessLongTermCalculations()
         {
+            TraceLogger?.AddMessage($"Long term softening factor calculation");
             crackSofteningLogic = GetSofteningLogic(InputData.LongRebarData);
             rebarStressResult = GetRebarStressResult(InputData.LongRebarData);
             acrc1InputData = GetCrackWidthInputData(crackSofteningLogic, InputData.LongRebarData, CalcTerms.LongTerm);
-            acrc3InputData = GetCrackWidthInputData(crackSofteningLogic, InputData.LongRebarData, CalcTerms.ShortTerm);
             crackWidthLogic.InputData = acrc1InputData;
             longTermLoadLongTermConcreteCrackWidth = crackWidthLogic.GetCrackWidth();
+            TraceLogger?.AddMessage($"Crack width from long term load with long term factor of concrete acrc,1 = {longTermLoadLongTermConcreteCrackWidth}(m)", TraceLogStatuses.Debug);
             var longRebarResult = new CrackWidthRebarTupleResult()
             {
                 CrackWidth = longTermLoadLongTermConcreteCrackWidth,
@@ -137,6 +145,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             ICrackSofteningLogic crackSofteningLogic;
             if (InputData.UserCrackInputData.SetSofteningFactor == true)
             {
+                TraceLogger?.AddMessage("User value of softening factor is assigned");
                 crackSofteningLogic = new StabSoftetingLogic(InputData.UserCrackInputData.SofteningFactor)
                 {
                     TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
@@ -144,6 +153,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             }
             else
             {
+                TraceLogger?.AddMessage("Exact value of softening factor is calculated");
                 crackSofteningLogic = new RebarStressSofteningLogic()
                 {
                     RebarPrimitive = InputData.RebarPrimitive,
@@ -156,7 +166,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private ICrackWidthLogicInputData GetCrackWidthInputData(ICrackSofteningLogic crackSofteningLogic, IRebarCrackInputData inputData, CalcTerms calcTerm)
         {
-
             var factoryInputData = new CrackWidthLogicInputDataFactory(crackSofteningLogic)
             {
                 CalcTerm = calcTerm,
