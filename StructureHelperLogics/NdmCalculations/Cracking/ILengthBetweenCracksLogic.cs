@@ -14,6 +14,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     /// </summary>
     public interface ILengthBetweenCracksLogic : ILogic
     {
+#error
+        //to do change to primitive collection since it is required to gain difference rebar strain and concrete strain
         /// <summary>
         /// Full collection of ndm parts of cross-section
         /// </summary>

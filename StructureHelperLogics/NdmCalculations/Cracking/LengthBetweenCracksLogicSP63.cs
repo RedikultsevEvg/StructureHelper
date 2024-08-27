@@ -35,7 +35,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <inheritdoc/>
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public LengthBetweenCracksLogicSP63(IAverageDiameterLogic diameterLogic, ITensileConcreteAreaLogic concreteAreaLogic, ITensionRebarAreaLogic rebarAreaLogic)
+        public LengthBetweenCracksLogicSP63(IAverageDiameterLogic diameterLogic,
+            ITensileConcreteAreaLogic concreteAreaLogic,
+            ITensionRebarAreaLogic rebarAreaLogic)
         {
             this.diameterLogic = diameterLogic;
             this.concreteAreaLogic = concreteAreaLogic;

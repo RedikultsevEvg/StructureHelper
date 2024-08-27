@@ -14,7 +14,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     {
         private IRebarCalulatorsFactory calculatorsFactory;
 
-        public IEnumerable<RebarPrimitive> Rebars { get; set; }
+        public IEnumerable<IRebarPrimitive> Rebars { get; set; }
         public TupleCrackInputData InputData { get; set; }
         public double LongLength { get; set; }
         public double ShortLength { get; set; }

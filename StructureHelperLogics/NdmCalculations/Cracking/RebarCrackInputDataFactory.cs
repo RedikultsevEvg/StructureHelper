@@ -31,7 +31,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             
         }
 
-        public RebarPrimitive Rebar { get; set; }
+        public IRebarPrimitive Rebar { get; set; }
         public TupleCrackInputData InputData { get; set; }
         public double LongLength { get; set; }
         public double ShortLength { get; set; }

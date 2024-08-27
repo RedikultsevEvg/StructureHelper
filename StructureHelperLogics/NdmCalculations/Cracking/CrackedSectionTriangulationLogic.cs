@@ -36,6 +36,10 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
             };
         }
+        public CrackedSectionTriangulationLogic()
+        {
+            
+        }
         /// <inheritdoc/>
         public List<INdm> GetNdmCollection()
         {
@@ -66,14 +70,14 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         }
 
         /// <inheritdoc/>
-        public List<RebarPrimitive> GetRebarPrimitives()
+        public List<IRebarPrimitive> GetRebarPrimitives()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
             TraceLogger?.AddMessage(ndmPrimitiveCountMessage, TraceLogStatuses.Debug);
-            List<RebarPrimitive> rebarPrimitives = new();
+            List<IRebarPrimitive> rebarPrimitives = new();
             foreach (var item in NdmPrimitives)
             {
-                if (item is RebarPrimitive rebar)
+                if (item is IRebarPrimitive rebar)
                 {
                     TraceLogger?.AddMessage($"Primitive {rebar.Name} is rebar primitive", TraceLogStatuses.Service);
                     rebarPrimitives.Add(rebar);
@@ -86,7 +90,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <inheritdoc/>
         public List<INdm> GetElasticNdmCollection()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
             TraceLogger?.AddMessage(ndmPrimitiveCountMessage, TraceLogStatuses.Debug);
             triangulateLogic = new TriangulatePrimitiveLogic(new MeshElasticLogic())
             {
