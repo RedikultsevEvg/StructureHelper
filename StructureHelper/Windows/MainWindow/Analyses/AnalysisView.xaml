@@ -1,0 +1,32 @@
+﻿<Window x:Class="StructureHelper.Windows.MainWindow.Analyses.AnalysisView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow.Analyses"
+        d:DataContext="{d:DesignInstance local:AnalysisViewModel}"
+        mc:Ignorable="d"
+        Title="Analysis" Height="200" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Name"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Name}"/>
+            <GroupBox Grid.Row="1" Grid.ColumnSpan="2" Header="Tags">
+                <TextBox Margin="1" Text="{Binding Tags}"/>
+            </GroupBox>
+        </Grid>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>

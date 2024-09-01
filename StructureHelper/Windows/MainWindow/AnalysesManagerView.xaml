@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:AnalysesManagerViewModel}"
-        Title="Analyses Manager" Height="450" Width="800" MinHeight="400" MinWidth="600">
+        Title="Analyses Manager" Height="450" Width="800" MinHeight="400" MinWidth="600" WindowStartupLocation="CenterScreen">
     <Grid>
         <DockPanel>
             <ToolBarTray DockPanel.Dock="Top">
@@ -32,7 +32,7 @@
                     </Button>
                 </ToolBar>
                 <ToolBar ToolTip="Cross-sections">
-                    <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}" ToolTip="NDM Analisis">
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding AnalysesLogic.AddAnalysisCommand}" ToolTip="NDM Analysis">
                         <Viewbox>
                             <ContentControl ContentTemplate="{DynamicResource NdmCrossSection}"/>
                         </Viewbox>
@@ -70,30 +70,43 @@
 
                     </ListBox>
                 </Grid>
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="1" DataContext="{Binding AnalysesLogic}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <ToolBar HorizontalAlignment="Right">
-                        <Button Style="{StaticResource ToolButton24}" Command="{Binding Add}" ToolTip="Select all">
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding RunCommand}" ToolTip="Run Analysis">
                             <Viewbox Width="24" Height="24">
                                 <ContentControl ContentTemplate="{DynamicResource RunAnalisis}"/>
                             </Viewbox>
                         </Button>
-                        <Button Style="{StaticResource ToolButton24}" Command="{Binding Add}" ToolTip="Select all">
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding EditCommand}" ToolTip="Edit Analysis">
                             <Viewbox Width="24" Height="24">
                                 <ContentControl ContentTemplate="{DynamicResource EditAnalisis}"/>
                             </Viewbox>
                         </Button>
-                        <Button Style="{StaticResource ToolButton24}" Command="{Binding Add}" ToolTip="Select all">
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding DeleteCommand}" ToolTip="Delete Analysis">
                             <Viewbox Width="24" Height="24">
                                 <ContentControl ContentTemplate="{DynamicResource DeleteAnalisis}"/>
                             </Viewbox>
                         </Button>
                     </ToolBar>
-                    <ListBox Grid.Row="1">
-
+                    <ListBox Grid.Row="1" ItemsSource="{Binding FilteredAnalyses}" SelectedItem="{Binding SelectedAnalysis}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="200"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="1" Text="{Binding Analysis.Name}"/>
+                                    <TextBlock Grid.Column="3" Text="{Binding Analysis.Tags}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
                 </Grid>
 

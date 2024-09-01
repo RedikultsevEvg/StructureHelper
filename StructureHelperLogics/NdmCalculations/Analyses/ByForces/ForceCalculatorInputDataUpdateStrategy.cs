@@ -1,7 +1,10 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Sections;
 using StructureHelperCommon.Services;
+using StructureHelperLogics.NdmCalculations.Primitives;
+using StructureHelperLogics.NdmCalculations.Primitives.Logics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +15,34 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public class ForceCalculatorInputDataUpdateStrategy : IUpdateStrategy<ForceInputData>
     {
+        private IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
+        private IUpdateStrategy<IHasForceCombinations> forceCombinationUpdateStrategy;
         private IUpdateStrategy<IAccuracy> accuracyUpdateStrategy;
         private IUpdateStrategy<ICompressedMember> compressedMemberUpdateStrategy;
-        public ForceCalculatorInputDataUpdateStrategy(IUpdateStrategy<IAccuracy> accuracyUpdateStrategy, IUpdateStrategy<ICompressedMember> compressedMemberUpdateStrategy)
+        public ForceCalculatorInputDataUpdateStrategy(IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy,
+            IUpdateStrategy<IHasForceCombinations> forceCombinationUpdateStrategy,
+            IUpdateStrategy<IAccuracy> accuracyUpdateStrategy,
+            IUpdateStrategy<ICompressedMember> compressedMemberUpdateStrategy)
         {
+            this.primitivesUpdateStrategy = primitivesUpdateStrategy;
+            this.forceCombinationUpdateStrategy = forceCombinationUpdateStrategy;
             this.accuracyUpdateStrategy = accuracyUpdateStrategy;
             this.compressedMemberUpdateStrategy = compressedMemberUpdateStrategy;
         }
 
-        public ForceCalculatorInputDataUpdateStrategy() : this(new AccuracyUpdateStrategy(), new CompressedMemberUpdateStrategy()) {        }
+        public ForceCalculatorInputDataUpdateStrategy() :
+            this(
+                new HasPrimitivesUpdateStrategy(),
+                new HasForceCombinationUpdateStrategy(),
+                new AccuracyUpdateStrategy(),
+                new CompressedMemberUpdateStrategy()
+                )
+        {
+        }
         public void Update(ForceInputData targetObject, ForceInputData sourceObject)
         {
+            CheckObject.IsNull(targetObject, sourceObject, "Force calculator input data");
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            CheckObject.CompareTypes(targetObject, sourceObject);
             targetObject.Accuracy ??= new Accuracy();
             accuracyUpdateStrategy.Update(targetObject.Accuracy, sourceObject.Accuracy);
             targetObject.CompressedMember ??= new CompressedMember();
@@ -33,10 +51,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             targetObject.LimitStatesList.AddRange(sourceObject.LimitStatesList);
             targetObject.CalcTermsList.Clear();
             targetObject.CalcTermsList.AddRange(sourceObject.CalcTermsList);
-            targetObject.Primitives.Clear();
-            targetObject.Primitives.AddRange(sourceObject.Primitives);
-            targetObject.ForceActions.Clear();
-            targetObject.ForceActions.AddRange(sourceObject.ForceActions);
+            primitivesUpdateStrategy.Update(targetObject, sourceObject);
+            forceCombinationUpdateStrategy.Update(targetObject, sourceObject);
         }
     }
 }

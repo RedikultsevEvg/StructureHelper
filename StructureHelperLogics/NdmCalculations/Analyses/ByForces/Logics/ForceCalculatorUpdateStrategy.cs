@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Sections;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
 {
@@ -14,6 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
         public ForceCalculatorUpdateStrategy() : this(new ForceCalculatorInputDataUpdateStrategy()) {        }
         public void Update(ForceCalculator targetObject, ForceCalculator sourceObject)
         {
+            CheckObject.IsNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.InputData ??= new ForceInputData();

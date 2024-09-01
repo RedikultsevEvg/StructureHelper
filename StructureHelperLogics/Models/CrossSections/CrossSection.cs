@@ -10,9 +10,16 @@ namespace StructureHelperLogics.Models.CrossSections
     {
         public ICrossSectionRepository SectionRepository { get; private set; }
 
+        public Guid Id { get; private set; }
+
         public CrossSection()
         {
             SectionRepository = new CrossSectionRepository();
+        }
+
+        public object Clone()
+        {
+            throw new NotImplementedException();
         }
     }
 }

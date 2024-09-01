@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperLogics.Models.CrossSections
+namespace StructureHelperCommon.Models.Analyses
 {
-    public interface ICrossSection : ISaveable, ICloneable
+    public class Version : IVersion
     {
-        ICrossSectionRepository SectionRepository { get; }
+        public DateTime DateTime { get; set; }
+
+        public ISaveable Item { get; set; }
     }
 }

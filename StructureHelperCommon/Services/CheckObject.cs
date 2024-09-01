@@ -24,14 +24,20 @@ namespace StructureHelperCommon.Services
         /// <exception cref="StructureHelperException"></exception>
         public static void CompareTypes(object targetObject, object sourceObject)
         {
-            IsNull(targetObject, "target object");
-            IsNull(sourceObject, "source object");
+            IsNull(targetObject, sourceObject);
             if (targetObject.GetType() != sourceObject.GetType())
             {
                 throw new StructureHelperException
                     ($"{ErrorStrings.DataIsInCorrect}: target type is {targetObject.GetType()},\n does not coinside with source type {sourceObject.GetType()}");
             }
         }
+
+        public static void IsNull(object targetObject, object sourceObject, string senderName = "")
+        {
+            IsNull(targetObject,$"{senderName} target object");
+            IsNull(sourceObject, $"{senderName} source object");
+        }
+
         public static void IsNull(object item, string message = "")
         {
             if (item is null)

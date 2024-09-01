@@ -278,8 +278,8 @@
     <DataTemplate x:Key="SelectAll">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
-                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="True"/>
-                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="True"/>
+                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="True" IsEnabled="False"/>
+                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="True" IsEnabled="False"/>
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
@@ -287,8 +287,8 @@
     <DataTemplate x:Key="DeSelectAll">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
-                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="False"/>
-                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="False"/>
+                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="False" IsEnabled="False"/>
+                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="False" IsEnabled="False"/>
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
@@ -296,8 +296,8 @@
     <DataTemplate x:Key="InvertSelection">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
-                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="True"/>
-                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="False"/>
+                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="True" IsEnabled="False"/>
+                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="False" IsEnabled="False"/>
             </Canvas.Children>
         </Canvas>
     </DataTemplate>

@@ -19,8 +19,11 @@ namespace StructureHelper.Windows.MainWindow
     /// </summary>
     public partial class AnalysesManagerView : Window
     {
+        private AnalysesManagerViewModel viewModel;
         public AnalysesManagerView()
         {
+            this.viewModel = new();
+            this.DataContext = viewModel;
             InitializeComponent();
         }
     }

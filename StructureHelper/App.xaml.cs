@@ -22,15 +22,17 @@ namespace StructureHelper
             builder.RegisterType<PrimitiveRepository>().As<IPrimitiveRepository>().SingleInstance();
             builder.RegisterType<UnitSystemService>().AsSelf().SingleInstance();
             builder.RegisterType<CalculationService>().AsSelf().SingleInstance();
-            builder.RegisterType<CrossSectionModel>().AsSelf().SingleInstance();
-            builder.RegisterType<CrossSectionViewModel>().AsSelf().SingleInstance();
+            //builder.RegisterType<CrossSectionModel>().AsSelf().SingleInstance();
+            //builder.RegisterType<CrossSectionViewModel>().AsSelf().SingleInstance();
+            //builder.RegisterType<CrossSectionView>().AsSelf();
 
-            builder.RegisterType<CrossSectionView>().AsSelf();
+            builder.RegisterType<AnalysesManagerViewModel>().AsSelf().SingleInstance();
+            builder.RegisterType<AnalysesManagerView>().AsSelf();
 
             Container = builder.Build();
             Scope = Container.Resolve<ILifetimeScope>();
 
-            var window = Scope.Resolve<CrossSectionView>();
+            var window = Scope.Resolve<AnalysesManagerView>();
             window.Show();
         }
 

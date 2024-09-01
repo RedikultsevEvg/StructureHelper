@@ -11,13 +11,13 @@ namespace StructureHelper.Windows.MainWindow
     {
         public FileLogic FileLogic { get; }
         public DiagramLogic DiagramLogic { get; }
-        public AnalisesLogic AnalisesLogic { get; }
+        public AnalysesLogic AnalysesLogic { get; }
 
         public AnalysesManagerViewModel()
         {
             FileLogic = new();
             DiagramLogic = new();
-            AnalisesLogic = new();
+            AnalysesLogic = new();
         }
     }
 }

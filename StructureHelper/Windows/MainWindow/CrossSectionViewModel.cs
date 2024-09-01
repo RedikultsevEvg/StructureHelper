@@ -27,8 +27,8 @@ namespace StructureHelper.Windows.MainWindow
 {
     public class CrossSectionViewModel : ViewModelBase
     {
-        private ICrossSection section;
-        private ICrossSectionRepository repository => section.SectionRepository;
+        public ICrossSection Section { get; set; }
+        private ICrossSectionRepository repository => Section.SectionRepository;
         private ITriangulatePrimitiveLogic triangulateLogic;
 
 
@@ -43,15 +43,13 @@ namespace StructureHelper.Windows.MainWindow
         public PrimitiveViewModelLogic PrimitiveLogic { get; }
         public HelpLogic HelpLogic => new HelpLogic();
 
-        private CrossSectionModel Model { get; }
-
 
         public ObservableCollection<IHeadMaterial> HeadMaterials
         {
             get
             {
                 var collection = new ObservableCollection<IHeadMaterial>();
-                foreach (var obj in Model.Section.SectionRepository.HeadMaterials)
+                foreach (var obj in Section.SectionRepository.HeadMaterials)
                 {
                     collection.Add(obj);
                 }
@@ -125,15 +123,14 @@ namespace StructureHelper.Windows.MainWindow
         private RelayCommand showVisualProperty;
         private RelayCommand selectPrimitive;
 
-        public CrossSectionViewModel(CrossSectionModel model)
+        public CrossSectionViewModel(ICrossSection section)
         {
+            Section = section;
             VisualProperty = new CrossSectionVisualPropertyVM()
             {
                 ScaleValue = 500d,
                 ParentViewModel = this
             };
-            Model = model;
-            section = model.Section;
             CombinationsLogic = new ActionsViewModel(repository);
             MaterialsLogic = new MaterialsViewModel(repository);
             MaterialsLogic.AfterItemsEdit += AfterMaterialEdit;
@@ -143,6 +140,7 @@ namespace StructureHelper.Windows.MainWindow
                 Width = VisualProperty.Width,
                 Height = VisualProperty.Height
             };
+            PrimitiveLogic.Refresh();
 
             LeftButtonUp = new RelayCommand(o =>
             {
