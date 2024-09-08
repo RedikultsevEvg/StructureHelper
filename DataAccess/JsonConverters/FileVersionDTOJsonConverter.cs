@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace DataAccess.JsonConverters
 {
-    public class CrossSectionJsonConverter : BaseJsonConverter<CrossSectionDTO>
+    public class FileVersionDTOJsonConverter : BaseJsonConverter<FileVersionDTO>
     {
-        public CrossSectionJsonConverter(IShiftTraceLogger logger) : base(logger)
+        public FileVersionDTOJsonConverter(IShiftTraceLogger logger) : base(logger)
         {
         }
     }

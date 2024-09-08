@@ -10,10 +10,6 @@ namespace DataAccess.FileDialogs
 {
     internal class FileStorage
     {
-        using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows.Forms;
 
 public class FileStorageManager
     {
@@ -109,30 +105,30 @@ class Program
     [STAThread] // Required for OpenFileDialog
     static void Main()
     {
-        var fileStorageManager = new FileStorageManager();
+        //var fileStorageManager = new FileStorageManager();
 
-        // Open files and add them to the storage
-        fileStorageManager.OpenFile();
+        //// Open files and add them to the storage
+        //fileStorageManager.OpenFile();
 
-        // List all opened files
-        Console.WriteLine("\nOpened Files:");
-        fileStorageManager.ListOpenedFiles();
+        //// List all opened files
+        //Console.WriteLine("\nOpened Files:");
+        //fileStorageManager.ListOpenedFiles();
 
-        // Example: Read content of the first opened file (if any)
-        var openedFiles = new List<Guid>(fileStorageManager._openedFiles.Keys);
-        if (openedFiles.Count > 0)
-        {
-            var firstFileId = openedFiles[0];
-            Console.WriteLine($"\nReading content of the first opened file (ID: {firstFileId}):");
-            string content = fileStorageManager.ReadFileContent(firstFileId);
-            Console.WriteLine(content);
-        }
+        //// Example: Read content of the first opened file (if any)
+        //var openedFiles = new List<Guid>(fileStorageManager._openedFiles.Keys);
+        //if (openedFiles.Count > 0)
+        //{
+        //    var firstFileId = openedFiles[0];
+        //    Console.WriteLine($"\nReading content of the first opened file (ID: {firstFileId}):");
+        //    string content = fileStorageManager.ReadFileContent(firstFileId);
+        //    Console.WriteLine(content);
+        //}
 
-        // Close all files
-        foreach (var fileId in openedFiles)
-        {
-            fileStorageManager.CloseFile(fileId);
-        }
+        //// Close all files
+        //foreach (var fileId in openedFiles)
+        //{
+        //    fileStorageManager.CloseFile(fileId);
+        //}
     }
 }
 

@@ -3,7 +3,9 @@ using StructureHelperCommon.Models.Codes;
 using StructureHelperCommon.Models.Codes.Factories;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Models.Projects;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using System.Windows.Documents;
 using System.Windows.Navigation;
@@ -55,7 +57,15 @@ namespace StructureHelperCommon.Infrastructures.Settings
                 return materialRepository;
             }
         }
-
+        public static List<IProject> Projects { get; } = new();
+        public static IProject CurrentProject
+        {
+            get
+            {
+                if (Projects.Any()) { return Projects[0]; }
+                return null;
+            }
+        }
         public static List<IMaterialLogic> MaterialLogics
         {
             get
@@ -63,6 +73,22 @@ namespace StructureHelperCommon.Infrastructures.Settings
                 materialLogics ??= MaterialLogicsFactory.GetMaterialLogics();
                 return materialLogics;
             }
+        }
+        public static void SetCurrentProjectToNotActual()
+        {
+            if (CurrentProject is null)
+            {
+                return;
+            }
+            CurrentProject.IsActual = false;
+        }
+        public static IFileVersion GetCurrentFileVersion()
+        {
+            return new FileVersion()
+            {
+                VersionNumber = 1,
+                SubVersionNumber = 0
+            };
         }
     }
 }

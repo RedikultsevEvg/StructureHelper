@@ -2,20 +2,24 @@
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogics.Models.CrossSections;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.MainWindow.Analyses
 {
     public class VisualAnalysis : IVisualAnalysis
     {
+        public Guid Id { get; }
         public IAnalysis Analysis { get; set; }
 
-        public VisualAnalysis(IAnalysis analysis)
+
+        public VisualAnalysis(Guid id, IAnalysis analysis)
         {
+            Id = id;
             Analysis = analysis;
+        }
+
+        public VisualAnalysis(IAnalysis analysis) : this (Guid.NewGuid(), analysis)
+        {
+            
         }
 
         public void Run()

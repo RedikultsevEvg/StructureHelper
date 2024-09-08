@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.2.8" />
+    <PackageReference Include="NLog" Version="5.3.3" />
   </ItemGroup>
 
   <ItemGroup>

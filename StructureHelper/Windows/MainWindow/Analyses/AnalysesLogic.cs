@@ -1,5 +1,7 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Windows.MainWindow.Analyses;
+using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogic.Models.Analyses;
 using System;
 using System.Collections.Generic;
@@ -21,7 +23,6 @@ namespace StructureHelper.Windows.MainWindow
 
         public IVisualAnalysis? SelectedAnalysis { get; set; }
 
-        public List<IVisualAnalysis> AnalysesList { get; }
         public ObservableCollection<IVisualAnalysis> FilteredAnalyses { get; }
         public RelayCommand AddAnalysisCommand
         {
@@ -74,13 +75,12 @@ namespace StructureHelper.Windows.MainWindow
 
         public AnalysesLogic()
         {
-            AnalysesList = new();
             FilteredAnalyses = new();
         }
         public void Refresh()
         {
             FilteredAnalyses.Clear();
-            var analysesList = AnalysesList.ToList();
+            var analysesList = ProgramSetting.CurrentProject.VisualAnalyses.ToList();
             foreach (var analysis in analysesList)
             {
                 FilteredAnalyses.Add(analysis);
@@ -108,7 +108,7 @@ namespace StructureHelper.Windows.MainWindow
                 var dialogResult = MessageBox.Show("Delete analysis?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    AnalysesList.Remove(SelectedAnalysis);
+                    ProgramSetting.CurrentProject.VisualAnalyses.Remove(SelectedAnalysis);
                 }
             }
         }
@@ -122,7 +122,7 @@ namespace StructureHelper.Windows.MainWindow
             analysis.Name = "New NDM Analysis";
             analysis.Tags = "#New group";
             var visualAnalysis = new VisualAnalysis(analysis);
-            AnalysesList.Add(visualAnalysis);
+            ProgramSetting.CurrentProject.VisualAnalyses.Add(visualAnalysis);
         }
     }
 }

@@ -18,6 +18,8 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
             this.viewModel.DocumentReader = this.DocumentReader;
             this.viewModel.Show();
         }
+        public TraceDocumentView(ITraceLogger traceLogger) : this (traceLogger.TraceLoggerEntries) { }
+
         public TraceDocumentView(IEnumerable<ITraceLoggerEntry> loggerEntries) : this(new TraceDocumentVM(loggerEntries)) { }
     }
 }

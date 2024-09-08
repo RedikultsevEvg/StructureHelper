@@ -15,4 +15,8 @@
     <ProjectReference Include="..\StructureHelperLogics\StructureHelperLogics.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>

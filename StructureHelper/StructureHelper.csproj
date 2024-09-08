@@ -54,16 +54,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.5.0" />
+    <PackageReference Include="Autofac" Version="8.1.0" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="LiveCharts.Wpf.Core" Version="0.9.8" />
-    <PackageReference Include="LiveCharts.Wpf.NetCore3" Version="0.9.7" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="LiveCharts.Wpf.NetCore3" Version="0.9.8" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\FieldVisualizer\FieldVisualizer.csproj" />
     <ProjectReference Include="..\StructureHelperCommon\StructureHelperCommon.csproj" />
     <ProjectReference Include="..\StructureHelperLogics\StructureHelperLogics.csproj" />
