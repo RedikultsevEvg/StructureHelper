@@ -29,6 +29,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public IPoint2D Center { get; private set; }
 
+        public INdmElement NdmElement { get; } = new NdmElement();
+
         public RectanglePrimitive(Guid id)
         {
             Id = id;

@@ -28,7 +28,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public bool ClearUnderlying { get; set; }
         public bool Triangulate { get; set; }
         public ICrossSection? CrossSection { get; set; }
-
+        public INdmElement NdmElement { get; } = new NdmElement();
 
         public CirclePrimitive(Guid id)
         {

@@ -23,6 +23,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// Name of primitive
         /// </summary>
         string? Name { get; set; }
+        INdmElement NdmElement { get;}
         /// <summary>
         /// Base point of primitive
         /// </summary>

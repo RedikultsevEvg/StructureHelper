@@ -2,6 +2,7 @@
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Models.Shapes.Logics;
+using StructureHelperCommon.Services;
 using StructureHelperCommon.Services.Forces;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public void Update(INdmPrimitive targetObject, INdmPrimitive sourceObject)
         {
+            CheckObject.IsNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             if (sourceObject.HeadMaterial != null) targetObject.HeadMaterial = sourceObject.HeadMaterial;

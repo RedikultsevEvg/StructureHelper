@@ -26,6 +26,7 @@ namespace StructureHelperLogics.Models.Primitives
         public bool Triangulate { get; set; }
         public ICrossSection? CrossSection { get; set; }
 
+        public INdmElement NdmElement { get; } = new NdmElement();
 
         public PointPrimitive(Guid id)
         {

@@ -47,6 +47,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// <inheritdoc/>
         public ICrossSection? CrossSection { get; set; }
 
+        public INdmElement NdmElement { get; } = new NdmElement();
 
         public RebarPrimitive(Guid id)
         {
