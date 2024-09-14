@@ -26,7 +26,8 @@ namespace StructureHelperTests.ViewModelTests
         {
             //Arrange
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var primitive = new RectanglePrimitive(material);
+            var primitive = new RectanglePrimitive();
+            primitive.NdmElement.HeadMaterial = material;
             var primitiveBase = new RectangleViewPrimitive(primitive);
             //Act
             var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());
@@ -39,7 +40,8 @@ namespace StructureHelperTests.ViewModelTests
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var primitive = new CirclePrimitive() { HeadMaterial = material};
+            var primitive = new EllipsePrimitive();
+            primitive.NdmElement.HeadMaterial = material;
             var primitiveBase = new CircleViewPrimitive(primitive);
             //Act
             var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());
@@ -53,7 +55,8 @@ namespace StructureHelperTests.ViewModelTests
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var primitive = new PointPrimitive(material);
+            var primitive = new PointPrimitive();
+            primitive.NdmElement.HeadMaterial = material;
             var primitiveBase = new PointViewPrimitive(primitive);
             //Act
             var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());
@@ -66,7 +69,8 @@ namespace StructureHelperTests.ViewModelTests
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var primitive = new RebarPrimitive() { HeadMaterial = material };
+            var primitive = new RebarPrimitive();
+            primitive.NdmElement.HeadMaterial = material;
             var primitiveBase = new ReinforcementViewPrimitive(primitive);
             //Act
             var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());

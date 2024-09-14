@@ -11,45 +11,33 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public class RectanglePrimitive : IRectanglePrimitive
     {
-        readonly RectangleUpdateStrategy updateStrategy = new();
+        private readonly RectanglePrimitiveUpdateStrategy updateStrategy = new();
+        private readonly RectangleShape rectangleShape = new();
         public Guid Id { get;}
         public string Name { get; set; }
-        public IHeadMaterial? HeadMaterial { get; set; }
-        public StrainTuple UsersPrestrain { get; private set; }
-        public StrainTuple AutoPrestrain { get; private set; }
-        public double NdmMaxSize { get; set; }
-        public int NdmMinDivision { get; set; }
-        public double Width { get; set; }
-        public double Height { get; set; }
-        public double Angle { get; set; }
-        public bool ClearUnderlying { get; set; }
-        public bool Triangulate { get; set; }
-        public IVisualProperty VisualProperty { get; }
+        public double Width { get => rectangleShape.Width; set => rectangleShape.Width = value; }
+        public double Height { get => rectangleShape.Height; set => rectangleShape.Height = value; }
+        public double Angle { get => rectangleShape.Angle; set => rectangleShape.Angle = value; }
+        public IVisualProperty VisualProperty { get; } = new VisualProperty() { Opacity = 0.8d };
         public ICrossSection? CrossSection { get; set; }
 
-        public IPoint2D Center { get; private set; }
+        public IPoint2D Center { get; set; } = new Point2D();
 
         public INdmElement NdmElement { get; } = new NdmElement();
+
+        public IDivisionSize DivisionSize { get; } = new DivisionSize();
+
+        public IShape Shape => rectangleShape;
 
         public RectanglePrimitive(Guid id)
         {
             Id = id;
             Name = "New Rectangle";
-            NdmMaxSize = 0.01d;
-            NdmMinDivision = 10;
-            Center = new Point2D();
-            VisualProperty = new VisualProperty { Opacity = 0.8d};
-            UsersPrestrain = new StrainTuple();
-            AutoPrestrain = new StrainTuple();
-            ClearUnderlying = false;
-            Triangulate = true;
         }
         public RectanglePrimitive() : this(Guid.NewGuid())
         {
                 
         }
-
-        public RectanglePrimitive(IHeadMaterial material) : this() { HeadMaterial = material; }
 
         public object Clone()
         {

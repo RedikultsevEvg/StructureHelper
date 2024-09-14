@@ -12,16 +12,16 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 {
     public class CircleViewPrimitive : PrimitiveBase, IHasCenter
     {
-        ICirclePrimitive primitive;
+        IEllipsePrimitive primitive;
         public double Diameter
         {
             get
             {
-                return primitive.Diameter;
+                return primitive.DiameterByX;
             }
             set
             {
-                primitive.Diameter = value;
+                primitive.DiameterByX = value;
                 RefreshPlacement();
             }
         }
@@ -31,13 +31,13 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         public CircleViewPrimitive(INdmPrimitive primitive) : base(primitive)
         {
-            if (primitive is not ICirclePrimitive)
+            if (primitive is not IEllipsePrimitive)
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"\nExpected: {nameof(ICirclePrimitive)}, But was: {nameof(primitive)}");
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"\nExpected: {nameof(IEllipsePrimitive)}, But was: {nameof(primitive)}");
             }
-            var circle = primitive as ICirclePrimitive;
+            var circle = primitive as IEllipsePrimitive;
             this.primitive = circle;
-            DivisionViewModel = new HasDivisionViewModel(circle);
+            DivisionViewModel = new HasDivisionViewModel(circle.DivisionSize);
         }
 
         public override INdmPrimitive GetNdmPrimitive()

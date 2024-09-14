@@ -10,9 +10,9 @@ using System.Windows.Controls;
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 {
-    public class HasDivisionViewModel : ViewModelBase, IHasDivisionSize
+    public class HasDivisionViewModel : ViewModelBase, IDivisionSize
     {
-        private IHasDivisionSize primitive;
+        private IDivisionSize primitive;
 
         public double NdmMaxSize
         { 
@@ -42,7 +42,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
         }
 
-        public HasDivisionViewModel(IHasDivisionSize primitive)
+        public HasDivisionViewModel(IDivisionSize primitive)
         {
             this.primitive = primitive;
         }

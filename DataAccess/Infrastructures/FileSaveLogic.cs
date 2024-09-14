@@ -52,6 +52,15 @@ namespace DataAccess.Infrastructures
             refDictinary = new Dictionary<(Guid id, Type type), ISaveable>();
             FileVersionDTO versionDTO = GetVersionDTO();
             var versionString = Serialize(versionDTO, TraceLogger);
+            SaveStringToFile(project, versionString);
+            refDictinary = new Dictionary<(Guid id, Type type), ISaveable>();
+            ProjectDTO projectDTO = GetProjectDTO(project);
+            var projectString = Serialize(projectDTO, TraceLogger);
+            SaveStringToFile(project, projectString);
+        }
+
+        private void SaveStringToFile(IProject project, string versionString)
+        {
             try
             {
                 File.WriteAllText(project.FullFileName, versionString);
@@ -63,19 +72,36 @@ namespace DataAccess.Infrastructures
             }
         }
 
-        private FileVersionDTO GetVersionDTO()
+        private ProjectDTO GetProjectDTO(IProject project)
         {
-            FileVersionDTOConvertStrategy fileVersionDTOConvertStrategy = new()
+            ProjectToDTOConvertStrategy convertStrategy = new()
             {
+                ReferenceDictionary = refDictinary,
                 TraceLogger = TraceLogger
             };
-            DictionaryConvertStrategy<FileVersion, FileVersionDTO> dictionaryConvertStrategy = new()
+            DictionaryConvertStrategy<ProjectDTO, IProject> dictionaryConvertStrategy = new()
+            {
+                ConvertStrategy = convertStrategy,
+                ReferenceDictionary = refDictinary,
+                TraceLogger = TraceLogger
+            };
+            return dictionaryConvertStrategy.Convert(project);
+        }
+
+        private FileVersionDTO GetVersionDTO()
+        {
+            FileVersionToDTOConvertStrategy fileVersionDTOConvertStrategy = new()
+            {
+                ReferenceDictionary = refDictinary,
+                TraceLogger = TraceLogger
+            };
+            DictionaryConvertStrategy<FileVersionDTO,IFileVersion> dictionaryConvertStrategy = new()
             {
                 ConvertStrategy = fileVersionDTOConvertStrategy,
                 ReferenceDictionary = refDictinary,
                 TraceLogger = TraceLogger
             };
-            var versionDTO = dictionaryConvertStrategy.ConvertTo(version as FileVersion);
+            var versionDTO = dictionaryConvertStrategy.Convert(version);
             return versionDTO;
         }
 
@@ -85,8 +111,9 @@ namespace DataAccess.Infrastructures
             {            
                 Converters = new List<JsonConverter>
                     {
-                        new FileVersionDTOJsonConverter(logger),  // Add the specific converter
                         // Add other converters if needed
+                        new FileVersionDTOJsonConverter(logger),  // Add the specific converter
+                        new ProjectDTOJsonConverter(logger)
                     },
                 Formatting = Formatting.Indented,
                 PreserveReferencesHandling = PreserveReferencesHandling.All,

@@ -30,9 +30,9 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                 var rect = primitive as IRectanglePrimitive;
                 viewItem = new RectangleViewPrimitive(rect);
             }
-            else if (primitive is ICirclePrimitive)
+            else if (primitive is IEllipsePrimitive)
             {
-                var circle = primitive as ICirclePrimitive;
+                var circle = primitive as IEllipsePrimitive;
                 viewItem = new CircleViewPrimitive(circle);
             }
             else if (primitive is IPointPrimitive & primitive is not RebarPrimitive)

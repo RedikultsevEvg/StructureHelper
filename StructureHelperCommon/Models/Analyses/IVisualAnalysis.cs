@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Analyses
 {
-    public interface IVisualAnalysis : ISaveable
+    public interface IVisualAnalysis : ISaveable, ICloneable
     {
         IAnalysis Analysis {get;set;}
         void Run();

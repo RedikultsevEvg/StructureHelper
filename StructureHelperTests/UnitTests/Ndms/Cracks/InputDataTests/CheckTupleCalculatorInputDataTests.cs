@@ -56,7 +56,7 @@ public class CheckTupleCalculatorInputDataTests
         // Arrange
         _checkTupleCalculatorInputData.InputData = new TupleCrackInputData
         {
-            Primitives = new List<INdmPrimitive> { new CirclePrimitive() }, // Assuming at least one valid primitive
+            Primitives = new List<INdmPrimitive> { new EllipsePrimitive() }, // Assuming at least one valid primitive
             UserCrackInputData = null
         };
 
@@ -74,7 +74,7 @@ public class CheckTupleCalculatorInputDataTests
         // Arrange
         _checkTupleCalculatorInputData.InputData = new TupleCrackInputData
         {
-            Primitives = new List<INdmPrimitive> { new CirclePrimitive() }, // Assuming at least one valid primitive
+            Primitives = new List<INdmPrimitive> { new EllipsePrimitive() }, // Assuming at least one valid primitive
             UserCrackInputData = new UserCrackInputData() // Assuming this is valid
         };
 

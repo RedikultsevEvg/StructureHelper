@@ -12,7 +12,8 @@ namespace StructureHelperCommon.Models.Projects
     {
         public void Update(IFileVersion targetObject, IFileVersion sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.IsNull(targetObject);
+            CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
             targetObject.VersionNumber = sourceObject.VersionNumber;
             targetObject.SubVersionNumber = sourceObject.SubVersionNumber;

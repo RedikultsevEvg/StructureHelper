@@ -14,10 +14,6 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     public interface INdmElement : ISaveable, ICloneable
     {
         /// <summary>
-        /// Base point of primitive
-        /// </summary>
-        IPoint2D Center { get; }
-        /// <summary>
         /// Material of primitive
         /// </summary>
         IHeadMaterial? HeadMaterial { get; set; }

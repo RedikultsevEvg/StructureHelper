@@ -27,17 +27,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// <inheritdoc/>
         public string Name { get; set; }
         /// <inheritdoc/>
-        public IPoint2D Center { get; private set; }
+        public IPoint2D Center { get; set; }
         /// <inheritdoc/>
-        public IHeadMaterial? HeadMaterial { get; set; }
-        /// <inheritdoc/>
-        public bool Triangulate { get; set; }
-        /// <inheritdoc/>
-        public StrainTuple UsersPrestrain { get; private set; }
-        /// <inheritdoc/>
-        public StrainTuple AutoPrestrain { get; private set; }
-        /// <inheritdoc/>
-        public IVisualProperty VisualProperty { get; private set; }
+        public IVisualProperty VisualProperty { get; private set; } = new VisualProperty();
         /// <inheritdoc/>
         public Guid Id { get; set; }
         /// <inheritdoc/>
@@ -49,16 +41,14 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public INdmElement NdmElement { get; } = new NdmElement();
 
+        public IShape Shape => throw new NotImplementedException();
+
         public RebarPrimitive(Guid id)
         {
             Id = id;
             Name = "New Reinforcement";
             Area = 0.0005d;
             Center = new Point2D();
-            VisualProperty = new VisualProperty();
-            UsersPrestrain = new StrainTuple();
-            AutoPrestrain = new StrainTuple();
-            Triangulate = true;
         }
         public RebarPrimitive() : this(Guid.NewGuid())
         {

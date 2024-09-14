@@ -17,7 +17,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public IShiftTraceLogger? TraceLogger { get; set; }
         public IConvertStrategy<T,V> ConvertStrategy { get; set; }
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public T ConvertFrom(V source)
+        public T Convert(V source)
         {
             ICheckInputData();
             T val;
@@ -31,29 +31,9 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
             }
             else
             {
-                val = ConvertStrategy.ConvertFrom(source);
+                val = ConvertStrategy.Convert(source);
                 ReferenceDictionary.Add(key, val);
                 TraceLogger?.AddMessage($"New value of {typeof(T)} (Id = {val.Id}) was added to dictionary", TraceLogStatuses.Debug);
-            }
-            return val;
-        }
-        public V ConvertTo(T source)
-        {
-            ICheckInputData();
-            V val;
-            var key = (source.Id, typeof(V));
-            if (ReferenceDictionary.ContainsKey(key))
-            {
-                ISaveable existValue;
-                ReferenceDictionary.TryGetValue(key, out existValue);
-                val = (V)existValue;
-                TraceLogger?.AddMessage($"Value of {typeof(V)} (Id = {existValue.Id}) exists already", TraceLogStatuses.Debug);
-            }
-            else
-            {
-                val = ConvertStrategy.ConvertTo(source);
-                ReferenceDictionary.Add(key, val);
-                TraceLogger?.AddMessage($"New value of {typeof(V)} (Id = {val.Id}) was added to dictionary", TraceLogStatuses.Debug);
             }
             return val;
         }

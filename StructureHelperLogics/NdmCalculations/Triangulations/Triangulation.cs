@@ -32,7 +32,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Dictionary<Guid, IHeadMaterial> headMaterials = new Dictionary<Guid, IHeadMaterial>();
             foreach (var ndmPrimitive in ndmPrimitives)
             {
-                IHeadMaterial material = ndmPrimitive.HeadMaterial;
+                IHeadMaterial material = ndmPrimitive.NdmElement.HeadMaterial;
                 if (!headMaterials.ContainsKey(material.Id)) { headMaterials.Add(material.Id, material); }
             }
             return headMaterials;

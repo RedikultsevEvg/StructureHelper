@@ -26,7 +26,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
             inputData.CrossSectionArea = ndmPrimitive.Area;
             var diameter = Math.Sqrt(ndmPrimitive.Area / Math.PI) * 2d;
             inputData.CrossSectionPerimeter = Math.PI * diameter;
-            if (ndmPrimitive.HeadMaterial is null)
+            if (ndmPrimitive.NdmElement.HeadMaterial is null)
             {
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": main material is incorrect or null");
             }
@@ -52,7 +52,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
             if (primitive.HostPrimitive is not null)
             {
                 var host = primitive.HostPrimitive;
-                var hostMaterial = host.HeadMaterial.HelperMaterial;
+                var hostMaterial = host
+                    .NdmElement
+                    .HeadMaterial
+                    .HelperMaterial;
                 if (hostMaterial is IConcreteLibMaterial)
                 {
                     var concreteMaterial = hostMaterial as IConcreteLibMaterial;
@@ -65,9 +68,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
 
         private static double GetReinforcementStrength(LimitStates limitState, CalcTerms calcTerm, RebarPrimitive primitive)
         {
-            if (primitive.HeadMaterial.HelperMaterial is IReinforcementLibMaterial)
+            if (primitive.NdmElement.HeadMaterial.HelperMaterial is IReinforcementLibMaterial)
             {
-                var material = primitive.HeadMaterial.HelperMaterial as IReinforcementLibMaterial;
+                var material = primitive.NdmElement.HeadMaterial.HelperMaterial as IReinforcementLibMaterial;
                 var strength = material.GetStrength(limitState, calcTerm).Tensile;
                 return strength;
             }

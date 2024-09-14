@@ -25,7 +25,9 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 TraceLogger?.AddMessage(errorMessage, TraceLogStatuses.Error);
                 throw new StructureHelperException(errorMessage);
             }
-            if (!Primitives.Any(x => x.Triangulate == true))
+            if (!Primitives.Any(x => x
+            .NdmElement
+            .Triangulate == true))
             {
                 string errorMessage = string.Intern(ErrorStrings.DataIsInCorrect + $": There are not primitives to triangulate");
                 TraceLogger?.AddMessage(errorMessage, TraceLogStatuses.Error);
@@ -33,8 +35,8 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             }
             foreach (var item in Primitives)
             {
-                if (item.Triangulate == true &
-                    item.HeadMaterial is null)
+                if (item.NdmElement.Triangulate == true &
+                    item.NdmElement.HeadMaterial is null)
                 {
                     string errorMessage = string.Intern(ErrorStrings.DataIsInCorrect + $": Primitive: {item.Name} can't be triangulated since material is null");
                     TraceLogger?.AddMessage(errorMessage, TraceLogStatuses.Error);

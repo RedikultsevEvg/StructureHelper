@@ -338,7 +338,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             {
                 foreach (var item in ndmPrimitives)
                 {
-                    ForceTupleService.CopyProperties(wnd.StrainTuple, item.AutoPrestrain);
+                    ForceTupleService.CopyProperties(wnd.StrainTuple, item.NdmElement.AutoPrestrain);
                 }
             }
         }
@@ -439,15 +439,21 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             var ndmRange = new List<INdm>();
             foreach (var item in orderedNdmPrimitives)
             {
-                if (item is IHasDivisionSize)
+                if (item is IHasDivisionSize hasDivision)
                 {
-                    var hasDivision = item as IHasDivisionSize;
-                    if (hasDivision.ClearUnderlying == true)
+
+                    if (hasDivision.DivisionSize.ClearUnderlying == true)
                     {
-                        ndmRange.RemoveAll(x => hasDivision.IsPointInside(new Point2D() { X = x.CenterX, Y = x.CenterY }) == true);
+                        ndmRange.RemoveAll(x =>
+                        hasDivision
+                        .IsPointInside(new Point2D()
+                        {
+                            X = x.CenterX, Y = x.CenterY
+                        }
+                        ) == true);
                     }
                 }
-                if (selectedNdmPrimitives.Contains(item) & item.Triangulate == true)
+                if (selectedNdmPrimitives.Contains(item) & item.NdmElement.Triangulate == true)
                 {
 
                     ndmRange.AddRange(item.GetNdms(triangulationOptions));

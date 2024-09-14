@@ -48,7 +48,8 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
         private IEnumerable<INdmPrimitive> GetConcretePrimitives()
         {
             var primitives = new List<INdmPrimitive>();
-            concreteBlock = new RectanglePrimitive(concrete) { Width = width, Height = height, Name = "Concrete block" };
+            concreteBlock = new RectanglePrimitive() { Width = width, Height = height, Name = "Concrete block" };
+            concreteBlock.NdmElement.HeadMaterial = concrete;
             primitives.Add(concreteBlock);
             return primitives;
         }
@@ -63,9 +64,10 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             {
                 Area = area1,
                 Name = "Left bottom rebar",
-                HeadMaterial = reinforcement,
+                
                 HostPrimitive=concreteBlock
             };
+            point.NdmElement.HeadMaterial = reinforcement;
             point.Center.X = xs[0];
             point.Center.Y = ys[0];
             primitives.Add(point);
@@ -73,9 +75,9 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             {   
                 Area = area1,
                 Name = "Right bottom rebar",
-                HeadMaterial = reinforcement,
                 HostPrimitive = concreteBlock
             };
+            point.NdmElement.HeadMaterial = reinforcement;
             point.Center.X = xs[1];
             point.Center.Y = ys[0];
             primitives.Add(point);
@@ -83,9 +85,9 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             {
                 Area = area2,
                 Name = "Left top rebar",
-                HeadMaterial = reinforcement,
                 HostPrimitive = concreteBlock
             };
+            point.NdmElement.HeadMaterial = reinforcement;
             point.Center.X = xs[0];
             point.Center.Y = ys[1];
             primitives.Add(point);
@@ -93,9 +95,9 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             {
                 Area = area2,
                 Name = "Right top rebar",
-                HeadMaterial = reinforcement,
                 HostPrimitive = concreteBlock
             };
+            point.NdmElement.HeadMaterial = reinforcement;
             point.Center.X = xs[1];
             point.Center.Y = ys[1];
             primitives.Add(point);
@@ -115,11 +117,23 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                 double dist = (xs[1] - xs[0]) / count;
                 for (int i = 1; i < count; i++)
                 {
-                    point = new RebarPrimitive() { Area = area1, Name = $"Bottom rebar {i}", HeadMaterial = reinforcement, HostPrimitive = concreteBlock };
+                    point = new RebarPrimitive()
+                    {
+                        Area = area1,
+                        Name = $"Bottom rebar {i}",
+                        HostPrimitive = concreteBlock
+                    };
+                    point.NdmElement.HeadMaterial = reinforcement;
                     point.Center.X = xs[0] + dist * i;
                     point.Center.Y = ys[0];
                     primitives.Add(point);
-                    point = new RebarPrimitive() {Area = area2, Name = $"Top rebar {i}", HeadMaterial = reinforcement, HostPrimitive = concreteBlock };
+                    point = new RebarPrimitive()
+                    {
+                        Area = area2,
+                        Name = $"Top rebar {i}",
+                        HostPrimitive = concreteBlock
+                    };
+                    point.NdmElement.HeadMaterial = reinforcement;
                     point.Center.X = xs[0] + dist * i;
                     point.Center.Y = ys[1];
                    primitives.Add(point);
@@ -135,9 +149,9 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                     {
                         Area = area1,
                         Name = $"Left point {i}",
-                        HeadMaterial = reinforcement,
                         HostPrimitive = concreteBlock
                     };
+                    point.NdmElement.HeadMaterial = reinforcement;
                     point.Center.X = xs[0];
                     point.Center.Y = ys[0] + dist * i;
                     primitives.Add(point);
@@ -145,9 +159,9 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                     {
                         Area = area1,
                         Name = $"Right point {i}",
-                        HeadMaterial = reinforcement,
                         HostPrimitive = concreteBlock
                     };
+                    point.NdmElement.HeadMaterial = reinforcement;
                     point.Center.X = xs[1];
                     point.Center.Y = ys[0] + dist * i;
                     primitives.Add(point);

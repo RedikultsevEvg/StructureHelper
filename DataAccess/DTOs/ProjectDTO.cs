@@ -21,7 +21,7 @@ namespace DataAccess.DTOs
         public bool IsActual { get; set; }
 
         [JsonProperty("VisualAnalyses")]
-        public List<IVisualAnalysis> VisualAnalyses { get; private set; }
+        public List<IVisualAnalysis> VisualAnalyses { get; private set; } = new();
 
         [JsonIgnore]
         public string FileName { get; set; }
@@ -29,6 +29,11 @@ namespace DataAccess.DTOs
         public ProjectDTO(Guid id)
         {
             Id = id;
+        }
+
+        public ProjectDTO() : this (Guid.NewGuid())
+        {
+            
         }
 
     }

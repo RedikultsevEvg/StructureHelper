@@ -60,49 +60,49 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         }
         public bool Triangulate
         {
-            get => primitive.Triangulate;
+            get => primitive.NdmElement.Triangulate;
             set
             {
-                primitive.Triangulate = value;
+                primitive.NdmElement.Triangulate = value;
                 OnPropertyChanged(nameof(Triangulate));
             }
         }
         public double InvertedCenterY => - CenterY;
         public double PrestrainKx
-        {   get => primitive.UsersPrestrain.Mx;
+        {   get => primitive.NdmElement.UsersPrestrain.Mx;
             set
             {
-                primitive.UsersPrestrain.Mx = value;
+                primitive.NdmElement.UsersPrestrain.Mx = value;
                 OnPropertyChanged(nameof(PrestrainKx));
             }
         }
         public double PrestrainKy
-        {   get => primitive.UsersPrestrain.My;
+        {   get => primitive.NdmElement.UsersPrestrain.My;
             set
             {
-                primitive.UsersPrestrain.My = value;
+                primitive.NdmElement.UsersPrestrain.My = value;
                 OnPropertyChanged(nameof(PrestrainKy));
             }
         }
         public double PrestrainEpsZ
-        {   get => primitive.UsersPrestrain.Nz;
+        {   get => primitive.NdmElement.UsersPrestrain.Nz;
             set
             {
-                primitive.UsersPrestrain.Nz = value;
+                primitive.NdmElement.UsersPrestrain.Nz = value;
                 OnPropertyChanged(nameof(PrestrainEpsZ));
             }
         }
 
-        public double AutoPrestrainKx => primitive.AutoPrestrain.Mx;
-        public double AutoPrestrainKy => primitive.AutoPrestrain.My;
-        public double AutoPrestrainEpsZ => primitive.AutoPrestrain.Nz;
+        public double AutoPrestrainKx => primitive.NdmElement.AutoPrestrain.Mx;
+        public double AutoPrestrainKy => primitive.NdmElement.AutoPrestrain.My;
+        public double AutoPrestrainEpsZ => primitive.NdmElement.AutoPrestrain.Nz;
 
         public IHeadMaterial HeadMaterial
         {
-            get => primitive.HeadMaterial;
+            get => primitive.NdmElement.HeadMaterial;
             set
             {
-                primitive.HeadMaterial = value;
+                primitive.NdmElement.HeadMaterial = value;
                 OnPropertyChanged(nameof(HeadMaterial));
                 OnPropertyChanged(nameof(Color));
             }
@@ -121,7 +121,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         public Color Color
         {
             get => ((primitive.VisualProperty.SetMaterialColor == true)
-                & (primitive.HeadMaterial !=null))? primitive.HeadMaterial.Color : primitive.VisualProperty.Color;
+                & (primitive.NdmElement.HeadMaterial !=null))? primitive.NdmElement.HeadMaterial.Color : primitive.VisualProperty.Color;
             set
             {
                 SetMaterialColor = false;

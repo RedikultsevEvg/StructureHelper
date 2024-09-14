@@ -9,7 +9,7 @@ namespace StructureHelperCommon.Models.Analyses
 {
     public class VersionProcessor : IVersionProcessor
     {
-        public List<IVersion> Versions { get; }
+        public List<IDateVersion> Versions { get; }
 
         public Guid Id { get; }
 
@@ -24,14 +24,14 @@ namespace StructureHelperCommon.Models.Analyses
             
         }
 
-        private void AddVersion(IVersion version)
+        private void AddVersion(IDateVersion version)
         {
             Versions.Add(version);
         }
 
         public void AddVersion(ISaveable newItem)
         {
-            var version = new Version()
+            var version = new DateVersion()
             {
                 DateTime = DateTime.Now,
                 Item = newItem
@@ -40,7 +40,7 @@ namespace StructureHelperCommon.Models.Analyses
         }
 
 
-        public IVersion GetCurrentVersion()
+        public IDateVersion GetCurrentVersion()
         {
             return Versions[^1];
         }

@@ -25,14 +25,15 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public ITriangulationOptions triangulationOptions { get; set; }
         public IHeadMaterial HeadMaterial { get; set; }
 
-        public CircleTriangulationLogicOptions(ICirclePrimitive primitive)
+        public CircleTriangulationLogicOptions(IEllipsePrimitive primitive)
         {
             Center = primitive.Center.Clone() as Point2D;
-            Circle = primitive;
-            NdmMaxSize = primitive.NdmMaxSize;
-            NdmMinDivision = primitive.NdmMinDivision;
-            HeadMaterial = primitive.HeadMaterial;
-            Prestrain = ForceTupleService.SumTuples(primitive.UsersPrestrain, primitive.AutoPrestrain) as StrainTuple;
+            //to do change to ellipse
+            Circle = new CircleShape() { Diameter = primitive.DiameterByX };
+            NdmMaxSize = primitive.DivisionSize.NdmMaxSize;
+            NdmMinDivision = primitive.DivisionSize.NdmMinDivision;
+            HeadMaterial = primitive.NdmElement.HeadMaterial;
+            Prestrain = ForceTupleService.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
         }
     }
 }

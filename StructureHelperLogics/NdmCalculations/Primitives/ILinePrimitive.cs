@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public interface ILinePrimitive : IHasDivisionSize, ILineShape
+    public interface ILinePrimitive : IDivisionSize, ILineShape
     {
     }
 }

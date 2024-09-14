@@ -60,10 +60,10 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
                 }
             }
 
-            if (RebarPrimitive.HostPrimitive.HeadMaterial.HelperMaterial is not ICrackedMaterial)
+            if (RebarPrimitive.HostPrimitive.NdmElement.HeadMaterial.HelperMaterial is not ICrackedMaterial)
             {
                 result = false;
-                string message = $"Material of host of {RebarPrimitive.Name} ({RebarPrimitive.HostPrimitive.HeadMaterial.Name})  does not support cracking\n";
+                string message = $"Material of host of {RebarPrimitive.Name} ({RebarPrimitive.HostPrimitive.NdmElement.HeadMaterial.Name})  does not support cracking\n";
                 checkResult += message;
                 TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
             }

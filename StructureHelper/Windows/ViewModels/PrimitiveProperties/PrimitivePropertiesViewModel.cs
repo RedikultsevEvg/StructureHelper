@@ -305,7 +305,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             HostPrimitives = new ObservableCollection<PrimitiveBase>();
             foreach (var item in sectionRepository.Primitives)
             {
-                if (item is RectanglePrimitive || item is CirclePrimitive)
+                if (item is RectanglePrimitive || item is EllipsePrimitive)
                 {
                     CheckHost(primitive, item);
                     HostPrimitives.Add(PrimitiveOperations.ConvertNdmPrimitiveToPrimitiveBase(item));
@@ -320,7 +320,8 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             {
                 var host = item as IHasDivisionSize;
                 var reinforcement = ndm as RebarPrimitive;
-                if (host.IsPointInside(new Point2D() { X = reinforcement.Center.X, Y = reinforcement.Center.Y })
+                bool checkWhenPointLocatedInsideOfItsHost = host.IsPointInside(reinforcement.Center.Clone() as IPoint2D);
+                if (checkWhenPointLocatedInsideOfItsHost
                     && reinforcement.HostPrimitive is null)
                 {
                     var dialogResult = MessageBox.Show($"Primitive {reinforcement.Name} is inside primitive {item.Name}",

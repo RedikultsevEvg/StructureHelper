@@ -98,9 +98,9 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
             else if (primitiveType == PrimitiveType.Circle)
             {
-                var primitive = new CirclePrimitive
+                var primitive = new EllipsePrimitive
                 {
-                    Diameter = 0.5d
+                    DiameterByX = 0.5d
                 };
                 ndmPrimitive = primitive;
                 viewPrimitive = new CircleViewPrimitive(primitive);
@@ -251,9 +251,9 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             {
                 primitiveBase = new RectangleViewPrimitive(newPrimitive as IRectanglePrimitive);
             }
-            else if (newPrimitive is ICirclePrimitive)
+            else if (newPrimitive is IEllipsePrimitive)
             {
-                primitiveBase = new CircleViewPrimitive(newPrimitive as ICirclePrimitive);
+                primitiveBase = new CircleViewPrimitive(newPrimitive as IEllipsePrimitive);
             }
             else if (newPrimitive is IPointPrimitive)
             {

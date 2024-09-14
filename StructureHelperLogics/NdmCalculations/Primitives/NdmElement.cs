@@ -18,11 +18,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// <inheritdoc/>
         public Guid Id { get; }
         /// <inheritdoc/>
-        public IPoint2D Center { get; } = new Point2D();
-        /// <inheritdoc/>
         public IHeadMaterial? HeadMaterial { get; set; }
         /// <inheritdoc/>
-        public bool Triangulate { get; set; }
+        public bool Triangulate { get; set; } = true;
         /// <inheritdoc/>
         public StrainTuple UsersPrestrain { get; } = new();
         /// <inheritdoc/>

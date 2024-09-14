@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Analyses
 {
-    public interface IAnalysis : ISaveable
+    public interface IAnalysis : ISaveable, ICloneable
     {
         string Name { get; set; }
         string Tags { get; set; }

@@ -87,7 +87,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 divisionLogic.Primitive = hasDivision;
                 divisionLogic.MeshHasDivision();
             }
-            if (primitive.Triangulate == true)
+            if (primitive.NdmElement.Triangulate == true)
             {
                 meshLogic.Primitive = primitive;
                 var ndms = meshLogic.MeshPrimitive();

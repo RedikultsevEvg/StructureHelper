@@ -48,7 +48,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         public override void DeleteMethod(object parameter)
         {
             var primitives = repository.Primitives;
-            var primitivesWithMaterial = primitives.Where(x => x.HeadMaterial == SelectedItem);
+            var primitivesWithMaterial = primitives.Where(x => x.NdmElement.HeadMaterial == SelectedItem);
             int primitivesCount = primitivesWithMaterial.Count();
             if (primitivesCount > 0)
             {

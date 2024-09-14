@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public interface ICirclePrimitive : INdmPrimitive, IHasDivisionSize, ICircleShape
+    public interface IEllipsePrimitive : INdmPrimitive, IHasDivisionSize
     {
+        double DiameterByX { get; set; }
+        double DiameterByY { get; set; }
+
     }
 }

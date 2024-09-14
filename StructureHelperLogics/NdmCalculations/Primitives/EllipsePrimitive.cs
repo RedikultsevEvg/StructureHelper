@@ -9,46 +9,54 @@ using StructureHelperLogics.NdmCalculations.Triangulations;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public class CirclePrimitive : ICirclePrimitive
+    public class EllipsePrimitive : IEllipsePrimitive
     {
-        static readonly CircleUpdateStrategy updateStrategy = new();
+        private static readonly EllipsePrimitiveUpdateStrategy updateStrategy = new();
+        private readonly RectangleShape rectangleShape = new();
+
         /// <inheritdoc/>
         public Guid Id { get; set; }
         /// <inheritdoc/>
         public string Name { get; set; }
         /// <inheritdoc/>
-        public IPoint2D Center { get; private set; }
-        public IHeadMaterial? HeadMaterial { get; set; }
-        public StrainTuple UsersPrestrain { get; }
-        public StrainTuple AutoPrestrain { get; }
-        public IVisualProperty VisualProperty { get; }
-        public double Diameter { get; set; }
-        public double NdmMaxSize { get; set; }
-        public int NdmMinDivision { get; set; }
-        public bool ClearUnderlying { get; set; }
-        public bool Triangulate { get; set; }
+        public IPoint2D Center { get; set; } = new Point2D();
+        /// <inheritdoc/>
+        public IVisualProperty VisualProperty { get; } = new VisualProperty { Opacity = 0.8d };
+        /// <inheritdoc/>
+        public double DiameterByX
+        {
+            get
+            {
+                return rectangleShape.Width;
+            }
+            set
+            {
+                rectangleShape.Width = value;
+                rectangleShape.Height = value;
+            }
+        }
+        /// <inheritdoc/>
+        public double DiameterByY { get => rectangleShape.Height; set => rectangleShape.Height = value; }
+        /// <inheritdoc/>
         public ICrossSection? CrossSection { get; set; }
+        /// <inheritdoc/>
         public INdmElement NdmElement { get; } = new NdmElement();
+        /// <inheritdoc/>
+        public IDivisionSize DivisionSize { get; } = new DivisionSize();
+        /// <inheritdoc/>
+        public IShape Shape => rectangleShape;
 
-        public CirclePrimitive(Guid id)
+
+        public EllipsePrimitive(Guid id)
         {
             Id = id;
             Name = "New Circle";
-            NdmMaxSize = 0.01d;
-            NdmMinDivision = 10;
-            Center = new Point2D();
-            VisualProperty = new VisualProperty { Opacity = 0.8d };
-            UsersPrestrain = new StrainTuple();
-            AutoPrestrain = new StrainTuple();
-            ClearUnderlying = false;
-            Triangulate = true;
         }
-        public CirclePrimitive() : this (Guid.NewGuid())
-        {}
+        public EllipsePrimitive() : this (Guid.NewGuid())  {}
         /// <inheritdoc/>
         public object Clone()
         {
-            var primitive = new CirclePrimitive();
+            var primitive = new EllipsePrimitive();
             updateStrategy.Update(primitive, this);
             return primitive;
         }
@@ -70,7 +78,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             var dX = Center.X - point.X;
             var dY = Center.Y - point.Y;
             var distance = Math.Sqrt(dX * dX + dY * dY);
-            if (distance > Diameter / 2) { return false; }
+            if (distance > DiameterByX / 2) { return false; }
             return true;
         }
 
@@ -88,28 +96,28 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             newPoint = new NamedAreaPoint
             {
                 Name = "Left",
-                Point = new Point2D() { X = Center.X - Diameter / 2d, Y = Center.Y},
+                Point = new Point2D() { X = Center.X - DiameterByX / 2d, Y = Center.Y},
                 Area = 0d
             };
             points.Add(newPoint);
             newPoint = new NamedAreaPoint
             {
                 Name = "Top",
-                Point = new Point2D() { X = Center.X, Y = Center.Y + Diameter / 2d },
+                Point = new Point2D() { X = Center.X, Y = Center.Y + DiameterByX / 2d },
                 Area = 0d
             };
             points.Add(newPoint);
             newPoint = new NamedAreaPoint
             {
                 Name = "Right",
-                Point = new Point2D() { X = Center.X + Diameter / 2d, Y = Center.Y },
+                Point = new Point2D() { X = Center.X + DiameterByX / 2d, Y = Center.Y },
                 Area = 0d
             };
             points.Add(newPoint);
             newPoint = new NamedAreaPoint
             {
                 Name = "Bottom",
-                Point = new Point2D() { X = Center.X, Y = Center.Y - Diameter / 2d },
+                Point = new Point2D() { X = Center.X, Y = Center.Y - DiameterByX / 2d },
                 Area = 0d
             };
             points.Add(newPoint);

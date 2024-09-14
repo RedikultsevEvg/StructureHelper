@@ -40,7 +40,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         public RectangleViewPrimitive(IRectanglePrimitive _primitive) : base(_primitive)
         {
             primitive = _primitive;
-            DivisionViewModel = new HasDivisionViewModel(primitive);
+            DivisionViewModel = new HasDivisionViewModel(primitive.DivisionSize);
         }
         public override void Refresh()
         {

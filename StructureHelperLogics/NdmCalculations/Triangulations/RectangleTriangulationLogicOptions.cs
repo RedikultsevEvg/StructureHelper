@@ -35,10 +35,10 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         {
             Center = new Point2D() {X = primitive.Center.X, Y = primitive.Center.Y };
             Rectangle = primitive;
-            NdmMaxSize = primitive.NdmMaxSize;
-            NdmMinDivision = primitive.NdmMinDivision;
-            HeadMaterial = primitive.HeadMaterial;
-            Prestrain = ForceTupleService.SumTuples(primitive.UsersPrestrain, primitive.AutoPrestrain) as StrainTuple;
+            NdmMaxSize = primitive.DivisionSize.NdmMaxSize;
+            NdmMinDivision = primitive.DivisionSize.NdmMinDivision;
+            HeadMaterial = primitive.NdmElement.HeadMaterial;
+            Prestrain = ForceTupleService.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
         }
     }
 }

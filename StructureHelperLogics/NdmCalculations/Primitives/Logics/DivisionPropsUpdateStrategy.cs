@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    internal class DivisionPropsUpdateStrategy : IUpdateStrategy<IHasDivisionSize>
+    internal class DivisionPropsUpdateStrategy : IUpdateStrategy<IDivisionSize>
     {
-        public void Update(IHasDivisionSize targetObject, IHasDivisionSize sourceObject)
+        public void Update(IDivisionSize targetObject, IDivisionSize sourceObject)
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.NdmMaxSize = sourceObject.NdmMaxSize;

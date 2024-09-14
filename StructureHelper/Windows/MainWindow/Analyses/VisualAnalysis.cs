@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogics.Models.CrossSections;
 using System;
@@ -7,6 +8,7 @@ namespace StructureHelper.Windows.MainWindow.Analyses
 {
     public class VisualAnalysis : IVisualAnalysis
     {
+        private IUpdateStrategy<IVisualAnalysis> updateStrategy = new VisualAnalysisUpdateStrategy();
         public Guid Id { get; }
         public IAnalysis Analysis { get; set; }
 
@@ -43,6 +45,13 @@ namespace StructureHelper.Windows.MainWindow.Analyses
         {
             var window = new CrossSectionView(crossSection);
             window.ShowDialog();
+        }
+
+        public object Clone()
+        {
+            var newAnalysis = Analysis.Clone() as IAnalysis;
+            VisualAnalysis newItem = new(newAnalysis);
+            return newItem;
         }
     }
 }

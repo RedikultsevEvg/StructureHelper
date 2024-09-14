@@ -66,14 +66,23 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var mainBlock = new RectanglePrimitive() { Width = width, Height = height, HeadMaterial = material };
+            var mainBlock = new RectanglePrimitive()
+            {
+                Width = width,
+                Height = height,
+            };
+            mainBlock.NdmElement.HeadMaterial = material;
             mainBlock.Center.X = centerX;
             mainBlock.Center.Y = centerY;
             mainBlock.VisualProperty.ZIndex = 0;
             var opening = new RectanglePrimitive()
-            { Width = 0.3d, Height = 0.2d,
-                HeadMaterial = material, Triangulate = triangOpening,
-                ClearUnderlying = true};
+            {
+                Width = 0.3d,
+                Height = 0.2d
+            };
+            opening.DivisionSize.ClearUnderlying = true;
+            opening.NdmElement.HeadMaterial = material;
+            opening.NdmElement.Triangulate = triangOpening;
             opening.VisualProperty.ZIndex = 1;
             var primitives = new List<INdmPrimitive>() { mainBlock, opening };
             //Act
@@ -100,19 +109,28 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var mainBlock = new RectanglePrimitive() {Width = width, Height = height, HeadMaterial = material };
+            var mainBlock = new RectanglePrimitive()
+            {
+                Width = width,
+                Height = height
+            };
+            mainBlock.NdmElement.HeadMaterial = material;
             mainBlock.Center.X = centerX;
             mainBlock.Center.Y = centerY;
             mainBlock.VisualProperty.ZIndex = 0;
-            var opening = new CirclePrimitive()
+            var opening = new EllipsePrimitive()
             {
-                Diameter = 0.3d,
-                HeadMaterial = material,
-                Triangulate = triangOpening,
-                ClearUnderlying = true
+                DiameterByX = 0.3d
             };
+            opening.DivisionSize.ClearUnderlying = true;
+            opening.NdmElement.HeadMaterial = material;
+            opening.NdmElement.Triangulate = triangOpening;
             opening.VisualProperty.ZIndex = 1;
-            var primitives = new List<INdmPrimitive>() { mainBlock, opening };
+            var primitives = new List<INdmPrimitive>()
+            {
+                mainBlock,
+                opening
+            };
             //Act
             triangulateLogic = new TriangulatePrimitiveLogic()
             {
@@ -137,18 +155,19 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var mainBlock = new CirclePrimitive() { Diameter = diameter, HeadMaterial = material };
+            var mainBlock = new EllipsePrimitive() { DiameterByX = diameter};
+            mainBlock.NdmElement.HeadMaterial = material;
             mainBlock.Center.X = centerX;
             mainBlock.Center.Y = centerY;
             mainBlock.VisualProperty.ZIndex = 0;
             var opening = new RectanglePrimitive()
             {
                 Width = 0.3d,
-                Height = 0.2d,
-                HeadMaterial = material,
-                Triangulate = triangOpening,
-                ClearUnderlying = true
+                Height = 0.2d
             };
+            opening.DivisionSize.ClearUnderlying = true;
+            opening.NdmElement.HeadMaterial = material;
+            opening.NdmElement.Triangulate = triangOpening;
             opening.VisualProperty.ZIndex = 1;
             var primitives = new List<INdmPrimitive>() { mainBlock, opening };
             //Act

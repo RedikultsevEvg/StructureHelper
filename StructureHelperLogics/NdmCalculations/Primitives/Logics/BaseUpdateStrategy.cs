@@ -23,11 +23,14 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             CheckObject.IsNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
-            if (sourceObject.HeadMaterial != null) targetObject.HeadMaterial = sourceObject.HeadMaterial;
-            targetObject.Triangulate = sourceObject.Triangulate;
+            if (sourceObject.NdmElement.HeadMaterial != null)
+            {
+                targetObject.NdmElement.HeadMaterial = sourceObject.NdmElement.HeadMaterial;
+            }
+            targetObject.NdmElement.Triangulate = sourceObject.NdmElement.Triangulate;
             point2DUpdateStrategy.Update(targetObject.Center, sourceObject.Center);
             visualPropsUpdateStrategy.Update(targetObject.VisualProperty, sourceObject.VisualProperty);
-            tupleUpdateStrategy.Update(targetObject.UsersPrestrain, sourceObject.UsersPrestrain);
+            tupleUpdateStrategy.Update(targetObject.NdmElement.UsersPrestrain, sourceObject.NdmElement.UsersPrestrain);
         }
 
     }

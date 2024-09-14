@@ -1,15 +1,12 @@
 ﻿using StructureHelperCommon.Models.Analyses;
+using StructureHelperLogics.Models.Analyses;
 using StructureHelperLogics.Models.CrossSections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogic.Models.Analyses
 {
     public class CrossSectionNdmAnalysis : IAnalysis
     {
+        private CrossSectionNdmAnalysisUpdateStrategy updateStrategy = new();
         public Guid Id { get; private set; }
         public string Name { get; set; }
         public string Tags { get; set; }
@@ -21,7 +18,7 @@ namespace StructureHelperLogic.Models.Analyses
             VersionProcessor = versionProcessor;
         }
 
-        public CrossSectionNdmAnalysis() : this(new Guid(), new VersionProcessor())
+        public CrossSectionNdmAnalysis() : this(Guid.NewGuid(), new VersionProcessor())
         {
             CrossSection crossSection = new CrossSection();
             VersionProcessor.AddVersion(crossSection);
@@ -29,7 +26,9 @@ namespace StructureHelperLogic.Models.Analyses
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            CrossSectionNdmAnalysis newAnalysis = new();
+            updateStrategy.Update(newAnalysis, this);
+            return newAnalysis;
         }
     }
 }

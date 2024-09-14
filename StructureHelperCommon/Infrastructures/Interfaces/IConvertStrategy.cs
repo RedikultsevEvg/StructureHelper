@@ -11,8 +11,8 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         where T :ISaveable
         where V :ISaveable
     {
+        Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         IShiftTraceLogger TraceLogger { get; set; }
-        V ConvertTo(T source);
-        T ConvertFrom(V source);
+        T Convert(V source);
     }
 }

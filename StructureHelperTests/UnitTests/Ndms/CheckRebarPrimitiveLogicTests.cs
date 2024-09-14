@@ -77,7 +77,7 @@ namespace StructureHelperTests.UnitTests.Ndms
 
             _mockRebarPrimitive.Setup(x => x.HostPrimitive).Returns(mockHostPrimitive.Object);
             _mockRebarPrimitive.Setup(x => x.Name).Returns("RebarName");
-            mockHostPrimitive.Setup(x => x.HeadMaterial).Returns(mockHeadMaterial.Object);
+            mockHostPrimitive.Setup(x => x.NdmElement.HeadMaterial).Returns(mockHeadMaterial.Object);
             mockHeadMaterial.Setup(x => x.HelperMaterial).Returns(mockHelperMaterial.Object);
 
             // Act

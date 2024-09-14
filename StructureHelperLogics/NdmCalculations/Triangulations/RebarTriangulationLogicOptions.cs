@@ -30,9 +30,9 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         {
             Center = primitive.Center.Clone() as Point2D;
             Area = primitive.Area;
-            HeadMaterial = primitive.HeadMaterial;
+            HeadMaterial = primitive.NdmElement.HeadMaterial;
             HostPrimitive = primitive.HostPrimitive;
-            Prestrain = ForceTupleService.SumTuples(primitive.UsersPrestrain, primitive.AutoPrestrain) as StrainTuple;
+            Prestrain = ForceTupleService.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
         }
     }
 }

@@ -17,37 +17,21 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     /// <summary>
     /// Geometrical primitive which generates ndm elemtntary part
     /// </summary>
-    public interface INdmPrimitive : ISaveable, ICloneable
+    public interface INdmPrimitive : ISaveable, IHasCenter2D, ICloneable
     {
         /// <summary>
         /// Name of primitive
         /// </summary>
         string? Name { get; set; }
-        INdmElement NdmElement { get;}
+        IShape Shape { get; }
         /// <summary>
-        /// Base point of primitive
+        /// Base properties of primitive
         /// </summary>
-        IPoint2D Center { get; }
+        INdmElement NdmElement { get;}
         /// <summary>
         /// Host cross-section for primitive
         /// </summary>
         ICrossSection? CrossSection { get; set; }
-        /// <summary>
-        /// Material of primitive
-        /// </summary>
-        IHeadMaterial? HeadMaterial { get; set; }
-        /// <summary>
-        /// Flag of triangulation
-        /// </summary>
-        bool Triangulate { get; set; }
-        /// <summary>
-        /// Prestrain assigned from user
-        /// </summary>
-        StrainTuple UsersPrestrain { get; }
-        /// <summary>
-        /// Prestrain assigned from calculations
-        /// </summary>
-        StrainTuple AutoPrestrain { get; }
         /// <summary>
         /// Visual settings
         /// </summary>

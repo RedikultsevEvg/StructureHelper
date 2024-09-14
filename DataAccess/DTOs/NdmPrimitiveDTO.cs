@@ -15,8 +15,6 @@ namespace DataAccess.DTOs
     {
         [JsonProperty("Id")]
         public Guid Id { get; set; }
-        [JsonProperty("Center")]
-        public IPoint2D Center { get; set; }
         [JsonProperty("HeadMaterial")]
         public IHeadMaterial? HeadMaterial { get; set; }
         [JsonProperty("Triangulate")]

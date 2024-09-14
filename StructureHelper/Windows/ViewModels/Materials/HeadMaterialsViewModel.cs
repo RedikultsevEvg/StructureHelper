@@ -208,7 +208,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
                 if (parent is IHasPrimitives)
                 {
                     var primitives = (parent as IHasPrimitives).Primitives;
-                    var primitivesWithMaterial = primitives.Where(x => x.HeadMaterial == SelectedMaterial);
+                    var primitivesWithMaterial = primitives.Where(x => x.NdmElement.HeadMaterial == SelectedMaterial);
                     int primitivesCount = primitivesWithMaterial.Count();
                     if (primitivesCount > 0)
                     {

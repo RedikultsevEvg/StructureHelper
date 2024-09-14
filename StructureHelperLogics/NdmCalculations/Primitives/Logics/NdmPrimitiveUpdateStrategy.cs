@@ -21,11 +21,11 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             }
             else if (targetObject is RectanglePrimitive rectangle)
             {
-                new RectangleUpdateStrategy().Update(rectangle, (RectanglePrimitive)sourceObject);
+                new RectanglePrimitiveUpdateStrategy().Update(rectangle, (RectanglePrimitive)sourceObject);
             }
-            else if (targetObject is CirclePrimitive circle)
+            else if (targetObject is EllipsePrimitive circle)
             {
-                new CircleUpdateStrategy().Update(circle, (CirclePrimitive)sourceObject);
+                new EllipsePrimitiveUpdateStrategy().Update(circle, (EllipsePrimitive)sourceObject);
             }
             else
             {

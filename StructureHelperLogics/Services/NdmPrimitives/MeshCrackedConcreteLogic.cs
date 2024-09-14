@@ -30,7 +30,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
             CheckPrimitive();
             List<INdm> ndmCollection = new();
-            if (Primitive.HeadMaterial.HelperMaterial is ICrackedMaterial)
+            if (Primitive.NdmElement.HeadMaterial.HelperMaterial is ICrackedMaterial)
             {
                 ProcessICracked(ndmCollection);
             }
@@ -74,13 +74,13 @@ namespace StructureHelperLogics.Services.NdmPrimitives
 
         private void SetNewMaterial(INdmPrimitive? newPrimititve)
         {
-            TraceLogger?.AddMessage($"Process material {newPrimititve.HeadMaterial.Name} has started");
-            var newHeadMaterial = newPrimititve.HeadMaterial.Clone() as IHeadMaterial;
+            TraceLogger?.AddMessage($"Process material {newPrimititve.NdmElement.HeadMaterial.Name} has started");
+            var newHeadMaterial = newPrimititve.NdmElement.HeadMaterial.Clone() as IHeadMaterial;
             var newMaterial = newHeadMaterial.HelperMaterial.Clone() as ICrackedMaterial;
-            TraceLogger?.AddMessage($"Set work in tension zone for material {newPrimititve.HeadMaterial.Name}");
+            TraceLogger?.AddMessage($"Set work in tension zone for material {newPrimititve.NdmElement.HeadMaterial.Name}");
             newMaterial.TensionForSLS = false;
             newHeadMaterial.HelperMaterial = newMaterial as IHelperMaterial;
-            newPrimititve.HeadMaterial = newHeadMaterial;
+            newPrimititve.NdmElement.HeadMaterial = newHeadMaterial;
         }
 
         private List<INdm> GetNdms(INdmPrimitive primitive)

@@ -55,11 +55,12 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         {
             var hostPrimitive = options.HostPrimitive;
             var material = hostPrimitive
+                .NdmElement
                 .HeadMaterial
                 .GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm);
             
-            var prestrain = ForceTupleService.SumTuples(hostPrimitive.UsersPrestrain,
-                hostPrimitive.AutoPrestrain)
+            var prestrain = ForceTupleService.SumTuples(hostPrimitive.NdmElement.UsersPrestrain,
+                hostPrimitive.NdmElement.AutoPrestrain)
                 as StrainTuple;
 
             var concreteNdm = new Ndm

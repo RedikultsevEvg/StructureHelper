@@ -44,7 +44,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             RebarPrimitive rebarCopy = null;
 
             rebarCopy = Rebar.Clone() as RebarPrimitive;
-            rebarCopy.HeadMaterial = rebarCopy.HeadMaterial.Clone() as IHeadMaterial;
+            rebarCopy.NdmElement.HeadMaterial = rebarCopy.NdmElement.HeadMaterial.Clone() as IHeadMaterial;
             triangulationLogicLoc = new CrackedSectionTriangulationLogic(InputData.Primitives);
             crackableNdmsLoc = triangulationLogicLoc.GetNdmCollection();
             crackedNdmsLoc = triangulationLogicLoc.GetCrackedNdmCollection();

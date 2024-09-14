@@ -5,21 +5,16 @@ using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
 {
-    public class INdmElementUpdateStrategy : IUpdateStrategy<INdmElement>
+    public class NdmElementUpdateStrategy : IUpdateStrategy<INdmElement>
     {
-        private readonly IUpdateStrategy<IPoint2D> point2DUpdateStrategy;
         private readonly IUpdateStrategy<IForceTuple> tupleUpdateStrategy;
 
-        public INdmElementUpdateStrategy(IUpdateStrategy<IPoint2D> point2DUpdateStrategy,
-            IUpdateStrategy<IForceTuple> tupleUpdateStrategy)
+        public NdmElementUpdateStrategy(IUpdateStrategy<IForceTuple> tupleUpdateStrategy)
         {
-            this.point2DUpdateStrategy = point2DUpdateStrategy;
             this.tupleUpdateStrategy = tupleUpdateStrategy;
         }
 
-        public INdmElementUpdateStrategy() : this (
-            new Point2DUpdateStrategy(),
-            new ForceTupleUpdateStrategy())
+        public NdmElementUpdateStrategy() : this (new ForceTupleUpdateStrategy())
         {
             
         }
@@ -29,8 +24,6 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
         {
             CheckObject.IsNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-
-            point2DUpdateStrategy.Update(targetObject.Center, sourceObject.Center);
             if (sourceObject.HeadMaterial != null)
             {
                 targetObject.HeadMaterial = sourceObject.HeadMaterial;

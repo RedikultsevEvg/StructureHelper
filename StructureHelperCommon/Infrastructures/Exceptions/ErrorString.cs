@@ -27,5 +27,7 @@
         public static string ObjectNotFound => "#0018: Object not found";
         public static string ErrorDuring(string operation) => string.Format("Errors appeared during {0}, see detailed information", operation);
         public static string CalculationError => "#0019: Error of calculation";
+        public static string SourceObject => "#0020: Source object";
+        public static string TargetObject => "#0021: Target object";
     }
 }
