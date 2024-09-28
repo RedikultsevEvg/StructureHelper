@@ -48,22 +48,31 @@ namespace DataAccess.Infrastructures
 
         private void SaveToFile(IProject project)
         {
-            version = ProgramSetting.GetCurrentFileVersion();
-            refDictinary = new Dictionary<(Guid id, Type type), ISaveable>();
-            FileVersionDTO versionDTO = GetVersionDTO();
-            var versionString = Serialize(versionDTO, TraceLogger);
-            SaveStringToFile(project, versionString);
-            refDictinary = new Dictionary<(Guid id, Type type), ISaveable>();
-            ProjectDTO projectDTO = GetProjectDTO(project);
-            var projectString = Serialize(projectDTO, TraceLogger);
-            SaveStringToFile(project, projectString);
+            try
+            {
+                version = ProgramSetting.GetCurrentFileVersion();
+                refDictinary = new Dictionary<(Guid id, Type type), ISaveable>();
+                FileVersionDTO versionDTO = GetVersionDTO();
+                var versionString = Serialize(versionDTO, TraceLogger);
+                File.Delete(project.FullFileName);
+                SaveStringToFile(project, versionString);
+                refDictinary = new Dictionary<(Guid id, Type type), ISaveable>();
+                ProjectDTO projectDTO = GetProjectDTO(project);
+                var projectString = Serialize(projectDTO, TraceLogger);
+                SaveStringToFile(project, projectString);
+            }
+            catch (Exception ex)
+            {
+                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
+            }
+
         }
 
         private void SaveStringToFile(IProject project, string versionString)
         {
             try
             {
-                File.WriteAllText(project.FullFileName, versionString);
+                File.AppendAllText(project.FullFileName, versionString);
                 TraceLogger?.AddMessage($"File {project.FullFileName} was saved successfully", TraceLogStatuses.Service);
             }
             catch (Exception ex)
@@ -107,14 +116,17 @@ namespace DataAccess.Infrastructures
 
         private static string Serialize(object obj, IShiftTraceLogger logger)
         {
+            List<(Type type, string name)> typesNames = TypeBinderListFactory.GetTypeNameList(TypeFileVersion.version_v1);
+            TypeBinder typeBinder = new(typesNames);
             var settings = new JsonSerializerSettings
-            {            
+            {
                 Converters = new List<JsonConverter>
-                    {
-                        // Add other converters if needed
-                        new FileVersionDTOJsonConverter(logger),  // Add the specific converter
-                        new ProjectDTOJsonConverter(logger)
-                    },
+                {
+                    // Add other converters if needed
+                    new FileVersionDTOJsonConverter(logger),  // Add the specific converter
+                    new ProjectDTOJsonConverter(logger)
+                },
+                SerializationBinder = typeBinder,
                 Formatting = Formatting.Indented,
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
                 MissingMemberHandling = MissingMemberHandling.Ignore,

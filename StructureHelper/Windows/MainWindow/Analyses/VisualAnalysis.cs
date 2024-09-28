@@ -31,7 +31,7 @@ namespace StructureHelper.Windows.MainWindow.Analyses
             {
                 throw new StructureHelperException(ErrorStrings.NullReference);
             }
-            if (version.Item is ICrossSection crossSection)
+            if (version.AnalysisVersion is ICrossSection crossSection)
             {
                 ProcessCrossSection(crossSection);
             }
@@ -49,9 +49,9 @@ namespace StructureHelper.Windows.MainWindow.Analyses
 
         public object Clone()
         {
-            var newAnalysis = Analysis.Clone() as IAnalysis;
-            VisualAnalysis newItem = new(newAnalysis);
-            return newItem;
+                var newAnalysis = Analysis.Clone() as IAnalysis;
+                VisualAnalysis newItem = new(newAnalysis);
+                return newItem;
         }
     }
 }

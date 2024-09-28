@@ -17,7 +17,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public double GetAverageDiameter()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             Check();
             var rebarArea = Rebars
                 .Sum(x => x.Area);

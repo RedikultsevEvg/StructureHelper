@@ -51,7 +51,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             calculators = calculatorLogic.GetNdmCalculators();
             AddAllForcesToCalculators();
             AddAllPrimitivesToCalculator();
-            repository.CalculatorsList.AddRange(calculators);
+            repository.Calculators.AddRange(calculators);
             return section;
         }
 

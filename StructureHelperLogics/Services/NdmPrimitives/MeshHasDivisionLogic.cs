@@ -26,7 +26,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
 
         public void MeshHasDivision()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             CheckInputData();
             if (Primitive is IHasDivisionSize hasDivision)
             {

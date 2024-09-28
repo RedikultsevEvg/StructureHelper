@@ -29,7 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
 
         public double GetPhil()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             var distance = Math.Sqrt(point.X * point.X + point.Y * point.Y);
             string distMessage = string.Format("Distance = Sqrt(dX ^2 + dY^2) = Sqrt(({0})^2 + ({1})^2) = {2}, m", point.X, point.Y, distance);
             TraceLogger?.AddMessage(distMessage);

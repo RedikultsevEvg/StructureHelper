@@ -16,6 +16,7 @@ namespace StructureHelper.Models.Materials
 {
     public class HeadMaterial : IHeadMaterial, INotifyPropertyChanged
     {
+        private HeadMaterialUpdateStrategy updateStrategy = new HeadMaterialUpdateStrategy();
         private Color color;
 
         public Guid Id { get; }
@@ -30,6 +31,7 @@ namespace StructureHelper.Models.Materials
             }
         }
         public IHelperMaterial HelperMaterial {get; set;}
+
 
         public HeadMaterial(Guid id)
         {
@@ -51,8 +53,7 @@ namespace StructureHelper.Models.Materials
         public object Clone()
         {
             var newItem = new HeadMaterial();
-            newItem.HelperMaterial = this.HelperMaterial.Clone() as IHelperMaterial;
-            var updateStrategy = new MaterialUpdateStrategy();
+            newItem.HelperMaterial = HelperMaterial.Clone() as IHelperMaterial;
             updateStrategy.Update(newItem, this);
             return newItem;
         }

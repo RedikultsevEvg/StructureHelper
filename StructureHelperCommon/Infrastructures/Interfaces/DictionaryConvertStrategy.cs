@@ -17,6 +17,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public IShiftTraceLogger? TraceLogger { get; set; }
         public IConvertStrategy<T,V> ConvertStrategy { get; set; }
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
+
         public T Convert(V source)
         {
             ICheckInputData();

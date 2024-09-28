@@ -40,7 +40,7 @@ namespace StructureHelperCommon.Models.Sections.Logics
         public (double ex, double ey) GetValue()
         {
             eccentricityLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             TraceLogger?.AddMessage(string.Format(accEccMessage, "x"));
             eccentricityLogic.Length = Length;
             eccentricityLogic.Size = SizeX;

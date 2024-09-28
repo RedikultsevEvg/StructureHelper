@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Analyses
 {
-    public interface IDateVersion
+    public interface IDateVersion : ISaveable
     {
         DateTime DateTime { get; set; }
-        ISaveable Item { get; set; }
+        ISaveable AnalysisVersion { get; set; }
     }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Analyses
 {
-    public class CrossSectionNdmAnalysisUpdateStrategy : IUpdateStrategy<CrossSectionNdmAnalysis>
+    public class CrossSectionNdmAnalysisUpdateStrategy : IUpdateStrategy<ICrossSectionNdmAnalysis>
     {
         private IUpdateStrategy<IAnalysis> analysisUpdateStrategy;
         private IUpdateStrategy<ICrossSection> crossSectionUpdateStrategy;
@@ -35,7 +35,7 @@ namespace StructureHelperLogics.Models.Analyses
                 
         }
 
-        public void Update(CrossSectionNdmAnalysis targetObject, CrossSectionNdmAnalysis sourceObject)
+        public void Update(ICrossSectionNdmAnalysis targetObject, ICrossSectionNdmAnalysis sourceObject)
         {
             CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
             CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
@@ -44,24 +44,24 @@ namespace StructureHelperLogics.Models.Analyses
             targetObject.VersionProcessor.Versions.Clear();
             foreach (var version in sourceObject.VersionProcessor.Versions)
             {
-                if (version.Item is ICrossSection crossSection)
+                if (version.AnalysisVersion is ICrossSection crossSection)
                 {
                     updateVersion(targetObject, version, crossSection);
                 }
                 else
                 {
-                    throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(version.Item));
+                    throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(version.AnalysisVersion));
                 }
             }
         }
 
-        private void updateVersion(CrossSectionNdmAnalysis targetObject, IDateVersion version, ICrossSection crossSection)
+        private void updateVersion(ICrossSectionNdmAnalysis targetObject, IDateVersion version, ICrossSection crossSection)
         {
             DateVersion newVersion = new();
             dateUpdateStrategy.Update(newVersion, version);
             CrossSection newCrossection = new();
             crossSectionUpdateStrategy.Update(newCrossection, crossSection);
-            newVersion.Item = newCrossection;
+            newVersion.AnalysisVersion = newCrossection;
             targetObject.VersionProcessor.Versions.Add(newVersion);
         }
     }

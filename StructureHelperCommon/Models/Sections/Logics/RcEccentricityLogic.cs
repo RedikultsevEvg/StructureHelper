@@ -51,7 +51,7 @@ namespace StructureHelperCommon.Models.Sections
 
         public IForceTuple GetValue()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             if (InputForceTuple is null)
             {
                 string errorString = ErrorStrings.NullReference + $": {nameof(InputForceTuple)}";

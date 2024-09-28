@@ -284,21 +284,21 @@ namespace StructureHelper.Windows.MainWindow
                 repository.HeadMaterials.AddRange(newRepository.HeadMaterials);
                 repository.Primitives.AddRange(newRepository.Primitives);
                 repository.ForceActions.AddRange(newRepository.ForceActions);
-                repository.CalculatorsList.AddRange(newRepository.CalculatorsList);
+                repository.Calculators.AddRange(newRepository.Calculators);
                 OnPropertyChanged(nameof(HeadMaterials));
                 CombinationsLogic.AddItems(newRepository.ForceActions);
-                CalculatorsLogic.AddItems(newRepository.CalculatorsList);
+                CalculatorsLogic.AddItems(newRepository.Calculators);
                 var primitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(newRepository.Primitives);
                 PrimitiveLogic.Refresh();
-                foreach (var item in newRepository.HeadMaterials)
-                {
-                    GlobalRepository.Materials.Create(item);
-                }
-                foreach (var item in newRepository.ForceActions)
-                {
-                    GlobalRepository.Actions.Create(item);
-                }
-                return primitives;
+            foreach (var item in newRepository.HeadMaterials)
+            {
+                GlobalRepository.Materials.Create(item);
+            }
+            foreach (var item in newRepository.ForceActions)
+            {
+                GlobalRepository.Actions.Create(item);
+            }
+            return primitives;
             
         }
     }

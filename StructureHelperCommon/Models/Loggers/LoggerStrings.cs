@@ -15,6 +15,6 @@ namespace StructureHelperCommon.Models.Loggers
         public static string Summary => "Summary";
         public static string Maximum => "Maximum";
         public static string Minimum => "Minimum";
-        public static string CalculatorType(object obj) => string.Format("Calculator type: {0}", obj.GetType());
+        public static string LogicType(object obj) => string.Format("Logic type: {0}", obj.GetType());
     }
 }

@@ -52,7 +52,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <inheritdoc/>
         public double GetLength()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             IEnumerable<RebarNdm?> rebars = GetRebars();
             double rebarArea = GetRebarArea(rebars);
             double rebarDiameter = GetAverageDiameter(rebars);

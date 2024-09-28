@@ -19,4 +19,10 @@
     <Folder Include="NewFolder\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="LoaderCalculator">
+      <HintPath>..\StructureHelper\Libraries\LoaderCalculator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

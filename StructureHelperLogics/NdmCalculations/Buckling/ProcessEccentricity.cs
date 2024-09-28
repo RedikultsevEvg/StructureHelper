@@ -45,7 +45,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
 
         public IForceTuple GetValue()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             TraceLogger?.AddMessage("Get eccentricity taking into account accidental eccentricity");
             TraceLogger?.AddMessage(string.Format("Cross-section size along x-axis dx = {0}, along y-axis dy = {1}", sizeX, sizeY));
 

@@ -26,7 +26,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
 
         public double GetEtaFactor()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             if (LongitudinalForce >= 0d) return 1d;
             var Ncr = GetCriticalForce();
             if (LongitudinalForce <= Ncr)

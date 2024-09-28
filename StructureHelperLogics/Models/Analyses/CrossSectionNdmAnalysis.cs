@@ -4,7 +4,7 @@ using StructureHelperLogics.Models.CrossSections;
 
 namespace StructureHelperLogic.Models.Analyses
 {
-    public class CrossSectionNdmAnalysis : IAnalysis
+    public class CrossSectionNdmAnalysis : ICrossSectionNdmAnalysis
     {
         private CrossSectionNdmAnalysisUpdateStrategy updateStrategy = new();
         public Guid Id { get; private set; }

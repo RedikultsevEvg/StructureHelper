@@ -15,43 +15,34 @@ namespace StructureHelperLogics.Models.Materials
     {
         private IElasticMaterialLogic elasticMaterialLogic => new ElasticMaterialLogic();
         private MaterialTypes materialType;
-        IUpdateStrategy<IFRMaterial> fRUpdateStrategy = new FRUpdateStrategy();
+        IUpdateStrategy<IFRMaterial> updateStrategy = new FRUpdateStrategy();
+        public Guid Id { get; }
         public double Modulus{ get; set; }
         public double CompressiveStrength { get; set; }
         public double TensileStrength { get; set; }
 
-        public List<IMaterialSafetyFactor> SafetyFactors { get; }
+        public List<IMaterialSafetyFactor> SafetyFactors { get; } = new();
         public double ULSConcreteStrength { get; set; }
         public double SumThickness { get; set; }
         public double GammaF2 => GetGammaF2();
 
-        private double GetGammaF2()
+        public FRMaterial(MaterialTypes materialType, Guid id)
         {
-            const double gammaF2Max = 0.9d;
-            double gammaF2;
-            IFactorLogic factorLogic = new FactorLogic(SafetyFactors);
-            var factors = factorLogic.GetTotalFactor(LimitStates.ULS, CalcTerms.ShortTerm);
-            var rf = TensileStrength * factors.Tensile;
-            var epsUlt = rf / Modulus;
-            gammaF2 = 0.4d / epsUlt * Math.Sqrt(ULSConcreteStrength / (Modulus * SumThickness * 1e3d));
-            gammaF2 = Math.Min(gammaF2, gammaF2Max);
-            return gammaF2;
-        }
-
-        public FRMaterial(MaterialTypes materialType)
-        {
-
+            Id = id;
             ULSConcreteStrength = 14e6d;
             SumThickness = 0.175e-3d;
-            SafetyFactors = new List<IMaterialSafetyFactor>();
             this.materialType = materialType;
             SafetyFactors.AddRange(PartialCoefficientFactory.GetDefaultFRSafetyFactors(ProgramSetting.FRCodeType, this.materialType));
+        }
+
+        public FRMaterial(MaterialTypes materialType) : this (materialType, Guid.NewGuid())
+        {
+            
         }
 
         public object Clone()
         {
             var newItem = new FRMaterial(this.materialType);
-            var updateStrategy = fRUpdateStrategy;
             updateStrategy.Update(newItem, this);
             return newItem;
         }
@@ -70,6 +61,18 @@ namespace StructureHelperLogics.Models.Materials
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
             return GetLoaderMaterial(limitState, calcTerm);
+        }
+        private double GetGammaF2()
+        {
+            const double gammaF2Max = 0.9d;
+            double gammaF2;
+            IFactorLogic factorLogic = new FactorLogic(SafetyFactors);
+            var factors = factorLogic.GetTotalFactor(LimitStates.ULS, CalcTerms.ShortTerm);
+            var rf = TensileStrength * factors.Tensile;
+            var epsUlt = rf / Modulus;
+            gammaF2 = 0.4d / epsUlt * Math.Sqrt(ULSConcreteStrength / (Modulus * SumThickness * 1e3d));
+            gammaF2 = Math.Min(gammaF2, gammaF2Max);
+            return gammaF2;
         }
     }
 }

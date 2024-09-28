@@ -14,17 +14,19 @@ namespace StructureHelperLogics.Models.CrossSections
 {
     public class CrossSectionRepository : ICrossSectionRepository
     {
-        public List<IForceAction> ForceActions { get; private set; }
-        public List<IHeadMaterial> HeadMaterials { get; private set; }
-        public List<INdmPrimitive> Primitives { get; }
-        public List<ICalculator> CalculatorsList { get; private set; }
+        public Guid Id { get; }
+        public List<IForceAction> ForceActions { get; private set; } = new();
+        public List<IHeadMaterial> HeadMaterials { get; private set; } = new();
+        public List<INdmPrimitive> Primitives { get; } = new();
+        public List<ICalculator> Calculators { get; private set; } = new();
 
-        public CrossSectionRepository()
+        public CrossSectionRepository(Guid id)
         {
-            ForceActions = new List<IForceAction>();
-            HeadMaterials = new List<IHeadMaterial>();
-            Primitives = new List<INdmPrimitive>();
-            CalculatorsList = new List<ICalculator>();
+            Id = id;
+        }
+
+        public CrossSectionRepository() : this(Guid.NewGuid())
+        {
         }
     }
 }

@@ -31,7 +31,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
 
         public double GetDeltaE()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             TraceLogger?.AddMessage(string.Format("Eccentricity e = {0}", eccentricity));
             TraceLogger?.AddMessage(string.Format("Height h = {0}", size));
             var deltaE = Math.Abs(eccentricity) / size;

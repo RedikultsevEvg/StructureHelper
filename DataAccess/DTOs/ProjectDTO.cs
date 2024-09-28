@@ -25,16 +25,5 @@ namespace DataAccess.DTOs
 
         [JsonIgnore]
         public string FileName { get; set; }
-
-        public ProjectDTO(Guid id)
-        {
-            Id = id;
-        }
-
-        public ProjectDTO() : this (Guid.NewGuid())
-        {
-            
-        }
-
     }
 }

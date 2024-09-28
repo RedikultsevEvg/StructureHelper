@@ -25,7 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public ForcesResults GetForcesResults()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             GetCombinations();
             CalculateResult();
             return result;

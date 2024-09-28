@@ -18,6 +18,9 @@ namespace StructureHelperLogics.Models.Materials
         private IMaterialOptionLogic optionLogic;
         private IFactorLogic factorLogic => new FactorLogic(SafetyFactors);
         private LMLogic.ITrueStrengthLogic strengthLogic;
+
+        /// <inheritdoc/>
+        public Guid Id { get; }
         /// <inheritdoc/>
         public ILibMaterialEntity MaterialEntity { get; set; }
         /// <inheritdoc/>
@@ -38,8 +41,9 @@ namespace StructureHelperLogics.Models.Materials
         public List<IMaterialLogic> MaterialLogics => materialLogics;
 
 
-        public ConcreteLibMaterial()
+        public ConcreteLibMaterial(Guid id)
         {
+            Id = id;
             materialLogics = ProgramSetting.MaterialLogics.Where(x => x.MaterialType == materialType).ToList();
             MaterialLogic = materialLogics.First();
             SafetyFactors = new List<IMaterialSafetyFactor>();
@@ -50,7 +54,12 @@ namespace StructureHelperLogics.Models.Materials
             RelativeHumidity = 0.55d;
             MinAge = 0d;
             MaxAge = maxAge;
-        }       
+        }
+
+        public ConcreteLibMaterial() : this (Guid.NewGuid())
+        {
+            
+        }
 
         public object Clone()
         {

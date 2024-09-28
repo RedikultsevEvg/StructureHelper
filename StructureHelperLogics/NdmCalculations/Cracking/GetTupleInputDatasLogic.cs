@@ -33,7 +33,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public List<TupleCrackInputData> GetTupleInputDatas()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
 
             List<TupleCrackInputData> resultList = new();
             CheckInputData();

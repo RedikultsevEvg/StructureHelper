@@ -30,7 +30,7 @@ namespace StructureHelperCommon.Models.Sections.Logics
         }
         public double GetValue()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             var lengthEccetricity = Length / lengthFactor;
             TraceLogger?.AddMessage(string.Format("Length of member = {0}(m)", Length));
             TraceLogger?.AddMessage(string.Format("Accidental eccentricity by length e,a = {0}(m) / {1} = {2}(m)", Length, lengthFactor, lengthEccetricity));

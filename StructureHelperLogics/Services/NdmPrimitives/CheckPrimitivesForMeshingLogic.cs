@@ -18,7 +18,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
 
         public bool Check()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             if (!Primitives.Any())
             {
                 string errorMessage = string.Intern(ErrorStrings.DataIsInCorrect + $": Count of primitive must be greater than zero");

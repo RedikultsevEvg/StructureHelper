@@ -5,13 +5,13 @@ using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.Materials
 {
-    public class MaterialUpdateStrategy : IUpdateStrategy<IHeadMaterial>
+    public class HeadMaterialUpdateStrategy : IUpdateStrategy<IHeadMaterial>
     {
         private IUpdateStrategy<IElasticMaterial> elasticStrategy;
         private IUpdateStrategy<IFRMaterial> frStrategy;
         private IUpdateStrategy<IConcreteLibMaterial> concreteStrategy;
         private IUpdateStrategy<IReinforcementLibMaterial> reinforcementStrategy;
-        public MaterialUpdateStrategy(IUpdateStrategy<IElasticMaterial> elasticStrategy,
+        public HeadMaterialUpdateStrategy(IUpdateStrategy<IElasticMaterial> elasticStrategy,
             IUpdateStrategy<IFRMaterial> frStrategy,
             IUpdateStrategy<IConcreteLibMaterial> concreteStrategy,
             IUpdateStrategy<IReinforcementLibMaterial> reinforcementStrategy
@@ -22,7 +22,7 @@ namespace StructureHelperLogics.Models.Materials
             this.concreteStrategy = concreteStrategy;
             this.reinforcementStrategy= reinforcementStrategy;
         }
-        public MaterialUpdateStrategy() : this(
+        public HeadMaterialUpdateStrategy() : this(
             new ElasticUpdateStrategy(),
             new FRUpdateStrategy(),
             new ConcreteLibUpdateStrategy(),
@@ -31,7 +31,8 @@ namespace StructureHelperLogics.Models.Materials
 
         public void Update(IHeadMaterial targetObject, IHeadMaterial sourceObject)
         {
-            CheckObject.CompareTypes(targetObject, sourceObject);
+            CheckObject.IsNull(sourceObject);
+            CheckObject.IsNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.Color = sourceObject.Color;

@@ -42,7 +42,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public bool Check()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
             result = true;
             CheckResult = string.Empty;
             CheckPrimitives();

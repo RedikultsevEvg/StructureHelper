@@ -1,4 +1,5 @@
-﻿using StructureHelperLogics.Models.CrossSections;
+﻿using Newtonsoft.Json;
+using StructureHelperLogics.Models.CrossSections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,11 @@ namespace DataAccess.DTOs
 {
     public class CrossSectionDTO : ICrossSection
     {
-        public ICrossSectionRepository SectionRepository { get; }
-
+        [JsonProperty("Id")]
         public Guid Id { get; set; }
+        [JsonProperty("SectionRepository")]
+        public ICrossSectionRepository SectionRepository { get; set; }
+
 
         public object Clone()
         {

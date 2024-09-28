@@ -67,7 +67,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
 
         public void Run()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             TraceLogger?.AddMessage(LoggerStrings.MethodBasedOn + "SP63.13330.2018");
             var checkResult = CheckInputData();
             if (checkResult != "")

@@ -245,7 +245,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
         }
 
-        public AnalysisViewModelLogic(ICrossSectionRepository sectionRepository) : base(sectionRepository.CalculatorsList)
+        public AnalysisViewModelLogic(ICrossSectionRepository sectionRepository) : base(sectionRepository.Calculators)
         {
             repository = sectionRepository;
         }
