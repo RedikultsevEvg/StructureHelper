@@ -57,6 +57,7 @@ namespace DataAccess.DTOs
                 { (typeof(List<IPartialFactor>), "ListOfPartialFactor") },
                 { (typeof(List<IVisualAnalysis>), "ListOfIVisualAnalysis") },
                 { (typeof(ProjectDTO), "Project") },
+                { (typeof(ReinforcementLibMaterialDTO), "ReinforcementLibMaterial") },
                 { (typeof(MaterialPartialFactorDTO), "MaterialPartialFactor") },
                 { (typeof(VersionProcessorDTO), "VersionProcessor") },
                 { (typeof(VisualAnalysisDTO), "VisualAnalysis") },

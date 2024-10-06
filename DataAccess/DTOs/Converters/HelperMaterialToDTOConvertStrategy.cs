@@ -9,21 +9,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.DTOs.Converters
+namespace DataAccess.DTOs
 {
     internal class HelperMaterialToDTOConvertStrategy : IConvertStrategy<IHelperMaterial, IHelperMaterial>
     {
-        private IConvertStrategy<ConcreteLibMaterialDTO, IConcreteLibMaterial> concreteConvertStrategy;
+        private LibMaterialToDTOConvertStrategy<ConcreteLibMaterialDTO, IConcreteLibMaterial> concreteConvertStrategy;
+        private LibMaterialToDTOConvertStrategy<ReinforcementLibMaterialDTO, IReinforcementLibMaterial> reinforcementConvertStrategy;
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
         public HelperMaterialToDTOConvertStrategy(
-            IConvertStrategy<ConcreteLibMaterialDTO, IConcreteLibMaterial> concreteConvertStrategy)
+            LibMaterialToDTOConvertStrategy<ConcreteLibMaterialDTO, IConcreteLibMaterial> concreteConvertStrategy,
+            LibMaterialToDTOConvertStrategy<ReinforcementLibMaterialDTO, IReinforcementLibMaterial> reinforcementConvertStrategy)
         {
             this.concreteConvertStrategy = concreteConvertStrategy;
+            this.reinforcementConvertStrategy = reinforcementConvertStrategy;
         }
 
-        public HelperMaterialToDTOConvertStrategy() : this (new ConcreteLibMaterialToDTOConvertStrategy())
+        public HelperMaterialToDTOConvertStrategy() : this (
+            new ConcreteLibMaterialToDTOConvertStrategy(),
+            new ReinforcementLibMaterialToDTOConvertStrategy())
         {
             
         }
@@ -39,7 +44,9 @@ namespace DataAccess.DTOs.Converters
             }
             if (source is IReinforcementLibMaterial reinforcementMaterial)
             {
-                return source;
+                reinforcementConvertStrategy.ReferenceDictionary = ReferenceDictionary;
+                reinforcementConvertStrategy.TraceLogger = TraceLogger;
+                return reinforcementConvertStrategy.Convert(reinforcementMaterial);
             }
             else
             {
