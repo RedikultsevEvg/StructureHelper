@@ -1,7 +1,9 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelper.Windows.MainGraph;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.Models.Graphs;
 using System;
 
 namespace StructureHelper.Windows.MainWindow.Analyses
@@ -35,6 +37,10 @@ namespace StructureHelper.Windows.MainWindow.Analyses
             {
                 ProcessCrossSection(crossSection);
             }
+            else if (version.Item is IGraph graph)
+            {
+                ProcessEditGraph(graph);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(version));
@@ -44,6 +50,11 @@ namespace StructureHelper.Windows.MainWindow.Analyses
         private void ProcessCrossSection(ICrossSection crossSection)
         {
             var window = new CrossSectionView(crossSection);
+            window.ShowDialog();
+        }
+        private void ProcessEditGraph(IGraph graph)
+        {
+            var window = new GraphView();
             window.ShowDialog();
         }
 

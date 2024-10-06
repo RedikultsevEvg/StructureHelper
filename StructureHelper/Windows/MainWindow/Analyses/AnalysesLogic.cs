@@ -1,8 +1,10 @@
 ﻿using StructureHelper.Infrastructure;
+using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.MainWindow.Analyses;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogic.Models.Analyses;
+using StructureHelperLogics.Models.Editors;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +19,7 @@ namespace StructureHelper.Windows.MainWindow
     public class AnalysesLogic : ViewModelBase
     {
         private RelayCommand? addAnalyisCommand;
+        private RelayCommand? addEditorCommand;
         private RelayCommand? runCommand;
         private RelayCommand? editCommand;
         private RelayCommand? deleteCommand;
@@ -31,6 +34,17 @@ namespace StructureHelper.Windows.MainWindow
                 return addAnalyisCommand ??= new RelayCommand(obj =>
                 {
                     AddCrossSectionNdmAnalysis();
+                    Refresh();
+                });
+            }
+        }
+        public RelayCommand AddGraphEditorCommand
+        {
+            get
+            {
+                return addEditorCommand ??= new RelayCommand(obj =>
+                {
+                    AddGraphEditor();
                     Refresh();
                 });
             }
@@ -122,6 +136,14 @@ namespace StructureHelper.Windows.MainWindow
             analysis.Name = "New NDM Analysis";
             analysis.Tags = "#New group";
             var visualAnalysis = new VisualAnalysis(analysis);
+            ProgramSetting.CurrentProject.VisualAnalyses.Add(visualAnalysis);
+        }
+        private void AddGraphEditor()
+        {
+            var editor = new GraphEditorAnalysis();
+            editor.Name = "New Graph Editor";
+            editor.Tags = "#New group";
+            var visualAnalysis = new VisualAnalysis(editor);
             ProgramSetting.CurrentProject.VisualAnalyses.Add(visualAnalysis);
         }
     }

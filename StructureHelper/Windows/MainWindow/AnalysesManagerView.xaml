@@ -33,7 +33,7 @@
                     </Button>
                 </ToolBar>
                 <ToolBar ToolTip="Diagrams">
-                    <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" ToolTip="Diagrams">
+                    <Button Style="{StaticResource ToolButton}" Command="{Binding AnalysesLogic.AddGraphEditorCommand}" ToolTip="Diagrams">
                         <Viewbox>
                             <ContentControl ContentTemplate="{DynamicResource Diagrams}"/>
                         </Viewbox>
