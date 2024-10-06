@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
@@ -18,6 +19,7 @@ namespace StructureHelperLogics.Models.Materials
         private IMaterialOptionLogic optionLogic;
         private IFactorLogic factorLogic => new FactorLogic(SafetyFactors);
         private LMLogic.ITrueStrengthLogic strengthLogic;
+        private IUpdateStrategy<IConcreteLibMaterial> updateStrategy = new ConcreteLibUpdateStrategy();
 
         /// <inheritdoc/>
         public Guid Id { get; }
@@ -64,7 +66,6 @@ namespace StructureHelperLogics.Models.Materials
         public object Clone()
         {
             var newItem = new ConcreteLibMaterial();
-            var updateStrategy = new ConcreteLibUpdateStrategy();
             updateStrategy.Update(newItem, this);
             return newItem;
         }

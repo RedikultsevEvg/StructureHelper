@@ -3,6 +3,7 @@ using LoaderCalculator.Data.Materials.MaterialBuilders;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Services;
+using System;
 
 namespace StructureHelperCommon.Models.Materials
 {
@@ -12,6 +13,7 @@ namespace StructureHelperCommon.Models.Materials
         private ReinforcementOptions materialOptions;
         private IMaterialOptionLogic optionLogic;
 
+        public Guid Id { get; private set; }
         public string Name { get; set; }
         public DiagramType DiagramType { get; set; }
         public IMaterialLogicOptions Options
@@ -26,6 +28,10 @@ namespace StructureHelperCommon.Models.Materials
 
         public MaterialTypes MaterialType { get; set; }
 
+        public ReinforcementByBuilderLogic(Guid id)
+        {
+            Id = id;
+        }
         public IMaterial GetLoaderMaterial()
         {
             GetLoaderOptions();

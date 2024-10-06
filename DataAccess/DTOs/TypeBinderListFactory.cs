@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
@@ -43,15 +44,20 @@ namespace DataAccess.DTOs
                 { (typeof(DateVersionDTO), "DateVersion") },
                 { (typeof(FileVersionDTO), "FileVersion") },
                 { (typeof(HeadMaterialDTO), "HeadMaterial") },
+                { (typeof(MaterialSafetyFactorDTO), "MaterialSafetyFactor") },
                 { (typeof(NdmPrimitiveDTO), "NdmPrimitive") },
                 { (typeof(IVisualAnalysis), "IVisualAnalysis") },
                 { (typeof(List<ICalculator>), "ListOfICalculator") },
                 { (typeof(List<IDateVersion>), "ListOfIDateVersion") },
                 { (typeof(List<IForceAction>), "ListOfIForceAction") },
                 { (typeof(List<IHeadMaterial>), "ListOfIHeadMaterial") },
+                { (typeof(List<IMaterialSafetyFactor>), "ListOfMaterialSafetyFactor") },
+                { (typeof(List<IMaterialPartialFactor>), "ListOfMaterialPartialFactor") },
                 { (typeof(List<INdmPrimitive>), "ListOfINdmPrimitive") },
+                { (typeof(List<IPartialFactor>), "ListOfPartialFactor") },
                 { (typeof(List<IVisualAnalysis>), "ListOfIVisualAnalysis") },
                 { (typeof(ProjectDTO), "Project") },
+                { (typeof(MaterialPartialFactorDTO), "MaterialPartialFactor") },
                 { (typeof(VersionProcessorDTO), "VersionProcessor") },
                 { (typeof(VisualAnalysisDTO), "VisualAnalysis") },
             };

@@ -13,11 +13,16 @@ namespace StructureHelperLogics.Models.Materials
     {
         public void Update(ILibMaterial targetObject, ILibMaterial sourceObject)
         {
-            CheckObject.CompareTypes(targetObject, sourceObject);
+            CheckObject.IsNull(sourceObject);
+            CheckObject.IsNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.MaterialEntity = sourceObject.MaterialEntity;
-            if (targetObject.SafetyFactors is not null & sourceObject.SafetyFactors is not null)
+            if (sourceObject.SafetyFactors is not null)
             {
+                if (targetObject.SafetyFactors is null)
+                {
+                    targetObject.SafetyFactors = new();
+                }
                 targetObject.SafetyFactors.Clear();
                 foreach (var item in sourceObject.SafetyFactors)
                 {

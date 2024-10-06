@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Materials.MaterialBuilders;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Materials
 {
-    public interface IMaterialLogic
+    public interface IMaterialLogic : ISaveable
     {
         string Name { get; set; }
         IMaterialLogicOptions Options { get; set; }
