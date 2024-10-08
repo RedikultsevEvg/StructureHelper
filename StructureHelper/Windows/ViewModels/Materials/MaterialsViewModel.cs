@@ -73,7 +73,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
             }
             else
             {
-                var updateStrategy = new MaterialUpdateStrategy();
+                var updateStrategy = new HeadMaterialUpdateStrategy();
                 updateStrategy.Update(SelectedItem, copyObject);
             }
             base.EditMethod(parameter);

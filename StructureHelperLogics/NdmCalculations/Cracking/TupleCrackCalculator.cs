@@ -62,7 +62,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public void Run()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             PrepareNewResult();
 
             try

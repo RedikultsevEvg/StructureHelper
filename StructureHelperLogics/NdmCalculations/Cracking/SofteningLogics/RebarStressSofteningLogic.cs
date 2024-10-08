@@ -69,7 +69,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public double GetSofteningFactor()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
             if (IsResultActual == false)
             {
                 GetRebarAndConcreteNdms();

@@ -21,12 +21,15 @@ namespace StructureHelperLogics.Models.Materials
         }
         public void Update(IConcreteLibMaterial targetObject, IConcreteLibMaterial sourceObject)
         {
-            CheckObject.CompareTypes(targetObject, sourceObject);
+            CheckObject.IsNull(sourceObject);
+            CheckObject.IsNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             libUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.TensionForULS = sourceObject.TensionForULS;
             targetObject.TensionForSLS = sourceObject.TensionForSLS;
             targetObject.RelativeHumidity = sourceObject.RelativeHumidity;
+            targetObject.MinAge = sourceObject.MinAge;
+            targetObject.MaxAge = sourceObject.MaxAge;
         }
     }
 }

@@ -22,16 +22,23 @@ namespace StructureHelperLogics.Models.Materials
         private LoaderMaterialLogics.ITrueStrengthLogic strengthLogic;
         private readonly List<IMaterialLogic> materialLogics;
 
+        public Guid Id { get; }
         public ILibMaterialEntity MaterialEntity { get; set; }
-        public List<IMaterialSafetyFactor> SafetyFactors { get; set; }
+        public List<IMaterialSafetyFactor> SafetyFactors { get; set; } = new();
         public IMaterialLogic MaterialLogic { get; set; }
-
         public List<IMaterialLogic> MaterialLogics => materialLogics;
-        public ReinforcementLibMaterial()
+
+
+        public ReinforcementLibMaterial(Guid id)
         {
+            Id = id;
             materialLogics = ProgramSetting.MaterialLogics.Where(x => x.MaterialType == materialType).ToList();
             MaterialLogic = materialLogics.First();
-            SafetyFactors = new List<IMaterialSafetyFactor>();
+        }
+
+        public ReinforcementLibMaterial() : this (Guid.NewGuid())
+        {
+            
         }
 
         public object Clone()

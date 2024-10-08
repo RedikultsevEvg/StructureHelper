@@ -31,21 +31,35 @@ namespace DataAccess.DTOs
 
         public ProjectDTO Convert(IProject source)
         {
-            ProjectDTO projectDTO = new(source.Id);
-            updateStrategy.Update(projectDTO, source);
+            Check();
+            ProjectDTO newItem = new()
+            {
+                Id = source.Id
+            };
+            updateStrategy.Update(newItem, source);
             convertStrategy.ReferenceDictionary = ReferenceDictionary;
+            convertStrategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<VisualAnalysisDTO, IVisualAnalysis>()
             {
                 ReferenceDictionary = ReferenceDictionary,
                 ConvertStrategy = convertStrategy,
                 TraceLogger = TraceLogger
             };
+            newItem.VisualAnalyses.Clear();
             foreach (var item in source.VisualAnalyses)
             {
                 var newVisualAnalysis = convertLogic.Convert(item);
-                projectDTO.VisualAnalyses.Add(newVisualAnalysis);
+                newItem.VisualAnalyses.Add(newVisualAnalysis);
             }
-            return projectDTO;
+            return newItem;
+        }
+
+        private void Check()
+        {
+            var checkLogic = new CheckConvertLogic<ProjectDTO, IProject>();
+            checkLogic.ConvertStrategy = this;
+            checkLogic.TraceLogger = TraceLogger;
+            checkLogic.Check();
         }
     }
 }

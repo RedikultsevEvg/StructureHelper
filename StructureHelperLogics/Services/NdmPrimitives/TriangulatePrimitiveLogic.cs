@@ -33,7 +33,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
 
         public List<INdm> GetNdms()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             CheckPrimitives();
             ndmCollection = new List<INdm>();
             SetLogics();

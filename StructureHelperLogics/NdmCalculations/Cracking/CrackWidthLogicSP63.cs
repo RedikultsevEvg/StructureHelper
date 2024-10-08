@@ -33,7 +33,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public double GetCrackWidth()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             CheckOptions();
             TraceLogger?.AddMessage("Method of crack width calculation based on SP 63.13330.2018");
             TraceInputData();

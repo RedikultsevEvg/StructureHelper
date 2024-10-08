@@ -20,7 +20,7 @@ namespace StructureHelper.Services.Settings
         {
             get
             {
-                materials ??= new ListRepository<IHeadMaterial>(new MaterialUpdateStrategy());
+                materials ??= new ListRepository<IHeadMaterial>(new HeadMaterialUpdateStrategy());
                 return materials;
             }
         }

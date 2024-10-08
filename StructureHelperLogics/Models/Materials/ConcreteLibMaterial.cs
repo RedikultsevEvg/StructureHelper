@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
@@ -18,6 +19,10 @@ namespace StructureHelperLogics.Models.Materials
         private IMaterialOptionLogic optionLogic;
         private IFactorLogic factorLogic => new FactorLogic(SafetyFactors);
         private LMLogic.ITrueStrengthLogic strengthLogic;
+        private IUpdateStrategy<IConcreteLibMaterial> updateStrategy = new ConcreteLibUpdateStrategy();
+
+        /// <inheritdoc/>
+        public Guid Id { get; }
         /// <inheritdoc/>
         public ILibMaterialEntity MaterialEntity { get; set; }
         /// <inheritdoc/>
@@ -38,8 +43,9 @@ namespace StructureHelperLogics.Models.Materials
         public List<IMaterialLogic> MaterialLogics => materialLogics;
 
 
-        public ConcreteLibMaterial()
+        public ConcreteLibMaterial(Guid id)
         {
+            Id = id;
             materialLogics = ProgramSetting.MaterialLogics.Where(x => x.MaterialType == materialType).ToList();
             MaterialLogic = materialLogics.First();
             SafetyFactors = new List<IMaterialSafetyFactor>();
@@ -50,12 +56,16 @@ namespace StructureHelperLogics.Models.Materials
             RelativeHumidity = 0.55d;
             MinAge = 0d;
             MaxAge = maxAge;
-        }       
+        }
+
+        public ConcreteLibMaterial() : this (Guid.NewGuid())
+        {
+            
+        }
 
         public object Clone()
         {
             var newItem = new ConcreteLibMaterial();
-            var updateStrategy = new ConcreteLibUpdateStrategy();
             updateStrategy.Update(newItem, this);
             return newItem;
         }

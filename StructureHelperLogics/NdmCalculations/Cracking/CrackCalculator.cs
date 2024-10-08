@@ -64,7 +64,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             PrepareNewResult();
             CheckInputData();
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             try
             {
                 ProcessCalculations();

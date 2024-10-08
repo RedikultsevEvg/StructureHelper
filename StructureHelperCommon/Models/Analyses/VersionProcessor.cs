@@ -19,7 +19,7 @@ namespace StructureHelperCommon.Models.Analyses
             Id = id;
             Versions = new();
         }
-        public VersionProcessor() : this (new Guid())
+        public VersionProcessor() : this (Guid.NewGuid())
         {
             
         }
@@ -34,7 +34,7 @@ namespace StructureHelperCommon.Models.Analyses
             var version = new DateVersion()
             {
                 DateTime = DateTime.Now,
-                Item = newItem
+                AnalysisVersion = newItem
             };
             AddVersion(version);
         }

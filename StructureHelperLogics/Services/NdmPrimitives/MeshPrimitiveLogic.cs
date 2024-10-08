@@ -23,7 +23,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
 
         public List<INdm> MeshPrimitive()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             List<INdm> ndmCollection = new();
             var itemNdms = Primitive.GetNdms(TriangulationOptions);
             ndmCollection.AddRange(itemNdms);

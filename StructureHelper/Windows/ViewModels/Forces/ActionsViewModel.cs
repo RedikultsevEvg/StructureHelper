@@ -92,7 +92,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
         private bool DeleteAction()
         {
             bool result = true;
-            var calcRepository = repository.CalculatorsList;
+            var calcRepository = repository.Calculators;
             foreach (var calc in calcRepository)
             {
                 if (calc is ForceCalculator forceCalculator)

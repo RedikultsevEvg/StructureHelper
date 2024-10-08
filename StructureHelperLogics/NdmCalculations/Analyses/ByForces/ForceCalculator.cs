@@ -40,7 +40,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public void Run()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             checkInputDataLogic.InputData = InputData;
             checkInputDataLogic.TraceLogger = TraceLogger;
             if (checkInputDataLogic.Check() != true)

@@ -32,7 +32,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         }
         public double GetTensionRebarArea()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             TraceLogger?.AddMessage("Method of obtaining of summary area of rebars in tension based on ordinary summarizing of areas");
             var rebars = Rebars
                 .Where(x => stressLogic.GetSectionStrain(StrainMatrix, x) > 0d);

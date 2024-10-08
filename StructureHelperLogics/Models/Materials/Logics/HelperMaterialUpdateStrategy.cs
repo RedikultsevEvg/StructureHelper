@@ -1,17 +1,21 @@
-﻿using StructureHelper.Models.Materials;
-using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Materials
 {
-    public class MaterialUpdateStrategy : IUpdateStrategy<IHeadMaterial>
+    public class HelperMaterialUpdateStrategy : IUpdateStrategy<IHelperMaterial>
     {
         private IUpdateStrategy<IElasticMaterial> elasticStrategy;
         private IUpdateStrategy<IFRMaterial> frStrategy;
         private IUpdateStrategy<IConcreteLibMaterial> concreteStrategy;
         private IUpdateStrategy<IReinforcementLibMaterial> reinforcementStrategy;
-        public MaterialUpdateStrategy(IUpdateStrategy<IElasticMaterial> elasticStrategy,
+        public HelperMaterialUpdateStrategy(IUpdateStrategy<IElasticMaterial> elasticStrategy,
             IUpdateStrategy<IFRMaterial> frStrategy,
             IUpdateStrategy<IConcreteLibMaterial> concreteStrategy,
             IUpdateStrategy<IReinforcementLibMaterial> reinforcementStrategy
@@ -20,28 +24,20 @@ namespace StructureHelperLogics.Models.Materials
             this.elasticStrategy = elasticStrategy;
             this.frStrategy = frStrategy;
             this.concreteStrategy = concreteStrategy;
-            this.reinforcementStrategy= reinforcementStrategy;
+            this.reinforcementStrategy = reinforcementStrategy;
         }
-        public MaterialUpdateStrategy() : this(
+        public HelperMaterialUpdateStrategy() : this(
             new ElasticUpdateStrategy(),
             new FRUpdateStrategy(),
             new ConcreteLibUpdateStrategy(),
             new ReinforcementLibUpdateStrategy()
-        )  {         }
+        )
+        { }
 
-        public void Update(IHeadMaterial targetObject, IHeadMaterial sourceObject)
+        public void Update(IHelperMaterial targetObject, IHelperMaterial sourceObject)
         {
-            CheckObject.CompareTypes(targetObject, sourceObject);
-            if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            targetObject.Name = sourceObject.Name;
-            targetObject.Color = sourceObject.Color;
-            targetObject.HelperMaterial = sourceObject.HelperMaterial.Clone() as IHelperMaterial;
-            UpdateHelperMaterial(targetObject.HelperMaterial, sourceObject.HelperMaterial);
-        }
-
-        private void UpdateHelperMaterial(IHelperMaterial targetObject, IHelperMaterial sourceObject)
-        {
-            CheckObject.CompareTypes(targetObject, sourceObject);
+            CheckObject.IsNull(sourceObject);
+            CheckObject.IsNull(targetObject);
             if (sourceObject is ILibMaterial)
             {
                 UpdateLibMaterial(targetObject, sourceObject);

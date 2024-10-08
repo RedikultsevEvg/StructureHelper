@@ -27,7 +27,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
 
         List<INdm> IMeshPrimitiveLogic.MeshPrimitive()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             CheckPrimitive();
             List<INdm> ndmCollection = new();
             if (Primitive.NdmElement.HeadMaterial.HelperMaterial is ICrackedMaterial)

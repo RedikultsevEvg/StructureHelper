@@ -65,7 +65,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <inheritdoc/>
         public double GetSofteningFactor()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
             TraceLogger?.AddMessage($"Logic of calculation of psi_s factor based on exponential softening model");
             TraceLogger?.AddMessage($"psi_s = 1 - BettaFactor * ForceRatio ^ PowerFactor");
             TraceLogger?.AddMessage($"But not less than psi_s_min = {PsiSMin}");

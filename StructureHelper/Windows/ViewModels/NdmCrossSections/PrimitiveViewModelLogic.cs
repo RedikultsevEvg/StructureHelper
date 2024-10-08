@@ -134,7 +134,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             {
                 var ndmPrimitive = SelectedItem.GetNdmPrimitive();
                 repository.Primitives.Remove(ndmPrimitive);
-                foreach (var calc in repository.CalculatorsList)
+                foreach (var calc in repository.Calculators)
                 {
                     if (calc is ForceCalculator forceCalculator)
                     {

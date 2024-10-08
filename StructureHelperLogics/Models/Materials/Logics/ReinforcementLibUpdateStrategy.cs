@@ -21,7 +21,8 @@ namespace StructureHelperLogics.Models.Materials
         }
         public void Update(IReinforcementLibMaterial targetObject, IReinforcementLibMaterial sourceObject)
         {
-            CheckObject.CompareTypes(targetObject, sourceObject);
+            CheckObject.IsNull(sourceObject);
+            CheckObject.IsNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             libUpdateStrategy.Update(targetObject, sourceObject);
         }

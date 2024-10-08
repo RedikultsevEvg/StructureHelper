@@ -9,8 +9,18 @@ namespace StructureHelperCommon.Models.Analyses
 {
     public class DateVersion : IDateVersion
     {
+        public Guid Id { get; }
         public DateTime DateTime { get; set; }
+        public ISaveable AnalysisVersion { get; set; }
 
-        public ISaveable Item { get; set; }
+        public DateVersion(Guid id)
+        {
+            Id = id;
+        }
+
+        public DateVersion() : this (Guid.NewGuid())
+        {
+            
+        }
     }
 }

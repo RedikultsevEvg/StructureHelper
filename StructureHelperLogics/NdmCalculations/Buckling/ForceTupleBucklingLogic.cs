@@ -31,7 +31,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
 
         public GenericResult<IForceTuple> GetForceTupleByBuckling()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
 
             var tuple = bucklingInputData.ForceTuple.Clone() as IForceTuple;
             

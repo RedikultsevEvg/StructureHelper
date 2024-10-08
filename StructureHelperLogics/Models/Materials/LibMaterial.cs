@@ -28,6 +28,8 @@ namespace StructureHelperLogics.Models.Materials
 
         public List<IMaterialLogic> MaterialLogics => throw new NotImplementedException();
 
+        public Guid Id => throw new NotImplementedException();
+
         public LibMaterial(MaterialTypes materialType, CodeTypes codeType, string name, double mainStrength)
         {
             this.MaterialType = materialType;

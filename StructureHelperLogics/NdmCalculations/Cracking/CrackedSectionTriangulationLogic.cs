@@ -43,7 +43,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <inheritdoc/>
         public List<INdm> GetNdmCollection()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             TraceLogger?.AddMessage(ndmPrimitiveCountMessage, TraceLogStatuses.Debug);
             triangulateLogic = new TriangulatePrimitiveLogic()
             {
@@ -57,7 +57,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <inheritdoc/>
         public List<INdm> GetCrackedNdmCollection()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             TraceLogger?.AddMessage(ndmPrimitiveCountMessage, TraceLogStatuses.Debug);
             triangulateLogic = new TriangulatePrimitiveLogic(new MeshCrackedConcreteLogic())
             {
@@ -72,7 +72,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <inheritdoc/>
         public List<IRebarPrimitive> GetRebarPrimitives()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
             TraceLogger?.AddMessage(ndmPrimitiveCountMessage, TraceLogStatuses.Debug);
             List<IRebarPrimitive> rebarPrimitives = new();
             foreach (var item in NdmPrimitives)
@@ -90,7 +90,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <inheritdoc/>
         public List<INdm> GetElasticNdmCollection()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
             TraceLogger?.AddMessage(ndmPrimitiveCountMessage, TraceLogStatuses.Debug);
             triangulateLogic = new TriangulatePrimitiveLogic(new MeshElasticLogic())
             {

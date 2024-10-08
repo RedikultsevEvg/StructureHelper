@@ -26,7 +26,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public double GetTensileArea()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
 
             var rebarCollection = NdmCollection
                 .Where(x => x is RebarNdm & stressLogic.GetSectionStrain(StrainMatrix, x) > 0d);

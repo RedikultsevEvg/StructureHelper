@@ -41,7 +41,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public void Run()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
             TraceLogger?.AddMessage($"Rebar primitive {InputData.RebarPrimitive.Name}");
             PrepareNewResult();
            if (CheckInputData() != true)

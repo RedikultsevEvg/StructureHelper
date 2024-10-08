@@ -54,7 +54,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public void Run()
         {
-            TraceLogger?.AddMessage(LoggerStrings.CalculatorType(this), TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
             PrepareNewResult();
             ProcessCrackWidthCalculation();
         }

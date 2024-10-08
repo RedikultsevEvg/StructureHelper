@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,12 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Materials.Libraries
 {
-    internal class MaterialPartialFactorUpdateStrategy : IUpdateStrategy<IMaterialPartialFactor>
+    public class MaterialPartialFactorUpdateStrategy : IUpdateStrategy<IMaterialPartialFactor>
     {
         public void Update(IMaterialPartialFactor targetObject, IMaterialPartialFactor sourceObject)
         {
+            CheckObject.IsNull(sourceObject);
+            CheckObject.IsNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.LimitState = sourceObject.LimitState;
             targetObject.StressState = sourceObject.StressState;

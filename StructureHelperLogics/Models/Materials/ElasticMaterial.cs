@@ -16,11 +16,18 @@ namespace StructureHelperLogics.Models.Materials
         public double Modulus { get; set; }
         public double CompressiveStrength { get; set; }
         public double TensileStrength { get; set; }
-        public List<IMaterialSafetyFactor> SafetyFactors { get; }
+        public List<IMaterialSafetyFactor> SafetyFactors { get; } = new();
 
-        public ElasticMaterial()
+        public Guid Id { get; }
+
+        public ElasticMaterial(Guid id)
         {
-            SafetyFactors = new List<IMaterialSafetyFactor>();
+            Id = id;
+        }
+
+        public ElasticMaterial() : this(Guid.NewGuid())
+        {
+            
         }
 
         public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
