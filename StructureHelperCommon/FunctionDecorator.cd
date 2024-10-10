@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="StructureHelperCommon.Models.Functions.TableFunction" BaseTypeListCollapsed="true">
+    <Position X="3" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAQAAAAIAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Models\Functions\TableFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="StructureHelperCommon.Models.Functions.FormulaFunction" BaseTypeListCollapsed="true">
+    <Position X="1.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAQAAAAIAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Models\Functions\FormulaFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="StructureHelperCommon.Infrastructures.Interfaces.IOneVariableFunction">
+    <Position X="2" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAQAAAAIAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Infrastructures\Interfaces\IOneVariableFunction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="StructureHelperCommon.Models.Functions.IScaleFunction">
+    <Position X="9" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Functions\IScaleFunction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="StructureHelperCommon.Models.Functions.ILimitFunction">
+    <Position X="7.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Functions\ILimitFunction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="StructureHelperCommon.Infrastructures.Interfaces.IFunctionDecorator">
+    <Position X="8" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructures\Interfaces\IFunctionDecorator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
