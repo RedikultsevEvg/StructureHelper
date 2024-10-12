@@ -35,7 +35,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             var diameter = template.Shape.Diameter;
             var concreteMaterial = HeadMaterials.ToList()[0];
             var primitives = new List<INdmPrimitive>();
-            concreteBlock = new EllipsePrimitive() { DiameterByX = diameter, Name = "Concrete block"};
+            concreteBlock = new EllipsePrimitive() { Width = diameter, Name = "Concrete block"};
             concreteBlock.NdmElement.HeadMaterial = concreteMaterial;
             primitives.Add(concreteBlock);
             return primitives;

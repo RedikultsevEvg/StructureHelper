@@ -15,11 +15,11 @@ namespace StructureHelperCommon.Models.Forces
         {
             if (forceType == ForceType.Force_zero)
             {
-                return new DesignForceTuple(limitState, calcTerm);
+                return new DesignForceTuple() { LimitState = limitState, CalcTerm = calcTerm };
             }
             else if (forceType == ForceType.Force_Mx50My50Nz100)
             {
-                var tuple = new DesignForceTuple(limitState, calcTerm);
+                var tuple = new DesignForceTuple() { LimitState = limitState, CalcTerm = calcTerm };
                 var forceTuple = tuple.ForceTuple;
                 forceTuple.Mx = -50e3d;
                 forceTuple.My = -50e3d;

@@ -17,18 +17,6 @@ namespace StructureHelperLogics.Models.Materials
             CheckObject.IsNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.MaterialEntity = sourceObject.MaterialEntity;
-            if (sourceObject.SafetyFactors is not null)
-            {
-                if (targetObject.SafetyFactors is null)
-                {
-                    targetObject.SafetyFactors = new();
-                }
-                targetObject.SafetyFactors.Clear();
-                foreach (var item in sourceObject.SafetyFactors)
-                {
-                    targetObject.SafetyFactors.Add(item.Clone() as IMaterialSafetyFactor);
-                }
-            }
             targetObject.MaterialLogic = sourceObject.MaterialLogic;
 
         }

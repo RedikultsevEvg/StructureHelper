@@ -28,7 +28,7 @@ namespace DataAccess.DTOs
         [JsonProperty("TensileStrength")]
         public double TensileStrength { get; set; }
         [JsonProperty("SafetyFactors")]
-        public List<IMaterialSafetyFactor> SafetyFactors { get; } = new();
+        public List<IMaterialSafetyFactor> SafetyFactors { get; set; } = new();
 
 
         public object Clone()

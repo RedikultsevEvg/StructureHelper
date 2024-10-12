@@ -1,6 +1,8 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Services;
+using StructureHelperLogics.Models.Materials.Logics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,7 @@ namespace StructureHelperLogics.Models.Materials
         private IUpdateStrategy<IFRMaterial> frStrategy;
         private IUpdateStrategy<IConcreteLibMaterial> concreteStrategy;
         private IUpdateStrategy<IReinforcementLibMaterial> reinforcementStrategy;
+        private IUpdateStrategy<IHelperMaterial> safetyFactorUpdateStrategy = new HelpermaterialSafetyFactorsUpdateStrategy();
         public HelperMaterialUpdateStrategy(IUpdateStrategy<IElasticMaterial> elasticStrategy,
             IUpdateStrategy<IFRMaterial> frStrategy,
             IUpdateStrategy<IConcreteLibMaterial> concreteStrategy,
@@ -38,6 +41,8 @@ namespace StructureHelperLogics.Models.Materials
         {
             CheckObject.IsNull(sourceObject);
             CheckObject.IsNull(targetObject);
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
+            safetyFactorUpdateStrategy.Update(targetObject, sourceObject);
             if (sourceObject is ILibMaterial)
             {
                 UpdateLibMaterial(targetObject, sourceObject);

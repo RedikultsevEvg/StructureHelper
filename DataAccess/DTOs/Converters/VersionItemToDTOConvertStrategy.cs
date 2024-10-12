@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DataAccess.DTOs.Converters
+namespace DataAccess.DTOs
 {
     public class VersionItemToDTOConvertStrategy : IConvertStrategy<ISaveable, ISaveable>
     {

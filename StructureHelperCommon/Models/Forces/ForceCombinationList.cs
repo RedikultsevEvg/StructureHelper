@@ -32,10 +32,26 @@ namespace StructureHelperCommon.Models.Forces
             ForcePoint = new Point2D() { X = 0, Y = 0 };
             DesignForces = new List<IDesignForceTuple>
             {
-                new DesignForceTuple(LimitStates.ULS, CalcTerms.ShortTerm),
-                new DesignForceTuple(LimitStates.ULS, CalcTerms.LongTerm),
-                new DesignForceTuple(LimitStates.SLS, CalcTerms.ShortTerm),
-                new DesignForceTuple(LimitStates.SLS, CalcTerms.LongTerm)
+                new DesignForceTuple()
+                {
+                    LimitState = LimitStates.ULS,
+                    CalcTerm = CalcTerms.ShortTerm
+                },
+                new DesignForceTuple()
+                {
+                    LimitState = LimitStates.ULS,
+                    CalcTerm = CalcTerms.LongTerm
+                },
+                new DesignForceTuple()
+                {
+                    LimitState = LimitStates.SLS,
+                    CalcTerm = CalcTerms.ShortTerm
+                },
+                new DesignForceTuple()
+                {
+                    LimitState = LimitStates.SLS,
+                    CalcTerm = CalcTerms.LongTerm
+                }
             };
         }
         public ForceCombinationList() : this (Guid.NewGuid()) { }

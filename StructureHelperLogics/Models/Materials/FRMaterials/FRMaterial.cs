@@ -21,7 +21,7 @@ namespace StructureHelperLogics.Models.Materials
         public double CompressiveStrength { get; set; }
         public double TensileStrength { get; set; }
 
-        public List<IMaterialSafetyFactor> SafetyFactors { get; } = new();
+        public List<IMaterialSafetyFactor> SafetyFactors { get; set; } = new();
         public double ULSConcreteStrength { get; set; }
         public double SumThickness { get; set; }
         public double GammaF2 => GetGammaF2();

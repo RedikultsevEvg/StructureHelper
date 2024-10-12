@@ -8,20 +8,21 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public class FactorCombinationUpdateStrategy : IUpdateStrategy<IForceCombinationByFactor>
+    public class ForceCombinationByFactorUpdateStrategy : IUpdateStrategy<IForceCombinationByFactor>
     {
         private IUpdateStrategy<IForceTuple> tupleUpdateStrategy;
-        public FactorCombinationUpdateStrategy(IUpdateStrategy<IForceTuple> tupleUpdateStrategy)
+        public ForceCombinationByFactorUpdateStrategy(IUpdateStrategy<IForceTuple> tupleUpdateStrategy)
         {
             this.tupleUpdateStrategy = tupleUpdateStrategy;
         }
-        public FactorCombinationUpdateStrategy() : this(new ForceTupleUpdateStrategy())
+        public ForceCombinationByFactorUpdateStrategy() : this(new ForceTupleUpdateStrategy())
         {
             
         }
         public void Update(IForceCombinationByFactor targetObject, IForceCombinationByFactor sourceObject)
         {
-            CheckObject.CompareTypes(targetObject, sourceObject);
+            CheckObject.IsNull(targetObject);
+            CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             tupleUpdateStrategy.Update(targetObject.FullSLSForces, sourceObject.FullSLSForces);
             targetObject.ULSFactor = sourceObject.ULSFactor;

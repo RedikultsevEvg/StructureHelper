@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Materials
 {
-    internal class ElasticUpdateStrategy : IUpdateStrategy<IElasticMaterial>
+    public class ElasticUpdateStrategy : IUpdateStrategy<IElasticMaterial>
     {
         public void Update(IElasticMaterial targetObject, IElasticMaterial sourceObject)
         {
-            CheckObject.CompareTypes(targetObject, sourceObject);
+            CheckObject.IsNull(targetObject);
+            CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Modulus = sourceObject.Modulus;
             targetObject.CompressiveStrength = sourceObject.CompressiveStrength;

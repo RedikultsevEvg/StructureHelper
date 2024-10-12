@@ -16,7 +16,7 @@ namespace StructureHelperLogics.Models.Materials
         public double Modulus { get; set; }
         public double CompressiveStrength { get; set; }
         public double TensileStrength { get; set; }
-        public List<IMaterialSafetyFactor> SafetyFactors { get; } = new();
+        public List<IMaterialSafetyFactor> SafetyFactors { get; set; } = new();
 
         public Guid Id { get; }
 

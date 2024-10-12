@@ -1,28 +1,33 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Forces.Logics;
+using System;
 
 namespace StructureHelperCommon.Models.Forces
 {
     public class DesignForceTuple : IDesignForceTuple
     {
+        private IUpdateStrategy<IDesignForceTuple> updateStrategy = new DesignForceTupleUpdateStrategy();
+        public Guid Id { get; }
+
+
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }
-        public IForceTuple ForceTuple { get; set; }
+        public IForceTuple ForceTuple { get; set; } = new ForceTuple();
 
-        public DesignForceTuple(LimitStates limitState, CalcTerms calcTerm) : this()
+        public DesignForceTuple(Guid id)
         {
-            LimitState = limitState;
-            CalcTerm = calcTerm;
+            Id = id;
         }
 
-        public DesignForceTuple()
+        public DesignForceTuple() : this (Guid.NewGuid())
         {
-            ForceTuple = new ForceTuple();
         }
 
         public object Clone()
         {
-            var newTuple = new DesignForceTuple(this.LimitState, this.CalcTerm);
-            newTuple.ForceTuple = this.ForceTuple.Clone() as ForceTuple;
+            var newTuple = new DesignForceTuple();
+            updateStrategy.Update(newTuple, this);
             return newTuple;
         }
     }

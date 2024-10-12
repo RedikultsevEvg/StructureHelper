@@ -17,11 +17,11 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         {
             get
             {
-                return primitive.DiameterByX;
+                return primitive.Width;
             }
             set
             {
-                primitive.DiameterByX = value;
+                primitive.Width = value;
                 RefreshPlacement();
             }
         }

@@ -16,6 +16,8 @@ namespace DataAccess.DTOs.Converters
     {
         private const string Message = "Analysis type is";
         private IConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis> convertCrossSectionNdmAnalysisStrategy = new CrossSectionNdmAnalysisToDTOConvertStrategy();
+        private DictionaryConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis> convertLogic;
+
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
@@ -45,12 +47,7 @@ namespace DataAccess.DTOs.Converters
             TraceLogger?.AddMessage(Message + " Cross-Section Ndm Analysis", TraceLogStatuses.Debug);
             convertCrossSectionNdmAnalysisStrategy.ReferenceDictionary = ReferenceDictionary;
             convertCrossSectionNdmAnalysisStrategy.TraceLogger = TraceLogger;
-            var convertLogic = new DictionaryConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis>()
-            {
-                ReferenceDictionary = ReferenceDictionary,
-                ConvertStrategy = convertCrossSectionNdmAnalysisStrategy,
-                TraceLogger = TraceLogger
-            };
+            convertLogic = new DictionaryConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis>(this, convertCrossSectionNdmAnalysisStrategy);
             CrossSectionNdmAnalysisDTO crossSectionNdmAnalysisDTO = convertLogic.Convert(crossSectionNdmAnalysis);
             return crossSectionNdmAnalysisDTO;
         }

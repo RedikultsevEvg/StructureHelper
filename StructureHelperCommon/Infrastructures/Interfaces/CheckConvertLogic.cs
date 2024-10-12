@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Loggers;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,22 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
-    public class CheckConvertLogic<T, V> : ICheckLogic
-        where T : ISaveable
+    public class CheckConvertLogic<T, V> : ICheckConvertLogic<T, V> where T : ISaveable
         where V : ISaveable
     {
         private string checkResult;
+
+        public CheckConvertLogic(IConvertStrategy<T, V> source)
+        {
+            ConvertStrategy = source;
+            TraceLogger = source.TraceLogger;
+        }
+
+        public CheckConvertLogic()
+        {
+            
+        }
+
         public IConvertStrategy<T, V> ConvertStrategy { get; set; }
 
         public string CheckResult => checkResult;

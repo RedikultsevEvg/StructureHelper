@@ -23,7 +23,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// <inheritdoc/>
         public IVisualProperty VisualProperty { get; } = new VisualProperty { Opacity = 0.8d };
         /// <inheritdoc/>
-        public double DiameterByX
+        public double Width
         {
             get
             {
@@ -36,7 +36,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             }
         }
         /// <inheritdoc/>
-        public double DiameterByY { get => rectangleShape.Height; set => rectangleShape.Height = value; }
+        public double Height { get => rectangleShape.Height; set => rectangleShape.Height = value; }
         /// <inheritdoc/>
         public ICrossSection? CrossSection { get; set; }
         /// <inheritdoc/>
@@ -46,6 +46,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// <inheritdoc/>
         public IShape Shape => rectangleShape;
 
+        public double Angle { get; set; }
 
         public EllipsePrimitive(Guid id)
         {
@@ -78,7 +79,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             var dX = Center.X - point.X;
             var dY = Center.Y - point.Y;
             var distance = Math.Sqrt(dX * dX + dY * dY);
-            if (distance > DiameterByX / 2) { return false; }
+            if (distance > Width / 2) { return false; }
             return true;
         }
 
@@ -96,28 +97,28 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             newPoint = new NamedAreaPoint
             {
                 Name = "Left",
-                Point = new Point2D() { X = Center.X - DiameterByX / 2d, Y = Center.Y},
+                Point = new Point2D() { X = Center.X - Width / 2d, Y = Center.Y},
                 Area = 0d
             };
             points.Add(newPoint);
             newPoint = new NamedAreaPoint
             {
                 Name = "Top",
-                Point = new Point2D() { X = Center.X, Y = Center.Y + DiameterByX / 2d },
+                Point = new Point2D() { X = Center.X, Y = Center.Y + Width / 2d },
                 Area = 0d
             };
             points.Add(newPoint);
             newPoint = new NamedAreaPoint
             {
                 Name = "Right",
-                Point = new Point2D() { X = Center.X + DiameterByX / 2d, Y = Center.Y },
+                Point = new Point2D() { X = Center.X + Width / 2d, Y = Center.Y },
                 Area = 0d
             };
             points.Add(newPoint);
             newPoint = new NamedAreaPoint
             {
                 Name = "Bottom",
-                Point = new Point2D() { X = Center.X, Y = Center.Y - DiameterByX / 2d },
+                Point = new Point2D() { X = Center.X, Y = Center.Y - Width / 2d },
                 Area = 0d
             };
             points.Add(newPoint);

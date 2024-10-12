@@ -1,11 +1,12 @@
-﻿using System;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using System;
 
 namespace StructureHelperCommon.Models.Forces
 {
     /// <summary>
     /// Interface for generic force for beams
     /// </summary>
-    public interface IForceTuple : ICloneable
+    public interface IForceTuple : ISaveable, ICloneable
     {
         /// <summary>
         /// Bending moment round about x-axis

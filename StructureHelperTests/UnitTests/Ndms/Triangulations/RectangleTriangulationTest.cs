@@ -120,7 +120,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             mainBlock.VisualProperty.ZIndex = 0;
             var opening = new EllipsePrimitive()
             {
-                DiameterByX = 0.3d
+                Width = 0.3d
             };
             opening.DivisionSize.ClearUnderlying = true;
             opening.NdmElement.HeadMaterial = material;
@@ -155,7 +155,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var mainBlock = new EllipsePrimitive() { DiameterByX = diameter};
+            var mainBlock = new EllipsePrimitive() { Width = diameter};
             mainBlock.NdmElement.HeadMaterial = material;
             mainBlock.Center.X = centerX;
             mainBlock.Center.Y = centerY;

@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
-    public interface IConvertStrategy<T,V>
+    public interface IConvertStrategy<T,V> : IBaseConvertStrategy
         where T :ISaveable
         where V :ISaveable
     {
-        Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        IShiftTraceLogger TraceLogger { get; set; }
         T Convert(V source);
     }
 }

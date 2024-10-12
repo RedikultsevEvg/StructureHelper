@@ -1,6 +1,7 @@
 ﻿using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
 using System;
@@ -35,6 +36,20 @@ namespace DataAccess.DTOs.Converters
 
         public HeadMaterialDTO Convert(IHeadMaterial source)
         {
+            try
+            {
+                return GetMaterial(source);
+            }
+            catch (Exception ex)
+            {
+                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
+                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
+                throw;
+            }
+        }
+
+        private HeadMaterialDTO GetMaterial(IHeadMaterial source)
+        {
             TraceLogger?.AddMessage($"Convert material Id={source.Id}, name is {source.Name}");
             HeadMaterialDTO newItem = new()
             {
@@ -42,12 +57,7 @@ namespace DataAccess.DTOs.Converters
             };
             updateStrategy.Update(newItem, source);
             convertStrategy.ReferenceDictionary = ReferenceDictionary;
-            var convertLogic = new DictionaryConvertStrategy<IHelperMaterial, IHelperMaterial>()
-            {
-                ReferenceDictionary = ReferenceDictionary,
-                ConvertStrategy = convertStrategy,
-                TraceLogger = TraceLogger
-            };
+            var convertLogic = new DictionaryConvertStrategy<IHelperMaterial, IHelperMaterial>(this, convertStrategy);
             newItem.HelperMaterial = convertLogic.Convert(source.HelperMaterial);
             return newItem;
         }

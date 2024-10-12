@@ -14,6 +14,7 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<IProject> updateStrategy;
         private IConvertStrategy<VisualAnalysisDTO, IVisualAnalysis> convertStrategy;
+        private DictionaryConvertStrategy<VisualAnalysisDTO, IVisualAnalysis> convertLogic;
 
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
@@ -39,12 +40,7 @@ namespace DataAccess.DTOs
             updateStrategy.Update(newItem, source);
             convertStrategy.ReferenceDictionary = ReferenceDictionary;
             convertStrategy.TraceLogger = TraceLogger;
-            var convertLogic = new DictionaryConvertStrategy<VisualAnalysisDTO, IVisualAnalysis>()
-            {
-                ReferenceDictionary = ReferenceDictionary,
-                ConvertStrategy = convertStrategy,
-                TraceLogger = TraceLogger
-            };
+            convertLogic = new DictionaryConvertStrategy<VisualAnalysisDTO, IVisualAnalysis>(this, convertStrategy);
             newItem.VisualAnalyses.Clear();
             foreach (var item in source.VisualAnalyses)
             {

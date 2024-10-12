@@ -8,13 +8,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.DTOs.Converters
+namespace DataAccess.DTOs
 {
     public class VersionProcessorToDTOConvertStrategy : IConvertStrategy<VersionProcessorDTO, IVersionProcessor>
     {
-        private IConvertStrategy<DateVersionDTO, IDateVersion> convertStrategy = new DateVersionToDTOConvertStrategy();
+        private IConvertStrategy<DateVersionDTO, IDateVersion> dataVersionConvertStrategy;
+        private ICheckConvertLogic<VersionProcessorDTO, IVersionProcessor> checkLogic;
+
+        public VersionProcessorToDTOConvertStrategy(IConvertStrategy<DateVersionDTO, IDateVersion> dataVersionConvertStrategy)
+        {
+            this.dataVersionConvertStrategy = dataVersionConvertStrategy;
+        }
+        public VersionProcessorToDTOConvertStrategy() : this( new DateVersionToDTOConvertStrategy())
+        {
+
+        }
+
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
+
 
         public VersionProcessorDTO Convert(IVersionProcessor source)
         {
@@ -23,25 +35,18 @@ namespace DataAccess.DTOs.Converters
             {
                 Id = source.Id
             };
-            convertStrategy.ReferenceDictionary = ReferenceDictionary;
-            convertStrategy.TraceLogger = TraceLogger;
+            dataVersionConvertStrategy.ReferenceDictionary = ReferenceDictionary;
+            dataVersionConvertStrategy.TraceLogger = TraceLogger;
             foreach (var item in source.Versions)
             {
-                var convertLogic = new DictionaryConvertStrategy<DateVersionDTO, IDateVersion>()
-                {
-                    ReferenceDictionary = ReferenceDictionary,
-                    ConvertStrategy = convertStrategy,
-                    TraceLogger = TraceLogger
-                };
+                var convertLogic = new DictionaryConvertStrategy<DateVersionDTO, IDateVersion>(this, dataVersionConvertStrategy);
                 newItem.Versions.Add(convertLogic.Convert(item));
             }
             return newItem;
         }
         private void Check()
         {
-            var checkLogic = new CheckConvertLogic<VersionProcessorDTO, IVersionProcessor>();
-            checkLogic.ConvertStrategy = this;
-            checkLogic.TraceLogger = TraceLogger;
+            checkLogic = new CheckConvertLogic<VersionProcessorDTO, IVersionProcessor>(this);
             checkLogic.Check();
         }
     }

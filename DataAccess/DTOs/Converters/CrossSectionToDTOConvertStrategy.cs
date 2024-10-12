@@ -1,32 +1,32 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
-using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogics.Models.CrossSections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DataAccess.DTOs.Converters
+namespace DataAccess.DTOs
 {
     public class CrossSectionToDTOConvertStrategy : IConvertStrategy<CrossSectionDTO, ICrossSection>
     {
-        private IUpdateStrategy<ICrossSection> updateStrategy;
-        private IConvertStrategy<CrossSectionRepositoryDTO, ICrossSectionRepository> convertStrategy;
+        private IUpdateStrategy<ICrossSection> updateStrategy; //don't use since CrossSection does not have any properties
+        private IConvertStrategy<CrossSectionRepositoryDTO, ICrossSectionRepository> convertRepositoryStrategy;
+        private DictionaryConvertStrategy<CrossSectionRepositoryDTO, ICrossSectionRepository> convertLogic;
+        private ICheckConvertLogic<CrossSectionDTO, ICrossSection> checkLogic;
+
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
         public CrossSectionToDTOConvertStrategy(IUpdateStrategy<ICrossSection> updateStrategy,
-            IConvertStrategy<CrossSectionRepositoryDTO, ICrossSectionRepository> convertStrategy)
+            IConvertStrategy<CrossSectionRepositoryDTO, ICrossSectionRepository> convertRepositoryStrategy,
+            ICheckConvertLogic<CrossSectionDTO, ICrossSection> checkLogic)
         {
             this.updateStrategy = updateStrategy;
-            this.convertStrategy = convertStrategy;
+            this.convertRepositoryStrategy = convertRepositoryStrategy;
+            this.checkLogic = checkLogic;
         }
 
         public CrossSectionToDTOConvertStrategy() : this(
             new CrossSectionUpdateStrategy(),
-            new CrossSectionRepositoryToDTOConvertStrategy())
+            new CrossSectionRepositoryToDTOConvertStrategy(),
+            new CheckConvertLogic<CrossSectionDTO, ICrossSection>())
         {
             
         }
@@ -38,21 +38,15 @@ namespace DataAccess.DTOs.Converters
             {
                 Id = source.Id
             };
-            convertStrategy.ReferenceDictionary = ReferenceDictionary;
-            convertStrategy.TraceLogger = TraceLogger;
-            var convertLogic = new DictionaryConvertStrategy<CrossSectionRepositoryDTO, ICrossSectionRepository>()
-            {
-                ReferenceDictionary = ReferenceDictionary,
-                ConvertStrategy = convertStrategy,
-                TraceLogger = TraceLogger
-            };
+            convertRepositoryStrategy.ReferenceDictionary = ReferenceDictionary;
+            convertRepositoryStrategy.TraceLogger = TraceLogger;
+            convertLogic = new DictionaryConvertStrategy<CrossSectionRepositoryDTO, ICrossSectionRepository>(this, convertRepositoryStrategy);
             newItem.SectionRepository = convertLogic.Convert(source.SectionRepository);
             return newItem;
         }
 
         private void Check()
         {
-            var checkLogic = new CheckConvertLogic<CrossSectionDTO, ICrossSection>();
             checkLogic.ConvertStrategy = this;
             checkLogic.TraceLogger = TraceLogger;
             checkLogic.Check();

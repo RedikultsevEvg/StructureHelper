@@ -100,7 +100,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             {
                 var primitive = new EllipsePrimitive
                 {
-                    DiameterByX = 0.5d
+                    Width = 0.5d
                 };
                 ndmPrimitive = primitive;
                 viewPrimitive = new CircleViewPrimitive(primitive);

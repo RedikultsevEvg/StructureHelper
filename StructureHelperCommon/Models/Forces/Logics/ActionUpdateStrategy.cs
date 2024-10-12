@@ -14,9 +14,9 @@ namespace StructureHelperCommon.Models.Forces
         readonly IUpdateStrategy<IForceAction> forceUpdateStrategy = new ForceActionUpdateStrategy();
         public void Update(IAction targetObject, IAction sourceObject)
         {
+            CheckObject.IsNull(targetObject);
+            CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-
-            CheckObject.CompareTypes(targetObject, sourceObject);
             targetObject.Name = sourceObject.Name;
             if (targetObject is IForceAction forceAction)
             {

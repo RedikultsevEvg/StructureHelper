@@ -29,7 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         {
             Center = primitive.Center.Clone() as Point2D;
             //to do change to ellipse
-            Circle = new CircleShape() { Diameter = primitive.DiameterByX };
+            Circle = new CircleShape() { Diameter = primitive.Width };
             NdmMaxSize = primitive.DivisionSize.NdmMaxSize;
             NdmMinDivision = primitive.DivisionSize.NdmMinDivision;
             HeadMaterial = primitive.NdmElement.HeadMaterial;

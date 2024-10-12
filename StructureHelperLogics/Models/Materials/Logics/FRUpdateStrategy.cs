@@ -9,11 +9,14 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Materials
 {
-    internal class FRUpdateStrategy : IUpdateStrategy<IFRMaterial>
+    /// <inheritdoc/>
+    public class FRUpdateStrategy : IUpdateStrategy<IFRMaterial>
     {
+        /// <inheritdoc/>
         public void Update(IFRMaterial targetObject, IFRMaterial sourceObject)
         {
-            CheckObject.ReferenceEquals(targetObject, sourceObject);
+            CheckObject.IsNull(targetObject);
+            CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Modulus = sourceObject.Modulus;
             targetObject.CompressiveStrength = sourceObject.CompressiveStrength;

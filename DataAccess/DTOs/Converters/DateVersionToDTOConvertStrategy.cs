@@ -9,12 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.DTOs.Converters
+namespace DataAccess.DTOs
 {
     public class DateVersionToDTOConvertStrategy : IConvertStrategy<DateVersionDTO, IDateVersion>
     {
         private IUpdateStrategy<IDateVersion> updateStrategy;
         private IConvertStrategy<ISaveable, ISaveable> convertStrategy;
+        private DictionaryConvertStrategy<ISaveable, ISaveable> convertLogic;
 
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
@@ -44,12 +45,7 @@ namespace DataAccess.DTOs.Converters
             updateStrategy.Update(newItem, source);
             convertStrategy.ReferenceDictionary = ReferenceDictionary;
             convertStrategy.TraceLogger = TraceLogger;
-            var convertLogic = new DictionaryConvertStrategy<ISaveable, ISaveable>()
-            {
-                ReferenceDictionary = ReferenceDictionary,
-                ConvertStrategy = convertStrategy,
-                TraceLogger = TraceLogger
-            };
+            convertLogic = new DictionaryConvertStrategy<ISaveable, ISaveable>(this, convertStrategy);
             newItem.AnalysisVersion = convertLogic.Convert(source.AnalysisVersion);
             return newItem;
         }

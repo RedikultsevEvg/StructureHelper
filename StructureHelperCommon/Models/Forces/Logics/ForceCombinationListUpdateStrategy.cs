@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,22 @@ namespace StructureHelperCommon.Models.Forces
 {
     public class ForceCombinationListUpdateStrategy : IUpdateStrategy<IForceCombinationList>
     {
+        private IUpdateStrategy<IDesignForceTuple> designForceTupleUpdateStrategy;
+
+        public ForceCombinationListUpdateStrategy(IUpdateStrategy<IDesignForceTuple> designForceTupleUpdateStrategy)
+        {
+            this.designForceTupleUpdateStrategy = designForceTupleUpdateStrategy;
+        }
+
+        public ForceCombinationListUpdateStrategy() : this (new DesignForceTupleUpdateStrategy())
+        {
+            
+        }
+
         public void Update(IForceCombinationList targetObject, IForceCombinationList sourceObject)
         {
+            CheckObject.IsNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            CheckObject.CompareTypes(targetObject, sourceObject);
             targetObject.DesignForces.Clear();
             foreach (var item in sourceObject.DesignForces)
             {

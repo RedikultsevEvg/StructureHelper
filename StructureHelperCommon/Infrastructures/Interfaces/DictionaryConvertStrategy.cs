@@ -18,9 +18,20 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public IConvertStrategy<T,V> ConvertStrategy { get; set; }
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
 
+        public DictionaryConvertStrategy(IBaseConvertStrategy baseConvertStrategy, IConvertStrategy<T, V> convertStrategy)
+        {
+            ReferenceDictionary = baseConvertStrategy.ReferenceDictionary;
+            TraceLogger = baseConvertStrategy.TraceLogger;
+            ConvertStrategy = convertStrategy;
+        }
+        public DictionaryConvertStrategy()
+        {
+            
+        }
+
         public T Convert(V source)
         {
-            ICheckInputData();
+            CheckInputData();
             T val;
             var key = (source.Id, typeof(T));
             if (ReferenceDictionary.ContainsKey(key))
@@ -38,7 +49,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
             }
             return val;
         }
-        private void ICheckInputData()
+        private void CheckInputData()
         {
             if(ReferenceDictionary is null)
             {
@@ -47,6 +58,6 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
                 throw new StructureHelperException(errorString);
             }
         }
-            
+
     }
 }

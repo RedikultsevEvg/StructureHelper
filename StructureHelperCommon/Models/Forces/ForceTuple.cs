@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services.Forces;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace StructureHelperCommon.Models.Forces
@@ -8,6 +9,8 @@ namespace StructureHelperCommon.Models.Forces
     public class ForceTuple : IForceTuple
     {
         private readonly IUpdateStrategy<IForceTuple> updateStrategy = new ForceTupleUpdateStrategy();
+        /// <inheritdoc/>
+        public Guid Id { get; }
         /// <inheritdoc/>
         public double Mx { get; set; }
         /// <inheritdoc/>
@@ -20,6 +23,16 @@ namespace StructureHelperCommon.Models.Forces
         public double Qy { get; set; }
         /// <inheritdoc/>
         public double Mz { get; set; }
+
+        public ForceTuple(Guid id)
+        {
+            Id = id;
+        }
+
+        public ForceTuple() : this (Guid.NewGuid())
+        {
+            
+        }
 
         public void Clear()
         {

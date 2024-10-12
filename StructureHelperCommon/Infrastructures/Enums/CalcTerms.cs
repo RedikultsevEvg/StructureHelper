@@ -2,7 +2,7 @@
 {
     public enum CalcTerms
     {
-        ShortTerm,
-        LongTerm,
+        ShortTerm = 1,
+        LongTerm = 2, 
     }
 }
