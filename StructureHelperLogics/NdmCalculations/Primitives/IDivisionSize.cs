@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models.Shapes;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Primitives;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     /// <summary>
     /// Include parameters of triangulation for shapes
     /// </summary>
-    public interface IDivisionSize
+    public interface IDivisionSize : ISaveable
     {
         /// <summary>
         /// Maximum size of Ndm part

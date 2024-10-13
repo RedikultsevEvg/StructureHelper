@@ -108,6 +108,8 @@ namespace StructureHelper.Windows.MainWindow
             }
         }
 
+        public Guid Id => throw new NotImplementedException();
+
         public AxisCanvasVM()
         {
             AxisLineThickness = 2d;

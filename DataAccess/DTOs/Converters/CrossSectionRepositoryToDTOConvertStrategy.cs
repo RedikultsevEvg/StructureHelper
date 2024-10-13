@@ -8,6 +8,7 @@ using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
+using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace DataAccess.DTOs
         private IConvertStrategy<HeadMaterialDTO, IHeadMaterial> materialConvertStrategy;
         private IConvertStrategy<ForceCombinationByFactorDTO, IForceCombinationByFactor> forceCombinationByFactorConvertStrategy;
         private IConvertStrategy<ForceCombinationListDTO, IForceCombinationList> forceCombinationListConvertStrategy;
+        private IConvertStrategy<EllipseNdmPrimitiveDTO, IEllipsePrimitive> ellipseConvertStrategy = new EllipsePrimitiveDTOConvertStrategy();
 
         public CrossSectionRepositoryToDTOConvertStrategy(IConvertStrategy<HeadMaterialDTO, IHeadMaterial> materialConvertStrategy,
              IConvertStrategy<ForceCombinationByFactorDTO, IForceCombinationByFactor> forceCombinationByFactorConvertStrategy,
@@ -66,10 +68,29 @@ namespace DataAccess.DTOs
                 Id = source.Id
             };
             List<IForceAction> forceActions = ProcessForceActions(source);
-            List<HeadMaterialDTO> materials = ProcessMaterials(source);
             newItem.ForceActions.AddRange(forceActions);
+            List<IHeadMaterial> materials = ProcessMaterials(source);
             newItem.HeadMaterials.AddRange(materials);
+            List<INdmPrimitive> primitives = ProcessPrimitives(source);
+            newItem.Primitives.AddRange(primitives);
             return newItem;
+        }
+
+        private List<INdmPrimitive> ProcessPrimitives(ICrossSectionRepository source)
+        {
+            List<INdmPrimitive> primitives = new();
+            foreach (var item in source.Primitives)
+            {
+                if (item is IEllipsePrimitive ellipse)
+                {
+                    ellipseConvertStrategy.ReferenceDictionary = ReferenceDictionary;
+                    ellipseConvertStrategy.TraceLogger = TraceLogger;
+                    INdmPrimitive ndmPrimitive;
+                    ndmPrimitive = ellipseConvertStrategy.Convert(ellipse);
+                    primitives.Add(ndmPrimitive);
+                }
+            }
+            return primitives;
         }
 
         private List<IForceAction> ProcessForceActions(ICrossSectionRepository source)
@@ -113,7 +134,7 @@ namespace DataAccess.DTOs
             return forceCombination;
         }
 
-        private List<HeadMaterialDTO> ProcessMaterials(ICrossSectionRepository source)
+        private List<IHeadMaterial> ProcessMaterials(ICrossSectionRepository source)
         {
             materialConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             materialConvertStrategy.TraceLogger = TraceLogger;
@@ -123,7 +144,7 @@ namespace DataAccess.DTOs
                 ConvertStrategy = materialConvertStrategy,
                 TraceLogger = TraceLogger
             };
-            List<HeadMaterialDTO> materials = new();
+            List<IHeadMaterial> materials = new();
             foreach (var item in source.HeadMaterials)
             {
                 materials.Add(convertLogic.Convert(item));

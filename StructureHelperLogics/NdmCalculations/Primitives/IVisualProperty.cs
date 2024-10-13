@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Windows.Media;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public interface IVisualProperty
+    public interface IVisualProperty : ISaveable
     {
         /// <summary>
         /// Flag of visibility

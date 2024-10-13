@@ -27,7 +27,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public RectanglePrimitiveUpdateStrategy() : this(
             new BaseUpdateStrategy(),
             new ShapeUpdateStrategy(),
-            new DivisionPropsUpdateStrategy())
+            new DivisionSizeUpdateStrategy())
         {
 
         }

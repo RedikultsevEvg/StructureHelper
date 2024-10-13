@@ -10,6 +10,11 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
+    /// <summary>
+    /// Check parameters of strategy of converting of one class to another one
+    /// </summary>
+    /// <typeparam name="T">Target type</typeparam>
+    /// <typeparam name="V">Source type</typeparam>
     public class CheckConvertLogic<T, V> : ICheckConvertLogic<T, V> where T : ISaveable
         where V : ISaveable
     {

@@ -22,9 +22,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// <inheritdoc/>
         public bool Triangulate { get; set; } = true;
         /// <inheritdoc/>
-        public StrainTuple UsersPrestrain { get; } = new();
+        public IForceTuple UsersPrestrain { get; } = new StrainTuple();
         /// <inheritdoc/>
-        public StrainTuple AutoPrestrain { get; } = new();
+        public IForceTuple AutoPrestrain { get; } = new StrainTuple();
 
         public NdmElement(Guid id)
         {

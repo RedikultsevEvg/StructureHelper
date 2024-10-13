@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    internal class DivisionPropsUpdateStrategy : IUpdateStrategy<IDivisionSize>
+    public class DivisionSizeUpdateStrategy : IUpdateStrategy<IDivisionSize>
     {
         public void Update(IDivisionSize targetObject, IDivisionSize sourceObject)
         {

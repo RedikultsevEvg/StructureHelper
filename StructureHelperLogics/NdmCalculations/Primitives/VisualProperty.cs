@@ -12,11 +12,15 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     public class VisualProperty : IVisualProperty
     {
         
-        public bool IsVisible { get; set; }
-        public Color Color { get; set; }
-        public bool SetMaterialColor { get; set; }
-        public int ZIndex { get; set; }
-        private double opacity;
+        public Guid Id { get; }
+
+
+
+        public bool IsVisible { get; set; } = true;
+        public Color Color { get; set; } = ColorProcessor.GetRandomColor();
+        public bool SetMaterialColor { get; set; } = true;
+        public int ZIndex { get; set; } = 0;
+        private double opacity = 1d;
 
         public double Opacity
         {
@@ -28,14 +32,14 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             }
         }
 
-
-        public VisualProperty()
+        public VisualProperty(Guid id)
         {
-            IsVisible = true;
-            Color = ColorProcessor.GetRandomColor();
-            SetMaterialColor = true;
-            ZIndex = 0;
-            Opacity = 1;
+            Id = id;
+        }
+
+        public VisualProperty() : this (Guid.NewGuid())
+        {
+            
         }
     }
 }

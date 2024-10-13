@@ -1,6 +1,8 @@
-﻿namespace StructureHelperCommon.Models.Shapes
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+
+namespace StructureHelperCommon.Models.Shapes
 {
-    public interface IShape
+    public interface IShape : ISaveable
     {
     }
 }

@@ -36,13 +36,14 @@ namespace DataAccess.DTOs
         {
             return new List<(Type type, string name)>
             {
-                { (typeof(CirclePrimitiveDTO), "CircleNdmPrimitive") },
                 { (typeof(ConcreteLibMaterialDTO), "ConcreteLibMaterial") },
                 { (typeof(CrossSectionDTO), "CrossSection") },
                 { (typeof(CrossSectionNdmAnalysisDTO), "CrossSectionNdmAnalysis") },
                 { (typeof(CrossSectionRepositoryDTO), "CrossSectionRepository") },
                 { (typeof(DateVersionDTO), "DateVersion") },
+                { (typeof(EllipseNdmPrimitiveDTO), "EllipseNdmPrimitive") },
                 { (typeof(DesignForceTupleDTO), "DesignForceTuple") },
+                { (typeof(DivisionSizeDTO), "DivisionSize") },
                 { (typeof(ElasticMaterialDTO), "ElasticMaterial") },
                 { (typeof(FileVersionDTO), "FileVersion") },
                 { (typeof(ForceCombinationByFactorDTO), "ForceCombinationByFactor") },
@@ -51,7 +52,7 @@ namespace DataAccess.DTOs
                 { (typeof(FRMaterialDTO), "FRMaterial") },
                 { (typeof(HeadMaterialDTO), "HeadMaterial") },
                 { (typeof(MaterialSafetyFactorDTO), "MaterialSafetyFactor") },
-                { (typeof(NdmPrimitiveDTO), "NdmPrimitive") },
+                { (typeof(NdmElementDTO), "NdmElement") },
                 { (typeof(IVisualAnalysis), "IVisualAnalysis") },
                 { (typeof(List<ICalculator>), "ListOfICalculator") },
                 { (typeof(List<IDateVersion>), "ListOfIDateVersion") },
@@ -65,10 +66,12 @@ namespace DataAccess.DTOs
                 { (typeof(List<IVisualAnalysis>), "ListOfIVisualAnalysis") },
                 { (typeof(Point2DDTO), "Point2D") },
                 { (typeof(ProjectDTO), "Project") },
+                { (typeof(RectangleShapeDTO), "RectangleShape") },
                 { (typeof(ReinforcementLibMaterialDTO), "ReinforcementLibMaterial") },
                 { (typeof(MaterialPartialFactorDTO), "MaterialPartialFactor") },
                 { (typeof(VersionProcessorDTO), "VersionProcessor") },
                 { (typeof(VisualAnalysisDTO), "VisualAnalysis") },
+                { (typeof(VisualPropertyDTO), "VisualProperty") },
             };
         }
     }

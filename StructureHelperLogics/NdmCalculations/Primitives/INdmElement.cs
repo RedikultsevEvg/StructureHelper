@@ -24,10 +24,10 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// <summary>
         /// Prestrain assigned from user
         /// </summary>
-        StrainTuple UsersPrestrain { get; }
+        IForceTuple UsersPrestrain { get; }
         /// <summary>
         /// Prestrain assigned from calculations
         /// </summary>
-        StrainTuple AutoPrestrain { get; }
+        IForceTuple AutoPrestrain { get; }
     }
 }

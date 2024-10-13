@@ -1,20 +1,26 @@
-﻿namespace StructureHelperCommon.Models.Shapes
+﻿using System;
+
+namespace StructureHelperCommon.Models.Shapes
 {
     /// <inheritdoc />
     public class LineShape : ILineShape
     {
         /// <inheritdoc />
-        public IPoint2D StartPoint { get; set; }
+        public Guid Id { get; }
         /// <inheritdoc />
-        public IPoint2D EndPoint { get; set; }
+        public IPoint2D StartPoint { get; set; } = new Point2D();
         /// <inheritdoc />
-        public double Thickness { get; set; }
+        public IPoint2D EndPoint { get; set; } = new Point2D();
+        /// <inheritdoc />
+        public double Thickness { get; set; } = 0d;
 
-        public LineShape()
+        public LineShape(Guid id)
         {
-            StartPoint = new Point2D();
-            EndPoint = new Point2D();
-            Thickness = 0;
+            Id = id;
+        }
+
+        public LineShape() : this (Guid.NewGuid())
+        {
         }
     }
 }

@@ -5,7 +5,7 @@ using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    internal class EllipsePrimitiveUpdateStrategy : IUpdateStrategy<IEllipsePrimitive>
+    public class EllipsePrimitiveUpdateStrategy : IUpdateStrategy<IEllipsePrimitive>
     {
         private IUpdateStrategy<INdmPrimitive> basePrimitiveUpdateStrategy;
         private IUpdateStrategy<IDivisionSize> divisionPropsUpdateStrategy;
@@ -22,7 +22,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public EllipsePrimitiveUpdateStrategy() : this(
             new BaseUpdateStrategy(),
             new ShapeUpdateStrategy(),
-            new DivisionPropsUpdateStrategy())
+            new DivisionSizeUpdateStrategy())
         {
             
         }

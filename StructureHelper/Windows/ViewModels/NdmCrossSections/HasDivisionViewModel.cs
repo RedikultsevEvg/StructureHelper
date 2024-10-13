@@ -13,6 +13,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
     public class HasDivisionViewModel : ViewModelBase, IDivisionSize
     {
         private IDivisionSize primitive;
+        public Guid Id { get; }
 
         public double NdmMaxSize
         { 
@@ -41,6 +42,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 OnPropertyChanged(nameof(ClearUnderlying));
             }
         }
+
 
         public HasDivisionViewModel(IDivisionSize primitive)
         {

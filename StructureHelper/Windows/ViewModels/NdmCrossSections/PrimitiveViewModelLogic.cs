@@ -323,6 +323,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         public double Angle { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        public Guid Id => throw new NotImplementedException();
+
         public void AddItems(IEnumerable<PrimitiveBase> items)
         {
             foreach (var item in items)

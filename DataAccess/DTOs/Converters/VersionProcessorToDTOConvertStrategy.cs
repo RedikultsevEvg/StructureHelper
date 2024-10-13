@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Models.CrossSections;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,21 @@ namespace DataAccess.DTOs
         public VersionProcessorDTO Convert(IVersionProcessor source)
         {
             Check();
+            try
+            {
+                VersionProcessorDTO versionProcessorDTO = GetNewVersionProcessor(source);
+                return versionProcessorDTO;
+            }
+            catch (Exception ex)
+            {
+                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
+                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
+                throw;
+            }   
+        }
+
+        private VersionProcessorDTO GetNewVersionProcessor(IVersionProcessor source)
+        {
             VersionProcessorDTO newItem = new()
             {
                 Id = source.Id
@@ -44,6 +60,7 @@ namespace DataAccess.DTOs
             }
             return newItem;
         }
+
         private void Check()
         {
             checkLogic = new CheckConvertLogic<VersionProcessorDTO, IVersionProcessor>(this);

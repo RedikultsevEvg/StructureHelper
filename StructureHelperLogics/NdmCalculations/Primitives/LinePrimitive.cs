@@ -9,7 +9,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public class LinePrimitive : ILinePrimitive
     {
-        public int Id { get; set; }
+        public Guid Id { get;}
         public string Name { get; set; }
         public double CenterX { get; set; }
         public double CenterY { get; set; }
