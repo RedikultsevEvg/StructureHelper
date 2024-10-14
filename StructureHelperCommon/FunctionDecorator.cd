@@ -24,21 +24,21 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="StructureHelperCommon.Models.Functions.IScaleFunction">
-    <Position X="9" Y="3" Width="1.5" />
+    <Position X="7.75" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Functions\IScaleFunction.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="StructureHelperCommon.Models.Functions.ILimitFunction">
-    <Position X="7.25" Y="3" Width="1.5" />
+    <Position X="5.75" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Functions\ILimitFunction.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="StructureHelperCommon.Infrastructures.Interfaces.IFunctionDecorator">
-    <Position X="8" Y="0.75" Width="1.5" />
+    <Position X="6.25" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Infrastructures\Interfaces\IFunctionDecorator.cs</FileName>

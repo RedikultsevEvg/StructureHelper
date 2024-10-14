@@ -57,6 +57,9 @@
     <Compile Update="Windows\Graphs\GraphView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\MainGraph\AddTable.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\MainGraph\GraphView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -79,6 +82,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\Services\CopyByParameterView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\TreeGraph\TreeGraph.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\UserControls\MultiplyDouble.xaml.cs">
@@ -158,6 +164,9 @@
     <Page Update="Windows\Graphs\GraphView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Windows\MainGraph\AddTable.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\MainGraph\GraphView.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -180,6 +189,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\Services\CopyByParameterView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\TreeGraph\TreeGraph.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\UserControls\MultiplyDouble.xaml">

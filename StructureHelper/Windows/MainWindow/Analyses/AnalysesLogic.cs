@@ -140,11 +140,13 @@ namespace StructureHelper.Windows.MainWindow
         }
         private void AddGraphEditor()
         {
-            var editor = new GraphEditorAnalysis();
+            var graphView = new MainGraph.GraphView();
+            graphView.ShowDialog();
+            /*var editor = new GraphEditorAnalysis(); //Код, который встраивал графики в "проигрыватель"
             editor.Name = "New Graph Editor";
             editor.Tags = "#New group";
             var visualAnalysis = new VisualAnalysis(editor);
-            ProgramSetting.CurrentProject.VisualAnalyses.Add(visualAnalysis);
+            ProgramSetting.CurrentProject.VisualAnalyses.Add(visualAnalysis);*/
         }
     }
 }

@@ -9,8 +9,11 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
 {
     public interface IOneVariableFunction
     {
+        
+        public bool IsUser { get; set; }
         public FunctionType Type { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public bool Check();
         public double GetByX(double xValue);
     }

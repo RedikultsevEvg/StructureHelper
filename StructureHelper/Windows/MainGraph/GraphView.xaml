@@ -3,15 +3,76 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:StructureHelper.Windows.MainGraph"
         mc:Ignorable="d"
-        Title="GraphView" Height="450" Width="800">
+        d:DataContext="{d:DesignInstance local:GraphViewModel}"
+        Title="StructureHelper" Height="700" 
+        Width="1000" MinHeight="400" MinWidth="600">
     <Grid>
-        <TextBlock
-            Text = "Здесь будет приложение с графиком"
-            FontSize="20"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <ListBox Grid.Row="0" Grid.Column="0" Margin="5"
+                 ItemsSource="{Binding Functions}"
+                 SelectedItem="{Binding SelectedFuntion}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Button Grid.Column="0" Grid.Row="0" Margin="5" Content="Add table"
+                    Background="LightGreen"/>
+            <Button Grid.Column="0" Grid.Row="1" Margin="5" Content="Add formula"
+                    Background="LightGreen"/>
+            <Button Grid.Column="1" Grid.Row="0" Margin="5" Content="Edit"
+                    IsEnabled="{Binding SelectedFuntion.IsUser, UpdateSourceTrigger=PropertyChanged}"
+                    Background="LightYellow"/>
+            <Button Grid.Column="1" Grid.Row="1" Margin="5" Content="Delete"
+                    IsEnabled="{Binding SelectedFuntion.IsUser, UpdateSourceTrigger=PropertyChanged}"
+                    Background="LightPink"/>
+            <Button Grid.Column="2" Grid.Row="0" Margin="5" Content="Copy"
+                    Background="LightBlue"/>
+            <Button Grid.Column="2" Grid.Row="1" Margin="5" Content="Tree"
+                    IsEnabled="{Binding SelectedFuntion.IsUser, UpdateSourceTrigger=PropertyChanged}"
+                    Command="{Binding TreeCommand}"
+                    Background="AntiqueWhite"/>
+        </Grid>
+        <lvc:CartesianChart Grid.Row="0" Grid.Column="1"
+                            Series="{Binding SeriesCollection}" Margin="5">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Y"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="X"  Labels="{Binding Labels}"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+        </lvc:CartesianChart>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="70"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Description:" Margin="5"/>
+            <TextBlock Grid.Row="1"
+                     Text="{Binding SelectedFuntion.Description, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="5" TextWrapping="Wrap"
+                     VerticalAlignment="Center" Height="60"/>
+        </Grid>
     </Grid>
 </Window>

@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -34,5 +33,4 @@
     <Folder Include="FunctionalTests\RCs\Anchorage\" />
     <Folder Include="UnitTests\WindowTests\Calculations\CalculationProperties\" />
   </ItemGroup>
-
 </Project>

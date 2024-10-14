@@ -37,10 +37,10 @@ namespace StructureHelper.Windows.MainWindow.Analyses
             {
                 ProcessCrossSection(crossSection);
             }
-            else if (version.Item is IGraph graph)
+            /*else if (version.AnalysisVersion is IGraph graph)
             {
                 ProcessEditGraph(graph);
-            }
+            }*/
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(version));
@@ -52,11 +52,11 @@ namespace StructureHelper.Windows.MainWindow.Analyses
             var window = new CrossSectionView(crossSection);
             window.ShowDialog();
         }
-        private void ProcessEditGraph(IGraph graph)
+        /*private void ProcessEditGraph(IGraph graph)
         {
-            var window = new GraphView();
+            var window = new GraphView(graph);
             window.ShowDialog();
-        }
+        }*/
 
         public object Clone()
         {

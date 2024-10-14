@@ -1,4 +1,8 @@
-﻿using System;
+﻿using StructureHelper.Windows.MainWindow;
+using StructureHelper.Windows.ViewModels.Materials;
+using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.Models.Graphs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +23,15 @@ namespace StructureHelper.Windows.MainGraph
     /// </summary>
     public partial class GraphView : Window
     {
-        public GraphView()
+        private GraphViewModel viewModel;
+        public GraphView(GraphViewModel viewModel)
         {
+            this.viewModel = viewModel;
+            DataContext = this.viewModel;
             InitializeComponent();
+        }
+        public GraphView() : this(new GraphViewModel())
+        {
         }
     }
 }
