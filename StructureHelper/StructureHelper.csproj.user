@@ -57,7 +57,10 @@
     <Compile Update="Windows\Graphs\GraphView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\MainGraph\AddTable.xaml.cs">
+    <Compile Update="Windows\MainGraph\FormulaView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\MainGraph\TableView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\MainGraph\GraphView.xaml.cs">
@@ -164,7 +167,10 @@
     <Page Update="Windows\Graphs\GraphView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\MainGraph\AddTable.xaml">
+    <Page Update="Windows\MainGraph\FormulaView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\MainGraph\TableView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MainGraph\GraphView.xaml">

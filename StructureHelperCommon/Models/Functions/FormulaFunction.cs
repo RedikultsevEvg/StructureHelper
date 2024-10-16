@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace StructureHelperCommon.Models.Functions
 {
@@ -14,28 +15,29 @@ namespace StructureHelperCommon.Models.Functions
         public FunctionType Type { get; set; }
         public string Name { get; set; }
         public string Description { get ; set; }
+        public string Formula {  get; set; }
+
+        public Guid Id => throw new NotImplementedException();
 
         public bool Check()
         {
             throw new NotImplementedException();
         }
-        public double GetByX(double xValue)
-        {
-            throw new NotImplementedException();
-        }
-    }
 
-    public class CopyOfFormulaFunction : IOneVariableFunction
-    {
-        public bool IsUser { get; set; }
-        public FunctionType Type { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-
-        public bool Check()
+        public object Clone()
         {
-            throw new NotImplementedException();
+            var formulaFunction = new FormulaFunction();
+
+            //Здесь будет стратегия
+            formulaFunction.Type = Type;
+            formulaFunction.Name = Name;
+            formulaFunction.Description = Description;
+            formulaFunction.Formula = Formula;
+            formulaFunction.IsUser = true;
+
+            return formulaFunction;
         }
+
         public double GetByX(double xValue)
         {
             throw new NotImplementedException();

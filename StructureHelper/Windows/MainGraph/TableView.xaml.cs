@@ -17,11 +17,23 @@ namespace StructureHelper.Windows.MainGraph
     /// <summary>
     /// Interaction logic for AddTable.xaml
     /// </summary>
-    public partial class AddTable : Window
+    public partial class TableView : Window
     {
-        public AddTable()
+        private TableViewModel viewModel;
+
+        public TableView(TableViewModel viewModel)
+        {
+            this.viewModel = viewModel;
+            DataContext = this.viewModel;
+            InitializeComponent();
+        }
+        /*public AddTable() : this(new AddTableViewModel())
+        {
+        }*/
+        public TableView()
         {
             InitializeComponent();
         }
+
     }
 }

@@ -38,16 +38,21 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <Button Grid.Column="0" Grid.Row="0" Margin="5" Content="Add table"
+                    Command="{Binding AddTableCommand}"
                     Background="LightGreen"/>
             <Button Grid.Column="0" Grid.Row="1" Margin="5" Content="Add formula"
+                    Command="{Binding AddFormulaCommand}"
                     Background="LightGreen"/>
             <Button Grid.Column="1" Grid.Row="0" Margin="5" Content="Edit"
+                    Command="{Binding EditCommand}"
                     IsEnabled="{Binding SelectedFuntion.IsUser, UpdateSourceTrigger=PropertyChanged}"
                     Background="LightYellow"/>
             <Button Grid.Column="1" Grid.Row="1" Margin="5" Content="Delete"
+                    Command="{Binding DeleteCommand}"
                     IsEnabled="{Binding SelectedFuntion.IsUser, UpdateSourceTrigger=PropertyChanged}"
                     Background="LightPink"/>
             <Button Grid.Column="2" Grid.Row="0" Margin="5" Content="Copy"
+                    Command="{Binding CopyCommand}"
                     Background="LightBlue"/>
             <Button Grid.Column="2" Grid.Row="1" Margin="5" Content="Tree"
                     IsEnabled="{Binding SelectedFuntion.IsUser, UpdateSourceTrigger=PropertyChanged}"

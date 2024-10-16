@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
-    public interface IOneVariableFunction
+    public interface IOneVariableFunction : ICloneable, ISaveable
     {
-        
         public bool IsUser { get; set; }
         public FunctionType Type { get; set; }
         public string Name { get; set; }
