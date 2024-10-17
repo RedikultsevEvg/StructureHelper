@@ -148,13 +148,17 @@ namespace StructureHelper.Windows.MainGraph
                 var tableView = new TableView();
                 tableView.DataContext = tableViewModel;
                 tableView.ShowDialog();
+                //SelectedFunction.Name = tableViewModel.Function.Name; //!!!!!!!!!!
+                //SelectedFunction.Description = tableViewModel.Function.Description; //!!!!!!!!!!
             }
             else if (SelectedFuntion.Type == FunctionType.FormulaFunction)
             {
                 var formulaViewModel = new FormulaViewModel(SelectedFuntion as FormulaFunction);
                 var formulaView = new FormulaView();
                 formulaView.DataContext = formulaViewModel;
-                formulaView.ShowDialog();               
+                formulaView.ShowDialog();
+                //SelectedFunction.Name = formulaViewModel.Function.Name; //!!!!!!!!!!
+                //SelectedFunction.Description = formulaViewModel.Function.Description; //!!!!!!!!!!
             }
         }
         private void Delete()
@@ -179,7 +183,7 @@ namespace StructureHelper.Windows.MainGraph
         private void Tree()
         {
             var treeGraphVM = new TreeGraphViewModel(SelectedFuntion);
-            var treeGraph = new TreeGraph.TreeGraph();
+            var treeGraph = new TreeGraph.TreeGraphView();
             treeGraph.DataContext = treeGraphVM;
             treeGraph.ShowDialog();
         }

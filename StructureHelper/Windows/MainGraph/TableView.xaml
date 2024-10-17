@@ -16,8 +16,8 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="0" Margin="5">
@@ -85,8 +85,8 @@
         </Grid>
         <Grid Grid.Row="3">
             <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" 
                        Margin="5"
@@ -96,14 +96,14 @@
         </Grid>
         <Grid Grid.Row="4">
             <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" 
                        Margin="5"
                        Text="Description:" 
                        VerticalAlignment="Center"/>
-            <TextBox Grid.Row="1" Text="{Binding Name}" Margin="5"/>
+            <TextBox Grid.Row="1" Text="{Binding Description}" Margin="5"/>
         </Grid>
         <Button Grid.Row="5" Margin="5" Content="Save"
                 Command="{Binding DrawGraphCommand}"

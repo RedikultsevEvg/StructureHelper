@@ -1,0 +1,52 @@
+﻿<Window x:Class="StructureHelper.Windows.TreeGraph.ScaleView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.TreeGraph"
+        mc:Ignorable="d"        
+        d:DataContext="{d:DesignInstance local:ScaleViewModel}"
+        Title="Scale" Height="200" Width="250"
+        MinWidth="250">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" 
+                    Margin="5"
+                    Text="Enter scale factor:" 
+                    VerticalAlignment="Center"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="scale factor="
+                        FontStyle="Italic"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"/>
+                <TextBox Grid.Column="1" Text="{Binding ScaleFormula}" 
+                      Margin="5"/>
+            </Grid>
+        </Grid>
+        <TextBlock Grid.Row="1"
+                Margin="5"
+                Background="LightYellow" 
+                Text="y=sf(x)"
+                TextAlignment="Center"
+                FontSize="20"
+                TextWrapping="Wrap"
+                FontStyle="Italic">
+        </TextBlock>
+        <Button Grid.Row="4" Margin="5" Content="Save">
+        </Button>
+    </Grid>
+</Window>

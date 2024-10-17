@@ -1,0 +1,81 @@
+﻿<Window x:Class="StructureHelper.Windows.TreeGraph.GetValueView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.TreeGraph"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance local:GetValueViewModel}"
+        Title="GetY" Height="300" Width="400"
+        MinWidth="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" 
+                    Margin="5"
+                    Text="Enter function argument:" 
+                    VerticalAlignment="Center"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="x="
+                        FontStyle="Italic"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"/>
+                <TextBox Grid.Column="1" Text="{Binding Argument}" 
+                      Margin="5"/>
+                <Button Grid.Column="2" Margin="5" Content="Get value"
+             Command="{Binding DrawGraphCommand}">
+                </Button>
+            </Grid>
+        </Grid>
+        <ScrollViewer  Grid.Row="1" Margin="5" >
+            <TextBlock
+                Background="LightYellow" 
+                Text="{Binding Trace}"
+                TextAlignment="Center"
+                FontSize="20"
+                TextWrapping="Wrap"
+                FontStyle="Italic">
+            </TextBlock>
+        </ScrollViewer>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" 
+                    Margin="5"
+                    Text="Function value:" 
+                    VerticalAlignment="Center"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="y(x)="
+                        FontStyle="Italic"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"/>
+                <TextBlock Grid.Column="1" 
+                           Background="AliceBlue"
+                           Text="{Binding Value}"
+                           FontWeight="DemiBold"
+                           Margin="5"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

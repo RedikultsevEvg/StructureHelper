@@ -19,11 +19,11 @@
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
         <ListBox Grid.Row="0" Grid.Column="0" Margin="5"
-                 ItemsSource="{Binding Functions}"
-                 SelectedItem="{Binding SelectedFuntion}">
+                 ItemsSource="{Binding Functions, UpdateSourceTrigger=PropertyChanged}"
+                 SelectedItem="{Binding SelectedFuntion, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
+                    <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

@@ -1,5 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,11 +15,11 @@ using System.Windows.Shapes;
 namespace StructureHelper.Windows.TreeGraph
 {
     /// <summary>
-    /// Interaction logic for TreeGraph.xaml
+    /// Interaction logic for LimView.xaml
     /// </summary>
-    public partial class TreeGraph : Window
+    public partial class LimView : Window
     {
-        public TreeGraph()
+        public LimView()
         {
             InitializeComponent();
         }

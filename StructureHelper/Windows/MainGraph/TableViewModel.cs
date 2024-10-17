@@ -92,9 +92,9 @@ namespace StructureHelper.Windows.MainGraph
         public TableViewModel(TableFunction tableFunction)
         {
             Function = tableFunction;
-            Table = new ObservableCollection<GraphPoint>(tableFunction.Table);
-            Name = tableFunction.Name;
-            Description = tableFunction.Description;
+            Table = new ObservableCollection<GraphPoint>((Function as TableFunction).Table);
+            Name = Function.Name;
+            Description = Function.Description;
         }
         private void DrawGraph(object parameter)
         {

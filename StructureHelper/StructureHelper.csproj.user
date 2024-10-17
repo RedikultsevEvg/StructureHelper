@@ -87,7 +87,16 @@
     <Compile Update="Windows\Services\CopyByParameterView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\TreeGraph\TreeGraph.xaml.cs">
+    <Compile Update="Windows\TreeGraph\GetValueView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\TreeGraph\LimView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\TreeGraph\ScaleView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\TreeGraph\TreeGraphView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\UserControls\MultiplyDouble.xaml.cs">
@@ -197,7 +206,13 @@
     <Page Update="Windows\Services\CopyByParameterView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\TreeGraph\TreeGraph.xaml">
+    <Page Update="Windows\TreeGraph\LimView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\TreeGraph\ScaleView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\TreeGraph\TreeGraphView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\UserControls\MultiplyDouble.xaml">
