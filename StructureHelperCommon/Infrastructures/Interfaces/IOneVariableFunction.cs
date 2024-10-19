@@ -1,6 +1,8 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Functions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -14,6 +16,8 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public FunctionType Type { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public List<GraphPoint> Table { get; set; }
+        public ObservableCollection<IOneVariableFunction> Functions { get; set; }
         public bool Check();
         public double GetByX(double xValue);
     }

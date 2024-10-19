@@ -6,6 +6,7 @@ using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Functions;
 using StructureHelperLogics.Models.Graphs;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -47,6 +48,7 @@ namespace StructureHelper.Windows.MainGraph
         private RelayCommand deleteCommand;
         private RelayCommand copyCommand;
         private RelayCommand treeCommand;
+        private RelayCommand drawGraphCommand;
         public ICommand AddTableCommand
         { 
             get => addTableCommand ??= new RelayCommand(o => AddTable());
@@ -71,47 +73,47 @@ namespace StructureHelper.Windows.MainGraph
         {
             get => treeCommand ??= new RelayCommand(o => Tree());
         }
+        public ICommand DrawGraphCommand
+        {
+            get => drawGraphCommand ??= new RelayCommand(o => DrawGraph());
+        }
         public GraphViewModel()
         {
             Functions = new ObservableCollection<IOneVariableFunction>();
             var f1 = new TableFunction();
-            f1.Name = "Пробная табличная системная функция 1";
-            f1.Table = new List<GraphPoint>();
+            f1.Name = "Табличная системная функция";
+            f1.Table = new List<GraphPoint>()
+            {
+                new GraphPoint(1, 0),
+                new GraphPoint(0, 1),
+            };
             f1.IsUser = false;
-            f1.Description = "Описание 1";
-            var f2 = new TableFunction();
+            f1.Description = "Описание табличной системной функции";
+
+            var f4 = new TableFunction();
+            f4.Name = "Табличная системная функция";
+            f4.Table = new List<GraphPoint>()
+            {
+                new GraphPoint(1, 0),
+                new GraphPoint(0, 1),
+            };
+            f4.IsUser = false;
+            f4.Description = "Описание табличной системной функции";
+
+            /*var f2 = new TableFunction();
             f2.Name = "Пробная табличная пользовательская функция 2";
             f2.Table = new List<GraphPoint>();
             f2.IsUser = true;
-            f2.Description = "Описание 2";
+            f2.Description = "Описание 2";*/
             var f3 = new FormulaFunction();
-            f3.Name = "Пробная формульная системная функция 3";
+            f3.Name = "Формульная системная функция";
             f3.Formula = "x^2";
             f3.IsUser = false;
-            f3.Description = "Описание 3";
+            f3.Description = "Описание формульной системной функции";
             Functions.Add(f1);
-            Functions.Add(f2);
+            //Functions.Add(f2);
             Functions.Add(f3);
-
-
-            Labels = new List<string>();
-            Labels.Add("1");
-            Labels.Add("2");
-            Labels.Add("2");
-            Labels.Add("3");
-            var chartValues = new ChartValues<double>();
-            chartValues.Add(1);
-            chartValues.Add(10);
-            chartValues.Add(100);
-            chartValues.Add(25);
-            chartValues.Add(150);
-            chartValues.Add(100);
-            chartValues.Add(200);
-            chartValues.Add(50);
-            var lineSeries = new LineSeries();
-            lineSeries.Values = chartValues;
-            SeriesCollection = new SeriesCollection();
-            SeriesCollection.Add(lineSeries);
+            Functions.Add(f4);
         }
         /*public GraphViewModel(IGraph graph) 
         {
@@ -148,8 +150,6 @@ namespace StructureHelper.Windows.MainGraph
                 var tableView = new TableView();
                 tableView.DataContext = tableViewModel;
                 tableView.ShowDialog();
-                //SelectedFunction.Name = tableViewModel.Function.Name; //!!!!!!!!!!
-                //SelectedFunction.Description = tableViewModel.Function.Description; //!!!!!!!!!!
             }
             else if (SelectedFuntion.Type == FunctionType.FormulaFunction)
             {
@@ -157,13 +157,23 @@ namespace StructureHelper.Windows.MainGraph
                 var formulaView = new FormulaView();
                 formulaView.DataContext = formulaViewModel;
                 formulaView.ShowDialog();
-                //SelectedFunction.Name = formulaViewModel.Function.Name; //!!!!!!!!!!
-                //SelectedFunction.Description = formulaViewModel.Function.Description; //!!!!!!!!!!
+
             }
         }
         private void Delete()
         {
-            Functions.Remove(SelectedFuntion);
+            if (SelectedFuntion is null)
+            {
+                var lastFunction = Functions[Functions.Count - 1];
+                if (lastFunction.IsUser)
+                {
+                    Functions.Remove(lastFunction);
+                }
+            }
+            else
+            {
+                Functions.Remove(SelectedFuntion);
+            }
         }
         private void Copy()
         {
@@ -186,6 +196,21 @@ namespace StructureHelper.Windows.MainGraph
             var treeGraph = new TreeGraph.TreeGraphView();
             treeGraph.DataContext = treeGraphVM;
             treeGraph.ShowDialog();
+        }
+        private void DrawGraph()
+        {
+            var labels = new List<string>();
+            var lineSeries = new LineSeries();
+            var seriesCollection = new SeriesCollection();
+            var chartValues = new ChartValues<double>();
+            foreach (GraphPoint graphPoint in SelectedFuntion.Table)
+            {
+                labels.Add(Math.Round(graphPoint.X, 2).ToString());
+                chartValues.Add(Math.Round(graphPoint.Y));             
+            }
+            lineSeries.Values = chartValues;
+            Labels = labels;
+            SeriesCollection = seriesCollection;
         }
     }
 }

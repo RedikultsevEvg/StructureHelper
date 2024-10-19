@@ -12,7 +12,9 @@ namespace StructureHelperCommon.Models.Functions
 {
     public class TableFunction : IOneVariableFunction
     {
+        private const string COPY = "copy";
         private string name;
+
         public bool IsUser { get; set; }
         public FunctionType Type { get; set; }
         public string Name 
@@ -27,8 +29,12 @@ namespace StructureHelperCommon.Models.Functions
         public List<GraphPoint> Table { get; set; }
 
         public Guid Id => throw new NotImplementedException();
+        public ObservableCollection<IOneVariableFunction> Functions { get; set; }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public TableFunction()
+        {
+            Type = FunctionType.TableFunction;
+        }
 
         public bool Check()
         {
@@ -41,9 +47,11 @@ namespace StructureHelperCommon.Models.Functions
 
             //Здесь будет стратегия
             tableFunction.Type = Type;
-            tableFunction.Name = Name;
+            tableFunction.Name = $"{Name} {COPY}";
             tableFunction.Description = Description;
-            tableFunction.Table = Table;
+            var newTable = new List<GraphPoint>();
+            Table.ForEach(x => newTable.Add(x.Clone() as GraphPoint));
+            tableFunction.Table = newTable;
             tableFunction.IsUser = true;
 
             return tableFunction;

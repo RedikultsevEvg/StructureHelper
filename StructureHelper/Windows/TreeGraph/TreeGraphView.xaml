@@ -18,13 +18,15 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TreeView Grid.Row="0" Grid.Column="0" Margin="5"
-                  ItemsSource="{Binding Nodes}">
-            <TreeView.ItemTemplate>
-            <DataTemplate>
-                <TextBlock Text="{Binding Name}"/>
-            </DataTemplate>
-            </TreeView.ItemTemplate>
+        <TreeView Grid.Row="0" 
+                  Grid.Column="0" 
+                  Margin="5"
+                  ItemsSource="{Binding ItemsSource}">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type local:Node}" ItemsSource="{Binding Nodes}">
+                    <TextBlock Text="{Binding Path=Name}" />
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
         </TreeView>
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.ColumnDefinitions>

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -22,7 +23,7 @@ namespace StructureHelper.Windows.MainGraph
         private RelayCommand deletePointCommand;
         public ICommand DrawGraphCommand
         {
-            get => drawGraphCommand ??= new RelayCommand(o => DrawGraph(o));
+            get => drawGraphCommand ??= new RelayCommand(o => Save(o));
         }
         public ICommand AddPointCommand
         {
@@ -84,7 +85,8 @@ namespace StructureHelper.Windows.MainGraph
         {
             Table = new ObservableCollection<GraphPoint>()
             {
-                new GraphPoint(),
+                new GraphPoint(0, 0),
+                new GraphPoint(0, 0),
             };
             Name = DEFAULT_NAME;
             Description = DEFAULT_DESCRIPTION;
@@ -96,7 +98,7 @@ namespace StructureHelper.Windows.MainGraph
             Name = Function.Name;
             Description = Function.Description;
         }
-        private void DrawGraph(object parameter)
+        private void Save(object parameter)
         {
             if (Function is null)
             {
@@ -112,12 +114,31 @@ namespace StructureHelper.Windows.MainGraph
         }
         private void AddPoint()
         {
-            var point = new GraphPoint();
-            Table.Add(point);
+            var point = new GraphPoint(0, 0);
+            if (SelectedPoint is null)
+            {
+                Table.Add(point);
+            }
+            else
+            {
+                var selectedPointIndex = Table.IndexOf(SelectedPoint);
+                Table.Insert(selectedPointIndex + 1, point);
+            }
         }
         private void DeletePoint()
         {
-            Table.Remove(SelectedPoint);
+            if (Table.Count < 3)
+            {
+                return;
+            }
+            if (SelectedPoint is null)
+            {
+                Table.RemoveAt(Table.Count - 1);
+            }
+            else
+            {
+                Table.Remove(SelectedPoint);
+            }
         }
     }
 }

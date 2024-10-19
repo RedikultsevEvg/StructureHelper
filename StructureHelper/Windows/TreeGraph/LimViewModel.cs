@@ -9,7 +9,7 @@ namespace StructureHelper.Windows.TreeGraph
 {
     public class LimViewModel : ViewModelBase
     {
-        public char GREATER { get; } = '\u2A7E';
+        public char GREATER { get; } = '\u2265';
         public char LESS { get; } = '\u2264';
         public char IN { get; } = '\u2208';
         public char LEFT_BOUND { get; } = '[';
@@ -25,19 +25,33 @@ namespace StructureHelper.Windows.TreeGraph
         public string LimitText
         {
             get => limitText;
-            set => limitText = value;
+            set
+            {
+                limitText = value;
+                OnPropertyChanged(nameof(LimitText));
+            }
         }
         private double leftBound;
         private double rightBound;
         public double LeftBound
         {
             get => leftBound;
-            set => leftBound = value;
+            set
+            {
+                leftBound = value;
+                LimitText = $"{X_or_Y_text}" + $"{IN}" + $"{LEFT_BOUND}" + $"{value}" + $"{SEMICOLON}" + $"{rightBound}" + $"{RIGHT_BOUND}";
+                OnPropertyChanged(nameof(LeftBound));
+            }
         }
         public double RightBound
         {
             get => rightBound;
-            set => rightBound = value;
+            set 
+            {
+                rightBound = value;
+                LimitText = $"{X_or_Y_text}" + $"{IN}" + $"{LEFT_BOUND}" + $"{LeftBound}" + $"{SEMICOLON}" + $"{value}" + $"{RIGHT_BOUND}";
+                OnPropertyChanged(nameof(RightBound));
+            } 
         }
         public LimViewModel() 
         {

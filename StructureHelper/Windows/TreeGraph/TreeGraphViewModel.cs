@@ -39,12 +39,21 @@ namespace StructureHelper.Windows.TreeGraph
         {
             get => _deleteCommand ??= new RelayCommand(o => Delete());
         }
-        private ObservableCollection<IOneVariableFunction> nodes;
-        public ObservableCollection<IOneVariableFunction> Nodes { get; set; }
+        private ObservableCollection<IOneVariableFunction> functions;
+        public ObservableCollection<IOneVariableFunction> Functions { get; set; }
+        public ObservableCollection<Node> Nodes { get; set; }
         public TreeGraphViewModel(IOneVariableFunction function)
         {
-            Nodes = new ObservableCollection<IOneVariableFunction>();
-            Nodes.Add(function);
+            Functions = new ObservableCollection<IOneVariableFunction>();
+            Functions.Add(function);
+            Nodes = new ObservableCollection<Node>()
+            {
+                new Node(),
+                new Node(),
+                new Node(),
+                new Node(),
+                new Node(),
+            };            
         }
         private void GetY()
         {
@@ -55,7 +64,20 @@ namespace StructureHelper.Windows.TreeGraph
         }
         private void Scale(object parameter)
         {
-            var vm = new ScaleViewModel();
+            ScaleViewModel vm = null;
+            var type = parameter as string;
+            if (type.Equals("x"))
+            {
+                vm = new ScaleViewModel(true);
+            }
+            else if (type.Equals("y"))
+            {
+                vm = new ScaleViewModel(false);
+            }
+            else
+            {
+                return;
+            }
             var v = new ScaleView();
             v.DataContext = vm;
             v.ShowDialog();
@@ -69,10 +91,15 @@ namespace StructureHelper.Windows.TreeGraph
         }
         private void Edit()
         {
+
         }
         private void Delete()
         {
         
+        }
+        private void RefreshTree()
+        {
+
         }
     }
 }

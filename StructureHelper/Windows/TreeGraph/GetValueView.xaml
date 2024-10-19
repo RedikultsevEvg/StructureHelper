@@ -29,9 +29,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="x="
-                        FontStyle="Italic"
-                        Margin="5"
+                <TextBlock Grid.Column="0" Text="x ="
                         VerticalAlignment="Center"
                         HorizontalAlignment="Right"/>
                 <TextBox Grid.Column="1" Text="{Binding Argument}" 
@@ -47,8 +45,7 @@
                 Text="{Binding Trace}"
                 TextAlignment="Center"
                 FontSize="20"
-                TextWrapping="Wrap"
-                FontStyle="Italic">
+                TextWrapping="Wrap">
             </TextBlock>
         </ScrollViewer>
         <Grid Grid.Row="2">
@@ -65,9 +62,7 @@
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="y(x)="
-                        FontStyle="Italic"
-                        Margin="5"
+                <TextBlock Grid.Column="0" Text="y(x) ="
                         VerticalAlignment="Center"
                         HorizontalAlignment="Right"/>
                 <TextBlock Grid.Column="1" 

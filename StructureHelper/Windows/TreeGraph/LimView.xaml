@@ -32,44 +32,43 @@
             <TextBlock Grid.Column="0" 
                        Grid.Row="1"
                        Text="{Binding X_or_Y_text}"
-                       FontStyle="Italic"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Right"/>
             <TextBlock Grid.Column="1" 
                        Grid.Row="1"
                        Text="{Binding GREATER}"
-                       FontStyle="Italic"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Right"/>
             <TextBox Grid.Column="2" 
                      Grid.Row="1"
-                     Text="{Binding LeftBound}" 
+                     Text="{Binding LeftBound, 
+                            UpdateSourceTrigger=PropertyChanged,
+                            StringFormat=\{0:n\}}" 
                      Margin="5"/>
             <TextBlock Grid.Column="0" 
                        Grid.Row="2"
                        Text="{Binding X_or_Y_text}"
-                       FontStyle="Italic"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Right"/>
             <TextBlock Grid.Column="1" 
                        Grid.Row="2"
                        Text="{Binding LESS}"
-                       FontStyle="Italic"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Right"/>
             <TextBox Grid.Column="2" 
                      Grid.Row="2"
-                     Text="{Binding RightBound}" 
+                     Text="{Binding RightBound, 
+                            UpdateSourceTrigger=PropertyChanged,
+                            StringFormat=\{0:n\}}" 
                      Margin="5"/>
         </Grid>
         <TextBlock Grid.Row="1"
                 Margin="5"
                 Background="LightYellow" 
-                Text="{Binding LimitText}"
+                Text="{Binding LimitText, UpdateSourceTrigger=PropertyChanged}"
                 TextAlignment="Center"
                 FontSize="20"
-                TextWrapping="Wrap"
-                FontStyle="Italic">
+                TextWrapping="Wrap">
         </TextBlock>
         <Button Grid.Row="4" Margin="5" Content="Save">
         </Button>
