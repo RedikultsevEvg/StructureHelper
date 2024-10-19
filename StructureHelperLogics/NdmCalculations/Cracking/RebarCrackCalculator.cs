@@ -22,6 +22,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public Action<IResult> ActionToOutputResults { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
+        public Guid Id => throw new NotImplementedException();
+
         public RebarCrackCalculator(ICheckInputDataLogic<IRebarCrackCalculatorInputData> checkInputDataLogic,
             ICrackWidthCalculationLogic crackWidthCalculationLogic,
             IShiftTraceLogger? traceLogger)

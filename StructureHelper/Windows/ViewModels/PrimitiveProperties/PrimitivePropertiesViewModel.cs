@@ -305,7 +305,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             HostPrimitives = new ObservableCollection<PrimitiveBase>();
             foreach (var item in sectionRepository.Primitives)
             {
-                if (item is RectanglePrimitive || item is EllipsePrimitive)
+                if (item is RectangleNdmPrimitive || item is EllipseNdmPrimitive)
                 {
                     CheckHost(primitive, item);
                     HostPrimitives.Add(PrimitiveOperations.ConvertNdmPrimitiveToPrimitiveBase(item));
@@ -316,10 +316,10 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
         private void CheckHost(PrimitiveBase primitive, INdmPrimitive item)
         {
             var ndm = primitive.GetNdmPrimitive();
-            if (ndm is RebarPrimitive)
+            if (ndm is RebarNdmPrimitive)
             {
                 var host = item as IHasDivisionSize;
-                var reinforcement = ndm as RebarPrimitive;
+                var reinforcement = ndm as RebarNdmPrimitive;
                 bool checkWhenPointLocatedInsideOfItsHost = host.IsPointInside(reinforcement.Center.Clone() as IPoint2D);
                 if (checkWhenPointLocatedInsideOfItsHost
                     && reinforcement.HostPrimitive is null)

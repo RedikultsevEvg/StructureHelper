@@ -5,20 +5,21 @@ using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
 {
-    public class ForceCalculatorUpdateStrategy : IUpdateStrategy<ForceCalculator>
+    public class ForceCalculatorUpdateStrategy : IUpdateStrategy<IForceCalculator>
     {
-        private readonly IUpdateStrategy<ForceInputData> inputDataUpdateStrategy;
-        public ForceCalculatorUpdateStrategy(IUpdateStrategy<ForceInputData> inputDataUpdateStrategy)
+        private readonly IUpdateStrategy<IForceCalculatorInputData> inputDataUpdateStrategy;
+        public ForceCalculatorUpdateStrategy(IUpdateStrategy<IForceCalculatorInputData> inputDataUpdateStrategy)
         {
             this.inputDataUpdateStrategy = inputDataUpdateStrategy;
         }
         public ForceCalculatorUpdateStrategy() : this(new ForceCalculatorInputDataUpdateStrategy()) {        }
-        public void Update(ForceCalculator targetObject, ForceCalculator sourceObject)
+        public void Update(IForceCalculator targetObject, IForceCalculator sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.IsNull(targetObject);
+            CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
-            targetObject.InputData ??= new ForceInputData();
+            targetObject.InputData ??= new ForceCalculatorInputData();
             inputDataUpdateStrategy.Update(targetObject.InputData, sourceObject.InputData);
         }
     }

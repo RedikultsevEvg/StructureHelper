@@ -30,6 +30,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
+        public Guid Id => throw new NotImplementedException();
+
         public CrackForceBynarySearchCalculator(
             IIsSectionCrackedByFactorLogic crackedByFactorLogic,
             ICheckInputDataLogic<ICrackForceCalculatorInputData> checkInputDataLogic

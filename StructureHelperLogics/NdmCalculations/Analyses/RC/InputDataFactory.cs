@@ -17,7 +17,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
     public static class InputDataFactory
     {
         private static IStressLogic stressLogic => new StressLogic();
-        public static IAnchorageInputData GetInputData(RebarPrimitive ndmPrimitive, IStrainMatrix strainMatrix, LimitStates limitState, CalcTerms calcTerm, double lappedCountRate)
+        public static IAnchorageInputData GetInputData(RebarNdmPrimitive ndmPrimitive, IStrainMatrix strainMatrix, LimitStates limitState, CalcTerms calcTerm, double lappedCountRate)
         {
             var inputData = new AnchorageInputData();
             inputData.ConcreteStrength = GetConcreteStrength(limitState, calcTerm, ndmPrimitive);
@@ -47,7 +47,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
             return inputData;
         }
 
-        private static double GetConcreteStrength(LimitStates limitState, CalcTerms calcTerm, RebarPrimitive primitive)
+        private static double GetConcreteStrength(LimitStates limitState, CalcTerms calcTerm, RebarNdmPrimitive primitive)
         {
             if (primitive.HostPrimitive is not null)
             {
@@ -66,7 +66,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
             throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": host material is incorrect or null");
         }
 
-        private static double GetReinforcementStrength(LimitStates limitState, CalcTerms calcTerm, RebarPrimitive primitive)
+        private static double GetReinforcementStrength(LimitStates limitState, CalcTerms calcTerm, RebarNdmPrimitive primitive)
         {
             if (primitive.NdmElement.HeadMaterial.HelperMaterial is IReinforcementLibMaterial)
             {

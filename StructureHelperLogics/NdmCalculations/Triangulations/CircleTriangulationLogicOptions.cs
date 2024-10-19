@@ -1,4 +1,5 @@
 ﻿using StructureHelper.Models.Materials;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
@@ -13,9 +14,9 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     public class CircleTriangulationLogicOptions : IShapeTriangulationLogicOptions
     {
-        public ICircleShape Circle { get; }
+        public ICircleShape Circle { get;}
 
-        public IPoint2D Center { get; }
+        public IPoint2D Center { get; set; }
 
         public double NdmMaxSize { get; }
 
@@ -24,8 +25,9 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public StrainTuple Prestrain { get; set; }
         public ITriangulationOptions triangulationOptions { get; set; }
         public IHeadMaterial HeadMaterial { get; set; }
+        public double RotationAngle { get; set; }
 
-        public CircleTriangulationLogicOptions(IEllipsePrimitive primitive)
+        public CircleTriangulationLogicOptions(IEllipseNdmPrimitive primitive)
         {
             Center = primitive.Center.Clone() as Point2D;
             //to do change to ellipse

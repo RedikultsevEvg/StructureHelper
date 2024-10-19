@@ -6,7 +6,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     public interface IRebarStressResultLogic : ILogic
     {
         IRebarCrackInputData RebarCrackInputData { get; set; }
-        IRebarPrimitive RebarPrimitive { get; set; }
+        IRebarNdmPrimitive RebarPrimitive { get; set; }
 
         IRebarStressResult GetRebarStressResult();
     }

@@ -10,9 +10,5 @@
         /// Height of rectangle, m
         /// </summary>
         double Height { get; set; }
-        /// <summary>
-        /// Angle of rotating rectangle, rad
-        /// </summary>
-        double Angle { get; set; }
     }
 }

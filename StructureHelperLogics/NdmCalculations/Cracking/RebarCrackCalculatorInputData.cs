@@ -19,7 +19,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <inheritdoc/>
         public IRebarCrackInputData? ShortRebarData { get; set; }
         /// <inheritdoc/>
-        public IRebarPrimitive RebarPrimitive { get; set; }
+        public IRebarNdmPrimitive RebarPrimitive { get; set; }
         /// <inheritdoc/>
         public IUserCrackInputData? UserCrackInputData { get; set; }
     }

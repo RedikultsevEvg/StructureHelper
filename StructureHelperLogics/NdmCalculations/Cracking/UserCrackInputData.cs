@@ -12,6 +12,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     /// </summary>
     public class UserCrackInputData : IUserCrackInputData
     {
+        public Guid Id { get; } = new();
         /// <summary>
         /// Flag of assigning of user value of softening factor
         /// </summary>
@@ -36,5 +37,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// Ultimate short-term crack width, m
         /// </summary>
         public double UltimateShortCrackWidth { get; set; }
+
     }
 }

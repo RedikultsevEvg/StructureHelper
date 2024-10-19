@@ -54,7 +54,7 @@ namespace DataAccess.DTOs.Converters
             }
             catch (Exception ex)
             {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
+                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
                 TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
                 throw;
             }

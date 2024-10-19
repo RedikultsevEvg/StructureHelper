@@ -37,7 +37,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private double rebarActualStress;
         private double softeningFactor;
         private double minValueOfFactor = 0.2d;
-        private IRebarPrimitive rebarPrimitive;
+        private IRebarNdmPrimitive rebarPrimitive;
         private IRebarCrackInputData inputData;
 
         public double MinValueOfFactor
@@ -48,7 +48,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 IsResultActual = false;
             }
         }
-        public IRebarPrimitive RebarPrimitive
+        public IRebarNdmPrimitive RebarPrimitive
         {
             get => rebarPrimitive; set
             {

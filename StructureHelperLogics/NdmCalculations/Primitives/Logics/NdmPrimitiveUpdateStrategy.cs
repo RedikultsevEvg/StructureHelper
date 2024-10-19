@@ -11,21 +11,21 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);
-            if (targetObject is PointPrimitive point)
+            if (targetObject is PointNdmPrimitive point)
             {
-                new PointUpdateStrategy().Update(point, (PointPrimitive)sourceObject);
+                new PointPrimitiveUpdateStrategy().Update(point, (PointNdmPrimitive)sourceObject);
             }
-            else if (targetObject is RebarPrimitive rebar)
+            else if (targetObject is RebarNdmPrimitive rebar)
             {
-                new RebarUpdateStrategy().Update(rebar, (RebarPrimitive)sourceObject);
+                new RebarNdmPrimitiveUpdateStrategy().Update(rebar, (RebarNdmPrimitive)sourceObject);
             }
-            else if (targetObject is RectanglePrimitive rectangle)
+            else if (targetObject is RectangleNdmPrimitive rectangle)
             {
-                new RectanglePrimitiveUpdateStrategy().Update(rectangle, (RectanglePrimitive)sourceObject);
+                new RectanglePrimitiveUpdateStrategy().Update(rectangle, (RectangleNdmPrimitive)sourceObject);
             }
-            else if (targetObject is EllipsePrimitive circle)
+            else if (targetObject is EllipseNdmPrimitive circle)
             {
-                new EllipsePrimitiveUpdateStrategy().Update(circle, (EllipsePrimitive)sourceObject);
+                new EllipsePrimitiveUpdateStrategy().Update(circle, (EllipseNdmPrimitive)sourceObject);
             }
             else
             {

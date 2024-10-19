@@ -5,7 +5,7 @@ using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public class EllipsePrimitiveUpdateStrategy : IUpdateStrategy<IEllipsePrimitive>
+    public class EllipsePrimitiveUpdateStrategy : IUpdateStrategy<IEllipseNdmPrimitive>
     {
         private IUpdateStrategy<INdmPrimitive> basePrimitiveUpdateStrategy;
         private IUpdateStrategy<IDivisionSize> divisionPropsUpdateStrategy;
@@ -26,7 +26,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         {
             
         }
-        public void Update(IEllipsePrimitive targetObject, IEllipsePrimitive sourceObject)
+        public void Update(IEllipseNdmPrimitive targetObject, IEllipseNdmPrimitive sourceObject)
         {
             CheckObject.IsNull(sourceObject, "source object");
             CheckObject.IsNull(targetObject, "target object");

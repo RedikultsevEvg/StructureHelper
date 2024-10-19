@@ -15,7 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     public class RebarStressResultLogic : IRebarStressResultLogic
     {
         private IRebarStressCalculator rebarStressCalculator;
-        public IRebarPrimitive RebarPrimitive { get; set; }
+        public IRebarNdmPrimitive RebarPrimitive { get; set; }
         public IRebarCrackInputData RebarCrackInputData { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 

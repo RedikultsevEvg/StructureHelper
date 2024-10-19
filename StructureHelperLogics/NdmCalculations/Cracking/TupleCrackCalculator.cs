@@ -26,7 +26,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private TupleCrackResult result;
         private ICrackedSectionTriangulationLogic triangulationLogic;
         private ITupleRebarsCrackSolver solver;
-        private List<IRebarPrimitive>? rebarPrimitives;
+        private List<IRebarNdmPrimitive>? rebarPrimitives;
         private IEnumerable<INdm> crackableNdms;
         private IEnumerable<INdm> crackedNdms;
         private IEnumerable<INdm> elasticNdms;
@@ -42,6 +42,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public IResult Result => result;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
+
+        public Guid Id => throw new NotImplementedException();
 
         public TupleCrackCalculator(ICheckInputDataLogic<TupleCrackInputData> checkInputDataLogic,
             ILengthBetweenCracksLogic lengthLogic, ICrackedSectionTriangulationLogic triangulationLogic, ITupleRebarsCrackSolver solver)

@@ -18,7 +18,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private IProcessorLogic<IForceTuple> eccentricityLogic;
         private ForceTupleBucklingLogic bucklingLogic;
         private ITriangulatePrimitiveLogic triangulateLogic;
-        public IForceInputData InputData { get; set; }
+        public IForceCalculatorInputData InputData { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
         public Action<IResult> ActionToOutputResults { get; set; }
 

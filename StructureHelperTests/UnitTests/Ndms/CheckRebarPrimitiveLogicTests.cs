@@ -19,14 +19,14 @@ namespace StructureHelperTests.UnitTests.Ndms
     [TestFixture]
     public class CheckRebarPrimitiveLogicTests
     {
-        private Mock<IRebarPrimitive> _mockRebarPrimitive;
+        private Mock<IRebarNdmPrimitive> _mockRebarPrimitive;
         private Mock<IShiftTraceLogger> _mockTraceLogger;
         private CheckRebarPrimitiveLogic _checkRebarPrimitiveLogic;
 
         [SetUp]
         public void SetUp()
         {
-            _mockRebarPrimitive = new Mock<IRebarPrimitive>();
+            _mockRebarPrimitive = new Mock<IRebarNdmPrimitive>();
             _mockTraceLogger = new Mock<IShiftTraceLogger>();
 
             _checkRebarPrimitiveLogic = new CheckRebarPrimitiveLogic(_mockTraceLogger.Object)

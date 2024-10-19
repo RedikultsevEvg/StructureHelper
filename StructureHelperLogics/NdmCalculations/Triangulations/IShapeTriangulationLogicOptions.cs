@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models.Shapes;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
-    public interface IShapeTriangulationLogicOptions : ITriangulationLogicOptions
+    public interface IShapeTriangulationLogicOptions : ITriangulationLogicOptions, IHasCenter2D
     {
         /// <summary>
         /// Center of shape

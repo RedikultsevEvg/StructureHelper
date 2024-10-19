@@ -22,7 +22,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         }
         public void Update(ICrackCalculatorInputData targetObject, ICrackCalculatorInputData sourceObject)
         {
-            CheckObject.CompareTypes(targetObject, sourceObject);
+            CheckObject.IsNull(targetObject);
+            CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.ForceActions.Clear();
             targetObject.ForceActions.AddRange(sourceObject.ForceActions);

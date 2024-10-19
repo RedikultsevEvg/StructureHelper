@@ -26,7 +26,7 @@ namespace StructureHelperTests.ViewModelTests
         {
             //Arrange
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var primitive = new RectanglePrimitive();
+            var primitive = new RectangleNdmPrimitive();
             primitive.NdmElement.HeadMaterial = material;
             var primitiveBase = new RectangleViewPrimitive(primitive);
             //Act
@@ -40,7 +40,7 @@ namespace StructureHelperTests.ViewModelTests
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var primitive = new EllipsePrimitive();
+            var primitive = new EllipseNdmPrimitive();
             primitive.NdmElement.HeadMaterial = material;
             var primitiveBase = new CircleViewPrimitive(primitive);
             //Act
@@ -55,7 +55,7 @@ namespace StructureHelperTests.ViewModelTests
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var primitive = new PointPrimitive();
+            var primitive = new PointNdmPrimitive();
             primitive.NdmElement.HeadMaterial = material;
             var primitiveBase = new PointViewPrimitive(primitive);
             //Act
@@ -69,7 +69,7 @@ namespace StructureHelperTests.ViewModelTests
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var primitive = new RebarPrimitive();
+            var primitive = new RebarNdmPrimitive();
             primitive.NdmElement.HeadMaterial = material;
             var primitiveBase = new ReinforcementViewPrimitive(primitive);
             //Act

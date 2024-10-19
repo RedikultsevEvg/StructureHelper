@@ -25,7 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 Material = options.HeadMaterial.GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm)
             });
             TriangulationService.CommonTransform(ndmCollection, options);
-            double angle = options.Rectangle.Angle;
+            double angle = options.RotationAngle;
             NdmTransform.Rotate(ndmCollection, angle);
             TriangulationService.SetPrestrain(ndmCollection, options.Prestrain);
             return ndmCollection;

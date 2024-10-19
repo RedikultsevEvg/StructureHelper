@@ -51,7 +51,7 @@ namespace StructureHelperTests.UnitTests.Ndms
         public void Check_RebarPrimitiveFailsCheck_ReturnsFalseAndAppendsCheckResult()
         {
             // Arrange
-            var rebarMock = new Mock<IRebarPrimitive>();
+            var rebarMock = new Mock<IRebarNdmPrimitive>();
             _mockHasPrimitives.Setup(x => x.Primitives).Returns(new List<INdmPrimitive> { rebarMock.Object });
             _mockCheckRebarPrimitiveLogic.Setup(x => x.Check()).Returns(false);
             _mockCheckRebarPrimitiveLogic.Setup(x => x.CheckResult).Returns("Rebar check failed\n");
@@ -68,7 +68,7 @@ namespace StructureHelperTests.UnitTests.Ndms
         public void Check_RebarPrimitiveHasNoHostPrimitive_ReturnsFalseAndLogsError()
         {
             // Arrange
-            var rebarMock = new Mock<IRebarPrimitive>();
+            var rebarMock = new Mock<IRebarNdmPrimitive>();
             var hostPrimitiveMock = new Mock<INdmPrimitive>();
 
             rebarMock.Setup(x => x.HostPrimitive).Returns(hostPrimitiveMock.Object);
@@ -91,7 +91,7 @@ namespace StructureHelperTests.UnitTests.Ndms
         public void Check_AllPrimitivesValid_ReturnsTrue()
         {
             // Arrange
-            var rebarMock = new Mock<IRebarPrimitive>();
+            var rebarMock = new Mock<IRebarNdmPrimitive>();
             var hostPrimitiveMock = new Mock<INdmPrimitive>();
 
             rebarMock.Setup(x => x.HostPrimitive).Returns(hostPrimitiveMock.Object);

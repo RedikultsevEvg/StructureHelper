@@ -16,7 +16,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 {
     public class ForceCalculatorViewModel : OkCancelViewModelBase
     {
-        ForceCalculator forcesCalculator;
+        IForceCalculator forcesCalculator;
 
         public string Name
         {
@@ -26,7 +26,10 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 
         public ForceCalculatorInputDataVM InputData { get; }
 
-        public ForceCalculatorViewModel(IEnumerable<INdmPrimitive> allowedPrimitives, IEnumerable<IForceAction> allowedCombinations, ForceCalculator forcesCalculator)
+        public ForceCalculatorViewModel(
+            IEnumerable<INdmPrimitive> allowedPrimitives,
+            IEnumerable<IForceAction> allowedCombinations,
+            IForceCalculator forcesCalculator)
         {
             this.forcesCalculator = forcesCalculator;
             InputData = new ForceCalculatorInputDataVM(this.forcesCalculator.InputData, allowedPrimitives, allowedCombinations);

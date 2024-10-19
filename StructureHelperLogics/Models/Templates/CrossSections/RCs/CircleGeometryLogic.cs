@@ -13,7 +13,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
     public class CircleGeometryLogic : IRCGeometryLogic
     {
         ICircleTemplate template;
-        EllipsePrimitive concreteBlock;
+        EllipseNdmPrimitive concreteBlock;
         
         public IEnumerable<IHeadMaterial> HeadMaterials { get; set; }
 
@@ -35,7 +35,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             var diameter = template.Shape.Diameter;
             var concreteMaterial = HeadMaterials.ToList()[0];
             var primitives = new List<INdmPrimitive>();
-            concreteBlock = new EllipsePrimitive() { Width = diameter, Name = "Concrete block"};
+            concreteBlock = new EllipseNdmPrimitive() { Width = diameter, Name = "Concrete block"};
             concreteBlock.NdmElement.HeadMaterial = concreteMaterial;
             primitives.Add(concreteBlock);
             return primitives;
@@ -53,7 +53,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                 var angle = i * dAngle;
                 var x = radius * Math.Sin(angle);
                 var y = radius * Math.Cos(angle);
-                var point = new RebarPrimitive()
+                var point = new RebarNdmPrimitive()
                 { 
                     Area = barArea,
                     Name = "Left bottom point",

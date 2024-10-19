@@ -11,7 +11,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     /// <summary>
     /// Geometry primitive of point
     /// </summary>
-    public interface IPointPrimitive : INdmPrimitive, IPointShape
+    public interface IPointNdmPrimitive : INdmPrimitive, IPointShape
     {
     }
 }

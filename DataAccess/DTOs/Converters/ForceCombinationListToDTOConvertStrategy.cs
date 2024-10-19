@@ -1,7 +1,9 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using System;
 using System.Collections.Generic;
@@ -15,18 +17,26 @@ namespace DataAccess.DTOs.Converters
     {
         private IUpdateStrategy<IForceCombinationList> updateStrategy;
         private IConvertStrategy<DesignForceTupleDTO, IDesignForceTuple> convertStrategy;
+        private IUpdateStrategy<IForceAction> baseUpdateStrategy;
+        private IConvertStrategy<Point2DDTO, IPoint2D> pointUpdateStrategy;
 
         public ForceCombinationListToDTOConvertStrategy(
             IUpdateStrategy<IForceCombinationList> updateStrategy,
-            IConvertStrategy<DesignForceTupleDTO, IDesignForceTuple> convertStrategy)
+            IConvertStrategy<DesignForceTupleDTO, IDesignForceTuple> convertStrategy,
+            IUpdateStrategy<IForceAction> baseUpdateStrategy,
+            IConvertStrategy<Point2DDTO, IPoint2D> pointUpdateStrategy)
         {
             this.updateStrategy = updateStrategy;
             this.convertStrategy = convertStrategy;
+            this.baseUpdateStrategy = baseUpdateStrategy;
+            this.pointUpdateStrategy = pointUpdateStrategy;
         }
 
         public ForceCombinationListToDTOConvertStrategy() : this (
             new ForceCombinationListUpdateStrategy(),
-            new DesignForceTupleToDTOConvertStrategy())
+            new DesignForceTupleToDTOConvertStrategy(),
+            new ForceActionBaseUpdateStrategy(),
+            new Point2DToDTOConvertStrategy())
         {
             
         }
@@ -44,7 +54,7 @@ namespace DataAccess.DTOs.Converters
             }
             catch (Exception ex)
             {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
+                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
                 TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
                 throw;
             }
@@ -54,16 +64,29 @@ namespace DataAccess.DTOs.Converters
         {
 
             ForceCombinationListDTO newItem = new() { Id = source.Id};
+            baseUpdateStrategy.Update(newItem, source);
             updateStrategy.Update(newItem, source);
             convertStrategy.ReferenceDictionary = ReferenceDictionary;
             convertStrategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<DesignForceTupleDTO, IDesignForceTuple>(this, convertStrategy);
+            GetNewForcePoint(newItem, source);
             newItem.DesignForces.Clear();
             foreach (var item in source.DesignForces)
             {
                 newItem.DesignForces.Add(convertLogic.Convert(item));
             }
             return newItem;
+        }
+
+        private void GetNewForcePoint(ForceCombinationListDTO newItem, IForceCombinationList source)
+        {
+            if (source.ForcePoint is not null)
+            {
+                pointUpdateStrategy.ReferenceDictionary = ReferenceDictionary;
+                pointUpdateStrategy.TraceLogger = TraceLogger;
+                var convertLogic = new DictionaryConvertStrategy<Point2DDTO, IPoint2D>(this, pointUpdateStrategy);
+                newItem.ForcePoint = convertLogic.Convert(source.ForcePoint);
+            }
         }
 
         private void Check()

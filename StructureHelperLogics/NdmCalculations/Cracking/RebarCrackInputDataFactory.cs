@@ -31,7 +31,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             
         }
 
-        public IRebarPrimitive Rebar { get; set; }
+        public IRebarNdmPrimitive Rebar { get; set; }
         public TupleCrackInputData InputData { get; set; }
         public double LongLength { get; set; }
         public double ShortLength { get; set; }
@@ -41,9 +41,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             IEnumerable<INdm> crackableNdmsLoc = null;
             IEnumerable<INdm> crackedNdmsLoc = null;
             INdm concreteNdmUnderRebar;
-            RebarPrimitive rebarCopy = null;
+            RebarNdmPrimitive rebarCopy = null;
 
-            rebarCopy = Rebar.Clone() as RebarPrimitive;
+            rebarCopy = Rebar.Clone() as RebarNdmPrimitive;
             rebarCopy.NdmElement.HeadMaterial = rebarCopy.NdmElement.HeadMaterial.Clone() as IHeadMaterial;
             triangulationLogicLoc = new CrackedSectionTriangulationLogic(InputData.Primitives);
             crackableNdmsLoc = triangulationLogicLoc.GetNdmCollection();

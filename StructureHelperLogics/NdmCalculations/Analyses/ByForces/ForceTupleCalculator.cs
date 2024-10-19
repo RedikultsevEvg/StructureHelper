@@ -28,6 +28,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public Action<IResult> ActionToOutputResults { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
+        public Guid Id => throw new NotImplementedException();
+
         public ForceTupleCalculator(ICheckInputDataLogic<IForceTupleInputData> checkInputDataLogic, IForceTupleCalcLogic calcLogic)
         {
             this.checkInputDataLogic = checkInputDataLogic;

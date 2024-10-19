@@ -22,6 +22,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public Action<IResult> ActionToOutputResults { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
+        public Guid Id => throw new NotImplementedException();
+
         public LimitCurveCalculator(ILimitCurveLogic limitCurveLogic)
         {
             this.limitCurveLogic = limitCurveLogic;

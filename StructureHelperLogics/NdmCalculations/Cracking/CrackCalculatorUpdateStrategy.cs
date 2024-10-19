@@ -19,7 +19,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public CrackCalculatorUpdateStrategy() : this(new CrackInputDataUpdateStrategy()) { }
         public void Update(ICrackCalculator targetObject, ICrackCalculator sourceObject)
         {
-            CheckObject.CompareTypes(targetObject, sourceObject);
+            CheckObject.IsNull(targetObject);
+            CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
 
             targetObject.Name = sourceObject.Name;

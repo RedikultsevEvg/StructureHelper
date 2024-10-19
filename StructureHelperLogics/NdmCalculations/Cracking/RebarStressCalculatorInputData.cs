@@ -17,6 +17,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <inheritdoc/>
         public IEnumerable<INdm> NdmCollection { get; set; }
         /// <inheritdoc/>
-        public IRebarPrimitive RebarPrimitive { get; set; }
+        public IRebarNdmPrimitive RebarPrimitive { get; set; }
     }
 }

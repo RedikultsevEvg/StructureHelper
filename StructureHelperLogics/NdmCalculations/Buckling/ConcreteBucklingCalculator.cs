@@ -35,6 +35,8 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         public Action<IResult> ActionToOutputResults { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
+        public Guid Id => throw new NotImplementedException();
+
         private (double EtaAlongX, double EtaAlongY) GetBucklingCoefficients()
         {
             var (DX, DY) = GetStiffness();

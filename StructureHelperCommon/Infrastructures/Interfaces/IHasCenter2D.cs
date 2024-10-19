@@ -16,5 +16,9 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         /// 2D point of center
         /// </summary>
         IPoint2D Center {get;set;}
+        /// <summary>
+        /// Angle of rotation orbitrary center
+        /// </summary>
+        double RotationAngle { get; set; }
     }
 }

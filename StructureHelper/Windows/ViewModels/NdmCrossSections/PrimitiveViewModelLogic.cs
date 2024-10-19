@@ -69,7 +69,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             INdmPrimitive ndmPrimitive;
             if (primitiveType == PrimitiveType.Rectangle)
             {
-                var primitive = new RectanglePrimitive
+                var primitive = new RectangleNdmPrimitive
                 {
                     Width = 0.4d,
                     Height = 0.6d
@@ -80,7 +80,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
             else if (primitiveType == PrimitiveType.Reinforcement)
             {
-                var primitive = new RebarPrimitive
+                var primitive = new RebarNdmPrimitive
                 {
                     Area = 0.0005d
                 };
@@ -89,7 +89,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
             else if (primitiveType == PrimitiveType.Point)
             {
-                var primitive = new PointPrimitive
+                var primitive = new PointNdmPrimitive
                 {
                     Area = 0.0005d
                 };
@@ -98,7 +98,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
             else if (primitiveType == PrimitiveType.Circle)
             {
-                var primitive = new EllipsePrimitive
+                var primitive = new EllipseNdmPrimitive
                 {
                     Width = 0.5d
                 };
@@ -247,23 +247,23 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             newPrimitive.Name += " copy";
             repository.Primitives.Add(newPrimitive);
             PrimitiveBase primitiveBase;
-            if (newPrimitive is IRectanglePrimitive)
+            if (newPrimitive is IRectangleNdmPrimitive)
             {
-                primitiveBase = new RectangleViewPrimitive(newPrimitive as IRectanglePrimitive);
+                primitiveBase = new RectangleViewPrimitive(newPrimitive as IRectangleNdmPrimitive);
             }
-            else if (newPrimitive is IEllipsePrimitive)
+            else if (newPrimitive is IEllipseNdmPrimitive)
             {
-                primitiveBase = new CircleViewPrimitive(newPrimitive as IEllipsePrimitive);
+                primitiveBase = new CircleViewPrimitive(newPrimitive as IEllipseNdmPrimitive);
             }
-            else if (newPrimitive is IPointPrimitive)
+            else if (newPrimitive is IPointNdmPrimitive)
             {
-                if (newPrimitive is RebarPrimitive)
+                if (newPrimitive is RebarNdmPrimitive)
                 {
-                    primitiveBase = new ReinforcementViewPrimitive(newPrimitive as RebarPrimitive);
+                    primitiveBase = new ReinforcementViewPrimitive(newPrimitive as RebarNdmPrimitive);
                 }
                 else
                 {
-                    primitiveBase = new PointViewPrimitive(newPrimitive as IPointPrimitive);
+                    primitiveBase = new PointViewPrimitive(newPrimitive as IPointNdmPrimitive);
                 }
 
             }

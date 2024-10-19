@@ -17,6 +17,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
+        public Guid Id => throw new NotImplementedException();
+
         public object Clone()
         {
             throw new NotImplementedException();

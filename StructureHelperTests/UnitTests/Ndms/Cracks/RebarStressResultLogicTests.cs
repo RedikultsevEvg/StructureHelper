@@ -37,7 +37,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
             _mockRebarStressCalculator.Setup(x => x.Run());
             _mockRebarStressCalculator.Setup(x => x.Result).Returns(mockRebarStressResult);
 
-            var mockRebarPrimitive = new Mock<IRebarPrimitive>();
+            var mockRebarPrimitive = new Mock<IRebarNdmPrimitive>();
             var mockRebarCrackInputData = new Mock<IRebarCrackInputData>();
 
             _rebarStressResultLogic.RebarPrimitive = mockRebarPrimitive.Object;
@@ -64,7 +64,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
             _mockRebarStressCalculator.Setup(x => x.Run());
             _mockRebarStressCalculator.Setup(x => x.Result).Returns(mockRebarStressResult);
 
-            var mockRebarPrimitive = new Mock<IRebarPrimitive>();
+            var mockRebarPrimitive = new Mock<IRebarNdmPrimitive>();
             var mockRebarCrackInputData = new Mock<IRebarCrackInputData>();
 
             _rebarStressResultLogic.RebarPrimitive = mockRebarPrimitive.Object;

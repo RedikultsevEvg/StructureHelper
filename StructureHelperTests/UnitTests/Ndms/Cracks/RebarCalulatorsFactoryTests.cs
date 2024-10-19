@@ -14,7 +14,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
         {
             // Arrange
             var mockInputFactory = new Mock<IRebarCrackInputDataFactory>();
-            var rebar = new RebarPrimitive();
+            var rebar = new RebarNdmPrimitive();
             var inputData = new TupleCrackInputData();
             var rebarCrackInputData = new RebarCrackCalculatorInputData();
 
@@ -26,7 +26,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
 
             var factory = new RebarCalulatorsFactory(mockInputFactory.Object)
             {
-                Rebars = new List<RebarPrimitive> { rebar },
+                Rebars = new List<RebarNdmPrimitive> { rebar },
                 InputData = inputData,
                 LongLength = 10.0,
                 ShortLength = 5.0,
@@ -48,8 +48,8 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
         {
             // Arrange
             var mockInputFactory = new Mock<IRebarCrackInputDataFactory>();
-            var rebar1 = new RebarPrimitive();
-            var rebar2 = new RebarPrimitive();
+            var rebar1 = new RebarNdmPrimitive();
+            var rebar2 = new RebarNdmPrimitive();
             var inputData = new TupleCrackInputData();
             var rebarInputData1 = new RebarCrackCalculatorInputData();
             var rebarInputData2 = new RebarCrackCalculatorInputData();
@@ -64,7 +64,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
 
             var factory = new RebarCalulatorsFactory(mockInputFactory.Object)
             {
-                Rebars = new List<RebarPrimitive> { rebar1, rebar2 },
+                Rebars = new List<RebarNdmPrimitive> { rebar1, rebar2 },
                 InputData = inputData,
                 LongLength = 20.0,
                 ShortLength = 10.0,

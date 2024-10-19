@@ -136,7 +136,7 @@ namespace StructureHelper.Windows.MainWindow
         }
         private void ShowEntries()
         {
-            var filteredEntries = traceLogger.TraceLoggerEntries.Where(x => x.Priority <= 300);
+            var filteredEntries = traceLogger.TraceLoggerEntries.Where(x => x.Priority < 300);
             if (filteredEntries.Any())
             {
                 var wnd = new TraceDocumentView(traceLogger);

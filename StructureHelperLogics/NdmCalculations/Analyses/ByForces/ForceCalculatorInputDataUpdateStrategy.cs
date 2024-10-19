@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public class ForceCalculatorInputDataUpdateStrategy : IUpdateStrategy<ForceInputData>
+    public class ForceCalculatorInputDataUpdateStrategy : IUpdateStrategy<IForceCalculatorInputData>
     {
         private IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
         private IUpdateStrategy<IHasForceCombinations> forceCombinationUpdateStrategy;
@@ -39,7 +39,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 )
         {
         }
-        public void Update(ForceInputData targetObject, ForceInputData sourceObject)
+        public void Update(IForceCalculatorInputData targetObject, IForceCalculatorInputData sourceObject)
         {
             CheckObject.IsNull(targetObject, sourceObject, "Force calculator input data");
             if (ReferenceEquals(targetObject, sourceObject)) { return; }

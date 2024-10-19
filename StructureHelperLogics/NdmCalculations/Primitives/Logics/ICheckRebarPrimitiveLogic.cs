@@ -9,6 +9,6 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
 {
     public interface ICheckRebarPrimitiveLogic : ICheckLogic
     {
-        IRebarPrimitive RebarPrimitive { get; set; }
+        IRebarNdmPrimitive RebarPrimitive { get; set; }
     }
 }

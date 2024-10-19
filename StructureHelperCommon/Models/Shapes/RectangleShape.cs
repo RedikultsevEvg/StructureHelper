@@ -10,8 +10,6 @@ namespace StructureHelperCommon.Models.Shapes
         public double Width { get; set; }
         /// <inheritdoc />
         public double Height { get; set; }
-        /// <inheritdoc />
-        public double Angle { get; set; }
 
         public RectangleShape(Guid id)
         {

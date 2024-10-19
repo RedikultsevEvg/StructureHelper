@@ -25,24 +25,24 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         public static PrimitiveBase ConvertNdmPrimitiveToPrimitiveBase(INdmPrimitive primitive)
         {
             PrimitiveBase viewItem;
-            if (primitive is IRectanglePrimitive)
+            if (primitive is IRectangleNdmPrimitive)
             {
-                var rect = primitive as IRectanglePrimitive;
+                var rect = primitive as IRectangleNdmPrimitive;
                 viewItem = new RectangleViewPrimitive(rect);
             }
-            else if (primitive is IEllipsePrimitive)
+            else if (primitive is IEllipseNdmPrimitive)
             {
-                var circle = primitive as IEllipsePrimitive;
+                var circle = primitive as IEllipseNdmPrimitive;
                 viewItem = new CircleViewPrimitive(circle);
             }
-            else if (primitive is IPointPrimitive & primitive is not RebarPrimitive)
+            else if (primitive is IPointNdmPrimitive & primitive is not RebarNdmPrimitive)
             {
-                var point = primitive as IPointPrimitive;
+                var point = primitive as IPointNdmPrimitive;
                 viewItem = new PointViewPrimitive(point);
             }
-            else if (primitive is RebarPrimitive)
+            else if (primitive is RebarNdmPrimitive)
             {
-                var point = primitive as RebarPrimitive;
+                var point = primitive as RebarNdmPrimitive;
                 viewItem = new ReinforcementViewPrimitive(point);
             }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Actual type: {primitive.GetType()}");

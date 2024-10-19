@@ -26,6 +26,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <summary>
         /// Rebar which stress and strain will be obtained for 
         /// </summary>
-        IRebarPrimitive RebarPrimitive { get; set; }
+        IRebarNdmPrimitive RebarPrimitive { get; set; }
     }
 }

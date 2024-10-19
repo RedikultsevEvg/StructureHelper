@@ -17,7 +17,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
         IRectangleBeamTemplate template;
         IHeadMaterial concrete => HeadMaterials.ToList()[0];
         IHeadMaterial reinforcement => HeadMaterials.ToList()[1];
-        RectanglePrimitive concreteBlock;
+        RectangleNdmPrimitive concreteBlock;
 
         RectangleShape rect => template.Shape as RectangleShape;
         double width => rect.Width;
@@ -48,7 +48,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
         private IEnumerable<INdmPrimitive> GetConcretePrimitives()
         {
             var primitives = new List<INdmPrimitive>();
-            concreteBlock = new RectanglePrimitive() { Width = width, Height = height, Name = "Concrete block" };
+            concreteBlock = new RectangleNdmPrimitive() { Width = width, Height = height, Name = "Concrete block" };
             concreteBlock.NdmElement.HeadMaterial = concrete;
             primitives.Add(concreteBlock);
             return primitives;
@@ -60,7 +60,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             double[] ys = new double[] { -height / 2 + gap, height / 2 - gap };
 
             List<INdmPrimitive> primitives = new List<INdmPrimitive>();
-            var point = new RebarPrimitive()
+            var point = new RebarNdmPrimitive()
             {
                 Area = area1,
                 Name = "Left bottom rebar",
@@ -71,7 +71,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             point.Center.X = xs[0];
             point.Center.Y = ys[0];
             primitives.Add(point);
-            point = new RebarPrimitive()
+            point = new RebarNdmPrimitive()
             {   
                 Area = area1,
                 Name = "Right bottom rebar",
@@ -81,7 +81,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             point.Center.X = xs[1];
             point.Center.Y = ys[0];
             primitives.Add(point);
-            point = new RebarPrimitive()
+            point = new RebarNdmPrimitive()
             {
                 Area = area2,
                 Name = "Left top rebar",
@@ -91,7 +91,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             point.Center.X = xs[0];
             point.Center.Y = ys[1];
             primitives.Add(point);
-            point = new RebarPrimitive()
+            point = new RebarNdmPrimitive()
             {
                 Area = area2,
                 Name = "Right top rebar",
@@ -110,14 +110,14 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             double[] ys = new double[] { -height / 2 + gap, height / 2 - gap };
 
             List<INdmPrimitive> primitives = new List<INdmPrimitive>();
-            IPointPrimitive point;
+            IPointNdmPrimitive point;
             if (template.WidthCount > 2)
             {
                 int count = template.WidthCount - 1;
                 double dist = (xs[1] - xs[0]) / count;
                 for (int i = 1; i < count; i++)
                 {
-                    point = new RebarPrimitive()
+                    point = new RebarNdmPrimitive()
                     {
                         Area = area1,
                         Name = $"Bottom rebar {i}",
@@ -127,7 +127,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                     point.Center.X = xs[0] + dist * i;
                     point.Center.Y = ys[0];
                     primitives.Add(point);
-                    point = new RebarPrimitive()
+                    point = new RebarNdmPrimitive()
                     {
                         Area = area2,
                         Name = $"Top rebar {i}",
@@ -145,7 +145,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                 double dist = (ys[1] - ys[0]) / count;
                 for (int i = 1; i < count; i++)
                 {
-                    point = new RebarPrimitive()
+                    point = new RebarNdmPrimitive()
                     {
                         Area = area1,
                         Name = $"Left point {i}",
@@ -155,7 +155,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                     point.Center.X = xs[0];
                     point.Center.Y = ys[0] + dist * i;
                     primitives.Add(point);
-                    point = new RebarPrimitive()
+                    point = new RebarNdmPrimitive()
                     {
                         Area = area1,
                         Name = $"Right point {i}",

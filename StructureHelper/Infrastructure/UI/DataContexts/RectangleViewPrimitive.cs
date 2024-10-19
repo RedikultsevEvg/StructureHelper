@@ -5,7 +5,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 {
     public class RectangleViewPrimitive : PrimitiveBase, IHasCenter
     {
-        private IRectanglePrimitive primitive;
+        private IRectangleNdmPrimitive primitive;
 
         public override double PrimitiveWidth
         {
@@ -37,7 +37,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             get => DeltaY - primitive.Height / 2d;
         }
 
-        public RectangleViewPrimitive(IRectanglePrimitive _primitive) : base(_primitive)
+        public RectangleViewPrimitive(IRectangleNdmPrimitive _primitive) : base(_primitive)
         {
             primitive = _primitive;
             DivisionViewModel = new HasDivisionViewModel(primitive.DivisionSize);

@@ -20,9 +20,9 @@ using System.Windows.Media.Media3D;
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     /// <inheritdoc/>
-    public class RebarPrimitive : IRebarPrimitive
+    public class RebarNdmPrimitive : IRebarNdmPrimitive
     {
-        static readonly RebarUpdateStrategy updateStrategy = new();
+        static readonly RebarNdmPrimitiveUpdateStrategy updateStrategy = new();
 
         /// <inheritdoc/>
         public string Name { get; set; }
@@ -43,21 +43,23 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public IShape Shape => throw new NotImplementedException();
 
-        public RebarPrimitive(Guid id)
+        public double RotationAngle { get; set; } = 0d;
+
+        public RebarNdmPrimitive(Guid id)
         {
             Id = id;
             Name = "New Reinforcement";
             Area = 0.0005d;
             Center = new Point2D();
         }
-        public RebarPrimitive() : this(Guid.NewGuid())
+        public RebarNdmPrimitive() : this(Guid.NewGuid())
         {
 
         }
 
         public object Clone()
         {
-            var primitive = new RebarPrimitive();
+            var primitive = new RebarNdmPrimitive();
             updateStrategy.Update(primitive, this);
             return primitive;
         }

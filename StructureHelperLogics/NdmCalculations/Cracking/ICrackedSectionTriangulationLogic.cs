@@ -37,6 +37,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// Return collection of primitives which contain only rebars
         /// </summary>
         /// <returns></returns>
-        List<IRebarPrimitive> GetRebarPrimitives();
+        List<IRebarNdmPrimitive> GetRebarPrimitives();
     }
 }

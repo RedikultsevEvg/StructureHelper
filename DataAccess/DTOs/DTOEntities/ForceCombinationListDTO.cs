@@ -18,7 +18,7 @@ namespace DataAccess.DTOs
         [JsonProperty("SetInGravityCenter")]
         public bool SetInGravityCenter { get; set; }
         [JsonProperty("ForcePoint")]
-        public IPoint2D ForcePoint { get; set; }
+        public IPoint2D ForcePoint { get; set; } = new Point2DDTO();
         [JsonProperty("DesignForces")]
         public List<IDesignForceTuple> DesignForces { get; set; } = new();
 

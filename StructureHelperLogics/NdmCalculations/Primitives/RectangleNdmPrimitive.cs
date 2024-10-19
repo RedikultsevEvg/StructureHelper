@@ -9,7 +9,7 @@ using StructureHelperLogics.NdmCalculations.Triangulations;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public class RectanglePrimitive : IRectanglePrimitive
+    public class RectangleNdmPrimitive : IRectangleNdmPrimitive
     {
         private readonly RectanglePrimitiveUpdateStrategy updateStrategy = new();
         private readonly RectangleShape rectangleShape = new();
@@ -17,7 +17,6 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public string Name { get; set; }
         public double Width { get => rectangleShape.Width; set => rectangleShape.Width = value; }
         public double Height { get => rectangleShape.Height; set => rectangleShape.Height = value; }
-        public double Angle { get => rectangleShape.Angle; set => rectangleShape.Angle = value; }
         public IVisualProperty VisualProperty { get; } = new VisualProperty() { Opacity = 0.8d };
         public ICrossSection? CrossSection { get; set; }
 
@@ -29,19 +28,21 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public IShape Shape => rectangleShape;
 
-        public RectanglePrimitive(Guid id)
+        public double RotationAngle { get; set; } = 0d;
+
+        public RectangleNdmPrimitive(Guid id)
         {
             Id = id;
             Name = "New Rectangle";
         }
-        public RectanglePrimitive() : this(Guid.NewGuid())
+        public RectangleNdmPrimitive() : this(Guid.NewGuid())
         {
                 
         }
 
         public object Clone()
         {
-            var primitive = new RectanglePrimitive();
+            var primitive = new RectangleNdmPrimitive();
             updateStrategy.Update(primitive, this);
             return primitive;
         }

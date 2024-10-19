@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class EllipseNdmPrimitiveDTO : IEllipsePrimitive
+    public class EllipseNdmPrimitiveDTO : IEllipseNdmPrimitive
     {
         private IRectangleShape shape = new RectangleShapeDTO();
 
@@ -36,14 +36,15 @@ namespace DataAccess.DTOs
         public IPoint2D Center { get; set; } = new Point2DDTO();
         [JsonProperty("DivisionSize")]
         public IDivisionSize DivisionSize { get; set; } = new DivisionSizeDTO();
+        [JsonProperty("RotationAngle")]
+        public double RotationAngle { get; set; }
         [JsonIgnore]
         public double Width { get; set; }
         [JsonIgnore]
         public double Height {get; set; }
         [JsonIgnore]
-        public double Angle { get; set; }
-        [JsonIgnore]
         public ICrossSection? CrossSection { get; set; }
+
         public object Clone()
         {
             throw new NotImplementedException();

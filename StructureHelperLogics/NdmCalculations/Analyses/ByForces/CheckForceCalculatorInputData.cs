@@ -13,13 +13,13 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    internal class CheckForceCalculatorInputData : ICheckInputDataLogic<IForceInputData>
+    internal class CheckForceCalculatorInputData : ICheckInputDataLogic<IForceCalculatorInputData>
     {
         private bool result;
         private string checkResult;
         private ICheckEntityLogic<IAccuracy> checkAccuracyLogic;
 
-        public IForceInputData InputData { get; set; }
+        public IForceCalculatorInputData InputData { get; set; }
 
         public string CheckResult => checkResult;
 

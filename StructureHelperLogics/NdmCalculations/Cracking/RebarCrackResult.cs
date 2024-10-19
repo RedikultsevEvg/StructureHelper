@@ -20,7 +20,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <summary>
         /// Specific rebar primitive
         /// </summary>
-        public IRebarPrimitive RebarPrimitive { get; set; }
+        public IRebarNdmPrimitive RebarPrimitive { get; set; }
         /// <summary>
         /// Result of calculation of crack for long term
         /// </summary>

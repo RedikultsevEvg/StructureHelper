@@ -25,11 +25,15 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private IUpdateStrategy<ICrackCalculator> updateStrategy;
         private ICheckInputDataLogic<ICrackCalculatorInputData> checkInputDataLogic;
 
+        public Guid Id { get; } = Guid.NewGuid();
+
         public string Name { get; set; }
         public ICrackCalculatorInputData InputData { get; set; }
         public IResult Result => result;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
+
+
         public CrackCalculator(ICheckInputDataLogic<ICrackCalculatorInputData> checkInputDataLogic,
             IUpdateStrategy<ICrackCalculator> updateStrategy,
             IShiftTraceLogger traceLogger

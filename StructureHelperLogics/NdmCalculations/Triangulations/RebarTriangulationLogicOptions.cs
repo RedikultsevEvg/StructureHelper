@@ -26,7 +26,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
 
         /// <inheritdoc />
-        public RebarTriangulationLogicOptions(RebarPrimitive primitive)
+        public RebarTriangulationLogicOptions(RebarNdmPrimitive primitive)
         {
             Center = primitive.Center.Clone() as Point2D;
             Area = primitive.Area;

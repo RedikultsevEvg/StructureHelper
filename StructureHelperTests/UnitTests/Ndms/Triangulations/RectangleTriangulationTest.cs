@@ -41,11 +41,12 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
                 .Returns(new Material());
 
             IPoint2D center = new Point2D { X = centerX, Y = centerY };
-            IRectangleShape rectangle = new RectangleShape { Width = width, Height = height, Angle = angle };
+            IRectangleShape rectangle = new RectangleShape { Width = width, Height = height};
             var options = new RectangleTriangulationLogicOptions(center, rectangle, ndmMaxSize, ndmMinDivision)
             {
                 triangulationOptions = new TriangulationOptions() { LimiteState = LimitStates.ULS, CalcTerm = CalcTerms.ShortTerm },
-                HeadMaterial = materialMock.Object
+                HeadMaterial = materialMock.Object,
+                RotationAngle = angle
             };
             var logic = new RectangleTriangulationLogic(options);
             //Act
@@ -66,7 +67,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var mainBlock = new RectanglePrimitive()
+            var mainBlock = new RectangleNdmPrimitive()
             {
                 Width = width,
                 Height = height,
@@ -75,7 +76,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             mainBlock.Center.X = centerX;
             mainBlock.Center.Y = centerY;
             mainBlock.VisualProperty.ZIndex = 0;
-            var opening = new RectanglePrimitive()
+            var opening = new RectangleNdmPrimitive()
             {
                 Width = 0.3d,
                 Height = 0.2d
@@ -109,7 +110,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var mainBlock = new RectanglePrimitive()
+            var mainBlock = new RectangleNdmPrimitive()
             {
                 Width = width,
                 Height = height
@@ -118,7 +119,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             mainBlock.Center.X = centerX;
             mainBlock.Center.Y = centerY;
             mainBlock.VisualProperty.ZIndex = 0;
-            var opening = new EllipsePrimitive()
+            var opening = new EllipseNdmPrimitive()
             {
                 Width = 0.3d
             };
@@ -155,12 +156,12 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Arrange
             ProgramSetting.NatSystem = NatSystems.RU;
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
-            var mainBlock = new EllipsePrimitive() { Width = diameter};
+            var mainBlock = new EllipseNdmPrimitive() { Width = diameter};
             mainBlock.NdmElement.HeadMaterial = material;
             mainBlock.Center.X = centerX;
             mainBlock.Center.Y = centerY;
             mainBlock.VisualProperty.ZIndex = 0;
-            var opening = new RectanglePrimitive()
+            var opening = new RectangleNdmPrimitive()
             {
                 Width = 0.3d,
                 Height = 0.2d

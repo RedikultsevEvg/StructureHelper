@@ -9,7 +9,7 @@ using StructureHelperLogics.NdmCalculations.Triangulations;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public class EllipsePrimitive : IEllipsePrimitive
+    public class EllipseNdmPrimitive : IEllipseNdmPrimitive
     {
         private static readonly EllipsePrimitiveUpdateStrategy updateStrategy = new();
         private readonly RectangleShape rectangleShape = new();
@@ -45,19 +45,19 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public IDivisionSize DivisionSize { get; } = new DivisionSize();
         /// <inheritdoc/>
         public IShape Shape => rectangleShape;
+        /// <inheritdoc/>
+        public double RotationAngle { get; set; }
 
-        public double Angle { get; set; }
-
-        public EllipsePrimitive(Guid id)
+        public EllipseNdmPrimitive(Guid id)
         {
             Id = id;
             Name = "New Circle";
         }
-        public EllipsePrimitive() : this (Guid.NewGuid())  {}
+        public EllipseNdmPrimitive() : this (Guid.NewGuid())  {}
         /// <inheritdoc/>
         public object Clone()
         {
-            var primitive = new EllipsePrimitive();
+            var primitive = new EllipseNdmPrimitive();
             updateStrategy.Update(primitive, this);
             return primitive;
         }

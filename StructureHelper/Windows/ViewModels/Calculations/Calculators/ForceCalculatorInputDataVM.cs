@@ -15,7 +15,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
 {
     public class ForceCalculatorInputDataVM : ViewModelBase
     {
-        private ForceInputData inputData;
+        private IForceCalculatorInputData inputData;
         SecondOrderViewModel secondOrderViewModel;
 
         public double IterationAccuracy
@@ -41,7 +41,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         public SourceTargetVM<PrimitiveBase> PrimitivesViewModel { get; private set; }
 
 
-        public ForceCalculatorInputDataVM(ForceInputData inputData, IEnumerable<INdmPrimitive> allowedPrimitives, IEnumerable<IForceAction> allowedCombinations)
+        public ForceCalculatorInputDataVM(IForceCalculatorInputData inputData, IEnumerable<INdmPrimitive> allowedPrimitives, IEnumerable<IForceAction> allowedCombinations)
         {
             this.inputData = inputData;
             secondOrderViewModel = new SecondOrderViewModel(this.inputData.CompressedMember);

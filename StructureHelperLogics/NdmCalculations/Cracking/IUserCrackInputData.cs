@@ -1,8 +1,9 @@
-﻿using StructureHelperCommon.Models.Calculators;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public interface IUserCrackInputData : IInputData
+    public interface IUserCrackInputData : IInputData, ISaveable
     {
         double LengthBetweenCracks { get; set; }
         bool SetLengthBetweenCracks { get; set; }

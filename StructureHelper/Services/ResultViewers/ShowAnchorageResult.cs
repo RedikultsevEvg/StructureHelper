@@ -50,9 +50,9 @@ namespace StructureHelper.Services.ResultViewers
             List<IValuePrimitive> primitives = new List<IValuePrimitive>();
             foreach (var item in ndmPrimitives)
             {
-                if (item is RebarPrimitive)
+                if (item is RebarNdmPrimitive)
                 {
-                    var primitive = item as RebarPrimitive;
+                    var primitive = item as RebarNdmPrimitive;
                     var inputData = InputDataFactory.GetInputData(primitive, strainMatrix, limitState, calcTerm, 1d);
                     if (fullStrength == true)
                     {
@@ -73,9 +73,9 @@ namespace StructureHelper.Services.ResultViewers
             List<IValuePrimitive> primitives = new List<IValuePrimitive>();
             foreach (var item in ndmPrimitives)
             {
-                if (item is RebarPrimitive)
+                if (item is RebarNdmPrimitive)
                 {
-                    var primitive = item as RebarPrimitive;
+                    var primitive = item as RebarNdmPrimitive;
                     var inputData = InputDataFactory.GetInputData(primitive, strainMatrix, limitState, calcTerm, 1d);
                     var calculator = new AnchorageCalculator(inputData);
                     var val = calculator.GetBaseDevLength() * UnitConstants.Length;
@@ -92,9 +92,9 @@ namespace StructureHelper.Services.ResultViewers
             List<IValuePrimitive> primitives = new List<IValuePrimitive>();
             foreach (var item in ndmPrimitives)
             {
-                if (item is RebarPrimitive)
+                if (item is RebarNdmPrimitive)
                 {
-                    var primitive = item as RebarPrimitive;
+                    var primitive = item as RebarNdmPrimitive;
                     var inputData = InputDataFactory.GetInputData(primitive, strainMatrix, limitState, calcTerm, 1d);
                     if (fullStrength == true)
                     {
@@ -116,9 +116,9 @@ namespace StructureHelper.Services.ResultViewers
             List<IValuePrimitive> primitives = new List<IValuePrimitive>();
             foreach (var item in ndmPrimitives)
             {
-                if (item is RebarPrimitive)
+                if (item is RebarNdmPrimitive)
                 {
-                    var primitive = item as RebarPrimitive;
+                    var primitive = item as RebarNdmPrimitive;
                     var inputData = InputDataFactory.GetInputData(primitive, strainMatrix, limitState, calcTerm, lapperdCountRate);
                     if (fullStrength == true)
                     {
@@ -134,7 +134,7 @@ namespace StructureHelper.Services.ResultViewers
             return primitiveSet;
         }
 
-        private static FieldVisualizer.Entities.Values.Primitives.CirclePrimitive GetValuePrimitive(IPointPrimitive primitive, double val)
+        private static FieldVisualizer.Entities.Values.Primitives.CirclePrimitive GetValuePrimitive(IPointNdmPrimitive primitive, double val)
         {
             var valuePrimitive = new FieldVisualizer.Entities.Values.Primitives.CirclePrimitive()
             {

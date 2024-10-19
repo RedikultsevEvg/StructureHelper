@@ -16,8 +16,6 @@ namespace DataAccess.DTOs
         public double Width { get; set; }
         [JsonProperty("Height")]
         public double Height { get; set; }
-        [JsonProperty("Angle")]
-        public double Angle { get; set; }
 
     }
 }

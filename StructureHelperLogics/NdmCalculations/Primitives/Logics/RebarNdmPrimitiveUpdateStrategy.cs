@@ -1,5 +1,4 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperLogics.Models.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    internal class PointUpdateStrategy : IUpdateStrategy<PointPrimitive>
+    public class RebarNdmPrimitiveUpdateStrategy : IUpdateStrategy<IRebarNdmPrimitive>
     {
         static readonly BaseUpdateStrategy basePrimitiveUpdateStrategy = new();
-        public void Update(PointPrimitive targetObject, PointPrimitive sourceObject)
+        public void Update(IRebarNdmPrimitive targetObject, IRebarNdmPrimitive sourceObject)
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
+            if (sourceObject.HostPrimitive is not null)
             basePrimitiveUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.Area = sourceObject.Area;
+            targetObject.HostPrimitive = sourceObject.HostPrimitive;
         }
     }
 }

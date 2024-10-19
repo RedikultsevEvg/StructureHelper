@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    internal class RectanglePrimitiveUpdateStrategy : IUpdateStrategy<IRectanglePrimitive>
+    public class RectanglePrimitiveUpdateStrategy : IUpdateStrategy<IRectangleNdmPrimitive>
     {
         private IUpdateStrategy<INdmPrimitive> basePrimitiveUpdateStrategy;
         private IUpdateStrategy<IDivisionSize> divisionPropsUpdateStrategy;
@@ -32,7 +32,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         }
 
-        public void Update(IRectanglePrimitive targetObject, IRectanglePrimitive sourceObject)
+        public void Update(IRectangleNdmPrimitive targetObject, IRectangleNdmPrimitive sourceObject)
         {
             CheckObject.IsNull(sourceObject, "source object");
             CheckObject.IsNull(targetObject, "target object");

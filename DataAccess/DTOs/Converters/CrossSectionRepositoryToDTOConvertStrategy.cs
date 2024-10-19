@@ -1,9 +1,11 @@
 ﻿using DataAccess.DTOs.Converters;
+using NLog.Targets;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Models.CrossSections;
@@ -20,23 +22,15 @@ namespace DataAccess.DTOs
     public class CrossSectionRepositoryToDTOConvertStrategy : IConvertStrategy<CrossSectionRepositoryDTO, ICrossSectionRepository>
     {
         private IConvertStrategy<HeadMaterialDTO, IHeadMaterial> materialConvertStrategy;
-        private IConvertStrategy<ForceCombinationByFactorDTO, IForceCombinationByFactor> forceCombinationByFactorConvertStrategy;
-        private IConvertStrategy<ForceCombinationListDTO, IForceCombinationList> forceCombinationListConvertStrategy;
-        private IConvertStrategy<EllipseNdmPrimitiveDTO, IEllipsePrimitive> ellipseConvertStrategy = new EllipsePrimitiveDTOConvertStrategy();
 
-        public CrossSectionRepositoryToDTOConvertStrategy(IConvertStrategy<HeadMaterialDTO, IHeadMaterial> materialConvertStrategy,
-             IConvertStrategy<ForceCombinationByFactorDTO, IForceCombinationByFactor> forceCombinationByFactorConvertStrategy,
-             IConvertStrategy<ForceCombinationListDTO, IForceCombinationList> forceCombinationListConvertStrategy)
+
+        public CrossSectionRepositoryToDTOConvertStrategy(IConvertStrategy<HeadMaterialDTO, IHeadMaterial> materialConvertStrategy)
         {
             this.materialConvertStrategy = materialConvertStrategy;
-            this.forceCombinationByFactorConvertStrategy = forceCombinationByFactorConvertStrategy;
-            this.forceCombinationListConvertStrategy = forceCombinationListConvertStrategy;
         }
 
         public CrossSectionRepositoryToDTOConvertStrategy() : this(
-            new HeadMaterialToDTOConvertStrategy(),
-            new ForceCombinationByFactorToDTOConvertStrategy(),
-            new ForceCombinationListToDTOConvertStrategy())
+            new HeadMaterialToDTOConvertStrategy())
         {
             
         }
@@ -54,11 +48,10 @@ namespace DataAccess.DTOs
             }
             catch (Exception ex)
             {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
+                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
                 TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
                 throw;
             }
-            
         }
 
         private CrossSectionRepositoryDTO GetNewRepository(ICrossSectionRepository source)
@@ -67,71 +60,42 @@ namespace DataAccess.DTOs
             {
                 Id = source.Id
             };
-            List<IForceAction> forceActions = ProcessForceActions(source);
-            newItem.ForceActions.AddRange(forceActions);
+            ProcessForceActions(newItem, source);
             List<IHeadMaterial> materials = ProcessMaterials(source);
             newItem.HeadMaterials.AddRange(materials);
-            List<INdmPrimitive> primitives = ProcessPrimitives(source);
-            newItem.Primitives.AddRange(primitives);
+            ProcessPrimitives(newItem, source);
+            ProcessCalculators(newItem, source);
             return newItem;
         }
 
-        private List<INdmPrimitive> ProcessPrimitives(ICrossSectionRepository source)
+        private void ProcessCalculators(IHasCalculators target, IHasCalculators source)
         {
-            List<INdmPrimitive> primitives = new();
-            foreach (var item in source.Primitives)
+            HasCalculatorsToDTOUpdateStrategy updateStrategy = new()
             {
-                if (item is IEllipsePrimitive ellipse)
-                {
-                    ellipseConvertStrategy.ReferenceDictionary = ReferenceDictionary;
-                    ellipseConvertStrategy.TraceLogger = TraceLogger;
-                    INdmPrimitive ndmPrimitive;
-                    ndmPrimitive = ellipseConvertStrategy.Convert(ellipse);
-                    primitives.Add(ndmPrimitive);
-                }
-            }
-            return primitives;
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger
+            };
+            updateStrategy.Update(target, source);
         }
 
-        private List<IForceAction> ProcessForceActions(ICrossSectionRepository source)
+        private void ProcessPrimitives(IHasPrimitives target, IHasPrimitives source)
         {
-            List<IForceAction> forceActions = new();
-            foreach (var item in source.ForceActions)
-            {         
-                if (item is IForceCombinationByFactor forceCombinationByFactor)
-                {
-                    ForceCombinationByFactorDTO forceCombination = GetForceCombinationByFactor(forceCombinationByFactor);
-                    forceActions.Add(forceCombination);
-                }
-                else if (item is IForceCombinationList forceCombinationList)
-                {
-                    ForceCombinationListDTO forceCombination = GetForceCombinationList(forceCombinationList);
-                    forceActions.Add(forceCombination);
-                }
-                else
-                {
-                    throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(item));
-                }
-            }
-            return forceActions;
+            HasPrimitivesToDTOUpdateStrategy updateStrategy = new()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger
+            };
+            updateStrategy.Update(target, source);
         }
 
-        private ForceCombinationListDTO GetForceCombinationList(IForceCombinationList forceCombinationList)
+        private void ProcessForceActions(IHasForceCombinations target, IHasForceCombinations source)
         {
-            forceCombinationListConvertStrategy.ReferenceDictionary = ReferenceDictionary;
-            forceCombinationListConvertStrategy.TraceLogger = TraceLogger;
-            var convertLogic = new DictionaryConvertStrategy<ForceCombinationListDTO, IForceCombinationList>(this, forceCombinationListConvertStrategy);
-            var forceCombination = convertLogic.Convert(forceCombinationList);
-            return forceCombination;
-        }
-
-        private ForceCombinationByFactorDTO GetForceCombinationByFactor(IForceCombinationByFactor forceCombinationByFactor)
-        {
-            forceCombinationByFactorConvertStrategy.ReferenceDictionary = ReferenceDictionary;
-            forceCombinationByFactorConvertStrategy.TraceLogger = TraceLogger;
-            var convertLogic = new DictionaryConvertStrategy<ForceCombinationByFactorDTO, IForceCombinationByFactor>(this, forceCombinationByFactorConvertStrategy);
-            var forceCombination = convertLogic.Convert(forceCombinationByFactor);
-            return forceCombination;
+            HasForceActionToDTOUpdateStrategy updateStrategy = new()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger
+            };
+            updateStrategy.Update(target, source);
         }
 
         private List<IHeadMaterial> ProcessMaterials(ICrossSectionRepository source)

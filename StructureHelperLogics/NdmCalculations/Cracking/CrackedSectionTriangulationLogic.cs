@@ -70,14 +70,14 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         }
 
         /// <inheritdoc/>
-        public List<IRebarPrimitive> GetRebarPrimitives()
+        public List<IRebarNdmPrimitive> GetRebarPrimitives()
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
             TraceLogger?.AddMessage(ndmPrimitiveCountMessage, TraceLogStatuses.Debug);
-            List<IRebarPrimitive> rebarPrimitives = new();
+            List<IRebarNdmPrimitive> rebarPrimitives = new();
             foreach (var item in NdmPrimitives)
             {
-                if (item is IRebarPrimitive rebar)
+                if (item is IRebarNdmPrimitive rebar)
                 {
                     TraceLogger?.AddMessage($"Primitive {rebar.Name} is rebar primitive", TraceLogStatuses.Service);
                     rebarPrimitives.Add(rebar);

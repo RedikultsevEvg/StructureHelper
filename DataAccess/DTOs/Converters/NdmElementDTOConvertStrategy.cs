@@ -58,7 +58,9 @@ namespace DataAccess.DTOs
             var headMaterial = convertLogic.Convert(source.HeadMaterial);
             newItem.HeadMaterial = headMaterial;
             forceUpdateStrategy.Update(newItem.UsersPrestrain, source.UsersPrestrain);
+            (newItem.UsersPrestrain as ForceTupleDTO).Id = source.UsersPrestrain.Id;
             forceUpdateStrategy.Update(newItem.AutoPrestrain, source.AutoPrestrain);
+            (newItem.AutoPrestrain as ForceTupleDTO).Id = source.AutoPrestrain.Id;
             return newItem;
         }
 

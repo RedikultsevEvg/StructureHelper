@@ -34,7 +34,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             {
                 ProcessICracked(ndmCollection);
             }
-            else if (Primitive is RebarPrimitive rebar)
+            else if (Primitive is RebarNdmPrimitive rebar)
             {
                 ProcessRebar(ndmCollection, rebar);
             }
@@ -52,10 +52,10 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             ndmCollection.AddRange(ndms);
         }
 
-        private void ProcessRebar(List<INdm> ndmCollection, RebarPrimitive rebar)
+        private void ProcessRebar(List<INdm> ndmCollection, RebarNdmPrimitive rebar)
         {
             TraceLogger?.AddMessage($"Primitive {Primitive.Name} is rebar primitive", TraceLogStatuses.Service);
-            var newPrimititve = rebar.Clone() as RebarPrimitive;
+            var newPrimititve = rebar.Clone() as RebarNdmPrimitive;
             var newHostPrimitive = rebar.HostPrimitive.Clone() as INdmPrimitive;
             SetNewMaterial(newHostPrimitive);
             newPrimititve.HostPrimitive = newHostPrimitive;

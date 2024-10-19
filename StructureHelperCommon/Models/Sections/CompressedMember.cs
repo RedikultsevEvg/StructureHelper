@@ -1,4 +1,6 @@
-﻿namespace StructureHelperCommon.Models.Sections
+﻿using System;
+
+namespace StructureHelperCommon.Models.Sections
 {
 
     //Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
@@ -9,28 +11,29 @@
     {
         static readonly CompressedMemberUpdateStrategy updateStrategy = new();
         /// <inheritdoc/>
-        public bool Buckling { get; set; }
+        public Guid Id { get;}
         /// <inheritdoc/>
-        public double GeometryLength { get; set; }
+        public bool Buckling { get; set; } = true;
         /// <inheritdoc/>
-        public double LengthFactorX { get; set; }
+        public double GeometryLength { get; set; } = 3d;
         /// <inheritdoc/>
-        public double DiagramFactorX { get; set; }
+        public double LengthFactorX { get; set; } = 1d;
         /// <inheritdoc/>
-        public double LengthFactorY { get; set; }
+        public double DiagramFactorX { get; set; } = 1d;
         /// <inheritdoc/>
-        public double DiagramFactorY { get; set; }
-        
+        public double LengthFactorY { get; set; } = 1d;
+        /// <inheritdoc/>
+        public double DiagramFactorY { get; set; } = 1d;
 
-        public CompressedMember()
+        public CompressedMember(Guid id)
         {
-            Buckling = true;
-            GeometryLength = 3d;
-            LengthFactorX = 1d;
-            DiagramFactorX = 1d;
-            LengthFactorY = 1d;
-            DiagramFactorY = 1d;
+            Id = id;
         }
+
+        public CompressedMember() : this(Guid.NewGuid())
+        {
+        }
+
 
         public object Clone()
         {

@@ -10,7 +10,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public interface IForceCalculatorLogic : ILogic, IHasActionByResult
     {
-        IForceInputData InputData { get; set; }
+        IForceCalculatorInputData InputData { get; set; }
         ForcesResults GetForcesResults();
     }
 }

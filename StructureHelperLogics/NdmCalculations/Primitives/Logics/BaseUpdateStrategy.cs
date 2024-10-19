@@ -29,6 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             }
             targetObject.NdmElement.Triangulate = sourceObject.NdmElement.Triangulate;
             point2DUpdateStrategy.Update(targetObject.Center, sourceObject.Center);
+            targetObject.RotationAngle = sourceObject.RotationAngle;
             visualPropsUpdateStrategy.Update(targetObject.VisualProperty, sourceObject.VisualProperty);
             tupleUpdateStrategy.Update(targetObject.NdmElement.UsersPrestrain, sourceObject.NdmElement.UsersPrestrain);
         }

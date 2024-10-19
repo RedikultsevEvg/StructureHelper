@@ -23,6 +23,8 @@ namespace StructureHelperCommon.Models.Soils
         public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IShiftTraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        public Guid Id => throw new NotImplementedException();
+
         public AnchorCalculator(SoilAnchor soilAnchor, IAnchorSoilProperties anchorSoilProperties)
         {
             Anchor = soilAnchor;

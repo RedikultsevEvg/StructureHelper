@@ -12,7 +12,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 {
     public class CircleViewPrimitive : PrimitiveBase, IHasCenter
     {
-        IEllipsePrimitive primitive;
+        IEllipseNdmPrimitive primitive;
         public double Diameter
         {
             get
@@ -31,11 +31,11 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         public CircleViewPrimitive(INdmPrimitive primitive) : base(primitive)
         {
-            if (primitive is not IEllipsePrimitive)
+            if (primitive is not IEllipseNdmPrimitive)
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"\nExpected: {nameof(IEllipsePrimitive)}, But was: {nameof(primitive)}");
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"\nExpected: {nameof(IEllipseNdmPrimitive)}, But was: {nameof(primitive)}");
             }
-            var circle = primitive as IEllipsePrimitive;
+            var circle = primitive as IEllipseNdmPrimitive;
             this.primitive = circle;
             DivisionViewModel = new HasDivisionViewModel(circle.DivisionSize);
         }

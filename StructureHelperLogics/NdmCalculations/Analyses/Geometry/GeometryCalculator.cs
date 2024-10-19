@@ -17,6 +17,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Geometry
         public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IShiftTraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        public Guid Id => throw new NotImplementedException();
+
         public GeometryCalculator(IEnumerable<INdm> ndms, IStrainMatrix strainMatrix)
         {
             parametersLogic = new TextParametersLogic(ndms, strainMatrix);

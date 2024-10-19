@@ -9,9 +9,9 @@ using StructureHelperLogics.NdmCalculations.Triangulations;
 
 namespace StructureHelperLogics.Models.Primitives
 {
-    public class PointPrimitive : IPointPrimitive
+    public class PointNdmPrimitive : IPointNdmPrimitive
     {
-        static readonly PointUpdateStrategy updateStrategy = new();
+        static readonly PointPrimitiveUpdateStrategy updateStrategy = new();
         public Guid Id { get; }
         public string? Name { get; set; }
         public IPoint2D Center { get; set; }
@@ -25,19 +25,21 @@ namespace StructureHelperLogics.Models.Primitives
 
         public IShape Shape => throw new NotImplementedException();
 
-        public PointPrimitive(Guid id)
+        public double RotationAngle { get; set; } = 0d;
+
+        public PointNdmPrimitive(Guid id)
         {
             Id = id;
             Name = "New Point";
             Area = 0.0005d;
             Center = new Point2D();
         }
-        public PointPrimitive() : this (Guid.NewGuid())
+        public PointNdmPrimitive() : this (Guid.NewGuid())
         {}
 
         public object Clone()
         { 
-            var primitive = new PointPrimitive();
+            var primitive = new PointNdmPrimitive();
             updateStrategy.Update(primitive, this);
             return primitive;
         }

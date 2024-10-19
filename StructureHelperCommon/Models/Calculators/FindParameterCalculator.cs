@@ -21,6 +21,8 @@ namespace StructureHelperCommon.Models.Calculators
         public Action<IResult> ActionToOutputResults { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
+        public Guid Id => throw new NotImplementedException();
+
         public FindParameterCalculator()
         {
             InputData = new FindParameterCalculatorInputData();

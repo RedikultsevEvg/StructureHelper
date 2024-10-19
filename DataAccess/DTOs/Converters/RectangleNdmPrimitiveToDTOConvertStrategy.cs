@@ -1,5 +1,4 @@
-﻿using DataAccess.DTOs.Converters;
-using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
@@ -10,19 +9,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.DTOs
+namespace DataAccess.DTOs.Converters
 {
-    public class EllipsePrimitiveDTOConvertStrategy : IConvertStrategy<EllipseNdmPrimitiveDTO, IEllipsePrimitive>
+    public class RectangleNdmPrimitiveToDTOConvertStrategy : IConvertStrategy<RectangleNdmPrimitiveDTO, IRectangleNdmPrimitive>
     {
-        private IUpdateStrategy<IEllipsePrimitive> updateStrategy;
+        private IUpdateStrategy<IRectangleNdmPrimitive> updateStrategy;
         private IConvertStrategy<RectangleShapeDTO, IRectangleShape> rectangleShapeConvertStrategy;
         private IConvertStrategy<NdmElementDTO, INdmElement> ndmElementConvertStrategy;
         private IConvertStrategy<Point2DDTO, IPoint2D> pointConvertStrategy;
         private IConvertStrategy<VisualPropertyDTO, IVisualProperty> visualPropsConvertStrategy;
         private IConvertStrategy<DivisionSizeDTO, IDivisionSize> divisionConvertStrategy;
 
-        public EllipsePrimitiveDTOConvertStrategy(
-            IUpdateStrategy<IEllipsePrimitive> updateStrategy,
+        public RectangleNdmPrimitiveToDTOConvertStrategy(
+            IUpdateStrategy<IRectangleNdmPrimitive> updateStrategy,
             IConvertStrategy<RectangleShapeDTO, IRectangleShape> rectangleShapeConvertStrategy,
             IConvertStrategy<NdmElementDTO, INdmElement> ndmElementConvertStrategy,
             IConvertStrategy<Point2DDTO, IPoint2D> pointConvertStrategy,
@@ -37,8 +36,8 @@ namespace DataAccess.DTOs
             this.divisionConvertStrategy = divisionConvertStrategy;
         }
 
-        public EllipsePrimitiveDTOConvertStrategy() : this(
-            new EllipsePrimitiveUpdateStrategy(),
+        public RectangleNdmPrimitiveToDTOConvertStrategy() : this(
+            new RectanglePrimitiveUpdateStrategy(),
             new RectangleShapeToDTOConvertStrategy(),
             new NdmElementDTOConvertStrategy(),
             new Point2DToDTOConvertStrategy(),
@@ -46,19 +45,19 @@ namespace DataAccess.DTOs
             new DivisionSizeToDTOConvertStrategy()
             )
         {
-            
+
         }
 
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
-        public EllipseNdmPrimitiveDTO Convert(IEllipsePrimitive source)
+        public RectangleNdmPrimitiveDTO Convert(IRectangleNdmPrimitive source)
         {
             try
             {
                 Check();
                 PrepareStrategies();
-                return GetNewEllipsePrimitive(source);
+                return GetNewPrimitive(source);
             }
             catch (Exception ex)
             {
@@ -68,9 +67,9 @@ namespace DataAccess.DTOs
             }
         }
 
-        private EllipseNdmPrimitiveDTO GetNewEllipsePrimitive(IEllipsePrimitive source)
+        private RectangleNdmPrimitiveDTO GetNewPrimitive(IRectangleNdmPrimitive source)
         {
-            EllipseNdmPrimitiveDTO newItem = new() { Id = source.Id };
+            RectangleNdmPrimitiveDTO newItem = new() { Id = source.Id };
             updateStrategy.Update(newItem, source);
             newItem.NdmElement = ndmElementConvertStrategy.Convert(source.NdmElement);
             newItem.RectangleShape = rectangleShapeConvertStrategy.Convert(source.Shape as IRectangleShape);
@@ -98,7 +97,7 @@ namespace DataAccess.DTOs
 
         private void Check()
         {
-            var checkLogic = new CheckConvertLogic<EllipseNdmPrimitiveDTO, IEllipsePrimitive>(this);
+            var checkLogic = new CheckConvertLogic<RectangleNdmPrimitiveDTO, IRectangleNdmPrimitive>(this);
             checkLogic.Check();
         }
     }

@@ -6,29 +6,35 @@ using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public class ForceCalculator : ICalculator, IHasActionByResult
+    public class ForceCalculator : IForceCalculator
     {
-        private IUpdateStrategy<ForceCalculator> updateStrategy;
-        private ICheckInputDataLogic<IForceInputData> checkInputDataLogic;
+        private IUpdateStrategy<IForceCalculator> updateStrategy;
+        private ICheckInputDataLogic<IForceCalculatorInputData> checkInputDataLogic;
         private IForceCalculatorLogic forceCalculatorLogic;
 
-
+        /// <inheritdoc/>
+        public Guid Id { get; } = Guid.NewGuid();
+        /// <inheritdoc/>
         public string Name { get; set; }
-        public ForceInputData InputData {get;set;}
+        /// <inheritdoc/>
+        public IForceCalculatorInputData InputData { get; set; } = new ForceCalculatorInputData();
+        /// <inheritdoc/>
         public Action<IResult> ActionToOutputResults { get; set; }
+        /// <inheritdoc/>
         public IShiftTraceLogger? TraceLogger { get; set; }
+        /// <inheritdoc/>
         public IResult Result { get; private set; }
 
-        public ForceCalculator(ICheckInputDataLogic<IForceInputData> checkInputDataLogic,
+
+        public ForceCalculator(
+                ICheckInputDataLogic<IForceCalculatorInputData> checkInputDataLogic,
                 IForceCalculatorLogic forceCalculatorLogic,
-                IUpdateStrategy<ForceCalculator> updateStrategy
+                IUpdateStrategy<IForceCalculator> updateStrategy
                 )
         {
             this.checkInputDataLogic = checkInputDataLogic;
             this.forceCalculatorLogic = forceCalculatorLogic;
             this.updateStrategy = updateStrategy;
-
-            InputData = new ForceInputData();
         }
 
         public ForceCalculator() :

@@ -9,7 +9,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         TupleCrackInputData InputData { get; set; }
         bool IsResultValid { get; }
         double LongLength { get; set; }
-        IEnumerable<IRebarPrimitive> Rebars { get; set; }
+        IEnumerable<IRebarNdmPrimitive> Rebars { get; set; }
         List<RebarCrackResult> Result { get; }
         double ShortLength { get; set; }
 

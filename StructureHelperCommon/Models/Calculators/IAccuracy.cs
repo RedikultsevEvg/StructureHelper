@@ -1,9 +1,11 @@
-﻿namespace StructureHelperCommon.Models.Calculators
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+
+namespace StructureHelperCommon.Models.Calculators
 {
     /// <summary>
     /// Rate of calculation which based on iteration of finished accuracy
     /// </summary>
-    public interface IAccuracy
+    public interface IAccuracy : ISaveable
     {
         /// <summary>
         /// Max accuracy of iteration

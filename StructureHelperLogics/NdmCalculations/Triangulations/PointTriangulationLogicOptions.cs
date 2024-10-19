@@ -24,7 +24,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
         /// <inheritdoc />
 
-        public PointTriangulationLogicOptions(IPointPrimitive primitive)
+        public PointTriangulationLogicOptions(IPointNdmPrimitive primitive)
         {
             Center = primitive.Center.Clone() as Point2D;
             Area = primitive.Area;

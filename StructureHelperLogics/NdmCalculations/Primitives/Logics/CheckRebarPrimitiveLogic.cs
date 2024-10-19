@@ -14,7 +14,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
         private string checkResult;
         private bool result;
 
-        public IRebarPrimitive RebarPrimitive { get; set; }
+        public IRebarNdmPrimitive RebarPrimitive { get; set; }
 
         public string CheckResult => checkResult;
 

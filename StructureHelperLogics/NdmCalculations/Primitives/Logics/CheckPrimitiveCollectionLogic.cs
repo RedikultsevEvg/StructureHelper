@@ -57,7 +57,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
             {
                 foreach (var primitive in HasPrimitives.Primitives)
                 {
-                    if (primitive is IRebarPrimitive rebar)
+                    if (primitive is IRebarNdmPrimitive rebar)
                     {
                         CheckRebar(rebar);
                     }
@@ -65,7 +65,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
             }
         }
 
-        private void CheckRebar(IRebarPrimitive rebar)
+        private void CheckRebar(IRebarNdmPrimitive rebar)
         {
             if (checkRebarPrimitiveLogic is null)
             {

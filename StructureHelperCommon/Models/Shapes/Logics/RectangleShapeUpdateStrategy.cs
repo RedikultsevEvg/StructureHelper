@@ -17,7 +17,6 @@ namespace StructureHelperCommon.Models.Shapes
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Width = sourceObject.Width;
             targetObject.Height = sourceObject.Height;
-            targetObject.Angle = sourceObject.Angle;
         }
     }
 }

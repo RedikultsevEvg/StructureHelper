@@ -1,4 +1,5 @@
 ﻿using StructureHelper.Models.Materials;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
@@ -10,7 +11,9 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
     public class RectangleTriangulationLogicOptions : IShapeTriangulationLogicOptions
     {
         /// <inheritdoc />
-        public IPoint2D Center { get; }
+        public IPoint2D Center { get; set; }
+        /// <inheritdoc />
+        public double RotationAngle { get; set; } = 0d;
         /// <inheritdoc />
         public IRectangleShape Rectangle { get; }
         /// <inheritdoc />
@@ -31,9 +34,10 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Prestrain = new StrainTuple();
         }
 
-        public RectangleTriangulationLogicOptions(IRectanglePrimitive primitive)
+        public RectangleTriangulationLogicOptions(IRectangleNdmPrimitive primitive)
         {
             Center = new Point2D() {X = primitive.Center.X, Y = primitive.Center.Y };
+            RotationAngle = primitive.RotationAngle;
             Rectangle = primitive;
             NdmMaxSize = primitive.DivisionSize.NdmMaxSize;
             NdmMinDivision = primitive.DivisionSize.NdmMinDivision;

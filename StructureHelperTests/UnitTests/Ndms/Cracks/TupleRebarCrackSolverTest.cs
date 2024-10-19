@@ -25,7 +25,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
 
             var solver = new TupleRebarsCrackSolver(mockCalculatorFactory.Object)
             {
-                Rebars = new List<RebarPrimitive>(),
+                Rebars = new List<RebarNdmPrimitive>(),
                 InputData = new TupleCrackInputData(),
                 LongLength = 10.0,
                 ShortLength = 5.0,
@@ -60,7 +60,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
 
             var solver = new TupleRebarsCrackSolver(mockCalculatorFactory.Object)
             {
-                Rebars = new List<RebarPrimitive>(),
+                Rebars = new List<RebarNdmPrimitive>(),
                 InputData = new TupleCrackInputData(),
                 LongLength = 10.0,
                 ShortLength = 5.0,
