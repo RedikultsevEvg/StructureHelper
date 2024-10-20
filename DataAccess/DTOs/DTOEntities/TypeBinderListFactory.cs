@@ -81,6 +81,7 @@ namespace DataAccess.DTOs
                 { (typeof(RectangleNdmPrimitiveDTO), "RectangleNdmPrimitive") },
                 { (typeof(RectangleShapeDTO), "RectangleShape") },
                 { (typeof(ReinforcementLibMaterialDTO), "ReinforcementLibMaterial") },
+                { (typeof(RootObjectDTO), "RootObject") },
                 { (typeof(MaterialPartialFactorDTO), "MaterialPartialFactor") },
                 { (typeof(VersionProcessorDTO), "VersionProcessor") },
                 { (typeof(VisualAnalysisDTO), "VisualAnalysis") },

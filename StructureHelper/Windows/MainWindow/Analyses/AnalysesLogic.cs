@@ -1,8 +1,10 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Windows.MainWindow.Analyses;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogic.Models.Analyses;
+using StructureHelperLogics.Models.CrossSections;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -114,6 +116,8 @@ namespace StructureHelper.Windows.MainWindow
         }
         private void RunAnalysis()
         {
+            if (SelectedAnalysis is null) { return; }
+            SelectedAnalysis.ActionToRun = ActionToRun;
             SelectedAnalysis?.Run();
         }
         private void AddCrossSectionNdmAnalysis()
@@ -123,6 +127,30 @@ namespace StructureHelper.Windows.MainWindow
             analysis.Tags = "#New group";
             var visualAnalysis = new VisualAnalysis(analysis);
             ProgramSetting.CurrentProject.VisualAnalyses.Add(visualAnalysis);
+        }
+
+        private void ActionToRun()
+        {
+            if (SelectedAnalysis is null) { return; }
+            var version = SelectedAnalysis.Analysis.VersionProcessor.GetCurrentVersion();
+            if (version is null)
+            {
+                throw new StructureHelperException(ErrorStrings.NullReference);
+            }
+            if (version.AnalysisVersion is ICrossSection crossSection)
+            {
+                ProcessCrossSection(crossSection);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(version));
+            }
+        }
+
+        private void ProcessCrossSection(ICrossSection crossSection)
+        {
+            var window = new CrossSectionView(crossSection);
+            window.ShowDialog();
         }
     }
 }

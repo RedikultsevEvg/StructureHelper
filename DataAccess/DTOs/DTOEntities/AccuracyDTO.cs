@@ -11,7 +11,7 @@ namespace DataAccess.DTOs.DTOEntities
     public class AccuracyDTO : IAccuracy
     {
         [JsonProperty("Id")]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         [JsonProperty("IterationAccuracy")]
         public double IterationAccuracy { get; set; }
         [JsonProperty("MaxIterationCount")]

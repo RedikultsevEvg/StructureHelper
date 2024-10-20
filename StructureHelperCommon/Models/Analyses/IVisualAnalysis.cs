@@ -10,7 +10,8 @@ namespace StructureHelperCommon.Models.Analyses
 {
     public interface IVisualAnalysis : ISaveable, ICloneable
     {
-        IAnalysis Analysis {get;set;}
+        IAnalysis Analysis { get; set; }
+        Action ActionToRun { get; set; }
         void Run();
     }
 }

@@ -2,21 +2,22 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogic.Models.Analyses;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
+using System.Windows.Forms;
 
 namespace DataAccess.DTOs.Converters
 {
-    public class AnalysisToDTOConvertStrategy : IConvertStrategy<IAnalysis, IAnalysis>
+    public class AnalysisFromDTOConvertStrategy : IConvertStrategy<IAnalysis, IAnalysis>
     {
         private const string Message = "Analysis type is";
-        private IConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis> convertCrossSectionNdmAnalysisStrategy = new CrossSectionNdmAnalysisToDTOConvertStrategy();
-        private DictionaryConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis> convertLogic;
+        private IConvertStrategy<ICrossSectionNdmAnalysis, ICrossSectionNdmAnalysis> convertCrossSectionNdmAnalysisStrategy = new CrossSectionNdmAnalysisFromDTOConvertStrategy();
 
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
@@ -24,10 +25,26 @@ namespace DataAccess.DTOs.Converters
         public IAnalysis Convert(IAnalysis source)
         {
             Check();
+            try
+            {
+                IAnalysis analysis = GetAnalysis(source);
+                return analysis;
+            }
+            catch (Exception ex)
+            {
+                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
+                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
+                throw;
+            }
+            
+        }
+
+        private IAnalysis GetAnalysis(IAnalysis source)
+        {
             IAnalysis analysis;
             if (source is ICrossSectionNdmAnalysis crossSectionNdmAnalysis)
             {
-                analysis = GetCrossSectionNdmAnalysisDTO(crossSectionNdmAnalysis);
+                analysis = GetCrossSectionNdmAnalysis(crossSectionNdmAnalysis);
             }
             else
             {
@@ -39,24 +56,23 @@ namespace DataAccess.DTOs.Converters
             {
                 //to do
             }
+
             return analysis;
         }
 
-        private CrossSectionNdmAnalysisDTO GetCrossSectionNdmAnalysisDTO(ICrossSectionNdmAnalysis crossSectionNdmAnalysis)
+        private ICrossSectionNdmAnalysis GetCrossSectionNdmAnalysis(ICrossSectionNdmAnalysis source)
         {
             TraceLogger?.AddMessage(Message + " Cross-Section Ndm Analysis", TraceLogStatuses.Debug);
             convertCrossSectionNdmAnalysisStrategy.ReferenceDictionary = ReferenceDictionary;
             convertCrossSectionNdmAnalysisStrategy.TraceLogger = TraceLogger;
-            convertLogic = new DictionaryConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis>(this, convertCrossSectionNdmAnalysisStrategy);
-            CrossSectionNdmAnalysisDTO crossSectionNdmAnalysisDTO = convertLogic.Convert(crossSectionNdmAnalysis);
-            return crossSectionNdmAnalysisDTO;
+            var convertLogic = new DictionaryConvertStrategy<ICrossSectionNdmAnalysis, ICrossSectionNdmAnalysis>(this, convertCrossSectionNdmAnalysisStrategy);
+            ICrossSectionNdmAnalysis crossSectionNdmAnalysis = convertLogic.Convert(source);
+            return crossSectionNdmAnalysis;
         }
 
         private void Check()
         {
-            var checkLogic = new CheckConvertLogic<IAnalysis, IAnalysis>();
-            checkLogic.ConvertStrategy = this;
-            checkLogic.TraceLogger = TraceLogger;
+            var checkLogic = new CheckConvertLogic<IAnalysis, IAnalysis>(this);
             checkLogic.Check();
         }
     }

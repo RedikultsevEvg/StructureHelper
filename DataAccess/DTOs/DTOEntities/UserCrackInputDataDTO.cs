@@ -11,7 +11,7 @@ namespace DataAccess.DTOs
     public class UserCrackInputDataDTO : IUserCrackInputData
     {
         [JsonProperty("Id")]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         [JsonProperty("LengthBetweenCracks")]
         public double LengthBetweenCracks { get; set; }
         [JsonProperty("SetLengthBetweenCracks")]

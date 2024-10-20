@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogic.Models.Analyses;
+using StructureHelperLogics.Models.Analyses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +24,7 @@ namespace DataAccess.DTOs
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            return this;
         }
     }
 }

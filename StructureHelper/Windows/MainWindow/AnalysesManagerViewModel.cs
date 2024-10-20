@@ -15,7 +15,7 @@ namespace StructureHelper.Windows.MainWindow
 
         public AnalysesManagerViewModel()
         {
-            FileLogic = new();
+            FileLogic = new() { ParentVM = this };
             FileLogic.CreateNewFile();
             DiagramLogic = new();
             AnalysesLogic = new();

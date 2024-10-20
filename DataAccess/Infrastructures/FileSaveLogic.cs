@@ -1,4 +1,5 @@
 ﻿using DataAccess.DTOs;
+using DataAccess.DTOs.DTOEntities;
 using DataAccess.JsonConverters;
 using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Interfaces;
@@ -55,11 +56,11 @@ namespace DataAccess.Infrastructures
                 FileVersionDTO versionDTO = GetVersionDTO();
                 var versionString = Serialize(versionDTO, TraceLogger);
                 File.Delete(project.FullFileName);
-                SaveStringToFile(project, versionString);
                 refDictinary = new Dictionary<(Guid id, Type type), ISaveable>();
                 ProjectDTO projectDTO = GetProjectDTO(project);
-                var projectString = Serialize(projectDTO, TraceLogger);
-                SaveStringToFile(project, projectString);
+                RootObjectDTO rootObject = new() { FileVersion = versionDTO, Project = projectDTO };
+                var rootString = Serialize(rootObject, TraceLogger);
+                SaveStringToFile(project, rootString);
             }
             catch (Exception ex)
             {
@@ -72,7 +73,7 @@ namespace DataAccess.Infrastructures
         {
             try
             {
-                File.AppendAllText(project.FullFileName, versionString);
+                File.WriteAllText(project.FullFileName, versionString);
                 TraceLogger?.AddMessage($"File {project.FullFileName} was saved successfully", TraceLogStatuses.Service);
             }
             catch (Exception ex)

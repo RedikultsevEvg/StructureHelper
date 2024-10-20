@@ -28,11 +28,11 @@ namespace StructureHelperCommon.Infrastructures.Settings
             set
             {
                 natSystem = value;
-                codesList = CodeFactory
+                codesList ??= CodeFactory
                     .GetCodeEntities()
                     .Where(x => x.NatSystem == natSystem)
                     .ToList();
-                materialRepository = new MaterialRepository(codesList);
+                materialRepository ??= new MaterialRepository(codesList);
             }
         }
         public static GeometryNames GeometryNames => geometryNames ??= new GeometryNames();
@@ -53,6 +53,10 @@ namespace StructureHelperCommon.Infrastructures.Settings
         {
             get
             {
+                codesList ??= CodeFactory
+                    .GetCodeEntities()
+                    .Where(x => x.NatSystem == NatSystem)
+                    .ToList();
                 materialRepository ??= new MaterialRepository(codesList);
                 return materialRepository;
             }

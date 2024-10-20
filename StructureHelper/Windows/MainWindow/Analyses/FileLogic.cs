@@ -1,9 +1,12 @@
 ﻿using DataAccess.Infrastructures;
 using StructureHelper.Infrastructure;
 using StructureHelper.Windows.CalculationWindows.ProgressViews;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Projects;
+using StructureHelperLogics.Models.CrossSections;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -21,6 +24,8 @@ namespace StructureHelper.Windows.MainWindow
         private RelayCommand fileClose;
         private IProjectAccessLogic projectAccessLogic;
         private RelayCommand fileSaveAs;
+
+        public AnalysesManagerViewModel ParentVM { get; set; }
 
         public FileLogic(IProjectAccessLogic projectAccessLogic)
         {
@@ -123,16 +128,27 @@ namespace StructureHelper.Windows.MainWindow
             }
             traceLogger = new ShiftTraceLogger();
             projectAccessLogic.TraceLogger = traceLogger;
-            var result = projectAccessLogic.OpenProject();
-            if (result.IsValid == true)
+            try
             {
-                ProgramSetting.Projects.Add(result.Project);
+                var result = projectAccessLogic.OpenProject();
+                if (result.IsValid == true)
+                {
+                    result.Project.IsActual = true;
+                    result.Project.IsNewFile = false;
+                    ProgramSetting.Projects.Clear();
+                    ProgramSetting.Projects.Add(result.Project);
+                }
+                else
+                {
+                    ProgramSetting.Projects.Add(currentProject);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ProgramSetting.Projects.Add(currentProject);
+                traceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
             }
             ShowEntries();
+            ParentVM.AnalysesLogic.Refresh();
         }
         private void ShowEntries()
         {

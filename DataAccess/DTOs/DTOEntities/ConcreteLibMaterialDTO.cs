@@ -18,6 +18,7 @@ namespace DataAccess.DTOs
     {
         const MaterialTypes materialType = MaterialTypes.Concrete;
 
+
         [JsonProperty("Id")]
         public Guid Id { get; set; }
         [JsonProperty("RelativeHumidity")]
@@ -29,7 +30,11 @@ namespace DataAccess.DTOs
         [JsonProperty("MaterialEntityId")]
         public Guid MaterialEntityId
         {
-            get => MaterialEntity.Id;
+            get
+            {
+                return MaterialEntity.Id;
+            }
+
             set
             {
                 MaterialEntity = ProgramSetting.MaterialRepository.Repository.Single(x => x.Id == value);

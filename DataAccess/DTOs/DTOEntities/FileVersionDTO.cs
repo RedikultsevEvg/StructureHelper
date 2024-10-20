@@ -23,5 +23,9 @@ namespace DataAccess.DTOs
         {
             Id = id;
         }
+        public FileVersionDTO() : this (Guid.NewGuid())
+        {
+            
+        }
     }
 }

@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Projects;
 using StructureHelperLogic.Models.Analyses;
 using System;
@@ -32,13 +33,28 @@ namespace DataAccess.DTOs
         public VisualAnalysisDTO Convert(IVisualAnalysis source)
         {
             Check();
+            try
+            {
+                VisualAnalysisDTO visualAnalysisDTO = GetNewAnalysis(source);
+                return visualAnalysisDTO;
+            }
+            catch (Exception ex)
+            {
+                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
+                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
+                throw;
+            }
+        }
+
+        private VisualAnalysisDTO GetNewAnalysis(IVisualAnalysis source)
+        {
             VisualAnalysisDTO visualAnalysisDTO = new()
             {
                 Id = source.Id
             };
             convertStrategy.ReferenceDictionary = ReferenceDictionary;
             convertStrategy.TraceLogger = TraceLogger;
-            var convertLogic = new DictionaryConvertStrategy<IAnalysis, IAnalysis>()
+            var convertLogic = new DictionaryConvertStrategy<IAnalysis, IAnalysis>(this, convertStrategy)
             {
                 ReferenceDictionary = ReferenceDictionary,
                 ConvertStrategy = convertStrategy,

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Projects;
 using System;

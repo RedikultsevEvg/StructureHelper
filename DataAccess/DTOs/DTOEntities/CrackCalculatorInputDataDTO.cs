@@ -8,7 +8,7 @@ namespace DataAccess.DTOs
     public class CrackCalculatorInputDataDTO : ICrackCalculatorInputData
     {
         [JsonProperty("Id")]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         [JsonProperty("ForceActions")]
         public List<IForceAction> ForceActions { get; set; } = new();
         [JsonProperty("ForcePrimitives")]

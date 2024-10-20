@@ -28,7 +28,8 @@ namespace DataAccess.DTOs.Converters
             this.TraceLogger = traceLogger;
         }
 
-        public CrossSectionNdmAnalysisToDTOConvertStrategy() : this(new CrossSectionNdmAnalysisUpdateStrategy(),
+        public CrossSectionNdmAnalysisToDTOConvertStrategy() : this(
+            new CrossSectionNdmAnalysisUpdateStrategy(),
             new VersionProcessorToDTOConvertStrategy(),
             null)
         {
@@ -55,9 +56,7 @@ namespace DataAccess.DTOs.Converters
 
         private void Check()
         {
-            var checkLogic = new CheckConvertLogic<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis>();
-            checkLogic.ConvertStrategy = this;
-            checkLogic.TraceLogger = TraceLogger;
+            var checkLogic = new CheckConvertLogic<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis>(this);
             checkLogic.Check();
         }
     }

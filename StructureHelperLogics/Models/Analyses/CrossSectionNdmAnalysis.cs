@@ -12,10 +12,15 @@ namespace StructureHelperLogic.Models.Analyses
         public string Tags { get; set; }
         public IVersionProcessor VersionProcessor { get; private set; }
 
-        public CrossSectionNdmAnalysis(Guid Id, IVersionProcessor versionProcessor)
+        public CrossSectionNdmAnalysis(Guid id, IVersionProcessor versionProcessor)
         {
-            this.Id = Id;
+            Id = id;
             VersionProcessor = versionProcessor;
+        }
+
+        public CrossSectionNdmAnalysis(Guid id) : this (id, new VersionProcessor())
+        {
+            
         }
 
         public CrossSectionNdmAnalysis() : this(Guid.NewGuid(), new VersionProcessor())
