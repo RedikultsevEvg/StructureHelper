@@ -12,7 +12,10 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
 {
     public interface IOneVariableFunction : ICloneable, ISaveable
     {
+        public const string GROUP_TYPE_1 = "System function";
+        public const string GROUP_TYPE_2 = "User function";
         public bool IsUser { get; set; }
+        public string Group { get; set; }
         public FunctionType Type { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

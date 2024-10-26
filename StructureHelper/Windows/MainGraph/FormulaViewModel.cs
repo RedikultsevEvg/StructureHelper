@@ -89,7 +89,7 @@ namespace StructureHelper.Windows.MainGraph
         {
             if (Function is null)
             {
-                Function = new FormulaFunction();
+                Function = new FormulaFunction(isUser: true);
             }
             Function.Name = Name;
             Function.Description = Description;

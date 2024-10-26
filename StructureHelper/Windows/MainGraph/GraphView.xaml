@@ -5,10 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:StructureHelper.Windows.MainGraph"
+        Loaded="Window_Loaded"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:GraphViewModel}"
         Title="StructureHelper" Height="700" 
-        Width="1000" MinHeight="400" MinWidth="600">
+        Width="1000" 
+        MinHeight="400" 
+        MinWidth="600">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -18,14 +21,15 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
-        <ListView Grid.Row="0" Grid.Column="0" Margin="5"
+        <ListView Name="FunctionList"
+                 Grid.Row="0" Grid.Column="0" Margin="5"
                  ItemsSource="{Binding Functions, UpdateSourceTrigger=PropertyChanged}"
                  SelectedItem="{Binding SelectedFuntion, UpdateSourceTrigger=PropertyChanged}">
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </DataTemplate>
                     </GroupStyle.HeaderTemplate>
                     <GroupStyle.ContainerStyle>
@@ -36,9 +40,15 @@
                                         <Expander IsExpanded="True">
                                             <Expander.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
-                                                    <TextBlock Text="{Binding ItemCount}" FontSize="22" Foreground="Green" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
-                                                    <TextBlock Text=" item(s)" FontSize="22" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" 
+                                                               Foreground="DarkSlateBlue" 
+                                                               VerticalAlignment="Bottom"/>
+                                                    <TextBlock Text=": " FontWeight="Bold" 
+                                                               Foreground="DarkSlateBlue" 
+                                                               VerticalAlignment="Bottom"/>
+                                                    <TextBlock Text="{Binding ItemCount}" FontWeight="Bold" 
+                                                               Foreground="Gray" 
+                                                               VerticalAlignment="Bottom" />
                                                 </StackPanel>
                                             </Expander.Header>
                                             <ItemsPresenter/>

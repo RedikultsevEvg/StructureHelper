@@ -13,10 +13,14 @@ namespace StructureHelperCommon.Models.Functions
     public class TableFunction : IOneVariableFunction
     {
         private const string COPY = "copy";
+        public const string GROUP_TYPE_1 = "System function";
+        public const string GROUP_TYPE_2 = "User function";
+
         private string name;
 
         public bool IsUser { get; set; }
         public FunctionType Type { get; set; }
+        public string Group { get; set; }
         public string Name 
         {
             get => name;
@@ -31,9 +35,19 @@ namespace StructureHelperCommon.Models.Functions
         public Guid Id => throw new NotImplementedException();
         public ObservableCollection<IOneVariableFunction> Functions { get; set; }
 
-        public TableFunction()
+        public TableFunction(bool isUser = false)
         {
             Type = FunctionType.TableFunction;
+            if (isUser)
+            {
+                IsUser = true;
+                Group = GROUP_TYPE_2;
+            }
+            else
+            {
+                IsUser = false;
+                Group = GROUP_TYPE_1;
+            }
         }
 
         public bool Check()
@@ -53,7 +67,7 @@ namespace StructureHelperCommon.Models.Functions
             Table.ForEach(x => newTable.Add(x.Clone() as GraphPoint));
             tableFunction.Table = newTable;
             tableFunction.IsUser = true;
-
+            tableFunction.Group = GROUP_TYPE_2;
             return tableFunction;
         }
 

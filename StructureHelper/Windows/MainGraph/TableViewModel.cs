@@ -102,7 +102,7 @@ namespace StructureHelper.Windows.MainGraph
         {
             if (Function is null)
             {
-                Function = new TableFunction();
+                Function = new TableFunction(isUser: true);
             }
             Function.Name = Name;
             Function.Description = Description;

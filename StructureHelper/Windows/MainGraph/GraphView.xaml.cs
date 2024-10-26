@@ -23,6 +23,7 @@ namespace StructureHelper.Windows.MainGraph
     /// </summary>
     public partial class GraphView : Window
     {
+        private const string GROUP_FACTOR = "Group";
         private GraphViewModel viewModel;
         public GraphView(GraphViewModel viewModel)
         {
@@ -32,6 +33,12 @@ namespace StructureHelper.Windows.MainGraph
         }
         public GraphView() : this(new GraphViewModel())
         {
+        }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(FunctionList.ItemsSource);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription(GROUP_FACTOR);
+            view.GroupDescriptions.Add(groupDescription);
         }
     }
 }

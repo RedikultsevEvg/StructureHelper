@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,11 @@ namespace StructureHelperCommon.Models.Functions
     public class FormulaFunction : IOneVariableFunction
     {
         private const string COPY = "copy";
+        public const string GROUP_TYPE_1 = "System function";
+        public const string GROUP_TYPE_2 = "User function";
         public bool IsUser { get; set; }
         public FunctionType Type { get; set; }
+        public string Group { get; set; }
         public string Name { get; set; }
         public string Description { get ; set; }
         public List<GraphPoint> Table { get; set; }
@@ -23,9 +27,19 @@ namespace StructureHelperCommon.Models.Functions
         public Guid Id => throw new NotImplementedException();
 
         public ObservableCollection<IOneVariableFunction> Functions {  get; set; }
-        public FormulaFunction()
+        public FormulaFunction(bool isUser = false)
         {
             Type = FunctionType.FormulaFunction;
+            if (isUser)
+            {
+                IsUser = true;
+                Group = GROUP_TYPE_2;
+            }
+            else
+            {
+                IsUser = false;
+                Group = GROUP_TYPE_1;
+            }
         }
 
         public bool Check()
@@ -43,6 +57,7 @@ namespace StructureHelperCommon.Models.Functions
             formulaFunction.Description = Description;
             formulaFunction.Formula = Formula;
             formulaFunction.IsUser = true;
+            formulaFunction.Group = GROUP_TYPE_2;
             return formulaFunction;
         }
 
