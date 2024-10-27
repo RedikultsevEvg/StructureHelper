@@ -22,7 +22,7 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public IPoint2D ForcePoint { get; set; }
         /// <inheritdoc/>
-        public IForceTuple FullSLSForces { get; private set; }
+        public IForceTuple FullSLSForces { get; set; }
         /// <inheritdoc/>
         public double ULSFactor { get; set; }
         /// <inheritdoc/>

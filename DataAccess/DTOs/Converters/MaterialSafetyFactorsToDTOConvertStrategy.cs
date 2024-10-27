@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class MaterialSafetyFactorToDTOConvertStrategy : IConvertStrategy<MaterialSafetyFactorDTO, IMaterialSafetyFactor>
+    public class MaterialSafetyFactorsToDTOConvertStrategy : IConvertStrategy<MaterialSafetyFactorDTO, IMaterialSafetyFactor>
     {
         private IUpdateStrategy<IMaterialSafetyFactor> updateStrategy;
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
-        public MaterialSafetyFactorToDTOConvertStrategy(IUpdateStrategy<IMaterialSafetyFactor> updateStrategy)
+        public MaterialSafetyFactorsToDTOConvertStrategy(IUpdateStrategy<IMaterialSafetyFactor> updateStrategy)
         {
             this.updateStrategy = updateStrategy;
         }

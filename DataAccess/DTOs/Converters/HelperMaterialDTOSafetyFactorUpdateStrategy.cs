@@ -8,12 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.DTOs.Converters
+namespace DataAccess.DTOs
 {
     public class HelperMaterialDTOSafetyFactorUpdateStrategy : IUpdateStrategy<IHelperMaterial>
     {
         private IUpdateStrategy<IMaterialSafetyFactor> safetyFactorUpdateStrategy;
         private IUpdateStrategy<IMaterialPartialFactor> partialFactorUpdateStrategy;
+        private IMaterialSafetyFactorDTOLogic factorDTOLogic;
 
         public HelperMaterialDTOSafetyFactorUpdateStrategy(
             IUpdateStrategy<IMaterialSafetyFactor> safetyFactorUpdateStrategy,
@@ -23,11 +24,11 @@ namespace DataAccess.DTOs.Converters
             this.partialFactorUpdateStrategy = partialFactorUpdateStrategy;
         }
 
-        public HelperMaterialDTOSafetyFactorUpdateStrategy() : this(
-            new MaterialSafetyFactorUpdateStrategy(),
+        public HelperMaterialDTOSafetyFactorUpdateStrategy(IMaterialSafetyFactorDTOLogic factorDTOLogic) : this(
+            new MaterialSafetyFactorBaseUpdateStrategy(),
             new MaterialPartialFactorUpdateStrategy())
         {
-            
+            this.factorDTOLogic = factorDTOLogic;
         }
 
         public void Update(IHelperMaterial targetObject, IHelperMaterial sourceObject)
@@ -40,35 +41,29 @@ namespace DataAccess.DTOs.Converters
                 targetObject.SafetyFactors.Clear();
                 foreach (var safetyFactor in sourceObject.SafetyFactors)
                 {
-                    MaterialSafetyFactorDTO newSafetyFactor = GetNewSafetyFactorByOld(safetyFactor);
+                    IMaterialSafetyFactor newSafetyFactor = GetNewSafetyFactorByOld(safetyFactor);
                     targetObject.SafetyFactors.Add(newSafetyFactor);
                 }
             }
         }
 
-        private MaterialSafetyFactorDTO GetNewSafetyFactorByOld(IMaterialSafetyFactor safetyFactor)
+        private IMaterialSafetyFactor GetNewSafetyFactorByOld(IMaterialSafetyFactor safetyFactor)
         {
-            MaterialSafetyFactorDTO newSafetyFactor = new()
-            {
-                Id = safetyFactor.Id
-            };
+            IMaterialSafetyFactor newSafetyFactor = factorDTOLogic.GetNewSafetyFactorByOld(safetyFactor);
             safetyFactorUpdateStrategy.Update(newSafetyFactor, safetyFactor);
             newSafetyFactor.PartialFactors.Clear();
             foreach (var partialFactor in safetyFactor.PartialFactors)
             {
-                MaterialPartialFactorDTO newPartialFactor = GetNewPartialFactorByOld(partialFactor);
+                IMaterialPartialFactor newPartialFactor = GetNewPartialFactorByOld(partialFactor);
                 newSafetyFactor.PartialFactors.Add(newPartialFactor);
             }
 
             return newSafetyFactor;
         }
 
-        private MaterialPartialFactorDTO GetNewPartialFactorByOld(IMaterialPartialFactor partialFactor)
+        private IMaterialPartialFactor GetNewPartialFactorByOld(IMaterialPartialFactor partialFactor)
         {
-            MaterialPartialFactorDTO newPartialFactor = new()
-            {
-                Id = partialFactor.Id
-            };
+            IMaterialPartialFactor newPartialFactor = factorDTOLogic.GetNewPartialFactorByOld(partialFactor);
             partialFactorUpdateStrategy.Update(newPartialFactor, partialFactor);
             return newPartialFactor;
         }

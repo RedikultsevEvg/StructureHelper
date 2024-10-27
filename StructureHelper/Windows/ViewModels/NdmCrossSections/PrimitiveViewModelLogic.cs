@@ -1,20 +1,13 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.UI.DataContexts;
-using StructureHelper.Services.Settings;
 using StructureHelper.Windows.PrimitiveProperiesWindow;
-using StructureHelper.Windows.PrimitiveTemplates.RCs.Beams;
-using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
 using StructureHelper.Windows.Services;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Primitives;
-using StructureHelperLogics.Models.Templates.CrossSections.RCs;
-using StructureHelperLogics.Models.Templates.RCs;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -25,7 +18,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
 
-//Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
+//Copyright (c) 2024 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
 
 namespace StructureHelper.Windows.ViewModels.NdmCrossSections

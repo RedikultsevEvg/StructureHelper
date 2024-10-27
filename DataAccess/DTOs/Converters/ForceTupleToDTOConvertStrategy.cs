@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class ForceTupleToDTOConvertStrategy : IConvertStrategy<ForceTupleDTO, IForceTuple>
+    public class ForceTupleToDTOConvertStrategy : ConvertStrategy<ForceTupleDTO, IForceTuple>
     {
         private IUpdateStrategy<IForceTuple> updateStrategy;
 
@@ -27,27 +27,11 @@ namespace DataAccess.DTOs
             
         }
 
-        public ForceTupleDTO Convert(IForceTuple source)
+        public override ForceTupleDTO GetNewItem(IForceTuple source)
         {
-            Check();
-            try
-            {
-                ForceTupleDTO newItem = new() { Id = source.Id};
-                updateStrategy.Update(newItem, source);
-                return newItem;
-            }
-            catch (Exception ex)
-            {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
-                throw;
-            }
-        }
-
-        private void Check()
-        {
-            var checkLogic = new CheckConvertLogic<ForceTupleDTO, IForceTuple>(this);
-            checkLogic.Check();
+            ForceTupleDTO newItem = new() { Id = source.Id};
+            updateStrategy.Update(newItem, source);
+            return newItem;
         }
     }
 }

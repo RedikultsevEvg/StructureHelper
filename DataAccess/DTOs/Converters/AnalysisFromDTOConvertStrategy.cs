@@ -16,17 +16,32 @@ namespace DataAccess.DTOs.Converters
 {
     public class AnalysisFromDTOConvertStrategy : IConvertStrategy<IAnalysis, IAnalysis>
     {
-        private const string Message = "Analysis type is";
-        private IConvertStrategy<ICrossSectionNdmAnalysis, ICrossSectionNdmAnalysis> convertCrossSectionNdmAnalysisStrategy = new CrossSectionNdmAnalysisFromDTOConvertStrategy();
+        private const string AnalysisIs = "Analysis type is";
+
+        private IConvertStrategy<ICrossSectionNdmAnalysis, ICrossSectionNdmAnalysis> convertCrossSectionNdmAnalysisStrategy;
+        private IConvertStrategy<IVersionProcessor, IVersionProcessor> versionProcessorConvertStrategy;
+
+        public AnalysisFromDTOConvertStrategy(IConvertStrategy<ICrossSectionNdmAnalysis, ICrossSectionNdmAnalysis> convertCrossSectionNdmAnalysisStrategy,
+            IConvertStrategy<IVersionProcessor, IVersionProcessor> versionProcessorConvertStrategy)
+        {
+            this.convertCrossSectionNdmAnalysisStrategy = convertCrossSectionNdmAnalysisStrategy;
+            this.versionProcessorConvertStrategy = versionProcessorConvertStrategy;
+        }
+
+        public AnalysisFromDTOConvertStrategy() : this (new CrossSectionNdmAnalysisFromDTOConvertStrategy(),
+            new VersionProcessorFromDTOConvertStrategy())
+        {
+            
+        }
 
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
         public IAnalysis Convert(IAnalysis source)
         {
-            Check();
             try
             {
+                Check();
                 IAnalysis analysis = GetAnalysis(source);
                 return analysis;
             }
@@ -41,10 +56,10 @@ namespace DataAccess.DTOs.Converters
 
         private IAnalysis GetAnalysis(IAnalysis source)
         {
-            IAnalysis analysis;
+            IAnalysis newItem;
             if (source is ICrossSectionNdmAnalysis crossSectionNdmAnalysis)
             {
-                analysis = GetCrossSectionNdmAnalysis(crossSectionNdmAnalysis);
+                newItem = GetCrossSectionNdmAnalysis(crossSectionNdmAnalysis);
             }
             else
             {
@@ -52,21 +67,29 @@ namespace DataAccess.DTOs.Converters
                 TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
                 throw new StructureHelperException(errorString);
             }
-            foreach (var item in source.VersionProcessor.Versions)
-            {
-                //to do
-            }
+            newItem.VersionProcessor = GetVersionProcessor(source.VersionProcessor);
+            return newItem;
+        }
 
-            return analysis;
+        private IVersionProcessor GetVersionProcessor(IVersionProcessor source)
+        {
+            TraceLogger?.AddMessage("Version processor converting is started", TraceLogStatuses.Service);
+            versionProcessorConvertStrategy.ReferenceDictionary = ReferenceDictionary;
+            versionProcessorConvertStrategy.TraceLogger = TraceLogger;
+            IVersionProcessor versionProcessor = versionProcessorConvertStrategy.Convert(source);
+            TraceLogger?.AddMessage("Version processor converting has been finished succesfully", TraceLogStatuses.Service);
+            return versionProcessor;
         }
 
         private ICrossSectionNdmAnalysis GetCrossSectionNdmAnalysis(ICrossSectionNdmAnalysis source)
         {
-            TraceLogger?.AddMessage(Message + " Cross-Section Ndm Analysis", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage(AnalysisIs + " Cross-Section Ndm Analysis", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage("Cross-Section Ndm Analysis converting is started", TraceLogStatuses.Service);
             convertCrossSectionNdmAnalysisStrategy.ReferenceDictionary = ReferenceDictionary;
             convertCrossSectionNdmAnalysisStrategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<ICrossSectionNdmAnalysis, ICrossSectionNdmAnalysis>(this, convertCrossSectionNdmAnalysisStrategy);
             ICrossSectionNdmAnalysis crossSectionNdmAnalysis = convertLogic.Convert(source);
+            TraceLogger?.AddMessage("Cross-Section Ndm Analysis converting has been finished succesfully", TraceLogStatuses.Service);
             return crossSectionNdmAnalysis;
         }
 

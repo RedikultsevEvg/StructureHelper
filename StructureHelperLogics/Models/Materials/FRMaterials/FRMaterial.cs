@@ -1,5 +1,6 @@
 ﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials.Libraries;
@@ -14,9 +15,9 @@ namespace StructureHelperLogics.Models.Materials
     public class FRMaterial : IFRMaterial
     {
         private IElasticMaterialLogic elasticMaterialLogic => new ElasticMaterialLogic();
-        private MaterialTypes materialType;
         IUpdateStrategy<IFRMaterial> updateStrategy = new FRUpdateStrategy();
         public Guid Id { get; }
+        public MaterialTypes MaterialType { get; }
         public double Modulus{ get; set; }
         public double CompressiveStrength { get; set; }
         public double TensileStrength { get; set; }
@@ -28,11 +29,16 @@ namespace StructureHelperLogics.Models.Materials
 
         public FRMaterial(MaterialTypes materialType, Guid id)
         {
+            if (materialType != MaterialTypes.CarbonFiber ||
+                    materialType != MaterialTypes.GlassFiber)
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Material type {materialType} is not right");
+            }
             Id = id;
             ULSConcreteStrength = 14e6d;
             SumThickness = 0.175e-3d;
-            this.materialType = materialType;
-            SafetyFactors.AddRange(PartialCoefficientFactory.GetDefaultFRSafetyFactors(ProgramSetting.FRCodeType, this.materialType));
+            MaterialType = materialType;
+            SafetyFactors.AddRange(PartialCoefficientFactory.GetDefaultFRSafetyFactors(ProgramSetting.FRCodeType, this.MaterialType));
         }
 
         public FRMaterial(MaterialTypes materialType) : this (materialType, Guid.NewGuid())
@@ -42,7 +48,7 @@ namespace StructureHelperLogics.Models.Materials
 
         public object Clone()
         {
-            var newItem = new FRMaterial(this.materialType);
+            var newItem = new FRMaterial(this.MaterialType);
             updateStrategy.Update(newItem, this);
             return newItem;
         }

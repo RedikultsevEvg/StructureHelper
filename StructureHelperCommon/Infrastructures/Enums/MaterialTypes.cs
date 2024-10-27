@@ -3,10 +3,10 @@
 {
     public enum MaterialTypes
     {
-        Concrete,
-        Reinforcement,
-        //Steel,
-        CarbonFiber,
-        GlassFiber,
+        Concrete = 0,
+        Reinforcement = 1,
+        Steel = 3,
+        CarbonFiber = 4,
+        GlassFiber = 5,
     }
 }

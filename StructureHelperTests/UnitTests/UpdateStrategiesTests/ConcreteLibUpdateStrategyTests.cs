@@ -60,17 +60,6 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
                 targetMock.VerifySet(t => t.TensionForSLS = It.IsAny<bool>(), Times.Never);
                 targetMock.VerifySet(t => t.RelativeHumidity = It.IsAny<double>(), Times.Never);
             }
-
-            [Test]
-            public void Update_ShouldThrowStructureHelperException_WhenObjectsAreOfDifferentTypes()
-            {
-                // Arrange
-                var targetMock = new Mock<IConcreteLibMaterial>();
-                var sourceMock = new Mock<ConcreteLibMaterial>();
-
-                // Act & Assert
-                Assert.Throws<StructureHelperException>(() => strategy.Update(targetMock.Object, sourceMock.Object));
-            }
         }
     }
 

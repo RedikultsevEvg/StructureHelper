@@ -20,7 +20,7 @@ namespace DataAccess.DTOs
         private LibMaterialToDTOConvertStrategy<ReinforcementLibMaterialDTO, IReinforcementLibMaterial> reinforcementConvertStrategy;
         private IConvertStrategy<ElasticMaterialDTO, IElasticMaterial> elasticConvertStrategy;
         private IConvertStrategy<FRMaterialDTO, IFRMaterial> frMaterialConvertStrategy;
-        private IUpdateStrategy<IHelperMaterial> safetyFactorUpdateStrategy = new HelperMaterialDTOSafetyFactorUpdateStrategy();
+        private IUpdateStrategy<IHelperMaterial> safetyFactorUpdateStrategy = new HelperMaterialDTOSafetyFactorUpdateStrategy(new MaterialSafetyFactorToDTOLogic());
 
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }

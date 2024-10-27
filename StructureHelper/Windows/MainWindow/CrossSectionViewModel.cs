@@ -2,7 +2,6 @@
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Models.Materials;
-using StructureHelper.Services.Settings;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.Beams;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
 using StructureHelper.Windows.ViewModels;
@@ -15,7 +14,6 @@ using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Templates.CrossSections.RCs;
 using StructureHelperLogics.Models.Templates.RCs;
 using StructureHelperLogics.Services.NdmPrimitives;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -290,14 +288,14 @@ namespace StructureHelper.Windows.MainWindow
                 CalculatorsLogic.AddItems(newRepository.Calculators);
                 var primitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(newRepository.Primitives);
                 PrimitiveLogic.Refresh();
-            foreach (var item in newRepository.HeadMaterials)
-            {
-                GlobalRepository.Materials.Create(item);
-            }
-            foreach (var item in newRepository.ForceActions)
-            {
-                GlobalRepository.Actions.Create(item);
-            }
+            //foreach (var item in newRepository.HeadMaterials)
+            //{
+            //    GlobalRepository.Materials.Create(item);
+            //}
+            //foreach (var item in newRepository.ForceActions)
+            //{
+            //    GlobalRepository.Actions.Create(item);
+            //}
             return primitives;
             
         }

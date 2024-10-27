@@ -1,5 +1,4 @@
 ﻿using StructureHelper.Infrastructure.Enums;
-using StructureHelper.Services.Settings;
 using StructureHelper.Windows.Forces;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
@@ -31,7 +30,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
                     NewItem = new ForceCombinationByFactor() { Name = "New Factored Combination" };
                 }
                 else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $": Actual type: {nameof(paramType)}");
-                GlobalRepository.Actions.Create(NewItem);
+                //GlobalRepository.Actions.Create(NewItem);
                 base.AddMethod(parameter);
             }
         }
@@ -42,7 +41,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
             if (dialogResult == DialogResult.Yes)
             {
                 if (DeleteAction() != true) return;
-                GlobalRepository.Actions.Delete(SelectedItem.Id);
+                //GlobalRepository.Actions.Delete(SelectedItem.Id);
                 base.DeleteMethod(parameter);
             }         
         }
@@ -51,7 +50,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
         {
             NewItem = SelectedItem.Clone() as IForceAction;
             NewItem.Name = $"{NewItem.Name} copy";
-            GlobalRepository.Actions.Create(NewItem);
+            //GlobalRepository.Actions.Create(NewItem);
             Collection.Add(NewItem);
             Items.Add(NewItem);
             SelectedItem = NewItem;
@@ -59,7 +58,8 @@ namespace StructureHelper.Windows.ViewModels.Forces
 
         public override void EditMethod(object parameter)
         {
-            var copyObject = GlobalRepository.Actions.GetById(SelectedItem.Id).Clone() as IAction;
+            //var copyObject = GlobalRepository.Actions.GetById(SelectedItem.Id).Clone() as IAction;
+            var copyObject = SelectedItem.Clone() as IAction;
             System.Windows.Window wnd;
             if (SelectedItem is IForceCombinationList)
             {
@@ -75,7 +75,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
             wnd.ShowDialog();
             if (wnd.DialogResult == true)
             {
-                GlobalRepository.Actions.Update(SelectedItem);
+                //GlobalRepository.Actions.Update(SelectedItem);
             }
             else
             {   

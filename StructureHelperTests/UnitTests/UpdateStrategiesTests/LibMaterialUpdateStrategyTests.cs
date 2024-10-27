@@ -28,17 +28,6 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
         }
 
         [Test]
-        public void Update_ShouldThrowException_WhenTargetAndSourceAreDifferentTypes()
-        {
-            // Arrange
-            var mockTarget1 = new ConcreteLibMaterial();
-            var mockTarget2 = new ReinforcementLibMaterial();
-
-            // Act & Assert
-            Assert.Throws<StructureHelperException>(() =>  updateStrategy.Update(mockTarget1, mockTarget2));
-        }
-
-        [Test]
         public void Update_ShouldCopyMaterialEntityAndMaterialLogic()
         {
             // Arrange

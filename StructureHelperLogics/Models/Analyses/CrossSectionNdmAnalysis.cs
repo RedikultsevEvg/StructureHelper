@@ -10,7 +10,7 @@ namespace StructureHelperLogic.Models.Analyses
         public Guid Id { get; private set; }
         public string Name { get; set; }
         public string Tags { get; set; }
-        public IVersionProcessor VersionProcessor { get; private set; }
+        public IVersionProcessor VersionProcessor { get; set; }
 
         public CrossSectionNdmAnalysis(Guid id, IVersionProcessor versionProcessor)
         {

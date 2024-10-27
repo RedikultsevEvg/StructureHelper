@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogic.Models.Analyses;
 using StructureHelperLogics.Models.Analyses;
 using System;
@@ -38,7 +39,22 @@ namespace DataAccess.DTOs.Converters
 
         public CrossSectionNdmAnalysisDTO Convert(ICrossSectionNdmAnalysis source)
         {
-            Check();
+            try
+            {
+                Check();
+                return GetNewAnalysis(source);
+            }
+            catch (Exception ex)
+            {
+                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
+                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
+                throw;
+            }
+        }
+
+        private CrossSectionNdmAnalysisDTO GetNewAnalysis(ICrossSectionNdmAnalysis source)
+        {
+            TraceLogger?.AddMessage("Cross-section ndm analysis converting is started", TraceLogStatuses.Debug);
             CrossSectionNdmAnalysisDTO newItem = new();
             newItem.Id = source.Id;
             updateStrategy.Update(newItem, source);
@@ -50,7 +66,9 @@ namespace DataAccess.DTOs.Converters
                 ConvertStrategy = convertStrategy,
                 TraceLogger = TraceLogger
             };
+            TraceLogger?.AddMessage("Convert version processor is started", TraceLogStatuses.Service);
             newItem.VersionProcessor = convertLogic.Convert(source.VersionProcessor);
+            TraceLogger?.AddMessage("Cross-section ndm analysis has been converted succesfully", TraceLogStatuses.Service);
             return newItem;
         }
 

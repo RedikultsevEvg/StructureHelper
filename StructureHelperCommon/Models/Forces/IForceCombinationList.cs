@@ -6,6 +6,6 @@ namespace StructureHelperCommon.Models.Forces
 {
     public interface IForceCombinationList : IForceAction
     {
-        List<IDesignForceTuple> DesignForces { get;}
+        List<IDesignForceTuple> DesignForces { get; set; }
     }
 }

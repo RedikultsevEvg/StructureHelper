@@ -48,18 +48,28 @@ namespace DataAccess.DTOs
 
         private Project GetProject(ProjectDTO source)
         {
+            TraceLogger?.AddMessage("Converting of project is started", TraceLogStatuses.Service);
             Project newItem = new();
             updateStrategy.Update(newItem, source);
             visualAnalysisConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             visualAnalysisConvertStrategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<IVisualAnalysis, IVisualAnalysis>(this, visualAnalysisConvertStrategy);
             newItem.VisualAnalyses.Clear();
+            TraceLogger?.AddMessage($"Source project has {source.VisualAnalyses.Count()} analyses", TraceLogStatuses.Service);
             foreach (var item in source.VisualAnalyses)
             {
                 var visualAnalysis = convertLogic.Convert(item);
                 newItem.VisualAnalyses.Add(visualAnalysis);
             }
-            TraceLogger?.AddMessage("Converting project has completed succesfully", TraceLogStatuses.Info);
+            if (newItem.VisualAnalyses.Any())
+            {
+                TraceLogger?.AddMessage($"Totaly {newItem.VisualAnalyses.Count()} were(was) obtained", TraceLogStatuses.Service);
+            }
+            else
+            {
+                TraceLogger?.AddMessage($"Project does not have any analyses", TraceLogStatuses.Warning);
+            }
+            TraceLogger?.AddMessage("Converting of project has completed succesfully", TraceLogStatuses.Service);
             return newItem;
         }
 

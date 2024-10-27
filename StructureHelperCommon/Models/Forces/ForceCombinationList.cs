@@ -22,7 +22,7 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public IPoint2D ForcePoint { get; set; }
         /// <inheritdoc/>
-        public List<IDesignForceTuple> DesignForces { get; private set; }
+        public List<IDesignForceTuple> DesignForces { get; set; }
 
 
         public ForceCombinationList(Guid id)

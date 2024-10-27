@@ -24,7 +24,8 @@ namespace DataAccess.DTOs.Converters
             this.forceTupleConvertStrategy = forceTupleConvertStrategy;
         }
 
-        public DesignForceTupleToDTOConvertStrategy() : this(new DesignForceTupleUpdateStrategy(),
+        public DesignForceTupleToDTOConvertStrategy() : this(
+            new DesignForceTupleUpdateStrategy(),
             new ForceTupleToDTOConvertStrategy())
         {
             

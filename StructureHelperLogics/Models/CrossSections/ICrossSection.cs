@@ -9,6 +9,6 @@ namespace StructureHelperLogics.Models.CrossSections
 {
     public interface ICrossSection : ISaveable, ICloneable
     {
-        ICrossSectionRepository SectionRepository { get; }
+        ICrossSectionRepository SectionRepository { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperLogics.Models.Materials;
+using System;
 using System.Windows.Media;
 
 namespace StructureHelper.Models.Materials

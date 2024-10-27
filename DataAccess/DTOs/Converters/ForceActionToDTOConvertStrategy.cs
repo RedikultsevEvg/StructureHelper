@@ -6,7 +6,7 @@ using StructureHelperCommon.Models.Loggers;
 
 namespace DataAccess.DTOs.Converters
 {
-    public class ForceActionToDTOConvertStrategy : IConvertStrategy<IForceAction, IForceAction>
+    public class ForceActionToDTOConvertStrategy : ConvertStrategy<IForceAction, IForceAction>
     {
         private IConvertStrategy<ForceCombinationByFactorDTO, IForceCombinationByFactor> forceCombinationByFactorConvertStrategy;
         private IConvertStrategy<ForceCombinationListDTO, IForceCombinationList> forceCombinationListConvertStrategy;
@@ -26,24 +26,7 @@ namespace DataAccess.DTOs.Converters
             
         }
 
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
-
-        public IForceAction Convert(IForceAction source)
-        {
-            try
-            {
-                return ProcessForceAction(source);
-            }
-            catch (Exception ex)
-            {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
-                throw;
-            }
-        }
-
-        private IForceAction ProcessForceAction(IForceAction source)
+        public override IForceAction GetNewItem(IForceAction source)
         {
             if (source is IForceCombinationByFactor forceCombinationByFactor)
             {

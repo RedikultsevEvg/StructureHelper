@@ -11,6 +11,6 @@ namespace StructureHelperCommon.Models.Analyses
     {
         string Name { get; set; }
         string Tags { get; set; }
-        IVersionProcessor VersionProcessor { get;}
+        IVersionProcessor VersionProcessor { get; set; }
     }
 }

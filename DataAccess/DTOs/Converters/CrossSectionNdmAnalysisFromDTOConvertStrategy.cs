@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogic.Models.Analyses;
 using StructureHelperLogics.Models.Analyses;
@@ -13,7 +14,18 @@ namespace DataAccess.DTOs.Converters
 {
     public class CrossSectionNdmAnalysisFromDTOConvertStrategy : IConvertStrategy<ICrossSectionNdmAnalysis, ICrossSectionNdmAnalysis>
     {
-        private IUpdateStrategy<ICrossSectionNdmAnalysis> updateStrategy = new CrossSectionNdmAnalysisUpdateStrategy();
+        private IUpdateStrategy<ICrossSectionNdmAnalysis> updateStrategy;
+
+        public CrossSectionNdmAnalysisFromDTOConvertStrategy(IUpdateStrategy<ICrossSectionNdmAnalysis> updateStrategy)
+        {
+            this.updateStrategy = updateStrategy;
+        }
+
+        public CrossSectionNdmAnalysisFromDTOConvertStrategy() : this(new CrossSectionNdmAnalysisUpdateStrategy())
+        {
+            
+        }
+
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
@@ -21,7 +33,8 @@ namespace DataAccess.DTOs.Converters
         {
             try
             {
-                CrossSectionNdmAnalysis newItem = GetCrossSectinNDMAnalysis(source);
+                Check();
+                ICrossSectionNdmAnalysis newItem = GetCrossSectinNDMAnalysis(source);
                 return newItem;
             }
             catch (Exception ex)
@@ -33,11 +46,19 @@ namespace DataAccess.DTOs.Converters
             
         }
 
-        private CrossSectionNdmAnalysis GetCrossSectinNDMAnalysis(ICrossSectionNdmAnalysis source)
+        private ICrossSectionNdmAnalysis GetCrossSectinNDMAnalysis(ICrossSectionNdmAnalysis source)
         {
+            TraceLogger?.AddMessage("Cross-section sonverting is started");
             CrossSectionNdmAnalysis newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
+            TraceLogger?.AddMessage("Cross-section analysis was obtained succesfully");
             return newItem;
+        }
+
+        private void Check()
+        {
+            var checkLogic = new CheckConvertLogic<ICrossSectionNdmAnalysis, ICrossSectionNdmAnalysis>(this);
+            checkLogic.Check();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace StructureHelperLogics.Models.CrossSections
 {
     public class CrossSection : ICrossSection
     {
-        public ICrossSectionRepository SectionRepository { get; private set; } = new CrossSectionRepository();
+        public ICrossSectionRepository SectionRepository { get; set; } = new CrossSectionRepository();
 
         public Guid Id { get; private set; }
 

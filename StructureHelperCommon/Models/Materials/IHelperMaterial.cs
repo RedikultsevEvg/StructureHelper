@@ -9,10 +9,9 @@ using System.Text;
 
 namespace StructureHelperLogics.Models.Materials
 {
-    public interface IHelperMaterial : ISaveable, ICloneable
+    public interface IHelperMaterial : ISaveable, ICloneable, IHasSafetyFactors
     {
         IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm);
         IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm);
-        List<IMaterialSafetyFactor> SafetyFactors { get; set; }
     }
 }

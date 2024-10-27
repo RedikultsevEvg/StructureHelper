@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models.Materials.Libraries;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Materials.Libraries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace StructureHelperLogics.Models.Materials
 {
     public interface IFRMaterial : IElasticMaterial
     {
+        MaterialTypes MaterialType { get; }
         double ULSConcreteStrength { get; set; }
         double SumThickness { get; set; }
         double GammaF2 { get; }

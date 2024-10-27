@@ -15,6 +15,8 @@ namespace DataAccess.DTOs
     {
         [JsonProperty("Id")]
         public Guid Id { get; set; }
+        [JsonProperty("MaterialType")]
+        public MaterialTypes MaterialType { get; set; } = MaterialTypes.CarbonFiber;
         [JsonProperty("ULSConcreteStrength")]
         public double ULSConcreteStrength { get; set; }
         [JsonProperty("SunThickness")]

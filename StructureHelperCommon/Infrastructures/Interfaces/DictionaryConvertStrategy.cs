@@ -10,6 +10,11 @@ using System.Windows.Media;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
+    /// <summary>
+    /// Find object in refernce dictionary, if it exists return existing object, else return new one by child logic 
+    /// </summary>
+    /// <typeparam name="T">Type of target object</typeparam>
+    /// <typeparam name="V">Type of source object</typeparam>
     public class DictionaryConvertStrategy<T, V> : IConvertStrategy<T, V>
         where T : ISaveable
         where V : ISaveable

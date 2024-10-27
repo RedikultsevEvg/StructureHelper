@@ -9,6 +9,6 @@ namespace StructureHelperLogics.Models.Materials
 {
     public interface IHasHeadMaterials
     {
-        List<IHeadMaterial> HeadMaterials { get; }
+        List<IHeadMaterial> HeadMaterials { get;}
     }
 }

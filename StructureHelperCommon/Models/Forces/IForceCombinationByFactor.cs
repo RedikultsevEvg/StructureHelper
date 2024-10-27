@@ -9,7 +9,7 @@ namespace StructureHelperCommon.Models.Forces
 {
     public interface IForceCombinationByFactor : IForceAction
     {
-        IForceTuple FullSLSForces { get; }
+        IForceTuple FullSLSForces { get; set; }
         double ULSFactor { get; set; }
         double LongTermFactor { get; set; }
     }
