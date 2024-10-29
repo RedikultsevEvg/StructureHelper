@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace StructureHelper.Windows.TreeGraph
 {
@@ -14,6 +16,11 @@ namespace StructureHelper.Windows.TreeGraph
         private string scaleText;
         private const string X_DEFAULT_SCALE_TEXT = "y=f(sx)";
         private const string Y_DEFAULT_SCALE_TEXT = "y=sf(x)";
+        private RelayCommand saveCommand;
+        public ICommand SaveCommand
+        {
+            get => saveCommand ??= new RelayCommand(o => Save(o));
+        }
         public double ScaleFactor
         {
             get => scaleFactor; 
@@ -51,6 +58,12 @@ namespace StructureHelper.Windows.TreeGraph
             {
                 ScaleText= $"{Y_DEFAULT_SCALE_TEXT}";
             } 
+        }
+        private void Save(object parameter)
+        {
+            var window = parameter as Window;
+            window.DialogResult = true;
+            window.Close();
         }
     }
 }

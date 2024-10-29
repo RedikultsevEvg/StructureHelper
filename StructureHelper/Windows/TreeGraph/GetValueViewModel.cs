@@ -55,7 +55,7 @@ namespace StructureHelper.Windows.TreeGraph
         private void GetValue()
         {
             Value = Function.GetByX(Argument);
-            Trace = "Calculation logic";
+            Trace = "трасса";
         }
     }
 }

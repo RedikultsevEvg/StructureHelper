@@ -161,8 +161,8 @@ namespace StructureHelper.Windows.MainGraph
                 formulaView.ShowDialog();
                 SelectedFuntion = formulaViewModel.Function;
             }
-            //var graphView = parameter as GraphView;
-            //graphView.Refresh();
+            var graphView = parameter as GraphView;
+            graphView.Refresh();
         }
         private void Delete()
         {

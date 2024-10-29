@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace StructureHelper.Windows.TreeGraph
 {
@@ -20,6 +22,11 @@ namespace StructureHelper.Windows.TreeGraph
         private const string Y = "y";
         private string x_or_y_text;
         private string limitText;
+        private RelayCommand saveCommand;
+        public ICommand SaveCommand
+        {
+            get => saveCommand ??= new RelayCommand(o => Save(o));
+        }
         public string X_or_Y_text
         {
             get => x_or_y_text;
@@ -68,6 +75,12 @@ namespace StructureHelper.Windows.TreeGraph
                 X_or_Y_text = Y;
             }
             LimitText = $"{X_or_Y_text}" + $"{IN}" + $"{LEFT_BOUND}" + $"{LeftBound}" + $"{SEMICOLON}" + $"{rightBound}" + $"{RIGHT_BOUND}";
+        }
+        private void Save(object parameter)
+        {
+            var window = parameter as Window;
+            window.DialogResult = true;
+            window.Close();
         }
     }
 }

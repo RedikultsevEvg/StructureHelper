@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using StructureHelperCommon.Models.Functions.Decorator;
 
 namespace StructureHelper.Windows.TreeGraph
 {
@@ -114,11 +115,24 @@ namespace StructureHelper.Windows.TreeGraph
         }
         private void Scale(object parameter)
         {
+            var selectedTreeViewItem = TreeGraphView_win.FunctionTreeView.SelectedItem as TreeViewItemViewModel;
+            if (selectedTreeViewItem is null)
+            {
+                return;
+            }
             ScaleViewModel vm = null;
             var type = parameter as string;
             if (type.Equals("x"))
             {
                 vm = new ScaleViewModel(true);
+                var v = new ScaleView();
+                v.DataContext = vm;
+                if (v.ShowDialog() == true)
+                {
+                    SelectedFuntion = new ScaleXDecorator(SelectedFuntion, vm.ScaleFactor);
+                    var child = new TreeViewItemViewModel(SelectedFuntion, selectedTreeViewItem, this);
+                    selectedTreeViewItem.Children.Add(child);
+                }
             }
             else if (type.Equals("y"))
             {
@@ -128,12 +142,14 @@ namespace StructureHelper.Windows.TreeGraph
             {
                 return;
             }
-            var v = new ScaleView();
-            v.DataContext = vm;
-            v.ShowDialog();
         }
         private void Limit(object parameter)
         {
+            var selectedTreeViewItem = TreeGraphView_win.FunctionTreeView.SelectedItem as TreeViewItemViewModel;
+            if (selectedTreeViewItem is null)
+            {
+                return;
+            }
             LimViewModel vm = null;
             var type = parameter as string;
             if (type.Equals("x"))

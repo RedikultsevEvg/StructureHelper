@@ -29,6 +29,7 @@ namespace StructureHelperCommon.Models.Functions
         public ObservableCollection<IOneVariableFunction> Functions { get; set; } = new ObservableCollection<IOneVariableFunction>();
         public double MinArg { get; set; }
         public double MaxArg { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public TableFunction(bool isUser = false)
         {
@@ -68,7 +69,9 @@ namespace StructureHelperCommon.Models.Functions
 
         public double GetByX(double xValue)
         {
-            throw new NotImplementedException();
+            //Реализовать взятие значения из таблицы и интерполяцию по таблице
+
+            return 100;
         }
     }
 }

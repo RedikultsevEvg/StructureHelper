@@ -23,7 +23,7 @@ namespace StructureHelper.Windows.TreeGraph
         public TreeViewItemViewModel(IOneVariableFunction function, TreeGraphViewModel treeGraphViewModel) : this(function, null, treeGraphViewModel)
         {
         }
-        private TreeViewItemViewModel(IOneVariableFunction function, TreeViewItemViewModel parent, TreeGraphViewModel treeGraphViewModel)
+        public TreeViewItemViewModel(IOneVariableFunction function, TreeViewItemViewModel parent, TreeGraphViewModel treeGraphViewModel)
         {
             _function = function;
             _parent = parent;

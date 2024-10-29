@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
-    public interface IOneVariableFunction : ICloneable, ISaveable
+    public interface IOneVariableFunction : ICloneable, ISaveable, ILogic
     {
         public const string GROUP_TYPE_1 = "System function";
         public const string GROUP_TYPE_2 = "User function";

@@ -41,6 +41,7 @@ namespace StructureHelperCommon.Models.Functions
         public ObservableCollection<IOneVariableFunction> Functions { get; set; } = new ObservableCollection<IOneVariableFunction>();
         public double MinArg { get; set; }
         public double MaxArg { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public FormulaFunction(bool isUser = false)
         {
