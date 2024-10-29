@@ -28,12 +28,20 @@ namespace StructureHelper.Windows.TreeGraph
         public double Value
         {
             get => value;
-            set => this.value = value;
+            set
+            {
+                this.value = value;
+                OnPropertyChanged(nameof(Value));
+            }
         }
         public string Trace
         {
             get => trace;
-            set => trace = value;
+            set
+            {
+                trace = value;
+                OnPropertyChanged(nameof(Trace));
+            }
         }
         private RelayCommand _getValueCommand;
         public ICommand GetValueCommand
@@ -47,7 +55,7 @@ namespace StructureHelper.Windows.TreeGraph
         private void GetValue()
         {
             Value = Function.GetByX(Argument);
-            Trace = "скорее всего переменная внутри функции";
+            Trace = "Calculation logic";
         }
     }
 }

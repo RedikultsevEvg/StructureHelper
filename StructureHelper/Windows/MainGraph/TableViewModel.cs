@@ -18,12 +18,12 @@ namespace StructureHelper.Windows.MainGraph
     {
         private const string DEFAULT_NAME = "Put function name here...";
         private const string DEFAULT_DESCRIPTION = "Put function description here...";
-        private RelayCommand drawGraphCommand;
+        private RelayCommand saveCommand;
         private RelayCommand addPointCommand;
         private RelayCommand deletePointCommand;
-        public ICommand DrawGraphCommand
+        public ICommand SaveCommand
         {
-            get => drawGraphCommand ??= new RelayCommand(o => Save(o));
+            get => saveCommand ??= new RelayCommand(o => Save(o));
         }
         public ICommand AddPointCommand
         {

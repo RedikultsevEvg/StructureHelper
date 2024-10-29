@@ -18,7 +18,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TreeView Grid.Row="0" 
+        <TreeView Name="FunctionTreeView"
+                  Grid.Row="0" 
                   Grid.Column="0" 
                   Margin="5"
                   ItemsSource="{Binding FirstGeneration}">
@@ -81,7 +82,7 @@
         </Grid>
         <lvc:CartesianChart Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
                             Series="{Binding SeriesCollection}" Margin="5"
-                            Zoom="Xy">
+                            Zoom="None">
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Y"></lvc:Axis>
             </lvc:CartesianChart.AxisY>

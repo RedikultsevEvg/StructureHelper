@@ -22,10 +22,10 @@ namespace StructureHelper.Windows.MainGraph
         private const double DEFAULT_LEFT_BOUND = 0;
         private const double DEFAULT_RIGHT_BOUND = 1000;
         private const int DEFAULT_STEP = 100;
-        private RelayCommand drawGraphCommand;
-        public ICommand DrawGraphCommand
+        private RelayCommand saveCommand;
+        public ICommand SaveCommand
         {
-            get => drawGraphCommand ??= new RelayCommand(o => Save(o));
+            get => saveCommand ??= new RelayCommand(o => Save(o));
         }
         private string formula;
 

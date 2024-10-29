@@ -21,12 +21,27 @@ namespace StructureHelperCommon.Models.Functions
         public string Group { get; set; }
         public string Name { get; set; }
         public string Description { get ; set; }
-        public List<GraphPoint> Table { get; set; }
+        public int Step { get; set; }
+        private List<GraphPoint> table;
+        public List<GraphPoint> Table 
+        { 
+            get
+            {
+                return CalculateTable();
+            }
+            set
+            {
+                table = value;
+            }
+        }
         public string Formula {  get; set; }
 
         public Guid Id => throw new NotImplementedException();
 
         public ObservableCollection<IOneVariableFunction> Functions { get; set; } = new ObservableCollection<IOneVariableFunction>();
+        public double MinArg { get; set; }
+        public double MaxArg { get; set; }
+
         public FormulaFunction(bool isUser = false)
         {
             Type = FunctionType.FormulaFunction;
@@ -58,12 +73,28 @@ namespace StructureHelperCommon.Models.Functions
             formulaFunction.Formula = Formula;
             formulaFunction.IsUser = true;
             formulaFunction.Group = GROUP_TYPE_2;
+            formulaFunction.Step = Step;
+            formulaFunction.MinArg = MinArg;
+            formulaFunction.MaxArg = MaxArg;
             return formulaFunction;
         }
 
         public double GetByX(double xValue)
         {
-            throw new NotImplementedException();
+            double yValue = 0;
+            yValue = Math.Round(Math.Pow(xValue, 2), 2); //Временное тестовой выражение квадратичной параболы, будет разбор выражения
+            return yValue;
+        }
+        public List<GraphPoint> CalculateTable()
+        {
+            var table = new List<GraphPoint>();
+            var stepLenght = Math.Abs(MaxArg - MinArg) / Step;
+            for (double x = MinArg; x < MaxArg; x += stepLenght)
+            {
+                var graphPoint = new GraphPoint(x, GetByX(x));
+                table.Add(graphPoint);
+            }
+            return table;
         }
     }
 }

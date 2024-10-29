@@ -16,11 +16,26 @@ namespace StructureHelper.Windows.MainGraph
 {
     public class GraphViewModel : ViewModelBase
     {
-        public SeriesCollection SeriesCollection { get; set; }
-        public List<string> Labels { get; set; }
-
-
-
+        private SeriesCollection seriesCollection;
+        private List<string> labels;
+        public SeriesCollection SeriesCollection
+        {
+            get => seriesCollection;
+            set
+            {
+                seriesCollection = value;
+                OnPropertyChanged(nameof(seriesCollection));
+            }
+        }
+        public List<string> Labels
+        {
+            get => labels;
+            set
+            {
+                labels = value;
+                OnPropertyChanged(nameof(labels));
+            }
+        }
         private IOneVariableFunction selectedFunction;
         public IOneVariableFunction SelectedFuntion
         {
@@ -31,6 +46,7 @@ namespace StructureHelper.Windows.MainGraph
             set
             {
                 selectedFunction = value;
+                DrawGraph();
                 OnPropertyChanged(nameof(SelectedFuntion));
             }
         }
@@ -89,6 +105,9 @@ namespace StructureHelper.Windows.MainGraph
             var f2 = new FormulaFunction();
             f2.Name = "Формульная системная функция";
             f2.Formula = "x^2";
+            f2.Step = 100;
+            f2.MinArg = -1000;
+            f2.MaxArg = 1000;
             f2.IsUser = false;
             f2.Description = "Описание формульной системной функции";
 
@@ -106,6 +125,7 @@ namespace StructureHelper.Windows.MainGraph
             if (tableView.ShowDialog() == true)
             {
                 Functions.Add(tableViewModel.Function);
+                SelectedFuntion = tableViewModel.Function;
             }
         }
         private void AddFormula()
@@ -116,6 +136,7 @@ namespace StructureHelper.Windows.MainGraph
             if (formulaView.ShowDialog() == true)
             {
                 Functions.Add(formulaViewModel.Function);
+                SelectedFuntion = formulaViewModel.Function;
             }
         }
         private void Edit(object parameter)
@@ -139,9 +160,9 @@ namespace StructureHelper.Windows.MainGraph
                 formulaView.DataContext = formulaViewModel;
                 formulaView.ShowDialog();
                 SelectedFuntion = formulaViewModel.Function;
-            } 
-            var graphView = parameter as GraphView;
-            graphView.Refresh();
+            }
+            //var graphView = parameter as GraphView;
+            //graphView.Refresh();
         }
         private void Delete()
         {
@@ -175,12 +196,18 @@ namespace StructureHelper.Windows.MainGraph
         }
         private void Tree()
         {
-            var func = Database.GetFunctionTree();
+            if (SelectedFuntion is null)
+            {
+                return;
+            }
 
+            //var testFunction = Database.GetFunctionTree();
+            //var treeGraphVM = new TreeGraphViewModel(testFunction);
 
-            var treeGraphVM = new TreeGraphViewModel(func);
+            var treeGraphVM = new TreeGraphViewModel(SelectedFuntion);
             var treeGraph = new TreeGraphView();
             treeGraph.DataContext = treeGraphVM;
+            treeGraphVM.TreeGraphView_win = treeGraph;
             treeGraph.ShowDialog();
         }
         private void DrawGraph()
@@ -196,6 +223,7 @@ namespace StructureHelper.Windows.MainGraph
             }
             lineSeries.Values = chartValues;
             Labels = labels;
+            seriesCollection.Add(lineSeries);
             SeriesCollection = seriesCollection;
         }
     }

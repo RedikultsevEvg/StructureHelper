@@ -7,11 +7,14 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.MainGraph"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:FormulaViewModel}"
-        Title="FormulaFunction" Height="320" Width="400">
+        Title="FormulaFunction" Height="580" Width="400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="50"/>
@@ -48,6 +51,79 @@
         </TextBlock>
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="3"
+                Margin="5"
+                Text="Enter limit bounds:" 
+                VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" 
+                   Grid.Row="1"
+                   Text="{Binding X_or_Y_text}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Right"/>
+                <TextBlock Grid.Column="1" 
+                   Grid.Row="1"
+                   Text="{Binding GREATER}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Right"/>
+                <TextBox Grid.Column="2" 
+                 Grid.Row="1"
+                 Text="{Binding LeftBound, 
+                        UpdateSourceTrigger=PropertyChanged,
+                        StringFormat=\{0:n\}}" 
+                 Margin="5"/>
+                <TextBlock Grid.Column="0" 
+                   Grid.Row="2"
+                   Text="{Binding X_or_Y_text}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Right"/>
+                <TextBlock Grid.Column="1" 
+                   Grid.Row="2"
+                   Text="{Binding LESS}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Right"/>
+                <TextBox Grid.Column="2" 
+                 Grid.Row="2"
+                 Text="{Binding RightBound, 
+                        UpdateSourceTrigger=PropertyChanged,
+                        StringFormat=\{0:n\}}" 
+                 Margin="5"/>
+            </Grid>
+            <TextBlock Grid.Row="1"
+            Margin="5"
+            Background="LightYellow" 
+            Text="{Binding LimitText, UpdateSourceTrigger=PropertyChanged}"
+            TextAlignment="Center"
+            FontSize="20"
+            TextWrapping="Wrap">
+            </TextBlock>
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" 
+                       Margin="5"
+                       Text="Step:" 
+                       VerticalAlignment="Center"/>
+            <TextBox Grid.Row="1" Text="{Binding Step}" Margin="5"/>
+        </Grid>
+        <Grid Grid.Row="4">
+            <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
@@ -57,7 +133,7 @@
                        VerticalAlignment="Center"/>
             <TextBox Grid.Row="1" Text="{Binding Name}" Margin="5"/>
         </Grid>
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
@@ -68,8 +144,19 @@
                        VerticalAlignment="Center"/>
             <TextBox Grid.Row="1" Text="{Binding Description}" Margin="5"/>
         </Grid>
-        <Button Grid.Row="4" Margin="5" Content="Save"
-                Command="{Binding DrawGraphCommand}"
+        <Grid Grid.Row="6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" 
+                       Margin="5"
+                       Text="Color:" 
+                       VerticalAlignment="Center"/>
+            <ComboBox Grid.Row="1" Text="{Binding Description}" Margin="5"/>
+        </Grid>
+        <Button Grid.Row="7" Margin="5" Content="Save"
+                Command="{Binding SaveCommand}"
                 CommandParameter="{Binding ElementName=FormulaFunction_win}">
         </Button>
     </Grid>

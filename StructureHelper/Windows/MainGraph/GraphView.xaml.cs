@@ -43,7 +43,6 @@ namespace StructureHelper.Windows.MainGraph
         public void Refresh()
         {
             FunctionList.Items.Refresh();
-            DescriptionTextBlock.UpdateLayout();
         }
     }
 }

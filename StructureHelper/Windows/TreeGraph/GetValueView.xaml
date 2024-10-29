@@ -35,14 +35,14 @@
                 <TextBox Grid.Column="1" Text="{Binding Argument}" 
                       Margin="5"/>
                 <Button Grid.Column="2" Margin="5" Content="Get value"
-             Command="{Binding DrawGraphCommand}">
+             Command="{Binding GetValueCommand}">
                 </Button>
             </Grid>
         </Grid>
         <ScrollViewer  Grid.Row="1" Margin="5" >
             <TextBlock
                 Background="LightYellow" 
-                Text="{Binding Trace}"
+                Text="{Binding Trace, UpdateSourceTrigger=PropertyChanged}"
                 TextAlignment="Center"
                 FontSize="20"
                 TextWrapping="Wrap">
@@ -67,7 +67,7 @@
                         HorizontalAlignment="Right"/>
                 <TextBlock Grid.Column="1" 
                            Background="AliceBlue"
-                           Text="{Binding Value}"
+                           Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
                            FontWeight="DemiBold"
                            Margin="5"/>
             </Grid>

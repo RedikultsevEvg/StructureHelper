@@ -1,4 +1,6 @@
-﻿using NLog.Common;
+﻿using LiveCharts.Wpf;
+using LiveCharts;
+using NLog.Common;
 using StructureHelper.Infrastructure;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Functions;
@@ -14,7 +16,9 @@ namespace StructureHelper.Windows.TreeGraph
 {
     public class TreeGraphViewModel : ViewModelBase
     {
-        readonly ReadOnlyCollection<TreeViewItemViewModel> _firstGeneration;
+        private SeriesCollection seriesCollection;
+        private List<string> labels;
+        readonly ObservableCollection<TreeViewItemViewModel> _firstGeneration;
         readonly TreeViewItemViewModel _rootFunction;
         readonly ICommand _searchCommand;
         private RelayCommand _getYCommand;
@@ -22,7 +26,44 @@ namespace StructureHelper.Windows.TreeGraph
         private RelayCommand _limCommand;
         private RelayCommand _editCommand;
         private RelayCommand _deleteCommand;
-        public ReadOnlyCollection<TreeViewItemViewModel> FirstGeneration
+        private TreeGraphView _treeGraphView_win;
+        private IOneVariableFunction selectedFunction;
+        public IOneVariableFunction SelectedFuntion
+        {
+            get
+            {
+                return selectedFunction;
+            }
+            set
+            {
+                selectedFunction = value;
+                OnPropertyChanged(nameof(SelectedFuntion));
+            }
+        }
+        public SeriesCollection SeriesCollection
+        {
+            get => seriesCollection;
+            set
+            {
+                seriesCollection = value;
+                OnPropertyChanged(nameof(seriesCollection));
+            }
+        }
+        public List<string> Labels
+        {
+            get => labels;
+            set
+            {
+                labels = value;
+                OnPropertyChanged(nameof(labels));
+            }
+        }
+        public TreeGraphView TreeGraphView_win
+        { 
+            get => _treeGraphView_win;
+            set => _treeGraphView_win = value; 
+        }
+        public ObservableCollection<TreeViewItemViewModel> FirstGeneration
         {
             get => _firstGeneration;
         }
@@ -46,22 +87,27 @@ namespace StructureHelper.Windows.TreeGraph
         {
             get => _deleteCommand ??= new RelayCommand(o => Delete());
         }
-        private ObservableCollection<IOneVariableFunction> functions;
-        public ObservableCollection<IOneVariableFunction> Functions { get; set; }
-        public ObservableCollection<Node> Nodes { get; set; }
         public TreeGraphViewModel(IOneVariableFunction rootFunction)
         {
-            _rootFunction = new TreeViewItemViewModel(rootFunction);
+            _rootFunction = new TreeViewItemViewModel(rootFunction, this);
 
-            _firstGeneration = new ReadOnlyCollection<TreeViewItemViewModel>(
-                new TreeViewItemViewModel[]
-                {
-                    _rootFunction
-                });
+            _firstGeneration = new ObservableCollection<TreeViewItemViewModel>
+                (
+                    new ObservableCollection<TreeViewItemViewModel>()
+                    {
+                        _rootFunction,
+                    }
+                );
         }
         private void GetY()
         {
-            var vm = new GetValueViewModel(new TableFunction());
+            var selectedTreeViewItem = TreeGraphView_win.FunctionTreeView.SelectedItem as TreeViewItemViewModel;
+            if (selectedTreeViewItem is null)
+            {
+                return;
+            }
+            SelectedFuntion = selectedTreeViewItem.Function;
+            var vm = new GetValueViewModel(SelectedFuntion);
             var v = new GetValueView();
             v.DataContext = vm;
             v.ShowDialog();
@@ -88,7 +134,20 @@ namespace StructureHelper.Windows.TreeGraph
         }
         private void Limit(object parameter)
         {
-            var vm = new LimViewModel();
+            LimViewModel vm = null;
+            var type = parameter as string;
+            if (type.Equals("x"))
+            {
+                vm = new LimViewModel(true);
+            }
+            else if (type.Equals("y"))
+            {
+                vm = new LimViewModel(false);
+            }
+            else
+            {
+                return;
+            }
             var v = new LimView();
             v.DataContext = vm;
             v.ShowDialog();
@@ -99,11 +158,39 @@ namespace StructureHelper.Windows.TreeGraph
         }
         private void Delete()
         {
-        
+            var selectedTreeViewItem = TreeGraphView_win.FunctionTreeView.SelectedItem as TreeViewItemViewModel;
+            if (selectedTreeViewItem is null)
+            {
+                return;
+            }
+            var selectedTreeViewItemParent = selectedTreeViewItem.Parent;
+            if (selectedTreeViewItemParent is null)
+            {
+                return;
+            }
+            selectedTreeViewItemParent.Children.Remove(selectedTreeViewItem);
         }
-        private void RefreshTree()
+        public void DrawGraph()
         {
-
+            var labels = new List<string>();
+            var lineSeries = new LineSeries();
+            var seriesCollection = new SeriesCollection();
+            var chartValues = new ChartValues<double>();
+            var selectedTreeViewItem = TreeGraphView_win.FunctionTreeView.SelectedItem as TreeViewItemViewModel;
+            if (selectedTreeViewItem is null)
+            {
+                return;
+            }
+            SelectedFuntion = selectedTreeViewItem.Function;
+            foreach (GraphPoint graphPoint in SelectedFuntion.Table)
+            {
+                labels.Add(Math.Round(graphPoint.X, 2).ToString());
+                chartValues.Add(Math.Round(graphPoint.Y));
+            }
+            lineSeries.Values = chartValues;
+            Labels = labels;
+            seriesCollection.Add(lineSeries);
+            SeriesCollection = seriesCollection;
         }
     }
 }

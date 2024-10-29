@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         ResizeMode="CanResize"
         d:DataContext="{d:DesignInstance local:TableViewModel}"
-        Title="TableFunction" Height="500" Width="400"
+        Title="TableFunction" Height="560" Width="400"
         MaxWidth="400"
         MinWidth="400">
     <Grid>
@@ -16,6 +16,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="50"/>
@@ -105,8 +106,19 @@
                        VerticalAlignment="Center"/>
             <TextBox Grid.Row="1" Text="{Binding Description}" Margin="5"/>
         </Grid>
-        <Button Grid.Row="5" Margin="5" Content="Save"
-                Command="{Binding DrawGraphCommand}"
+        <Grid Grid.Row="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" 
+                Margin="5"
+                Text="Color:" 
+                VerticalAlignment="Center"/>
+            <ComboBox Grid.Row="1" Text="{Binding Description}" Margin="5"/>
+        </Grid>
+        <Button Grid.Row="6" Margin="5" Content="Save"
+                Command="{Binding SaveCommand}"
                 CommandParameter="{Binding ElementName=TableFunction_win}">
         </Button>
     </Grid>

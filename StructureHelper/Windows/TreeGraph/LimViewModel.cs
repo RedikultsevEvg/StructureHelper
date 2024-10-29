@@ -9,13 +9,16 @@ namespace StructureHelper.Windows.TreeGraph
 {
     public class LimViewModel : ViewModelBase
     {
+        private bool isArg = false;
         public char GREATER { get; } = '\u2265';
         public char LESS { get; } = '\u2264';
         public char IN { get; } = '\u2208';
         public char LEFT_BOUND { get; } = '[';
         public char RIGHT_BOUND { get; } = ']';
         public char SEMICOLON { get; } = ';';
-        private string x_or_y_text = "x";
+        private const string X = "x";
+        private const string Y = "y";
+        private string x_or_y_text;
         private string limitText;
         public string X_or_Y_text
         {
@@ -53,8 +56,17 @@ namespace StructureHelper.Windows.TreeGraph
                 OnPropertyChanged(nameof(RightBound));
             } 
         }
-        public LimViewModel() 
+        public LimViewModel(bool isArg) 
         {
+            this.isArg = isArg;
+            if (isArg)
+            {
+                X_or_Y_text = X;
+            }
+            else
+            {
+                X_or_Y_text = Y;
+            }
             LimitText = $"{X_or_Y_text}" + $"{IN}" + $"{LEFT_BOUND}" + $"{LeftBound}" + $"{SEMICOLON}" + $"{rightBound}" + $"{RIGHT_BOUND}";
         }
     }

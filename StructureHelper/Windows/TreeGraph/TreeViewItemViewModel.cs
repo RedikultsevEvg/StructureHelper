@@ -12,35 +12,40 @@ namespace StructureHelper.Windows.TreeGraph
 {
     public class TreeViewItemViewModel : ViewModelBase
     {
-        readonly ReadOnlyCollection<TreeViewItemViewModel> _children;
+        readonly ObservableCollection<TreeViewItemViewModel> _children;
         readonly TreeViewItemViewModel _parent;
-        readonly IOneVariableFunction _functions;
+        readonly IOneVariableFunction _function;
+        readonly TreeGraphViewModel _treeGraphViewModel;
 
         bool _isExpanded;
         bool _isSelected;
 
-        public TreeViewItemViewModel(IOneVariableFunction function) : this(function, null)
+        public TreeViewItemViewModel(IOneVariableFunction function, TreeGraphViewModel treeGraphViewModel) : this(function, null, treeGraphViewModel)
         {
         }
-        private TreeViewItemViewModel(IOneVariableFunction function, TreeViewItemViewModel parent)
+        private TreeViewItemViewModel(IOneVariableFunction function, TreeViewItemViewModel parent, TreeGraphViewModel treeGraphViewModel)
         {
-            _functions = function;
+            _function = function;
             _parent = parent;
-            _children = new ReadOnlyCollection<TreeViewItemViewModel>
+            _treeGraphViewModel = treeGraphViewModel;
+            _children = new ObservableCollection<TreeViewItemViewModel>
                 (
-                _functions.Functions
-                .Select(x => new TreeViewItemViewModel(x, this))
+                _function.Functions
+                .Select(x => new TreeViewItemViewModel(x, this, treeGraphViewModel))
                 .ToList<TreeViewItemViewModel>()
                 );
         }
-        public ReadOnlyCollection<TreeViewItemViewModel> Children
+        public IOneVariableFunction Function
+        {
+            get { return _function; }
+        }
+        public ObservableCollection<TreeViewItemViewModel> Children
         {
             get { return _children; }
         }
-
         public string Name
         {
-            get { return _functions.Name; }
+            get { return _function.Name; }
         }
         public bool IsExpanded
         {
@@ -65,6 +70,7 @@ namespace StructureHelper.Windows.TreeGraph
                 if (value != _isSelected)
                 {
                     _isSelected = value;
+                    _treeGraphViewModel.DrawGraph();
                     OnPropertyChanged(nameof(IsSelected));
                 }
             }

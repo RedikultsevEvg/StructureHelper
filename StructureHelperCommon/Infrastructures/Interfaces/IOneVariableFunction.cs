@@ -20,6 +20,8 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public string Name { get; set; }
         public string Description { get; set; }
         public List<GraphPoint> Table { get; set; }
+        public double MinArg { get; set; }
+        public double MaxArg { get; set; }
         public ObservableCollection<IOneVariableFunction> Functions { get; set; }
         public bool Check();
         public double GetByX(double xValue);
