@@ -9,6 +9,7 @@ using StructureHelperLogics.Models.Graphs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.MainGraph
@@ -36,12 +37,6 @@ namespace StructureHelper.Windows.MainGraph
         private ObservableCollection<IOneVariableFunction> functions;
         public ObservableCollection<IOneVariableFunction> Functions { get; set; }
 
-
-
-
-
-
-
         private RelayCommand addTableCommand;
         private RelayCommand addFormulaCommand;
         private RelayCommand editCommand;
@@ -59,7 +54,7 @@ namespace StructureHelper.Windows.MainGraph
         }
         public ICommand EditCommand
         {
-            get => editCommand ??= new RelayCommand(o => Edit());
+            get => editCommand ??= new RelayCommand(o => Edit(o));
         }
         public ICommand DeleteCommand
         {
@@ -79,6 +74,7 @@ namespace StructureHelper.Windows.MainGraph
         }
         public GraphViewModel()
         {
+            //Пример 1
             Functions = new ObservableCollection<IOneVariableFunction>();
             var f1 = new TableFunction();
             f1.Name = "Табличная системная функция";
@@ -89,31 +85,15 @@ namespace StructureHelper.Windows.MainGraph
             };
             f1.IsUser = false;
             f1.Description = "Описание табличной системной функции";
+            //Пример 2
+            var f2 = new FormulaFunction();
+            f2.Name = "Формульная системная функция";
+            f2.Formula = "x^2";
+            f2.IsUser = false;
+            f2.Description = "Описание формульной системной функции";
 
-            var f4 = new TableFunction();
-            f4.Name = "Табличная системная функция";
-            f4.Table = new List<GraphPoint>()
-            {
-                new GraphPoint(1, 0),
-                new GraphPoint(0, 1),
-            };
-            f4.IsUser = false;
-            f4.Description = "Описание табличной системной функции";
-
-            /*var f2 = new TableFunction();
-            f2.Name = "Пробная табличная пользовательская функция 2";
-            f2.Table = new List<GraphPoint>();
-            f2.IsUser = true;
-            f2.Description = "Описание 2";*/
-            var f3 = new FormulaFunction();
-            f3.Name = "Формульная системная функция";
-            f3.Formula = "x^2";
-            f3.IsUser = false;
-            f3.Description = "Описание формульной системной функции";
             Functions.Add(f1);
-            //Functions.Add(f2);
-            Functions.Add(f3);
-            Functions.Add(f4);
+            Functions.Add(f2);
         }
         /*public GraphViewModel(IGraph graph) 
         {
@@ -138,7 +118,7 @@ namespace StructureHelper.Windows.MainGraph
                 Functions.Add(formulaViewModel.Function);
             }
         }
-        private void Edit()
+        private void Edit(object parameter)
         {
             if (SelectedFuntion is null)
             {
@@ -150,6 +130,7 @@ namespace StructureHelper.Windows.MainGraph
                 var tableView = new TableView();
                 tableView.DataContext = tableViewModel;
                 tableView.ShowDialog();
+                SelectedFuntion = tableViewModel.Function;
             }
             else if (SelectedFuntion.Type == FunctionType.FormulaFunction)
             {
@@ -157,8 +138,10 @@ namespace StructureHelper.Windows.MainGraph
                 var formulaView = new FormulaView();
                 formulaView.DataContext = formulaViewModel;
                 formulaView.ShowDialog();
-
-            }
+                SelectedFuntion = formulaViewModel.Function;
+            } 
+            var graphView = parameter as GraphView;
+            graphView.Refresh();
         }
         private void Delete()
         {
@@ -192,8 +175,11 @@ namespace StructureHelper.Windows.MainGraph
         }
         private void Tree()
         {
-            var treeGraphVM = new TreeGraphViewModel(SelectedFuntion);
-            var treeGraph = new TreeGraph.TreeGraphView();
+            var func = Database.GetFunctionTree();
+
+
+            var treeGraphVM = new TreeGraphViewModel(func);
+            var treeGraph = new TreeGraphView();
             treeGraph.DataContext = treeGraphVM;
             treeGraph.ShowDialog();
         }

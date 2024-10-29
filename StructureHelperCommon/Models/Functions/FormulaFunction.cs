@@ -26,7 +26,7 @@ namespace StructureHelperCommon.Models.Functions
 
         public Guid Id => throw new NotImplementedException();
 
-        public ObservableCollection<IOneVariableFunction> Functions {  get; set; }
+        public ObservableCollection<IOneVariableFunction> Functions { get; set; } = new ObservableCollection<IOneVariableFunction>();
         public FormulaFunction(bool isUser = false)
         {
             Type = FunctionType.FormulaFunction;

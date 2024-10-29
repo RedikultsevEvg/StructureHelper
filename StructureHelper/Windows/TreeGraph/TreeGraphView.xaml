@@ -21,12 +21,24 @@
         <TreeView Grid.Row="0" 
                   Grid.Column="0" 
                   Margin="5"
-                  ItemsSource="{Binding ItemsSource}">
-            <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type local:Node}" ItemsSource="{Binding Nodes}">
-                    <TextBlock Text="{Binding Path=Name}" />
+                  ItemsSource="{Binding FirstGeneration}">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Setter Property="FontWeight" Value="Normal" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding Name}" />
                 </HierarchicalDataTemplate>
-            </TreeView.Resources>
+            </TreeView.ItemTemplate>
         </TreeView>
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.ColumnDefinitions>
@@ -68,7 +80,8 @@
                     Command="{Binding DeleteCommand}"/>
         </Grid>
         <lvc:CartesianChart Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
-                            Series="{Binding SeriesCollection}" Margin="5">
+                            Series="{Binding SeriesCollection}" Margin="5"
+                            Zoom="Xy">
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Y"></lvc:Axis>
             </lvc:CartesianChart.AxisY>

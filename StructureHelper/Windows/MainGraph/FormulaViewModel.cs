@@ -82,6 +82,7 @@ namespace StructureHelper.Windows.MainGraph
         public FormulaViewModel(FormulaFunction formulaFunction)
         {
             Function = formulaFunction;
+            Formula = formulaFunction.Formula;
             Name = Function.Name;
             Description = Function.Description;
         }

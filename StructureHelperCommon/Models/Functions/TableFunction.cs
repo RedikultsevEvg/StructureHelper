@@ -21,19 +21,12 @@ namespace StructureHelperCommon.Models.Functions
         public bool IsUser { get; set; }
         public FunctionType Type { get; set; }
         public string Group { get; set; }
-        public string Name 
-        {
-            get => name;
-            set
-            {
-                name = value;
-            }
-        }
+        public string Name { get; set; }
         public string Description { get; set; }
         public List<GraphPoint> Table { get; set; }
 
         public Guid Id => throw new NotImplementedException();
-        public ObservableCollection<IOneVariableFunction> Functions { get; set; }
+        public ObservableCollection<IOneVariableFunction> Functions { get; set; } = new ObservableCollection<IOneVariableFunction>();
 
         public TableFunction(bool isUser = false)
         {

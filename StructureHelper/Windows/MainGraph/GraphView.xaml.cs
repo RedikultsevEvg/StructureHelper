@@ -40,5 +40,10 @@ namespace StructureHelper.Windows.MainGraph
             PropertyGroupDescription groupDescription = new PropertyGroupDescription(GROUP_FACTOR);
             view.GroupDescriptions.Add(groupDescription);
         }
+        public void Refresh()
+        {
+            FunctionList.Items.Refresh();
+            DescriptionTextBlock.UpdateLayout();
+        }
     }
 }

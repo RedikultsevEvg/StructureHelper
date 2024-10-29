@@ -14,11 +14,18 @@ namespace StructureHelper.Windows.TreeGraph
 {
     public class TreeGraphViewModel : ViewModelBase
     {
+        readonly ReadOnlyCollection<TreeViewItemViewModel> _firstGeneration;
+        readonly TreeViewItemViewModel _rootFunction;
+        readonly ICommand _searchCommand;
         private RelayCommand _getYCommand;
         private RelayCommand _scaleCommand;
         private RelayCommand _limCommand;
         private RelayCommand _editCommand;
         private RelayCommand _deleteCommand;
+        public ReadOnlyCollection<TreeViewItemViewModel> FirstGeneration
+        {
+            get => _firstGeneration;
+        }
         public ICommand GetYCommand
         {
             get => _getYCommand ??= new RelayCommand(o => GetY());
@@ -42,18 +49,15 @@ namespace StructureHelper.Windows.TreeGraph
         private ObservableCollection<IOneVariableFunction> functions;
         public ObservableCollection<IOneVariableFunction> Functions { get; set; }
         public ObservableCollection<Node> Nodes { get; set; }
-        public TreeGraphViewModel(IOneVariableFunction function)
+        public TreeGraphViewModel(IOneVariableFunction rootFunction)
         {
-            Functions = new ObservableCollection<IOneVariableFunction>();
-            Functions.Add(function);
-            Nodes = new ObservableCollection<Node>()
-            {
-                new Node(),
-                new Node(),
-                new Node(),
-                new Node(),
-                new Node(),
-            };            
+            _rootFunction = new TreeViewItemViewModel(rootFunction);
+
+            _firstGeneration = new ReadOnlyCollection<TreeViewItemViewModel>(
+                new TreeViewItemViewModel[]
+                {
+                    _rootFunction
+                });
         }
         private void GetY()
         {
