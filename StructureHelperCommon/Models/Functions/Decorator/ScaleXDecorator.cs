@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using LiveCharts;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         public ScaleXDecorator(IOneVariableFunction function, double factor) : base(function)
         {
             this.factor = factor;
-            Name = $"{function.Name}, y=f({factor}x)";
+            Name = $"y=f({factor}x)";
         }
         public override bool Check()
         {
@@ -22,6 +23,10 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         public override double GetByX(double xValue)
         {
             return base.GetByX(factor * xValue);
+        }
+        public override SeriesCollection GetSeriesCollection()
+        {
+            return base.GetSeriesCollection();
         }
     }
 }

@@ -8,15 +8,13 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Functions.Decorator
 {
-    public class LimXDecorator : FunctionDecorator
+    public class ScaleYDecorator : FunctionDecorator
     {
-        private double leftBound;
-        private double rightBound;
-        public LimXDecorator(IOneVariableFunction function, double leftBound, double rightBound) : base(function)
+        private double factor;
+        public ScaleYDecorator(IOneVariableFunction function, double factor) : base(function)
         {
-            Name = $"x\u2208[{leftBound};{rightBound}]";
-            this.leftBound = leftBound;
-            this.rightBound = rightBound;
+            this.factor = factor;
+            Name = $"y={factor}f(x)";
         }
         public override bool Check()
         {
@@ -24,11 +22,7 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         }
         public override double GetByX(double xValue)
         {
-            if (xValue > leftBound && xValue < rightBound)
-            {
-                return base.GetByX(xValue);
-            }
-            return 0;
+            return factor * base.GetByX(xValue);
         }
         public override SeriesCollection GetSeriesCollection()
         {

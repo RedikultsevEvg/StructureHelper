@@ -71,7 +71,7 @@
                 VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="0" 
                    Grid.Row="1"
-                   Text="{Binding X_or_Y_text}"
+                   Text="{Binding X}"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Right"/>
                 <TextBlock Grid.Column="1" 
@@ -87,7 +87,7 @@
                  Margin="5"/>
                 <TextBlock Grid.Column="0" 
                    Grid.Row="2"
-                   Text="{Binding X_or_Y_text}"
+                   Text="{Binding X}"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Right"/>
                 <TextBlock Grid.Column="1" 
@@ -153,7 +153,10 @@
                        Margin="5"
                        Text="Color:" 
                        VerticalAlignment="Center"/>
-            <ComboBox Grid.Row="1" Text="{Binding Description}" Margin="5"/>
+            <ComboBox Grid.Row="1" 
+                      Margin="5"
+                      ItemsSource="{Binding Colors}"
+                      SelectedItem="{Binding CurrentColor}"/>
         </Grid>
         <Button Grid.Row="7" Margin="5" Content="Save"
                 Command="{Binding SaveCommand}"

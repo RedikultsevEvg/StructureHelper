@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Functions.Decorator
 {
-    public class LimXDecorator : FunctionDecorator
+    public class LimYDecorator : FunctionDecorator
     {
         private double leftBound;
         private double rightBound;
-        public LimXDecorator(IOneVariableFunction function, double leftBound, double rightBound) : base(function)
+        public LimYDecorator(IOneVariableFunction function, double leftBound, double rightBound) : base(function)
         {
-            Name = $"x\u2208[{leftBound};{rightBound}]";
+            Name = $"y\u2208[{leftBound};{rightBound}]";
             this.leftBound = leftBound;
             this.rightBound = rightBound;
         }
@@ -24,9 +24,10 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         }
         public override double GetByX(double xValue)
         {
-            if (xValue > leftBound && xValue < rightBound)
+            var y = base.GetByX(xValue);
+            if (y > leftBound && y < rightBound)
             {
-                return base.GetByX(xValue);
+                return y;
             }
             return 0;
         }

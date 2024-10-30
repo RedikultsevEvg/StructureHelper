@@ -1,9 +1,11 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
+﻿using LiveCharts;
+using Microsoft.VisualBasic.ApplicationServices;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +44,7 @@ namespace StructureHelperCommon.Models.Functions
         public double MinArg { get; set; }
         public double MaxArg { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
+        public Color Color { get; set; }
 
         public FormulaFunction(bool isUser = false)
         {
@@ -86,7 +89,7 @@ namespace StructureHelperCommon.Models.Functions
             yValue = Math.Round(Math.Pow(xValue, 2), 2); //Временное тестовой выражение квадратичной параболы, будет разбор выражения
             return yValue;
         }
-        public List<GraphPoint> CalculateTable()
+        private List<GraphPoint> CalculateTable()
         {
             var table = new List<GraphPoint>();
             var stepLenght = Math.Abs(MaxArg - MinArg) / Step;
@@ -96,6 +99,10 @@ namespace StructureHelperCommon.Models.Functions
                 table.Add(graphPoint);
             }
             return table;
+        }
+        public SeriesCollection GetSeriesCollection()
+        {
+            throw new NotImplementedException();
         }
     }
 }

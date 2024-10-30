@@ -11,30 +11,61 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace StructureHelper.Windows.MainGraph
 {
     public class FormulaViewModel : ViewModelBase
     {
+        private const string ERROR_BOUNDS = "The left bound must be less than the right bound";
         private const string DEFAULT_NAME = "Put function name here...";
         private const string DEFAULT_DESCRIPTION = "Put function description here...";
         private const string DEFAULT_FORMULA = "x^2";
         private const double DEFAULT_LEFT_BOUND = 0;
         private const double DEFAULT_RIGHT_BOUND = 1000;
         private const int DEFAULT_STEP = 100;
+        public char GREATER { get; } = '\u2265';
+        public char LESS { get; } = '\u2264';
+        public char X { get; } = 'x';
         private RelayCommand saveCommand;
+        public int Step { get; set; }
+        private double leftBound;
+        public double LeftBound 
+        { 
+            get => leftBound;
+            set
+            {
+                leftBound = value;
+                LimitText = $"x\u2208[{value};{RightBound}]";
+                OnPropertyChanged(nameof(LeftBound));
+            }
+        }
+        private double rightBound;
+        public double RightBound 
+        {
+            get => rightBound;
+            set
+            {
+                rightBound = value;
+                LimitText = $"x\u2208[{LeftBound};{value}]";
+                OnPropertyChanged(nameof(RightBound));
+            }
+        }
+        public Color CurrentColor { get; set; }
+        public ObservableCollection<Color> Colors { get; set; }
         public ICommand SaveCommand
         {
             get => saveCommand ??= new RelayCommand(o => Save(o));
         }
         private string formula;
-
         public string Formula
         {
             get => formula;
             set
             {
                 formula = value;
+                FormulaText = $"y(x)={Formula}";
+                OnPropertyChanged(nameof(Formula));
             }
         }
         private string formulaText = "y(x)=";
@@ -43,8 +74,8 @@ namespace StructureHelper.Windows.MainGraph
             get => formulaText;
             set
             {
-                formulaText = $"y(x)={Formula}";
-                OnPropertyChanged(nameof(Formula)); 
+                formulaText = value;
+                OnPropertyChanged(nameof(FormulaText)); 
             }
         }
         private IOneVariableFunction function;
@@ -74,17 +105,36 @@ namespace StructureHelper.Windows.MainGraph
                 description = value;
             }
         }
+        private string limitText;
+        public string LimitText 
+        { 
+            get => limitText; 
+            set
+            {
+                limitText = value;
+                OnPropertyChanged(nameof(LimitText));
+            }
+        }
         public FormulaViewModel()
         {
             Name = DEFAULT_NAME;
             Description = DEFAULT_DESCRIPTION;
+            Step = DEFAULT_STEP;
+            LeftBound = DEFAULT_LEFT_BOUND;
+            RightBound = DEFAULT_RIGHT_BOUND;
+            LimitText = $"x\u2208[{LeftBound};{RightBound}]";
+            CurrentColor = Brushes.AliceBlue.Color;
         }
         public FormulaViewModel(FormulaFunction formulaFunction)
         {
             Function = formulaFunction;
             Formula = formulaFunction.Formula;
+            Step = formulaFunction.Step;
             Name = Function.Name;
             Description = Function.Description;
+            LeftBound = Function.MinArg;
+            RightBound = Function.MaxArg;
+            CurrentColor = Function.Color;
         }
         private void Save(object parameter)
         {
@@ -97,6 +147,11 @@ namespace StructureHelper.Windows.MainGraph
             Function.IsUser = true;
             (Function as FormulaFunction).Formula = Formula;
             var window = parameter as Window;
+            if (LeftBound > RightBound)
+            {
+                MessageBox.Show($"{ERROR_BOUNDS}");
+                return;
+            }
             window.DialogResult = true;
             window.Close();
         }

@@ -1,9 +1,11 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+﻿using LiveCharts;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Media;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +32,7 @@ namespace StructureHelperCommon.Models.Functions
         public double MinArg { get; set; }
         public double MaxArg { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
+        public Color Color { get; set; }
 
         public TableFunction(bool isUser = false)
         {
@@ -71,7 +74,12 @@ namespace StructureHelperCommon.Models.Functions
         {
             //Реализовать взятие значения из таблицы и интерполяцию по таблице
 
-            return 100;
+            return 0;
+        }
+
+        public SeriesCollection GetSeriesCollection()
+        {
+            throw new NotImplementedException();
         }
     }
 }

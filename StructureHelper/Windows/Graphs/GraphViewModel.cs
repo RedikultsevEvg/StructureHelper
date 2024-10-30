@@ -131,8 +131,6 @@ namespace StructureHelper.Windows.Graphs
             VisualProps = new();
         }
 
-
-
         private void DrawSeries()
         {
             SetLines();

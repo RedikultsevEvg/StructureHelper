@@ -18,6 +18,7 @@ namespace StructureHelper.Windows.TreeGraph
         public char LEFT_BOUND { get; } = '[';
         public char RIGHT_BOUND { get; } = ']';
         public char SEMICOLON { get; } = ';';
+        private const string ERROR_BOUNDS = "The left bound must be less than the right bound";
         private const string X = "x";
         private const string Y = "y";
         private string x_or_y_text;
@@ -79,6 +80,11 @@ namespace StructureHelper.Windows.TreeGraph
         private void Save(object parameter)
         {
             var window = parameter as Window;
+            if (LeftBound > RightBound)
+            {
+                MessageBox.Show($"{ERROR_BOUNDS}");
+                return;
+            }
             window.DialogResult = true;
             window.Close();
         }

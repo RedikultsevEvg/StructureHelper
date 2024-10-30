@@ -1,9 +1,11 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+﻿using LiveCharts;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Functions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +28,8 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public Guid Id => throw new NotImplementedException();
 
         public IShiftTraceLogger? TraceLogger { get; set; }
+        public Color Color { get; set; }
+
         public FunctionDecorator(IOneVariableFunction function)
         {
             this.function = function;
@@ -41,6 +45,10 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public virtual double GetByX(double xValue)
         {
             return function.GetByX(xValue);
+        }
+        public virtual SeriesCollection GetSeriesCollection()
+        {
+            return function.GetSeriesCollection();
         }
     }
 }

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace StructureHelper.Windows.MainGraph
 {
@@ -222,6 +223,8 @@ namespace StructureHelper.Windows.MainGraph
                 chartValues.Add(Math.Round(graphPoint.Y));             
             }
             lineSeries.Values = chartValues;
+            lineSeries.Stroke = Brushes.Blue;
+            lineSeries.Fill = Brushes.Transparent;
             Labels = labels;
             seriesCollection.Add(lineSeries);
             SeriesCollection = seriesCollection;

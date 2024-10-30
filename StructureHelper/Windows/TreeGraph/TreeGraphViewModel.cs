@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using StructureHelperCommon.Models.Functions.Decorator;
+using System.Windows.Media;
 
 namespace StructureHelper.Windows.TreeGraph
 {
@@ -25,7 +26,6 @@ namespace StructureHelper.Windows.TreeGraph
         private RelayCommand _getYCommand;
         private RelayCommand _scaleCommand;
         private RelayCommand _limCommand;
-        private RelayCommand _editCommand;
         private RelayCommand _deleteCommand;
         private TreeGraphView _treeGraphView_win;
         private IOneVariableFunction selectedFunction;
@@ -80,10 +80,6 @@ namespace StructureHelper.Windows.TreeGraph
         {
             get => _limCommand ??= new RelayCommand(o => Limit(o));
         }
-        public ICommand EditCommand
-        {
-            get => _editCommand ??= new RelayCommand(o => Edit());
-        }
         public ICommand DeleteCommand
         {
             get => _deleteCommand ??= new RelayCommand(o => Delete());
@@ -121,22 +117,31 @@ namespace StructureHelper.Windows.TreeGraph
                 return;
             }
             ScaleViewModel vm = null;
+            var v = new ScaleView();
             var type = parameter as string;
             if (type.Equals("x"))
             {
                 vm = new ScaleViewModel(true);
-                var v = new ScaleView();
                 v.DataContext = vm;
                 if (v.ShowDialog() == true)
                 {
                     SelectedFuntion = new ScaleXDecorator(SelectedFuntion, vm.ScaleFactor);
                     var child = new TreeViewItemViewModel(SelectedFuntion, selectedTreeViewItem, this);
                     selectedTreeViewItem.Children.Add(child);
+                    selectedTreeViewItem.IsExpanded = true;
                 }
             }
             else if (type.Equals("y"))
             {
                 vm = new ScaleViewModel(false);
+                v.DataContext = vm;
+                if (v.ShowDialog() == true)
+                {
+                    SelectedFuntion = new ScaleYDecorator(SelectedFuntion, vm.ScaleFactor);
+                    var child = new TreeViewItemViewModel(SelectedFuntion, selectedTreeViewItem, this);
+                    selectedTreeViewItem.Children.Add(child);
+                    selectedTreeViewItem.IsExpanded = true;
+                }
             }
             else
             {
@@ -151,26 +156,36 @@ namespace StructureHelper.Windows.TreeGraph
                 return;
             }
             LimViewModel vm = null;
+            var v = new LimView();
             var type = parameter as string;
             if (type.Equals("x"))
             {
                 vm = new LimViewModel(true);
+                v.DataContext = vm;
+                if (v.ShowDialog() == true)
+                {
+                    SelectedFuntion = new LimXDecorator(SelectedFuntion, vm.LeftBound, vm.RightBound);
+                    var child = new TreeViewItemViewModel(SelectedFuntion, selectedTreeViewItem, this);
+                    selectedTreeViewItem.Children.Add(child);
+                    selectedTreeViewItem.IsExpanded = true;
+                }
             }
             else if (type.Equals("y"))
             {
                 vm = new LimViewModel(false);
+                v.DataContext = vm;
+                if (v.ShowDialog() == true)
+                {
+                    SelectedFuntion = new LimYDecorator(SelectedFuntion, vm.LeftBound, vm.RightBound);
+                    var child = new TreeViewItemViewModel(SelectedFuntion, selectedTreeViewItem, this);
+                    selectedTreeViewItem.Children.Add(child);
+                    selectedTreeViewItem.IsExpanded = true;
+                }
             }
             else
             {
                 return;
             }
-            var v = new LimView();
-            v.DataContext = vm;
-            v.ShowDialog();
-        }
-        private void Edit()
-        {
-
         }
         private void Delete()
         {
@@ -204,6 +219,8 @@ namespace StructureHelper.Windows.TreeGraph
                 chartValues.Add(Math.Round(graphPoint.Y));
             }
             lineSeries.Values = chartValues;
+            lineSeries.Stroke = Brushes.Blue;
+            lineSeries.Fill = Brushes.Transparent;
             Labels = labels;
             seriesCollection.Add(lineSeries);
             SeriesCollection = seriesCollection;
