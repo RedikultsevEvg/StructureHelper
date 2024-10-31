@@ -35,6 +35,9 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         {
             var graphSettings = base.GetGraphSettings();
             var graphLimitGraphPoint = new List<GraphPoint>();
+            var leftPoint = new GraphPoint(leftBound, GetByX(leftBound));
+            var rightPoint = new GraphPoint(rightBound, GetByX(rightBound));
+            graphLimitGraphPoint.Add(leftPoint);
             foreach (GraphPoint point in graphSettings.GraphPoints)
             {
                 if (point.X > leftBound && point.X < rightBound)
@@ -42,6 +45,7 @@ namespace StructureHelperCommon.Models.Functions.Decorator
                     graphLimitGraphPoint.Add(point);
                 }
             }
+            graphLimitGraphPoint.Add(rightPoint);
             graphSettings.GraphPoints = graphLimitGraphPoint;
             return graphSettings;
         }

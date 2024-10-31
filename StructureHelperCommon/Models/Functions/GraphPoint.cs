@@ -8,6 +8,7 @@ namespace StructureHelperCommon.Models.Functions
 {
     public class GraphPoint : ICloneable
     {
+        public bool Exclude {  get; set; }
         public double X { get; set; }
         public double Y { get; set; }
 
@@ -15,6 +16,7 @@ namespace StructureHelperCommon.Models.Functions
         {
             X = x;
             Y = y;
+            Exclude = false;
         }
         public object Clone()
         {

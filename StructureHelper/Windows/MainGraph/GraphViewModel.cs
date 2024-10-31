@@ -97,8 +97,12 @@ namespace StructureHelper.Windows.MainGraph
             f1.Name = "Табличная системная функция";
             f1.Table = new List<GraphPoint>()
             {
-                new GraphPoint(1, 0),
-                new GraphPoint(0, 1),
+                new GraphPoint(1, 1),
+                new GraphPoint(2, 2),
+                new GraphPoint(3, 3),
+                new GraphPoint(4, 4),
+                new GraphPoint(5, 5),
+                new GraphPoint(6, 6),
             };
             f1.IsUser = false;
             f1.Description = "Описание табличной системной функции";

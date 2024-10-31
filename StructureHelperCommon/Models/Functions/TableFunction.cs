@@ -27,7 +27,6 @@ namespace StructureHelperCommon.Models.Functions
         public string Name { get; set; }
         public string Description { get; set; }
         public List<GraphPoint> Table { get; set; }
-
         public Guid Id => throw new NotImplementedException();
         public ObservableCollection<IOneVariableFunction> Functions { get; set; } = new ObservableCollection<IOneVariableFunction>();
         public double MinArg { get; set; }
@@ -72,21 +71,36 @@ namespace StructureHelperCommon.Models.Functions
 
         public double GetByX(double xValue)
         {
-            //Реализовать взятие значения из таблицы и интерполяцию по таблице
-
-
-
-            return 100;
+            GraphPoint leftBound = null;
+            GraphPoint rightBound = null;
+            for (int i = 0; i < Table.Count - 1; i++)
+            {
+                leftBound = Table[i];
+                rightBound = Table[i + 1];
+                if (xValue == leftBound.X)
+                {
+                    return leftBound.Y;
+                }
+                else if (xValue > leftBound.X && xValue < rightBound.X)
+                {
+                    return MathUtils.Interpolation(xValue, leftBound.X, rightBound.X, leftBound.Y, rightBound.Y);
+                }
+                else if (xValue == rightBound.X)
+                {
+                    return rightBound.Y;
+                }
+            }
+            return 0;
+            //Можно добавить экстраполяцию
         }
-
         public GraphSettings GetGraphSettings()
         {
             var graphSettings = new GraphSettings(Color, Color);
-            foreach(GraphPoint point in Table)
+            foreach (GraphPoint point in Table)
             {
                 var graphPoint = new GraphPoint(point.X, GetByX(point.X));
                 graphSettings.GraphPoints.Add(graphPoint);
-            }
+            }            
             return graphSettings;
         }
     }

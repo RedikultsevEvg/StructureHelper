@@ -36,6 +36,9 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         {
             var graphSettings = base.GetGraphSettings();
             var graphLimitGraphPoint = new List<GraphPoint>();
+            var downPoint = new GraphPoint(downBound, GetByX(downBound));
+            var upPoint = new GraphPoint(upBound, GetByX(upBound));
+            graphLimitGraphPoint.Add(downPoint);
             foreach (GraphPoint point in graphSettings.GraphPoints)
             {
                 if (point.Y > downBound && point.Y < upBound)
@@ -43,6 +46,7 @@ namespace StructureHelperCommon.Models.Functions.Decorator
                     graphLimitGraphPoint.Add(point);
                 }
             }
+            graphLimitGraphPoint.Add(upPoint);
             graphSettings.GraphPoints = graphLimitGraphPoint;
             return graphSettings;
         }

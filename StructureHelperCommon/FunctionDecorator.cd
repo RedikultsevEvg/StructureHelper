@@ -1,25 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="StructureHelperCommon.Models.Functions.TableFunction" BaseTypeListCollapsed="true">
-    <Position X="3" Y="5.75" Width="1.5" />
+    <Position X="3.25" Y="8" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAACgEgAAAAgACIAAAAAQAYAAAAMAAAAAQAAAAAAgBA=</HashCode>
+      <HashCode>BAACgEgAAAAgBCIAAAAAQAYAAAAMAAAAAQAAgAAAgBA=</HashCode>
       <FileName>Models\Functions\TableFunction.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="StructureHelperCommon.Models.Functions.FormulaFunction" BaseTypeListCollapsed="true">
-    <Position X="1.25" Y="5.75" Width="1.5" />
+    <Position X="1" Y="8" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAACgEgAAAAgACJAAgAAQAYAAAAIBAAAIQAAAAAAgBA=</HashCode>
+      <HashCode>BAACgEgAAAAgBCIAAAAAAAYAAAAIBAAAIQAAgAAAgBA=</HashCode>
       <FileName>Models\Functions\FormulaFunction.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="StructureHelperCommon.Infrastructures.Interfaces.IOneVariableFunction">
-    <Position X="2" Y="0.5" Width="1.5" />
+  <Class Name="StructureHelperCommon.Models.Functions.Decorator.ScaleYDecorator">
+    <Position X="7.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAgEgAAAAgACAAAAAAQAYAAAAIAAAAAQAAAAAAgAA=</HashCode>
+      <HashCode>AAAAAAgAAAAARAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Functions\Decorator\ScaleYDecorator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StructureHelperCommon.Models.Functions.Decorator.ScaleXDecorator">
+    <Position X="5.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAARAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Functions\Decorator\ScaleXDecorator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StructureHelperCommon.Models.Functions.Decorator.LimYDecorator">
+    <Position X="9.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQgAAAAABAAAAAAAAAAAAAAIAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Models\Functions\Decorator\LimYDecorator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StructureHelperCommon.Models.Functions.Decorator.LimXDecorator">
+    <Position X="11.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAgAAAAABAAAAAAAAAAAAAAIAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Models\Functions\Decorator\LimXDecorator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StructureHelperCommon.Infrastructures.Interfaces.FunctionDecorator" Collapsed="true">
+    <Position X="8.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAACgEgAAAAgBAAAAgAAQAYAAAAIAAAAAQAAgAAAgBA=</HashCode>
+      <FileName>Infrastructures\Interfaces\FunctionDecorator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="StructureHelperCommon.Infrastructures.Interfaces.IOneVariableFunction">
+    <Position X="2.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAgEgAAAAgBCAAAAAAAAYAAAAIAAAAAQAAgAAAgAA=</HashCode>
       <FileName>Infrastructures\Interfaces\IOneVariableFunction.cs</FileName>
     </TypeIdentifier>
   </Interface>

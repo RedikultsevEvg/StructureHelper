@@ -26,10 +26,8 @@ namespace StructureHelperCommon.Models.Functions
         public string Name { get; set; }
         public string Description { get ; set; }
         public int Step { get; set; }
-        public string Formula {  get; set; }
-
+        public string Formula { get; set; }
         public Guid Id => throw new NotImplementedException();
-
         public ObservableCollection<IOneVariableFunction> Functions { get; set; } = new ObservableCollection<IOneVariableFunction>();
         public double MinArg { get; set; }
         public double MaxArg { get; set; }

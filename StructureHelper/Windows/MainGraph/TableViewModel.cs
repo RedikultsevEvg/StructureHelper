@@ -107,7 +107,7 @@ namespace StructureHelper.Windows.MainGraph
             Function.Name = Name;
             Function.Description = Description;
             Function.IsUser = true;
-            (Function as TableFunction).Table = Table.ToList();
+            (Function as TableFunction).Table = Table.OrderBy(x => x.X).ToList();
             var window = parameter as Window;
             window.DialogResult = true;
             window.Close();

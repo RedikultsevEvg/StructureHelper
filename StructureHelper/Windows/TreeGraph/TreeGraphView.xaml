@@ -78,7 +78,7 @@
         </Grid>
         <lvc:CartesianChart Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
                             Series="{Binding SeriesCollection}" Margin="5"
-                            Zoom="None">
+                            Zoom="Xy">
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Y"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
