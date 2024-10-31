@@ -1,5 +1,6 @@
 ﻿using LiveCharts;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,13 @@ namespace StructureHelperCommon.Models.Functions.Decorator
 {
     public class LimYDecorator : FunctionDecorator
     {
-        private double leftBound;
-        private double rightBound;
-        public LimYDecorator(IOneVariableFunction function, double leftBound, double rightBound) : base(function)
+        private double downBound;
+        private double upBound;
+        public LimYDecorator(IOneVariableFunction function, double downBound, double upBound) : base(function)
         {
-            Name = $"y\u2208[{leftBound};{rightBound}]";
-            this.leftBound = leftBound;
-            this.rightBound = rightBound;
+            Name = $"y\u2208[{downBound};{upBound}]";
+            this.downBound = downBound;
+            this.upBound = upBound;
         }
         public override bool Check()
         {
@@ -25,15 +26,25 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         public override double GetByX(double xValue)
         {
             var y = base.GetByX(xValue);
-            if (y > leftBound && y < rightBound)
+            if (y > downBound && y < upBound)
             {
                 return y;
             }
             return 0;
         }
-        public override SeriesCollection GetSeriesCollection()
+        public override GraphSettings GetGraphSettings()
         {
-            return base.GetSeriesCollection();
+            var graphSettings = base.GetGraphSettings();
+            var graphLimitGraphPoint = new List<GraphPoint>();
+            foreach (GraphPoint point in graphSettings.GraphPoints)
+            {
+                if (point.Y > downBound && point.Y < upBound)
+                {
+                    graphLimitGraphPoint.Add(point);
+                }
+            }
+            graphSettings.GraphPoints = graphLimitGraphPoint;
+            return graphSettings;
         }
     }
 }

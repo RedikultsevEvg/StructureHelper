@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using StructureHelperCommon.Services;
+using LiveCharts.Wpf;
 
 namespace StructureHelperCommon.Models.Functions
 {
@@ -24,18 +26,6 @@ namespace StructureHelperCommon.Models.Functions
         public string Name { get; set; }
         public string Description { get ; set; }
         public int Step { get; set; }
-        private List<GraphPoint> table;
-        public List<GraphPoint> Table 
-        { 
-            get
-            {
-                return CalculateTable();
-            }
-            set
-            {
-                table = value;
-            }
-        }
         public string Formula {  get; set; }
 
         public Guid Id => throw new NotImplementedException();
@@ -86,23 +76,19 @@ namespace StructureHelperCommon.Models.Functions
         public double GetByX(double xValue)
         {
             double yValue = 0;
-            yValue = Math.Round(Math.Pow(xValue, 2), 2); //Временное тестовой выражение квадратичной параболы, будет разбор выражения
+            yValue = Math.Round(Math.Pow(xValue, 2), 2); //Временно выражение квадратичной параболы, будет разбор выражения
             return yValue;
         }
-        private List<GraphPoint> CalculateTable()
+        public GraphSettings GetGraphSettings()
         {
-            var table = new List<GraphPoint>();
+            var graphSettings = new GraphSettings(Color, Color);
             var stepLenght = Math.Abs(MaxArg - MinArg) / Step;
             for (double x = MinArg; x < MaxArg; x += stepLenght)
             {
                 var graphPoint = new GraphPoint(x, GetByX(x));
-                table.Add(graphPoint);
+                graphSettings.GraphPoints.Add(graphPoint);
             }
-            return table;
-        }
-        public SeriesCollection GetSeriesCollection()
-        {
-            throw new NotImplementedException();
+            return graphSettings;
         }
     }
 }

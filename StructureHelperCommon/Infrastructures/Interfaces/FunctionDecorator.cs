@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
@@ -46,9 +47,9 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         {
             return function.GetByX(xValue);
         }
-        public virtual SeriesCollection GetSeriesCollection()
+        public virtual GraphSettings GetGraphSettings()
         {
-            return function.GetSeriesCollection();
+            return function.GetGraphSettings();
         }
     }
 }

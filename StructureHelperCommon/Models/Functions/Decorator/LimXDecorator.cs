@@ -1,5 +1,6 @@
 ﻿using LiveCharts;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +31,19 @@ namespace StructureHelperCommon.Models.Functions.Decorator
             }
             return 0;
         }
-        public override SeriesCollection GetSeriesCollection()
+        public override GraphSettings GetGraphSettings()
         {
-            return base.GetSeriesCollection();
+            var graphSettings = base.GetGraphSettings();
+            var graphLimitGraphPoint = new List<GraphPoint>();
+            foreach (GraphPoint point in graphSettings.GraphPoints)
+            {
+                if (point.X > leftBound && point.X < rightBound)
+                {
+                    graphLimitGraphPoint.Add(point);
+                }
+            }
+            graphSettings.GraphPoints = graphLimitGraphPoint;
+            return graphSettings;
         }
     }
 }

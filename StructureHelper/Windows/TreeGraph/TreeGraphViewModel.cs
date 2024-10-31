@@ -213,17 +213,9 @@ namespace StructureHelper.Windows.TreeGraph
                 return;
             }
             SelectedFuntion = selectedTreeViewItem.Function;
-            foreach (GraphPoint graphPoint in SelectedFuntion.Table)
-            {
-                labels.Add(Math.Round(graphPoint.X, 2).ToString());
-                chartValues.Add(Math.Round(graphPoint.Y));
-            }
-            lineSeries.Values = chartValues;
-            lineSeries.Stroke = Brushes.Blue;
-            lineSeries.Fill = Brushes.Transparent;
-            Labels = labels;
-            seriesCollection.Add(lineSeries);
-            SeriesCollection = seriesCollection;
+            var graphSettings = SelectedFuntion.GetGraphSettings();
+            Labels = graphSettings.GetLabels();
+            SeriesCollection = graphSettings.GetSeriesCollection();
         }
     }
 }

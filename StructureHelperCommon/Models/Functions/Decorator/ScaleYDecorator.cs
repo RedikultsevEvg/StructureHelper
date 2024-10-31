@@ -1,5 +1,6 @@
 ﻿using LiveCharts;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,14 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         {
             return factor * base.GetByX(xValue);
         }
-        public override SeriesCollection GetSeriesCollection()
+        public override GraphSettings GetGraphSettings()
         {
-            return base.GetSeriesCollection();
+            var graphSettings = base.GetGraphSettings();
+            foreach (GraphPoint point in graphSettings.GraphPoints)
+            {
+                point.Y = GetByX(point.X);
+            }
+            return graphSettings;
         }
     }
 }

@@ -18,12 +18,14 @@ namespace StructureHelper.Windows.MainGraph
     public class FormulaViewModel : ViewModelBase
     {
         private const string ERROR_BOUNDS = "The left bound must be less than the right bound";
+        private const string ERROR_STEP = "The number of steps should not be more than";
         private const string DEFAULT_NAME = "Put function name here...";
         private const string DEFAULT_DESCRIPTION = "Put function description here...";
         private const string DEFAULT_FORMULA = "x^2";
-        private const double DEFAULT_LEFT_BOUND = 0;
-        private const double DEFAULT_RIGHT_BOUND = 1000;
+        private const double DEFAULT_LEFT_BOUND = -500;
+        private const double DEFAULT_RIGHT_BOUND = 500;
         private const int DEFAULT_STEP = 100;
+        private const int MAX_STEP = 1000;
         public char GREATER { get; } = '\u2265';
         public char LESS { get; } = '\u2264';
         public char X { get; } = 'x';
@@ -145,11 +147,17 @@ namespace StructureHelper.Windows.MainGraph
             Function.Name = Name;
             Function.Description = Description;
             Function.IsUser = true;
+            (Function as FormulaFunction).Step = Step;
             (Function as FormulaFunction).Formula = Formula;
             var window = parameter as Window;
             if (LeftBound > RightBound)
             {
                 MessageBox.Show($"{ERROR_BOUNDS}");
+                return;
+            }
+            if (Step > MAX_STEP)
+            {
+                MessageBox.Show($"{ERROR_STEP} {MAX_STEP}");
                 return;
             }
             window.DialogResult = true;

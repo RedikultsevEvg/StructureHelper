@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperCommon.Models.Functions
 {
@@ -57,7 +58,6 @@ namespace StructureHelperCommon.Models.Functions
         public object Clone()
         {
             var tableFunction = new TableFunction();
-
             //Здесь будет стратегия
             tableFunction.Type = Type;
             tableFunction.Name = $"{Name} {COPY}";
@@ -74,12 +74,20 @@ namespace StructureHelperCommon.Models.Functions
         {
             //Реализовать взятие значения из таблицы и интерполяцию по таблице
 
-            return 0;
+
+
+            return 100;
         }
 
-        public SeriesCollection GetSeriesCollection()
+        public GraphSettings GetGraphSettings()
         {
-            throw new NotImplementedException();
+            var graphSettings = new GraphSettings(Color, Color);
+            foreach(GraphPoint point in Table)
+            {
+                var graphPoint = new GraphPoint(point.X, GetByX(point.X));
+                graphSettings.GraphPoints.Add(graphPoint);
+            }
+            return graphSettings;
         }
     }
 }
