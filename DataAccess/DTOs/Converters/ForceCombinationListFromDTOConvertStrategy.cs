@@ -43,15 +43,18 @@ namespace DataAccess.DTOs
             TraceLogger?.AddMessage($"Force combination list name = {source.Name} is starting");
             ForceCombinationList newItem = new(source.Id);
             baseUpdateStrategy.Update(newItem, source);
-            updateStrategy.Update(newItem, source);
+            //updateStrategy.Update(newItem, source);
             pointConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             pointConvertStrategy.TraceLogger = TraceLogger;
             newItem.ForcePoint = pointConvertStrategy.Convert((Point2DDTO)source.ForcePoint);
             designTupleConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             designTupleConvertStrategy.TraceLogger = TraceLogger;
+            newItem.DesignForces.Clear();
             foreach (var item in source.DesignForces)
             {
                 DesignForceTuple newDesignTuple = designTupleConvertStrategy.Convert((DesignForceTupleDTO)item);
+                TraceLogger?.AddMessage($"New Design Tuple Limit state = {newDesignTuple.LimitState}, Calc term = {newDesignTuple.CalcTerm}");
+                TraceLogger?.AddMessage($"Mx = {newDesignTuple.ForceTuple.Mx}, My = {newDesignTuple.ForceTuple.My}, Nz = {newDesignTuple.ForceTuple.Nz}");
                 newItem.DesignForces.Add(newDesignTuple);
             }
             TraceLogger?.AddMessage($"Force combination list name = {newItem.Name} has been finished succesfully");

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    internal class UserCrackInputDataUpdateStrategy : IUpdateStrategy<IUserCrackInputData>
+    public class UserCrackInputDataUpdateStrategy : IUpdateStrategy<IUserCrackInputData>
     {
         public void Update(IUserCrackInputData targetObject, IUserCrackInputData sourceObject)
         {
@@ -20,6 +20,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             targetObject.SofteningFactor = sourceObject.SofteningFactor;
             targetObject.SetLengthBetweenCracks = sourceObject.SetLengthBetweenCracks;
             targetObject.LengthBetweenCracks = sourceObject.LengthBetweenCracks;
+            targetObject.UltimateLongCrackWidth = sourceObject.UltimateLongCrackWidth;
+            targetObject.UltimateShortCrackWidth = sourceObject.UltimateShortCrackWidth;
         }
     }
 }

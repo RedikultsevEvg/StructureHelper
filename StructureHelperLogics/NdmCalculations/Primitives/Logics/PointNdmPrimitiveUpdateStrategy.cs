@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public class PointPrimitiveUpdateStrategy : IUpdateStrategy<IPointNdmPrimitive>
+    public class PointNdmPrimitiveUpdateStrategy : IUpdateStrategy<IPointNdmPrimitive>
     {
         static readonly BaseUpdateStrategy basePrimitiveUpdateStrategy = new();
         public void Update(IPointNdmPrimitive targetObject, IPointNdmPrimitive sourceObject)

@@ -3,7 +3,7 @@ using StructureHelperCommon.Models.Forces;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
-    public interface IHasForceCombinations
+    public interface IHasForceActions
     {
         /// <summary>
         /// Collection of force actions

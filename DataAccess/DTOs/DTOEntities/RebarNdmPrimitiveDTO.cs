@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.DTOs.DTOEntities
+namespace DataAccess.DTOs
 {
     public class RebarNdmPrimitiveDTO : IRebarNdmPrimitive
     {

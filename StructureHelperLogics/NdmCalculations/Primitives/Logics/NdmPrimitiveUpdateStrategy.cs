@@ -13,7 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             CheckObject.CompareTypes(targetObject, sourceObject);
             if (targetObject is PointNdmPrimitive point)
             {
-                new PointPrimitiveUpdateStrategy().Update(point, (PointNdmPrimitive)sourceObject);
+                new PointNdmPrimitiveUpdateStrategy().Update(point, (PointNdmPrimitive)sourceObject);
             }
             else if (targetObject is RebarNdmPrimitive rebar)
             {

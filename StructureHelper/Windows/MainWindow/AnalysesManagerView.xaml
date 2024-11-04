@@ -32,7 +32,7 @@
                         </Viewbox>
                     </Button>
                 </ToolBar>
-                <ToolBar ToolTip="Diagrams">
+                <ToolBar ToolTip="Diagrams" Visibility="Hidden">
                     <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" ToolTip="Diagrams">
                         <Viewbox>
                             <ContentControl ContentTemplate="{DynamicResource Diagrams}"/>
@@ -49,7 +49,7 @@
             </ToolBarTray>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="0"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid>

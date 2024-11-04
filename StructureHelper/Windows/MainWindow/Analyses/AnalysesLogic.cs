@@ -127,6 +127,7 @@ namespace StructureHelper.Windows.MainWindow
             analysis.Tags = "#New group";
             var visualAnalysis = new VisualAnalysis(analysis);
             ProgramSetting.CurrentProject.VisualAnalyses.Add(visualAnalysis);
+            //ProgramSetting.SetCurrentProjectToNotActual();
         }
 
         private void ActionToRun()

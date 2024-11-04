@@ -3,6 +3,7 @@ using DataAccess.JsonConverters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models;
@@ -55,6 +56,13 @@ namespace DataAccess.Infrastructures
             }
             string jsonData = File.ReadAllText(fileName);
             RootObjectDTO? rootObject = GetRootObject(jsonData);
+            if (rootObject.FileVersion is null)
+            {
+                var errorString = "Section of file version is damaged";
+                result.Description += errorString;
+                result.IsValid = false;
+                return result;
+            }
             var fileVersion = rootObject.FileVersion;
             var checkLogic = new CheckFileVersionLogic()
             {
@@ -69,6 +77,13 @@ namespace DataAccess.Infrastructures
             }
             else
             {
+                if (rootObject.Project is null)
+                {
+                    var errorString = "Section of project is damaged";
+                    result.Description += errorString;
+                    result.IsValid = false;
+                    return result;
+                }
                 Project project = GetProject(rootObject);
                 project.FullFileName = fileName;
                 result.Project = project;
@@ -78,6 +93,10 @@ namespace DataAccess.Infrastructures
 
         private Project GetProject(RootObjectDTO? rootObject)
         {
+            if (rootObject.Project is null)
+            {
+
+            }
             var currentVersion = ProgramSetting.GetCurrentFileVersion();
             IFileVersion fileVersion = rootObject.FileVersion;
             TraceLogger?.AddMessage($"File version is {fileVersion.VersionNumber}.{fileVersion.SubVersionNumber}, current version is {currentVersion.VersionNumber}.{currentVersion.SubVersionNumber}");
@@ -94,7 +113,7 @@ namespace DataAccess.Infrastructures
         private RootObjectDTO? GetRootObject(string jsonData)
         {
             JsonSerializerSettings settings = GetSettings();
-            var rootObject = JsonConvert.DeserializeObject<RootObjectDTO>(jsonData, settings);
+            RootObjectDTO rootObject = JsonConvert.DeserializeObject<RootObjectDTO>(jsonData, settings);
             return rootObject;
         }
 

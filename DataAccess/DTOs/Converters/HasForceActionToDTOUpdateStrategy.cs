@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class HasForceActionToDTOUpdateStrategy : IUpdateStrategy<IHasForceCombinations>
+    public class HasForceActionToDTOUpdateStrategy : IUpdateStrategy<IHasForceActions>
     {
         private readonly IConvertStrategy<IForceAction, IForceAction> forceActionStrategy;
 
@@ -30,7 +30,7 @@ namespace DataAccess.DTOs
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
-        public void Update(IHasForceCombinations targetObject, IHasForceCombinations sourceObject)
+        public void Update(IHasForceActions targetObject, IHasForceActions sourceObject)
         {
             if (sourceObject.ForceActions is null)
             {

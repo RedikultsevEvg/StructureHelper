@@ -51,6 +51,11 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                   new ShiftTraceLogger())
         { }
 
+        public CrackCalculator(Guid id) : this()
+        {
+            Id = id;
+        }
+
         public object Clone()
         {
             CrackCalculatorInputData crackInputData = new CrackCalculatorInputData();

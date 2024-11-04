@@ -7,7 +7,7 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public interface IForceCalculatorInputData : IInputData, ISaveable, IHasPrimitives, IHasForceCombinations
+    public interface IForceCalculatorInputData : IInputData, ISaveable, IHasPrimitives, IHasForceActions
     {
         IAccuracy Accuracy { get; set; }
         List<CalcTerms> CalcTermsList { get; }

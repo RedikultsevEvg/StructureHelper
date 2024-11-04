@@ -58,7 +58,6 @@ namespace StructureHelper.Windows.MainWindow
         {
             var newProject = new Project()
             {
-                IsNewFile = true,
                 IsActual = true
             };
             ProgramSetting.Projects.Add(newProject);
@@ -79,15 +78,19 @@ namespace StructureHelper.Windows.MainWindow
                 CloseFile(project);
             }
         }
-        private bool CloseFile()
+        public bool CloseFile()
         {
             var project = ProgramSetting.CurrentProject;
-            if (project is null) { return false; }
-            return CloseFile(project);
+            if (project is null)
+            {
+                return false;
+            }
+            bool closingResult = CloseFile(project);
+            return closingResult;
         }
         private bool CloseFile(IProject project)
         {
-            if (project.IsActual == true & project.IsNewFile == false)
+            if (project.IsActual == true)
             {
                 ProgramSetting.Projects.Remove(project);
                 return true;
@@ -97,12 +100,11 @@ namespace StructureHelper.Windows.MainWindow
             {
                 SaveFile(project);
             }
-            if (dialogResult == DialogResult.Cancel)
+            else if (dialogResult == DialogResult.Cancel)
             {
                 return false;
             }
             project.IsActual = true;
-            project.IsNewFile = false;
             CloseFile(project);
             return true;
         }
@@ -134,7 +136,6 @@ namespace StructureHelper.Windows.MainWindow
                 if (result.IsValid == true)
                 {
                     result.Project.IsActual = true;
-                    result.Project.IsNewFile = false;
                     ProgramSetting.Projects.Clear();
                     ProgramSetting.Projects.Add(result.Project);
                 }

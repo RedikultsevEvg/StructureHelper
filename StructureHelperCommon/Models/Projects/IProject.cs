@@ -12,7 +12,6 @@ namespace StructureHelperCommon.Models.Projects
     {
         string FullFileName { get; set; }
         string FileName { get; }
-        bool IsNewFile { get; set; }
         bool IsActual { get; set; }
         List<IVisualAnalysis> VisualAnalyses { get;}
     }

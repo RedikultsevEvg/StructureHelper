@@ -12,7 +12,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     /// </summary>
     public class UserCrackInputData : IUserCrackInputData
     {
-        public Guid Id { get; } = new();
+        public Guid Id { get; } = Guid.NewGuid();
         /// <summary>
         /// Flag of assigning of user value of softening factor
         /// </summary>
@@ -38,5 +38,14 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// </summary>
         public double UltimateShortCrackWidth { get; set; }
 
+        public UserCrackInputData(Guid id)
+        {
+            Id = id;
+        }
+
+        public UserCrackInputData() : this (Guid.NewGuid())
+        {
+            
+        }
     }
 }

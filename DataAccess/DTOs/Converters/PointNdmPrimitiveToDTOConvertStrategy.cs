@@ -32,7 +32,7 @@ namespace DataAccess.DTOs
         }
 
         public PointNdmPrimitiveToDTOConvertStrategy() : this(
-            new PointPrimitiveUpdateStrategy(),
+            new PointNdmPrimitiveUpdateStrategy(),
             new NdmElementDTOConvertStrategy(),
             new Point2DToDTOConvertStrategy(),
             new VisualPropertyToDTOConvertStrategy()

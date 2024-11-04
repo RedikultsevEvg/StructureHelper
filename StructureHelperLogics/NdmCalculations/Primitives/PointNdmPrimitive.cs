@@ -7,11 +7,11 @@ using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 
-namespace StructureHelperLogics.Models.Primitives
+namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public class PointNdmPrimitive : IPointNdmPrimitive
     {
-        static readonly PointPrimitiveUpdateStrategy updateStrategy = new();
+        static readonly PointNdmPrimitiveUpdateStrategy updateStrategy = new();
         public Guid Id { get; }
         public string? Name { get; set; }
         public IPoint2D Center { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,15 @@ namespace StructureHelper.Windows.MainWindow
             this.viewModel = new();
             this.DataContext = viewModel;
             InitializeComponent();
+            this.Closing += AnalysesManagerView_Closing;
+        }
+
+        private void AnalysesManagerView_Closing(object? sender, CancelEventArgs e)
+        {
+            if (viewModel.FileLogic.CloseFile() == true)
+            {
+                e.Cancel = true;
+            };
         }
     }
 }

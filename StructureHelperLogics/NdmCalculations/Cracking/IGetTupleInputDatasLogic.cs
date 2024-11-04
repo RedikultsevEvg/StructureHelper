@@ -5,7 +5,7 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public interface IGetTupleInputDatasLogic : ILogic, IHasPrimitives, IHasForceCombinations
+    public interface IGetTupleInputDatasLogic : ILogic, IHasPrimitives, IHasForceActions
     {
         LimitStates LimitState { get; set; }
         CalcTerms LongTerm { get; set; }

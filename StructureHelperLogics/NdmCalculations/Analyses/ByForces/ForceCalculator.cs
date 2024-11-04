@@ -44,6 +44,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         {
         }
 
+        public ForceCalculator(Guid id) :  this()
+        {
+            Id = id;
+        }
+
         public void Run()
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);

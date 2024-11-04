@@ -97,12 +97,12 @@ namespace StructureHelper.Windows.ViewModels.Forces
             {
                 if (calc is ForceCalculator forceCalculator)
                 {
-                    var forceCombinations = forceCalculator.InputData as IHasForceCombinations;
+                    var forceCombinations = forceCalculator.InputData as IHasForceActions;
                     result = DeleteActionFromHost(result, calc, forceCombinations);
                 }
                 else if (calc is CrackCalculator calculator)
                 {
-                    var forceCombinations = calculator.InputData as IHasForceCombinations;
+                    var forceCombinations = calculator.InputData as IHasForceActions;
                     result = DeleteActionFromHost(result, calc, forceCombinations);
                 }
                 else
@@ -113,7 +113,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
             return result;
         }
 
-        private bool DeleteActionFromHost(bool result, ICalculator item, IHasForceCombinations? forceCombinations)
+        private bool DeleteActionFromHost(bool result, ICalculator item, IHasForceActions? forceCombinations)
         {
             var containSelected = forceCombinations.ForceActions.Contains(SelectedItem);
             if (containSelected)

@@ -62,7 +62,7 @@ namespace DataAccess.DTOs
         private RebarNdmPrimitiveDTO GetNewPrimitive(IRebarNdmPrimitive source)
         {
             RebarNdmPrimitiveDTO newItem = new() { Id = source.Id };
-            //updateStrategy.Update(newItem, source);
+            updateStrategy.Update(newItem, source);
             newItem.NdmElement = ndmElementConvertStrategy.Convert(source.NdmElement);
             newItem.Center = pointConvertStrategy.Convert(source.Center);
             newItem.VisualProperty = visualPropsConvertStrategy.Convert(source.VisualProperty);

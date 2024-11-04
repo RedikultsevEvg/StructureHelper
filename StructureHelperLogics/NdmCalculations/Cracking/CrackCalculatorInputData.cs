@@ -12,12 +12,22 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class CrackCalculatorInputData : ICrackCalculatorInputData
     {
-        public Guid Id { get; } = new();
+        public Guid Id { get; }
         /// <inheritdoc/>
         public List<INdmPrimitive> Primitives { get; private set; } = new();
         /// <inheritdoc/>
         public List<IForceAction> ForceActions { get; private set; } = new();
         public IUserCrackInputData UserCrackInputData { get; set; } = GetNewUserData();
+
+        public CrackCalculatorInputData(Guid id)
+        {
+            Id = id;
+        }
+
+        public CrackCalculatorInputData() : this (Guid.NewGuid())
+        {
+            
+        }
 
         private static UserCrackInputData GetNewUserData()
         {

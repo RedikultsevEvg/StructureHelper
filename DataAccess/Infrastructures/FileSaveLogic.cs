@@ -19,7 +19,7 @@ namespace DataAccess.Infrastructures
 
         public void SaveFile(IProject project)
         {
-            if (project.IsNewFile == true)
+            if (project.FullFileName == string.Empty || project.FullFileName == "")
             {
                 var result = SelectFileName(project);
                 if (result.IsValid == false)
@@ -28,7 +28,6 @@ namespace DataAccess.Infrastructures
                     return;
                 }
                 project.FullFileName = result.FileName;
-                project.IsNewFile = false;
             }
             SaveToFile(project);
         }
@@ -40,7 +39,6 @@ namespace DataAccess.Infrastructures
             {
                 FilterString = "StructureHelper project file (*.shpj)|*.shpj|All Files (*.*)|*.*",
                 InitialDirectory = project.FullFileName,
-
             };
             saver.TraceLogger = TraceLogger;
             var saveResult = saver.SaveFile();
@@ -58,7 +56,11 @@ namespace DataAccess.Infrastructures
                 File.Delete(project.FullFileName);
                 refDictinary = new Dictionary<(Guid id, Type type), ISaveable>();
                 ProjectDTO projectDTO = GetProjectDTO(project);
-                RootObjectDTO rootObject = new() { FileVersion = versionDTO, Project = projectDTO };
+                RootObjectDTO rootObject = new()
+                {
+                    FileVersion = versionDTO,
+                    Project = projectDTO
+                };
                 var rootString = Serialize(rootObject, TraceLogger);
                 SaveStringToFile(project, rootString);
             }
@@ -95,7 +97,8 @@ namespace DataAccess.Infrastructures
                 ReferenceDictionary = refDictinary,
                 TraceLogger = TraceLogger
             };
-            return dictionaryConvertStrategy.Convert(project);
+            ProjectDTO projectDTO = dictionaryConvertStrategy.Convert(project);
+            return projectDTO;
         }
 
         private FileVersionDTO GetVersionDTO()
@@ -116,17 +119,25 @@ namespace DataAccess.Infrastructures
         }
 
         private static string Serialize(object obj, IShiftTraceLogger logger)
+        {           
+            JsonSerializerSettings settings = GetSerializingSettings(logger);
+            string serializedObject = JsonConvert.SerializeObject(obj, settings);
+            return serializedObject;
+        }
+
+        private static JsonSerializerSettings GetSerializingSettings(IShiftTraceLogger logger)
         {
             List<(Type type, string name)> typesNames = TypeBinderListFactory.GetTypeNameList(TypeFileVersion.version_v1);
             TypeBinder typeBinder = new(typesNames);
+            List<JsonConverter> jsonConverters = new List<JsonConverter>
+                {
+                    new FileVersionDTOJsonConverter(logger),
+                    new ProjectDTOJsonConverter(logger)
+                };
+
             var settings = new JsonSerializerSettings
             {
-                Converters = new List<JsonConverter>
-                {
-                    // Add other converters if needed
-                    new FileVersionDTOJsonConverter(logger),  // Add the specific converter
-                    new ProjectDTOJsonConverter(logger)
-                },
+                Converters = jsonConverters,
                 SerializationBinder = typeBinder,
                 Formatting = Formatting.Indented,
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
@@ -134,19 +145,15 @@ namespace DataAccess.Infrastructures
                 TypeNameHandling = TypeNameHandling.All,
                 NullValueHandling = NullValueHandling.Include
             };
-
-            return JsonConvert.SerializeObject(obj, settings);
+            return settings;
         }
 
         public void SaveFileAs(IProject project)
         {
-            var tmpIsNew = project.IsNewFile;
             var tmpFullFileName = project.FullFileName;
-            project.IsNewFile = true;
             SaveFile(project);
-            if (project.IsNewFile == true)
+            if (project.FullFileName == string.Empty)
             {
-                project.IsNewFile = tmpIsNew;
                 project.FullFileName = tmpFullFileName;
             }
         }

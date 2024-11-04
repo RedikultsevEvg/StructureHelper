@@ -16,11 +16,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     public class ForceCalculatorInputDataUpdateStrategy : IUpdateStrategy<IForceCalculatorInputData>
     {
         private IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
-        private IUpdateStrategy<IHasForceCombinations> forceCombinationUpdateStrategy;
+        private IUpdateStrategy<IHasForceActions> forceCombinationUpdateStrategy;
         private IUpdateStrategy<IAccuracy> accuracyUpdateStrategy;
         private IUpdateStrategy<ICompressedMember> compressedMemberUpdateStrategy;
         public ForceCalculatorInputDataUpdateStrategy(IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy,
-            IUpdateStrategy<IHasForceCombinations> forceCombinationUpdateStrategy,
+            IUpdateStrategy<IHasForceActions> forceCombinationUpdateStrategy,
             IUpdateStrategy<IAccuracy> accuracyUpdateStrategy,
             IUpdateStrategy<ICompressedMember> compressedMemberUpdateStrategy)
         {

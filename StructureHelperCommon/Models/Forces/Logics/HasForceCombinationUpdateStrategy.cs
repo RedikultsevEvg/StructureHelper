@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces.Logics
 {
-    public class HasForceCombinationUpdateStrategy : IUpdateStrategy<IHasForceCombinations>
+    public class HasForceCombinationUpdateStrategy : IUpdateStrategy<IHasForceActions>
     {
-        public void Update(IHasForceCombinations targetObject, IHasForceCombinations sourceObject)
+        public void Update(IHasForceActions targetObject, IHasForceActions sourceObject)
         {
             CheckObject.IsNull(targetObject, sourceObject, "Interface IHasForceCombination");
             if (ReferenceEquals(targetObject, sourceObject)) { return; }

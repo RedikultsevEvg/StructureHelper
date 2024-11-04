@@ -5,7 +5,7 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public interface ICrackCalculatorInputData : IInputData, IHasPrimitives, IHasForceCombinations, ISaveable
+    public interface ICrackCalculatorInputData : IInputData, IHasPrimitives, IHasForceActions, ISaveable
     {
         List<IForceAction> ForceActions { get; }
         List<INdmPrimitive> Primitives { get; }

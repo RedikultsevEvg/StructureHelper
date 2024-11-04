@@ -66,7 +66,7 @@ namespace DataAccess.DTOs
             updateStrategy.Update(target, source);
         }
 
-        private void ProcessForceActions(IHasForceCombinations target, IHasForceCombinations source)
+        private void ProcessForceActions(IHasForceActions target, IHasForceActions source)
         {
             HasForceActionToDTOUpdateStrategy updateStrategy = new()
             {

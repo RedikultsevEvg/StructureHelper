@@ -15,6 +15,8 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
+        public T NewItem { get; set; }
+
         public virtual T Convert(V source)
         {
             try

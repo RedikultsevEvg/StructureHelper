@@ -17,8 +17,6 @@ namespace DataAccess.DTOs
         [JsonIgnore]
         public string FullFileName { get; set; }
         [JsonIgnore]
-        public bool IsNewFile { get; set; }
-        [JsonIgnore]
         public bool IsActual { get; set; }
 
         [JsonProperty("VisualAnalyses")]
