@@ -29,7 +29,7 @@ namespace StructureHelperLogics.Models.Materials
 
         public FRMaterial(MaterialTypes materialType, Guid id)
         {
-            if (materialType != MaterialTypes.CarbonFiber ||
+            if (materialType != MaterialTypes.CarbonFiber &
                     materialType != MaterialTypes.GlassFiber)
             {
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Material type {materialType} is not right");

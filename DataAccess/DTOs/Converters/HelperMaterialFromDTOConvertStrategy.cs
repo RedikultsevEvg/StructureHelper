@@ -73,8 +73,8 @@ namespace DataAccess.DTOs
         private IHelperMaterial GetElasticMaterial(ElasticMaterialDTO source)
         {
             TraceLogger?.AddMessage(MaterialIs + "Elastic material", TraceLogStatuses.Service);
-            reinforcementConvertStrategy.ReferenceDictionary = ReferenceDictionary;
-            reinforcementConvertStrategy.TraceLogger = TraceLogger;
+            elasticConvertStrategy.ReferenceDictionary = ReferenceDictionary;
+            elasticConvertStrategy.TraceLogger = TraceLogger;
             var newItem = elasticConvertStrategy.Convert(source);
             safetyFactorUpdateStrategy.Update(newItem, source);
             return newItem;
@@ -83,8 +83,8 @@ namespace DataAccess.DTOs
         private IHelperMaterial GetFRMaterial(FRMaterialDTO source)
         {
             TraceLogger?.AddMessage(MaterialIs + "Fiber reinforcement material", TraceLogStatuses.Service);
-            reinforcementConvertStrategy.ReferenceDictionary = ReferenceDictionary;
-            reinforcementConvertStrategy.TraceLogger = TraceLogger;
+            frConvertStrategy.ReferenceDictionary = ReferenceDictionary;
+            frConvertStrategy.TraceLogger = TraceLogger;
             var newItem = frConvertStrategy.Convert(source);
             safetyFactorUpdateStrategy.Update(newItem, source);
             return newItem;
