@@ -6,8 +6,6 @@ using System.Reflection;
 
 namespace DataAccess.JsonConverters
 {
-
-
     public abstract class BaseJsonConverter<T> : JsonConverter<T>
     {
         private IWriteJsonLogic<T> writeJsonLogic;

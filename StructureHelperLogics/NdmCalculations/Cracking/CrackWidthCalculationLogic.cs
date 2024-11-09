@@ -74,9 +74,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             CrackWidthRebarTupleResult longRebarResult = ProcessLongTermCalculations();
             CrackWidthRebarTupleResult shortRebarResult = ProcessShortTermCalculations();
             result.LongTermResult = longRebarResult;
-            TraceLogger?.AddMessage("Long term result has been obtained succesfully", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage("Long term result has been obtained successfully", TraceLogStatuses.Debug);
             result.ShortTermResult = shortRebarResult;
-            TraceLogger?.AddMessage("Short term result has been obtained succesfully", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage("Short term result has been obtained successfully", TraceLogStatuses.Debug);
         }
 
         private CrackWidthRebarTupleResult ProcessShortTermCalculations()

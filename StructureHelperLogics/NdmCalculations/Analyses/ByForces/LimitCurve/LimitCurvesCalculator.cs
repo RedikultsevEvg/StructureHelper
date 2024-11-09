@@ -88,7 +88,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                             TraceLogger = TraceLogger
                         };
                         var ndms = triangulateLogic.GetNdms();
-                        TraceLogger?.AddMessage($"Number of elementary parts N={ndms.Count()} were obtainded succesfully");
+                        TraceLogger?.AddMessage($"Number of elementary parts N={ndms.Count()} were obtainded successfully");
                         TraceLogger?.AddMessage($"Summary area of elementary parts Asum={ndms.Sum(x=>x.Area * x.StressScale)}", TraceLogStatuses.Debug);
                         foreach (var predicateEntry in InputData.PredicateEntries)
                         {

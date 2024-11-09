@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Calculations.Calculators.GeometryCalculatorVMs"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:GeometryCalculatorResultViewModel}"
-        Title="Geometry Properies" Height="450" Width="850" WindowStartupLocation="CenterScreen">
+        Title="Geometry Properties" Height="450" Width="850" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -27,7 +27,7 @@
                 <DataGridCheckBoxColumn Header="Valid" Binding="{Binding Path=IsValid}"/>
                 <DataGridTextColumn Header="Name" Width="100" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Short" Width="50" Binding="{Binding ShortName}"/>
-                <DataGridTextColumn Header="Unit" Width="100" Binding="{Binding MeasurementUnit}"/>
+                <DataGridTextColumn Header="Unit" Width="100" Binding="{Binding Text}"/>
                 <DataGridTextColumn Header="Value" Width="150" Binding="{Binding Value}"/>
                 <DataGridTextColumn Header="Description" Width="400" Binding="{Binding Description}"/>
             </DataGrid.Columns>

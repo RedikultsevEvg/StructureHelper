@@ -77,7 +77,7 @@ namespace DataAccess.DTOs.Converters
             versionProcessorConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             versionProcessorConvertStrategy.TraceLogger = TraceLogger;
             IVersionProcessor versionProcessor = versionProcessorConvertStrategy.Convert(source);
-            TraceLogger?.AddMessage("Version processor converting has been finished succesfully", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage("Version processor converting has been finished successfully", TraceLogStatuses.Service);
             return versionProcessor;
         }
 
@@ -89,7 +89,7 @@ namespace DataAccess.DTOs.Converters
             convertCrossSectionNdmAnalysisStrategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<ICrossSectionNdmAnalysis, ICrossSectionNdmAnalysis>(this, convertCrossSectionNdmAnalysisStrategy);
             ICrossSectionNdmAnalysis crossSectionNdmAnalysis = convertLogic.Convert(source);
-            TraceLogger?.AddMessage("Cross-Section Ndm Analysis converting has been finished succesfully", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage("Cross-Section Ndm Analysis converting has been finished successfully", TraceLogStatuses.Service);
             return crossSectionNdmAnalysis;
         }
 

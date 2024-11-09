@@ -57,7 +57,7 @@ namespace DataAccess.DTOs
                 TraceLogger?.AddMessage($"Mx = {newDesignTuple.ForceTuple.Mx}, My = {newDesignTuple.ForceTuple.My}, Nz = {newDesignTuple.ForceTuple.Nz}");
                 newItem.DesignForces.Add(newDesignTuple);
             }
-            TraceLogger?.AddMessage($"Force combination list name = {newItem.Name} has been finished succesfully");
+            TraceLogger?.AddMessage($"Force combination list name = {newItem.Name} has been finished successfully");
             return newItem;
         }
     }

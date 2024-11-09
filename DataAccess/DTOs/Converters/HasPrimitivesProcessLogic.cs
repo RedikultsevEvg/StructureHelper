@@ -12,7 +12,7 @@ namespace DataAccess.DTOs.Converters
     public class HasPrimitivesProcessLogic : IHasPrimitivesProcessLogic
     {
         private const string convertStarted = " converting is started";
-        private const string convertFinished = " converting has been finished succesfully";
+        private const string convertFinished = " converting has been finished successfully";
 
         public IHasPrimitives Source { get; set; }
         public IHasPrimitives Target { get; set; }

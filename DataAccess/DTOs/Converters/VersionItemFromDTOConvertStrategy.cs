@@ -64,7 +64,7 @@ namespace DataAccess.DTOs
             crossSectionConvertStrategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<ICrossSection, ICrossSection>(this, crossSectionConvertStrategy);
             ICrossSection newItem = convertLogic.Convert(source);
-            TraceLogger?.AddMessage("Cross-Section converting has been finished succesfully", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage("Cross-Section converting has been finished successfully", TraceLogStatuses.Service);
             return newItem;
         }
 

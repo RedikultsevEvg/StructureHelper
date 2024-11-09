@@ -20,7 +20,7 @@ namespace DataAccess.DTOs
     public class CrossSectionRepositoryFromDTOConvertStrategy : ConvertStrategy<ICrossSectionRepository, ICrossSectionRepository>
     {
         private const string convertStarted = " converting is started";
-        private const string convertFinished = " converting has been finished succesfully";
+        private const string convertFinished = " converting has been finished successfully";
         private CrossSectionRepository newRepository;
 
         private IHasPrimitivesProcessLogic primitivesProcessLogic = new HasPrimitivesProcessLogic();

@@ -4,6 +4,8 @@ using StructureHelper.Windows.MainWindow;
 using StructureHelperLogics.Services.NdmCalculations;
 using System.Windows;
 using Autofac;
+using System;
+using System.IO;
 
 namespace StructureHelper
 {
@@ -31,9 +33,40 @@ namespace StructureHelper
 
             Container = builder.Build();
             Scope = Container.Resolve<ILifetimeScope>();
+            // Get the command-line arguments
+            string[] args = Environment.GetCommandLineArgs();
 
-            var window = Scope.Resolve<AnalysesManagerView>();
-            window.Show();
+            // Check if there is an argument provided for a file
+            if (args.Length > 1) // args[0] is the application path
+            {
+                OpenSpecifiedFile(args);
+            }
+            else
+            {
+                // No file specified, open normally
+                var window = new AnalysesManagerView();
+                window.Show();
+            }
+        }
+
+        private static void OpenSpecifiedFile(string[] args)
+        {
+            string filePath = args[1];
+
+            // Optional: Validate the file path
+            if (File.Exists(filePath))
+            {
+                // Pass the file path to your main window or handling logic
+                var vm = new AnalysesManagerViewModel();
+                vm.FileLogic.OpenNewFile(filePath);
+                //var window = Scope.Resolve<AnalysesManagerView>(vm);
+                var window = new AnalysesManagerView(vm);
+                window.Show();
+            }
+            else
+            {
+                MessageBox.Show("File does not exist.");
+            }
         }
 
         protected override void OnExit(ExitEventArgs e)

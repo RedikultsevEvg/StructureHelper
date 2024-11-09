@@ -1,6 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Projects;
-using StructureHelperCommon.Services.FileServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Infrastructures
 {
-    public interface IFileSaveLogic : ILogic
+    public interface IGetProjectLogic : ILogic
     {
-        SaveFileResult SaveFile(IProject project);
-        SaveFileResult SaveFileAs(IProject project);
+        string FileName { get; set; }
+        IShiftTraceLogger TraceLogger { get; set; }
+        OpenProjectResult GetProject();
     }
 }

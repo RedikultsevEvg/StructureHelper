@@ -3,9 +3,10 @@ using StructureHelperCommon.Models.Projects;
 
 namespace DataAccess.Infrastructures
 {
-    public interface IFileOpenLogic : ILogic
+    public interface ISaveProjectToFileLogic : ILogic
     {
-        OpenProjectResult OpenFile();
-        OpenProjectResult OpenFile(string fileName);
+        IProject Project { get; set; }
+
+        void SaveProject();
     }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow"
         d:DataContext="{d:DesignInstance local:AxisCanvasVM}"
         mc:Ignorable="d"
-        Title="Grid properies" Height="200" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Grid properties" Height="200" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

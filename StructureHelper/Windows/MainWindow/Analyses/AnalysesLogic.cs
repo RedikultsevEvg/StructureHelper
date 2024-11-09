@@ -101,6 +101,10 @@ namespace StructureHelper.Windows.MainWindow
                     SelectedAnalysis.Analysis.Name = name;
                     SelectedAnalysis.Analysis.Tags = tags;
                 }
+                else
+                {
+                    ProgramSetting.SetCurrentProjectToNotActual();
+                }
             }
         }
         private void DeleteAnalysis()
@@ -111,6 +115,7 @@ namespace StructureHelper.Windows.MainWindow
                 if (dialogResult == DialogResult.Yes)
                 {
                     ProgramSetting.CurrentProject.VisualAnalyses.Remove(SelectedAnalysis);
+                    ProgramSetting.SetCurrentProjectToNotActual();
                 }
             }
         }
@@ -119,6 +124,7 @@ namespace StructureHelper.Windows.MainWindow
             if (SelectedAnalysis is null) { return; }
             SelectedAnalysis.ActionToRun = ActionToRun;
             SelectedAnalysis?.Run();
+            ProgramSetting.SetCurrentProjectToNotActual();
         }
         private void AddCrossSectionNdmAnalysis()
         {
@@ -127,7 +133,7 @@ namespace StructureHelper.Windows.MainWindow
             analysis.Tags = "#New group";
             var visualAnalysis = new VisualAnalysis(analysis);
             ProgramSetting.CurrentProject.VisualAnalyses.Add(visualAnalysis);
-            //ProgramSetting.SetCurrentProjectToNotActual();
+            ProgramSetting.SetCurrentProjectToNotActual();
         }
 
         private void ActionToRun()

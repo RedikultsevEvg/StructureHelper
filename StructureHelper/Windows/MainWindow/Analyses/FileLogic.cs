@@ -6,6 +6,7 @@ using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Projects;
+using StructureHelperCommon.Services.FileServices;
 using StructureHelperLogics.Models.CrossSections;
 using System;
 using System.Linq;
@@ -63,20 +64,26 @@ namespace StructureHelper.Windows.MainWindow
             ProgramSetting.Projects.Add(newProject);
             return newProject;
         }
-        private void SaveAsFile()
+        private SaveFileResult SaveAsFile()
         {
             var project = ProgramSetting.CurrentProject;
             traceLogger = new ShiftTraceLogger();
             projectAccessLogic.TraceLogger = traceLogger;
-            projectAccessLogic.SaveProjectAs(project);
+            var result = projectAccessLogic.SaveProjectAs(project);
             ShowEntries();
+            return result;
         }
-        private void ExitProgram()
+        public bool ExitProgram()
         {
-            foreach (var project in ProgramSetting.Projects)
+            var collection = ProgramSetting.Projects.ToList();
+            foreach (var project in collection)
             {
-                CloseFile(project);
+                if (CloseFile(project) == false)
+                {
+                    return false;
+                };
             }
+            return true;
         }
         public bool CloseFile()
         {
@@ -95,10 +102,20 @@ namespace StructureHelper.Windows.MainWindow
                 ProgramSetting.Projects.Remove(project);
                 return true;
             }
-            var dialogResult = MessageBox.Show($"Save file?", $"File {project.FullFileName} is not saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+            DialogResult dialogResult = GetDialog(project);
             if (dialogResult == DialogResult.Yes)
             {
-                SaveFile(project);
+                var result = SaveFile(project);
+                if (result.IsValid = false)
+                {
+                    return false;
+                }
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                project.IsActual = true;
+                ProgramSetting.Projects.Remove(project);
+                return true;
             }
             else if (dialogResult == DialogResult.Cancel)
             {
@@ -108,17 +125,24 @@ namespace StructureHelper.Windows.MainWindow
             CloseFile(project);
             return true;
         }
+
+        private static DialogResult GetDialog(IProject project)
+        {
+            return MessageBox.Show($"File {project.FullFileName} has unsaved changes", $"StructureHelper: Save file?",  MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+        }
+
         private void SaveFile()
         {
             var project = ProgramSetting.CurrentProject;
             SaveFile(project);
         }
-        private void SaveFile(IProject project)
+        private SaveFileResult SaveFile(IProject project)
         {
             traceLogger = new ShiftTraceLogger();
             projectAccessLogic.TraceLogger = traceLogger;
-            projectAccessLogic.SaveProject(project);
+            var result = projectAccessLogic.SaveProject(project);
             ShowEntries();
+            return result;
         }
         private void OpenFile()
         {
@@ -128,29 +152,47 @@ namespace StructureHelper.Windows.MainWindow
             {
                 return;
             }
+            OpenNewFile(currentProject);
+        }
+
+        private void OpenNewFile(IProject currentProject)
+        {
             traceLogger = new ShiftTraceLogger();
             projectAccessLogic.TraceLogger = traceLogger;
-            try
+            var result = projectAccessLogic.OpenProject();
+            if (result.IsValid == true)
             {
-                var result = projectAccessLogic.OpenProject();
-                if (result.IsValid == true)
-                {
-                    result.Project.IsActual = true;
-                    ProgramSetting.Projects.Clear();
-                    ProgramSetting.Projects.Add(result.Project);
-                }
-                else
-                {
-                    ProgramSetting.Projects.Add(currentProject);
-                }
+                result.Project.IsActual = true;
+                ProgramSetting.Projects.Clear();
+                ProgramSetting.Projects.Add(result.Project);
             }
-            catch (Exception ex)
+            else
             {
-                traceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
+                ProgramSetting.Projects.Add(currentProject);
             }
             ShowEntries();
             ParentVM.AnalysesLogic.Refresh();
         }
+
+        public void OpenNewFile(string fileName)
+        {
+            traceLogger = new ShiftTraceLogger();
+            projectAccessLogic.TraceLogger = traceLogger;
+            var result = projectAccessLogic.OpenProject(fileName);
+            if (result.IsValid == true)
+            {
+                result.Project.IsActual = true;
+                ProgramSetting.Projects.Clear();
+                ProgramSetting.Projects.Add(result.Project);
+            }
+            else
+            {
+                ProgramSetting.Projects.Add(new Project());
+            }
+            ShowEntries();
+            ParentVM.AnalysesLogic.Refresh();
+        }
+
         private void ShowEntries()
         {
             var filteredEntries = traceLogger.TraceLoggerEntries.Where(x => x.Priority < 300);

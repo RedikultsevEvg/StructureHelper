@@ -91,7 +91,7 @@ namespace DataAccess.DTOs
             rebarConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             rebarConvertStrategy.TraceLogger = TraceLogger;
             RebarNdmPrimitive newItem = rebarConvertStrategy.Convert(rebar);
-            TraceLogger?.AddMessage($"Primtive has been obtained succesfully, Name = {newItem.Name}");
+            TraceLogger?.AddMessage($"Primtive has been obtained successfully, Name = {newItem.Name}");
             newItem.HostPrimitive = GetHostPrimitive(rebar);
             return newItem;
         }
@@ -115,7 +115,7 @@ namespace DataAccess.DTOs
             pointConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             pointConvertStrategy.TraceLogger = TraceLogger;
             PointNdmPrimitive newItem = pointConvertStrategy.Convert(point);
-            TraceLogger?.AddMessage($"Primtive has been obtained succesfully, Name = {newItem.Name}");
+            TraceLogger?.AddMessage($"Primtive has been obtained successfully, Name = {newItem.Name}");
             return newItem;
         }
 
@@ -125,7 +125,7 @@ namespace DataAccess.DTOs
             ellipseConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             ellipseConvertStrategy.TraceLogger = TraceLogger;
             EllipseNdmPrimitive newItem = ellipseConvertStrategy.Convert(ellipse);
-            TraceLogger?.AddMessage($"Primtive has been obtained succesfully, Name = {newItem.Name}");
+            TraceLogger?.AddMessage($"Primtive has been obtained successfully, Name = {newItem.Name}");
             return newItem;
         }
 
@@ -135,7 +135,7 @@ namespace DataAccess.DTOs
             rectangleConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             rectangleConvertStrategy.TraceLogger = TraceLogger;
             RectangleNdmPrimitive newItem = rectangleConvertStrategy.Convert(rectangle);
-            TraceLogger?.AddMessage($"Primtive has been obtained succesfully, Name = {newItem.Name}");
+            TraceLogger?.AddMessage($"Primtive has been obtained successfully, Name = {newItem.Name}");
             return newItem;
         }
     }

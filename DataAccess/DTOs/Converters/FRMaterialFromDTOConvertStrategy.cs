@@ -28,7 +28,7 @@ namespace DataAccess.DTOs
             TraceLogger?.AddMessage("Fiber reinforcement material converting is started", TraceLogStatuses.Service);
             FRMaterial newItem = new(source.MaterialType, source.Id);
             updateStrategy.Update(newItem, source);
-            TraceLogger?.AddMessage("FiberReinforcement material converting has been finished succesfully", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage("FiberReinforcement material converting has been finished successfully", TraceLogStatuses.Service);
             return newItem;
         }
     }

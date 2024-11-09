@@ -12,7 +12,8 @@ namespace DataAccess.Infrastructures
     public interface IProjectAccessLogic : ILogic
     {
         OpenProjectResult OpenProject();
-        void SaveProject(IProject project);
-        void SaveProjectAs(IProject project);
+        OpenProjectResult OpenProject(string fileName);
+        SaveFileResult SaveProject(IProject project);
+        SaveFileResult SaveProjectAs(IProject project);
     }
 }

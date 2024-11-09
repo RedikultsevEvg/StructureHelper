@@ -23,6 +23,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
 
         static string firstAxisName => ProgramSetting.GeometryNames.FstAxisName;
         static string secondAxisName => ProgramSetting.GeometryNames.SndAxisName;
+        static string thirdAxisName => ProgramSetting.GeometryNames.TrdAxisName;
         static IEnumerable<IUnit> units = UnitsFactory.GetUnitCollection();
         private IEnumerable<INdm> ndms;
         private IStrainMatrix strainMatrix;
@@ -38,6 +39,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             parameters.AddRange(GetMomentOfInertia(prefixActual, ndms, strainMatrix));
             parameters.AddRange(GetAreaRatio(ndms, strainMatrix));
             parameters.AddRange(GetMomentOfInertiaRatio(ndms, strainMatrix));
+            parameters.AddRange(GetSummaryForces(ndms, strainMatrix));
             return parameters;
         }
         private IEnumerable<IValueParameter<string>> GetSimpleArea(IEnumerable<INdm> ndms)
@@ -256,6 +258,62 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             parameters.Add(firstParameter);
             parameters.Add(secondParameter);
             return parameters;
+        }
+
+        private List<IValueParameter<string>> GetSummaryForces(IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix)
+        {
+            var parameters = new List<IValueParameter<string>>();
+            var unitType = UnitTypes.Force;
+            var unit = unitLogic.GetUnit(unitType, "kN");
+            var unitName = unit.Name;
+            var unitMultiPlayer = unit.Multiplyer;
+            var forceSum = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"Summary force",
+                ShortName = $"N{thirdAxisName.ToLower()},sum",
+                Text = unitName,
+                Description = $"Summary longitudinal force along {thirdAxisName.ToUpper()}-axis"
+            };
+            FillForceParameters(locNdms, locStrainMatrix, unitMultiPlayer, PosNegFlag.Both, forceSum);
+            var forcePositive = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"Positive force",
+                ShortName = $"N{thirdAxisName.ToLower()},pos",
+                Text = unitName,
+                Description = $"Summary of positive longitudinal force along {thirdAxisName.ToUpper()}-axis"
+            };
+            FillForceParameters(locNdms, locStrainMatrix, unitMultiPlayer, PosNegFlag.Positive, forcePositive);
+            var forceNegative = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"Negative force",
+                ShortName = $"N{thirdAxisName.ToLower()},neg",
+                Text = unitName,
+                Description = $"Summary of negative longitudinal force along {thirdAxisName.ToUpper()}-axis"
+            };
+            FillForceParameters(locNdms, locStrainMatrix, unitMultiPlayer, PosNegFlag.Negative, forceNegative);
+
+            parameters.Add(forceSum);
+            parameters.Add(forcePositive);
+            parameters.Add(forceNegative);
+            return parameters;
+        }
+
+        private static void FillForceParameters(IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix, double unitMultiPlayer, PosNegFlag posNegFlag, ValueParameter<string> forceSum)
+        {
+            try
+            {
+                var sumForceNz = GeometryOperations.GetSummaryForce(locNdms, locStrainMatrix, posNegFlag);
+                forceSum.Value = (sumForceNz * unitMultiPlayer).ToString();
+            }
+            catch (Exception ex)
+            {
+                forceSum.IsValid = false;
+                forceSum.Value = (double.NaN).ToString();
+                forceSum.Description += $": {ex}";
+            }
         }
     }
 }

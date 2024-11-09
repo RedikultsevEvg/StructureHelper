@@ -84,7 +84,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 throw new StructureHelperException(errorString);
                 return false;
             }
-            TraceLogger?.AddMessage($"Checking parameters has done succefully", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"Checking parameters has done successfully", TraceLogStatuses.Service);
             return true;
         }
     }

@@ -12,42 +12,37 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class VisualAnaysisFromDTOConvertStrategy : IConvertStrategy<IVisualAnalysis, IVisualAnalysis>
+    public class VisualAnaysisFromDTOConvertStrategy : ConvertStrategy<IVisualAnalysis, IVisualAnalysis>
     {
-        private IConvertStrategy<IAnalysis, IAnalysis> analysisConvertStrategy = new AnalysisFromDTOConvertStrategy();
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
+        private IConvertStrategy<IAnalysis, IAnalysis> analysisConvertStrategy;
 
-        public IVisualAnalysis Convert(IVisualAnalysis source)
+        public VisualAnaysisFromDTOConvertStrategy(IConvertStrategy<IAnalysis, IAnalysis> analysisConvertStrategy,
+            Dictionary<(Guid id, Type type), ISaveable> refDictinary,
+            IShiftTraceLogger? traceLogger)
         {
-            Check();
-            try
-            {
-                VisualAnalysis newItem = GetAnalysis(source);
-                return newItem;
-            }
-            catch (Exception ex)
-            {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
-                throw;
-            }
+            this.analysisConvertStrategy = analysisConvertStrategy;
+            ReferenceDictionary = refDictinary;
+            TraceLogger = traceLogger;
         }
 
-        private VisualAnalysis GetAnalysis(IVisualAnalysis source)
+        public VisualAnaysisFromDTOConvertStrategy(
+            Dictionary<(Guid id, Type type), ISaveable> refDictinary,
+            IShiftTraceLogger? traceLogger)
+             : this(
+                   new AnalysisFromDTOConvertStrategy(),
+                   refDictinary,
+                   traceLogger)
+        {    }
+
+        public override VisualAnalysis GetNewItem(IVisualAnalysis source)
         {
+            TraceLogger?.AddMessage($"Visual Analysis Name = {source.Analysis.Name} converting is started");
             analysisConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             analysisConvertStrategy.TraceLogger = TraceLogger;
             IAnalysis analysis = analysisConvertStrategy.Convert(source.Analysis);
             VisualAnalysis newItem = new(source.Id, analysis);
-            TraceLogger?.AddMessage($"Visual Analysis was obtained succesfully", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage($"Visual Analysis Name = {newItem.Analysis.Name} was obtained successfully");
             return newItem;
-        }
-
-        private void Check()
-        {
-            var checkLogic = new CheckConvertLogic<IVisualAnalysis, IVisualAnalysis>(this);
-            checkLogic.Check();
         }
     }
 }

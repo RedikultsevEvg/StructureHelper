@@ -12,24 +12,33 @@ namespace DataAccess.Infrastructures
 {
     public class FileSaveLogic : IFileSaveLogic
     {
-        private IFileVersion version;
-        private Dictionary<(Guid id, Type type), ISaveable> refDictinary;
-
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public void SaveFile(IProject project)
+        public SaveFileResult SaveFile(IProject project)
         {
+            SaveFileResult result = new(); 
             if (project.FullFileName == string.Empty || project.FullFileName == "")
             {
-                var result = SelectFileName(project);
-                if (result.IsValid == false)
+                var selectResult = SelectFileName(project);
+                if (selectResult.IsValid == false)
                 {
-                    TraceLogger?.AddMessage(result.Description);
-                    return;
+                    TraceLogger?.AddMessage(selectResult.Description);
+                    result.IsValid = false;
+                    return result;
                 }
-                project.FullFileName = result.FileName;
+                project.FullFileName = selectResult.FileName;
             }
-            SaveToFile(project);
+            result.FileName = project.FullFileName;
+            try
+            {
+                SaveToFile(project);
+            }
+            catch (Exception ex)
+            {
+                result.IsValid = false;
+                result.Description += ex.Message;
+            }
+            return result;
         }
 
         private SaveFileResult SelectFileName(IProject project)
@@ -47,115 +56,24 @@ namespace DataAccess.Infrastructures
 
         private void SaveToFile(IProject project)
         {
-            try
+            ISaveProjectToFileLogic saveProjectLogic = new SaveProjectToFileLogic(TraceLogger)
             {
-                version = ProgramSetting.GetCurrentFileVersion();
-                refDictinary = new Dictionary<(Guid id, Type type), ISaveable>();
-                FileVersionDTO versionDTO = GetVersionDTO();
-                var versionString = Serialize(versionDTO, TraceLogger);
-                File.Delete(project.FullFileName);
-                refDictinary = new Dictionary<(Guid id, Type type), ISaveable>();
-                ProjectDTO projectDTO = GetProjectDTO(project);
-                RootObjectDTO rootObject = new()
-                {
-                    FileVersion = versionDTO,
-                    Project = projectDTO
-                };
-                var rootString = Serialize(rootObject, TraceLogger);
-                SaveStringToFile(project, rootString);
-            }
-            catch (Exception ex)
-            {
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
-            }
-
-        }
-
-        private void SaveStringToFile(IProject project, string versionString)
-        {
-            try
-            {
-                File.WriteAllText(project.FullFileName, versionString);
-                TraceLogger?.AddMessage($"File {project.FullFileName} was saved successfully", TraceLogStatuses.Service);
-            }
-            catch (Exception ex)
-            {
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
-            }
-        }
-
-        private ProjectDTO GetProjectDTO(IProject project)
-        {
-            ProjectToDTOConvertStrategy convertStrategy = new()
-            {
-                ReferenceDictionary = refDictinary,
-                TraceLogger = TraceLogger
+                Project = project
             };
-            DictionaryConvertStrategy<ProjectDTO, IProject> dictionaryConvertStrategy = new()
-            {
-                ConvertStrategy = convertStrategy,
-                ReferenceDictionary = refDictinary,
-                TraceLogger = TraceLogger
-            };
-            ProjectDTO projectDTO = dictionaryConvertStrategy.Convert(project);
-            return projectDTO;
+            saveProjectLogic.SaveProject();
         }
 
-        private FileVersionDTO GetVersionDTO()
-        {
-            FileVersionToDTOConvertStrategy fileVersionDTOConvertStrategy = new()
-            {
-                ReferenceDictionary = refDictinary,
-                TraceLogger = TraceLogger
-            };
-            DictionaryConvertStrategy<FileVersionDTO,IFileVersion> dictionaryConvertStrategy = new()
-            {
-                ConvertStrategy = fileVersionDTOConvertStrategy,
-                ReferenceDictionary = refDictinary,
-                TraceLogger = TraceLogger
-            };
-            var versionDTO = dictionaryConvertStrategy.Convert(version);
-            return versionDTO;
-        }
 
-        private static string Serialize(object obj, IShiftTraceLogger logger)
-        {           
-            JsonSerializerSettings settings = GetSerializingSettings(logger);
-            string serializedObject = JsonConvert.SerializeObject(obj, settings);
-            return serializedObject;
-        }
-
-        private static JsonSerializerSettings GetSerializingSettings(IShiftTraceLogger logger)
-        {
-            List<(Type type, string name)> typesNames = TypeBinderListFactory.GetTypeNameList(TypeFileVersion.version_v1);
-            TypeBinder typeBinder = new(typesNames);
-            List<JsonConverter> jsonConverters = new List<JsonConverter>
-                {
-                    new FileVersionDTOJsonConverter(logger),
-                    new ProjectDTOJsonConverter(logger)
-                };
-
-            var settings = new JsonSerializerSettings
-            {
-                Converters = jsonConverters,
-                SerializationBinder = typeBinder,
-                Formatting = Formatting.Indented,
-                PreserveReferencesHandling = PreserveReferencesHandling.All,
-                MissingMemberHandling = MissingMemberHandling.Ignore,
-                TypeNameHandling = TypeNameHandling.All,
-                NullValueHandling = NullValueHandling.Include
-            };
-            return settings;
-        }
-
-        public void SaveFileAs(IProject project)
+        public SaveFileResult SaveFileAs(IProject project)
         {
             var tmpFullFileName = project.FullFileName;
-            SaveFile(project);
-            if (project.FullFileName == string.Empty)
+            project.FullFileName = string.Empty;
+            var result = SaveFile(project);
+            if (result.IsValid == false)
             {
                 project.FullFileName = tmpFullFileName;
             }
+            return result;
         }
     }
 }

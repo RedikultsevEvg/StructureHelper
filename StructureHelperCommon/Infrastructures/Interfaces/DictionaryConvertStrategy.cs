@@ -15,12 +15,11 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
     /// </summary>
     /// <typeparam name="T">Type of target object</typeparam>
     /// <typeparam name="V">Type of source object</typeparam>
-    public class DictionaryConvertStrategy<T, V> : IConvertStrategy<T, V>
-        where T : ISaveable
+    public class DictionaryConvertStrategy<T, V> : IDictionaryConvertStrategy<T, V> where T : ISaveable
         where V : ISaveable
     {
         public IShiftTraceLogger? TraceLogger { get; set; }
-        public IConvertStrategy<T,V> ConvertStrategy { get; set; }
+        public IConvertStrategy<T, V> ConvertStrategy { get; set; }
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
 
         public DictionaryConvertStrategy(IBaseConvertStrategy baseConvertStrategy, IConvertStrategy<T, V> convertStrategy)
@@ -31,7 +30,16 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         }
         public DictionaryConvertStrategy()
         {
-            
+
+        }
+
+        public DictionaryConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary,
+            IConvertStrategy<T, V> convertStrategy,
+            IShiftTraceLogger traceLogger)
+        {
+            ReferenceDictionary = referenceDictionary;
+            ConvertStrategy = convertStrategy;
+            TraceLogger = traceLogger;
         }
 
         public T Convert(V source)
@@ -56,7 +64,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         }
         private void CheckInputData()
         {
-            if(ReferenceDictionary is null)
+            if (ReferenceDictionary is null)
             {
                 string errorString = ErrorStrings.ParameterIsNull + ": Reference Dictionary";
                 TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);

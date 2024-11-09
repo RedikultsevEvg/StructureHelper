@@ -28,7 +28,7 @@ namespace DataAccess.DTOs
             TraceLogger?.AddMessage("Reinforcement library material converting is started", TraceLogStatuses.Service);
             ReinforcementLibMaterial newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
-            TraceLogger?.AddMessage("Reinforcement library material converting has been finished succesfully", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage("Reinforcement library material converting has been finished successfully", TraceLogStatuses.Service);
             return newItem;
         }
     }

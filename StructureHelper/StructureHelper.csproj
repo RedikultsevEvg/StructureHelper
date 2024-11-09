@@ -9,6 +9,7 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <ApplicationIcon>Infrastructure\UI\Icons\SH_лого_16.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -51,6 +52,10 @@
     <None Remove="Windows\MainWindow\ToForeground.png" />
     <None Remove="Windows\MainWindow\Tools_Settings.png" />
     <None Remove="Windows\MainWindow\СarbonMaterial32.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Infrastructure\UI\Icons\SH_лого_16.ico" />
   </ItemGroup>
 
   <ItemGroup>

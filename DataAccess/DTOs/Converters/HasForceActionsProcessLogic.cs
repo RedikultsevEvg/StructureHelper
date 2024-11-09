@@ -12,7 +12,7 @@ namespace DataAccess.DTOs
     public class HasForceActionsProcessLogic : IHasForceActionsProcessLogic
     {
         private const string convertStarted = " converting is started";
-        private const string convertFinished = " converting has been finished succesfully";
+        private const string convertFinished = " converting has been finished successfully";
 
         public IShiftTraceLogger TraceLogger { get; set; }
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }

@@ -1,7 +1,7 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.UI.DataContexts;
-using StructureHelper.Windows.PrimitiveProperiesWindow;
+using StructureHelper.Windows.PrimitivePropertiesWindow;
 using StructureHelper.Windows.Services;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Calculators;

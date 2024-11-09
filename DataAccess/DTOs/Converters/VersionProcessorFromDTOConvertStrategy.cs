@@ -59,7 +59,7 @@ namespace DataAccess.DTOs
                 newItem.Versions.Add(dateVersion);
             }
             TraceLogger?.AddMessage($"Totaly {newItem.Versions.Count} version(s) was(were) obtained", TraceLogStatuses.Service);
-            TraceLogger?.AddMessage("Version processor has been converted succesfully", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage("Version processor has been converted successfully", TraceLogStatuses.Service);
             return newItem;
         }
 

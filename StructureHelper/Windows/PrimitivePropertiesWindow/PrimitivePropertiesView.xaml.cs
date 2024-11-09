@@ -10,7 +10,7 @@ using System.Windows.Data;
 using PointViewPrimitive = StructureHelper.Infrastructure.UI.DataContexts.PointViewPrimitive;
 using RectangleViewPrimitive = StructureHelper.Infrastructure.UI.DataContexts.RectangleViewPrimitive;
 
-namespace StructureHelper.Windows.PrimitiveProperiesWindow
+namespace StructureHelper.Windows.PrimitivePropertiesWindow
 {
     /// <summary>
     /// Логика взаимодействия для PrimitiveProperties.xaml

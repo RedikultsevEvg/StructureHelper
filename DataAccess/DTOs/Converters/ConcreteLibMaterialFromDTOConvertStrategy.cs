@@ -28,7 +28,7 @@ namespace DataAccess.DTOs
             TraceLogger?.AddMessage("Concrete library material converting is started", TraceLogStatuses.Service);
             ConcreteLibMaterial newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
-            TraceLogger?.AddMessage("Concrete library material converting has been finished succesfully", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage("Concrete library material converting has been finished successfully", TraceLogStatuses.Service);
             return newItem;
         }
     }

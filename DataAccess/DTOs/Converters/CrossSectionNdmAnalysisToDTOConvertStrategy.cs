@@ -68,7 +68,7 @@ namespace DataAccess.DTOs.Converters
             };
             TraceLogger?.AddMessage("Convert version processor is started", TraceLogStatuses.Service);
             newItem.VersionProcessor = convertLogic.Convert(source.VersionProcessor);
-            TraceLogger?.AddMessage("Cross-section ndm analysis has been converted succesfully", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage("Cross-section ndm analysis has been converted successfully", TraceLogStatuses.Service);
             return newItem;
         }
 

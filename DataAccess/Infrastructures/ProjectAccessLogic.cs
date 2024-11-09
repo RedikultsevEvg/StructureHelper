@@ -32,16 +32,24 @@ namespace DataAccess.Infrastructures
             return openLogic.OpenFile();
         }
 
-        public void SaveProject(IProject project)
+        public OpenProjectResult OpenProject(string fileName)
         {
-            saveLogic.TraceLogger = TraceLogger;
-            saveLogic.SaveFile(project);
+            openLogic.TraceLogger = TraceLogger;
+            return openLogic.OpenFile(fileName);
         }
 
-        public void SaveProjectAs(IProject project)
+        public SaveFileResult SaveProject(IProject project)
         {
             saveLogic.TraceLogger = TraceLogger;
-            saveLogic.SaveFileAs(project);
+            var result = saveLogic.SaveFile(project);
+            return result;
+        }
+
+        public SaveFileResult SaveProjectAs(IProject project)
+        {
+            saveLogic.TraceLogger = TraceLogger;
+            var result = saveLogic.SaveFileAs(project);
+            return result;
         }
     }
 }

@@ -21,17 +21,22 @@ namespace StructureHelper.Windows.MainWindow
     public partial class AnalysesManagerView : Window
     {
         private AnalysesManagerViewModel viewModel;
-        public AnalysesManagerView()
+
+        public AnalysesManagerView(AnalysesManagerViewModel viewModel)
         {
-            this.viewModel = new();
+            this.viewModel = viewModel;
             this.DataContext = viewModel;
             InitializeComponent();
             this.Closing += AnalysesManagerView_Closing;
         }
 
+        public AnalysesManagerView() : this (new AnalysesManagerViewModel())
+        {
+        }
+
         private void AnalysesManagerView_Closing(object? sender, CancelEventArgs e)
         {
-            if (viewModel.FileLogic.CloseFile() == true)
+            if (viewModel.FileLogic.ExitProgram() == false)
             {
                 e.Cancel = true;
             };

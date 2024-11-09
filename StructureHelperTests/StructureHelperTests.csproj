@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\FieldVisualizer\FieldVisualizer.csproj" />
     <ProjectReference Include="..\StructureHelperCommon\StructureHelperCommon.csproj" />
     <ProjectReference Include="..\StructureHelperLogics\StructureHelperLogics.csproj" />

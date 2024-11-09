@@ -51,7 +51,7 @@ namespace DataAccess.DTOs.Converters
             TraceLogger?.AddMessage("Cross-section sonverting is started");
             CrossSectionNdmAnalysis newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
-            TraceLogger?.AddMessage("Cross-section analysis was obtained succesfully");
+            TraceLogger?.AddMessage("Cross-section analysis was obtained successfully");
             return newItem;
         }
 

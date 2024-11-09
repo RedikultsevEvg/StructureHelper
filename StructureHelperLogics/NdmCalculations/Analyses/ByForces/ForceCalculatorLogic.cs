@@ -157,7 +157,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 };
             }
 
-            string message = string.Intern("Result of second order was obtained succesfully, new force combination was obtained");
+            string message = string.Intern("Result of second order was obtained successfully, new force combination was obtained");
             TraceLogger?.AddMessage(message);
             tupleResult = GetForceResult(limitState, calcTerm, ndms, newTuple);
             return tupleResult;

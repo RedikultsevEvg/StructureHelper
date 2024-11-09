@@ -40,7 +40,7 @@ namespace DataAccess.DTOs
             IHelperMaterial helperMaterial = GetHelperMaterial(source.HelperMaterial);
             newItem.HelperMaterial = helperMaterial;
             //GlobalRepository
-            TraceLogger?.AddMessage($"Head material Name = {newItem.Name} converting has been finished succesfully", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"Head material Name = {newItem.Name} converting has been finished successfully", TraceLogStatuses.Service);
             return newItem;
         }
 
