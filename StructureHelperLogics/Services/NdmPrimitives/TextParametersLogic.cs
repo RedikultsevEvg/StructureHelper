@@ -40,6 +40,9 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             parameters.AddRange(GetAreaRatio(ndms, strainMatrix));
             parameters.AddRange(GetMomentOfInertiaRatio(ndms, strainMatrix));
             parameters.AddRange(GetSummaryForces(ndms, strainMatrix));
+            parameters.AddRange(GetSummaryMoments(ndms, strainMatrix));
+            parameters.AddRange(GetForcesDistance(ndms, strainMatrix));
+            parameters.AddRange(GetLiverArms(ndms, strainMatrix));
             return parameters;
         }
         private IEnumerable<IValueParameter<string>> GetSimpleArea(IEnumerable<INdm> ndms)
@@ -314,6 +317,222 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 forceSum.Value = (double.NaN).ToString();
                 forceSum.Description += $": {ex}";
             }
+        }
+
+        private List<IValueParameter<string>> GetSummaryMoments(IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix)
+        {
+            var parameters = new List<IValueParameter<string>>();
+            var unitType = UnitTypes.Moment;
+            var unit = unitLogic.GetUnit(unitType, "kNm");
+            var unitName = unit.Name;
+            var unitMultiPlayer = unit.Multiplyer;
+            var momentSumValue = GeometryOperations.GetSummaryMoment(locNdms, locStrainMatrix, PosNegFlag.Both);
+            var momentSumX = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"Summary moment",
+                ShortName = $"M{firstAxisName.ToLower()},sum",
+                Text = unitName,
+                Value = (momentSumValue.dX * unitMultiPlayer).ToString(),
+                Description = $"Summary moment arbitrary {firstAxisName.ToUpper()}-axis"
+            };
+            var momentSumY = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"Summary moment",
+                ShortName = $"M{secondAxisName.ToLower()},sum",
+                Text = unitName,
+                Value = (momentSumValue.dY * unitMultiPlayer).ToString(),
+                Description = $"Summary moment arbitrary {secondAxisName.ToUpper()}-axis"
+            };
+            parameters.Add(momentSumX);
+            parameters.Add(momentSumY);
+            momentSumValue = GeometryOperations.GetSummaryMoment(locNdms, locStrainMatrix, PosNegFlag.Positive);
+            momentSumX = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"Summary positive moment",
+                ShortName = $"M{firstAxisName.ToLower()},sum",
+                Text = unitName,
+                Value = (momentSumValue.dX * unitMultiPlayer).ToString(),
+                Description = $"Summary moment of positive forces arbitrary {firstAxisName.ToUpper()}-axis"
+            };
+            momentSumY = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"Summary positive moment",
+                ShortName = $"M{secondAxisName.ToLower()},sum",
+                Text = unitName,
+                Value = (momentSumValue.dY * unitMultiPlayer).ToString(),
+                Description = $"Summary moment of positive forces arbitrary {secondAxisName.ToUpper()}-axis"
+            };
+            parameters.Add(momentSumX);
+            parameters.Add(momentSumY);
+            momentSumValue = GeometryOperations.GetSummaryMoment(locNdms, locStrainMatrix, PosNegFlag.Negative);
+            momentSumX = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"Summary negative moment",
+                ShortName = $"M{firstAxisName.ToLower()},sum",
+                Text = unitName,
+                Value = (momentSumValue.dX * unitMultiPlayer).ToString(),
+                Description = $"Summary moment of negative forces arbitrary {firstAxisName.ToUpper()}-axis"
+            };
+            momentSumY = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"Summary negative moment",
+                ShortName = $"M{secondAxisName.ToLower()},sum",
+                Text = unitName,
+                Value = (momentSumValue.dY * unitMultiPlayer).ToString(),
+                Description = $"Summary moment of negative forces arbitrary {secondAxisName.ToUpper()}-axis"
+            };
+            parameters.Add(momentSumX);
+            parameters.Add(momentSumY);
+            return parameters;
+        }
+        private List<IValueParameter<string>> GetForcesDistance(IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix)
+        {
+            PosNegFlag flag = PosNegFlag.Both;
+            string excentricityName = "Summary";
+            Func<IEnumerable<INdm>, IStrainMatrix, PosNegFlag, (double dX, double dY, double dSum)> func = GeometryOperations.GetCenterOfForces;
+            var parameters = new List<IValueParameter<string>>();
+            parameters.AddRange(GetDistance(locNdms, locStrainMatrix, flag, excentricityName, func));
+            flag = PosNegFlag.Positive;
+            excentricityName = "Summary positive";
+            parameters.AddRange(GetDistance(locNdms, locStrainMatrix, flag, excentricityName, func));
+            flag = PosNegFlag.Negative;
+            excentricityName = "Summary negative";
+            parameters.AddRange(GetDistance(locNdms, locStrainMatrix, flag, excentricityName, func));
+            return parameters;
+        }
+
+        private List<IValueParameter<string>> GetDistance(IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix, PosNegFlag flag, string excentricityName, Func<IEnumerable<INdm>, IStrainMatrix, PosNegFlag, (double dX, double dY, double dSum)> func)
+        {
+            var parameters = new List<IValueParameter<string>>();
+            var unitType = UnitTypes.Length;
+            var unit = unitLogic.GetUnit(unitType, "mm");
+            var unitName = unit.Name;
+            var unitMultiPlayer = unit.Multiplyer;
+            var sumExcenticityX = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"{excentricityName} excentricity",
+                ShortName = $"e{firstAxisName.ToLower()},sum",
+                Text = unitName,
+                Description = $"{excentricityName} force excentricity along {firstAxisName.ToUpper()}-axis"
+            };
+            var sumExcenticityY = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"{excentricityName} excentricity",
+                ShortName = $"e{secondAxisName.ToLower()},sum",
+                Text = unitName,
+                Description = $"{excentricityName} force excentricity along {secondAxisName.ToUpper()}-axis"
+            };
+            var sumExcenticity = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"{excentricityName} excentricity",
+                ShortName = $"e,sum",
+                Text = unitName,
+                Description = $"{excentricityName} force excentricity"
+            };
+            try
+            {
+                var sumExcentricityValue = func.Invoke(locNdms, locStrainMatrix, flag);
+                sumExcenticityX.Value = (sumExcentricityValue.dX * unitMultiPlayer).ToString();
+                sumExcenticityY.Value = (sumExcentricityValue.dY * unitMultiPlayer).ToString();
+                sumExcenticity.Value = (sumExcentricityValue.dSum * unitMultiPlayer).ToString();
+            }
+            catch (Exception ex)
+            {
+                sumExcenticityX.IsValid = false;
+                sumExcenticityX.Value = (double.NaN).ToString();
+                sumExcenticityX.Description += $": {ex}";
+
+                sumExcenticityY.IsValid = false;
+                sumExcenticityY.Value = (double.NaN).ToString();
+                sumExcenticityY.Description += $": {ex}";
+
+                sumExcenticity.IsValid = false;
+                sumExcenticity.Value = (double.NaN).ToString();
+                sumExcenticity.Description += $": {ex}";
+            }
+
+            parameters.Add(sumExcenticityX);
+            parameters.Add(sumExcenticityY);
+            parameters.Add(sumExcenticity);
+            return parameters;
+        }
+
+        private List<IValueParameter<string>> GetLiverArms(IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix)
+        {
+            string excentricityName = "Summary";
+            Func<IEnumerable<INdm>, IStrainMatrix, (double dX, double dY, double dSum)> func = GeometryOperations.GetDistanceBetweenPosNegForces;
+            var parameters = new List<IValueParameter<string>>();
+            parameters.AddRange(GetLiverArms(locNdms, locStrainMatrix, excentricityName, func));
+            return parameters;
+        }
+
+        private IEnumerable<IValueParameter<string>> GetLiverArms(IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix, string excentricityName, Func<IEnumerable<INdm>, IStrainMatrix, (double dX, double dY, double dSum)> func)
+        {
+            const string liverArm = "liver arm";
+            var parameters = new List<IValueParameter<string>>();
+            var unitType = UnitTypes.Length;
+            var unit = unitLogic.GetUnit(unitType, "mm");
+            var unitName = unit.Name;
+            var unitMultiPlayer = unit.Multiplyer;
+            var sumLiverArmX = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"{excentricityName} {liverArm}",
+                ShortName = $"z,{firstAxisName.ToLower()}",
+                Text = unitName,
+                Description = $"{excentricityName} {liverArm} along {firstAxisName.ToUpper()}-axis"
+            };
+            var sumLiverArmY = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"{excentricityName} {liverArm}",
+                ShortName = $"z,{secondAxisName.ToLower()},sum",
+                Text = unitName,
+                Description = $"{excentricityName} {liverArm} along {secondAxisName.ToUpper()}-axis"
+            };
+            var sumLiverArm = new ValueParameter<string>()
+            {
+                IsValid = true,
+                Name = $"{excentricityName} {liverArm}",
+                ShortName = $"z,sum",
+                Text = unitName,
+                Description = $"{excentricityName} {liverArm}"
+            };
+            try
+            {
+                var sumLiverArmValue = func.Invoke(locNdms, locStrainMatrix);
+                sumLiverArmX.Value = (sumLiverArmValue.dX * unitMultiPlayer).ToString();
+                sumLiverArmY.Value = (sumLiverArmValue.dY * unitMultiPlayer).ToString();
+                sumLiverArm.Value = (sumLiverArmValue.dSum * unitMultiPlayer).ToString();
+            }
+            catch (Exception ex)
+            {
+                sumLiverArmX.IsValid = false;
+                sumLiverArmX.Value = (double.NaN).ToString();
+                sumLiverArmX.Description += $": {ex}";
+
+                sumLiverArmY.IsValid = false;
+                sumLiverArmY.Value = (double.NaN).ToString();
+                sumLiverArmY.Description += $": {ex}";
+
+                sumLiverArm.IsValid = false;
+                sumLiverArm.Value = (double.NaN).ToString();
+                sumLiverArm.Description += $": {ex}";
+            }
+
+            parameters.Add(sumLiverArmX);
+            parameters.Add(sumLiverArmY);
+            parameters.Add(sumLiverArm);
+            return parameters;
         }
     }
 }
