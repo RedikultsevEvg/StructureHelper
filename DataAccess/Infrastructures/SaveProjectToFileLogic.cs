@@ -42,6 +42,7 @@ namespace DataAccess.Infrastructures
             getJsonDataLogic.RootObject = rootObject;
             var jsonData = getJsonDataLogic.GetJsonData();
             SaveStringToFile(jsonData);
+            Project.IsActual = true;
         }
 
         private void SaveStringToFile(string jsonData)
