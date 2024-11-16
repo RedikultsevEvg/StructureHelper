@@ -12,12 +12,15 @@ using StructureHelperLogics.Services.NdmPrimitives;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
+    /// <inheritdoc/>
     public class ForceCalculatorLogic : IForceCalculatorLogic
     {
         private ForcesResults result;
         private IProcessorLogic<IForceTuple> eccentricityLogic;
         private ForceTupleBucklingLogic bucklingLogic;
         private ITriangulatePrimitiveLogic triangulateLogic;
+        private List<IForceCombinationList> combinationLists;
+
         public IForceCalculatorInputData InputData { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
         public Action<IResult> ActionToOutputResults { get; set; }
@@ -37,7 +40,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             {
                 IsValid = true
             };
-            foreach (var combination in InputData.ForceCombinationLists)
+            foreach (var combination in combinationLists)
             {
                 foreach (var tuple in combination.DesignForces)
                 {
@@ -176,10 +179,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private void GetCombinations()
         {
-            InputData.ForceCombinationLists = new List<IForceCombinationList>();
+            combinationLists = new List<IForceCombinationList>();
             foreach (var item in InputData.ForceActions)
             {
-                InputData.ForceCombinationLists.Add(item.GetCombinations());
+                combinationLists.AddRange(item.GetCombinations());
             }
         }
 

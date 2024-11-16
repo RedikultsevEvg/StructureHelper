@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="StructureHelper.Windows.UserControls.ButtonToolTipEh"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StructureHelper.Windows.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="250">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="120"/>
+        </Grid.RowDefinitions>
+        <!-- Bind HeaderText property -->
+        <TextBlock Text="{Binding HeaderText, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                   FontWeight="Bold" Background="LightGray"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="64"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <!-- Bind IconContent property -->
+            <Viewbox Width="64" Height="64" Stretch="Fill">
+                <ContentControl ContentTemplate="{Binding IconContent, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            </Viewbox>
+            <!-- Bind DescriptionText property -->
+            <TextBlock Grid.Column="1" Margin="3"
+                       TextWrapping="Wrap" 
+                       Text="{Binding DescriptionText, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                       FontStyle="Italic"/>
+        </Grid>
+    </Grid>
+</UserControl>

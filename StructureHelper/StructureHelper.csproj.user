@@ -78,6 +78,9 @@
     <Compile Update="Windows\Services\CopyByParameterView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\UserControls\ButtonToolTipEh.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\UserControls\MultiplyDouble.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -174,6 +177,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\Services\CopyByParameterView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\UserControls\ButtonToolTipEh.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\UserControls\MultiplyDouble.xaml">

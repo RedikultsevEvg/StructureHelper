@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
+    /// <summary>
+    /// Logic for processing of calculation for ForceTuplaCalculator
+    /// </summary>
     public interface IForceCalculatorLogic : ILogic, IHasActionByResult
     {
         IForceCalculatorInputData InputData { get; set; }

@@ -7,12 +7,26 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
+    /// <summary>
+    /// Input data fo roce tuple calculator
+    /// </summary>
     public interface IForceCalculatorInputData : IInputData, ISaveable, IHasPrimitives, IHasForceActions
     {
+        /// <summary>
+        /// Accuracy of calculating
+        /// </summary>
         IAccuracy Accuracy { get; set; }
-        List<CalcTerms> CalcTermsList { get; }
-        ICompressedMember CompressedMember { get; set; }
-        List<IForceCombinationList> ForceCombinationLists { get; set; }
+        /// <summary>
+        /// List of limit states, available for calculating
+        /// </summary>
         List<LimitStates> LimitStatesList { get; }
+        /// <summary>
+        /// List of type of duration, available for calculation
+        /// </summary>
+        List<CalcTerms> CalcTermsList { get; }
+        /// <summary>
+        /// Settings for calculating of stability fo compressed members
+        /// </summary>
+        ICompressedMember CompressedMember { get; set; }
     }
 }

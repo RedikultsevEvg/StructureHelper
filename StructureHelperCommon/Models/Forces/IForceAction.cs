@@ -24,6 +24,8 @@ namespace StructureHelperCommon.Models.Forces
         /// Return combination of forces
         /// </summary>
         /// <returns></returns>
-        IForceCombinationList GetCombinations();
+        IForceCombinationList GetCombination();
+
+        List<IForceCombinationList> GetCombinations();
     }
 }

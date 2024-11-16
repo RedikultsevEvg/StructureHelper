@@ -27,7 +27,12 @@ namespace DataAccess.DTOs
             throw new NotImplementedException();
         }
 
-        public IForceCombinationList GetCombinations()
+        public IForceCombinationList GetCombination()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<IForceCombinationList> GetCombinations()
         {
             throw new NotImplementedException();
         }

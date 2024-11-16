@@ -14,9 +14,9 @@ using StructureHelperLogics.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
+    /// <inheritdoc/>
     public class ForceTupleCalculator : IForceTupleCalculator
     {
-        IForceTupleTraceResultLogic forceTupleTraceResultLogic;
         IForcesTupleResult result;
         private ICheckInputDataLogic<IForceTupleInputData> checkInputDataLogic;
         private IForceTupleCalcLogic calcLogic;

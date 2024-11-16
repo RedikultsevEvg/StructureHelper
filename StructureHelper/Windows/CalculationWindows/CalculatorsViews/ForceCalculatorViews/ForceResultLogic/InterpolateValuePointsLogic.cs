@@ -21,7 +21,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private ValuePointsInterpolateViewModel viewModel;
         private IResult result;
         private ValuePointsInterpolationInputData inputData;
-        public ForcesTupleResult SelectedResult { get; set; }
+        public IForcesTupleResult SelectedResult { get; set; }
         public IEnumerable<INdmPrimitive> NdmPrimitives { get; set; }
         public ForceCalculator ForceCalculator { get; set; }
 

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews"
         d:DataContext="{d:DesignInstance local:TupleCrackResultViewModel}"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="900" MinHeight="300" MinWidth="500" MaxHeight="1000" MaxWidth="1400" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+        Title="{Binding WindowTitle}" Height="450" Width="900" MinHeight="300" MinWidth="500" MaxHeight="1000" MaxWidth="1400" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

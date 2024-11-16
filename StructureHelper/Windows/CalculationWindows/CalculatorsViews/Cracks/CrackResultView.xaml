@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews"
         d:DataContext="{d:DesignInstance local:CrackResultViewModel}"
         mc:Ignorable="d"
-        Title="Result of calculations of crack" Height="450" Width="800" MinHeight="300" MinWidth="600" MaxHeight="800" MaxWidth="1000" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+        Title="Result of calculations of crack" Height="450" Width="800" MinHeight="300" MinWidth="600" MaxHeight="800" MaxWidth="1000" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

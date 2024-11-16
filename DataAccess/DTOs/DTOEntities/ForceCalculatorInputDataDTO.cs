@@ -30,8 +30,8 @@ namespace DataAccess.DTOs
         public IAccuracy Accuracy { get; set; } = new AccuracyDTO();
         [JsonProperty("CompressedMember")]
         public ICompressedMember CompressedMember { get; set; } = new CompressedMemberDTO();
-        [JsonIgnore]
-        public List<IForceCombinationList> ForceCombinationLists { get; set; } = new();
+        //[JsonIgnore]
+        //public List<IForceCombinationList> ForceCombinationLists { get; set; } = new();
 
     }
 }

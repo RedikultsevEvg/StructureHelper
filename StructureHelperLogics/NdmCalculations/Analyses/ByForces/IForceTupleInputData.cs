@@ -15,7 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     public interface IForceTupleInputData : IInputData
     {
         /// <summary>
-        /// Collection of ndma-parts for calculation
+        /// Collection of ndm-parts for calculation
         /// </summary>
         IEnumerable<INdm> NdmCollection { get; set; }
         /// <summary>

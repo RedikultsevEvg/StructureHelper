@@ -52,7 +52,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         public static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
 
-        public ForcesTupleResult SelectedResult { get; set; }
+        public IForcesTupleResult? SelectedResult { get; set; }
         private ICommand? showIsoFieldCommand;
         private ICommand? exportToCSVCommand;
         private ICommand? interpolateCommand;
@@ -65,6 +65,11 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private ICommand? showCrackWidthResult;
         private ICommand? showInteractionDiagramCommand;
         private ICommand? graphValuepointsCommand;
+        private ICommand showForceResultCommand;
+
+        public int ValidResultCount => forcesResults.ForcesResultList.Count(x => x.IsValid == true);
+        public int InvalidResultCount => forcesResults.ForcesResultList.Count(x => x.IsValid == false);
+        public int TotalResultCount => forcesResults.ForcesResultList.Count;
 
         public IForcesResults ForcesResults
         {
@@ -176,7 +181,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                     };
                     showProgressLogic.Show();
                 }
-            }, o => SelectedResult != null);
+            }, o => SelectedResult is not null);
         }
         public ICommand ShowCrackGraphsCommand
         {
@@ -206,8 +211,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                     };
                     showProgressLogic.Show();
                 }
-            }, o => SelectedResult != null && SelectedResult.IsValid
-            );
+            }, o => SelectedResult != null && SelectedResult.IsValid);
         }
         public ICommand ShowCrackResultCommand
         {
@@ -225,22 +229,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             showCrackResultLogic.Show(SelectedResult.DesignForceTuple.Clone() as IDesignForceTuple);
         }
 
-        //public ICommand ShowCrackWidthResultCommand
-        //{
-        //    get => showCrackWidthResult ??= new RelayCommand(o =>
-        //    {
-        //        SafetyProcessor.RunSafeProcess(ShowCrackWidthResult);
-        //    }, o => SelectedResult != null && SelectedResult.IsValid);
-        //}
-
-        //private void ShowCrackWidthResult()
-        //{
-        //    showCrackWidthLogic.LimitState = SelectedResult.DesignForceTuple.LimitState;
-        //    showCrackWidthLogic.CalcTerm = SelectedResult.DesignForceTuple.CalcTerm;
-        //    showCrackWidthLogic.ForceTuple = SelectedResult.DesignForceTuple.ForceTuple;
-        //    showCrackWidthLogic.ndmPrimitives = ndmPrimitives.ToList();
-        //    showCrackWidthLogic.Show();
-        //}
         public ICommand InterpolateCommand
         {
             get
@@ -262,8 +250,10 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
             var interpolationLogic = new InterpolationProgressLogic(forceCalculator, interploateTuplesViewModel.ForceInterpolationViewModel.Result);
             progressLogic = interpolationLogic;
-            showProgressLogic = new(interpolationLogic);
-            showProgressLogic.ShowResult = ShowInterpolationProgressDialog;
+            showProgressLogic = new(interpolationLogic)
+            {
+                ShowResult = ShowInterpolationProgressDialog
+            };
             showProgressLogic.Show();
         }
 
@@ -275,7 +265,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                     (graphValuepointsCommand = new RelayCommand(o =>
                     {
                         InterpolateValuePoints();
-                    }, o => SelectedResult != null));
+                    },
+                    o => SelectedResult != null));
             }
         }
 
@@ -386,7 +377,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 try
                 {
                     var strainMatrix = SelectedResult.LoaderResults.ForceStrainPair.StrainMatrix;
-                    var textParametrsLogic = new TextParametersLogic(ndms, strainMatrix);
+                    var textParametrsLogic = new GeometryParametersLogic(ndms, strainMatrix);
                     var calculator = new GeometryCalculator(textParametrsLogic);
                     calculator.Run();
                     var result = calculator.Result as IGeometryResult;
@@ -404,6 +395,36 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 }
             }
         }
+        public ICommand ShowForceResultCommand =>
+            showForceResultCommand ??= new RelayCommand(o =>
+            showForceResult(), o => SelectedResult != null && SelectedResult.IsValid);
+
+        private void showForceResult()
+        {
+            if (SelectPrimitives() == true)
+            {
+                try
+                {
+                    var strainMatrix = SelectedResult.LoaderResults.ForceStrainPair.StrainMatrix;
+                    var textParametrsLogic = new ForcesParametersLogic(ndms, strainMatrix);
+                    var calculator = new GeometryCalculator(textParametrsLogic);
+                    calculator.Run();
+                    var result = calculator.Result as IGeometryResult;
+                    var wnd = new GeometryCalculatorResultView(result);
+                    wnd.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    var vm = new ErrorProcessor()
+                    {
+                        ShortText = "Errors apearred during showing isofield, see detailed information",
+                        DetailText = $"{ex}"
+                    };
+                    new ErrorMessage(vm).ShowDialog();
+                }
+            }
+        }
+
         public ForcesResultsViewModel(ForceCalculator forceCalculator)
         {
             this.forceCalculator = forceCalculator;

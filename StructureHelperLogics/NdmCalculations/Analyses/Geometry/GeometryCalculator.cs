@@ -8,7 +8,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Geometry
 {
     public class GeometryCalculator : IGeometryCalculator
     {
-        TextParametersLogic parametersLogic;
+        IParametersLogic parametersLogic;
         IGeometryResult geometryResult;
         public string Name { get; set; }
 
@@ -19,12 +19,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Geometry
 
         public Guid Id => throw new NotImplementedException();
 
-        public GeometryCalculator(IEnumerable<INdm> ndms, IStrainMatrix strainMatrix)
-        {
-            parametersLogic = new TextParametersLogic(ndms, strainMatrix);
-        }
-
-        public GeometryCalculator(TextParametersLogic parametersLogic)
+        public GeometryCalculator(IParametersLogic parametersLogic)
         {
             this.parametersLogic = parametersLogic;
         }

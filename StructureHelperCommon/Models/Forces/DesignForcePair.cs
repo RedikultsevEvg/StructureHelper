@@ -30,7 +30,7 @@ namespace StructureHelperCommon.Models.Forces
 
         public DesignForcePair() : this(Guid.NewGuid()) {}
 
-        public IForceCombinationList GetCombinations()
+        public IForceCombinationList GetCombination()
         {
             throw new NotImplementedException();
         }
@@ -40,6 +40,11 @@ namespace StructureHelperCommon.Models.Forces
             var newItem = new DesignForcePair();
             updateStrategy.Update(newItem, this);
             return newItem;
+        }
+
+        public List<IForceCombinationList> GetCombinations()
+        {
+            throw new NotImplementedException();
         }
     }
 }

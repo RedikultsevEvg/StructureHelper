@@ -63,7 +63,7 @@ namespace StructureHelperCommon.Models.Forces
             return newItem;
         }
         /// <inheritdoc/>
-        public IForceCombinationList GetCombinations()
+        public IForceCombinationList GetCombination()
         {
             var result = Clone() as IForceCombinationList;
             result.DesignForces.Clear();
@@ -83,6 +83,15 @@ namespace StructureHelperCommon.Models.Forces
                 }
             }
             return result;
+        }
+
+        public List<IForceCombinationList> GetCombinations()
+        {
+            var listResult = new List<IForceCombinationList>
+            {
+                GetCombination()
+            };
+            return listResult;
         }
     }
 }

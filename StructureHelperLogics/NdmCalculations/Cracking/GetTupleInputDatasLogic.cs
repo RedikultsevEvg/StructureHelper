@@ -14,6 +14,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
+
     public class GetTupleInputDatasLogic : IGetTupleInputDatasLogic
     {
         public List<IForceAction> ForceActions { get; set; }
@@ -24,7 +25,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public CalcTerms ShortTerm { get; set; }
         public IUserCrackInputData UserCrackInputData { get; set; }
 
-        public GetTupleInputDatasLogic(List<INdmPrimitive> primitives, List<IForceAction> forceActions, IUserCrackInputData userCrackInputData)
+        public GetTupleInputDatasLogic(List<INdmPrimitive> primitives,
+            List<IForceAction> forceActions,
+            IUserCrackInputData userCrackInputData)
         {
             Primitives = primitives;
             ForceActions = forceActions;
@@ -39,28 +42,39 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             CheckInputData();
             foreach (var action in ForceActions)
             {
-                var tuple = GetTuplesByActions(action);
-                if (tuple.isValid == false)
+                var tuples = GetCrackTupleByActions(action);
+                foreach (var tuple in tuples)
                 {
-                    resultList.Add(new TupleCrackInputData()
-                    {
-                        IsValid = false,
-                    });
-                }
-                else
-                {
-                    resultList.Add(new TupleCrackInputData()
-                    {
-                        IsValid = true,
-                        TupleName = action.Name,
-                        LongTermTuple = tuple.LongTuple,
-                        ShortTermTuple = tuple.ShortTuple,
-                        Primitives = Primitives,
-                        UserCrackInputData = UserCrackInputData
-                    });
+                    var tupleCrackInputDatas = GetTupleCrackInputDatas(action, tuple);
+                    resultList.AddRange(tupleCrackInputDatas);
                 }
             }
             TraceLogger?.AddMessage(LoggerStrings.CalculationHasDone);
+            return resultList;
+        }
+
+        private List<TupleCrackInputData> GetTupleCrackInputDatas(IForceAction action, CrackTuple tuple)
+        {
+            List<TupleCrackInputData> resultList = new();
+            if (tuple.IsValid == false)
+            {
+                resultList.Add(new TupleCrackInputData()
+                {
+                    IsValid = false,
+                });
+            }
+            else
+            {
+                resultList.Add(new TupleCrackInputData()
+                {
+                    IsValid = true,
+                    TupleName = action.Name,
+                    LongTermTuple = tuple.LongTuple,
+                    ShortTermTuple = tuple.ShortTuple,
+                    Primitives = Primitives,
+                    UserCrackInputData = UserCrackInputData
+                });
+            }
             return resultList;
         }
 
@@ -73,25 +87,47 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             }
         }
 
-        private (bool isValid, IForceTuple? LongTuple, IForceTuple? ShortTuple) GetTuplesByActions(IForceAction action)
+        private List<CrackTuple> GetCrackTupleByActions(IForceAction action)
+        {
+            var combinations = action.GetCombinations();
+            List<CrackTuple> crackTuples = new();
+            foreach (var item in combinations)
+            {
+                var crackTuple = GetCrackTupleByCombination(item.DesignForces);
+                crackTuples.Add(crackTuple);
+            }
+
+            return crackTuples;
+        }
+
+        private CrackTuple GetCrackTupleByCombination(List<IDesignForceTuple> combination)
         {
             IForceTuple longTuple, shortTuple;
-            var combinations = action.GetCombinations().DesignForces;
             try
             {
-                longTuple = GetTupleByCombination(combinations, LimitState, LongTerm);
+                longTuple = GetTupleByCombination(combination, LimitState, LongTerm);
                 TraceLogger?.AddMessage("Long term force combination");
                 TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(longTuple));
-                shortTuple = GetTupleByCombination(combinations, LimitState, ShortTerm);
+                shortTuple = GetTupleByCombination(combination, LimitState, ShortTerm);
                 TraceLogger?.AddMessage("Short term force combination");
                 TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(shortTuple));
             }
             catch (Exception ex)
             {
                 TraceLogger?.AddMessage("Force combination is not obtained: \n" + ex, TraceLogStatuses.Error);
-                return (false, null, null);
+                return new CrackTuple()
+                {
+                    IsValid = false
+                };
             }
-            return (true, longTuple, shortTuple);
+
+            var result = new CrackTuple()
+            {
+                IsValid = true,
+                LongTuple = longTuple,
+                ShortTuple = shortTuple
+            };
+            return result;
         }
 
         private static IForceTuple GetTupleByCombination(List<IDesignForceTuple> combinations, LimitStates limitState, CalcTerms calcTerm)
@@ -100,6 +136,13 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 .Where(x => x.LimitState == limitState & x.CalcTerm == calcTerm)
                 .Single()
                 .ForceTuple;
+        }
+
+        private class CrackTuple
+        {
+            public bool IsValid { get; set; }
+            public IForceTuple? LongTuple { get; set; }
+            public IForceTuple? ShortTuple { get; set; }
         }
     }
 }
