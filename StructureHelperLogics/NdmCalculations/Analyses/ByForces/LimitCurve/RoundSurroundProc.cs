@@ -11,12 +11,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     {
         private List<IPoint2D> surroundList;
 
-        public SurroundData SurroundData { get; set; }
+        public ISurroundData SurroundData { get; set; }
         public int PointCount { get; set; }
 
         public RoundSurroundProc()
         {
-            SurroundData = new();
+            SurroundData = new SurroundData();
         }
         public List<IPoint2D> GetPoints()
         {

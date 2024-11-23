@@ -140,13 +140,13 @@
             <StatusBar Grid.Row="1">
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Valid result: "/>
+                        <TextBlock Text="Valid result(s): "/>
                         <TextBlock Text="{Binding ValidResultCount}"/>
                     </StackPanel>
                 </StatusBarItem>
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Invalid result: "/>
+                        <TextBlock Text="Invalid result(s): "/>
                         <TextBlock Text="{Binding InvalidResultCount}"/>
                     </StackPanel>
                 </StatusBarItem>

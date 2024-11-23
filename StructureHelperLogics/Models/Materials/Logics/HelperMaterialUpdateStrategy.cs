@@ -63,13 +63,13 @@ namespace StructureHelperLogics.Models.Materials
 
         private void UpdateLibMaterial(IHelperMaterial targetObject, IHelperMaterial sourceObject)
         {
-            if (sourceObject is IConcreteLibMaterial)
+            if (sourceObject is IConcreteLibMaterial concreteLibMaterial)
             {
-                concreteStrategy.Update(targetObject as IConcreteLibMaterial, sourceObject as IConcreteLibMaterial);
+                concreteStrategy.Update(targetObject as IConcreteLibMaterial, concreteLibMaterial);
             }
-            else if (sourceObject is IReinforcementLibMaterial)
+            else if (sourceObject is IReinforcementLibMaterial reinforcementLibMaterial)
             {
-                reinforcementStrategy.Update(targetObject as IReinforcementLibMaterial, sourceObject as IReinforcementLibMaterial);
+                reinforcementStrategy.Update(targetObject as IReinforcementLibMaterial, reinforcementLibMaterial);
             }
             else
             {

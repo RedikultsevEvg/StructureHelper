@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
 {
-    internal class SurroundDataUpdateStrategy : IUpdateStrategy<SurroundData>
+    internal class SurroundDataUpdateStrategy : IUpdateStrategy<ISurroundData>
     {
-        public void Update(SurroundData targetObject, SurroundData sourceObject)
+        public void Update(ISurroundData targetObject, ISurroundData sourceObject)
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.XMax = sourceObject.XMax;

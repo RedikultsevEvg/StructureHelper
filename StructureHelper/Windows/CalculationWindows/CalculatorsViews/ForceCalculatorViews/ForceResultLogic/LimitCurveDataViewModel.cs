@@ -24,11 +24,11 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 {
     public class LimitCurveDataViewModel : OkCancelViewModelBase, IDataErrorInfo
     {
-        private LimitCurveInputData inputData;
+        private LimitCurvesCalculatorInputData inputData;
 
 
         //public SurroundDataViewModel SurroundDataViewModel { get; private set; }
-        public SurroundData SurroundData { get => inputData.SurroundData; }
+        public ISurroundData SurroundData { get => inputData.SurroundData; }
         public SelectPrimitivesSourceTarget PrimitiveSeries { get; private set; }
         public SelectItemsVM<PredicateEntry> PredicateItems { get; private set; }
         public SelectItemsVM<LimitStateEntity> LimitStateItems { get; private set; }
@@ -52,7 +52,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         public IEnumerable<INdmPrimitive> AllowedPrimitives { get; set; }
 
-        public LimitCurveDataViewModel(LimitCurveInputData inputData, IEnumerable<INdmPrimitive> allowedPrimitives)
+        public LimitCurveDataViewModel(LimitCurvesCalculatorInputData inputData, IEnumerable<INdmPrimitive> allowedPrimitives)
         {
             this.inputData = inputData;
             AllowedPrimitives = allowedPrimitives;

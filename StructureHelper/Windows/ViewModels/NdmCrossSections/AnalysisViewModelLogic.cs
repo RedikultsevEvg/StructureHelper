@@ -71,7 +71,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void AddLimitCurveCalculator()
         {
-            var inputData = new LimitCurveInputData(repository.Primitives);
+            var inputData = new LimitCurvesCalculatorInputData(repository.Primitives);
             NewItem = new LimitCurvesCalculator()
             {
                 Name = "New interaction diagram calculator",

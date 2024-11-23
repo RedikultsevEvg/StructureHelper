@@ -3,10 +3,10 @@ using StructureHelperCommon.Models.Parameters;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
 {
-    internal class LimitCurveInputDataUpdateStrategy : IUpdateStrategy<LimitCurveInputData>
+    internal class LimitCurveInputDataUpdateStrategy : IUpdateStrategy<ILimitCurvesCalculatorInputData>
     {
-        SurroundDataUpdateStrategy surroundDataUpdateStrategy => new();
-        public void Update(LimitCurveInputData targetObject, LimitCurveInputData sourceObject)
+        IUpdateStrategy<ISurroundData> surroundDataUpdateStrategy =  new SurroundDataUpdateStrategy();
+        public void Update(ILimitCurvesCalculatorInputData targetObject, ILimitCurvesCalculatorInputData sourceObject)
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.LimitStates.Clear();

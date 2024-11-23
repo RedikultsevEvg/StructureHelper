@@ -14,7 +14,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     /// <summary>
     /// Limits of coordinates for workplane
     /// </summary>
-    public class SurroundData : ICloneable
+    public class SurroundData : ISurroundData
     {
         public double XMax { get; set; }
         public double XMin { get; set; }

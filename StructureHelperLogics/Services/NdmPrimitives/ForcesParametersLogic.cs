@@ -17,6 +17,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
     {
         const string prefixInitial = "Initial";
         const string prefixActual = "Actual";
+        private const string errorValue = "----";
         IConvertUnitLogic operationLogic = new ConvertUnitLogic();
         IGetUnitLogic unitLogic = new GetUnitLogic();
 
@@ -186,60 +187,60 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             return parameters;
         }
 
-        private List<IValueParameter<string>> GetDistance(IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix, PosNegFlag flag, string excentricityName, Func<IEnumerable<INdm>, IStrainMatrix, PosNegFlag, (double dX, double dY, double dSum)> func)
+        private List<IValueParameter<string>> GetDistance(IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix, PosNegFlag flag, string eccentricityName, Func<IEnumerable<INdm>, IStrainMatrix, PosNegFlag, (double dX, double dY, double dSum)> func)
         {
             var parameters = new List<IValueParameter<string>>();
             var unitType = UnitTypes.Length;
             var unit = unitLogic.GetUnit(unitType, "mm");
             var unitName = unit.Name;
             var unitMultiPlayer = unit.Multiplyer;
-            var sumExcenticityX = new ValueParameter<string>()
+            var sumEccenticityX = new ValueParameter<string>()
             {
                 IsValid = true,
-                Name = $"{excentricityName} excentricity",
+                Name = $"{eccentricityName} eccentricity",
                 ShortName = $"e{firstAxisName.ToLower()},sum",
                 Text = unitName,
-                Description = $"{excentricityName} force excentricity along {firstAxisName.ToUpper()}-axis"
+                Description = $"{eccentricityName} force excentricity along {firstAxisName.ToUpper()}-axis"
             };
             var sumExcenticityY = new ValueParameter<string>()
             {
                 IsValid = true,
-                Name = $"{excentricityName} excentricity",
+                Name = $"{eccentricityName} eccentricity",
                 ShortName = $"e{secondAxisName.ToLower()},sum",
                 Text = unitName,
-                Description = $"{excentricityName} force excentricity along {secondAxisName.ToUpper()}-axis"
+                Description = $"{eccentricityName} force eccentricity along {secondAxisName.ToUpper()}-axis"
             };
             var sumExcenticity = new ValueParameter<string>()
             {
                 IsValid = true,
-                Name = $"{excentricityName} excentricity",
+                Name = $"{eccentricityName} eccentricity",
                 ShortName = $"e,sum",
                 Text = unitName,
-                Description = $"{excentricityName} force excentricity"
+                Description = $"{eccentricityName} force eccentricity"
             };
             try
             {
-                var sumExcentricityValue = func.Invoke(locNdms, locStrainMatrix, flag);
-                sumExcenticityX.Value = (sumExcentricityValue.dX * unitMultiPlayer).ToString();
-                sumExcenticityY.Value = (sumExcentricityValue.dY * unitMultiPlayer).ToString();
-                sumExcenticity.Value = (sumExcentricityValue.dSum * unitMultiPlayer).ToString();
+                var sumEccentricityValue = func.Invoke(locNdms, locStrainMatrix, flag);
+                sumEccenticityX.Value = (sumEccentricityValue.dX * unitMultiPlayer).ToString();
+                sumExcenticityY.Value = (sumEccentricityValue.dY * unitMultiPlayer).ToString();
+                sumExcenticity.Value = (sumEccentricityValue.dSum * unitMultiPlayer).ToString();
             }
             catch (Exception ex)
             {
-                sumExcenticityX.IsValid = false;
-                sumExcenticityX.Value = (double.NaN).ToString();
-                sumExcenticityX.Description += $": {ex}";
+                sumEccenticityX.IsValid = false;
+                sumEccenticityX.Value = errorValue;
+                sumEccenticityX.Description += $": {ex}";
 
                 sumExcenticityY.IsValid = false;
-                sumExcenticityY.Value = (double.NaN).ToString();
+                sumExcenticityY.Value = errorValue;
                 sumExcenticityY.Description += $": {ex}";
 
                 sumExcenticity.IsValid = false;
-                sumExcenticity.Value = (double.NaN).ToString();
+                sumExcenticity.Value = errorValue;
                 sumExcenticity.Description += $": {ex}";
             }
 
-            parameters.Add(sumExcenticityX);
+            parameters.Add(sumEccenticityX);
             parameters.Add(sumExcenticityY);
             parameters.Add(sumExcenticity);
             return parameters;
@@ -254,7 +255,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             return parameters;
         }
 
-        private IEnumerable<IValueParameter<string>> GetLiverArms(IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix, string excentricityName, Func<IEnumerable<INdm>, IStrainMatrix, (double dX, double dY, double dSum)> func)
+        private IEnumerable<IValueParameter<string>> GetLiverArms(IEnumerable<INdm> locNdms, IStrainMatrix? locStrainMatrix, string eccentricityName, Func<IEnumerable<INdm>, IStrainMatrix, (double dX, double dY, double dSum)> func)
         {
             const string liverArm = "liver arm";
             var parameters = new List<IValueParameter<string>>();
@@ -265,26 +266,26 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             var sumLiverArmX = new ValueParameter<string>()
             {
                 IsValid = true,
-                Name = $"{excentricityName} {liverArm}",
+                Name = $"{eccentricityName} {liverArm}",
                 ShortName = $"z,{firstAxisName.ToLower()}",
                 Text = unitName,
-                Description = $"{excentricityName} {liverArm} along {firstAxisName.ToUpper()}-axis"
+                Description = $"{eccentricityName} {liverArm} along {firstAxisName.ToUpper()}-axis"
             };
             var sumLiverArmY = new ValueParameter<string>()
             {
                 IsValid = true,
-                Name = $"{excentricityName} {liverArm}",
+                Name = $"{eccentricityName} {liverArm}",
                 ShortName = $"z,{secondAxisName.ToLower()}",
                 Text = unitName,
-                Description = $"{excentricityName} {liverArm} along {secondAxisName.ToUpper()}-axis"
+                Description = $"{eccentricityName} {liverArm} along {secondAxisName.ToUpper()}-axis"
             };
             var sumLiverArm = new ValueParameter<string>()
             {
                 IsValid = true,
-                Name = $"{excentricityName} {liverArm}",
+                Name = $"{eccentricityName} {liverArm}",
                 ShortName = $"z,sum",
                 Text = unitName,
-                Description = $"{excentricityName} {liverArm}"
+                Description = $"{eccentricityName} {liverArm}"
             };
             try
             {
@@ -296,15 +297,15 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             catch (Exception ex)
             {
                 sumLiverArmX.IsValid = false;
-                sumLiverArmX.Value = (double.NaN).ToString();
+                sumLiverArmX.Value = errorValue;
                 sumLiverArmX.Description += $": {ex}";
 
                 sumLiverArmY.IsValid = false;
-                sumLiverArmY.Value = (double.NaN).ToString();
+                sumLiverArmY.Value = errorValue;
                 sumLiverArmY.Description += $": {ex}";
 
                 sumLiverArm.IsValid = false;
-                sumLiverArm.Value = (double.NaN).ToString();
+                sumLiverArm.Value = errorValue;
                 sumLiverArm.Description += $": {ex}";
             }
 

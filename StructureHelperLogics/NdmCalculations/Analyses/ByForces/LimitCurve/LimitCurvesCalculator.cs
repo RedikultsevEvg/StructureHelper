@@ -11,7 +11,7 @@ using StructureHelperLogics.Services.NdmPrimitives;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public class LimitCurvesCalculator : ISaveable, ICalculator, IHasActionByResult
+    public class LimitCurvesCalculator :  ILimitCurvesCalculator
     {
         private LimitCurvesResult result;
         private int curvesIterationCount;
@@ -21,7 +21,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public Guid Id { get; }
         public string Name { get; set; }
-        public LimitCurveInputData InputData { get; set; }
+        public LimitCurvesCalculatorInputData InputData { get; set; }
         public IResult Result => result;
 
         public Action<IResult> ActionToOutputResults { get; set; }
@@ -89,7 +89,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                         };
                         var ndms = triangulateLogic.GetNdms();
                         TraceLogger?.AddMessage($"Number of elementary parts N={ndms.Count()} were obtainded successfully");
-                        TraceLogger?.AddMessage($"Summary area of elementary parts Asum={ndms.Sum(x=>x.Area * x.StressScale)}", TraceLogStatuses.Debug);
+                        TraceLogger?.AddMessage($"Summary area of elementary parts Asum={ndms.Sum(x => x.Area * x.StressScale)}", TraceLogStatuses.Debug);
                         foreach (var predicateEntry in InputData.PredicateEntries)
                         {
                             string calcName = $"{primitiveSeries.Name}_{predicateEntry.Name}_{limitState}_{calcTerm}";

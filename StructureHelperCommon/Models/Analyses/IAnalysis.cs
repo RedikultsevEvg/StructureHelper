@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace StructureHelperCommon.Models.Analyses
 {
@@ -11,6 +12,8 @@ namespace StructureHelperCommon.Models.Analyses
     {
         string Name { get; set; }
         string Tags { get; set; }
+        string Comment { get; set; }
+        Color Color { get; set; }
         IVersionProcessor VersionProcessor { get; set; }
     }
 }

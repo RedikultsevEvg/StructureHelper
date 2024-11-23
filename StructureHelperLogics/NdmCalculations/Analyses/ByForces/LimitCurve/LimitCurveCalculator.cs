@@ -13,7 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private ILimitCurveLogic limitCurveLogic;
 
         public string Name { get; set; }
-        public SurroundData SurroundData { get; set; }
+        public ISurroundData SurroundData { get; set; }
         public int PointCount { get; set; }
         public ISurroundProc SurroundProcLogic { get; set; }
 
@@ -27,7 +27,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public LimitCurveCalculator(ILimitCurveLogic limitCurveLogic)
         {
             this.limitCurveLogic = limitCurveLogic;
-            SurroundData = new();
+            SurroundData = new SurroundData();
             SurroundProcLogic = new RectSurroundProc();
         }
 

@@ -17,7 +17,7 @@ namespace DataAccess.DTOs
     public class ForceCalculatorInputDataDTO : IForceCalculatorInputData
     {
         [JsonProperty("Id")]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         [JsonProperty("ForceActions")]
         public List<IForceAction> ForceActions { get; set; } = new();
         [JsonProperty("Primitives")]

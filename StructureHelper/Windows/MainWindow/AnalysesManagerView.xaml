@@ -21,13 +21,23 @@
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar DataContext="{Binding FileLogic}" ToolTip="File">
                     <Button Style="{StaticResource ToolButton}" 
-                        Command="{Binding FileOpen}" ToolTip="Open file">
+                        Command="{Binding FileOpen}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Open file"
+                                                IconContent="{StaticResource FileOpen}"
+                                                DescriptionText="Open exsisting project from file"/>
+                        </Button.ToolTip>
                         <Viewbox>
                             <ContentControl ContentTemplate="{DynamicResource FileOpen}"/>
                         </Viewbox>
                     </Button>
                     <Button Style="{StaticResource ToolButton}" 
-                        Command="{Binding FileSave}" ToolTip="Save file">
+                        Command="{Binding FileSave}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Save file"
+                                                IconContent="{StaticResource FileSave}"
+                                                DescriptionText="Save project to file"/>
+                        </Button.ToolTip>
                         <Viewbox>
                             <ContentControl ContentTemplate="{DynamicResource FileSave}"/>
                         </Viewbox>
@@ -89,22 +99,40 @@
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <ToolBar HorizontalAlignment="Right">
-                        <Button Style="{StaticResource ToolButton24}" Command="{Binding RunCommand}" ToolTip="Run Analysis">
+                    <ToolBar>
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding CopyCommand}" ToolTip="Copy Analysis">
                             <Viewbox Width="24" Height="24">
-                                <ContentControl ContentTemplate="{DynamicResource RunAnalisis}"/>
+                                <ContentControl ContentTemplate="{DynamicResource CopyAnalysis}"/>
+                            </Viewbox>
+                        </Button>
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding VersionsCommand}">
+                            <Button.ToolTip>
+                                <uc:ButtonToolTipEh HeaderText="Show version"
+                                                IconContent="{StaticResource AnalysisVersions}"
+                                                DescriptionText="Shows window of versions of selected analysis"/>
+                            </Button.ToolTip>
+                            <Viewbox Width="24" Height="24">
+                                <ContentControl ContentTemplate="{DynamicResource AnalysisVersions}"/>
                             </Viewbox>
                         </Button>
                         <Button Style="{StaticResource ToolButton24}" Command="{Binding EditCommand}" ToolTip="Edit Analysis">
                             <Viewbox Width="24" Height="24">
-                                <ContentControl ContentTemplate="{DynamicResource EditAnalisis}"/>
+                                <ContentControl ContentTemplate="{DynamicResource EditAnalysis}"/>
                             </Viewbox>
                         </Button>
                         <Button Style="{StaticResource ToolButton24}" Command="{Binding DeleteCommand}" ToolTip="Delete Analysis">
                             <Viewbox Width="24" Height="24">
-                                <ContentControl ContentTemplate="{DynamicResource DeleteAnalisis}"/>
+                                <ContentControl ContentTemplate="{DynamicResource DeleteAnalysis}"/>
                             </Viewbox>
                         </Button>
+                    </ToolBar>
+                    <ToolBar HorizontalAlignment="Right">
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding RunCommand}" ToolTip="Run Analysis">
+                            <Viewbox Width="24" Height="24">
+                                <ContentControl ContentTemplate="{DynamicResource RunAnalysis}"/>
+                            </Viewbox>
+                        </Button>
+
                     </ToolBar>
                     <ListBox Grid.Row="1" ItemsSource="{Binding FilteredAnalyses}" SelectedItem="{Binding SelectedAnalysis}">
                         <ListBox.ItemTemplate>

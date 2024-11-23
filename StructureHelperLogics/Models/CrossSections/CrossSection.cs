@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace StructureHelperLogics.Models.CrossSections
 {
     public class CrossSection : ICrossSection
     {
+        private ICloneStrategy<ICrossSection> cloneStrategy = new CrossSectionCloneStrategy();
         public ICrossSectionRepository SectionRepository { get; set; } = new CrossSectionRepository();
 
         public Guid Id { get; private set; }
@@ -24,7 +26,7 @@ namespace StructureHelperLogics.Models.CrossSections
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            return cloneStrategy.GetClone(this);
         }
     }
 }

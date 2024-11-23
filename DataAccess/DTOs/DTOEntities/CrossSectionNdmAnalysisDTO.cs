@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace DataAccess.DTOs
 {
@@ -21,6 +22,10 @@ namespace DataAccess.DTOs
         public string Tags { get; set; }
         [JsonProperty("VersionProcessor")]
         public IVersionProcessor VersionProcessor { get; set; } = new VersionProcessorDTO();
+        [JsonProperty("Comment")]
+        public string Comment { get; set; } = string.Empty;
+        [JsonProperty("Color")]
+        public Color Color { get; set; } = new();
 
         public object Clone()
         {

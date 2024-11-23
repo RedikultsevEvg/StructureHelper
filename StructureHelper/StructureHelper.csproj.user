@@ -66,6 +66,9 @@
     <Compile Update="Windows\MainWindow\Analyses\AnalysisView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\MainWindow\Analyses\VersionsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\MainWindow\Materials\HeadMaterialView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -165,6 +168,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MainWindow\Analyses\AnalysisView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\MainWindow\Analyses\VersionsView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MainWindow\Materials\HeadMaterialView.xaml">

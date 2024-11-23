@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
+    /// <summary>
+    /// Provides calculations of ndm primitives for force actions
+    /// </summary>
     public interface IForceCalculator : ICalculator, IHasActionByResult
     {
         IForceCalculatorInputData InputData { get; set; }

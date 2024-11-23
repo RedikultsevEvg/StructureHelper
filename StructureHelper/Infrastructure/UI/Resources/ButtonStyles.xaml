@@ -408,7 +408,26 @@
         </Canvas>
     </DataTemplate>
 
-    <DataTemplate x:Key="RunAnalisis">
+    <DataTemplate x:Key="CopyAnalysis">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Ellipse Width="16" Height="16"  Fill="LightGray" Stroke="Black" StrokeThickness="1" Margin="12,12,0,0"/>
+                <Ellipse Width="18" Height="18"  Fill="White" Stroke="Black" StrokeThickness="1" Margin="3,3,0,0"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="AnalysisVersions">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Ellipse Width="10" Height="10"  Fill="LightGray" Stroke="Black" StrokeThickness="1" Margin="18,18,0,0"/>
+                <Ellipse Width="12" Height="12"  Fill="LightGray" Stroke="Black" StrokeThickness="1" Margin="12,12,0,0"/>
+                <Ellipse Width="14" Height="14"  Fill="White" Stroke="Black" StrokeThickness="1" Margin="5,5,0,0"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RunAnalysis">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
                 <Path Margin="4" Data="M 4 2 l 12 10 l -12 10 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
@@ -416,7 +435,7 @@
         </Canvas>
     </DataTemplate>
 
-    <DataTemplate x:Key="EditAnalisis">
+    <DataTemplate x:Key="EditAnalysis">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
                 <Path Margin="4" Data="M 2 22 l 4 -6 l 15 -16 l 4 4 l -15 14 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
@@ -424,7 +443,7 @@
         </Canvas>
     </DataTemplate>
 
-    <DataTemplate x:Key="DeleteAnalisis">
+    <DataTemplate x:Key="DeleteAnalysis">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
                 <Line X1="4" Y1="4" X2="26" Y2="26" Stroke="Black" StrokeThickness="2"/>

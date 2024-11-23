@@ -22,6 +22,8 @@ namespace StructureHelper.Windows.MainWindow
         private RelayCommand? runCommand;
         private RelayCommand? editCommand;
         private RelayCommand? deleteCommand;
+        private RelayCommand? copyCommand;
+        private RelayCommand versionsCommand;
 
         public IVisualAnalysis? SelectedAnalysis { get; set; }
 
@@ -74,6 +76,56 @@ namespace StructureHelper.Windows.MainWindow
             }
         }
 
+        public RelayCommand CopyCommand
+        {
+            get
+            {
+                return copyCommand ??= new RelayCommand(obj =>
+                {
+                    CopyCurrentAnalysis();
+                },
+                b => SelectedAnalysis is not null);
+            }
+        }
+
+        public RelayCommand VersionsCommand
+        {
+            get
+            {
+                return versionsCommand ??= new RelayCommand(obj =>
+                {
+                    ShowVersions();
+                },
+                b => SelectedAnalysis is not null);
+            }
+        }
+
+        private void ShowVersions()
+        {
+            if (SelectedAnalysis is null) { return; }
+            try
+            {
+                VersionsViewModel viewModel = new(SelectedAnalysis.Analysis.VersionProcessor);
+                var wnd = new VersionsView(viewModel);
+                wnd.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                // to do
+            }
+        }
+
+        private void CopyCurrentAnalysis()
+        {
+            if (SelectedAnalysis is not null)
+            {
+                var newAnalysis = SelectedAnalysis.Clone() as IVisualAnalysis;
+                newAnalysis.Analysis.Name += " - copy";
+                ProgramSetting.CurrentProject.VisualAnalyses.Add(newAnalysis);
+                Refresh();
+                SelectedAnalysis = newAnalysis;
+            }
+        }
 
         public AnalysesLogic()
         {

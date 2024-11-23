@@ -23,7 +23,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         const string MomentUnitString = "kNm";
         static IConvertUnitLogic operationLogic = new ConvertUnitLogic();
         static IGetUnitLogic unitLogic = new GetUnitLogic();
-        public SurroundData SurroundData
+        public ISurroundData SurroundData
         {
             get => surroundData; set
             {
@@ -50,7 +50,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private static IUnit unitForce = unitLogic.GetUnit(UnitTypes.Force, ForceUnitString);
         private static IUnit unitMoment = unitLogic.GetUnit(UnitTypes.Moment, MomentUnitString);
-        private SurroundData surroundData;
+        private ISurroundData surroundData;
 
         public IValueConverter ForceConverter { get => new Force(); }
         public IValueConverter MomentConverter { get => new Moment();}
@@ -183,7 +183,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             }
         }
 
-        public SurroundDataViewModel(SurroundData surroundData)
+        public SurroundDataViewModel(ISurroundData surroundData)
         {
             this.SurroundData = surroundData;
             Logics = new();

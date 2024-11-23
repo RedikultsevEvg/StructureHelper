@@ -1,6 +1,8 @@
-﻿using StructureHelperCommon.Models.Analyses;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogics.Models.Analyses;
 using StructureHelperLogics.Models.CrossSections;
+using System.Windows.Media;
 
 namespace StructureHelperLogic.Models.Analyses
 {
@@ -11,6 +13,8 @@ namespace StructureHelperLogic.Models.Analyses
         public string Name { get; set; }
         public string Tags { get; set; }
         public IVersionProcessor VersionProcessor { get; set; }
+        public string Comment { get; set; } = string.Empty;
+        public Color Color { get; set; } = Color.FromRgb(128, 0, 0);
 
         public CrossSectionNdmAnalysis(Guid id, IVersionProcessor versionProcessor)
         {
@@ -33,6 +37,10 @@ namespace StructureHelperLogic.Models.Analyses
         {
             CrossSectionNdmAnalysis newAnalysis = new();
             updateStrategy.Update(newAnalysis, this);
+            var currentVersion = VersionProcessor.GetCurrentVersion().AnalysisVersion as ICloneable;
+            ISaveable newCrossSection = currentVersion.Clone() as ISaveable;
+            newAnalysis.VersionProcessor.Versions.Clear();
+            newAnalysis.VersionProcessor.AddVersion(newCrossSection);
             return newAnalysis;
         }
     }

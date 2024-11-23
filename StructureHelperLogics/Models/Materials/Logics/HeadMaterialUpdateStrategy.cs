@@ -6,21 +6,29 @@ namespace StructureHelperLogics.Models.Materials
 {
     public class HeadMaterialUpdateStrategy : IUpdateStrategy<IHeadMaterial>
     {
-        private IUpdateStrategy<IHeadMaterial> updateStrategy = new HeadMaterialBaseUpdateStrategy();
+        private IUpdateStrategy<IHeadMaterial> baseUpdateStrategy;
         private IUpdateStrategy<IHelperMaterial> helperMaterialUpdateStrategy;
 
-        public HeadMaterialUpdateStrategy(IUpdateStrategy<IHelperMaterial> helperMaterialUpdateStrategy)
+        public HeadMaterialUpdateStrategy(
+            IUpdateStrategy<IHeadMaterial> baseUpdateStrategy,
+            IUpdateStrategy<IHelperMaterial> helperMaterialUpdateStrategy)
         {
+            this.baseUpdateStrategy = baseUpdateStrategy;
             this.helperMaterialUpdateStrategy = helperMaterialUpdateStrategy;
         }
-        public HeadMaterialUpdateStrategy() : this(new HelperMaterialUpdateStrategy())  {         }
+        public HeadMaterialUpdateStrategy() : this(
+            new HeadMaterialBaseUpdateStrategy(),
+            new HelperMaterialUpdateStrategy())
+        {
+
+        }
 
         public void Update(IHeadMaterial targetObject, IHeadMaterial sourceObject)
         {
             CheckObject.IsNull(sourceObject);
             CheckObject.IsNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            updateStrategy.Update(targetObject, sourceObject);
+            baseUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.HelperMaterial = sourceObject.HelperMaterial.Clone() as IHelperMaterial;
             helperMaterialUpdateStrategy.Update(targetObject.HelperMaterial, sourceObject.HelperMaterial);
         }

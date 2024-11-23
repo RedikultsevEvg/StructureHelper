@@ -1,0 +1,49 @@
+﻿<Window x:Class="StructureHelper.Windows.MainWindow.Analyses.VersionsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow.Analyses"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        d:DataContext="{d:DesignInstance local:VersionsViewModel}"
+        mc:Ignorable="d"
+        Title="VersionsView" Height="250" Width="400" MinHeight="250" MinWidth="400" MaxHeight="800" MaxWidth="1000" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <DockPanel>
+            <ToolBarTray DockPanel.Dock="Top">
+                <ToolBar>
+                    <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding AddNewVersionCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Fix current version"
+                                                IconContent="{StaticResource CopyAnalysis}"
+                                                DescriptionText="Create new version of analysis from selected one"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{DynamicResource CopyAnalysis}"/>
+                        </Viewbox>
+                    </Button>
+                    <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding ReturnToVersionCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Restore to selected version"
+                                                IconContent="{StaticResource DeleteAnalysis}"
+                                                DescriptionText="Removes all versions which are younger than selected one"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{DynamicResource DeleteAnalysis}"/>
+                        </Viewbox>
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
+            <ListBox ItemsSource="{Binding DateVersions}" SelectedItem="{Binding SelectedVersion}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DateTime}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+
+    </Grid>
+</Window>

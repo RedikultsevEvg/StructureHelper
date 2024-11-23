@@ -89,7 +89,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private void ShowInteractionDiagram()
         {
-            var inputData = new LimitCurveInputData(ndmPrimitives);
+            var inputData = new LimitCurvesCalculatorInputData(ndmPrimitives);
             var vm = new LimitCurveDataViewModel(inputData, ndmPrimitives);
             //vm.LimitStateItems.SetIsSelected();
             //vm.CalcTermITems.SetIsSelected();
@@ -106,7 +106,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             ShowInteractionDiagramByInputData(inputData);
         }
 
-        private void ShowInteractionDiagramByInputData(LimitCurveInputData inputData)
+        private void ShowInteractionDiagramByInputData(LimitCurvesCalculatorInputData inputData)
         {
             interactionDiagramLogic = new(inputData);
             showProgressLogic = new(interactionDiagramLogic)

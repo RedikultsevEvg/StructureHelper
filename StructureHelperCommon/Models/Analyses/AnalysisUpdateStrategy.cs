@@ -16,6 +16,9 @@ namespace StructureHelperCommon.Models.Analyses
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.Tags = sourceObject.Tags;
+            targetObject.Comment = sourceObject.Comment;
+            targetObject.Color = sourceObject.Color;
+
         }
     }
 }
