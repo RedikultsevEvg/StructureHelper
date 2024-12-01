@@ -5,10 +5,15 @@ using StructureHelperCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels
 {
+    /// <summary>
+    /// View model which provides CRUD-operations with collection of items 
+    /// </summary>
+    /// <typeparam name="TItem">Type of items</typeparam>
     public class SelectItemVM<TItem> : ViewModelBase, ICRUDViewModel<TItem> where TItem : class
     {
         private ICommand addCommand;
@@ -16,11 +21,21 @@ namespace StructureHelper.Windows.ViewModels
         private ICommand copyCommand;
         private ICommand editCommand;
 
+        /// <summary>
+        /// Shadow (true) collection of items
+        /// </summary>
         public List<TItem> Collection { get; set; }
-
+        /// <summary>
+        /// Items which has been added recently
+        /// </summary>
         public TItem NewItem { get; set; }
+        /// <summary>
+        /// Item which selected in visual collection
+        /// </summary>
         public TItem SelectedItem { get; set; }
-
+        /// <summary>
+        /// Visual collection of items
+        /// </summary>
         public ObservableCollection<TItem> Items { get; private set; }
 
         public ICommand Add
@@ -128,6 +143,10 @@ namespace StructureHelper.Windows.ViewModels
         {
             Items = new ObservableCollection<TItem>(Collection);
             OnPropertyChanged(nameof(Items));
+            if (Items.Any())
+            {
+                SelectedItem = Items[^1];
+            }
             AfterItemsEdit?.Invoke(this, new CRUDVMEventArgs());
         }
         public delegate void CRUDHandler(SelectItemVM<TItem> sender, CRUDVMEventArgs e);

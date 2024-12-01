@@ -12,6 +12,7 @@ namespace StructureHelperCommon.Models.Analyses
         public Guid Id { get; }
         public DateTime DateTime { get; set; }
         public ISaveable AnalysisVersion { get; set; }
+        public string Comment { get; set; } = "...";
 
         public DateVersion(Guid id)
         {

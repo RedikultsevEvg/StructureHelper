@@ -41,5 +41,10 @@ namespace StructureHelper.Windows.MainWindow
                 e.Cancel = true;
             };
         }
+
+        private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            viewModel.AnalysesLogic.RunCommand.Execute(null);
+        }
     }
 }

@@ -15,8 +15,9 @@ namespace DataAccess.DTOs
         public Guid Id { get; set; }
         [JsonProperty("DateTime")]
         public DateTime DateTime { get; set; }
+        [JsonProperty("Comment")]
+        public string Comment { get; set; } = string.Empty;
         [JsonProperty("AnalysisVersion")]
         public ISaveable AnalysisVersion { get; set; }
-
     }
 }

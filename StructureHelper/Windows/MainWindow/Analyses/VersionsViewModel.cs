@@ -13,23 +13,27 @@ using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using System.Windows;
 using StructureHelper.Windows.ViewModels.Errors;
+using System.Windows.Input;
+using StructureHelperLogic.Models.Analyses;
+using StructureHelperLogics.Models.CrossSections;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Settings;
 
 namespace StructureHelper.Windows.MainWindow.Analyses
 {
-    public class VersionsViewModel : ViewModelBase
+    public class VersionsViewModel : SelectItemVM<IDateVersion>
     {
+        private const string errorOfDeleting = "Error of deleting of version";
         private IVersionProcessor versionProcessor;
         private RelayCommand addNewVersionCommand;
         private RelayCommand returnToVersionCommand;
+        private RelayCommand deleteVersionCommand;
+        private RelayCommand exportToNewCommand;
 
-        public VersionsViewModel(IVersionProcessor versionProcessor)
+        public VersionsViewModel(IVersionProcessor versionProcessor) : base(versionProcessor.Versions)
         {
             this.versionProcessor = versionProcessor;
-            Refresh();
         }
-
-        public IDateVersion SelectedVersion { get; set; }
-        public ObservableCollection<IDateVersion> DateVersions { get; set; } = new();
 
         public RelayCommand AddNewVersionCommand
         {
@@ -39,7 +43,7 @@ namespace StructureHelper.Windows.MainWindow.Analyses
                 {
                     AddNewVersion();
                 },
-                b => SelectedVersion is not null);
+                b => SelectedItem is not null);
             }
         }
 
@@ -51,26 +55,109 @@ namespace StructureHelper.Windows.MainWindow.Analyses
                 {
                     ReturnToVersion();
                 },
-                b => SelectedVersion is not null);
+                b => SelectedItem is not null);
             }
+        }
+
+        public RelayCommand DeleteVersionCommand
+        {
+            get
+            {
+                return deleteVersionCommand ??= new RelayCommand(obj =>
+                {
+                    DeleteVersion();
+                },
+                b => SelectedItem is not null);
+            }
+        }
+        public RelayCommand ExportToNewCommand
+        {
+            get
+            {
+                return exportToNewCommand ??= new RelayCommand(obj =>
+                {
+                    ExportToNew();
+                },
+                b => SelectedItem is not null);
+            }
+        }
+
+        private void ExportToNew()
+        {
+            if (SelectedItem is null) return;
+            SafetyProcessor.RunSafeProcess(ExportingToNew, "Error of export");
+        }
+
+        private void ExportingToNew()
+        {
+            if (SelectedItem.AnalysisVersion is ICrossSection oldCrossSection)
+            {
+                ProcessCrossSectionAnalysis(oldCrossSection);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem.AnalysisVersion));
+            }
+            ProgramSetting.SetCurrentProjectToNotActual();
+            Refresh();
+        }
+
+        private void ProcessCrossSectionAnalysis(ICrossSection oldCrossSection)
+        {
+            string newComment = "Exported version from: " + SelectedItem.DateTime;
+            ICrossSection newCrossSection = oldCrossSection.Clone() as ICrossSection;
+            ICrossSectionNdmAnalysis newAnalysis = new CrossSectionNdmAnalysis()
+            {
+                Name = "New NDM Analysis",
+                Comment = newComment,
+            };
+            newAnalysis.VersionProcessor.AddVersion(newCrossSection);
+            var visualAnalysis = new VisualAnalysis(newAnalysis);
+            ProgramSetting.CurrentProject.VisualAnalyses.Add(visualAnalysis);
+        }
+
+        private void DeleteVersion()
+        {
+            if (SelectedItem is null) return;
+            if (CheckIfOnceVersion() == true) { return; }
+            if (ConfirmDeletenig() != true) { return; }
+            SafetyProcessor.RunSafeProcess(DeletingOfVersion, errorOfDeleting);
+        }
+
+        private void DeletingOfVersion()
+        {
+            versionProcessor.Versions.Remove(SelectedItem);
+            Refresh();
         }
 
         private void ReturnToVersion()
         {
-            if (SelectedVersion is null) return;
+            if (SelectedItem is null) return;
+            if (CheckIfOnceVersion() == true) { return; }
+            if (ConfirmDeletenig() != true) { return; }
+            SafetyProcessor.RunSafeProcess(RemovingOfVersion, errorOfDeleting);
+        }
+
+        private bool ConfirmDeletenig()
+        {
+            MessageBoxResult result = MessageBox.Show("Please, confirm deleting", "Delete version(s)?", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
+            if (result == MessageBoxResult.OK) { return true; }
+            return false;
+        }
+
+        private bool CheckIfOnceVersion()
+        {
             if (versionProcessor.Versions.Count <= 1)
             {
                 MessageBox.Show("It is not possible to delete last version", "There is only 1 version", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
-                return;
+                return true;
             }
-            MessageBoxResult result = MessageBox.Show("Please, confirm deleting", "Delete version(s)?", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
-            if (result != MessageBoxResult.OK) { return; }
-            SafetyProcessor.RunSafeProcess(RemovingOfVersion, "Error of deleting of version");
+            return false;
         }
 
         private void RemovingOfVersion()
         {
-            while (SelectedVersion != versionProcessor.GetCurrentVersion())
+            while (SelectedItem != versionProcessor.GetCurrentVersion())
             {
                 versionProcessor
                     .Versions
@@ -81,22 +168,22 @@ namespace StructureHelper.Windows.MainWindow.Analyses
 
         private void AddNewVersion()
         {
-            if (SelectedVersion is null) { return; }
+            if (SelectedItem is null) { return; }
             SafetyProcessor.RunSafeProcess(AddVersion, "Error of adding of new version");
         }
 
         private void AddVersion()
         {
-            var selectedItem = SelectedVersion.AnalysisVersion as ICloneable;
+            var selectedItem = SelectedItem.AnalysisVersion as ICloneable;
             versionProcessor.AddVersion(selectedItem.Clone() as ISaveable);
             Refresh();
         }
 
-        private void Refresh()
+        private new void Refresh()
         {
-            DateVersions.Clear();
-            versionProcessor.Versions.ForEach(x => DateVersions.Add(x));
-            SelectedVersion = DateVersions[^1];
+            Items.Clear();
+            versionProcessor.Versions.ForEach(x => Items.Add(x));
+            SelectedItem = Items[^1];
         }
 
     }

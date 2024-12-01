@@ -7,7 +7,7 @@
         xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance local:VersionsViewModel}"
         mc:Ignorable="d"
-        Title="VersionsView" Height="250" Width="400" MinHeight="250" MinWidth="400" MaxHeight="800" MaxWidth="1000" WindowStartupLocation="CenterScreen">
+        Title="Version Viewer" Height="250" Width="400" MinHeight="250" MinWidth="400" MaxHeight="800" MaxWidth="1000" WindowStartupLocation="CenterScreen">
     <Grid>
         <DockPanel>
             <ToolBarTray DockPanel.Dock="Top">
@@ -27,19 +27,50 @@
                         Command="{Binding ReturnToVersionCommand}">
                         <Button.ToolTip>
                             <uc:ButtonToolTipEh HeaderText="Restore to selected version"
-                                                IconContent="{StaticResource DeleteAnalysis}"
+                                                IconContent="{StaticResource RestoreAndDelete}"
                                                 DescriptionText="Removes all versions which are younger than selected one"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{DynamicResource RestoreAndDelete}"/>
+                        </Viewbox>
+                    </Button>
+                    <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding DeleteVersionCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Delete selected version"
+                                                IconContent="{StaticResource DeleteAnalysis}"
+                                                DescriptionText="Deletes selected version (not available for unique version)"/>
                         </Button.ToolTip>
                         <Viewbox>
                             <ContentControl ContentTemplate="{DynamicResource DeleteAnalysis}"/>
                         </Viewbox>
                     </Button>
+                    <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding ExportToNewCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Export to new analysis"
+                                                IconContent="{StaticResource ExportToNewAnalysis}"
+                                                DescriptionText="Exports selected version to new analysis"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{DynamicResource ExportToNewAnalysis}"/>
+                        </Viewbox>
+                    </Button>
                 </ToolBar>
             </ToolBarTray>
-            <ListBox ItemsSource="{Binding DateVersions}" SelectedItem="{Binding SelectedVersion}">
+            <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding DateTime}"/>
+                        <Grid MinWidth="375">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Text="{Binding DateTime}"/>
+                        <TextBox Grid.Column="3" Text="{Binding Comment}"/>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

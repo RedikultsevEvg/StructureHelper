@@ -315,7 +315,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                     (setPrestrainCommand = new RelayCommand(o =>
                     {
                         SetPrestrain();
-                    }, o => SelectedResult != null
+                    }, o => SelectedResult != null && SelectedResult.IsValid
                     ));
             }
         }

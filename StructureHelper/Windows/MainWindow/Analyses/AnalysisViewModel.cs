@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace StructureHelper.Windows.MainWindow.Analyses
 {
@@ -22,6 +23,17 @@ namespace StructureHelper.Windows.MainWindow.Analyses
         {
             get => analysis.Tags;
             set => analysis.Tags = value;
+        }
+        public Color Color
+        {
+            get => analysis.Color;
+            set => analysis.Color = value;
+        }
+
+        public string Comment
+        {
+            get => analysis.Comment;
+            set => analysis.Comment = value;
         }
 
         public AnalysisViewModel(IAnalysis analysis)

@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LoaderCalculator.Logics;
+using LoaderCalculator.Data.Ndms;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -21,6 +23,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private LoaderOptions loaderData;
         private Calculator calculator;
         private ILoaderResults calcResult;
+        private IStressLogic stressLogic = new StressLogic();
 
         public IForceTupleInputData InputData { get; set; }
 
@@ -102,7 +105,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private void ProcessInCorrectLoaderResult()
         {
-            TraceLogger?.AddMessage(string.Intern("Required accuracy rate has not achieved"), TraceLogStatuses.Error);
+            string message = string.Intern("Required accuracy rate has not achieved");
+            TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
             TraceLogger?.AddMessage($"Current accuracy {calcResult.AccuracyRate}, {calcResult.IterationCounter} iteration has done", TraceLogStatuses.Warning);
             result.IsValid = false;
             result.Description = string.Intern("Required accuracy rate has not achieved");
@@ -119,6 +123,35 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 TraceLogger = TraceLogger
             };
             forceTupleTraceResultLogic.TraceResult(result);
+            CheckOverStrainedNdms();
+        }
+
+        private bool CheckOverStrainedNdms()
+        {
+            bool checkResult = true;
+            TraceLogger?.AddMessage("Checking of limitation of strain");
+            List<INdm> overStrainedNdms = new();
+            foreach (var ndm in InputData.NdmCollection)
+            {
+                var strain = stressLogic.GetTotalStrain(calcResult.ForceStrainPair.StrainMatrix, ndm);
+                if (strain < ndm.Material.LimitNegativeStrain || strain > ndm.Material.LimitPositiveStrain)
+                {
+                    TraceLogger?.AddMessage($"Elementary part x = {ndm.CenterX}, y = {ndm.CenterY} has strain epsilon = {strain}, positive limit strain epsilon+,max = {ndm.Material.LimitPositiveStrain}, negative limit strain epsilon-,min = {ndm.Material.LimitNegativeStrain}", TraceLogStatuses.Warning);
+                    overStrainedNdms.Add(ndm);
+                }
+            };
+            if (overStrainedNdms.Any())
+            {
+                result.IsValid = false;
+                checkResult = false;
+                string errorMessage = $"There are {overStrainedNdms.Count} elementary parts where strain are over limit";
+                result.Description += "\n" + errorMessage;
+                TraceLogger?.AddMessage(errorMessage, TraceLogStatuses.Error);
+                double sumOverStrainedArea = overStrainedNdms.Sum(x => x.Area);
+                double totalArea = InputData.NdmCollection.Sum(x => x.Area);
+                TraceLogger?.AddMessage($"Total area of over strained parts A = {sumOverStrainedArea}(m^2), that is {sumOverStrainedArea / totalArea * 100d}% of total area");
+            }
+            return checkResult;
         }
 
         private void GetLoaderResult()

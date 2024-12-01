@@ -134,7 +134,9 @@
                         </Button>
 
                     </ToolBar>
-                    <ListBox Grid.Row="1" ItemsSource="{Binding FilteredAnalyses}" SelectedItem="{Binding SelectedAnalysis}">
+                    <ListBox Grid.Row="1"
+                             ItemsSource="{Binding FilteredAnalyses}"
+                             SelectedItem="{Binding SelectedAnalysis}" MouseDoubleClick="ListBox_MouseDoubleClick">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -142,10 +144,13 @@
                                         <ColumnDefinition Width="20"/>
                                         <ColumnDefinition Width="200"/>
                                         <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="20"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="1" Text="{Binding Analysis.Name}"/>
                                     <TextBlock Grid.Column="3" Text="{Binding Analysis.Tags}"/>
+                                    <TextBlock Grid.Column="5" Text="{Binding Analysis.Comment}"/>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

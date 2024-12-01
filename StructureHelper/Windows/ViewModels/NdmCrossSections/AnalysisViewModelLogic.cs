@@ -183,6 +183,10 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             {
                 SelectedItem.TraceLogger.TraceLoggerEntries.Clear();
             }
+            else
+            {
+                SelectedItem.TraceLogger = new ShiftTraceLogger();
+            }
             if (SelectedItem is LimitCurvesCalculator calculator)
             {
                 ShowInteractionDiagramByInputData(calculator);

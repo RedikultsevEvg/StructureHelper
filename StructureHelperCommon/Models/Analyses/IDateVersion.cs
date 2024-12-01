@@ -11,5 +11,6 @@ namespace StructureHelperCommon.Models.Analyses
     {
         DateTime DateTime { get; set; }
         ISaveable AnalysisVersion { get; set; }
+        string Comment { get; set; }
     }
 }

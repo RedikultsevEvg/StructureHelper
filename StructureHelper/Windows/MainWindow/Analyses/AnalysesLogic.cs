@@ -1,6 +1,7 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Windows.MainWindow.Analyses;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogic.Models.Analyses;
@@ -18,6 +19,7 @@ namespace StructureHelper.Windows.MainWindow
 {
     public class AnalysesLogic : ViewModelBase
     {
+        private IUpdateStrategy<IAnalysis> updateStrategy = new AnalysisUpdateStrategy();
         private RelayCommand? addAnalyisCommand;
         private RelayCommand? runCommand;
         private RelayCommand? editCommand;
@@ -108,6 +110,7 @@ namespace StructureHelper.Windows.MainWindow
                 VersionsViewModel viewModel = new(SelectedAnalysis.Analysis.VersionProcessor);
                 var wnd = new VersionsView(viewModel);
                 wnd.ShowDialog();
+                Refresh();
             }
             catch (Exception ex)
             {
@@ -144,14 +147,12 @@ namespace StructureHelper.Windows.MainWindow
         {
             if (SelectedAnalysis is not null)
             {
-                var name = SelectedAnalysis.Analysis.Name;
-                var tags = SelectedAnalysis.Analysis.Tags;
+                var tmpItem = SelectedAnalysis.Analysis.Clone() as IAnalysis;
                 var wnd = new AnalysisView(SelectedAnalysis);
                 wnd.ShowDialog();
                 if (wnd.DialogResult != true)
                 {
-                    SelectedAnalysis.Analysis.Name = name;
-                    SelectedAnalysis.Analysis.Tags = tags;
+                    updateStrategy.Update(SelectedAnalysis.Analysis, tmpItem);
                 }
                 else
                 {

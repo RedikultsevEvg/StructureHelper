@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow.Analyses"
         d:DataContext="{d:DesignInstance local:AnalysisViewModel}"
         mc:Ignorable="d"
-        Title="Analysis" Height="200" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Analysis" Height="250" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -19,12 +19,16 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
+                <RowDefinition Height="75"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Name"/>
             <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Name}"/>
             <GroupBox Grid.Row="1" Grid.ColumnSpan="2" Header="Tags">
                 <TextBox Margin="1" Text="{Binding Tags}"/>
+            </GroupBox>
+            <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Comment">
+                <TextBox Margin="1" Text="{Binding Comment}"/>
             </GroupBox>
         </Grid>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>

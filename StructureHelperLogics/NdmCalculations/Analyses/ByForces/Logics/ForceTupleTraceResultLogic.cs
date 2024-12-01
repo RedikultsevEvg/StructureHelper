@@ -34,7 +34,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(result));
             }
             calcResult = ((IForcesTupleResult)result).LoaderResults;
-            TraceLogger?.AddMessage($"Analysis is done succsesfully");
+            TraceLogger?.AddMessage($"Analysis of internal forces is done succsesfully");
             TraceLogger?.AddMessage($"Current accuracy {calcResult.AccuracyRate} has achieved in {calcResult.IterationCounter} iteration", TraceLogStatuses.Debug);
             var strainMatrix = calcResult.ForceStrainPair.StrainMatrix;
             var stiffness = new StiffnessLogic().GetStiffnessMatrix(ndmCollection, strainMatrix);

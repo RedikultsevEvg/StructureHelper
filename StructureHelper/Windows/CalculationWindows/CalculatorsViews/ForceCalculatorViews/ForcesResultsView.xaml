@@ -10,9 +10,40 @@
         Title="Calculation Results" Height="450" Width="850" MinHeight="400" MinWidth="650" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar Name="Prestressing">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding SetPrestrainCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Set prestrain"
+                                                IconContent="{StaticResource Prestrain}"
+                                                DescriptionText="Set strain from selected combination as auto prestrain (not available if selected result is invalid)"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource Prestrain}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+            <ToolBar Name="Lapping">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowAnchorageCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show lapping length"
+                                                IconContent="{StaticResource LappingLength}"
+                                                DescriptionText="Calculate and show development and lapping length (not available if selected result is invalid)"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource LappingLength}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
             <ToolBar Name="CrackResult">
-                <Button Style="{StaticResource ToolButton}" Command="{Binding ShowCrackResultCommand}" ToolTip="Show force of cracking">
-                    <Image Source="/Windows/CalculationWindows/CalculatorsViews/ForceCalculatorViews/32px_crack.png"/>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowCrackResultCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show result step by step"
+                                                IconContent="{StaticResource CrackForces}"
+                                                DescriptionText="Show proportional combination of forces where cracks are appeared"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource CrackForces}"/>
+                    </Viewbox>
                 </Button>
             </ToolBar>
             <ToolBar Name="InterpolatedResultToolBar">
@@ -22,7 +53,9 @@
                                                 IconContent="{StaticResource StepSolution}"
                                                 DescriptionText="Show result step by step for selected load combination"/>
                     </Button.ToolTip>
-                    <ContentControl ContentTemplate="{DynamicResource StepSolution}"/>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource StepSolution}"/>
+                    </Viewbox>
                 </Button>
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowGraphsCommand}">
                     <Button.ToolTip>
@@ -30,7 +63,9 @@
                                                 IconContent="{StaticResource MomentCurvatureDiagram}"
                                                 DescriptionText="Show moment-curvature diagram as result of stepped solution"/>
                     </Button.ToolTip>
-                    <ContentControl ContentTemplate="{DynamicResource MomentCurvatureDiagram}"/>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource MomentCurvatureDiagram}"/>
+                    </Viewbox>
                 </Button>
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding GraphValuePointsCommand}">
                     <Button.ToolTip>
@@ -38,7 +73,19 @@
                                                 IconContent="{StaticResource ValuePointDiagram}"
                                                 DescriptionText="Show results for value point as result of stepped solution"/>
                     </Button.ToolTip>
-                    <ContentControl ContentTemplate="{DynamicResource ValuePointDiagram}"/>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource ValuePointDiagram}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowCrackGraphsCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show crack moment-curvature diagram"
+                                                IconContent="{StaticResource MomentCurvatureCrackDiagram}"
+                                                DescriptionText="Show moment-curvature diagram as result of stepped solution with considering cracks"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource MomentCurvatureCrackDiagram}" FontSize="8"/>
+                    </Viewbox>
                 </Button>
             </ToolBar>
             <ToolBar Name="InteractionDiagramToolBar">
@@ -48,7 +95,9 @@
                                                 IconContent="{StaticResource InteractionDiagram}"
                                                 DescriptionText="Show interaction diagram, which means line of limit bearing capacity"/>
                     </Button.ToolTip>
-                    <ContentControl ContentTemplate="{DynamicResource InteractionDiagram}"/>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource InteractionDiagram}"/>
+                    </Viewbox>
                 </Button>
             </ToolBar>
             <ToolBar Name="IsoFieldToolBar">
@@ -101,7 +150,7 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="90"/>
+
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -132,11 +181,6 @@
                     <DataGridTextColumn Header="Description" Width="300" Binding="{Binding Description}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <StackPanel Grid.Column="1">
-                <Button Margin="3" Content="CrcDiagrams" ToolTip="Show diagrams for cracked section" Command="{Binding ShowCrackGraphsCommand}"/>
-                <Button Margin="3" Content="Set Prestrain" ToolTip="Set strains as auto prestrain" Command="{Binding SetPrestrainCommand}"/>
-                <Button Margin="3" Content="Anchorage" ToolTip="Set strains as auto prestrain" Command="{Binding ShowAnchorageCommand}"/>
-            </StackPanel>
             <StatusBar Grid.Row="1">
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">
