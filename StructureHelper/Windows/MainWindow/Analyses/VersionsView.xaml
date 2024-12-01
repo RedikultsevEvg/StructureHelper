@@ -59,6 +59,38 @@
                 </ToolBar>
             </ToolBarTray>
             <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Fix version" Command="{Binding AddNewVersionCommand}" ToolTip="Create new version of analysis from selected one">
+                            <MenuItem.Icon>
+                                <Viewbox Height="16" Width="16">
+                                    <ContentControl ContentTemplate="{StaticResource CopyAnalysis}"/>
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Restore version" Command="{Binding ReturnToVersionCommand}" ToolTip="Restore to selected version">
+                            <MenuItem.Icon>
+                                <Viewbox Height="16" Width="16">
+                                    <ContentControl ContentTemplate="{StaticResource RestoreAndDelete}"/>
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Delete version" Command="{Binding DeleteVersionCommand}" ToolTip="Delete selected version">
+                            <MenuItem.Icon>
+                                <Viewbox Height="16" Width="16">
+                                    <ContentControl ContentTemplate="{StaticResource DeleteAnalysis}"/>
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Export version" Command="{Binding ExportToNewCommand}" ToolTip="Export to new analysis">
+                            <MenuItem.Icon>
+                                <Viewbox Height="16" Width="16">
+                                    <ContentControl ContentTemplate="{StaticResource ExportToNewAnalysis}"/>
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid MinWidth="375">

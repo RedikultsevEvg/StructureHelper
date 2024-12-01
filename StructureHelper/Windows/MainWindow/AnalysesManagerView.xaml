@@ -100,7 +100,12 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <ToolBar>
-                        <Button Style="{StaticResource ToolButton24}" Command="{Binding CopyCommand}" ToolTip="Copy Analysis">
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding CopyCommand}">
+                            <Button.ToolTip>
+                                <uc:ButtonToolTipEh HeaderText="Copy Analysis"
+                                                IconContent="{StaticResource CopyAnalysis}"
+                                                DescriptionText="Creates copy of selected analysis"/>
+                            </Button.ToolTip>
                             <Viewbox Width="24" Height="24">
                                 <ContentControl ContentTemplate="{DynamicResource CopyAnalysis}"/>
                             </Viewbox>
@@ -115,19 +120,34 @@
                                 <ContentControl ContentTemplate="{DynamicResource AnalysisVersions}"/>
                             </Viewbox>
                         </Button>
-                        <Button Style="{StaticResource ToolButton24}" Command="{Binding EditCommand}" ToolTip="Edit Analysis">
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding EditCommand}">
+                            <Button.ToolTip>
+                                <uc:ButtonToolTipEh HeaderText="Edit Analysis"
+                                                IconContent="{StaticResource EditAnalysis}"
+                                                DescriptionText="Edit selected analysis"/>
+                            </Button.ToolTip>
                             <Viewbox Width="24" Height="24">
                                 <ContentControl ContentTemplate="{DynamicResource EditAnalysis}"/>
                             </Viewbox>
                         </Button>
-                        <Button Style="{StaticResource ToolButton24}" Command="{Binding DeleteCommand}" ToolTip="Delete Analysis">
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding DeleteCommand}">
+                            <Button.ToolTip>
+                                <uc:ButtonToolTipEh HeaderText="Delete Analysis"
+                                                IconContent="{StaticResource DeleteAnalysis }"
+                                                DescriptionText="Delete selected analysis"/>
+                            </Button.ToolTip>
                             <Viewbox Width="24" Height="24">
                                 <ContentControl ContentTemplate="{DynamicResource DeleteAnalysis}"/>
                             </Viewbox>
                         </Button>
                     </ToolBar>
                     <ToolBar HorizontalAlignment="Right">
-                        <Button Style="{StaticResource ToolButton24}" Command="{Binding RunCommand}" ToolTip="Run Analysis">
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding RunCommand}">
+                            <Button.ToolTip>
+                                <uc:ButtonToolTipEh HeaderText="Run Analysis"
+                                                IconContent="{StaticResource RunAnalysis}"
+                                                DescriptionText="Run selected analysis (not available if nothing selected)"/>
+                            </Button.ToolTip>
                             <Viewbox Width="24" Height="24">
                                 <ContentControl ContentTemplate="{DynamicResource RunAnalysis}"/>
                             </Viewbox>
@@ -136,7 +156,48 @@
                     </ToolBar>
                     <ListBox Grid.Row="1"
                              ItemsSource="{Binding FilteredAnalyses}"
-                             SelectedItem="{Binding SelectedAnalysis}" MouseDoubleClick="ListBox_MouseDoubleClick">
+                             SelectedItem="{Binding SelectedAnalysis}"
+                             MouseDoubleClick="ListBox_MouseDoubleClick">
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Run" Command="{Binding RunCommand}" ToolTip="Run selected analysis">
+                                    <MenuItem.Icon>
+                                        <Viewbox Height="16" Width="16">
+                                            <ContentControl ContentTemplate="{StaticResource RunAnalysis}"/>
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator/>
+                                <MenuItem Header="Copy" Command="{Binding CopyCommand}" ToolTip="Create copy of analysis">
+                                    <MenuItem.Icon>
+                                        <Viewbox Height="16" Width="16">
+                                            <ContentControl ContentTemplate="{StaticResource CopyAnalysis}"/>
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Versions" Command="{Binding VersionsCommand}" ToolTip="Shows all versions of analysis">
+                                    <MenuItem.Icon>
+                                        <Viewbox Height="16" Width="16">
+                                            <ContentControl ContentTemplate="{StaticResource AnalysisVersions}"/>
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Edit" Command="{Binding EditCommand}" ToolTip="Create copy of analysis">
+                                    <MenuItem.Icon>
+                                        <Viewbox Height="16" Width="16">
+                                            <ContentControl ContentTemplate="{StaticResource CopyAnalysis}"/>
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete" Command="{Binding DeleteCommand}" ToolTip="Delete analysis">
+                                    <MenuItem.Icon>
+                                        <Viewbox Height="16" Width="16">
+                                            <ContentControl ContentTemplate="{StaticResource DeleteAnalysis}"/>
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
