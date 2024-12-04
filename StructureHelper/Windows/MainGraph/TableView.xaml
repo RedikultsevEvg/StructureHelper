@@ -111,11 +111,29 @@
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" 
-                Margin="5"
-                Text="Color:" 
-                VerticalAlignment="Center"/>
-            <ComboBox Grid.Row="1" Text="{Binding Description}" Margin="5"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock  
+                       Grid.Row="0" 
+                       Margin="5"
+                       Text="Color:" 
+                       VerticalAlignment="Center"/>
+            <Button Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="5,5,5,5"
+                    Command="{Binding EditColorCommand}"
+                    Content="Press to change color">
+            </Button>
+            <Rectangle
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="5,5,5,5">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="{Binding Color, UpdateSourceTrigger=PropertyChanged}"/>
+                </Rectangle.Fill>
+            </Rectangle>
         </Grid>
         <Button Grid.Row="6" Margin="5" Content="Save"
                 Command="{Binding SaveCommand}"

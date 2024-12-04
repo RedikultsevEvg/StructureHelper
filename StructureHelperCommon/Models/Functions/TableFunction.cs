@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StructureHelperCommon.Services;
+using StructureHelperCommon.Services.ColorServices;
 
 namespace StructureHelperCommon.Models.Functions
 {
@@ -36,6 +37,7 @@ namespace StructureHelperCommon.Models.Functions
 
         public TableFunction(bool isUser = false)
         {
+            Color = ColorProcessor.GetRandomColor();
             Type = FunctionType.TableFunction;
             if (isUser)
             {
@@ -48,7 +50,6 @@ namespace StructureHelperCommon.Models.Functions
                 Group = GROUP_TYPE_1;
             }
         }
-
         public bool Check()
         {
             throw new NotImplementedException();

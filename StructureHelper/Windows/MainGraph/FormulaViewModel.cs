@@ -2,6 +2,7 @@
 using StructureHelper.Infrastructure;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Functions;
+using StructureHelperCommon.Services.ColorServices;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,6 +31,7 @@ namespace StructureHelper.Windows.MainGraph
         public char LESS { get; } = '\u2264';
         public char X { get; } = 'x';
         private RelayCommand saveCommand;
+        private RelayCommand editColor;
         public int Step { get; set; }
         private double leftBound;
         public double LeftBound 
@@ -53,8 +55,11 @@ namespace StructureHelper.Windows.MainGraph
                 OnPropertyChanged(nameof(RightBound));
             }
         }
-        public Color CurrentColor { get; set; }
         public ObservableCollection<Color> Colors { get; set; }
+        public ICommand EditColorCommand
+        {
+            get => editColor ??= new RelayCommand(o => EditColor());
+        }
         public ICommand SaveCommand
         {
             get => saveCommand ??= new RelayCommand(o => Save(o));
@@ -107,6 +112,16 @@ namespace StructureHelper.Windows.MainGraph
                 description = value;
             }
         }
+        private Color color;
+        public Color Color
+        {
+            get => color;
+            set
+            {
+                color = value;
+                OnPropertyChanged(nameof(Color));
+            }
+        }
         private string limitText;
         public string LimitText 
         { 
@@ -125,7 +140,7 @@ namespace StructureHelper.Windows.MainGraph
             LeftBound = DEFAULT_LEFT_BOUND;
             RightBound = DEFAULT_RIGHT_BOUND;
             LimitText = $"x\u2208[{LeftBound};{RightBound}]";
-            CurrentColor = Brushes.AliceBlue.Color;
+            Color = Brushes.Red.Color;
         }
         public FormulaViewModel(FormulaFunction formulaFunction)
         {
@@ -136,7 +151,13 @@ namespace StructureHelper.Windows.MainGraph
             Description = Function.Description;
             LeftBound = Function.MinArg;
             RightBound = Function.MaxArg;
-            CurrentColor = Function.Color;
+            Color = Function.Color;
+        }
+        private void EditColor()
+        {
+            Color color = new Color();
+            ColorProcessor.EditColor(ref color);
+            Color = color;
         }
         private void Save(object parameter)
         {
@@ -149,6 +170,7 @@ namespace StructureHelper.Windows.MainGraph
             Function.IsUser = true;
             (Function as FormulaFunction).Step = Step;
             (Function as FormulaFunction).Formula = Formula;
+            Function.Color = Color;
             var window = parameter as Window;
             if (LeftBound > RightBound)
             {

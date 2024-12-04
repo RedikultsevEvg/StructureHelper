@@ -63,7 +63,17 @@
             </ListView.GroupStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle
+                        Margin="1,1,1,1"
+                        Height="15"
+                        Width="30">
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="{Binding Path=Color, UpdateSourceTrigger=PropertyChanged}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

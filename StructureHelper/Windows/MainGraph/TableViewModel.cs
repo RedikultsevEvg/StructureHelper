@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Functions;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services.ColorServices;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace StructureHelper.Windows.MainGraph
 {
@@ -21,6 +23,11 @@ namespace StructureHelper.Windows.MainGraph
         private RelayCommand saveCommand;
         private RelayCommand addPointCommand;
         private RelayCommand deletePointCommand;
+        private RelayCommand editColor;
+        public ICommand EditColorCommand
+        {
+            get => editColor ??= new RelayCommand(o => EditColor());
+        }
         public ICommand SaveCommand
         {
             get => saveCommand ??= new RelayCommand(o => Save(o));
@@ -81,6 +88,16 @@ namespace StructureHelper.Windows.MainGraph
                 description = value;
             }
         }
+        private Color color;
+        public Color Color
+        {
+            get => color;
+            set
+            {
+                color = value;
+                OnPropertyChanged(nameof(Color));
+            }
+        }
         public TableViewModel()
         {
             Table = new ObservableCollection<GraphPoint>()
@@ -90,6 +107,7 @@ namespace StructureHelper.Windows.MainGraph
             };
             Name = DEFAULT_NAME;
             Description = DEFAULT_DESCRIPTION;
+            Color = Brushes.Red.Color;
         }
         public TableViewModel(TableFunction tableFunction)
         {
@@ -97,6 +115,13 @@ namespace StructureHelper.Windows.MainGraph
             Table = new ObservableCollection<GraphPoint>((Function as TableFunction).Table);
             Name = Function.Name;
             Description = Function.Description;
+            Color = Function.Color;
+        }
+        private void EditColor()
+        {
+            Color color = new Color();
+            ColorProcessor.EditColor(ref color);
+            Color = color;
         }
         private void Save(object parameter)
         {
@@ -108,6 +133,7 @@ namespace StructureHelper.Windows.MainGraph
             Function.Description = Description;
             Function.IsUser = true;
             (Function as TableFunction).Table = Table.OrderBy(x => x.X).ToList();
+            Function.Color = Color;
             var window = parameter as Window;
             window.DialogResult = true;
             window.Close();

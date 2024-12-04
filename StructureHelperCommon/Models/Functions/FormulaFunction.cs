@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Documents;
 using StructureHelperCommon.Services;
 using LiveCharts.Wpf;
+using StructureHelperCommon.Services.ColorServices;
 
 namespace StructureHelperCommon.Models.Functions
 {
@@ -36,6 +37,7 @@ namespace StructureHelperCommon.Models.Functions
 
         public FormulaFunction(bool isUser = false)
         {
+            Color = ColorProcessor.GetRandomColor();
             Type = FunctionType.FormulaFunction;
             if (isUser)
             {

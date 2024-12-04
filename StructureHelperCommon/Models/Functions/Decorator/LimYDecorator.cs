@@ -30,7 +30,14 @@ namespace StructureHelperCommon.Models.Functions.Decorator
             {
                 return y;
             }
-            return 0;
+            else if (y <= downBound)
+            {
+                return downBound;
+            }
+            else
+            {
+                return upBound;
+            }
         }
         public override GraphSettings GetGraphSettings()
         {
