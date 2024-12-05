@@ -40,6 +40,50 @@
                     <TextBlock Text="{Binding Name}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Get Y" 
+                              Command="{Binding GetYCommand}">
+                        <MenuItem.Icon>
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Scale X" 
+                              Command="{Binding ScaleCommand}"
+                              CommandParameter="x">
+                        <MenuItem.Icon>
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Scale Y" 
+                              Command="{Binding ScaleCommand}"
+                              CommandParameter="y">
+                        <MenuItem.Icon>
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Lim X" 
+                              Command="{Binding LimitCommand}"
+                              CommandParameter="x">
+                        <MenuItem.Icon>
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Lim Y" 
+                              Command="{Binding LimitCommand}"
+                              CommandParameter="y">
+                        <MenuItem.Icon>
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Delete" 
+                              Command="{Binding DeleteCommand}">
+                        <MenuItem.Icon>
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Delete.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </TreeView.ContextMenu>
         </TreeView>
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.ColumnDefinitions>
