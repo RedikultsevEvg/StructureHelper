@@ -185,7 +185,7 @@
                                 <MenuItem Header="Edit" Command="{Binding EditCommand}" ToolTip="Create copy of analysis">
                                     <MenuItem.Icon>
                                         <Viewbox Height="16" Width="16">
-                                            <ContentControl ContentTemplate="{StaticResource CopyAnalysis}"/>
+                                            <ContentControl ContentTemplate="{StaticResource EditAnalysis}"/>
                                         </Viewbox>
                                     </MenuItem.Icon>
                                 </MenuItem>
