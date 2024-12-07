@@ -6,7 +6,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public interface ILimitCurvesCalculator : ISaveable, ICalculator, IHasActionByResult
     {
-        LimitCurvesCalculatorInputData InputData { get; set; }
+        ILimitCurvesCalculatorInputData InputData { get; set; }
         string Name { get; set; }
     }
 }

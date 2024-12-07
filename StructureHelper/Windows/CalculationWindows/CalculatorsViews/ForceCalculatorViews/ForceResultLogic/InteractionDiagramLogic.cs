@@ -34,14 +34,14 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private int stepCount;
 
         private static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
-        public LimitCurvesCalculatorInputData InputData { get; set; }
+        public ILimitCurvesCalculatorInputData InputData { get; set; }
         public int StepCount { get => stepCount; set => stepCount = value; }
 
         public Action<int> SetProgress { get; set; }
         public bool Result { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public InteractionDiagramLogic(LimitCurvesCalculatorInputData inputData)
+        public InteractionDiagramLogic(ILimitCurvesCalculatorInputData inputData)
         {
             InputData = inputData;
             stepCount = InputData.PointCount;

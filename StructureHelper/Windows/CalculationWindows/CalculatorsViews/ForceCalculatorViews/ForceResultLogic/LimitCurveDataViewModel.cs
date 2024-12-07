@@ -24,7 +24,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 {
     public class LimitCurveDataViewModel : OkCancelViewModelBase, IDataErrorInfo
     {
-        private LimitCurvesCalculatorInputData inputData;
+        private ILimitCurvesCalculatorInputData inputData;
 
 
         //public SurroundDataViewModel SurroundDataViewModel { get; private set; }
@@ -52,7 +52,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         public IEnumerable<INdmPrimitive> AllowedPrimitives { get; set; }
 
-        public LimitCurveDataViewModel(LimitCurvesCalculatorInputData inputData, IEnumerable<INdmPrimitive> allowedPrimitives)
+        public LimitCurveDataViewModel(ILimitCurvesCalculatorInputData inputData, IEnumerable<INdmPrimitive> allowedPrimitives)
         {
             this.inputData = inputData;
             AllowedPrimitives = allowedPrimitives;

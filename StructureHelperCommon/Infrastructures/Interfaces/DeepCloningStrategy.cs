@@ -8,10 +8,14 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
+    /// <summary>
+    /// Creates deep copy of object by dictionary (if copy of object is not created it create copy, otherwise take copy from dictionary) 
+    /// </summary>
     public class DeepCloningStrategy : ICloningStrategy
     {
-        private readonly Dictionary<object, object> _clonedObjects = new Dictionary<object, object>();
+        private readonly Dictionary<object, object> _clonedObjects = new();
 
+        /// <inheritdoc/>
         public T Clone<T>(T original, ICloneStrategy<T>? cloneStrategy = null) where T : class
         {
             if (original == null) return null;
@@ -40,21 +44,6 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
 
             return clone;
         }
-
-        //private T CreateClone<T>(T original) where T : class
-        //{
-        //    // Example logic for creating a clone (modify as needed for your use case)
-        //    var type = original.GetType();
-        //    var clone = Activator.CreateInstance(type);
-
-        //    foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-        //    {
-        //        var value = field.GetValue(original);
-        //        field.SetValue(clone, Clone(value));
-        //    }
-
-        //    return (T)clone;
-        //}
     }
 
 }

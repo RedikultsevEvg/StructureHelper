@@ -21,7 +21,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public Guid Id { get; }
         public string Name { get; set; }
-        public LimitCurvesCalculatorInputData InputData { get; set; }
+        public ILimitCurvesCalculatorInputData InputData { get; set; }
         public IResult Result => result;
 
         public Action<IResult> ActionToOutputResults { get; set; }
@@ -30,7 +30,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public LimitCurvesCalculator()
         {
             Name = "New calculator";
-            InputData = new();
+            InputData = new LimitCurvesCalculatorInputData();
         }
         public void Run()
         {

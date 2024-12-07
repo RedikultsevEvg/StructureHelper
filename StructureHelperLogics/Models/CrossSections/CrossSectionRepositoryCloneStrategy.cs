@@ -42,8 +42,7 @@ namespace StructureHelperLogics.Models.CrossSections
             new HasMaterialsUpdateCloningStrategy(null),
             new HasPrimitivesUpdateCloningStrategy(null),
             new HasCalculatorsUpdateCloningStrategy(null))
-        {
-            
+        {      
             forcesUpdateStrategy = new HasForceActionUpdateCloningStrategy(cloningStrategy);
             materialsUpdateStrategy = new HasMaterialsUpdateCloningStrategy(cloningStrategy);
             primitivesUpdateStrategy = new HasPrimitivesUpdateCloningStrategy(cloningStrategy);

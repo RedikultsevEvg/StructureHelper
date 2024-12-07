@@ -5,35 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.GeometryCalculatorViews"
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Calculations.Calculators.GeometryCalculatorVMs"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:GeometryCalculatorResultViewModel}"
         Title="Geometry Properties" Height="450" Width="850" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="90"/>
-        </Grid.ColumnDefinitions>
-        <DataGrid x:Name="ResultGrid" IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding TextParameters}">
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsValid}" Value="false">
-                            <Setter Property="Background" Value="Pink"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.RowStyle>
-            <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Valid" Binding="{Binding Path=IsValid}"/>
-                <DataGridTextColumn Header="Name" Width="100" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Short" Width="50" Binding="{Binding ShortName}"/>
-                <DataGridTextColumn Header="Unit" Width="100" Binding="{Binding Text}"/>
-                <DataGridTextColumn Header="Value" Width="150" Binding="{Binding Value}"/>
-                <DataGridTextColumn Header="Description" Width="400" Binding="{Binding Description}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <StackPanel Grid.Column="1">
-            <Button Margin="3" Content="Export" ToolTip="Export results to *.csv" Command="{Binding ExportToCSVCommand}"/>
-        </StackPanel>
-    </Grid>
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ExportToCSVCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Export to *.csv"
+                                                IconContent="{StaticResource ExportToXLS}"
+                                                DescriptionText="Export all valid results to *.csv file"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource ExportToXLS}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <DataGrid x:Name="ResultGrid" IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding TextParameters}">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsValid}" Value="false">
+                                <Setter Property="Background" Value="Pink"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="Valid" Binding="{Binding Path=IsValid}"/>
+                    <DataGridTextColumn Header="Name" Width="100" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Short" Width="50" Binding="{Binding ShortName}"/>
+                    <DataGridTextColumn Header="Unit" Width="100" Binding="{Binding Text}"/>
+                    <DataGridTextColumn Header="Value" Width="150" Binding="{Binding Value}"/>
+                    <DataGridTextColumn Header="Description" Width="400" Binding="{Binding Description}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DockPanel>
 </Window>

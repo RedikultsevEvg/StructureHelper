@@ -19,6 +19,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.LimitStates.Clear();
             targetObject.CalcTerms.Clear();
+            targetObject.PrimitiveSeries.Clear();
             targetObject.PredicateEntries.Clear();
             targetObject.LimitStates.AddRange(sourceObject.LimitStates);
             targetObject.CalcTerms.AddRange(sourceObject.CalcTerms);

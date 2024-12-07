@@ -4,6 +4,7 @@ using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives.Logics;
@@ -16,29 +17,29 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     public class HasCalculatorsUpdateCloningStrategy : IUpdateStrategy<IHasCalculators>
     {
         private ICloningStrategy cloningStrategy;
-        private IUpdateStrategy<IHasForceActions> forcesUpdateStrategy;
-        private IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
-        private IUpdateStrategy<ILimitCurvesCalculatorInputData> limitCurvesInputDataUpdateStrategy;
+        private IUpdateStrategy<IForceCalculator> forceCalculatorUpdateStrategy;
+        private IUpdateStrategy<ICrackCalculator> crackCalculatorUpdateStrategy;
+        private IUpdateStrategy<ILimitCurvesCalculator> limitCurvesCalculatorUpdateStrategy;
 
         public HasCalculatorsUpdateCloningStrategy(ICloningStrategy cloningStrategy) : this(
             cloningStrategy,
-            new HasForceActionUpdateCloningStrategy(cloningStrategy),
-            new HasPrimitivesUpdateCloningStrategy(cloningStrategy),
-            new LimitCurvesCalculatorInputDataUpdateStrategy()
+            new ForceCalculatorUpdateCloningStrategy(cloningStrategy),
+            new CrackCalculatorUpdateCloningStrategy(cloningStrategy),
+            new LimitCurvesCalculatorUpdateCloningStrategy(cloningStrategy)
             )
         {
         }
 
         public HasCalculatorsUpdateCloningStrategy(
             ICloningStrategy cloningStrategy,
-            IUpdateStrategy<IHasForceActions> forcesUpdateStrategy,
-            IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy,
-            IUpdateStrategy<ILimitCurvesCalculatorInputData> limitCurvesInputDataUpdateStrategy)
+            IUpdateStrategy<IForceCalculator> forceCalculatorUpdateStrategy,
+            IUpdateStrategy<ICrackCalculator> crackCalculatorUpdateStrategy,
+            IUpdateStrategy<ILimitCurvesCalculator> limitCurvesCalculatorUpdateStrategy)
         {
             this.cloningStrategy = cloningStrategy;
-            this.forcesUpdateStrategy = forcesUpdateStrategy;
-            this.primitivesUpdateStrategy = primitivesUpdateStrategy;
-            this.limitCurvesInputDataUpdateStrategy = limitCurvesInputDataUpdateStrategy;
+            this.forceCalculatorUpdateStrategy = forceCalculatorUpdateStrategy;
+            this.crackCalculatorUpdateStrategy = crackCalculatorUpdateStrategy;
+            this.limitCurvesCalculatorUpdateStrategy = limitCurvesCalculatorUpdateStrategy;
         }
 
         public void Update(IHasCalculators targetObject, IHasCalculators sourceObject)
@@ -53,15 +54,15 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 var newCalculator = cloningStrategy.Clone(calculator);
                 if (calculator is IForceCalculator forceCalculator)
                 {
-                    ProcessForceCalculator(newCalculator, forceCalculator);
+                    forceCalculatorUpdateStrategy.Update(newCalculator as IForceCalculator, forceCalculator);
                 }
-                else if (calculator is CrackCalculator crackCalculator)
+                else if (calculator is ICrackCalculator crackCalculator)
                 {
-                    ProcessCrackCalculator(newCalculator, crackCalculator);
+                    crackCalculatorUpdateStrategy.Update(newCalculator as ICrackCalculator, crackCalculator);
                 }
                 else if (calculator is ILimitCurvesCalculator limitCalculator)
                 {
-                    ProcessLimitCurvesCalculator(newCalculator, limitCalculator);
+                    limitCurvesCalculatorUpdateStrategy.Update(newCalculator as ILimitCurvesCalculator, limitCalculator);
                 }
                 else
                 {
@@ -69,46 +70,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 }
                 targetObject.Calculators.Add(newCalculator);
             }
-        }
-
-        private void ProcessLimitCurvesCalculator(ICalculator newCalculator, ILimitCurvesCalculator limitCalculator)
-        {
-            var sourceData = limitCalculator.InputData;
-            var targetData = ((ILimitCurvesCalculator)newCalculator).InputData;
-            limitCurvesInputDataUpdateStrategy.Update(targetData, sourceData);
-            foreach (var series in targetData.PrimitiveSeries)
-            {
-                List<INdmPrimitive> collection = UpdatePrimitivesCollection(series);
-                series.Collection.AddRange(collection);
-            }
-        }
-
-        private void ProcessCrackCalculator(ICalculator newCalculator, CrackCalculator crackCalculator)
-        {
-            var sourceData = crackCalculator.InputData;
-            var targetData = ((ICrackCalculator)newCalculator).InputData;
-            primitivesUpdateStrategy.Update(targetData, sourceData);
-            forcesUpdateStrategy.Update(targetData, sourceData);
-        }
-
-        private void ProcessForceCalculator(ICalculator newCalculator, IForceCalculator forceCalculator)
-        {
-            var sourceData = forceCalculator.InputData;
-            var targetData = ((IForceCalculator)newCalculator).InputData;
-            primitivesUpdateStrategy.Update(targetData, sourceData);
-            forcesUpdateStrategy.Update(targetData, sourceData);
-        }
-
-        private List<INdmPrimitive> UpdatePrimitivesCollection(NamedCollection<INdmPrimitive> series)
-        {
-            List<INdmPrimitive> collection = new();
-            foreach (var item in series.Collection)
-            {
-                var newItem = cloningStrategy.Clone(item);
-                collection.Add(newItem);
-            }
-            series.Collection.Clear();
-            return collection;
         }
     }
 }
