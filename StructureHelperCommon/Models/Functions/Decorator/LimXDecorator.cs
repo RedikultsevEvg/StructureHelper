@@ -25,7 +25,7 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         }
         public override double GetByX(double xValue)
         {
-            if (xValue > leftBound && xValue < rightBound)
+            if (xValue >= leftBound && xValue <= rightBound)
             {
                 return base.GetByX(xValue);
             }

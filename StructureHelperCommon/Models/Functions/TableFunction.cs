@@ -82,17 +82,16 @@ namespace StructureHelperCommon.Models.Functions
                 {
                     return leftBound.Y;
                 }
-                else if (xValue > leftBound.X && xValue < rightBound.X)
-                {
-                    return MathUtils.Interpolation(xValue, leftBound.X, rightBound.X, leftBound.Y, rightBound.Y);
-                }
                 else if (xValue == rightBound.X)
                 {
                     return rightBound.Y;
                 }
+                else
+                {
+                    return MathUtils.Interpolation(xValue, leftBound.X, rightBound.X, leftBound.Y, rightBound.Y);
+                }
             }
             return 0;
-            //Можно добавить экстраполяцию
         }
         public GraphSettings GetGraphSettings()
         {

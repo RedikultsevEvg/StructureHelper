@@ -9,7 +9,8 @@ namespace StructureHelperTests.UnitTests.Interpolation
 {
     public class InterpolationTest
     {
-        [TestCase(1.5, 5.5, 1, 2, 5, 6)]
+        [TestCase(1.5, 5.5, 1, 2, 5, 6)] //Interpolation
+        [TestCase(9, 4, 6, 8, 1, 3)] //Extrapolation
         public void InterpolationTestMethod(double x, double y, double x1, double x2, double y1, double y2)
         {
             //Arrange

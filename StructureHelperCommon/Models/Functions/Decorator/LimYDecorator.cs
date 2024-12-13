@@ -52,6 +52,14 @@ namespace StructureHelperCommon.Models.Functions.Decorator
                 {
                     graphLimitGraphPoint.Add(point);
                 }
+                else if (point.Y <= downBound)
+                {
+                    graphLimitGraphPoint.Add(new GraphPoint(point.X, downBound));
+                }
+                else
+                {
+                    graphLimitGraphPoint.Add(new GraphPoint(point.X, upBound));
+                }
             }
             graphLimitGraphPoint.Add(upPoint);
             graphSettings.GraphPoints = graphLimitGraphPoint;
