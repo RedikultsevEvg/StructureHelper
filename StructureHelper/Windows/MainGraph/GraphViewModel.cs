@@ -111,7 +111,7 @@ namespace StructureHelper.Windows.MainGraph
             f2.Name = "Формульная системная функция";
             f2.Formula = "x^2";
             f2.Step = 100;
-            f2.MinArg = -1000;
+            f2.MinArg = 1;
             f2.MaxArg = 1000;
             f2.IsUser = false;
             f2.Description = "Описание формульной системной функции";

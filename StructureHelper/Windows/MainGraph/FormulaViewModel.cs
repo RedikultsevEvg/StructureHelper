@@ -23,8 +23,8 @@ namespace StructureHelper.Windows.MainGraph
         private const string DEFAULT_NAME = "Put function name here...";
         private const string DEFAULT_DESCRIPTION = "Put function description here...";
         private const string DEFAULT_FORMULA = "x^2";
-        private const double DEFAULT_LEFT_BOUND = -500;
-        private const double DEFAULT_RIGHT_BOUND = 500;
+        private const double DEFAULT_LEFT_BOUND = 1;
+        private const double DEFAULT_RIGHT_BOUND = 1000;
         private const int DEFAULT_STEP = 100;
         private const int MAX_STEP = 1000;
         public char GREATER { get; } = '\u2265';
@@ -171,6 +171,8 @@ namespace StructureHelper.Windows.MainGraph
             (Function as FormulaFunction).Step = Step;
             (Function as FormulaFunction).Formula = Formula;
             Function.Color = Color;
+            Function.MinArg = LeftBound;
+            Function.MaxArg = RightBound;
             var window = parameter as Window;
             if (LeftBound > RightBound)
             {

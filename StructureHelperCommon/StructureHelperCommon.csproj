@@ -15,6 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="FunctionParser">
+      <HintPath>..\..\FunctionParser\FunctionParser\bin\Debug\FunctionParser.dll</HintPath>
+    </Reference>
     <Reference Include="LoaderCalculator">
       <HintPath>..\StructureHelper\Libraries\LoaderCalculator.dll</HintPath>
     </Reference>

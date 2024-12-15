@@ -30,6 +30,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
 
         public IShiftTraceLogger? TraceLogger { get; set; }
         public Color Color { get; set; }
+        public string Trace { get; set; }
 
         public FunctionDecorator(IOneVariableFunction function)
         {

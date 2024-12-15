@@ -13,11 +13,15 @@ using System.Windows.Documents;
 using StructureHelperCommon.Services;
 using LiveCharts.Wpf;
 using StructureHelperCommon.Services.ColorServices;
+using FunctionParser;
 
 namespace StructureHelperCommon.Models.Functions
 {
     public class FormulaFunction : IOneVariableFunction
     {
+        private double current_xValue;
+        private string formula;
+        private Expression expression;
         private const string COPY = "copy";
         public const string GROUP_TYPE_1 = "System function";
         public const string GROUP_TYPE_2 = "User function";
@@ -27,13 +31,36 @@ namespace StructureHelperCommon.Models.Functions
         public string Name { get; set; }
         public string Description { get ; set; }
         public int Step { get; set; }
-        public string Formula { get; set; }
+        public string Formula 
+        {
+            get
+            {
+                return formula;
+            }
+            set
+            {
+                formula = value;
+                Expression = new Expression(value, new string[] { "x" }, null);
+            }
+        }
+        public Expression Expression 
+        { 
+            get
+            {
+                return expression;
+            }                 
+            set
+            {
+                expression = value;
+            }
+        }
         public Guid Id => throw new NotImplementedException();
         public ObservableCollection<IOneVariableFunction> Functions { get; set; } = new ObservableCollection<IOneVariableFunction>();
         public double MinArg { get; set; }
         public double MaxArg { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
         public Color Color { get; set; }
+        public string Trace { get; set; }
 
         public FormulaFunction(bool isUser = false)
         {
@@ -55,7 +82,6 @@ namespace StructureHelperCommon.Models.Functions
         {
             throw new NotImplementedException();
         }
-
         public object Clone()
         {
             var formulaFunction = new FormulaFunction();
@@ -76,7 +102,9 @@ namespace StructureHelperCommon.Models.Functions
         public double GetByX(double xValue)
         {
             double yValue = 0;
-            yValue = Math.Round(Math.Pow(xValue, 2), 2); //Временно выражение квадратичной параболы, будет разбор выражения
+            current_xValue = xValue;
+            Check();
+            yValue = Math.Round(Expression.CalculateValue(new double[] { xValue }), 2);
             return yValue;
         }
         public GraphSettings GetGraphSettings()

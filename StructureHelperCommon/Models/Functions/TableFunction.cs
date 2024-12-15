@@ -34,6 +34,7 @@ namespace StructureHelperCommon.Models.Functions
         public double MaxArg { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
         public Color Color { get; set; }
+        public string Trace { get; set; }
 
         public TableFunction(bool isUser = false)
         {
