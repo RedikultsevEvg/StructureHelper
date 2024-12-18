@@ -35,8 +35,8 @@ namespace StructureHelperTests.FunctionalTests.RCs.Eccentricitis
             // Assert
             eccentricityAxisLogicMock.Verify(el => el.GetValue(), Times.Exactly(2));
             //loggerMock.Verify(logger => logger.AddMessage(It.IsAny<string>(), It.IsAny<TraceLogStatuses>()), Times.Exactly(3)); // Adjust based on your actual calls
-            Assert.AreEqual(3.0, result.ex, 0.001); // Adjust based on your expected result
-            Assert.AreEqual(3.0, result.ey, 0.001); // Adjust based on your expected result
+            Assert.That(result.ex, Is.EqualTo(3.0).Within(0.001)); // Adjust based on your expected result
+            Assert.That(result.ey, Is.EqualTo(3.0).Within(0.001)); // Adjust based on your expected result
                                                     // Add more assertions based on your expected behavior
         }
     }

@@ -27,8 +27,8 @@ namespace StructureHelperTests.UnitTests.MaterialTests
             var compressive = libMaterial.GetStrength(limitState, calcTerm).Compressive;
             var tensile = libMaterial.GetStrength(limitState, calcTerm).Tensile;
             //Assert
-            Assert.AreEqual(expectedCompressive, compressive, 1d);
-            Assert.AreEqual(expectedTensile, tensile, 1d);
+            Assert.That(compressive, Is.EqualTo(expectedCompressive).Within(1d));
+            Assert.That(tensile, Is.EqualTo(expectedTensile).Within(1d));
         }
     }
 }

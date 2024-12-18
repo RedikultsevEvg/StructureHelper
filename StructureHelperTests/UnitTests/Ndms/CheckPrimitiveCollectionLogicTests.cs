@@ -42,7 +42,7 @@ namespace StructureHelperTests.UnitTests.Ndms
             var result = _mockCheckPrimitiveCollectionLogic.Object.Check();
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             Assert.That(_mockCheckPrimitiveCollectionLogic.Object.CheckResult, Is.EqualTo("Calculator does not contain any primitives\n"));
             //_mockTraceLogger.Verify(x => x.AddMessage("Calculator does not contain any primitives\n", TraceLogStatuses.Error), Times.Once);
         }
@@ -60,7 +60,7 @@ namespace StructureHelperTests.UnitTests.Ndms
             var result = _mockCheckPrimitiveCollectionLogic.Object.Check();
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             Assert.That(_mockCheckPrimitiveCollectionLogic.Object.CheckResult, Is.EqualTo("Rebar check failed\n"));
         }
 
@@ -82,7 +82,7 @@ namespace StructureHelperTests.UnitTests.Ndms
             var result = _mockCheckPrimitiveCollectionLogic.Object.Check();
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             Assert.That(_mockCheckPrimitiveCollectionLogic.Object.CheckResult, Is.EqualTo("Host RebarName (HostPrimitiveName) is not included in primitives\n"));
             //_mockTraceLogger.Verify(x => x.AddMessage("Host RebarName (HostPrimitiveName) is not included in primitives\n", TraceLogStatuses.Error), Times.Once);
         }
@@ -104,7 +104,7 @@ namespace StructureHelperTests.UnitTests.Ndms
             var result = _mockCheckPrimitiveCollectionLogic.Object.Check();
 
             // Assert
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             Assert.That(_mockCheckPrimitiveCollectionLogic.Object.CheckResult, Is.EqualTo(string.Empty));
         }
     }

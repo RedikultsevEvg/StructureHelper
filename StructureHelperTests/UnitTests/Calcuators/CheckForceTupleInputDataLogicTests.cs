@@ -52,7 +52,7 @@ namespace StructureHelperTests.UnitTests.Calcuators
             var result = _checkLogic.Check();
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             //Assert.That(_checkLogic.CheckResult, Is.EqualTo("Ndm collection is null or empty"));
             _mockTraceLogger.Verify(x => x.AddMessage("\nNdm collection is null or empty"), Times.Once);
         }
@@ -68,7 +68,7 @@ namespace StructureHelperTests.UnitTests.Calcuators
             var result = _checkLogic.Check();
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             //Assert.That(_checkLogic.CheckResult, Is.EqualTo("Force tuple is null"));
             _mockTraceLogger.Verify(x => x.AddMessage("\nForce tuple is null"), Times.Once);
         }
@@ -85,7 +85,7 @@ namespace StructureHelperTests.UnitTests.Calcuators
             var result = _checkLogic.Check();
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             //Assert.That(_checkLogic.CheckResult, Is.EqualTo("Accuracy requirements is not assigned"));
             _mockTraceLogger.Verify(x => x.AddMessage("\nAccuracy requirements is not assigned"), Times.Once);
         }
@@ -106,7 +106,7 @@ namespace StructureHelperTests.UnitTests.Calcuators
             var result = _checkLogic.Check();
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             //Assert.That(_checkLogic.CheckResult, Is.EqualTo("Value of accuracy 0 must be grater than zeroMax number of iteration 0 must be grater than zero"));
             _mockTraceLogger.Verify(x => x.AddMessage("\nValue of accuracy 0 must be grater than zero"), Times.Once);
             _mockTraceLogger.Verify(x => x.AddMessage("\nMax number of iteration 0 must be grater than zero"), Times.Once);
@@ -128,7 +128,7 @@ namespace StructureHelperTests.UnitTests.Calcuators
             var result = _checkLogic.Check();
 
             // Assert
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             Assert.That(_checkLogic.CheckResult, Is.EqualTo(string.Empty));
         }
     }

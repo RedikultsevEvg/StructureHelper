@@ -29,15 +29,15 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
             calculator.Run();
             var result = calculator.Result as IForcesResults;
             //Assert
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.IsValid);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.IsValid, Is.True);
             var strainMatrix = result.ForcesResultList[0].LoaderResults.StrainMatrix;
             var kx = strainMatrix.Kx;
             var ky = strainMatrix.Ky;
             var epsz = strainMatrix.EpsZ;
-            Assert.AreEqual(expectedKx, kx, ExpectedProcessor.GetAccuracyForExpectedValue(expectedKx));
-            Assert.AreEqual(expectedKy, ky, ExpectedProcessor.GetAccuracyForExpectedValue(expectedKy));
-            Assert.AreEqual(expectedEpsZ, epsz, ExpectedProcessor.GetAccuracyForExpectedValue(expectedEpsZ));
+            Assert.That(kx, Is.EqualTo(expectedKx).Within(ExpectedProcessor.GetAccuracyForExpectedValue(expectedKx)));
+            Assert.That(ky, Is.EqualTo(expectedKy).Within(ExpectedProcessor.GetAccuracyForExpectedValue(expectedKy)));
+            Assert.That(epsz, Is.EqualTo(expectedEpsZ).Within(ExpectedProcessor.GetAccuracyForExpectedValue(expectedEpsZ)));
         }
 
         [TestCase(0.4d, 0.6d, 0.012d, 0.025d, 2, 2, false, true, true)]
@@ -54,9 +54,9 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
             calculator.Run();
             var result = calculator.Result as IForcesResults;
             //Assert
-            Assert.IsNotNull(result);
-            Assert.True(calcResult == result.IsValid);
-            Assert.True(firstForceResult == result.ForcesResultList[0].IsValid);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(calcResult == result.IsValid, Is.True);
+            Assert.That(firstForceResult == result.ForcesResultList[0].IsValid, Is.True);
         }
 
         [TestCase(0.4d, 0.6d, 0.012d, 0.025d, 2, 2, 0d, 0d, 0d)]
@@ -80,15 +80,15 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
             calculator.Run();
             var result2 = calculator.Result as IForcesResults;
             //Assert
-            Assert.IsNotNull(result2);
-            Assert.IsTrue(result2.IsValid);
+            Assert.That(result2, Is.Not.Null);
+            Assert.That(result2.IsValid, Is.True);
             var strainMatrix2 = result2.ForcesResultList[0].LoaderResults.StrainMatrix;
             var kx = strainMatrix2.Kx;
             var ky = strainMatrix2.Ky;
             var epsz = strainMatrix2.EpsZ;
-            Assert.AreEqual(expectedKx, kx, 1e-10);
-            Assert.AreEqual(expectedKy, ky, 1e-10);
-            Assert.AreEqual(expectedEpsZ, epsz, 1e-10);
+            Assert.That(kx, Is.EqualTo(expectedKx).Within(1e-10));
+            Assert.That(ky, Is.EqualTo(expectedKy).Within(1e-10));
+            Assert.That(epsz, Is.EqualTo(expectedEpsZ).Within(1e-10));
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
@@ -37,9 +38,9 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
 
             // Assert
             mockCalculator.Verify(c => c.Run(), Times.Once);
-            Assert.True(solver.IsResultValid);
-            Assert.NotNull(solver.Result);
-            Assert.True(solver.Result.All(r => r.IsValid));
+            Assert.That(solver.IsResultValid, Is.True);
+            Assert.That(solver.Result, Is.Not.Null);
+            Assert.That(solver.Result.All(r => r.IsValid), Is.True);
         }
 
         [Test]
@@ -73,7 +74,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
             // Assert
             mockCalculator1.Verify(c => c.Run(), Times.Once);
             mockCalculator2.Verify(c => c.Run(), Times.Once);
-            Assert.False(solver.IsResultValid);
+            Assert.That(solver.IsResultValid, Is.False);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
             // Assert
             // Expected result calculation:
             // rebarArea = 1.0 * 1.0 + 2.0 * 1.0 + 3.0 * 1.0 = 6.0
-            Assert.AreEqual(6.0, result);
+            Assert.That(result, Is.EqualTo(6.0));
 
         }
 
@@ -76,7 +76,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
 
             // Act & Assert
             var ex = Assert.Throws<StructureHelperException>(() => logic.GetTensionRebarArea());
-            StringAssert.Contains("Collection of rebars does not contain any tensile rebars", ex.Message);
+            Assert.That(ex.Message, Does.Contain("Collection of rebars does not contain any tensile rebars"));
         }
     }
 }

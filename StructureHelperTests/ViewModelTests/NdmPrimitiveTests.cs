@@ -32,7 +32,7 @@ namespace StructureHelperTests.ViewModelTests
             //Act
             var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());
             //Assert
-            Assert.NotNull(vm);
+            Assert.That(vm, Is.Not.Null);
         }
 
         public void Circle_Run_ShouldPass()
@@ -46,7 +46,7 @@ namespace StructureHelperTests.ViewModelTests
             //Act
             var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());
             //Assert
-            Assert.NotNull(vm);
+            Assert.That(vm, Is.Not.Null);
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace StructureHelperTests.ViewModelTests
             //Act
             var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());
             //Assert
-            Assert.NotNull(vm);
+            Assert.That(vm, Is.Not.Null);
         }
 
         public void Reinforcement_Run_ShouldPass()
@@ -75,7 +75,7 @@ namespace StructureHelperTests.ViewModelTests
             //Act
             var vm = new PrimitivePropertiesViewModel(primitiveBase, new CrossSectionRepository());
             //Assert
-            Assert.NotNull(vm);
+            Assert.That(vm, Is.Not.Null);
         }
     }
 }

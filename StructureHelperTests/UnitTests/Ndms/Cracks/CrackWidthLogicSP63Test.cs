@@ -30,7 +30,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
             //Act
             var width = logic.GetCrackWidth();
             //Assert
-            Assert.AreEqual(expectedWidth, width, 0.000001d);
+            Assert.That(width, Is.EqualTo(expectedWidth).Within(0.000001d));
         }
 
     }

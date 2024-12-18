@@ -53,7 +53,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
             // reducedArea for rebar 2 = 2.0 * 1.0 / 1.5 = 1.333...
             // reducedArea for rebar 3 = 3.0 * 1.5 / 1.5 = 3.0
             // sumArea = 0.333... + 1.333... + 3.0 = 4.666...
-            Assert.AreEqual(4.666666666666667, result, 9);
+            Assert.That(result, Is.EqualTo(4.666666666666667).Within(9));
         }
         [Test]
         public void GetTensionRebarArea_ShouldThrowException_WhenNoRebarsInTension()
@@ -81,7 +81,8 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
 
             // Act & Assert
             var ex = Assert.Throws<StructureHelperException>(() => logic.GetTensionRebarArea());
-            StringAssert.Contains("Collection of rebars does not contain any tensile rebars", ex.Message);
+            Assert.That(ex.Message, Does.Contain("Collection of rebars does not contain any tensile rebars"));
+
 
         }
     }

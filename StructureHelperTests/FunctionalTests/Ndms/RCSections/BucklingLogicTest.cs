@@ -31,7 +31,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
             var phiLogic = new PhiLogicSP63(fullTuple, longTuple, point);
             var phiL = phiLogic.GetPhil();
             //Assert
-            Assert.AreEqual(expectedPhi, phiL, 0.01d);
+            Assert.That(phiL, Is.EqualTo(expectedPhi).Within(0.01d));
         }
 
         [TestCase(0d, 0.5d, 0.15d)]
@@ -44,7 +44,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.RCSections
             var deltaELogic = new DeltaELogicSP63(eccentricity, size);
             var deltaE = deltaELogic.GetDeltaE();
             //Assert
-            Assert.AreEqual(expectedDeltaE, deltaE, 0.01d);
+            Assert.That(deltaE, Is.EqualTo(expectedDeltaE).Within(0.01d));
         }
     }
 }

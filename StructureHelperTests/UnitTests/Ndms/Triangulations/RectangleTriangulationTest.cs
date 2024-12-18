@@ -52,11 +52,11 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Act
             var result = logic.GetNdmCollection();
             //Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(expectedCount, result.Count());
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Count(), Is.EqualTo(expectedCount));
             var firstNdm = result.First();
-            Assert.AreEqual(expectedFirstCenterX, firstNdm.CenterX);
-            Assert.AreEqual(expectedFirstCenterY, firstNdm.CenterY);
+            Assert.That(firstNdm.CenterX, Is.EqualTo(expectedFirstCenterX));
+            Assert.That(firstNdm.CenterY, Is.EqualTo(expectedFirstCenterY));
         }
         [TestCase(0d, 0d, 1.0d, 1.0d, true, 1d, 3020418448.8512335d, 3020418448.8512335d)]
         [TestCase(0d, 0d, 1.0d, 1.0d, false, 0.94d, 3013186843.9241991d, 3004124682.3615651d)]
@@ -97,9 +97,9 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Assert
             var area = ndms.Sum(x => x.Area);
             var moments = GeometryOperations.GetReducedMomentsOfInertia(ndms);
-            Assert.AreEqual(expectedArea, area, 0.001d);
-            Assert.AreEqual(expectedMomX, moments.EIx, 0.001d);
-            Assert.AreEqual(expectedMomY, moments.EIy, 1d);
+            Assert.That(area, Is.EqualTo(expectedArea).Within(0.001d));
+            Assert.That(moments.EIx, Is.EqualTo(expectedMomX).Within(0.001d));
+            Assert.That(moments.EIy, Is.EqualTo(expectedMomY).Within(1d));
         }
         [TestCase(0d, 0d, 1.0d, 1.0d, true, 1d, 3020017308.3574591d, 3020017308.3574591d)]
         [TestCase(0d, 0d, 1.0d, 1.0d, false, 0.92839999999991407d, 3005633713.5049105d, 3005633713.5049105d)]
@@ -143,9 +143,9 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Assert
             var area = ndms.Sum(x => x.Area);
             var moments = GeometryOperations.GetReducedMomentsOfInertia(ndms);
-            Assert.AreEqual(expectedArea, area, 0.001d);
-            Assert.AreEqual(expectedMomX, moments.EIx, 0.001d);
-            Assert.AreEqual(expectedMomY, moments.EIy, 1d);
+            Assert.That(area, Is.EqualTo(expectedArea).Within(0.001d));
+            Assert.That(moments.EIx, Is.EqualTo(expectedMomX).Within(0.001d));
+            Assert.That(moments.EIy, Is.EqualTo(expectedMomY).Within(1d));
         }
         [TestCase(0d, 0d, 1.0d, true, 0.78079430967489682d, 1777730450.3666615d, 1776732530.5957441d)]
         [TestCase(0d, 0d, 1.0d, false, 0.72079430967490343d, 1770498845.4396176d, 1760438764.1059904d)]
@@ -182,9 +182,9 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             //Assert
             var area = ndms.Sum(x => x.Area);
             var moments = GeometryOperations.GetReducedMomentsOfInertia(ndms);
-            Assert.AreEqual(expectedArea, area, 0.001d);
-            Assert.AreEqual(expectedMomX, moments.EIx, 0.001d);
-            Assert.AreEqual(expectedMomY, moments.EIy, 1d);
+            Assert.That(area, Is.EqualTo(expectedArea).Within(0.001d));
+            Assert.That(moments.EIx, Is.EqualTo(expectedMomX).Within(0.001d));
+            Assert.That(moments.EIy, Is.EqualTo(expectedMomY).Within(1d));
         }
     }
 }

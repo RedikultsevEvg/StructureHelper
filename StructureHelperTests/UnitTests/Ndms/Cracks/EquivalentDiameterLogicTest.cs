@@ -30,7 +30,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
             //Act
             var eqDiametr = logic.GetAverageDiameter();
             //Assert
-            Assert.AreEqual(expectedDiameter, eqDiametr, 0.0001d);
+            Assert.That(eqDiametr, Is.EqualTo(expectedDiameter).Within(0.0001d));
         }
     }
 }

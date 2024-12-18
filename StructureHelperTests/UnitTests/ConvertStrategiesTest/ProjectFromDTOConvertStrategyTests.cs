@@ -89,7 +89,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest
             var analyses = _convertStrategy.GetAnalyses(projectDto, newItem);
 
             // Assert
-            Assert.AreEqual(projectDto.VisualAnalyses.Count, analyses.Count);
+            Assert.That(analyses.Count, Is.EqualTo(projectDto.VisualAnalyses.Count));
             _mockConvertLogic.Verify(s => s.Convert(It.IsAny<IVisualAnalysis>()), Times.Exactly(projectDto.VisualAnalyses.Count));
             _mockTraceLogger.Verify(logger => logger.AddMessage($"Source project has {projectDto.VisualAnalyses.Count} analyses"), Times.Once);
         }

@@ -58,12 +58,12 @@ namespace LoaderCalculator.Tests.FunctionalTests.SectionTests
             calculator.Run(loaderData, new CancellationToken());
             var results = calculator.Result;
             //Assert
-            Assert.NotNull(results);
+            Assert.That(results, Is.Not.Null);
             var strainMatrix = results.StrainMatrix;
-            Assert.NotNull(strainMatrix);
-            Assert.AreEqual(expectedKx, strainMatrix.Kx, ExpectedProcessor.GetAccuracyForExpectedValue(expectedKx));
-            Assert.AreEqual(expectedKy, strainMatrix.Ky, ExpectedProcessor.GetAccuracyForExpectedValue(expectedKy));
-            Assert.AreEqual(expectedEpsilonZ, strainMatrix.EpsZ, ExpectedProcessor.GetAccuracyForExpectedValue(expectedEpsilonZ));
+            Assert.That(strainMatrix, Is.Not.Null);
+            Assert.That(strainMatrix.Kx, Is.EqualTo(expectedKx).Within(ExpectedProcessor.GetAccuracyForExpectedValue(expectedKx)));
+            Assert.That(strainMatrix.Ky, Is.EqualTo(expectedKy).Within(ExpectedProcessor.GetAccuracyForExpectedValue(expectedKy)));
+            Assert.That(strainMatrix.EpsZ, Is.EqualTo(expectedEpsilonZ).Within(ExpectedProcessor.GetAccuracyForExpectedValue(expectedEpsilonZ)));
         }
         //Longitudenal prestrain only
         [TestCase(0.000494, 0.000494, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0.0d, 0d)]
@@ -98,12 +98,12 @@ namespace LoaderCalculator.Tests.FunctionalTests.SectionTests
             calculator.Run(loaderData, new CancellationToken());
             var results = calculator.Result;
             //Assert
-            Assert.NotNull(results);
+            Assert.That(results, Is.Not.Null);
             var strainMatrix = results.StrainMatrix;
-            Assert.NotNull(strainMatrix);
-            Assert.AreEqual(expectedKx, strainMatrix.Kx, ExpectedProcessor.GetAccuracyForExpectedValue(expectedKx));
-            Assert.AreEqual(expectedKy, strainMatrix.Ky, ExpectedProcessor.GetAccuracyForExpectedValue(expectedKy));
-            Assert.AreEqual(expectedEpsilonZ, strainMatrix.EpsZ, ExpectedProcessor.GetAccuracyForExpectedValue(expectedEpsilonZ));
+            Assert.That(strainMatrix, Is.Not.Null);
+            Assert.That(strainMatrix.Kx, Is.EqualTo(expectedKx).Within(ExpectedProcessor.GetAccuracyForExpectedValue(expectedKx)));
+            Assert.That(strainMatrix.Ky, Is.EqualTo(expectedKy).Within(ExpectedProcessor.GetAccuracyForExpectedValue(expectedKy)));
+            Assert.That(strainMatrix.EpsZ, Is.EqualTo(expectedEpsilonZ).Within(ExpectedProcessor.GetAccuracyForExpectedValue(expectedEpsilonZ)));
         }
 
         private void ArrangeMaterial(LimitStates limitStates, bool isShortTerm)

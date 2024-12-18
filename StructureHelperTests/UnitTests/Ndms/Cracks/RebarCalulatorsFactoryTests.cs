@@ -38,9 +38,9 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
 
             // Assert
             var calculator = calculators[0];
-            Assert.NotNull(calculator);
-            Assert.AreEqual(rebarCrackInputData, calculator.InputData);
-            Assert.Null(calculator.TraceLogger);
+            Assert.That(calculator, Is.Not.Null);
+            Assert.That(calculator.InputData, Is.EqualTo(rebarCrackInputData));
+            Assert.That(calculator.TraceLogger, Is.Null);
         }
 
         [Test]
@@ -75,8 +75,8 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
             var calculators = factory.GetCalculators();
 
             // Assert
-            Assert.AreEqual(2, calculators.Count);
-            Assert.AreEqual(rebarInputData1, calculators[0].InputData);
+            Assert.That(calculators.Count, Is.EqualTo(2));
+            Assert.That(calculators[0].InputData, Is.EqualTo(rebarInputData1));
             //Assert.AreEqual(rebarInputData2, calculators[1].InputData);
             //Assert.AreEqual(mockLogger.Object, calculators[0].TraceLogger);
             //Assert.AreEqual(mockLogger.Object, calculators[1].TraceLogger);

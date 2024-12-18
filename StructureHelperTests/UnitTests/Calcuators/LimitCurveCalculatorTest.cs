@@ -25,7 +25,7 @@ namespace StructureHelperTests.UnitTests.Calcuators
             calculator.Run();
             var result = calculator.Result;
             //Assert
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
         }
     }
 }

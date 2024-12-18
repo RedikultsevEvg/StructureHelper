@@ -20,7 +20,7 @@ namespace StructureHelperTests.FieldsVisualizerTests.WindowTests
             //Act
             WndFieldViewer viewer = new WndFieldViewer(primitiveSets);
             //Assert
-            Assert.NotNull(viewer);
+            Assert.That(viewer, Is.Not.Null);
         }
 
     }

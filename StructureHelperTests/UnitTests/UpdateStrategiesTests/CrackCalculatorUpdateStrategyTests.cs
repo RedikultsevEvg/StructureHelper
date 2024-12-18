@@ -74,7 +74,7 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             _crackCalculatorUpdateStrategy.Update(targetObject.Object, sourceObject.Object);
 
             // Assert
-            Assert.AreEqual("Source Name", targetObject.Object.Name);
+            Assert.That(targetObject.Object.Name, Is.EqualTo("Source Name"));
             _inputDataUpdateStrategyMock.Verify(s => s.Update(targetInputData, sourceInputData), Times.Once);
         }
 
@@ -96,7 +96,7 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             _crackCalculatorUpdateStrategy.Update(targetObject.Object, sourceObject.Object);
 
             // Assert
-            Assert.IsNotNull(targetObject.Object.InputData);
+            Assert.That(targetObject.Object.InputData, Is.Not.Null);
             _inputDataUpdateStrategyMock.Verify(s => s.Update(targetObject.Object.InputData, sourceInputData), Times.Once);
         }
     }

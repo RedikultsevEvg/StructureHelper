@@ -20,8 +20,8 @@ namespace StructureHelperTests.UnitTests.ParamTests
             //Act
             var result = logic.GetValuePairByString(inputString);
             //Assert
-            Assert.AreEqual(expectedText, result.Text);
-            Assert.AreEqual(expectedValue, result.Value, 0.001d);
+            Assert.That(result.Text, Is.EqualTo(expectedText));
+            Assert.That(result.Value, Is.EqualTo(expectedValue).Within(0.001d));
         }
     }
 }

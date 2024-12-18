@@ -29,7 +29,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.AnchorageCalcula
             //Act
             var baseLength = calculator.GetBaseDevLength();
             //Assert
-            Assert.AreEqual(expectedBaseDevLength, baseLength, 0.001d);
+            Assert.That(baseLength, Is.EqualTo(expectedBaseDevLength).Within(0.001d));
         }
     }
 }

@@ -46,8 +46,8 @@ namespace StructureHelperTests.UnitTests.Ndms.Cracks
             // Act
             var result = _rebarStressResultLogic.GetRebarStressResult();
 
-            // Assert
-            Assert.AreEqual(mockRebarStressResult, result);
+            // Assert;
+            Assert.That(result, Is.EqualTo(mockRebarStressResult));
             _mockRebarStressCalculator.Verify(x => x.Run(), Times.Once);
         }
 

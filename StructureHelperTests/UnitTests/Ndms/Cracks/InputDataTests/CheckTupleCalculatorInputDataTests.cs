@@ -28,7 +28,7 @@ public class CheckTupleCalculatorInputDataTests
         var result = _checkTupleCalculatorInputData.Check();
 
         // Assert
-        Assert.IsFalse(result);
+        Assert.That(result, Is.False);
         Assert.That(_checkTupleCalculatorInputData.CheckResult, Is.EqualTo(ErrorStrings.ParameterIsNull + ": InputData"));
     }
 
@@ -46,7 +46,7 @@ public class CheckTupleCalculatorInputDataTests
         var result = _checkTupleCalculatorInputData.Check();
 
         // Assert
-        Assert.IsFalse(result);
+        Assert.That(result, Is.False);
         Assert.That(_checkTupleCalculatorInputData.CheckResult, Is.EqualTo("Collection does not have any primitives"));
     }
 
@@ -64,7 +64,7 @@ public class CheckTupleCalculatorInputDataTests
         var result = _checkTupleCalculatorInputData.Check();
 
         // Assert
-        Assert.IsFalse(result);
+        Assert.That(result, Is.False);
         Assert.That(_checkTupleCalculatorInputData.CheckResult, Is.EqualTo("User crack input data is null"));
     }
 
@@ -82,7 +82,7 @@ public class CheckTupleCalculatorInputDataTests
         var result = _checkTupleCalculatorInputData.Check();
 
         // Assert
-        Assert.IsTrue(result);
+        Assert.That(result, Is.True);
         Assert.That(_checkTupleCalculatorInputData.CheckResult, Is.EqualTo(string.Empty));
     }
 };

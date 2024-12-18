@@ -62,8 +62,8 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             _strategy.Update(targetObject, sourceObject);
 
             // Assert
-            Assert.AreEqual("Updated", targetObject.Name, "Name should be updated");
-            Assert.AreEqual(Color.FromRgb(255, 0, 0), targetObject.Color, "Color should be updated");
+            Assert.That(targetObject.Name, Is.EqualTo("Updated"), "Name should be updated");
+            Assert.That(targetObject.Color, Is.EqualTo(Color.FromRgb(255, 0, 0)), "Color should be updated");
         }
 
         [Test]
@@ -77,8 +77,8 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             _strategy.Update(targetObject, sourceObject);
 
             // Assert
-            Assert.AreEqual("Updated", (targetObject.HelperMaterial as MockHelperMaterial).Property, "HelperMaterial property should be updated");
-            Assert.AreNotSame(sourceObject.HelperMaterial, targetObject.HelperMaterial,
+            Assert.That((targetObject.HelperMaterial as MockHelperMaterial).Property, Is.EqualTo("Updated"), "HelperMaterial property should be updated");
+            Assert.That(targetObject.HelperMaterial, Is.Not.SameAs(sourceObject.HelperMaterial),
                 "HelperMaterial should be cloned, not directly assigned");
         }
 

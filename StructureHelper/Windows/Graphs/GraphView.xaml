@@ -5,17 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.Graphs"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance local:GraphViewModel}"
         mc:Ignorable="d"
-        Title="Graph" Height="550" Width="800" MinHeight="500" MinWidth="600" WindowStartupLocation="CenterScreen">
+        Title="Graph" Height="650" Width="1000" MinHeight="500" MinWidth="600" MaxHeight="1100" MaxWidth="1800" WindowStartupLocation="CenterScreen">
     <DockPanel>
-        <!--<ToolBarTray DockPanel.Dock="Top">
+        <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
-                <Button Command="{Binding SaveAsImage}">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/ConMaterial32.png"/>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding RedrawLinesCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Redraw lines"
+                                                IconContent="{StaticResource Renew}"
+                                                DescriptionText="Redraw all lines of chart which have been selected"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource Renew}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ExportToCSVCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Export to *.csv"
+                                                IconContent="{StaticResource ExportToXLS}"
+                                                DescriptionText="Export all valid results to *.csv file"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource ExportToXLS}"/>
+                    </Viewbox>
                 </Button>
             </ToolBar>
-        </ToolBarTray>-->
+        </ToolBarTray>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MinWidth="250"/>
@@ -26,7 +45,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="170"/>
-                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <ListBox ItemsSource="{Binding Series}">
                     <ListBox.ItemTemplate>
@@ -77,10 +95,6 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
                 <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResourceKey=LineVisualProperties}" Content="{Binding VisualProps}"/>
-                
-                <StackPanel Grid.Row="2">
-                    <Button Margin="3" Content="Draw Lines" ToolTip="Draw Lines" Command="{Binding RedrawLinesCommand}"/>
-                </StackPanel>
             </Grid>
             <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" ShowsPreview="False"/>
             <lvc:CartesianChart Name="MainChart" Grid.Column="2" Series="{Binding SeriesCollection}" LegendLocation="Bottom" Zoom="Xy">

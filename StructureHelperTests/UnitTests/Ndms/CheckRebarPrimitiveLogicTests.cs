@@ -46,7 +46,7 @@ namespace StructureHelperTests.UnitTests.Ndms
             var result = _checkRebarPrimitiveLogic.Check();
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             Assert.That(_checkRebarPrimitiveLogic.CheckResult, Is.EqualTo("Primitive RebarName does not have a host\n"));
             //_mockTraceLogger.Verify(x => x.AddMessage("Primitive RebarName does not have a host\n", TraceLogStatuses.Error), Times.Once);
         }
@@ -84,7 +84,7 @@ namespace StructureHelperTests.UnitTests.Ndms
             var result = _checkRebarPrimitiveLogic.Check();
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             Assert.That(_checkRebarPrimitiveLogic.CheckResult, Is.EqualTo("Material of host of RebarName ()  does not support cracking\n"));
             //_mockTraceLogger.Verify(x => x.AddMessage("Material of host of RebarName ()  does not support cracking\n", TraceLogStatuses.Error), Times.Once);
         }

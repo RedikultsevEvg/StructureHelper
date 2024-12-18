@@ -19,9 +19,9 @@ namespace StructureHelperTests.UnitTests.Calcuators
             calculator.Run();
             var result = calculator.Result as FindParameterResult;
             //Assert
-            Assert.NotNull(result);
-            Assert.IsTrue(result.IsValid);
-            Assert.AreEqual(predicateValue, expectedValue, 0.001d);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.IsValid, Is.True);
+            Assert.That(expectedValue, Is.EqualTo(predicateValue).Within(0.001d));
         }
         [TestCase(0d, 1d, 5d, 5d, false)]
         [TestCase(0d, 10d, 15d, 15d, false)]
@@ -36,8 +36,8 @@ namespace StructureHelperTests.UnitTests.Calcuators
             calculator.Run();
             var result = calculator.Result as FindParameterResult;
             //Assert
-            Assert.NotNull(result);
-            Assert.IsTrue(result.IsValid == isValid);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.IsValid == isValid, Is.True);
         }
     }
 }

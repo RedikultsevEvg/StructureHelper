@@ -34,9 +34,9 @@ namespace StructureHelperTests.UnitTests.Calcuators
             calculator.Run();
             var result = calculator.Result as AnchorResult;
             //Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expectedCharBearingCapacity, result.CharBearingCapacity, expectedCharBearingCapacity * 1e-6d);
-            Assert.AreEqual(expectedDesignBearingCapacity, result.DesignBearingCapacity, expectedDesignBearingCapacity * 1e-6d);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.CharBearingCapacity, Is.EqualTo(expectedCharBearingCapacity).Within(expectedCharBearingCapacity * 1e-6d));
+            Assert.That(result.DesignBearingCapacity, Is.EqualTo(expectedDesignBearingCapacity).Within(expectedDesignBearingCapacity * 1e-6d));
         }
 
         [TestCase(6d, 0.2d, 7d, 0.145d, 0.28290937500000002d, 0.13633537500000006d)]
@@ -57,9 +57,9 @@ namespace StructureHelperTests.UnitTests.Calcuators
             calculator.Run();
             var result = calculator.Result as AnchorResult;
             //Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expectedVolume1, result.MortarVolumeFstStady, expectedVolume1 * 1e-6d);
-            Assert.AreEqual(expectedVolume2, result.MortarVolumeSndStady, expectedVolume2 * 1e-6d);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.MortarVolumeFstStady, Is.EqualTo(expectedVolume1).Within(expectedVolume1 * 1e-6d));
+            Assert.That(result.MortarVolumeSndStady, Is.EqualTo(expectedVolume2).Within(expectedVolume2 * 1e-6d));
         }
     }
 }

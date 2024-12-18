@@ -32,7 +32,7 @@ namespace StructureHelperTests.FunctionalTests.RCs.Eccentricitis
 
             // Assert
             //loggerMock.Verify(logger => logger.AddMessage(It.IsAny<string>(), It.IsAny<TraceLogStatuses>()), Times.Exactly(7)); // Adjust based on your actual calls
-            Assert.AreEqual(expectedEccentricity, result, 0.0001); // Adjust based on your expected result
+            Assert.That(result, Is.EqualTo(expectedEccentricity).Within(0.0001)); // Adjust based on your expected result
                                                            // Add more assertions based on your expected behavior
         }
     }

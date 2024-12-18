@@ -25,7 +25,7 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             var result = _strategy.Clone<object>(null);
 
             // Assert
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             var result = _strategy.Clone(original);
 
             // Assert
-            Assert.AreSame(expectedClone, result);
+            Assert.That(result, Is.SameAs(expectedClone));
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             var result = _strategy.Clone(original, cloneStrategyMock.Object);
 
             // Assert
-            Assert.AreSame(expectedClone, result);
+            Assert.That(result, Is.SameAs(expectedClone));
             cloneStrategyMock.Verify(cs => cs.GetClone(original), Times.Once);
         }
 
@@ -78,7 +78,7 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             var result = _strategy.Clone(originalMock.Object);
 
             // Assert
-            Assert.AreSame(expectedClone, result);
+            Assert.That(result, Is.SameAs(expectedClone));
             originalMock.Verify(o => o.Clone(), Times.Once);
         }
 
@@ -110,7 +110,7 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             var clonedObjects = (Dictionary<object, object>)internalField.GetValue(_strategy);
 
             // Assert
-            Assert.AreSame(expectedClone, clonedObjects[originalMock.Object]);
+            Assert.That(clonedObjects[originalMock.Object], Is.SameAs(expectedClone));
         }
     }
 

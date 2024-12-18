@@ -31,13 +31,12 @@ namespace StructureHelperTests.UnitTests.Calcuators
             var result = limitCurveLogic.GetPoints(inputPoints);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(inputPoints.Count, result.Count);
-
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Count, Is.EqualTo(inputPoints.Count));
             for (int i = 0; i < inputPoints.Count; i++)
             {
-                Assert.AreEqual(0.5d, result[i].X, 0.01d);
-                Assert.AreEqual(inputPoints[i].Y / inputPoints[i].X * 0.5d, result[i].Y, 0.01d);
+                Assert.That(result[i].X, Is.EqualTo(0.5d).Within(0.01d));
+                Assert.That(result[i].Y, Is.EqualTo(inputPoints[i].Y / inputPoints[i].X * 0.5d).Within(0.01d));
             }
         }
     }

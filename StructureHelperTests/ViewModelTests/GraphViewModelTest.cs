@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using StructureHelper.Windows.Graphs;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Parameters;
 
 namespace StructureHelperTests.ViewModelTests
@@ -28,9 +29,9 @@ namespace StructureHelperTests.ViewModelTests
             //Act
             var vm = new GraphViewModel(array);
             //Assert
-            Assert.IsNotNull(vm);
-            Assert.AreEqual(columnCount, vm.Series[0].XItems.Collection.Count());
-            Assert.AreEqual(columnCount, vm.Series[0].YItems.CollectionItems.Count());
+            Assert.That(vm, Is.Not.Null);
+            Assert.That(vm.Series[0].XItems.Collection.Count(), Is.EqualTo(columnCount));
+            Assert.That(vm.Series[0].YItems.CollectionItems.Count(), Is.EqualTo(columnCount));
         }
     }
 }

@@ -3,6 +3,7 @@ using FieldVisualizer.Entities.ColorMaps.Factories;
 using FieldVisualizer.Entities.Values;
 using FieldVisualizer.Services.ColorServices;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace StructureHelperTests.FieldsVisualizerTests.ColorOperationTests
 {
@@ -37,11 +38,11 @@ namespace StructureHelperTests.FieldsVisualizerTests.ColorOperationTests
             var actualG = result.G;
             var actualB = result.B;
             //Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(expectedA, actualA);
-            Assert.AreEqual(expectedR, actualR);
-            Assert.AreEqual(expectedG, actualG);
-            Assert.AreEqual(expectedB, actualB);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(actualA, Is.EqualTo(expectedA));
+            Assert.That(actualR, Is.EqualTo(expectedR));
+            Assert.That(actualG, Is.EqualTo(expectedG));
+            Assert.That(actualB, Is.EqualTo(expectedB));
         }
     }
 }

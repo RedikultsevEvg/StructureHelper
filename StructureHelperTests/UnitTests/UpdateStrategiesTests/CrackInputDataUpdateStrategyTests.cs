@@ -38,8 +38,8 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             strategy.Update(targetObject.Object, sourceObject.Object);
 
             // Assert
-            Assert.AreEqual(forceActions, targetObject.Object.ForceActions);
-            Assert.AreEqual(primitives, targetObject.Object.Primitives);
+            Assert.That(targetObject.Object.ForceActions, Is.EqualTo(forceActions));
+            Assert.That(targetObject.Object.Primitives, Is.EqualTo(primitives));
             mockUserCrackInputDataUpdateStrategy.Verify(s => s.Update(It.IsAny<IUserCrackInputData>(), It.IsAny<IUserCrackInputData>()), Times.Once);
         }
 

@@ -20,12 +20,12 @@ namespace StructureHelperTests.Infrastructures.ShTables
             var result = factory.GetByPoint2D(mockPoint);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Table.RowCount);
-            Assert.AreEqual("X", (result.Table.GetCell(0, 0).Value as StringLogEntry).Message);
-            Assert.AreEqual("Y", (result.Table.GetCell(0, 1).Value as StringLogEntry).Message);
-            Assert.AreEqual("1", (result.Table.GetCell(1, 0).Value as StringLogEntry).Message);
-            Assert.AreEqual("2", (result.Table.GetCell(1, 1).Value as StringLogEntry).Message);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(2, Is.EqualTo(result.Table.RowCount));
+            Assert.That((result.Table.GetCell(0, 0).Value as StringLogEntry).Message, Is.EqualTo("X"));
+            Assert.That((result.Table.GetCell(0, 1).Value as StringLogEntry).Message, Is.EqualTo("Y"));
+            Assert.That((result.Table.GetCell(1, 0).Value as StringLogEntry).Message, Is.EqualTo("1"));
+            Assert.That((result.Table.GetCell(1, 1).Value as StringLogEntry).Message, Is.EqualTo("2"));
         }
 
         [Test]
@@ -44,16 +44,16 @@ namespace StructureHelperTests.Infrastructures.ShTables
             var result = factory.GetByPoint2D(mockPoints);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(4, result.Table.RowCount); // Header + 3 Point rows
-            Assert.AreEqual("X", (result.Table.GetCell(0, 0).Value as StringLogEntry).Message);
-            Assert.AreEqual("Y", (result.Table.GetCell(0, 1).Value as StringLogEntry).Message);
-            Assert.AreEqual("1", (result.Table.GetCell(1, 0).Value as StringLogEntry).Message);
-            Assert.AreEqual("2", (result.Table.GetCell(1, 1).Value as StringLogEntry).Message);
-            Assert.AreEqual("3", (result.Table.GetCell(2, 0).Value as StringLogEntry).Message);
-            Assert.AreEqual("4", (result.Table.GetCell(2, 1).Value as StringLogEntry).Message);
-            Assert.AreEqual("5", (result.Table.GetCell(3, 0).Value as StringLogEntry).Message);
-            Assert.AreEqual("6", (result.Table.GetCell(3, 1).Value as StringLogEntry).Message);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Table.RowCount, Is.EqualTo(4));// Header + 3 Point rows
+            Assert.That((result.Table.GetCell(0, 0).Value as StringLogEntry).Message, Is.EqualTo("X"));
+            Assert.That((result.Table.GetCell(0, 1).Value as StringLogEntry).Message, Is.EqualTo("Y"));
+            Assert.That((result.Table.GetCell(1, 0).Value as StringLogEntry).Message, Is.EqualTo("1"));
+            Assert.That((result.Table.GetCell(1, 1).Value as StringLogEntry).Message, Is.EqualTo("2"));
+            Assert.That((result.Table.GetCell(2, 0).Value as StringLogEntry).Message, Is.EqualTo("3"));
+            Assert.That((result.Table.GetCell(2, 1).Value as StringLogEntry).Message, Is.EqualTo("4"));
+            Assert.That((result.Table.GetCell(3, 0).Value as StringLogEntry).Message, Is.EqualTo("5"));
+            Assert.That((result.Table.GetCell(3, 1).Value as StringLogEntry).Message, Is.EqualTo("6"));
         }
 
         [Test]
@@ -67,10 +67,10 @@ namespace StructureHelperTests.Infrastructures.ShTables
             var result = factory.GetByPoint2D(emptyPoints);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Table.RowCount); // Only Header row
-            Assert.AreEqual("X", (result.Table.GetCell(0, 0).Value as StringLogEntry).Message);
-            Assert.AreEqual("Y", (result.Table.GetCell(0, 1).Value as StringLogEntry).Message);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Table.RowCount, Is.EqualTo(1));// Only Header row
+            Assert.That((result.Table.GetCell(0, 0).Value as StringLogEntry).Message, Is.EqualTo("X"));
+            Assert.That((result.Table.GetCell(0, 1).Value as StringLogEntry).Message, Is.EqualTo("Y"));
         }
 
         // Add more test cases for different scenarios and edge cases
