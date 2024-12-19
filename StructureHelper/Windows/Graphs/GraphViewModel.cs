@@ -1,16 +1,14 @@
 ﻿using LiveCharts;
-using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using StructureHelper.Infrastructure;
 using StructureHelper.Services.Exports;
 using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Models.Parameters;
-using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -38,6 +36,7 @@ namespace StructureHelper.Windows.Graphs
         private bool invertXValues;
         private bool invertYValues;
         private RelayCommand saveImageCommand;
+        private RelayCommand exportToCSVCommand;
 
         public SelectItemVM<IValueParameter<double>> XItems { get; private set; }
         public SelectItemsVM<IValueParameter<double>> YItems { get; set; }
@@ -75,11 +74,48 @@ namespace StructureHelper.Windows.Graphs
             get => redrawLinesCommand ??= new RelayCommand(o => DrawSeries());
         }
 
+        public ICommand ExportToCSVCommand
+        {
+            get => exportToCSVCommand ??= new RelayCommand(o => ExportSeries());
+        }
+
+        private void ExportSeries()
+        {
+            throw new NotImplementedException();
+        }
+
         public ICommand SaveAsImage
         {
             get => saveImageCommand ??= new RelayCommand(o => SaveImage());
         }
         public CartesianChart MainChart { get; set; }
+
+        public void ExportChartToImage(CartesianChart chart, string filePath)
+        {
+            // Measure and arrange the chart to ensure it's fully rendered
+            chart.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
+            chart.Arrange(new System.Windows.Rect(0, 0, chart.ActualWidth, chart.ActualHeight));
+
+            // Create a RenderTargetBitmap
+            var renderTarget = new RenderTargetBitmap(
+                (int)chart.ActualWidth,
+                (int)chart.ActualHeight,
+                96, // DPI X
+                96, // DPI Y
+                PixelFormats.Pbgra32);
+
+            // Render the chart to the bitmap
+            renderTarget.Render(chart);
+
+            // Save as a PNG
+            var pngEncoder = new PngBitmapEncoder();
+            pngEncoder.Frames.Add(BitmapFrame.Create(renderTarget));
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                pngEncoder.Save(stream);
+            }
+        }
 
         private void SaveImage()
         {
