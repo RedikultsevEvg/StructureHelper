@@ -17,7 +17,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private ICrackWidthLogic crackWidthLogic;
         private RebarCrackResult result;
         private ICrackSofteningLogic crackSofteningLogic;
-        private IRebarStressResult rebarStressResult;
+        private IRebarStressResult longRebarStressResult;
         private ICrackWidthLogicInputData acrc2InputData;
         private ICrackWidthLogicInputData acrc1InputData;
         private ICrackWidthLogicInputData acrc3InputData;
@@ -83,7 +83,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             TraceLogger?.AddMessage($"Short term softening factor calculation");
             crackSofteningLogic = GetSofteningLogic(InputData.ShortRebarData);
-            rebarStressResult = GetRebarStressResult(InputData.ShortRebarData);
+            longRebarStressResult = GetRebarStressResult(InputData.ShortRebarData);
             acrc3InputData = GetCrackWidthInputData(crackSofteningLogic, InputData.LongRebarData, CalcTerms.ShortTerm);
             crackWidthLogic.InputData = acrc3InputData;
             longTermLoadShortConcreteCrackWidth = crackWidthLogic.GetCrackWidth();
@@ -99,7 +99,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             {
                 CrackWidth = acrcShort,
                 UltimateCrackWidth = InputData.UserCrackInputData.UltimateShortCrackWidth,
-                RebarStressResult = rebarStressResult,
+                RebarStressResult = longRebarStressResult,
                 SofteningFactor = crackSofteningLogic.GetSofteningFactor()
             };
             TraceCrackResult(shortRebarResult);
@@ -110,7 +110,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             TraceLogger?.AddMessage($"Long term softening factor calculation");
             crackSofteningLogic = GetSofteningLogic(InputData.LongRebarData);
-            rebarStressResult = GetRebarStressResult(InputData.LongRebarData);
+            longRebarStressResult = GetRebarStressResult(InputData.LongRebarData);
             acrc1InputData = GetCrackWidthInputData(crackSofteningLogic, InputData.LongRebarData, CalcTerms.LongTerm);
             crackWidthLogic.InputData = acrc1InputData;
             longTermLoadLongTermConcreteCrackWidth = crackWidthLogic.GetCrackWidth();
@@ -119,7 +119,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             {
                 CrackWidth = longTermLoadLongTermConcreteCrackWidth,
                 UltimateCrackWidth = InputData.UserCrackInputData.UltimateLongCrackWidth,
-                RebarStressResult = rebarStressResult,
+                RebarStressResult = longRebarStressResult,
                 SofteningFactor = crackSofteningLogic.GetSofteningFactor()
             };
             TraceLogger?.AddMessage($"Long crack width acrc = acrc,1 = {longTermLoadLongTermConcreteCrackWidth}(m)");
@@ -166,6 +166,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private ICrackWidthLogicInputData GetCrackWidthInputData(ICrackSofteningLogic crackSofteningLogic, IRebarCrackInputData inputData, CalcTerms calcTerm)
         {
+            //to do fix multy recall
+            IRebarStressResult rebarStressResult = GetRebarStressResult(inputData);
             var factoryInputData = new CrackWidthLogicInputDataFactory(crackSofteningLogic)
             {
                 CalcTerm = calcTerm,
