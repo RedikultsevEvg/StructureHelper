@@ -22,7 +22,7 @@ namespace StructureHelper.Windows.Graphs
             lineSeries.LineSmoothness = visualProps.LineSmoothness;
             lineSeries.PointGeometry = DefaultGeometries.Circle;
             lineSeries.PointGeometrySize = visualProps.StrokeSize;
-            Color lineColor = (lineSeries.Stroke as SolidColorBrush)?.Color ?? Colors.Black;
+            Color lineColor = (lineSeries.Stroke as SolidColorBrush)?.Color ?? Colors.LightGray;
             //lineSeries.Fill = new SolidColorBrush(lineColor) { Opacity = visualProps.Opacity };
             lineSeries.Fill = new SolidColorBrush(lineColor) { Opacity = visualProps.Opacity };
             

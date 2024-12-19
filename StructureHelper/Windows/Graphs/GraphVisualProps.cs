@@ -49,7 +49,6 @@ namespace StructureHelper.Windows.Graphs
                 OnPropertyChanged(nameof(Opacity));
             }
         }
-
         public GraphVisualProps()
         {
             MaxLineSmoothness = 1d;

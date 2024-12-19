@@ -1,6 +1,7 @@
 ﻿using LiveCharts;
 using LiveCharts.Wpf;
 using StructureHelper.Infrastructure;
+using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.TreeGraph;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
@@ -17,15 +18,26 @@ namespace StructureHelper.Windows.MainGraph
 {
     public class GraphViewModel : ViewModelBase
     {
+        private LineSeries lineSeries;
         private SeriesCollection seriesCollection;
         private List<string> labels;
+        private GraphVisualProps visualProps = new();
+        public LineSeries LineSeries
+        {
+            get => lineSeries;
+            set
+            {
+                lineSeries = value;
+                OnPropertyChanged(nameof(lineSeries));
+            }
+        }
         public SeriesCollection SeriesCollection
         {
             get => seriesCollection;
             set
             {
                 seriesCollection = value;
-                OnPropertyChanged(nameof(seriesCollection));
+                OnPropertyChanged(nameof(SeriesCollection));
             }
         }
         public List<string> Labels
@@ -35,6 +47,15 @@ namespace StructureHelper.Windows.MainGraph
             {
                 labels = value;
                 OnPropertyChanged(nameof(labels));
+            }
+        }
+        public GraphVisualProps VisualProps 
+        { 
+            get => visualProps;
+            set
+            {
+                visualProps = value;
+                DrawGraph();
             }
         }
         private IOneVariableFunction selectedFunction;
@@ -219,7 +240,10 @@ namespace StructureHelper.Windows.MainGraph
         {
             var graphSettings = SelectedFuntion.GetGraphSettings();
             Labels = graphSettings.GetLabels();
-            SeriesCollection = graphSettings.GetSeriesCollection();
+            LineSeries = graphSettings.GetLineSeries();
+            GraphService.SetVisualProps(LineSeries, VisualProps);
+            SeriesCollection = new SeriesCollection();
+            SeriesCollection.Add(LineSeries);
         }
     }
 }

@@ -103,7 +103,6 @@ namespace StructureHelperCommon.Models.Functions
         {
             double yValue = 0;
             current_xValue = xValue;
-            Check();
             yValue = Math.Round(Expression.CalculateValue(new double[] { xValue }), 2);
             return yValue;
         }

@@ -20,6 +20,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="170"/>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
         <ListView Name="FunctionList"
@@ -120,7 +121,10 @@
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>
-        <Grid Grid.Row="1" Grid.Column="0">
+        <ContentControl Grid.Row="1" 
+                        ContentTemplate="{StaticResource ResourceKey=LineVisualProperties}" 
+                        Content="{Binding VisualProps}"/>
+        <Grid Grid.Row="2" Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
@@ -153,7 +157,7 @@
                     Command="{Binding TreeCommand}"
                     Background="AntiqueWhite"/>
         </Grid>
-        <lvc:CartesianChart Grid.Row="0" Grid.Column="1"
+        <lvc:CartesianChart Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
                             Series="{Binding SeriesCollection, UpdateSourceTrigger=PropertyChanged}" Margin="5"
                             Zoom="Xy">
             <lvc:CartesianChart.AxisY>
@@ -163,7 +167,7 @@
                 <lvc:Axis Title="X"  Labels="{Binding Labels, UpdateSourceTrigger=PropertyChanged}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
-        <Grid Grid.Row="1" Grid.Column="1">
+        <Grid Grid.Row="2" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="70"/>

@@ -16,6 +16,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="170"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <TreeView Name="FunctionTreeView"
@@ -85,7 +86,10 @@
                 </ContextMenu>
             </TreeView.ContextMenu>
         </TreeView>
-        <Grid Grid.Row="1" Grid.Column="0">
+        <ContentControl Grid.Row="1" 
+                        ContentTemplate="{StaticResource ResourceKey=LineVisualProperties}" 
+                        Content="{Binding VisualProps}"/>
+        <Grid Grid.Row="2" Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="50"/>

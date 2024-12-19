@@ -13,11 +13,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using StructureHelperCommon.Models.Functions.Decorator;
 using System.Windows.Media;
+using StructureHelper.Windows.Graphs;
 
 namespace StructureHelper.Windows.TreeGraph
 {
     public class TreeGraphViewModel : ViewModelBase
     {
+        private LineSeries lineSeries;
         private SeriesCollection seriesCollection;
         private List<string> labels;
         readonly ObservableCollection<TreeViewItemViewModel> _firstGeneration;
@@ -47,7 +49,7 @@ namespace StructureHelper.Windows.TreeGraph
             set
             {
                 seriesCollection = value;
-                OnPropertyChanged(nameof(seriesCollection));
+                OnPropertyChanged(nameof(SeriesCollection));
             }
         }
         public List<string> Labels
@@ -59,6 +61,15 @@ namespace StructureHelper.Windows.TreeGraph
                 OnPropertyChanged(nameof(labels));
             }
         }
+        public LineSeries LineSeries
+        {
+            get => lineSeries;
+            set
+            {
+                lineSeries = value;
+                OnPropertyChanged(nameof(lineSeries));
+            }
+        }
         public TreeGraphView TreeGraphView_win
         { 
             get => _treeGraphView_win;
@@ -68,6 +79,7 @@ namespace StructureHelper.Windows.TreeGraph
         {
             get => _firstGeneration;
         }
+        public GraphVisualProps VisualProps { get; } = new GraphVisualProps();
         public ICommand GetYCommand
         {
             get => _getYCommand ??= new RelayCommand(o => GetY());
@@ -215,7 +227,10 @@ namespace StructureHelper.Windows.TreeGraph
             SelectedFuntion = selectedTreeViewItem.Function;
             var graphSettings = SelectedFuntion.GetGraphSettings();
             Labels = graphSettings.GetLabels();
-            SeriesCollection = graphSettings.GetSeriesCollection();
+            LineSeries = graphSettings.GetLineSeries();
+            GraphService.SetVisualProps(LineSeries, VisualProps);
+            SeriesCollection = new SeriesCollection();
+            SeriesCollection.Add(LineSeries);
         }
     }
 }
