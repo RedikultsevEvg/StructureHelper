@@ -90,6 +90,7 @@
   <ItemGroup>
     <Folder Include="Documentation\Manuals\" />
     <Folder Include="Documentation\Examples\" />
+    <Folder Include="Documentation\Verification\" />
     <Folder Include="Infrastructure\UI\DataContexts\Logics\" />
     <Folder Include="Resources\" />
     <Folder Include="Services\Settings\" />
