@@ -52,5 +52,9 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         {
             return function.GetGraphSettings();
         }
+        public virtual string GetTrace()
+        {
+            return function.GetTrace();
+        }
     }
 }

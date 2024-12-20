@@ -85,8 +85,6 @@ namespace StructureHelperCommon.Models.Functions
         public object Clone()
         {
             var formulaFunction = new FormulaFunction();
-
-            //Здесь будет стратегия
             formulaFunction.Type = Type;
             formulaFunction.Name = $"{Name} {COPY}"; 
             formulaFunction.Description = Description;
@@ -104,6 +102,8 @@ namespace StructureHelperCommon.Models.Functions
             double yValue = 0;
             current_xValue = xValue;
             yValue = Math.Round(Expression.CalculateValue(new double[] { xValue }), 2);
+            Trace = string.Empty;
+            Trace += $"Function: {Formula}, Input: {xValue}, Output: {yValue};\n";
             return yValue;
         }
         public GraphSettings GetGraphSettings()
@@ -116,6 +116,10 @@ namespace StructureHelperCommon.Models.Functions
                 graphSettings.GraphPoints.Add(graphPoint);
             }
             return graphSettings;
+        }
+        public string GetTrace()
+        {
+            return Trace;
         }
     }
 }

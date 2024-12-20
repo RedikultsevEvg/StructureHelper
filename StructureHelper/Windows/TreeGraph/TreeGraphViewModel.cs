@@ -137,8 +137,8 @@ namespace StructureHelper.Windows.TreeGraph
                 v.DataContext = vm;
                 if (v.ShowDialog() == true)
                 {
-                    SelectedFuntion = new ScaleXDecorator(SelectedFuntion, vm.ScaleFactor);
-                    var child = new TreeViewItemViewModel(SelectedFuntion, selectedTreeViewItem, this);
+                    var newFunction = new ScaleXDecorator(SelectedFuntion, vm.ScaleFactor);
+                    var child = new TreeViewItemViewModel(newFunction, selectedTreeViewItem, this);
                     selectedTreeViewItem.Children.Add(child);
                     selectedTreeViewItem.IsExpanded = true;
                 }
@@ -149,8 +149,8 @@ namespace StructureHelper.Windows.TreeGraph
                 v.DataContext = vm;
                 if (v.ShowDialog() == true)
                 {
-                    SelectedFuntion = new ScaleYDecorator(SelectedFuntion, vm.ScaleFactor);
-                    var child = new TreeViewItemViewModel(SelectedFuntion, selectedTreeViewItem, this);
+                    var newFunction = new ScaleYDecorator(SelectedFuntion, vm.ScaleFactor);
+                    var child = new TreeViewItemViewModel(newFunction, selectedTreeViewItem, this);
                     selectedTreeViewItem.Children.Add(child);
                     selectedTreeViewItem.IsExpanded = true;
                 }
@@ -176,8 +176,8 @@ namespace StructureHelper.Windows.TreeGraph
                 v.DataContext = vm;
                 if (v.ShowDialog() == true)
                 {
-                    SelectedFuntion = new LimXDecorator(SelectedFuntion, vm.LeftBound, vm.RightBound);
-                    var child = new TreeViewItemViewModel(SelectedFuntion, selectedTreeViewItem, this);
+                    var newFunction = new LimXDecorator(SelectedFuntion, vm.LeftBound, vm.RightBound);
+                    var child = new TreeViewItemViewModel(newFunction, selectedTreeViewItem, this);
                     selectedTreeViewItem.Children.Add(child);
                     selectedTreeViewItem.IsExpanded = true;
                 }
@@ -188,8 +188,8 @@ namespace StructureHelper.Windows.TreeGraph
                 v.DataContext = vm;
                 if (v.ShowDialog() == true)
                 {
-                    SelectedFuntion = new LimYDecorator(SelectedFuntion, vm.LeftBound, vm.RightBound);
-                    var child = new TreeViewItemViewModel(SelectedFuntion, selectedTreeViewItem, this);
+                    var newFunction = new LimYDecorator(SelectedFuntion, vm.LeftBound, vm.RightBound);
+                    var child = new TreeViewItemViewModel(newFunction, selectedTreeViewItem, this);
                     selectedTreeViewItem.Children.Add(child);
                     selectedTreeViewItem.IsExpanded = true;
                 }

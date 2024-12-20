@@ -25,19 +25,24 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         }
         public override double GetByX(double xValue)
         {
+            double retValue = 0;
             var y = base.GetByX(xValue);
             if (y > downBound && y < upBound)
             {
-                return y;
+                retValue = y;
             }
             else if (y <= downBound)
             {
-                return downBound;
+                retValue = downBound;
             }
             else
             {
-                return upBound;
+                retValue = upBound;
             }
+            Trace = string.Empty;
+            Trace += base.GetTrace();
+            Trace += $"Lim Y: {Name}, Input: {y}, Output: {retValue};\n";
+            return retValue;
         }
         public override GraphSettings GetGraphSettings()
         {
@@ -64,6 +69,10 @@ namespace StructureHelperCommon.Models.Functions.Decorator
             graphLimitGraphPoint.Add(upPoint);
             graphSettings.GraphPoints = graphLimitGraphPoint;
             return graphSettings;
+        }
+        public override string GetTrace()
+        {
+            return Trace;
         }
     }
 }

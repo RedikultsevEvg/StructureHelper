@@ -14,7 +14,7 @@ namespace StructureHelper.Windows.TreeGraph
         public IOneVariableFunction function;
         private double argument;
         private double value;
-        private string trace = "Будет логика расчёта";
+        private string trace = "Press \"Get value\" to calculation...\n\n\n";
         public IOneVariableFunction Function
         {
             get => function; 
@@ -55,7 +55,8 @@ namespace StructureHelper.Windows.TreeGraph
         private void GetValue()
         {
             Value = Function.GetByX(Argument);
-            Trace = "трасса";
+            Trace += Function.GetTrace();
+            Trace += "\n\n";
         }
     }
 }

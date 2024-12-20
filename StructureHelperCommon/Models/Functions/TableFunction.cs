@@ -59,7 +59,6 @@ namespace StructureHelperCommon.Models.Functions
         public object Clone()
         {
             var tableFunction = new TableFunction();
-            //Здесь будет стратегия
             tableFunction.Type = Type;
             tableFunction.Name = $"{Name} {COPY}";
             tableFunction.Description = Description;
@@ -73,6 +72,7 @@ namespace StructureHelperCommon.Models.Functions
 
         public double GetByX(double xValue)
         {
+            double yValue = 0;
             GraphPoint leftBound = null;
             GraphPoint rightBound = null;
             for (int i = 0; i < Table.Count - 1; i++)
@@ -81,18 +81,20 @@ namespace StructureHelperCommon.Models.Functions
                 rightBound = Table[i + 1];
                 if (xValue == leftBound.X)
                 {
-                    return leftBound.Y;
+                    yValue = leftBound.Y;
                 }
                 else if (xValue == rightBound.X)
                 {
-                    return rightBound.Y;
+                    yValue = rightBound.Y;
                 }
                 else
                 {
-                    return MathUtils.Interpolation(xValue, leftBound.X, rightBound.X, leftBound.Y, rightBound.Y);
+                    yValue = MathUtils.Interpolation(xValue, leftBound.X, rightBound.X, leftBound.Y, rightBound.Y);
                 }
             }
-            return 0;
+            Trace = string.Empty;
+            Trace += $"From table, Input: {xValue}, Output: {yValue};\n";
+            return yValue;
         }
         public GraphSettings GetGraphSettings()
         {
@@ -103,6 +105,10 @@ namespace StructureHelperCommon.Models.Functions
                 graphSettings.GraphPoints.Add(graphPoint);
             }            
             return graphSettings;
+        }
+        public string GetTrace()
+        {
+            return Trace;
         }
     }
 }

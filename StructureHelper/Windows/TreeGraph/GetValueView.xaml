@@ -43,8 +43,8 @@
             <TextBlock
                 Background="LightYellow" 
                 Text="{Binding Trace, UpdateSourceTrigger=PropertyChanged}"
-                TextAlignment="Center"
-                FontSize="20"
+                TextAlignment="Left"
+                FontFamily="Cascadia Mono"
                 TextWrapping="Wrap">
             </TextBlock>
         </ScrollViewer>

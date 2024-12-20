@@ -23,7 +23,13 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         }
         public override double GetByX(double xValue)
         {
-            return factor * base.GetByX(xValue);
+            double functionValue = base.GetByX(xValue);
+            double yValue = factor * functionValue;
+            Trace = string.Empty;
+            Trace += base.GetTrace();
+            Trace += $"Scale Y: {Name}, Input: {functionValue}, Output: {yValue};\n";
+            return yValue;
+
         }
         public override GraphSettings GetGraphSettings()
         {
@@ -33,6 +39,10 @@ namespace StructureHelperCommon.Models.Functions.Decorator
                 point.Y = GetByX(point.X);
             }
             return graphSettings;
+        }
+        public override string GetTrace()
+        {
+            return Trace;
         }
     }
 }

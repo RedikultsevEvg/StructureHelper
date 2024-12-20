@@ -1,4 +1,5 @@
-﻿using LiveCharts;
+﻿using FunctionParser;
+using LiveCharts;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 using System;
@@ -25,11 +26,15 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         }
         public override double GetByX(double xValue)
         {
+            double yValue = 0;
             if (xValue >= leftBound && xValue <= rightBound)
             {
-                return base.GetByX(xValue);
+                yValue = base.GetByX(xValue);
             }
-            return 0;
+            Trace = string.Empty;
+            Trace += $"Lim X: {Name}, Input: {xValue}, Output: {xValue};\n";
+            Trace += base.GetTrace();
+            return yValue;
         }
         public override GraphSettings GetGraphSettings()
         {
@@ -48,6 +53,10 @@ namespace StructureHelperCommon.Models.Functions.Decorator
             graphLimitGraphPoint.Add(rightPoint);
             graphSettings.GraphPoints = graphLimitGraphPoint;
             return graphSettings;
+        }
+        public override string GetTrace()
+        {
+            return Trace;
         }
     }
 }

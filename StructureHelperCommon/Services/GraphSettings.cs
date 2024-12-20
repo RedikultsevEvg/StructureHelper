@@ -44,18 +44,5 @@ namespace StructureHelperCommon.Services
             _lineSeries.Fill = Brushes.Transparent;
             return _lineSeries;
         }
-        /*public SeriesCollection GetSeriesCollection()
-        {
-            foreach (GraphPoint point in GraphPoints)
-            {
-                _chartValues.Add(Math.Round(point.Y, 2));
-            }
-            _lineSeries.Values = _chartValues;
-            _lineSeries.Stroke = new SolidColorBrush(_strokeColor);
-            
-            _lineSeries.Fill = Brushes.Transparent;
-            _seriesCollection.Add(_lineSeries);
-            return _seriesCollection;
-        }*/
     }
 }

@@ -30,5 +30,6 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public bool Check();
         public double GetByX(double xValue);
         public GraphSettings GetGraphSettings();
+        public string GetTrace();
     }
 }
