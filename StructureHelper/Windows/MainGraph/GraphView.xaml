@@ -82,13 +82,13 @@
                     <MenuItem Header="Add table" 
                               Command="{Binding AddTableCommand}">
                         <MenuItem.Icon>
-                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/AddTable.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Add formula" 
                               Command="{Binding AddFormulaCommand}">
                         <MenuItem.Icon>
-                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Addformula.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Edit" 
@@ -115,7 +115,7 @@
                               Command="{Binding TreeCommand}"
                               IsEnabled="{Binding SelectedFuntion.IsUser, UpdateSourceTrigger=PropertyChanged}">
                         <MenuItem.Icon>
-                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Tree.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>

@@ -46,35 +46,35 @@
                     <MenuItem Header="Get Y" 
                               Command="{Binding GetYCommand}">
                         <MenuItem.Icon>
-                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/GetY.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Scale X" 
                               Command="{Binding ScaleCommand}"
                               CommandParameter="x">
                         <MenuItem.Icon>
-                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/ScaleX.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Scale Y" 
                               Command="{Binding ScaleCommand}"
                               CommandParameter="y">
                         <MenuItem.Icon>
-                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/ScaleY.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Lim X" 
                               Command="{Binding LimitCommand}"
                               CommandParameter="x">
                         <MenuItem.Icon>
-                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/LimX.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Lim Y" 
                               Command="{Binding LimitCommand}"
                               CommandParameter="y">
                         <MenuItem.Icon>
-                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Run.png" />
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/LimY.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Delete" 

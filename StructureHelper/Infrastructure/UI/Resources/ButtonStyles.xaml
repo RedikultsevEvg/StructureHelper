@@ -141,15 +141,15 @@
         </StackPanel>
     </DataTemplate>
 
-    <DataTemplate x:Key="ButtonCalculatorRectangle">              
-    <Rectangle Style="{DynamicResource ButtonRect}" Stroke="{DynamicResource CalculatorFrame}">
-        <Rectangle.Fill>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="{DynamicResource ButtonLight}" Offset="0.2"/>
-                <GradientStop Color="{DynamicResource CalculatorColor}" Offset="1"/>
-            </LinearGradientBrush>
-        </Rectangle.Fill>
-    </Rectangle>
+    <DataTemplate x:Key="ButtonCalculatorRectangle">
+        <Rectangle Style="{DynamicResource ButtonRect}" Stroke="{DynamicResource CalculatorFrame}">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="{DynamicResource ButtonLight}" Offset="0.2"/>
+                    <GradientStop Color="{DynamicResource CalculatorColor}" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
     </DataTemplate>
 
     <DataTemplate x:Key="ButtonResultRectangle">
@@ -266,7 +266,7 @@
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
                 <Rectangle Height="16" Width="8" Canvas.Left="12" Canvas.Top="12"
-                            Fill="DarkGray" Stroke="Black" StrokeThickness="1"/> 
+                            Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
                 <Rectangle Height="6" Width="16" Canvas.Left="8" Canvas.Top="7"
                             Fill="LightGray" Stroke="Black" StrokeThickness="1"/>
                 <Line X1="2" Y1="16" X2="30" Y2="16" Stroke="Black" StrokeThickness="0.5"/>
@@ -292,7 +292,7 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-    
+
     <DataTemplate x:Key="InvertSelection">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -323,6 +323,26 @@
             <Canvas.Children>
                 <Line X1="4" Y1="4" X2="26" Y2="26" Stroke="Black" StrokeThickness="2"/>
                 <Line X1="4" Y1="26" X2="26" Y2="4" Stroke="Black" StrokeThickness="2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="AddTable">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Rectangle Height="32" Width="32" Fill="LightGreen"/>
+                <Line X1="2" X2="30" Y1="2" Y2="2" Stroke="Black" StrokeThickness="2"/>
+                <Line X1="2" X2="30" Y1="16" Y2="16" Stroke="Black" StrokeThickness="2"/>
+                <Line X1="2" X2="30" Y1="30" Y2="30" Stroke="Black" StrokeThickness="2"/>
+                <Line X1="2" X2="2" Y1="2" Y2="30" Stroke="Black" StrokeThickness="2"/>
+                <Line X1="16" X2="16" Y1="2" Y2="30" Stroke="Black" StrokeThickness="2"/>
+                <Line X1="30" X2="30" Y1="2" Y2="30" Stroke="Black" StrokeThickness="2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="TestIcon">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <TextBlock Text="fx" Width="32" Height="32" Background="LightGreen"/>
             </Canvas.Children>
         </Canvas>
     </DataTemplate>

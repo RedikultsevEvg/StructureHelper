@@ -27,6 +27,8 @@
     <None Remove="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_graph_1.png" />
     <None Remove="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_graph_2.png" />
     <None Remove="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_interpolation_1_1.png" />
+    <None Remove="Windows\MainWindow\AddFormula.png" />
+    <None Remove="Windows\MainWindow\AddTable.png" />
     <None Remove="Windows\MainWindow\Analysis32.png" />
     <None Remove="Windows\MainWindow\Beam32.png" />
     <None Remove="Windows\MainWindow\Calculator32.png" />
@@ -37,7 +39,10 @@
     <None Remove="Windows\MainWindow\Delete.png" />
     <None Remove="Windows\MainWindow\Edit.png" />
     <None Remove="Windows\MainWindow\ElasticMaterial32.png" />
+    <None Remove="Windows\MainWindow\GetY.png" />
     <None Remove="Windows\MainWindow\GlassMaterial32.png" />
+    <None Remove="Windows\MainWindow\LimX.png" />
+    <None Remove="Windows\MainWindow\LimY.png" />
     <None Remove="Windows\MainWindow\Materials32.png" />
     <None Remove="Windows\MainWindow\MovePrimitivesToCenter.png" />
     <None Remove="Windows\MainWindow\Point32.png" />
@@ -46,10 +51,13 @@
     <None Remove="Windows\MainWindow\RectangleColumn32.png" />
     <None Remove="Windows\MainWindow\RFMaterial32.png" />
     <None Remove="Windows\MainWindow\Run.png" />
+    <None Remove="Windows\MainWindow\ScaleX.png" />
+    <None Remove="Windows\MainWindow\ScaleY.png" />
     <None Remove="Windows\MainWindow\Slab32.png" />
     <None Remove="Windows\MainWindow\ToBackground.png" />
     <None Remove="Windows\MainWindow\ToForeground.png" />
     <None Remove="Windows\MainWindow\Tools_Settings.png" />
+    <None Remove="Windows\MainWindow\Tree.png" />
     <None Remove="Windows\MainWindow\СarbonMaterial32.png" />
   </ItemGroup>
 
@@ -94,6 +102,8 @@
     <Resource Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_graph_1.png" />
     <Resource Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_graph_2.png" />
     <Resource Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_interpolation_1_1.png" />
+    <Resource Include="Windows\MainWindow\AddFormula.png" />
+    <Resource Include="Windows\MainWindow\AddTable.png" />
     <Resource Include="Windows\MainWindow\Analysis32.png" />
     <Resource Include="Windows\MainWindow\Beam32.png" />
     <Resource Include="Windows\MainWindow\Calculator32.png" />
@@ -104,7 +114,10 @@
     <Resource Include="Windows\MainWindow\Delete.png" />
     <Resource Include="Windows\MainWindow\Edit.png" />
     <Resource Include="Windows\MainWindow\ElasticMaterial32.png" />
+    <Resource Include="Windows\MainWindow\GetY.png" />
     <Resource Include="Windows\MainWindow\GlassMaterial32.png" />
+    <Resource Include="Windows\MainWindow\LimX.png" />
+    <Resource Include="Windows\MainWindow\LimY.png" />
     <Resource Include="Windows\MainWindow\Materials32.png" />
     <Resource Include="Windows\MainWindow\MovePrimitivesToCenter.png" />
     <Resource Include="Windows\MainWindow\Point32.png" />
@@ -113,10 +126,13 @@
     <Resource Include="Windows\MainWindow\RectangleColumn32.png" />
     <Resource Include="Windows\MainWindow\RFMaterial32.png" />
     <Resource Include="Windows\MainWindow\Run.png" />
+    <Resource Include="Windows\MainWindow\ScaleX.png" />
+    <Resource Include="Windows\MainWindow\ScaleY.png" />
     <Resource Include="Windows\MainWindow\Slab32.png" />
     <Resource Include="Windows\MainWindow\ToBackground.png" />
     <Resource Include="Windows\MainWindow\ToForeground.png" />
     <Resource Include="Windows\MainWindow\Tools_Settings.png" />
+    <Resource Include="Windows\MainWindow\Tree.png" />
     <Resource Include="Windows\MainWindow\СarbonMaterial32.png" />
   </ItemGroup>
 
