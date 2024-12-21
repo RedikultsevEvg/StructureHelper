@@ -30,6 +30,8 @@ namespace StructureHelper.Windows.MainWindow.Materials
             this.vm = vm;
             InitializeComponent();
             this.DataContext = this.vm;
+            var cartesianChart = (CartesianChart)FindName("MainChart");
+            vm.MainChart = cartesianChart;
         }
         public MaterialDiagramView(IEnumerable<IHeadMaterial> headMaterials, IHeadMaterial material) : this(new MaterialDiagramViewModel(headMaterials, material))
         {

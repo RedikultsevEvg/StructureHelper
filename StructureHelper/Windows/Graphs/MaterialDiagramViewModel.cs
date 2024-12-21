@@ -4,15 +4,12 @@ using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.Converters.Units;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.ViewModels;
-using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
-using StructureHelperCommon.Services.ColorServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace StructureHelper.Windows.Graphs
 {
@@ -27,16 +24,19 @@ namespace StructureHelper.Windows.Graphs
             public double Stress { get; set; }
         }
 
-        private IHeadMaterial material;
+        //private IHeadMaterial material;
         private ICommand redrawLinesCommand;
-        double minValue;
-        double maxValue;
-        int stepCount;
-        bool positiveInTension;
+        private double minValue = -0.005d;
+        private double maxValue = 0.005d;
+        private int stepCount = 50;
+        bool positiveInTension = true;
         private ICommand getAreaCommand;
+        private RelayCommand saveImageCommand;
+        private RelayCommand copyToClipboardCommand;
+        private IFrameWorkElementServiseLogic frameWorkElementServiseLogic = new FrameWorkElementServiseLogic();
 
-        public string MaterialName => material.Name;
-        public GraphVisualProps VisualProps { get; }
+        //public string MaterialName => material.Name;
+        public GraphVisualProps VisualProps { get; } = new();
         public double MinValue
         {
             get => minValue;
@@ -101,11 +101,29 @@ namespace StructureHelper.Windows.Graphs
             }, b => IsDrawPossible());
         }
 
+        public ICommand SaveAsImage
+        {
+            get => saveImageCommand ??= new RelayCommand(o => frameWorkElementServiseLogic.SaveImageToFile(MainChart));
+        }
+
+        public ICommand CopyToClipboardCommand
+        {
+            get => copyToClipboardCommand ??= new RelayCommand(o => frameWorkElementServiseLogic.CopyImageToClipboard(MainChart));
+        }
+
+
+        public CartesianChart MainChart { get; set; }
+
         public MaterialDiagramViewModel(IEnumerable<IHeadMaterial> headMaterials, IHeadMaterial material)
         {
-            MaterialsModel = new SelectItemsVM<IHeadMaterial>(headMaterials) { ShowButtons = true };
-            LimitStatesModel = new SelectItemsVM<LimitStateEntity>(ProgramSetting.LimitStatesList.LimitStates) { ShowButtons = false };
-            CalcTermsModel = new SelectItemsVM<CalcTermEntity>(ProgramSetting.CalcTermList.CalcTerms) { ShowButtons = false };
+            //this.material = material;
+            SetModels(headMaterials);
+            SetSelectedMaterial(material);
+            SetLines();
+        }
+
+        private void SetSelectedMaterial(IHeadMaterial material)
+        {
             foreach (var item in MaterialsModel.CollectionItems)
             {
                 if (item.Item == material)
@@ -114,14 +132,24 @@ namespace StructureHelper.Windows.Graphs
                 }
                 else item.IsSelected = false;
             }
-            this.material = material;
-            minValue = -0.005d;
-            maxValue = 0.005d;
-            stepCount = 50;
-            positiveInTension = true;
-            VisualProps = new();
-            SetLines();
         }
+
+        private void SetModels(IEnumerable<IHeadMaterial> headMaterials)
+        {
+            MaterialsModel = new SelectItemsVM<IHeadMaterial>(headMaterials)
+            {
+                ShowButtons = true
+            };
+            LimitStatesModel = new SelectItemsVM<LimitStateEntity>(ProgramSetting.LimitStatesList.LimitStates)
+            {
+                ShowButtons = false
+            };
+            CalcTermsModel = new SelectItemsVM<CalcTermEntity>(ProgramSetting.CalcTermList.CalcTerms)
+            {
+                ShowButtons = false
+            };
+        }
+
         private string GetAreas()
         {
             var materials = MaterialsModel.SelectedItems;
@@ -142,8 +170,12 @@ namespace StructureHelper.Windows.Graphs
                     {
                         double sumStress = 0d;
                         var stressList = values
-                            .Where(x => x.LimitState == limitState & x.CalcTerm == calcTerm & x.Material == material).ToList();
-                        for (int i = 1; i < stressList.Count(); i++)
+                            .Where(x => 
+                            x.LimitState == limitState
+                            & x.CalcTerm == calcTerm
+                            & x.Material == material)
+                            .ToList();
+                        for (int i = 1; i < stressList.Count; i++)
                         {
                             double midStress = (stressList[i - 1].Stress + stressList[i].Stress) / 2;
                             sumStress += midStress * UnitConstants.Stress * step;

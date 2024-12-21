@@ -9,7 +9,7 @@ namespace StructureHelper.Services.Exports
 {
     internal class ExportToFileInputData : IExportToFileInputData
     {
-        public string FileName { get; set; }
+        public string FileName { get; set; } = "New file";
         public string Filter { get; set; }
         public string Title { get; set; }
     }

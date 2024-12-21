@@ -23,6 +23,26 @@
                         <ContentControl ContentTemplate="{StaticResource Renew}"/>
                     </Viewbox>
                 </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding CopyToClipboardCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Copy to clipboard"
+                                                IconContent="{StaticResource CopyToClipboard}"
+                                                DescriptionText="Copy chart to clipboard as image"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource CopyToClipboard}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding SaveAsImage}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Export to *.png"
+                                                IconContent="{StaticResource PngImage}"
+                                                DescriptionText="Export chart to *.png file"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource PngImage}"/>
+                    </Viewbox>
+                </Button>
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding ExportToCSVCommand}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Export to *.csv"
@@ -35,7 +55,7 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
-        <Grid>
+        <Grid x:Name="MainGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MinWidth="250"/>
                 <ColumnDefinition Width="Auto"/>
@@ -97,14 +117,16 @@
                 <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResourceKey=LineVisualProperties}" Content="{Binding VisualProps}"/>
             </Grid>
             <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" ShowsPreview="False"/>
-            <lvc:CartesianChart Name="MainChart" Grid.Column="2" Series="{Binding SeriesCollection}" LegendLocation="Bottom" Zoom="Xy">
-                <lvc:CartesianChart.AxisY>
-                    <lvc:Axis Title="y-value"></lvc:Axis>
-                </lvc:CartesianChart.AxisY>
-                <lvc:CartesianChart.AxisX>
-                    <lvc:Axis Title="x-value"></lvc:Axis>
-                </lvc:CartesianChart.AxisX>
-            </lvc:CartesianChart>
+            <Grid Grid.Column="2">
+                <lvc:CartesianChart Name="MainChart" Series="{Binding SeriesCollection}" LegendLocation="Bottom" Zoom="Xy" Background="White">
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="y-value"></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="x-value"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+            </Grid>
         </Grid>
     </DockPanel>
     

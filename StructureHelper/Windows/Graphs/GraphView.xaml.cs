@@ -28,7 +28,6 @@ namespace StructureHelper.Windows.Graphs
             this.vm = vm;
             InitializeComponent();
             DataContext = vm;
-
             var cartesianChart = (CartesianChart)FindName("MainChart");
             vm.MainChart = cartesianChart;
         }

@@ -3,38 +3,19 @@ using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses
 {
-    public class ExportForceResultToCSVLogic : IExportResultLogic
+    public class ExportForcesResultToCSVLogic : ExportToCSVLogicBase
     {
-        const string separator = ";";
-        StringBuilder output;
         IForcesResults results;
-        public string FileName { get; set; }
 
-        public void Export()
+        public ExportForcesResultToCSVLogic(IForcesResults results)
         {
-            ExportHeadings();
-            ExportBoby();
-            try
-            {
-                File.AppendAllText(FileName, output.ToString());
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Data could not be written to the CSV file.");
-                return;
-            }
+            this.results = results;
         }
 
-        public ExportForceResultToCSVLogic(IForcesResults forcesResults)
-        {
-            this.results = forcesResults;
-            output = new StringBuilder();
-        }
-
-        private void ExportHeadings()
+        public override void ExportHeadings()
         {
             string[] headings =
-    {
+                {
                     "Limit State",
                     "Calc duration",
                     "Mx",
@@ -46,7 +27,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses
                 };
             output.AppendLine(string.Join(separator, headings));
         }
-        private void ExportBoby()
+        public override void ExportBoby()
         {
             foreach (var item in results.ForcesResultList)
             {

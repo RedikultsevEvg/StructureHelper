@@ -303,7 +303,6 @@
         </Canvas>
     </DataTemplate>
 
-
     <DataTemplate x:Key="ValuePointDiagram">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -363,10 +362,60 @@
         </Canvas>
     </DataTemplate>
 
-    <DataTemplate x:Key="ExportToXLS">
+    <DataTemplate x:Key="Image">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
                 <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <Path Data="M 4 16 l 8 -3 l 3 3 l 6 -3 l 7 3 v 12 h -24 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+                <Ellipse Canvas.Top="16" Canvas.Left="18" Height="6" Width="6" Fill="White"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GetArea">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <TextBlock Text="A" FontSize="22" FontWeight="Bold" Margin="2,-4,0,2"/>
+                <TextBlock Text="?" FontSize="18" FontWeight="Bold" Margin="20,8,0,2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PngImage">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource Image}"/>
+                <TextBlock Text="PNG" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="Document">
+        <Canvas>
+            <Canvas.Children>
+                <Rectangle Height="16" Width="12" Fill="White" Stroke="DarkGray"/>
+                <Line X1="2" Y1="4" X2="10" Y2="4" Stroke="Black"/>
+                <Line X1="2" Y1="7" X2="10" Y2="7" Stroke="Black"/>
+                <Line X1="2" Y1="10" X2="10" Y2="10" Stroke="Black"/>
+                <Line X1="2" Y1="13" X2="10" Y2="13" Stroke="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CopyToClipboard">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <ContentControl Canvas.Top="10" Canvas.Left="14" ContentTemplate="{DynamicResource Document}"/>
+                <ContentControl Canvas.Top="6" Canvas.Left="8" ContentTemplate="{DynamicResource Document}"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ExportToXLS">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <!--<ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>-->
                 <ContentControl ContentTemplate="{DynamicResource Table}"/>
                 <TextBlock Text="CSV" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
                 <TextBlock Text="XLS" FontSize="12" FontWeight="Bold" FontStyle="Italic" Margin="6,14,0,2"/>

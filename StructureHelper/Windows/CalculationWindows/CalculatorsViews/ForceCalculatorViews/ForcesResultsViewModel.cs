@@ -145,11 +145,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         }
         private void ExportToCSV()
         {
-            var inputData = new ExportToFileInputData();
-            inputData.FileName = "New File";
-            inputData.Filter = "csv |*.csv";
-            inputData.Title = "Save in csv File";
-            var logic = new ExportForceResultToCSVLogic(forcesResults);
+            var inputData = new ExportToFileInputData
+            {
+                Filter = "csv |*.csv",
+                Title = "Save in *.csv File"
+            };
+            var logic = new ExportForcesResultToCSVLogic(forcesResults);
             var exportService = new ExportToFileService(inputData, logic);
             exportService.Export();
         }

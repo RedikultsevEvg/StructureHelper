@@ -20,11 +20,11 @@ namespace StructureHelper.Windows.Graphs
 {
     public class Series : ViewModelBase
     {
-        private IArrayParameter<double> arrayParameter;
         private List<IValueParameter<double>> valueParameters;
         private Dictionary<IValueParameter<double>, double[]> valueList;
         private bool invertXValues;
         private bool invertYValues;
+        private IArrayParameter<double> arrayParameter1;
 
         public SelectItemVM<IValueParameter<double>> XItems { get; }
         public SelectItemsVM<IValueParameter<double>> YItems { get; }
@@ -56,12 +56,14 @@ namespace StructureHelper.Windows.Graphs
         public IArrayParameter<double> ArrayParameter { get; set; }
         public Series(IArrayParameter<double> arrayParameter)
         {
-            this.arrayParameter = arrayParameter;
+            this.ArrayParameter = arrayParameter;
             valueParameters = GetParameters();
             XItems = new SelectItemVM<IValueParameter<double>>(valueParameters);
-            YItems = new SelectItemsVM<IValueParameter<double>>(valueParameters);
-            YItems.ShowButtons = true;
             XItems.SelectedItem = XItems.Collection[0];
+            YItems = new SelectItemsVM<IValueParameter<double>>(valueParameters)
+            {
+                ShowButtons = true
+            };
             YItems.UnSelectAllCommand.Execute(null);
             VisualProps = new();
             Color = ColorProcessor.GetRandomColor();
@@ -71,13 +73,13 @@ namespace StructureHelper.Windows.Graphs
         {
             valueList = new Dictionary<IValueParameter<double>, double[]>();
             var items = new List<IValueParameter<double>>();
-            var data = arrayParameter.Data;
+            var data = ArrayParameter.Data;
             int columnCount = data.GetLength(1);
             for (int i = 0; i < columnCount; i++)
             {
                 var item = new ValueParameter<double>()
                 {
-                    Name = arrayParameter.ColumnLabels[i],
+                    Name = ArrayParameter.ColumnLabels[i],
                     Color = ColorProcessor.GetRandomColor(),
                 };
                 items.Add(item);
