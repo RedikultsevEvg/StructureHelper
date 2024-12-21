@@ -257,10 +257,7 @@ namespace StructureHelper.Windows.Graphs
                         var chartValues = new ChartValues<double>();
                         for (double s = minValue; s < maxValue; s += step)
                         {
-                            //var trueStep = s * factor;
                             double diagramValue = Math.Round(loaderMaterial.Diagram.Invoke(loaderMaterial.DiagramParameters, s * factor)) * factor * UnitConstants.Stress;
-                            //var point = new PointF() { X = (float)s, Y = (float)diagramValue };
-                            //chartValues.Add(point);
                             chartValues.Add(diagramValue);
                             labels.Add(Convert.ToString(Math.Round(s, 4)));
                         }

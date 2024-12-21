@@ -50,7 +50,7 @@
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Show diagram's areas"
                                                 IconContent="{StaticResource GetArea}"
-                                                DescriptionText="Show areas of regions under diagrams (represent energy of deformation of material)"/>
+                                                DescriptionText="Show areas of regions under diagrams (represents energy of deformation of material)"/>
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{StaticResource GetArea}"/>
