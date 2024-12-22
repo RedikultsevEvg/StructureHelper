@@ -12,6 +12,7 @@ namespace StructureHelperCommon.Models
         private ShTable<ITraceLoggerEntry> table;
         public ShTable<ITraceLoggerEntry> Table {get => table;}
         public DateTime TimeStamp { get; }
+        public double[] ColumnWidth { get; }
 
         public int Priority { get; set; }
         public TableLogEntry(int rowSize)
@@ -20,6 +21,7 @@ namespace StructureHelperCommon.Models
             {
                 throw new ArgumentException("Row size must be greater than 0.", nameof(rowSize));
             }
+            ColumnWidth = new double[rowSize];
             table = new(rowSize);
             TimeStamp = DateTime.Now;
         }

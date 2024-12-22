@@ -21,6 +21,11 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 
+
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
+
 namespace StructureHelper.Windows.MainWindow
 {
     public class CrossSectionViewModel : ViewModelBase

@@ -1,16 +1,6 @@
-﻿using LoaderCalculator;
-using LoaderCalculator.Data.Matrix;
-using LoaderCalculator.Data.Ndms;
-using LoaderCalculator.Data.ResultData;
-using LoaderCalculator.Data.SourceData;
-using LoaderCalculator.Logics;
-using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Models.Loggers;
-using StructureHelperCommon.Models.Shapes;
-using StructureHelperLogics.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {

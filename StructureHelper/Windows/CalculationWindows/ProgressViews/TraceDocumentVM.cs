@@ -157,13 +157,19 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
         {
             const int columnWidth = 150;
             var rows = tableEntry.Table.GetAllRows();
-            int rowCount = rows.Count();
             int columnCount = tableEntry.Table.RowSize;
             var table = new Table();
             for (int x = 0; x < columnCount; x++)
             {
                 var tableColumn = new TableColumn();
-                tableColumn.Width = new GridLength(columnWidth);
+                if (tableEntry.ColumnWidth[x] > 0d)
+                {
+                    tableColumn.Width = new GridLength(tableEntry.ColumnWidth[x]);
+                }
+                else
+                {
+                    tableColumn.Width = new GridLength(columnWidth);
+                }
                 table.Columns.Add(tableColumn);
             }
             foreach (var row in rows)

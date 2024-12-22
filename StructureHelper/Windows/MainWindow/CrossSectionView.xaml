@@ -103,36 +103,6 @@
         </ContextMenu>
     </Window.Resources>
     <DockPanel>
-        <!--<Menu DockPanel.Dock="Top" x:Name="menu">
-            <MenuItem Header="File">
-            </MenuItem>
-            <MenuItem Header="Edit">
-                <MenuItem Header="Primitives">
-                    <MenuItem Header="Add">
-                        <Button Content="Rectangle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}"/>
-                        <Button Content="Circle" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}"/>
-                        <Button Content="Reinforcement" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}"/>
-                        <Button Content="Point" Command="{Binding PrimitiveLogic.Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}"/>
-                    </MenuItem>
-                    <Button Content="Edit primitive" Command="{Binding PrimitiveLogic.Edit}"/>
-                    <Button Content="Delete primitive" Command="{Binding PrimitiveLogic.Delete}"/>
-                </MenuItem>
-                <Button Content="Materials" Command="{Binding EditHeadMaterialsCommand}"/>
-                <Button Content="Move primitives to center" Command="{Binding MovePrimitiveToGravityCenterCommand}"/>
-                <MenuItem Header="Templates">
-                    <Button Content="Concrete beam" Command="{Binding AddBeamCase}"/>
-                    <Button Content="Concrete column" Command="{Binding AddColumnCase}"/>
-                    <Button Content="Concrete slab" Command="{Binding AddSlabCase}"/>
-                    <Button Content="Concrete circle" Command="{Binding AddRCCircleCase}"/>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="Tools">
-                <Button Content="Settings" Command="{Binding ShowVisualProperty}"/>
-            </MenuItem>
-            <MenuItem Header="Help">
-                <Button Content="About..." Command="{Binding HelpLogic.ShowAbout}"/>
-            </MenuItem>
-        </Menu>-->
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar DataContext="{Binding CombinationsLogic}" ToolTip="Actions">
                 <Button Style="{StaticResource ToolButton}" 

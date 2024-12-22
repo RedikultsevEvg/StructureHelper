@@ -5,43 +5,56 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow.Materials"
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Materials"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance vm:HeadMaterialsViewModel}"
         mc:Ignorable="d"
-        Title="Materials" Height="350" Width="680" MinHeight="350" MinWidth="680" WindowStartupLocation="CenterScreen">
+        Title="Materials" Height="350" Width="480" MinHeight="350" MinWidth="480" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary Source="/Infrastructure/UI/Resources/Materials.xaml"/>
     </Window.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="120"/>
-        </Grid.ColumnDefinitions>
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowMaterialDiagram}">
+                <Button.ToolTip>
+                    <uc:ButtonToolTipEh HeaderText="Show material diagram"
+                                                IconContent="{StaticResource MomentCurvatureDiagram}"
+                                                DescriptionText="Show stress-strain diagram for selected material"/>
+                </Button.ToolTip>
+                <Viewbox>
+                    <ContentControl ContentTemplate="{DynamicResource MomentCurvatureDiagram}"/>
+                </Viewbox>
+            </Button>
+            </ToolBar>
+        </ToolBarTray>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <ListBox ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding SelectedMaterial}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Rectangle Grid.Column="0" Margin="3">
-                                <Rectangle.Fill>
-                                    <SolidColorBrush Color="{Binding Color}"/>
-                                </Rectangle.Fill>
-                            </Rectangle>
-                            <TextBlock Grid.Column="1" Text="{Binding Name}"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+        <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <ListBox ItemsSource="{Binding HeadMaterials}" SelectedItem="{Binding SelectedMaterial}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Column="0" Margin="3">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{Binding Color}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
         </Grid>
-        <StackPanel Grid.Column="1">
-            <Button Content="Show diagram"  Command="{Binding ShowMaterialDiagram}"/>
-        </StackPanel>
-    </Grid>
+    </DockPanel>
 </Window>

@@ -7,7 +7,9 @@ using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Sections;
 using StructureHelperCommon.Models.Sections.Logics;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Buckling;
+using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
@@ -29,9 +31,32 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public ForcesResults GetForcesResults()
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
+            TraceInputData();
             GetCombinations();
             CalculateResult();
             return result;
+        }
+
+        private void TraceInputData()
+        {
+            TracePrimitiveFactory tracePrimitiveFactory = new()
+            {
+                Collection = InputData.Primitives
+            };
+            List<ITraceLoggerEntry> traceEntries = tracePrimitiveFactory.GetTraceEntries();
+            foreach (var item in traceEntries)
+            {
+                TraceLogger?.AddEntry(item);
+            }
+            TraceMaterialsFactory traceMaterialFactory = new()
+            {
+                Collection = InputData.Primitives.Select(x => x.NdmElement.HeadMaterial).Distinct()
+            };
+            traceEntries = traceMaterialFactory.GetTraceEntries();
+            foreach (var item in traceEntries)
+            {
+                TraceLogger?.AddEntry(item);
+            }
         }
 
         private void CalculateResult()

@@ -14,6 +14,7 @@ namespace StructureHelperCommon.Models
     /// </summary>
     public class TraceTablesFactory
     {
+
         public int Priority { get; set; }
         /// <summary>
         /// Generates table entry for Point2D (2 columns, 2 rows)
@@ -64,8 +65,10 @@ namespace StructureHelperCommon.Models
         /// <returns>Table entry</returns>
         public TableLogEntry GetByForceTuple(IEnumerable<IForceTuple> forceTuples)
         {
-            var table = new TableLogEntry(6);
-            table.Priority = Priority;
+            var table = new TableLogEntry(6)
+            {
+                Priority = Priority
+            };
             //type of force tuple for creating a header is taken by first member
             var firstMember = forceTuples.First();
             table.Table.AddRow(GetForceTupleHeaderRow(firstMember));
@@ -86,54 +89,26 @@ namespace StructureHelperCommon.Models
         private ShTableRow<ITraceLoggerEntry> GetForceTupleHeaderRow(IForceTuple forceTuple)
         {
             const CellRole cellRole = CellRole.Header;
+            const int rowSize = 6;
             string[] ColumnList = new string[] { "Mx", "My", "Nz", "Qx", "Qy", "Mz" };
             if (forceTuple is StrainTuple)
             {
                 ColumnList = new string[] { "Kx", "Ky", "EpsZ", "GammaX", "GammaY", "Kz" };
             }
 
-            var forceTupleRow = new ShTableRow<ITraceLoggerEntry>(6);
+            var forceTupleRow = new ShTableRow<ITraceLoggerEntry>(rowSize);
             foreach (var item in forceTupleRow.Elements)
             {
                 item.Role = cellRole;
             }
-
-            forceTupleRow.Elements[0].Value = new StringLogEntry()
+            for (int i = 0; i < rowSize; i++)
             {
-                Message = ColumnList[0],
-                Priority = Priority
-            };
-
-            forceTupleRow.Elements[1].Value = new StringLogEntry()
-            {
-                Message = ColumnList[1],
-                Priority = Priority
-            };
-
-            forceTupleRow.Elements[2].Value = new StringLogEntry()
-            {
-                Message = ColumnList[2],
-                Priority = Priority
-            };
-
-            forceTupleRow.Elements[3].Value = new StringLogEntry()
-            {
-                Message = ColumnList[3],
-                Priority = Priority
-            };
-
-            forceTupleRow.Elements[4].Value = new StringLogEntry()
-            {
-                Message = ColumnList[4],
-                Priority = Priority
-            };
-
-            forceTupleRow.Elements[5].Value = new StringLogEntry()
-            {
-                Message = ColumnList[5],
-                Priority = Priority
-            };
-
+                forceTupleRow.Elements[i].Value = new StringLogEntry()
+                {
+                    Message = ColumnList[i],
+                    Priority = Priority
+                };
+            }
             return forceTupleRow;
         }
         private ShTableRow<ITraceLoggerEntry> GetForceTupleRow(IForceTuple forceTuple)
@@ -181,7 +156,6 @@ namespace StructureHelperCommon.Models
 
             return forceTupleRow;
         }
-
         private ShTableRow<ITraceLoggerEntry> GetPoint2DHeaderRow()
         {
             const CellRole cellRole = CellRole.Header;
@@ -228,5 +202,6 @@ namespace StructureHelperCommon.Models
             };
             return pointRow;
         }
+
     }
 }

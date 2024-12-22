@@ -33,6 +33,14 @@ namespace StructureHelperCommon.Models.Tables
             table.Add(new ShTableRow<T>(RowSize));
         }
 
+        public void AddRows(IEnumerable<IShTableRow<T>> tableRows)
+        {
+            foreach (var item in tableRows)
+            {
+                AddRow(item);
+            }
+        }
+
         /// <summary>
         /// Get all rows in the table
         /// </summary>
