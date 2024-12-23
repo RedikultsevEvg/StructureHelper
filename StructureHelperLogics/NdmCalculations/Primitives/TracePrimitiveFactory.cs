@@ -83,7 +83,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             };
             ndmRow.Elements[1].Value = new StringLogEntry()
             {
-                Message = rectShape.Width.ToString(),
+                Message = rectShape.Width.ToString() + "(m)",
                 Priority = Priority
             };
             rows.Add(ndmRow);
@@ -102,7 +102,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             };
             ndmRow.Elements[1].Value = new StringLogEntry()
             {
-                Message = point.Area.ToString(),
+                Message = point.Area.ToString() + "(m^2)",
                 Priority = Priority
             };
             rows.Add(ndmRow);
@@ -133,7 +133,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             };
             ndmRow.Elements[1].Value = new StringLogEntry()
             {
-                Message = "X = " + ndmPrimitive.Center.X.ToString() + ", Y = " + ndmPrimitive.Center.Y.ToString(),
+                Message = "X = " + ndmPrimitive.Center.X.ToString() + "(m)" + ", Y = " + ndmPrimitive.Center.Y.ToString() + "(m)",
                 Priority = Priority
             };
             rows.Add(ndmRow);
@@ -152,7 +152,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             };
             ndmRow.Elements[1].Value = new StringLogEntry()
             {
-                Message = rectShape.Width.ToString(),
+                Message = rectShape.Height.ToString() + "(m)",
                 Priority = Priority
             };
             rows.Add(ndmRow);
@@ -164,7 +164,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             };
             ndmRow.Elements[1].Value = new StringLogEntry()
             {
-                Message = rectShape.Height.ToString(),
+                Message = rectShape.Width.ToString() + "(m)",
                 Priority = Priority
             };
             rows.Add(ndmRow);

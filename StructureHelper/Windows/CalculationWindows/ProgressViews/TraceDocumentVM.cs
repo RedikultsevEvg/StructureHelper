@@ -155,7 +155,7 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
 
         private Table GetBlockByTableEntry(TableLogEntry tableEntry)
         {
-            const int columnWidth = 150;
+            const double defaultColumnWidth = 150d;
             var rows = tableEntry.Table.GetAllRows();
             int columnCount = tableEntry.Table.RowSize;
             var table = new Table();
@@ -168,7 +168,7 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
                 }
                 else
                 {
-                    tableColumn.Width = new GridLength(columnWidth);
+                    tableColumn.Width = new GridLength(defaultColumnWidth);
                 }
                 table.Columns.Add(tableColumn);
             }

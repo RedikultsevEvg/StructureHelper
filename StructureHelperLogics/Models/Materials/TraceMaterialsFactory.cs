@@ -1,4 +1,5 @@
-﻿using StructureHelper.Models.Materials;
+﻿using LoaderCalculator.Data.Materials;
+using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Materials.Libraries;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Shapes;
 
 namespace StructureHelperLogics.Models.Materials
@@ -49,6 +51,37 @@ namespace StructureHelperLogics.Models.Materials
             traceLoggerEntries.Add(table);
         }
 
+        private List<IShTableRow<ITraceLoggerEntry>> ProcessLibMaterial(ILibMaterial libMaterial)
+        {
+            List<IShTableRow<ITraceLoggerEntry>> rows = new();
+            ShTableRow<ITraceLoggerEntry> ndmRow;
+            ndmRow = new(rowSize);
+            ndmRow.Elements[0].Value = new StringLogEntry()
+            {
+                Message = "Material kind name",
+                Priority = Priority
+            };
+            ndmRow.Elements[1].Value = new StringLogEntry()
+            {
+                Message = libMaterial.MaterialEntity.Name,
+                Priority = Priority
+            };
+            rows.Add(ndmRow);
+            ndmRow = new(rowSize);
+            ndmRow.Elements[0].Value = new StringLogEntry()
+            {
+                Message = "Material logic name",
+                Priority = Priority
+            };
+            ndmRow.Elements[1].Value = new StringLogEntry()
+            {
+                Message = libMaterial.MaterialLogic.Name,
+                Priority = Priority
+            };
+            rows.Add(ndmRow);
+            return rows;
+        }
+
         private void Check()
         {
             if (Collection is null)
@@ -83,10 +116,65 @@ namespace StructureHelperLogics.Models.Materials
             return ndmRow;
         }
 
-        private List<IShTableRow<ITraceLoggerEntry>> GetCommonRows(IHeadMaterial headMaterial)
+        private List<IShTableRow<ITraceLoggerEntry>> GetCommonRows(IHeadMaterial headMateial)
         {
             List<IShTableRow<ITraceLoggerEntry>> rows = new();
-            rows.AddRange(ProcessSafetyFactors(headMaterial.HelperMaterial.SafetyFactors));
+            var helperMaterial = headMateial.HelperMaterial;
+            if (helperMaterial is not null)
+            {
+                if (helperMaterial is ILibMaterial libMaterial)
+                {
+                    rows.AddRange(ProcessLibMaterial(libMaterial));
+                }
+                if (helperMaterial is IElasticMaterial elastic)
+                {
+                    rows.AddRange(ProcessElasticMaterial(elastic));
+                }
+            }
+            rows.AddRange(ProcessSafetyFactors(headMateial.HelperMaterial.SafetyFactors));
+            return rows;
+        }
+
+        private IEnumerable<IShTableRow<ITraceLoggerEntry>> ProcessElasticMaterial(IElasticMaterial elastic)
+        {
+            List<IShTableRow<ITraceLoggerEntry>> rows = new();
+            ShTableRow<ITraceLoggerEntry> ndmRow;
+            ndmRow = new(rowSize);
+            ndmRow.Elements[0].Value = new StringLogEntry()
+            {
+                Message = "Initial Young's modulus, Pa",
+                Priority = Priority
+            };
+            ndmRow.Elements[1].Value = new StringLogEntry()
+            {
+                Message = elastic.Modulus.ToString(),
+                Priority = Priority
+            };
+            rows.Add(ndmRow);
+            ndmRow = new(rowSize);
+            ndmRow.Elements[0].Value = new StringLogEntry()
+            {
+                Message = "Compressive strength, Pa",
+                Priority = Priority
+            };
+            ndmRow.Elements[1].Value = new StringLogEntry()
+            {
+                Message = elastic.CompressiveStrength.ToString(),
+                Priority = Priority
+            };
+            rows.Add(ndmRow);
+            ndmRow = new(rowSize);
+            ndmRow.Elements[0].Value = new StringLogEntry()
+            {
+                Message = "Tensile strength, Pa",
+                Priority = Priority
+            };
+            ndmRow.Elements[1].Value = new StringLogEntry()
+            {
+                Message = elastic.TensileStrength.ToString(),
+                Priority = Priority
+            };
+            rows.Add(ndmRow);
             return rows;
         }
 

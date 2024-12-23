@@ -34,7 +34,21 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             TraceInputData();
             GetCombinations();
             CalculateResult();
+            TraceResult();
             return result;
+        }
+
+        private void TraceResult()
+        {
+            TraceForcesResultLogic traceLogic = new()
+            {
+                Collection = result.ForcesResultList
+            };
+            List<ITraceLoggerEntry> traceEntries = traceLogic.GetTraceEntries();
+            foreach (var item in traceEntries)
+            {
+                TraceLogger?.AddEntry(item);
+            }
         }
 
         private void TraceInputData()
