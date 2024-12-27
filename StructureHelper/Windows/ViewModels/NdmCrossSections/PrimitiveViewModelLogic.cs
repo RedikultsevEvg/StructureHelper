@@ -129,18 +129,18 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 repository.Primitives.Remove(ndmPrimitive);
                 foreach (var calc in repository.Calculators)
                 {
-                    if (calc is ForceCalculator forceCalculator)
+                    if (calc is IForceCalculator forceCalculator)
                     {
                         var forceCalc = forceCalculator.InputData as IHasPrimitives;
                         forceCalc.Primitives.Remove(ndmPrimitive);
                     }
-                    else if (calc is LimitCurvesCalculator calculator)
+                    else if (calc is ILimitCurvesCalculator calculator)
                     {
                         //to do
                         //var forceCalc = calculator.InputData as IHasPrimitives;
                         //forceCalc.Primitives.Remove(ndmPrimitive);
                     }
-                    else if (calc is CrackCalculator crackCalculator)
+                    else if (calc is ICrackCalculator crackCalculator)
                     {
                         var forceCalc = crackCalculator.InputData as IHasPrimitives;
                         forceCalc.Primitives.Remove(ndmPrimitive);
@@ -152,10 +152,12 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 }
                 foreach (var primitive in repository.Primitives)
                 {
-                    if (primitive is IHasHostPrimitive)
+                    if (primitive is IHasHostPrimitive sPrimitive)
                     {
-                        var sPrimitive = primitive as IHasHostPrimitive;
-                        if (sPrimitive.HostPrimitive == ndmPrimitive) { sPrimitive.HostPrimitive = null; }
+                        if (sPrimitive.HostPrimitive == ndmPrimitive)
+                        {
+                            sPrimitive.HostPrimitive = null;
+                        }
                     }
                 }
                 Items.Remove(SelectedItem);

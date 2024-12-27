@@ -51,7 +51,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             targetObject.Calculators.Clear();
             foreach (var calculator in sourceObject.Calculators)
             {
-                var newCalculator = cloningStrategy.Clone(calculator);
+                //to do Change to cloning strategy
+                //var newCalculator = cloningStrategy.Clone(calculator);
+                var newCalculator = calculator.Clone() as ICalculator;
                 if (calculator is IForceCalculator forceCalculator)
                 {
                     forceCalculatorUpdateStrategy.Update(newCalculator as IForceCalculator, forceCalculator);

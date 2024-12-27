@@ -2,7 +2,7 @@
   "$id": "1",
   "$type": "RootObject",
   "FileVersion": {
-    "Id": "bcd36a37-aa05-4376-8b56-67c4f1efdea8",
+    "Id": "78fe5068-8186-4266-829c-0e4a3fd05930",
     "VersionNumber": 1,
     "SubVersionNumber": 0
   },
@@ -20,7 +20,7 @@
             "$id": "4",
             "$type": "CrossSectionNdmAnalysis",
             "Id": "36282be0-eb67-4ef3-8c93-51571cb3c83b",
-            "Name": "ААА123123",
+            "Name": "Балка 300х700мм",
             "Tags": "#New group",
             "VersionProcessor": {
               "$id": "5",
@@ -34,6 +34,7 @@
                     "$type": "DateVersion",
                     "Id": "df6014e5-9a13-4eed-b60a-ad73f234ac52",
                     "DateTime": "2024-12-05T16:48:24.6866622+05:00",
+                    "Comment": "",
                     "AnalysisVersion": {
                       "$id": "7",
                       "$type": "CrossSection",
@@ -192,6 +193,8 @@
                               "$type": "ForceCombinationByFactor",
                               "Id": "4151e31c-41bc-49e9-bfac-84bf14b19f42",
                               "Name": "New Factored Load",
+                              "LimitState": 2,
+                              "CalcTerm": 1,
                               "FullSLSForces": {
                                 "$id": "25",
                                 "$type": "ForceTuple",
@@ -227,14 +230,14 @@
                               "RectangleShape": {
                                 "$id": "28",
                                 "$type": "RectangleShape",
-                                "Id": "3b8cfcab-fffd-457a-a511-a2d755bc42ca",
+                                "Id": "97e77d4c-4d11-4059-a256-12c13490d5da",
                                 "Width": 0.3,
                                 "Height": 0.7
                               },
                               "NdmElement": {
                                 "$id": "29",
                                 "$type": "NdmElement",
-                                "Id": "f5b4f8aa-5b7c-4bde-b031-343f041d76c9",
+                                "Id": "8439fba6-fa39-4b85-96a7-c87d24699859",
                                 "HeadMaterial": {
                                   "$ref": "9"
                                 },
@@ -242,7 +245,7 @@
                                 "UsersPrestrain": {
                                   "$id": "30",
                                   "$type": "ForceTuple",
-                                  "Id": "4f17a34c-1064-4884-9cca-a89fa7ddedf5",
+                                  "Id": "2b4da48f-bc56-49c4-ad86-86eb6706f748",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -253,7 +256,7 @@
                                 "AutoPrestrain": {
                                   "$id": "31",
                                   "$type": "ForceTuple",
-                                  "Id": "2c0e33ae-6720-41d5-82ca-ebc200c9bd91",
+                                  "Id": "de77d4bd-9c5f-4cc0-9aa5-04a0078cec06",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -265,7 +268,7 @@
                               "VisualProperty": {
                                 "$id": "32",
                                 "$type": "VisualProperty",
-                                "Id": "73625cbf-026b-4905-a83a-093247b1f45a",
+                                "Id": "2755ef1f-89fb-4e6e-ae65-220274f25759",
                                 "IsVisible": true,
                                 "Color": "#FF7BDBB8",
                                 "SetMaterialColor": true,
@@ -275,14 +278,14 @@
                               "Center": {
                                 "$id": "33",
                                 "$type": "Point2D",
-                                "Id": "9eec9ec8-a8c9-4939-8305-629122b1f13a",
+                                "Id": "31daa257-8adf-4aaf-82f5-048e44452334",
                                 "X": 0.0,
                                 "Y": 0.0
                               },
                               "DivisionSize": {
                                 "$id": "34",
                                 "$type": "DivisionSize",
-                                "Id": "bea0d62e-ec12-431e-80ce-6d3666dd650d",
+                                "Id": "83203dfc-0c03-40d7-b9cf-031afd5105e8",
                                 "NdmMaxSize": 0.01,
                                 "NdmMinDivision": 10,
                                 "ClearUnderlying": false
@@ -297,7 +300,7 @@
                               "NdmElement": {
                                 "$id": "36",
                                 "$type": "NdmElement",
-                                "Id": "b234252a-1c29-4318-ab9e-c3ac6f457475",
+                                "Id": "d326fa3e-9310-465c-bd26-b12304e1b54e",
                                 "HeadMaterial": {
                                   "$ref": "21"
                                 },
@@ -305,7 +308,7 @@
                                 "UsersPrestrain": {
                                   "$id": "37",
                                   "$type": "ForceTuple",
-                                  "Id": "f9a09022-4c43-4075-b003-8f28c2b45ccc",
+                                  "Id": "03b9911a-1d33-4138-ab2e-db12bd4a0959",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -316,7 +319,7 @@
                                 "AutoPrestrain": {
                                   "$id": "38",
                                   "$type": "ForceTuple",
-                                  "Id": "67d9f147-78c3-4a2a-a425-bb2eb27edc17",
+                                  "Id": "eebdfab7-7994-4e93-9184-6bac86711178",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -328,7 +331,7 @@
                               "VisualProperty": {
                                 "$id": "39",
                                 "$type": "VisualProperty",
-                                "Id": "d94e9c53-7d62-4ed6-96d8-597e22166e19",
+                                "Id": "03b67c39-5502-4d48-8551-2b173b2bbac7",
                                 "IsVisible": true,
                                 "Color": "#FF9961E8",
                                 "SetMaterialColor": true,
@@ -338,7 +341,7 @@
                               "Center": {
                                 "$id": "40",
                                 "$type": "Point2D",
-                                "Id": "76e4740d-878a-458d-8095-543f82f5832e",
+                                "Id": "bce8b136-5938-4306-91df-c67f934dbb48",
                                 "X": -0.09999999999999999,
                                 "Y": -0.3
                               },
@@ -356,7 +359,7 @@
                               "NdmElement": {
                                 "$id": "42",
                                 "$type": "NdmElement",
-                                "Id": "9c7f3688-d8da-4f3d-8fc0-8c1c87ff43c7",
+                                "Id": "104c830a-0d71-4476-8136-eef625fe5a82",
                                 "HeadMaterial": {
                                   "$ref": "21"
                                 },
@@ -364,7 +367,7 @@
                                 "UsersPrestrain": {
                                   "$id": "43",
                                   "$type": "ForceTuple",
-                                  "Id": "56228e37-ae80-43aa-9ee5-8d5ce9b86c26",
+                                  "Id": "a35d0eef-40fc-4cd6-a6f3-10b9ff4f5fb7",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -375,7 +378,7 @@
                                 "AutoPrestrain": {
                                   "$id": "44",
                                   "$type": "ForceTuple",
-                                  "Id": "c8c8d092-6bc5-4de8-a0ce-43ef78fc432c",
+                                  "Id": "f78593dd-1eae-4ed5-9f29-af168edddfe7",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -387,7 +390,7 @@
                               "VisualProperty": {
                                 "$id": "45",
                                 "$type": "VisualProperty",
-                                "Id": "1e1bf247-3b09-4bf7-abeb-652e5654c362",
+                                "Id": "dda71c77-3c04-46fa-bd9a-80294f8915ca",
                                 "IsVisible": true,
                                 "Color": "#FF154967",
                                 "SetMaterialColor": true,
@@ -397,7 +400,7 @@
                               "Center": {
                                 "$id": "46",
                                 "$type": "Point2D",
-                                "Id": "ee7fa26a-642a-4f0e-b3f4-75d8311740d7",
+                                "Id": "2bc8557e-d6a4-429f-a77f-cbf8b4356d96",
                                 "X": 0.09999999999999999,
                                 "Y": -0.3
                               },
@@ -415,7 +418,7 @@
                               "NdmElement": {
                                 "$id": "48",
                                 "$type": "NdmElement",
-                                "Id": "b9487ebf-7f57-443d-b883-6b8fe00b67fa",
+                                "Id": "4b1e71c1-5c24-4939-81c7-1ca3343f5f33",
                                 "HeadMaterial": {
                                   "$ref": "21"
                                 },
@@ -423,7 +426,7 @@
                                 "UsersPrestrain": {
                                   "$id": "49",
                                   "$type": "ForceTuple",
-                                  "Id": "deae93cb-23ae-4048-949b-7baa4645bfec",
+                                  "Id": "4a9f2921-a31b-4ade-8774-4e97153d261f",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0022,
@@ -434,7 +437,7 @@
                                 "AutoPrestrain": {
                                   "$id": "50",
                                   "$type": "ForceTuple",
-                                  "Id": "fccb3ed6-9f06-4002-9769-ed1cef9e20af",
+                                  "Id": "9554dcc9-ff56-40d1-b816-cfa3729def0e",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -446,7 +449,7 @@
                               "VisualProperty": {
                                 "$id": "51",
                                 "$type": "VisualProperty",
-                                "Id": "8dfc1b18-e855-4641-a171-8c10ba030d81",
+                                "Id": "4c9ff3e3-3f5b-4f88-8092-4cdda6a49a46",
                                 "IsVisible": true,
                                 "Color": "#FF7DEC34",
                                 "SetMaterialColor": true,
@@ -456,7 +459,7 @@
                               "Center": {
                                 "$id": "52",
                                 "$type": "Point2D",
-                                "Id": "cfb573f3-35f0-4c71-9196-25fb162a7368",
+                                "Id": "da391657-0adc-47c7-98f6-29a5d535f5d2",
                                 "X": -0.049999999999999996,
                                 "Y": -0.3
                               },
@@ -474,7 +477,7 @@
                               "NdmElement": {
                                 "$id": "54",
                                 "$type": "NdmElement",
-                                "Id": "76e0106e-37f3-467c-9eaf-6624a69810df",
+                                "Id": "8879d41b-d200-4be4-a038-e67f2344169e",
                                 "HeadMaterial": {
                                   "$ref": "21"
                                 },
@@ -482,7 +485,7 @@
                                 "UsersPrestrain": {
                                   "$id": "55",
                                   "$type": "ForceTuple",
-                                  "Id": "c0916f51-0f8a-4a63-b1fe-6ed7037ff185",
+                                  "Id": "b0b74842-c402-4d35-ad80-b9003d04af65",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -493,7 +496,7 @@
                                 "AutoPrestrain": {
                                   "$id": "56",
                                   "$type": "ForceTuple",
-                                  "Id": "da0a4167-d866-4c83-b5a1-190e3ffc4071",
+                                  "Id": "9a8fab32-c24e-40dd-849d-ff482da22d9b",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -505,7 +508,7 @@
                               "VisualProperty": {
                                 "$id": "57",
                                 "$type": "VisualProperty",
-                                "Id": "2823b63a-af1b-4f65-9a3c-d65933c4117d",
+                                "Id": "9f36cbf0-3919-4004-a8b7-af64d1e3e13f",
                                 "IsVisible": true,
                                 "Color": "#FF894E0A",
                                 "SetMaterialColor": true,
@@ -515,7 +518,7 @@
                               "Center": {
                                 "$id": "58",
                                 "$type": "Point2D",
-                                "Id": "22aa8d58-b118-41a7-b4f2-c8a8002b55ea",
+                                "Id": "183932a3-b65d-4bd5-b8f5-1d17eab0f92c",
                                 "X": 0.0,
                                 "Y": -0.3
                               },
@@ -533,7 +536,7 @@
                               "NdmElement": {
                                 "$id": "60",
                                 "$type": "NdmElement",
-                                "Id": "cb73579f-003c-49cc-8438-88b491c88db6",
+                                "Id": "a1571623-68a7-4cdf-8de3-b48dcda6fbd6",
                                 "HeadMaterial": {
                                   "$ref": "21"
                                 },
@@ -541,7 +544,7 @@
                                 "UsersPrestrain": {
                                   "$id": "61",
                                   "$type": "ForceTuple",
-                                  "Id": "8e9ac308-7625-41dc-b1d4-9439c2191a23",
+                                  "Id": "dfbe14b9-9b2e-42f9-9717-446911326815",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0022,
@@ -552,7 +555,7 @@
                                 "AutoPrestrain": {
                                   "$id": "62",
                                   "$type": "ForceTuple",
-                                  "Id": "9e952ef6-82f7-4306-a22d-85d10b4cab8c",
+                                  "Id": "e8738a2a-84e1-4af4-be60-8221320ecc9d",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -564,7 +567,7 @@
                               "VisualProperty": {
                                 "$id": "63",
                                 "$type": "VisualProperty",
-                                "Id": "90b78424-70b8-449b-bd92-ea61a9ea6353",
+                                "Id": "651164bf-54c2-4aa7-b4ba-c8a0966c1ad2",
                                 "IsVisible": true,
                                 "Color": "#FFB257F2",
                                 "SetMaterialColor": true,
@@ -574,7 +577,7 @@
                               "Center": {
                                 "$id": "64",
                                 "$type": "Point2D",
-                                "Id": "f48523f2-e246-41bb-aff1-5ca853b031f6",
+                                "Id": "66363df3-a9b4-4dde-9d85-64abebf2677a",
                                 "X": 0.05,
                                 "Y": -0.3
                               },
@@ -597,7 +600,7 @@
                               "InputData": {
                                 "$id": "66",
                                 "$type": "ForceCalculatorInputData",
-                                "Id": "00000000-0000-0000-0000-000000000000",
+                                "Id": "4781e6b4-0880-49f4-bc61-39a46032da85",
                                 "ForceActions": {
                                   "$id": "67",
                                   "$type": "ListOfIForceAction",
@@ -650,14 +653,14 @@
                                 "Accuracy": {
                                   "$id": "71",
                                   "$type": "Accuracy",
-                                  "Id": "050b10d7-ea9c-4048-a2f5-cc8a7c89c9e2",
+                                  "Id": "83ad0ff1-3ba9-4507-9021-980d0649fa1b",
                                   "IterationAccuracy": 0.001,
                                   "MaxIterationCount": 1000
                                 },
                                 "CompressedMember": {
                                   "$id": "72",
                                   "$type": "CompressedMember",
-                                  "Id": "00000000-0000-0000-0000-000000000000",
+                                  "Id": "4000aa31-c8b0-4466-be2b-61f574a81c1f",
                                   "Bucling": false,
                                   "GeometryLength": 3.0,
                                   "LengthFactorX": 1.0,
@@ -674,7 +677,9 @@
                   }
                 ]
               }
-            }
+            },
+            "Comment": "Расчет прочности предварительно напряженной балки",
+            "Color": "#00000000"
           }
         }
       ]

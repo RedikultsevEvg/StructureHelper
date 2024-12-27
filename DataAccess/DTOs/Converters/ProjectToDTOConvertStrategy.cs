@@ -1,7 +1,10 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Projects;
+using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +51,7 @@ namespace DataAccess.DTOs
                 newItem.VisualAnalyses.Add(newVisualAnalysis);
             }
             return newItem;
+
         }
 
         private void Check()

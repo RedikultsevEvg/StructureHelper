@@ -1,10 +1,13 @@
 ﻿using DataAccess.DTOs.Converters;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Projects;
 using StructureHelperLogic.Models.Analyses;
+using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

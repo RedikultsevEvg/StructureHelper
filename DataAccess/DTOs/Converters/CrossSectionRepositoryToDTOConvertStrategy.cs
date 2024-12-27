@@ -3,6 +3,7 @@ using NLog.Targets;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Calculators;
@@ -10,6 +11,7 @@ using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
@@ -56,6 +58,8 @@ namespace DataAccess.DTOs
 
         private CrossSectionRepositoryDTO GetNewRepository(ICrossSectionRepository source)
         {
+            var project = ProgramSetting.CurrentProject;
+
             CrossSectionRepositoryDTO newItem = new()
             {
                 Id = source.Id
