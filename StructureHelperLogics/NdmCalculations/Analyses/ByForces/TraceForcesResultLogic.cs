@@ -68,11 +68,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 Message = "Mx = " + item.DesignForceTuple.ForceTuple.Mx.ToString() + "N*m, My = " + item.DesignForceTuple.ForceTuple.My.ToString() + "N*m, Nz =" + item.DesignForceTuple.ForceTuple.Nz.ToString() + "N, ",
                 Priority = priority
             };
-            ndmRow.Elements[2].Value = new StringLogEntry()
+            if (item.LoaderResults is not null)
             {
-                Message = "Kx = " + item.LoaderResults.StrainMatrix.Kx + "(1/m), Ky = " + item.LoaderResults.StrainMatrix.Ky + "(1/m), EpsZ = " + item.LoaderResults.StrainMatrix.EpsZ + "(dimensionless)",
-                Priority = priority
-            };
+                ndmRow.Elements[2].Value = new StringLogEntry()
+                {
+                    Message = "Kx = " + item.LoaderResults.StrainMatrix.Kx + "(1/m), Ky = " + item.LoaderResults.StrainMatrix.Ky + "(1/m), EpsZ = " + item.LoaderResults.StrainMatrix.EpsZ + "(dimensionless)",
+                    Priority = priority
+                };
+            }
             ndmRow.Elements[3].Value = new StringLogEntry()
             {
                 Message = item.Description,

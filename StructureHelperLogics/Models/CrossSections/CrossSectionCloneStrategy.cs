@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Settings;
 
 namespace StructureHelperLogics.Models.CrossSections
 {
@@ -12,13 +13,19 @@ namespace StructureHelperLogics.Models.CrossSections
             this.repositoryCloneStrategy = repositoryCloneStrategy;
         }
 
-        public CrossSectionCloneStrategy() : this (new CrossSectionRepositoryCloneStrategy())
+        public CrossSectionCloneStrategy(ICloningStrategy cloningStrategy) : this (new CrossSectionRepositoryCloneStrategy(cloningStrategy))
+        {
+            
+        }
+
+        public CrossSectionCloneStrategy() : this (new DeepCloningStrategy())
         {
             
         }
 
         public ICrossSection GetClone(ICrossSection sourceObject)
         {
+            var project = ProgramSetting.CurrentProject;
             ICrossSectionRepository newRepository = repositoryCloneStrategy.GetClone(sourceObject.SectionRepository);
             targetObject = new()
             {

@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Services;
@@ -21,14 +22,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private IUpdateStrategy<ICrackCalculator> crackCalculatorUpdateStrategy;
         private IUpdateStrategy<ILimitCurvesCalculator> limitCurvesCalculatorUpdateStrategy;
 
-        public HasCalculatorsUpdateCloningStrategy(ICloningStrategy cloningStrategy) : this(
-            cloningStrategy,
-            new ForceCalculatorUpdateCloningStrategy(cloningStrategy),
-            new CrackCalculatorUpdateCloningStrategy(cloningStrategy),
-            new LimitCurvesCalculatorUpdateCloningStrategy(cloningStrategy)
-            )
-        {
-        }
 
         public HasCalculatorsUpdateCloningStrategy(
             ICloningStrategy cloningStrategy,
@@ -42,8 +35,18 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             this.limitCurvesCalculatorUpdateStrategy = limitCurvesCalculatorUpdateStrategy;
         }
 
+        public HasCalculatorsUpdateCloningStrategy(ICloningStrategy cloningStrategy) : this(
+            cloningStrategy,
+            new ForceCalculatorUpdateCloningStrategy(cloningStrategy),
+            new CrackCalculatorUpdateCloningStrategy(cloningStrategy),
+            new LimitCurvesCalculatorUpdateCloningStrategy(cloningStrategy)
+            )
+        {
+        }
+
         public void Update(IHasCalculators targetObject, IHasCalculators sourceObject)
         {
+            var project = ProgramSetting.CurrentProject;
             CheckObject.IsNull(cloningStrategy);
             CheckObject.IsNull(sourceObject);
             CheckObject.IsNull(targetObject);
@@ -52,8 +55,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             foreach (var calculator in sourceObject.Calculators)
             {
                 //to do Change to cloning strategy
-                //var newCalculator = cloningStrategy.Clone(calculator);
-                var newCalculator = calculator.Clone() as ICalculator;
+                var newCalculator = cloningStrategy.Clone(calculator);
+                //var newCalculator = calculator.Clone() as ICalculator;
                 if (calculator is IForceCalculator forceCalculator)
                 {
                     forceCalculatorUpdateStrategy.Update(newCalculator as IForceCalculator, forceCalculator);

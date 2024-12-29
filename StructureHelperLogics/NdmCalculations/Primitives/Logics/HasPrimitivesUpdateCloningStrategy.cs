@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
@@ -30,6 +31,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
 
         private void ProcessPrimitive(IHasPrimitives targetObject, INdmPrimitive primitive)
         {
+            var project = ProgramSetting.CurrentProject;
             var newPrimitive = cloningStrategy.Clone(primitive);
             if (primitive.NdmElement.HeadMaterial is not null)
             {

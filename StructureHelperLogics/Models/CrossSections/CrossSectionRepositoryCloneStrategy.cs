@@ -1,12 +1,9 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Parameters;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.Models.Materials.Logics;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
-using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives.Logics;
 
@@ -36,13 +33,9 @@ namespace StructureHelperLogics.Models.CrossSections
             this.calculatorsUpdateStrategy = calculatorsUpdateStrategy;
         }
 
-        public CrossSectionRepositoryCloneStrategy() : this (
-            new DeepCloningStrategy(),
-            new HasForceActionUpdateCloningStrategy(null),
-            new HasMaterialsUpdateCloningStrategy(null),
-            new HasPrimitivesUpdateCloningStrategy(null),
-            new HasCalculatorsUpdateCloningStrategy(null))
-        {      
+        public CrossSectionRepositoryCloneStrategy(ICloningStrategy cloningStrategy)
+        {
+            this.cloningStrategy = cloningStrategy;
             forcesUpdateStrategy = new HasForceActionUpdateCloningStrategy(cloningStrategy);
             materialsUpdateStrategy = new HasMaterialsUpdateCloningStrategy(cloningStrategy);
             primitivesUpdateStrategy = new HasPrimitivesUpdateCloningStrategy(cloningStrategy);
@@ -51,6 +44,7 @@ namespace StructureHelperLogics.Models.CrossSections
 
         public ICrossSectionRepository GetClone(ICrossSectionRepository sourceObject)
         {
+            var project = ProgramSetting.CurrentProject;
             targetRepository = new();
             forcesUpdateStrategy.Update(targetRepository, sourceObject);
             materialsUpdateStrategy.Update(targetRepository, sourceObject);
