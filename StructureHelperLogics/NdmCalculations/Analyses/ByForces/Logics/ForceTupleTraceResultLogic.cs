@@ -2,16 +2,11 @@
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.ResultData;
 using LoaderCalculator.Logics;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Infrastructures.Exceptions;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {

@@ -42,7 +42,7 @@ namespace StructureHelper.Services.ResultViewers
             return primitiveSets;
         }
 
-        public static List<IPrimitiveSet> GetPrimitiveSets(IEnumerable<RebarCrackResult> rebarResults, IEnumerable<CrackResultFunc> resultFuncs)
+        public static List<IPrimitiveSet> GetPrimitiveSets(IEnumerable<IRebarCrackResult> rebarResults, IEnumerable<CrackResultFunc> resultFuncs)
         {
             List<IPrimitiveSet> primitiveSets = new List<IPrimitiveSet>();
             foreach (var valDelegate in resultFuncs)
@@ -59,7 +59,7 @@ namespace StructureHelper.Services.ResultViewers
             return primitiveSets;
         }
 
-        private static IValuePrimitive ProcessNdm(CrackResultFunc valDelegate, RebarCrackResult rebarResult)
+        private static IValuePrimitive ProcessNdm(CrackResultFunc valDelegate, IRebarCrackResult rebarResult)
         {
             double delegateResult = valDelegate.ResultFunction.Invoke(rebarResult);
             var val = delegateResult * valDelegate.UnitFactor;

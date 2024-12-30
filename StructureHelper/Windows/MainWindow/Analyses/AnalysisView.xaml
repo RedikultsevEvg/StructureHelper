@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow.Analyses"
         d:DataContext="{d:DesignInstance local:AnalysisViewModel}"
         mc:Ignorable="d"
-        Title="Analysis" Height="250" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Analysis properties" Height="350" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -15,20 +15,20 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="75"/>
+                <RowDefinition Height="75"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Name"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Name}"/>
-            <GroupBox Grid.Row="1" Grid.ColumnSpan="2" Header="Tags">
-                <TextBox Margin="1" Text="{Binding Tags}"/>
+            <TextBox Grid.Row="1" Margin="1" Text="{Binding Name}" TextWrapping="Wrap"/>
+            <GroupBox Grid.Row="2" Header="Tags">
+                <TextBox Margin="1" Text="{Binding Tags}" TextWrapping="Wrap"/>
             </GroupBox>
-            <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Comment">
-                <TextBox Margin="1" Text="{Binding Comment}"/>
+            <GroupBox Grid.Row="3" Header="Comment">
+                <TextBox Margin="1" Text="{Binding Comment}" TextWrapping="Wrap"/>
             </GroupBox>
         </Grid>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>

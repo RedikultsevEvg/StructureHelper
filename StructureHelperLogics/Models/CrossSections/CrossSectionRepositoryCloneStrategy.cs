@@ -44,7 +44,6 @@ namespace StructureHelperLogics.Models.CrossSections
 
         public ICrossSectionRepository GetClone(ICrossSectionRepository sourceObject)
         {
-            var project = ProgramSetting.CurrentProject;
             targetRepository = new();
             forcesUpdateStrategy.Update(targetRepository, sourceObject);
             materialsUpdateStrategy.Update(targetRepository, sourceObject);

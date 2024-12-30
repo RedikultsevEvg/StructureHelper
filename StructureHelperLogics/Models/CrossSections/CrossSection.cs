@@ -9,8 +9,6 @@ namespace StructureHelperLogics.Models.CrossSections
 {
     public class CrossSection : ICrossSection
     {
-        private ICloneStrategy<ICrossSection> cloneStrategy;
-        private IUpdateStrategy<ICrossSection> updateStrategy = new CrossSectionUpdateStrategy();
         public ICrossSectionRepository SectionRepository { get; set; } = new CrossSectionRepository();
 
         public Guid Id { get; private set; }
@@ -27,7 +25,7 @@ namespace StructureHelperLogics.Models.CrossSections
 
         public object Clone()
         {
-            cloneStrategy = new CrossSectionCloneStrategy();
+            ICloneStrategy<ICrossSection>  cloneStrategy = new CrossSectionCloneStrategy();
             return cloneStrategy.GetClone(this);
         }
     }

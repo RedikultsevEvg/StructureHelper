@@ -8,26 +8,18 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    /// <summary>
-    /// Result of calculation of crack for specific result
-    /// </summary>
-    public class RebarCrackResult : IResult
+    /// <inheritdoc/>
+    public class RebarCrackResult : IRebarCrackResult
     {
         /// <inheritdoc/>
         public bool IsValid { get; set; }
         /// <inheritdoc/>
-        public string Description { get; set; }
-        /// <summary>
-        /// Specific rebar primitive
-        /// </summary>
-        public IRebarNdmPrimitive RebarPrimitive { get; set; }
-        /// <summary>
-        /// Result of calculation of crack for long term
-        /// </summary>
-        public CrackWidthRebarTupleResult LongTermResult { get; set; }
-        /// <summary>
-        /// Result of calculation of crack for short term
-        /// </summary>
-        public CrackWidthRebarTupleResult ShortTermResult { get; set; }
+        public string? Description { get; set; }
+        /// <inheritdoc/>
+        public IRebarNdmPrimitive? RebarPrimitive { get; set; }
+        /// <inheritdoc/>
+        public CrackWidthRebarTupleResult? LongTermResult { get; set; }
+        /// <inheritdoc/>
+        public CrackWidthRebarTupleResult? ShortTermResult { get; set; }
     }
 }

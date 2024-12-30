@@ -101,7 +101,12 @@ namespace StructureHelper.Windows.CalculationWindows.ProgressViews
         private Block GetBlockByEntry(ITraceLoggerEntry traceEntry)
         {
             Block block;
-            if (traceEntry is StringLogEntry stringEntry)
+            if (traceEntry is null)
+            {
+                block = new Paragraph(new Run("---"));
+                return block;
+            }
+            else if (traceEntry is StringLogEntry stringEntry)
             {
                 block = GetBlockByStringEntry(stringEntry);
             }

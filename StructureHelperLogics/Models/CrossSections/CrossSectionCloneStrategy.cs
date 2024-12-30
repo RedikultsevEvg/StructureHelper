@@ -25,7 +25,6 @@ namespace StructureHelperLogics.Models.CrossSections
 
         public ICrossSection GetClone(ICrossSection sourceObject)
         {
-            var project = ProgramSetting.CurrentProject;
             ICrossSectionRepository newRepository = repositoryCloneStrategy.GetClone(sourceObject.SectionRepository);
             targetObject = new()
             {

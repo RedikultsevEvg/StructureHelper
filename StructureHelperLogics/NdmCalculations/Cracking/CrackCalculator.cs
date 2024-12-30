@@ -5,6 +5,8 @@ using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperLogics.Models.Materials;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
+    /// <inheritdoc/>
     public class CrackCalculator : ICrackCalculator
     {
         const LimitStates limitState = LimitStates.SLS;
@@ -73,11 +76,11 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             PrepareNewResult();
             CheckInputData();
-            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
+            TraceInputData();
             try
             {
                 ProcessCalculations();
-                TraceLogger?.AddMessage(LoggerStrings.CalculationHasDone);
+                TraceResult();
             }
             catch (Exception ex)
             {
@@ -85,6 +88,31 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 result.Description += ex;
                 TraceLogger?.AddMessage(LoggerStrings.CalculationError + ex, TraceLogStatuses.Error);
             }
+        }
+
+        private void TraceResult()
+        {
+            TraceLogger?.AddMessage(LoggerStrings.CalculationHasDone);
+            ITraceEntityLogic traceLogic = new TraceCrackResultLogic()
+            {
+                Collection = result.TupleResults
+            };
+            traceLogic.AddEntriesToTraceLogger(TraceLogger);
+        }
+
+        private void TraceInputData()
+        {
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
+            ITraceEntityLogic traceLogic = new TracePrimitiveFactory()
+            {
+                Collection = InputData.Primitives
+            };
+            traceLogic.AddEntriesToTraceLogger(TraceLogger);
+            traceLogic = new TraceMaterialsFactory()
+            {
+                Collection = InputData.Primitives.Select(x => x.NdmElement.HeadMaterial).Distinct()
+            };
+            traceLogic.AddEntriesToTraceLogger(TraceLogger);
         }
 
         private void CheckInputData()

@@ -15,7 +15,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
     {
         private IsoFieldReport isoFieldReport;
 
-        public void ShowIsoField(IEnumerable<RebarCrackResult> rebarResults)
+        public void ShowIsoField(IEnumerable<IRebarCrackResult> rebarResults)
         {
             try
             {

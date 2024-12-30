@@ -53,24 +53,16 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private void TraceInputData()
         {
-            TracePrimitiveFactory tracePrimitiveFactory = new()
+            ITraceEntityLogic tracelogic = new TracePrimitiveFactory()
             {
                 Collection = InputData.Primitives
             };
-            List<ITraceLoggerEntry> traceEntries = tracePrimitiveFactory.GetTraceEntries();
-            foreach (var item in traceEntries)
-            {
-                TraceLogger?.AddEntry(item);
-            }
-            TraceMaterialsFactory traceMaterialFactory = new()
+            tracelogic.AddEntriesToTraceLogger(TraceLogger);
+            tracelogic = new TraceMaterialsFactory()
             {
                 Collection = InputData.Primitives.Select(x => x.NdmElement.HeadMaterial).Distinct()
             };
-            traceEntries = traceMaterialFactory.GetTraceEntries();
-            foreach (var item in traceEntries)
-            {
-                TraceLogger?.AddEntry(item);
-            }
+            tracelogic.AddEntriesToTraceLogger(TraceLogger);
         }
 
         private void CalculateResult()

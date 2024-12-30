@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 
 namespace StructureHelperLogics.Models.Materials
 {
-    public class TraceMaterialsFactory : ITraceEntityFactory<IHeadMaterial>
+    public class TraceMaterialsFactory : ITraceCollectionLogic<IHeadMaterial>
     {
         const int rowSize = 2;
         private List<ITraceLoggerEntry> traceLoggerEntries;
@@ -266,6 +266,12 @@ namespace StructureHelperLogics.Models.Materials
             };
             rows.Add(ndmRow);
             return rows;
+        }
+
+        public void AddEntriesToTraceLogger(IShiftTraceLogger traceLogger)
+        {
+            var entries = GetTraceEntries();
+            entries.ForEach(x => traceLogger?.AddEntry(x));
         }
     }
 }

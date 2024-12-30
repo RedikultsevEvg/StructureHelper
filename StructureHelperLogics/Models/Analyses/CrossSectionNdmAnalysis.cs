@@ -37,7 +37,6 @@ namespace StructureHelperLogic.Models.Analyses
         public object Clone()
         {
             CrossSectionNdmAnalysis newAnalysis = new();
-            var project = ProgramSetting.CurrentProject;
             updateStrategy.Update(newAnalysis, this);
             var currentVersion = VersionProcessor.GetCurrentVersion().AnalysisVersion as ICloneable;
             ISaveable newCrossSection = currentVersion.Clone() as ISaveable;

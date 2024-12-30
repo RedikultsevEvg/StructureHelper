@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Services.ResultViewers
 {
-    public class CrackResultFunc : IResultFunc<Func<RebarCrackResult, double>>
+    public class CrackResultFunc : IResultFunc<Func<IRebarCrackResult, double>>
     {
         public string Name { get; set; }
 
-        public Func<RebarCrackResult, double> ResultFunction { get; set; }
+        public Func<IRebarCrackResult, double> ResultFunction { get; set; }
 
         public string UnitName { get; set; }
 

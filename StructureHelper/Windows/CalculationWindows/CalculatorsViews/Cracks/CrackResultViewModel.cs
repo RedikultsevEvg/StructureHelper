@@ -17,7 +17,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
         private RelayCommand? showRebarsCommand;
 
         public TupleCrackResult SelectedResult { get; set; }
-        public List<TupleCrackResult> TupleResults => CrackResult.TupleResults;
+        public List<ITupleCrackResult> TupleResults => CrackResult.TupleResults;
         public ICommand ShowRebarsCommand
         {
             get

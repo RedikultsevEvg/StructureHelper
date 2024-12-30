@@ -31,7 +31,6 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
 
         private void ProcessPrimitive(IHasPrimitives targetObject, INdmPrimitive primitive)
         {
-            var project = ProgramSetting.CurrentProject;
             var newPrimitive = cloningStrategy.Clone(primitive);
             if (primitive.NdmElement.HeadMaterial is not null)
             {

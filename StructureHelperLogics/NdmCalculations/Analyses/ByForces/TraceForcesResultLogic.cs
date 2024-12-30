@@ -11,7 +11,10 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public class TraceForcesResultLogic : ITraceEntityFactory<IForcesTupleResult>
+    /// <summary>
+    /// Provides trace logger inforvation for collection of force tuple results
+    /// </summary>
+    public class TraceForcesResultLogic : ITraceCollectionLogic<IForcesTupleResult>
     {
         const int rowSize = 4;
         private List<ITraceLoggerEntry> traceLoggerEntries;
@@ -60,19 +63,19 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             ndmRow = new(rowSize);
             ndmRow.Elements[0].Value = new StringLogEntry()
             {
-                Message = "Limit state: " + item.DesignForceTuple.LimitState.ToString() + ", Calculation term: " + item.DesignForceTuple.CalcTerm,
+                Message = TraceStringService.GetLimitStateAndCalctTerm(item.DesignForceTuple),
                 Priority = priority
             };
             ndmRow.Elements[1].Value = new StringLogEntry()
             {
-                Message = "Mx = " + item.DesignForceTuple.ForceTuple.Mx.ToString() + "N*m, My = " + item.DesignForceTuple.ForceTuple.My.ToString() + "N*m, Nz =" + item.DesignForceTuple.ForceTuple.Nz.ToString() + "N, ",
+                Message = TraceStringService.GetForces(item.DesignForceTuple.ForceTuple),
                 Priority = priority
             };
             if (item.LoaderResults is not null)
             {
                 ndmRow.Elements[2].Value = new StringLogEntry()
                 {
-                    Message = "Kx = " + item.LoaderResults.StrainMatrix.Kx + "(1/m), Ky = " + item.LoaderResults.StrainMatrix.Ky + "(1/m), EpsZ = " + item.LoaderResults.StrainMatrix.EpsZ + "(dimensionless)",
+                    Message = TraceStringService.GetCuvatures(item.LoaderResults.ForceStrainPair.StrainMatrix),
                     Priority = priority
                 };
             }
@@ -96,10 +99,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 "Description"
             };
             var ndmRow = new ShTableRow<ITraceLoggerEntry>(rowSize);
-            foreach (var item in ndmRow.Elements)
-            {
-                item.Role = cellRole;
-            }
+            ndmRow.Elements.ForEach(x => x.Role = cellRole);
 
             for (int i = 0; i < rowSize; i++)
             {
@@ -118,6 +118,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             {
                 throw new StructureHelperException(ErrorStrings.ParameterIsNull + ": Collection of primitives");
             }
+        }
+
+        public void AddEntriesToTraceLogger(IShiftTraceLogger traceLogger)
+        {
+            var entries = GetTraceEntries();
+            entries.ForEach(x => traceLogger?.AddEntry(x));
         }
     }
 }

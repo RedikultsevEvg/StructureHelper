@@ -8,7 +8,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     /// <summary>
     /// Logic for creating of trace entries of primitives
     /// </summary>
-    public class TracePrimitiveFactory : ITraceEntityFactory<INdmPrimitive>
+    public class TracePrimitiveFactory : ITraceCollectionLogic<INdmPrimitive>
     {
         const int rowSize = 2;
         private List<ITraceLoggerEntry> traceLoggerEntries;
@@ -195,6 +195,12 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                 };
             }
             return ndmRow;
+        }
+
+        public void AddEntriesToTraceLogger(IShiftTraceLogger traceLogger)
+        {
+            var entries = GetTraceEntries();
+            entries.ForEach(x => traceLogger?.AddEntry(x));
         }
     }
 }

@@ -25,7 +25,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
         private IsoFieldReport isoFieldReport;
 
         public TupleCrackResult CrackResult => crackResult;
-        public List<RebarCrackResult> RebarResults => crackResult.RebarResults;
+        public List<IRebarCrackResult> RebarResults => crackResult.RebarResults;
         public RebarCrackResult SelectedResult { get; set; }
         public string WindowTitle => "Result of calculation of cracks for action " + crackResult.InputData.TupleName;
         public ICommand ShowIsoFieldCommand

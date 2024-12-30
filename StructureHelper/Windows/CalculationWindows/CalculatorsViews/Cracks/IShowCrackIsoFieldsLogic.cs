@@ -5,6 +5,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 {
     public interface IShowCrackIsoFieldsLogic
     {
-        void ShowIsoField(IEnumerable<RebarCrackResult> rebarResults);
+        void ShowIsoField(IEnumerable<IRebarCrackResult> rebarResults);
     }
 }

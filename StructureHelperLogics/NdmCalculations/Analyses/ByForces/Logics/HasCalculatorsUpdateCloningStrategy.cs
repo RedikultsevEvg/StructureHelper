@@ -46,7 +46,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public void Update(IHasCalculators targetObject, IHasCalculators sourceObject)
         {
-            var project = ProgramSetting.CurrentProject;
             CheckObject.IsNull(cloningStrategy);
             CheckObject.IsNull(sourceObject);
             CheckObject.IsNull(targetObject);
