@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.Forces"
-        xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Forces"
-        d:DataContext="{d:DesignInstance vm:ForceCombinationByFactorVM}"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        d:DataContext="{d:DesignInstance local:ForceCombinationByFactorVM}"
         mc:Ignorable="d"
-        Title="Force Combination By Factor" Height="290" Width="350" MinHeight="290" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Force Combination By Factor" Height="340" Width="350" MinHeight="290" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="95"/>
@@ -17,7 +17,8 @@
         <!--ForceTemplates.xaml-->
         <ContentControl ContentTemplate="{StaticResource ResourceKey=ForceActionTemplate}" Content="{Binding}"/>
         <StackPanel Grid.Row="1">
-            <TextBlock Text="Full service load combination"/>
+            <uc:FactoredCombination x:Name="FactoredCombination" CombinationProperty="{Binding CombinationProperty}"/>
+            <TextBlock Text="Load combination"/>
             <Grid DataContext="{Binding ForceTupleVM}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25"/>
@@ -34,20 +35,6 @@
                 <TextBox Grid.Row="1" Text="{Binding Mx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding My, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
                 <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Nz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
-            </Grid>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Long Term factor"/>
-                <TextBox Grid.Column="1" Text="{Binding LongTermFactor, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
-                <TextBlock Grid.Row="1" Text="ULS Safety Factor"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ULSFactor, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
             </Grid>
         </StackPanel>
         <ContentControl Grid.Row="2" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>

@@ -38,10 +38,16 @@ namespace StructureHelperCommon.Services.Forces
             };
             return result;
         }
-        public static IForceTuple MultiplyTuples(IForceTuple first, double factor)
+        /// <summary>
+        /// Multyplies force tuple by factor
+        /// </summary>
+        /// <param name="forceTuple">Source force tuple</param>
+        /// <param name="factor">Factor which tuple multyplies by</param>
+        /// <returns></returns>
+        public static IForceTuple MultiplyTupleByFactor(IForceTuple forceTuple, double factor)
         {
-            var result = GetNewTupleSameType(first);
-            CopyProperties(first, result, factor);
+            var result = GetNewTupleSameType(forceTuple);
+            CopyProperties(forceTuple, result, factor);
             return result;
         }
         public static IForceTuple InterpolateTuples(IForceTuple endTuple, IForceTuple startTuple = null, double coefficient = 0.5d)

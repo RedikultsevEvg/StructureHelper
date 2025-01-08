@@ -69,8 +69,8 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             var targetObjectMock = new Mock<IHasForceActions>();
             var sourceObjectMock = new Mock<IHasForceActions>();
 
-            var sourceForceActions = new List<IForceAction> { new ForceCombinationByFactor(), new ForceCombinationByFactor() };
-            var clonedForceActions = new List<IForceAction> { new ForceCombinationByFactor(), new ForceCombinationByFactor() };
+            var sourceForceActions = new List<IForceAction> { new ForceFactoredList(), new ForceFactoredList() };
+            var clonedForceActions = new List<IForceAction> { new ForceFactoredList(), new ForceFactoredList() };
 
             sourceObjectMock.SetupGet(s => s.ForceActions).Returns(sourceForceActions);
             targetObjectMock.SetupGet(t => t.ForceActions).Returns(targetForceActions);

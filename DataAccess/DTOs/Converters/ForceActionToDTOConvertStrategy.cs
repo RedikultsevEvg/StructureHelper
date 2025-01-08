@@ -8,11 +8,11 @@ namespace DataAccess.DTOs.Converters
 {
     public class ForceActionToDTOConvertStrategy : ConvertStrategy<IForceAction, IForceAction>
     {
-        private IConvertStrategy<ForceCombinationByFactorDTO, IForceCombinationByFactor> forceCombinationByFactorConvertStrategy;
+        private IConvertStrategy<ForceCombinationByFactorDTO, IForceFactoredList> forceCombinationByFactorConvertStrategy;
         private IConvertStrategy<ForceCombinationListDTO, IForceCombinationList> forceCombinationListConvertStrategy;
 
         public ForceActionToDTOConvertStrategy(
-            IConvertStrategy<ForceCombinationByFactorDTO, IForceCombinationByFactor> forceCombinationByFactorConvertStrategy,
+            IConvertStrategy<ForceCombinationByFactorDTO, IForceFactoredList> forceCombinationByFactorConvertStrategy,
             IConvertStrategy<ForceCombinationListDTO, IForceCombinationList> forceCombinationListConvertStrategy)
         {
             this.forceCombinationByFactorConvertStrategy = forceCombinationByFactorConvertStrategy;
@@ -28,7 +28,7 @@ namespace DataAccess.DTOs.Converters
 
         public override IForceAction GetNewItem(IForceAction source)
         {
-            if (source is IForceCombinationByFactor forceCombinationByFactor)
+            if (source is IForceFactoredList forceCombinationByFactor)
             {
                 return GetForceCombinationByFactor(forceCombinationByFactor);
             }
@@ -54,11 +54,11 @@ namespace DataAccess.DTOs.Converters
             return forceCombination;
         }
 
-        private ForceCombinationByFactorDTO GetForceCombinationByFactor(IForceCombinationByFactor forceCombinationByFactor)
+        private ForceCombinationByFactorDTO GetForceCombinationByFactor(IForceFactoredList forceCombinationByFactor)
         {
             forceCombinationByFactorConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             forceCombinationByFactorConvertStrategy.TraceLogger = TraceLogger;
-            var convertLogic = new DictionaryConvertStrategy<ForceCombinationByFactorDTO, IForceCombinationByFactor>(this, forceCombinationByFactorConvertStrategy);
+            var convertLogic = new DictionaryConvertStrategy<ForceCombinationByFactorDTO, IForceFactoredList>(this, forceCombinationByFactorConvertStrategy);
             var forceCombination = convertLogic.Convert(forceCombinationByFactor);
             return forceCombination;
         }

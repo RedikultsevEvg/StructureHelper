@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace StructureHelperCommon.Models.Forces
 {
     /// <summary>
-    /// Supports common properties of action
+    /// Properties of force action
     /// </summary>
-    public interface IForceAction : IAction
+    public interface IForceActionProperty
     {
         /// <summary>
         /// True means force action is put in center of gravity
@@ -20,10 +20,5 @@ namespace StructureHelperCommon.Models.Forces
         /// Point of applying of force load
         /// </summary>
         IPoint2D ForcePoint { get; set; }
-        /// <summary>
-        /// Return combinations of forces
-        /// </summary>
-        /// <returns>List of combination of forces</returns>
-        List<IForceCombinationList> GetCombinations();
     }
 }

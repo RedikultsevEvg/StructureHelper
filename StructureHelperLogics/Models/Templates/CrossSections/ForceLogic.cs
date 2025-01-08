@@ -16,7 +16,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections
             combination.DesignForces.Clear();
             combination.DesignForces.AddRange(ForceCombinationListFactory.GetDesignForces(DesignForceType.Suit_1));
             combinations.Add(combination);
-            var factorCombination = new ForceCombinationByFactor();
+            var factorCombination = new ForceFactoredList();
             combinations.Add(factorCombination);
             return combinations;
         }

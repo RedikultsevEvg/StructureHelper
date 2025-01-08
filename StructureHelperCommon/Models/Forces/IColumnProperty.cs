@@ -10,7 +10,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Settingth for column reading from MSExcel file
     /// </summary>
-    public interface IForceColumnProperty : ISaveable
+    public interface IColumnProperty : ISaveable
     {
         /// <summary>
         /// Name of column for searching 

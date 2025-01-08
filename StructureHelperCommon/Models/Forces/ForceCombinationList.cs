@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using StructureHelperCommon.Infrastructures.Enums;
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StructureHelperCommon.Models.Forces
 {
@@ -18,9 +17,9 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public string Name { get; set; }
         /// <inheritdoc/>
-        public bool SetInGravityCenter { get; set; }
+        public bool SetInGravityCenter { get; set; } = true;
         /// <inheritdoc/>
-        public IPoint2D ForcePoint { get; set; }
+        public IPoint2D ForcePoint { get; set; } = new Point2D();
         /// <inheritdoc/>
         public List<IDesignForceTuple> DesignForces { get; set; }
 
@@ -28,8 +27,6 @@ namespace StructureHelperCommon.Models.Forces
         public ForceCombinationList(Guid id)
         {
             Id = id;
-            SetInGravityCenter = true;
-            ForcePoint = new Point2D() { X = 0, Y = 0 };
             DesignForces = new List<IDesignForceTuple>
             {
                 new DesignForceTuple()

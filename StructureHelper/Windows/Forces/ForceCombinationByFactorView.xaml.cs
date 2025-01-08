@@ -1,5 +1,4 @@
-﻿using StructureHelper.Windows.ViewModels.Forces;
-using StructureHelperCommon.Models.Forces;
+﻿using StructureHelperCommon.Models.Forces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +21,13 @@ namespace StructureHelper.Windows.Forces
     public partial class ForceCombinationByFactorView : Window
     {
         ForceCombinationByFactorVM viewModel;
-        public ForceCombinationByFactorView(IForceCombinationByFactor forceCombination)
+        public ForceCombinationByFactorView(IForceFactoredList forceCombination)
         {
-            InitializeComponent();
             viewModel = new ForceCombinationByFactorVM(forceCombination);
             DataContext = viewModel;
             viewModel.ParentWindow = this;
+            InitializeComponent();
+            FactoredCombination.CombinationProperty = viewModel.CombinationProperty;
         }
     }
 }

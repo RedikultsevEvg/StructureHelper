@@ -40,7 +40,7 @@ namespace StructureHelperCommon.Services.Forces
             }
             return resultList;
         }
-        public static List<IDesignForcePair> ConvertCombinationToPairs(IForceCombinationByFactor combinations)
+        public static List<IDesignForcePair> ConvertCombinationToPairs(IForceFactoredList combinations)
         {
             var resultList = new List<IDesignForcePair>();
             var limitStates = new List<LimitStates>() { LimitStates.ULS, LimitStates.SLS };
@@ -50,9 +50,9 @@ namespace StructureHelperCommon.Services.Forces
                 var tuples = new IForceTuple[2];
                 for (int i = 0; i < calcTerms.Count; i++)
                 {
-                    var stateFactor = limitState is LimitStates.SLS ? 1d : combinations.ULSFactor;
-                    var termFactor = calcTerms[i] == CalcTerms.ShortTerm ? 1d : combinations.LongTermFactor;
-                    var forceTupleList = ForceTupleService.MultiplyTuples(combinations.FullSLSForces, stateFactor * termFactor);
+                    var stateFactor = limitState is LimitStates.SLS ? 1d : combinations.CombinationProperty.ULSFactor;
+                    var termFactor = calcTerms[i] == CalcTerms.ShortTerm ? 1d : combinations.CombinationProperty.LongTermFactor;
+                    var forceTupleList = ForceTupleService.MultiplyTupleByFactor(combinations.ForceTuples[0], stateFactor * termFactor);
                     tuples[i] = forceTupleList;
             }
                 var pair = new DesignForcePair()
@@ -77,9 +77,9 @@ namespace StructureHelperCommon.Services.Forces
                 var item = forceAction as IForceCombinationList;
                 resultList.AddRange(ConvertCombinationToPairs(item));
             }
-            else if (forceAction is IForceCombinationByFactor)
+            else if (forceAction is IForceFactoredList)
             {
-                var item = forceAction as IForceCombinationByFactor;
+                var item = forceAction as IForceFactoredList;
                 resultList.AddRange(ConvertCombinationToPairs(item));
             }
             else

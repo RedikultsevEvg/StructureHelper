@@ -19,9 +19,9 @@ namespace StructureHelperCommon.Models.Forces
         int SkipRowBeforeHeaderCount { get; set; }
         int SkipRowHeaderCount { get; set; }
         double GlobalFactor { get; set; }
-        IForceColumnProperty Mx { get; set; }
-        IForceColumnProperty My { get; set; }
-        IForceColumnProperty Nz { get; set; }
+        IColumnProperty Mx { get; set; }
+        IColumnProperty My { get; set; }
+        IColumnProperty Nz { get; set; }
 
     }
 }

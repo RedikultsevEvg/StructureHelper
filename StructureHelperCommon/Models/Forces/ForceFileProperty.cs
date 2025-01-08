@@ -16,9 +16,9 @@ namespace StructureHelperCommon.Models.Forces
         public int SkipRowBeforeHeaderCount { get; set; } = 2;
         public int SkipRowHeaderCount { get; set; } = 1;
         public double GlobalFactor { get; set; } = 1d;
-        public IForceColumnProperty Mx { get; set; } = new ForceColumnProperty("N");
-        public IForceColumnProperty My { get; set; } = new ForceColumnProperty("My");
-        public IForceColumnProperty Nz { get; set; } = new ForceColumnProperty("Mz");
+        public IColumnProperty Mx { get; set; } = new ColumnProperty("N");
+        public IColumnProperty My { get; set; } = new ColumnProperty("My");
+        public IColumnProperty Nz { get; set; } = new ColumnProperty("Mz");
 
         public ForceFileProperty(Guid id)
         {

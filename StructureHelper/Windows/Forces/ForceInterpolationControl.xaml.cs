@@ -41,7 +41,7 @@ namespace StructureHelper.Windows.Forces
         private void StartValueChanged(object sender, EventArgs e)
         {
             var obj = (MultiplyDouble)sender;
-            var tmpTuple = ForceTupleService.MultiplyTuples(Properties.StartDesignForce.ForceTuple, obj.DoubleFactor);
+            var tmpTuple = ForceTupleService.MultiplyTupleByFactor(Properties.StartDesignForce.ForceTuple, obj.DoubleFactor);
             ForceTupleService.CopyProperties(tmpTuple, Properties.StartDesignForce.ForceTuple, 1d);
             Properties.RefreshStartTuple();
         }
@@ -49,7 +49,7 @@ namespace StructureHelper.Windows.Forces
         private void FinishValueChanged(object sender, EventArgs e)
         {
             var obj = (MultiplyDouble)sender;
-            var tmpTuple = ForceTupleService.MultiplyTuples(Properties.FinishDesignForce.ForceTuple, obj.DoubleFactor);
+            var tmpTuple = ForceTupleService.MultiplyTupleByFactor(Properties.FinishDesignForce.ForceTuple, obj.DoubleFactor);
             ForceTupleService.CopyProperties(tmpTuple, Properties.FinishDesignForce.ForceTuple, 1d);
             Properties.RefreshFinishTuple();
         }

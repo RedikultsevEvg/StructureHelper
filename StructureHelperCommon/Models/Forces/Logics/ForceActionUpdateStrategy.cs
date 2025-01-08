@@ -16,13 +16,13 @@ namespace StructureHelperCommon.Models.Forces
     {
         private readonly IUpdateStrategy<IForceAction> forceActionUpdateStrategy;
         private readonly IUpdateStrategy<IDesignForcePair> forcePairUpdateStrategy;
-        private readonly IUpdateStrategy<IForceCombinationByFactor> factorUpdateStrategy;
+        private readonly IUpdateStrategy<IForceFactoredList> factorUpdateStrategy;
         private readonly IUpdateStrategy<IForceCombinationList> forceListUpdateStrategy;
 
         public ForceActionUpdateStrategy(
             IUpdateStrategy<IForceAction> forceActionUpdateStrategy,
             IUpdateStrategy<IDesignForcePair> forcePairUpdateStrategy,
-            IUpdateStrategy<IForceCombinationByFactor> factorUpdateStrategy,
+            IUpdateStrategy<IForceFactoredList> factorUpdateStrategy,
             IUpdateStrategy<IForceCombinationList> forceListUpdateStrategy)
         {
             this.forceActionUpdateStrategy = forceActionUpdateStrategy;
@@ -34,7 +34,7 @@ namespace StructureHelperCommon.Models.Forces
         public ForceActionUpdateStrategy() : this(
              new ForceActionBaseUpdateStrategy(),
              new ForcePairUpdateStrategy(),
-             new ForceCombinationByFactorUpdateStrategy(),
+             new ForceFactoredListUpdateStrategy(),
              new ForceCombinationListUpdateStrategy()
              )
         {
@@ -56,9 +56,9 @@ namespace StructureHelperCommon.Models.Forces
             {
                 forcePairUpdateStrategy.Update(pair, (IDesignForcePair)sourceObject);
             }
-            else if (targetObject is IForceCombinationByFactor combination)
+            else if (targetObject is IForceFactoredList combination)
             {
-                factorUpdateStrategy.Update(combination, (IForceCombinationByFactor)sourceObject);
+                factorUpdateStrategy.Update(combination, (IForceFactoredList)sourceObject);
             }
             else if (targetObject is IForceCombinationList forceCombinationList)
             {

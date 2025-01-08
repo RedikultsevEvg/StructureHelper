@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public class ForceColumnProperty : IForceColumnProperty
+    public class ColumnProperty : IColumnProperty
     {
         public Guid Id { get; private set; }
         public string ColumnName { get; set; } = string.Empty;
         public int ColumnIndex { get; set; } = 0;
         public double ColumnFactor { get; set; } = 1d;
-        public ForceColumnProperty(Guid id, string columnName)
+        public ColumnProperty(Guid id, string columnName)
         {
             Id = id;
             ColumnName = columnName;
         }
-        public ForceColumnProperty(string columnName) : this(Guid.NewGuid(), columnName)
+        public ColumnProperty(string columnName) : this(Guid.NewGuid(), columnName)
         {
             
         }

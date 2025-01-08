@@ -10,9 +10,9 @@ namespace StructureHelperCommon.Models.Forces
 {
     public class ForceFilePropertyUpdateStrategy : IUpdateStrategy<IForceFileProperty>
     {
-        private IUpdateStrategy<IForceColumnProperty> columnUpdateStrategy;
+        private IUpdateStrategy<IColumnProperty> columnUpdateStrategy;
 
-        public ForceFilePropertyUpdateStrategy(IUpdateStrategy<IForceColumnProperty> columnUpdateStrategy)
+        public ForceFilePropertyUpdateStrategy(IUpdateStrategy<IColumnProperty> columnUpdateStrategy)
         {
             this.columnUpdateStrategy = columnUpdateStrategy;
         }

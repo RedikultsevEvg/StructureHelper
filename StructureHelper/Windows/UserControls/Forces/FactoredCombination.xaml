@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="StructureHelper.Windows.UserControls.FactoredCombination"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StructureHelper.Windows.UserControls"
+             xmlns:forces="clr-namespace:StructureHelper.Windows.Forces"
+             d:DataContext="{d:DesignInstance forces:FactoredCombinationPropertyVM}"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="350">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Text="Limit State"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding LimitStateList}" SelectedItem="{Binding LimitState}"/>
+        <TextBlock Grid.Row="1" Text="Calculation term"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding CalcTermList}" SelectedItem="{Binding CalcTerm}"/>
+        <TextBlock Grid.Row="2" Text="Long Term factor"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding LongTermFactor, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
+        <TextBlock Grid.Row="3" Text="ULS Safety Factor"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ULSFactor, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
+    </Grid>
+</UserControl>

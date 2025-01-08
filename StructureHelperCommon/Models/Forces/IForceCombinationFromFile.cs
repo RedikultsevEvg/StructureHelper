@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    internal interface IForceCombinationFromFile : IForceAction
+    /// <summary>
+    /// Supports list of files which provides import of combination of forces
+    /// </summary>
+    internal interface IForceCombinationFromFile : IForceFactoredCombination
     {
+        /// <summary>
+        /// List of file properties for import combination
+        /// </summary>
         List<IForceFileProperty> ForceFiles { get; set; }
     }
 }

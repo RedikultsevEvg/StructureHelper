@@ -91,7 +91,7 @@ namespace StructureHelperCommon.Infrastructures.Settings
             return new FileVersion()
             {
                 VersionNumber = 1,
-                SubVersionNumber = 0
+                SubVersionNumber = 1
             };
         }
     }

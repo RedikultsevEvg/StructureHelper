@@ -27,7 +27,7 @@ namespace StructureHelper.Windows.ViewModels.Forces
                 }
                 else if (paramType == ActionType.ForceCombinationByFactor)
                 {
-                    NewItem = new ForceCombinationByFactor() { Name = "New Factored Combination" };
+                    NewItem = new ForceFactoredList() { Name = "New Factored Combination" };
                 }
                 else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $": Actual type: {nameof(paramType)}");
                 //GlobalRepository.Actions.Create(NewItem);
@@ -66,9 +66,9 @@ namespace StructureHelper.Windows.ViewModels.Forces
                 var item = (IForceCombinationList)SelectedItem;
                 wnd = new ForceCombinationView(item);
             }
-            else if (SelectedItem is IForceCombinationByFactor)
+            else if (SelectedItem is IForceFactoredList)
             {
-                var item = (IForceCombinationByFactor)SelectedItem;
+                var item = (IForceFactoredList)SelectedItem;
                 wnd = new ForceCombinationByFactorView(item);
             }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $"actual object type: {nameof(SelectedItem)}");

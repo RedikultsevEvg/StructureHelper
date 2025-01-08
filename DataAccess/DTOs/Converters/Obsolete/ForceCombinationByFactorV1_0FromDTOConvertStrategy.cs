@@ -3,18 +3,22 @@ using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class ForceCombinationByFactorFromDTOConvertStrategy : ConvertStrategy<ForceFactoredList, ForceCombinationByFactorDTO>
+    public class ForceCombinationByFactorV1_0FromDTOConvertStrategy : ConvertStrategy<ForceFactoredList, ForceCombinationByFactorV1_0DTO>
     {
         private IUpdateStrategy<IForceAction> baseUpdateStrategy;
         private IUpdateStrategy<IForceFactoredList> updateStrategy;
         private IConvertStrategy<Point2D, Point2DDTO> pointConvertStrategy;
         private IConvertStrategy<ForceTuple, ForceTupleDTO> forceTupleConvertStrategy;
 
-        public ForceCombinationByFactorFromDTOConvertStrategy(
+        public ForceCombinationByFactorV1_0FromDTOConvertStrategy(
             IUpdateStrategy<IForceAction> baseUpdateStrategy,
             IUpdateStrategy<IForceFactoredList> updateStrategy,
             IConvertStrategy<Point2D, Point2DDTO> pointConvertStrategy,
@@ -26,7 +30,7 @@ namespace DataAccess.DTOs
             this.forceTupleConvertStrategy = forceTupleConvertStrategy;
         }
 
-        public ForceCombinationByFactorFromDTOConvertStrategy() : this(
+        public ForceCombinationByFactorV1_0FromDTOConvertStrategy() : this(
             new ForceActionBaseUpdateStrategy(),
             new ForceFactoredListUpdateStrategy(),
             new Point2DFromDTOConvertStrategy(),
@@ -35,7 +39,7 @@ namespace DataAccess.DTOs
             
         }
 
-        public override ForceFactoredList GetNewItem(ForceCombinationByFactorDTO source)
+        public override ForceFactoredList GetNewItem(ForceCombinationByFactorV1_0DTO source)
         {
             TraceLogger.AddMessage($"Force combination by factor name = {source.Name} is starting");
             ForceFactoredList newItem = new(source.Id);
@@ -46,13 +50,9 @@ namespace DataAccess.DTOs
             newItem.ForcePoint = pointConvertStrategy.Convert((Point2DDTO)source.ForcePoint);
             forceTupleConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             forceTupleConvertStrategy.TraceLogger = TraceLogger;
-            CheckObject.IsNull(newItem.ForceTuples, nameof(newItem.ForceTuples));
-            newItem.ForceTuples.Clear();
-            foreach (var item in source.ForceTuples)
-            {
-                var newTuple = forceTupleConvertStrategy.Convert((ForceTupleDTO)item);
-                newItem.ForceTuples.Add(newTuple);
-            }
+            var forceTuple = forceTupleConvertStrategy.Convert((ForceTupleDTO)source.ForceTuple);
+            newItem.ForceTuples[0] = forceTuple;
+            TraceLogger.AddMessage($"Force combination by factor name = {source.Name} was successfully converted from version 1.0", TraceLogStatuses.Warning);
             TraceLogger.AddMessage($"Force combination by factor name = {newItem.Name} has been finished");
             return newItem;
         }

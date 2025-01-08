@@ -12,15 +12,15 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DTOs.Converters
 {
-    public class ForceCombinationByFactorToDTOConvertStrategy : IConvertStrategy<ForceCombinationByFactorDTO, IForceCombinationByFactor>
+    public class ForceCombinationByFactorToDTOConvertStrategy : IConvertStrategy<ForceCombinationByFactorDTO, IForceFactoredList>
     {
-        private IUpdateStrategy<IForceCombinationByFactor> updateStrategy;
+        private IUpdateStrategy<IForceFactoredList> updateStrategy;
         private IConvertStrategy<Point2DDTO, IPoint2D> pointUpdateStrategy;
 
         private IConvertStrategy<ForceTupleDTO, IForceTuple> forceTupleConvertStrategy;
         private IUpdateStrategy<IForceAction> baseUpdateStrategy;
 
-        public ForceCombinationByFactorToDTOConvertStrategy(IUpdateStrategy<IForceCombinationByFactor> updateStrategy,
+        public ForceCombinationByFactorToDTOConvertStrategy(IUpdateStrategy<IForceFactoredList> updateStrategy,
             IConvertStrategy<Point2DDTO, IPoint2D> pointUpdateStrategy,
             IConvertStrategy<ForceTupleDTO, IForceTuple> convertStrategy,
             IUpdateStrategy<IForceAction> baseUpdateStrategy)
@@ -32,7 +32,7 @@ namespace DataAccess.DTOs.Converters
         }
 
         public ForceCombinationByFactorToDTOConvertStrategy() : this (
-            new ForceCombinationByFactorUpdateStrategy(),
+            new ForceFactoredListUpdateStrategy(),
             new Point2DToDTOConvertStrategy(),
             new ForceTupleToDTOConvertStrategy(),
             new ForceActionBaseUpdateStrategy())
@@ -43,7 +43,7 @@ namespace DataAccess.DTOs.Converters
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
-        public ForceCombinationByFactorDTO Convert(IForceCombinationByFactor source)
+        public ForceCombinationByFactorDTO Convert(IForceFactoredList source)
         {
             Check();
             try
@@ -61,7 +61,7 @@ namespace DataAccess.DTOs.Converters
             
         }
 
-        private ForceCombinationByFactorDTO GetNewForceTuple(IForceCombinationByFactor source)
+        private ForceCombinationByFactorDTO GetNewForceTuple(IForceFactoredList source)
         {
             ForceCombinationByFactorDTO newItem = new() { Id = source.Id };
             baseUpdateStrategy.Update(newItem, source);
@@ -71,18 +71,23 @@ namespace DataAccess.DTOs.Converters
             return newItem;
         }
 
-        private void GetNewFullSLSForces(IForceCombinationByFactor source, ForceCombinationByFactorDTO newItem)
+        private void GetNewFullSLSForces(IForceFactoredList source, ForceCombinationByFactorDTO newItem)
         {
-            if (source.FullSLSForces is not null)
+            if (source.ForceTuples[0] is not null)
             {
                 forceTupleConvertStrategy.ReferenceDictionary = ReferenceDictionary;
                 forceTupleConvertStrategy.TraceLogger = TraceLogger;
                 var convertForceTupleLogic = new DictionaryConvertStrategy<ForceTupleDTO, IForceTuple>(this, forceTupleConvertStrategy);
-                newItem.FullSLSForces = convertForceTupleLogic.Convert(source.FullSLSForces);
+                newItem.ForceTuples.Clear();
+                foreach (var item in source.ForceTuples)
+                {
+                    var forceTuple = convertForceTupleLogic.Convert(item);
+                    newItem.ForceTuples.Add(forceTuple);
+                }
             }  
         }
 
-        private void GetNewForcePoint(IForceCombinationByFactor source, ForceCombinationByFactorDTO newItem)
+        private void GetNewForcePoint(IForceFactoredList source, ForceCombinationByFactorDTO newItem)
         {
             if (source.ForcePoint is not null)
             {
@@ -95,7 +100,7 @@ namespace DataAccess.DTOs.Converters
 
         private void Check()
         {
-            var checkLogic = new CheckConvertLogic<ForceCombinationByFactorDTO, IForceCombinationByFactor>(this);
+            var checkLogic = new CheckConvertLogic<ForceCombinationByFactorDTO, IForceFactoredList>(this);
             checkLogic.Check();
         }
     }

@@ -10,21 +10,36 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class ForceCombinationByFactorDTO : IForceFactoredList
+    public class ForceCombinationByFactorV1_0DTO : IForceFactoredList
     {
         [JsonProperty("Id")]
         public Guid Id { get; set; }
         [JsonProperty("Name")]
         public string Name { get; set; }
-        [JsonProperty("ForceTuples")]
-        public List<IForceTuple> ForceTuples { get; } = new();
+        [JsonProperty("LimitState")]
+        public LimitStates LimitState { get; set; } = LimitStates.SLS;
+        [JsonProperty("CalcTerm")]
+        public CalcTerms CalcTerm { get; set; } = CalcTerms.ShortTerm;
+        [JsonProperty("FullSLSForces")]
+        public IForceTuple ForceTuple { get; set; } = new ForceTupleDTO();
+        [JsonProperty("ULSFactor")]
+        public double ULSFactor { get; set; }
+        [JsonProperty("LongTermFactor")]
+        public double LongTermFactor { get; set; }
         [JsonProperty("SetInGravityCenter")]
         public bool SetInGravityCenter { get; set; }
         [JsonProperty("ForcePoint")]
         public IPoint2D ForcePoint { get; set; } = new Point2DDTO();
-        [JsonProperty("CombinationProperty")]
-        public IFactoredCombinationProperty CombinationProperty { get; } = new ForceFactoredCombinationPropertyDTO();
-
+        [JsonIgnore]
+        public IFactoredCombinationProperty CombinationProperty => new FactoredCombinationProperty()
+        {
+            CalcTerm = CalcTerm,
+            LimitState = LimitState,
+            LongTermFactor = LongTermFactor,
+            ULSFactor = ULSFactor,
+        };
+        [JsonIgnore]
+        public List<IForceTuple> ForceTuples => new() { ForceTuple};
 
         public object Clone()
         {
