@@ -4,6 +4,7 @@ using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using System;
 using System.Collections.Generic;
@@ -66,7 +67,22 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 result = false;
             }
             CheckAccuracy();
+            CheckActions();
             return result;
+        }
+
+        private void CheckActions()
+        {
+            var checkLogic = new CheckForceActionsLogic()
+            {
+                Entity = InputData.ForceActions,
+                TraceLogger = TraceLogger
+            };
+            if (checkLogic.Check() == false)
+            {
+                result = false;
+            }
+            TraceMessage(checkLogic.CheckResult);
         }
 
         private void CheckAccuracy()

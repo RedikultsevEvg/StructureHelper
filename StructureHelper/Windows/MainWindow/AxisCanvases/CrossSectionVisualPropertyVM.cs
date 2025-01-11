@@ -43,6 +43,8 @@ namespace StructureHelper.Windows.MainWindow
         public double Height => AxisCanvasVM.Height;
         public double HalfOfWidth => AxisCanvasVM.Width / 2d;
         public double HalfOfHeight => AxisCanvasVM.Height / 2d;
+        public int MainTextFontSize => 14; 
+        public double TextScaleValue => 1 / scaleValue; 
 
         public string CanvasViewportSize
         {
@@ -63,6 +65,7 @@ namespace StructureHelper.Windows.MainWindow
                 OnPropertyChanged(value, ref scaleValue);
                 OnPropertyChanged(nameof(AxisLineThickness));
                 OnPropertyChanged(nameof(GridLineThickness));
+                OnPropertyChanged(nameof(TextScaleValue));
             }
         }
 

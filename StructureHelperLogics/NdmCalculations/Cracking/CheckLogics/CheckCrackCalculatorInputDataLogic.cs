@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -74,7 +75,23 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 string message = "Calculator does not contain any actions\n";
                 CheckResult += message;
                 TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
+                return;
             };
+            var checkLogic = new CheckForceActionsLogic()
+            {
+                Entity = InputData.ForceActions,
+                TraceLogger = TraceLogger
+            };
+            if (checkLogic.Check() == false)
+            {
+                result = false;
+            }
+            TraceMessage(checkLogic.CheckResult);
+        }
+        private void TraceMessage(string errorString)
+        {
+            CheckResult += errorString + "\n";
+            TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
         }
 
 

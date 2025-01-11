@@ -13,17 +13,15 @@ namespace StructureHelperCommon.Models.Forces
         private IUpdateStrategy<IForceAction> baseUpdateStrategy;
         private IUpdateStrategy<IForceFileProperty> fileUpdateStrategy;
 
-        public ForceCombinationFromFileUpdateStrategy(IUpdateStrategy<IForceAction> baseUpdateStrategy, IUpdateStrategy<IForceFileProperty> fileUpdateStrategy)
+        public ForceCombinationFromFileUpdateStrategy(IUpdateStrategy<IForceAction> baseUpdateStrategy,
+            IUpdateStrategy<IForceFileProperty> fileUpdateStrategy)
         {
             this.baseUpdateStrategy = baseUpdateStrategy;
             this.fileUpdateStrategy = fileUpdateStrategy;
         }
 
-        public ForceCombinationFromFileUpdateStrategy() : this (
-            new ForceActionUpdateStrategy(),
-            new ForceFilePropertyUpdateStrategy())
-        {
-            
+        public ForceCombinationFromFileUpdateStrategy()
+        {   
         }
 
         void IUpdateStrategy<IForceCombinationFromFile>.Update(IForceCombinationFromFile targetObject, IForceCombinationFromFile sourceObject)
@@ -31,12 +29,21 @@ namespace StructureHelperCommon.Models.Forces
             CheckObject.IsNull(targetObject);
             CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
+            InitializeLogics();
             baseUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.ForceFiles.Clear();
             foreach (var file in sourceObject.ForceFiles)
             {
-                throw new NotImplementedException();
+                ForceFileProperty newProperty = new();
+                fileUpdateStrategy.Update(newProperty, file);
+                targetObject.ForceFiles.Add(newProperty);
             }
+        }
+
+        private void InitializeLogics()
+        {
+            baseUpdateStrategy ??= new ForceActionBaseUpdateStrategy();
+            fileUpdateStrategy ??= new ForceFilePropertyUpdateStrategy();
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperCommon.Models.Forces.Logics
+namespace StructureHelperCommon.Models.Forces
 {
     public class ForceActionBaseUpdateStrategy : IUpdateStrategy<IForceAction>
     {

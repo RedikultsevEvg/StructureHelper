@@ -27,8 +27,6 @@ namespace StructureHelperCommon.Models.Forces
             CheckObject.IsNull(targetObject);
             CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            targetObject.LimitState = sourceObject.LimitState;
-            targetObject.CalcTerm = sourceObject.CalcTerm;
             targetObject.FilePath = sourceObject.FilePath;
             targetObject.GlobalFactor = sourceObject.GlobalFactor;
             targetObject.SkipRowBeforeHeaderCount = sourceObject.SkipRowBeforeHeaderCount;

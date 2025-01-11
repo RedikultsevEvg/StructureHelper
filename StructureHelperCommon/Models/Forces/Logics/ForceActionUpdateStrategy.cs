@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Forces.Logics;
 
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
 namespace StructureHelperCommon.Models.Forces
 {
     public class ForceActionUpdateStrategy : IUpdateStrategy<IForceAction>
@@ -18,24 +21,28 @@ namespace StructureHelperCommon.Models.Forces
         private readonly IUpdateStrategy<IDesignForcePair> forcePairUpdateStrategy;
         private readonly IUpdateStrategy<IForceFactoredList> factorUpdateStrategy;
         private readonly IUpdateStrategy<IForceCombinationList> forceListUpdateStrategy;
+        private readonly IUpdateStrategy<IForceCombinationFromFile> fileCombinationUpdateStrategy;
 
         public ForceActionUpdateStrategy(
             IUpdateStrategy<IForceAction> forceActionUpdateStrategy,
             IUpdateStrategy<IDesignForcePair> forcePairUpdateStrategy,
             IUpdateStrategy<IForceFactoredList> factorUpdateStrategy,
-            IUpdateStrategy<IForceCombinationList> forceListUpdateStrategy)
+            IUpdateStrategy<IForceCombinationList> forceListUpdateStrategy,
+            IUpdateStrategy<IForceCombinationFromFile> fileCombinationUpdateStrategy)
         {
             this.forceActionUpdateStrategy = forceActionUpdateStrategy;
             this.forcePairUpdateStrategy = forcePairUpdateStrategy;
             this.factorUpdateStrategy = factorUpdateStrategy;
             this.forceListUpdateStrategy = forceListUpdateStrategy;
+            this.fileCombinationUpdateStrategy = fileCombinationUpdateStrategy;
         }
 
         public ForceActionUpdateStrategy() : this(
              new ForceActionBaseUpdateStrategy(),
              new ForcePairUpdateStrategy(),
              new ForceFactoredListUpdateStrategy(),
-             new ForceCombinationListUpdateStrategy()
+             new ForceCombinationListUpdateStrategy(),
+             new ForceCombinationFromFileUpdateStrategy()
              )
         {
             
@@ -63,6 +70,10 @@ namespace StructureHelperCommon.Models.Forces
             else if (targetObject is IForceCombinationList forceCombinationList)
             {
                 forceListUpdateStrategy.Update(forceCombinationList, (IForceCombinationList)sourceObject);
+            }
+            else if (targetObject is IForceCombinationFromFile fileCombination)
+            {
+                fileCombinationUpdateStrategy.Update(fileCombination, (IForceCombinationFromFile)sourceObject);
             }
             else
             {

@@ -20,14 +20,15 @@ namespace StructureHelper.Windows.Forces
     /// </summary>
     public partial class ForceCombinationByFactorView : Window
     {
-        ForceCombinationByFactorVM viewModel;
+        readonly ForceCombinationByFactorVM viewModel;
         public ForceCombinationByFactorView(IForceFactoredList forceCombination)
         {
-            viewModel = new ForceCombinationByFactorVM(forceCombination);
+            viewModel = new ForceCombinationByFactorVM(forceCombination)
+            {
+                ParentWindow = this
+            };
             DataContext = viewModel;
-            viewModel.ParentWindow = this;
             InitializeComponent();
-            FactoredCombination.CombinationProperty = viewModel.CombinationProperty;
         }
     }
 }

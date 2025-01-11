@@ -9,7 +9,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Supports list of files which provides import of combination of forces
     /// </summary>
-    internal interface IForceCombinationFromFile : IForceFactoredCombination
+    public interface IForceCombinationFromFile : IForceFactoredCombination
     {
         /// <summary>
         /// List of file properties for import combination

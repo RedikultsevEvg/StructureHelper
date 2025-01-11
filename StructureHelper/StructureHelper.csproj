@@ -90,6 +90,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Documentation\FilesForImport\Forces\" />
     <Folder Include="Documentation\Manuals\" />
     <Folder Include="Documentation\Examples\" />
     <Folder Include="Documentation\PreviousFileVersions\" />

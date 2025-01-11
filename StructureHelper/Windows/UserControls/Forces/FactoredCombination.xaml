@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StructureHelper.Windows.UserControls"
              xmlns:forces="clr-namespace:StructureHelper.Windows.Forces"
+             x:Name="FactoredCombinationControl"
              d:DataContext="{d:DesignInstance forces:FactoredCombinationPropertyVM}"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="350">
@@ -19,7 +20,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0" Text="Limit State"/>
+        <TextBlock Grid.Row="0" Text="Limit state"/>
         <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding LimitStateList}" SelectedItem="{Binding LimitState}"/>
         <TextBlock Grid.Row="1" Text="Calculation term"/>
         <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding CalcTermList}" SelectedItem="{Binding CalcTerm}"/>

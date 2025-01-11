@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace StructureHelper.Windows.Forces
 {
-    public class FactoredCombinationPropertyVM : ViewModelBase, IFactoredCombinationProperty
+    public class FactoredCombinationPropertyVM : ViewModelBase, IDataErrorInfo
     {
         private IFactoredCombinationProperty sourceProperty;
 
@@ -63,18 +63,29 @@ namespace StructureHelper.Windows.Forces
             }
         }
 
-        internal void UpdateCombinationProperty(IFactoredCombinationProperty? newValue)
-        {
-            sourceProperty = newValue;
-            Refresh();
-        }
+        public string Error => throw new NotImplementedException();
 
-        private void Refresh()
+        public string this[string columnName]
         {
-            OnPropertyChanged(nameof(ULSFactor));
-            OnPropertyChanged(nameof(LongTermFactor));
-            OnPropertyChanged(nameof(CalcTerm));
-            OnPropertyChanged(nameof(LimitState));
+            get
+            {
+                string error = null;
+                if (columnName == nameof(ULSFactor))
+                {
+                    if (ULSFactor <= 0)
+                    {
+                        error = "Safety factor for ULS must be greater than zero";
+                    }
+                }
+                if (columnName == nameof(LongTermFactor))
+                {
+                    if (LongTermFactor < 0d || LongTermFactor > 1d)
+                    {
+                        error = "Long term factor must be between 0.0 and 1.0";
+                    }
+                }
+                return error;
+            }
         }
     }
 }

@@ -44,7 +44,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private InteractionDiagramLogic interactionDiagramLogic;
         private static readonly ShowCrackResultLogic showCrackResultLogic = new();
         //private static readonly ShowCrackWidthLogic showCrackWidthLogic = new();
-        private IForcesResults forcesResults;
+        private IForcesResults resultModel;
         private IEnumerable<INdmPrimitive> ndmPrimitives;
         private IEnumerable<INdmPrimitive> selectedNdmPrimitives;
         private IEnumerable<INdm> ndms;
@@ -67,13 +67,13 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private ICommand? graphValuepointsCommand;
         private ICommand showForceResultCommand;
 
-        public int ValidResultCount => forcesResults.ForcesResultList.Count(x => x.IsValid == true);
-        public int InvalidResultCount => forcesResults.ForcesResultList.Count(x => x.IsValid == false);
-        public int TotalResultCount => forcesResults.ForcesResultList.Count;
+        public int ValidResultCount => resultModel.ForcesResultList.Count(x => x.IsValid == true);
+        public int InvalidResultCount => resultModel.ForcesResultList.Count(x => x.IsValid == false);
+        public int TotalResultCount => resultModel.ForcesResultList.Count;
 
         public IForcesResults ForcesResults
         {
-            get => forcesResults;
+            get => resultModel;
         }
         public ICommand ShowInteractionDiagramCommand
         {
@@ -150,7 +150,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 Filter = "csv |*.csv",
                 Title = "Save in *.csv File"
             };
-            var logic = new ExportForcesResultToCSVLogic(forcesResults);
+            var logic = new ExportForcesResultToCSVLogic(resultModel);
             var exportService = new ExportToFileService(inputData, logic);
             exportService.Export();
         }
@@ -429,7 +429,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public ForcesResultsViewModel(ForceCalculator forceCalculator)
         {
             this.forceCalculator = forceCalculator;
-            forcesResults = forceCalculator.Result as IForcesResults;
+            resultModel = forceCalculator.Result as IForcesResults;
             ndmPrimitives = forceCalculator.InputData.Primitives;
         }
 

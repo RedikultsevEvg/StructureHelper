@@ -33,6 +33,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="40"/>
+                <RowDefinition Height="22"/>
             </Grid.RowDefinitions>
             <DataGrid IsReadOnly="True" AutoGenerateColumns="False"  ItemsSource="{Binding TupleResults}" SelectedItem="{Binding SelectedResult}">
                 <DataGrid.RowStyle>
@@ -114,6 +115,26 @@
                 </DataGrid.Columns>
             </DataGrid>
             <TextBlock Grid.Row="1" Text="{Binding CrackResult.Description}"/>
+            <StatusBar Grid.Row="2">
+                <StatusBarItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Valid result(s): "/>
+                        <TextBlock Text="{Binding ValidResultCount}"/>
+                    </StackPanel>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Invalid result(s): "/>
+                        <TextBlock Text="{Binding InvalidResultCount}"/>
+                    </StackPanel>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Total: "/>
+                        <TextBlock Text="{Binding TotalResultCount}"/>
+                    </StackPanel>
+                </StatusBarItem>
+            </StatusBar>
         </Grid>
     </DockPanel>
 </Window>

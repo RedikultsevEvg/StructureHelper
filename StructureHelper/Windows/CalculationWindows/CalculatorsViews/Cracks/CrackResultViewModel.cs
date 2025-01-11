@@ -12,9 +12,13 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
     public class CrackResultViewModel : ViewModelBase
     {
         IShowCrackIsoFieldsLogic showCrackIsoFieldsLogic => new ShowCrackIsoFieldsLogic();
-        private CrackResult crackResult;
+        private CrackResult resultModel;
         private RelayCommand? showIsoFieldCommand;
         private RelayCommand? showRebarsCommand;
+
+        public int ValidResultCount => resultModel.TupleResults.Count(x => x.IsValid == true);
+        public int InvalidResultCount => resultModel.TupleResults.Count(x => x.IsValid == false);
+        public int TotalResultCount => resultModel.TupleResults.Count;
 
         public TupleCrackResult SelectedResult { get; set; }
         public List<ITupleCrackResult> TupleResults => CrackResult.TupleResults;
@@ -41,11 +45,11 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
             }
         }
 
-        public CrackResult CrackResult => crackResult;
+        public CrackResult CrackResult => resultModel;
 
         public CrackResultViewModel(CrackResult crackResult)
         {
-            this.crackResult = crackResult;
+            this.resultModel = crackResult;
         }
     }
 }

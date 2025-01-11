@@ -29,6 +29,10 @@ namespace StructureHelper.Windows.ViewModels.Forces
                 {
                     NewItem = new ForceFactoredList() { Name = "New Factored Combination" };
                 }
+                else if (paramType == ActionType.ForceCombinationFromFile)
+                {
+                    NewItem = new ForceCombinationFromFile { Name = "New Combination from file" };
+                }
                 else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $": Actual type: {nameof(paramType)}");
                 //GlobalRepository.Actions.Create(NewItem);
                 base.AddMethod(parameter);
@@ -60,20 +64,22 @@ namespace StructureHelper.Windows.ViewModels.Forces
         {
             //var copyObject = GlobalRepository.Actions.GetById(SelectedItem.Id).Clone() as IAction;
             var copyObject = SelectedItem.Clone() as IAction;
-            System.Windows.Window wnd;
-            if (SelectedItem is IForceCombinationList)
+            System.Windows.Window modelEditorWindow;
+            if (SelectedItem is IForceCombinationList combinationList)
             {
-                var item = (IForceCombinationList)SelectedItem;
-                wnd = new ForceCombinationView(item);
+                modelEditorWindow = new ForceCombinationView(combinationList);
             }
-            else if (SelectedItem is IForceFactoredList)
+            else if (SelectedItem is IForceFactoredList factoredList)
             {
-                var item = (IForceFactoredList)SelectedItem;
-                wnd = new ForceCombinationByFactorView(item);
+                modelEditorWindow = new ForceCombinationByFactorView(factoredList);
+            }
+            else if (SelectedItem is IForceCombinationFromFile fileCombination)
+            {
+                modelEditorWindow = new ForceCombinationFromFileView(fileCombination);
             }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $"actual object type: {nameof(SelectedItem)}");
-            wnd.ShowDialog();
-            if (wnd.DialogResult == true)
+            modelEditorWindow.ShowDialog();
+            if (modelEditorWindow.DialogResult == true)
             {
                 //GlobalRepository.Actions.Update(SelectedItem);
             }
@@ -100,10 +106,14 @@ namespace StructureHelper.Windows.ViewModels.Forces
                     var forceCombinations = forceCalculator.InputData as IHasForceActions;
                     result = DeleteActionFromHost(result, calc, forceCombinations);
                 }
-                else if (calc is CrackCalculator calculator)
+                else if (calc is CrackCalculator crackCalculator)
                 {
-                    var forceCombinations = calculator.InputData as IHasForceActions;
+                    var forceCombinations = crackCalculator.InputData as IHasForceActions;
                     result = DeleteActionFromHost(result, calc, forceCombinations);
+                }
+                else if (calc is ILimitCurvesCalculator)
+                {
+                    //nothing to do
                 }
                 else
                 {

@@ -11,9 +11,10 @@ namespace StructureHelperCommon.Models.Forces
 {
     public class ActionUpdateStrategy : IUpdateStrategy<IAction>
     {
-        readonly IUpdateStrategy<IForceAction> forceUpdateStrategy = new ForceActionUpdateStrategy();
+        private IUpdateStrategy<IForceAction> forceUpdateStrategy;
         public void Update(IAction targetObject, IAction sourceObject)
         {
+            forceUpdateStrategy ??= new ForceActionUpdateStrategy();
             CheckObject.IsNull(targetObject);
             CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }

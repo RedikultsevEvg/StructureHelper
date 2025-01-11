@@ -210,8 +210,9 @@
                             <Expander.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Add">
-                                        <Button Content="Combination" Command="{Binding Add}" CommandParameter="{x:Static enums:ActionType.ForceCombination}"/>
-                                        <Button Content="Combination By Factors" Command="{Binding Add}" CommandParameter="{x:Static enums:ActionType.ForceCombinationByFactor}"/>
+                                        <MenuItem Header="Combination" Command="{Binding Add}" CommandParameter="{x:Static enums:ActionType.ForceCombination}"/>
+                                        <MenuItem Header="Combination By Factors" Command="{Binding Add}" CommandParameter="{x:Static enums:ActionType.ForceCombinationByFactor}"/>
+                                        <MenuItem Header="Combination From File" Command="{Binding Add}" CommandParameter="{x:Static enums:ActionType.ForceCombinationFromFile}"/>
                                     </MenuItem>
                                 </ContextMenu>
                             </Expander.ContextMenu>
@@ -442,12 +443,44 @@
                                 </VisualBrush>
                             </Canvas.Background>
                             <!--Horizontal axis line-->
+                            <TextBlock Canvas.Left="0" Canvas.Top="{Binding HalfOfHeight}"
+                                       Margin="0,0,0,0" Text="X" FontSize="{Binding MainTextFontSize}"
+                                       Background="AliceBlue"
+                                       Foreground="{Binding XAxisColorBrush}">
+                                <TextBlock.RenderTransform>
+                                    <ScaleTransform ScaleX="{Binding TextScaleValue}" ScaleY="{Binding TextScaleValue}"/>
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <TextBlock Canvas.Left="{Binding Width}" Canvas.Top="{Binding HalfOfHeight}"
+                                       Margin="-0.02,0,0,0" Text="X" FontSize="{Binding MainTextFontSize}"
+                                       Background="AliceBlue"
+                                       Foreground="{Binding XAxisColorBrush}">
+                                <TextBlock.RenderTransform>
+                                    <ScaleTransform ScaleX="{Binding TextScaleValue}" ScaleY="{Binding TextScaleValue}" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
                             <Line
                                 X1="0" X2="{Binding Width}"
                                 Y1="{Binding HalfOfHeight}" Y2="{Binding HalfOfHeight}"
                                 Stroke="{Binding XAxisColorBrush}"
                                 StrokeThickness="{Binding AxisLineThickness}"/>
                             <!--Vertical axis line-->
+                            <TextBlock Canvas.Left="{Binding HalfOfWidth}" Canvas.Top="0"
+                                       Margin="0.01,0,0,0" Text="Y" FontSize="{Binding MainTextFontSize}"
+                                       Background="AliceBlue"
+                                       Foreground="{Binding YAxisColorBrush}">
+                                <TextBlock.RenderTransform>
+                                    <ScaleTransform ScaleX="{Binding TextScaleValue}" ScaleY="{Binding TextScaleValue}"/>
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <TextBlock Canvas.Left="{Binding HalfOfWidth}" Canvas.Top="{Binding Height}"
+                                       Margin="0.01,-0.05,0,0" Text="Y" FontSize="{Binding MainTextFontSize}"
+                                       Background="AliceBlue"
+                                       Foreground="{Binding YAxisColorBrush}">
+                                <TextBlock.RenderTransform>
+                                    <ScaleTransform ScaleX="{Binding TextScaleValue}" ScaleY="{Binding TextScaleValue}" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
                             <Line
                                 X1="{Binding HalfOfWidth}" X2="{Binding HalfOfWidth}"
                                 Y1="0" Y2="{Binding Height}"

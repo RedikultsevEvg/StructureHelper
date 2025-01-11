@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ExcelDataReader" Version="3.7.0" />
     <PackageReference Include="NLog" Version="5.3.4" />
   </ItemGroup>
 

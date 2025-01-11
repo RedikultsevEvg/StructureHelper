@@ -45,6 +45,12 @@
     <Compile Update="Windows\Forces\ForceCombinationByFactorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\Forces\ForceCombinationFromFileView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Forces\ForceFilePropertyView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\Forces\ForceInterpolationControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -85,6 +91,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\UserControls\Forces\FactoredCombination.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\UserControls\ListOfFileControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\UserControls\MultiplyDouble.xaml.cs">
@@ -152,6 +161,12 @@
     <Page Update="Windows\Forces\ForceCombinationByFactorView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Windows\Forces\ForceCombinationFromFileView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Forces\ForceFilePropertyView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\Forces\ForceInterpolationControl.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -192,6 +207,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\UserControls\Forces\FactoredCombination.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\UserControls\ListOfFileControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\UserControls\MultiplyDouble.xaml">

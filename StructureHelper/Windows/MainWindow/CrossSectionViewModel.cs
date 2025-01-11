@@ -34,9 +34,7 @@ namespace StructureHelper.Windows.MainWindow
         private ICrossSectionRepository repository => Section.SectionRepository;
         private ITriangulatePrimitiveLogic triangulateLogic;
 
-
         public CrossSectionVisualPropertyVM VisualProperty { get; private set; }
-
 
         public PrimitiveBase SelectedPrimitive { get; set; }
 

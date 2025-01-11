@@ -11,11 +11,8 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Settings for extracting force combination from MSExcel file
     /// </summary>
-    public interface IForceFileProperty : ISaveable
+    public interface IForceFileProperty : IFileProperty
     {
-        LimitStates LimitState { get; set; }
-        CalcTerms CalcTerm { get; set; }
-        string FilePath { get; set; }
         int SkipRowBeforeHeaderCount { get; set; }
         int SkipRowHeaderCount { get; set; }
         double GlobalFactor { get; set; }

@@ -7,36 +7,46 @@
         xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance local:ForceCombinationByFactorVM}"
         mc:Ignorable="d"
-        Title="Force Combination By Factor" Height="340" Width="350" MinHeight="290" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Force Combination By Factor" Height="220" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="95"/>
             <RowDefinition/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <!--ForceTemplates.xaml-->
-        <ContentControl ContentTemplate="{StaticResource ResourceKey=ForceActionTemplate}" Content="{Binding}"/>
-        <StackPanel Grid.Row="1">
-            <uc:FactoredCombination x:Name="FactoredCombination" CombinationProperty="{Binding CombinationProperty}"/>
-            <TextBlock Text="Load combination"/>
-            <Grid DataContext="{Binding ForceTupleVM}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock HorizontalAlignment="Center" Text="Mx" />
-                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="My" />
-                <TextBlock Grid.Column="2" HorizontalAlignment="Center" Text="Nz" />
-                <TextBox Grid.Row="1" Text="{Binding Mx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding My, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
-                <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Nz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
-            </Grid>
-        </StackPanel>
+        <TabControl>
+            <TabItem Header="Main">
+                <StackPanel>
+                    <!--ForceTemplates.xaml-->
+                    <ContentControl ContentTemplate="{StaticResource ResourceKey=ForceActionNameTemplate}" Content="{Binding}"/>
+                    <TextBlock Text="Load combination"/>
+                    <Grid DataContext="{Binding ForceTupleVM}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock HorizontalAlignment="Center" Text="Mx" />
+                        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="My" />
+                        <TextBlock Grid.Column="2" HorizontalAlignment="Center" Text="Nz" />
+                        <TextBox Grid.Row="1" Text="{Binding Mx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding My, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Nz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Force point">
+                
+                <!--ForceTemplates.xaml-->
+                <ContentControl VerticalAlignment="Top" ContentTemplate="{StaticResource ResourceKey=ForceActionPointTemplate}" Content="{Binding}"/>
+            </TabItem>
+            <TabItem Header="Partial factors">
+                <uc:FactoredCombination DataContext="{Binding CombinationProperty}"/>
+            </TabItem>
+        </TabControl>
         <ContentControl Grid.Row="2" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

@@ -9,6 +9,7 @@ namespace StructureHelper.Infrastructure.Enums
     public enum ActionType
     {
         ForceCombination,
-        ForceCombinationByFactor
+        ForceCombinationByFactor,
+        ForceCombinationFromFile
     }
 }
