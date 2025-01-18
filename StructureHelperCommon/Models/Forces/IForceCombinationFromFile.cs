@@ -14,6 +14,6 @@ namespace StructureHelperCommon.Models.Forces
         /// <summary>
         /// List of file properties for import combination
         /// </summary>
-        List<IForceFileProperty> ForceFiles { get; set; }
+        List<IColumnedFileProperty> ForceFiles { get; set; }
     }
 }

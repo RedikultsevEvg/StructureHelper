@@ -11,14 +11,23 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Settings for extracting force combination from MSExcel file
     /// </summary>
-    public interface IForceFileProperty : IFileProperty
+    public interface IColumnedFileProperty : IFileProperty
     {
+        /// <summary>
+        /// Count of rows before header
+        /// </summary>
         int SkipRowBeforeHeaderCount { get; set; }
+        /// <summary>
+        /// Count of rows of header
+        /// </summary>
         int SkipRowHeaderCount { get; set; }
+        /// <summary>
+        /// Factor which imported value multyply to
+        /// </summary>
         double GlobalFactor { get; set; }
-        IColumnProperty Mx { get; set; }
-        IColumnProperty My { get; set; }
-        IColumnProperty Nz { get; set; }
-
+        /// <summary>
+        /// Collection of column's properties which will be imported
+        /// </summary>
+        List<IColumnProperty> ColumnProperties { get; }
     }
 }

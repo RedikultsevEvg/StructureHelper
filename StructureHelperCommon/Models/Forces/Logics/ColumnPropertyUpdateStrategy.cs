@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public class ForceColumnPropertyUpdateStrategy : IUpdateStrategy<IColumnProperty>
+    public class ColumnPropertyUpdateStrategy : IUpdateStrategy<IColumnProperty>
     {
         public void Update(IColumnProperty targetObject, IColumnProperty sourceObject)
         {
             CheckObject.IsNull(targetObject);
             CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            targetObject.ColumnName = sourceObject.ColumnName;
-            targetObject.ColumnIndex = sourceObject.ColumnIndex;
-            targetObject.ColumnFactor = sourceObject.ColumnFactor;
+            targetObject.Name = sourceObject.Name;
+            targetObject.SearchingName = sourceObject.SearchingName;
+            targetObject.Index = sourceObject.Index;
+            targetObject.Factor = sourceObject.Factor;
         }
     }
 }

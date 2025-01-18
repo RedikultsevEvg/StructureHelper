@@ -14,12 +14,12 @@ namespace StructureHelperCommon.Models.Forces
     {
         IUpdateStrategy<IForceCombinationFromFile> updateStrategy;
         IUpdateStrategy<IFactoredCombinationProperty> propertyUpdateStrategy;
-        IGetTupleFromFileLogic getTupleFromFileLogic;
+        IGetTuplesFromFileLogic getTupleFromFileLogic;
         
         private IForceFactoredList factoredCombination;
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public List<IForceFileProperty> ForceFiles { get; set; } = new();
+        public List<IColumnedFileProperty> ForceFiles { get; set; } = new();
         public bool SetInGravityCenter { get; set; } = true;
         public IPoint2D ForcePoint { get; set; } = new Point2D();
 
@@ -35,7 +35,7 @@ namespace StructureHelperCommon.Models.Forces
 
         public List<IForceCombinationList> GetCombinations()
         {
-            getTupleFromFileLogic ??= new GetTupleFromFileLogic() { TraceLogger = new ShiftTraceLogger()};
+            getTupleFromFileLogic ??= new GetTuplesFromFileLogic() { TraceLogger = new ShiftTraceLogger()};
             factoredCombination = new ForceFactoredList();
             factoredCombination.ForceTuples.Clear();
             propertyUpdateStrategy ??= new FactoredCombinationPropertyUpdateStrategy();

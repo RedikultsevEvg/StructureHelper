@@ -1,0 +1,12 @@
+﻿<Window x:Class="StructureHelper.Windows.Forces.ForceCombinationViewerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.Forces"
+        mc:Ignorable="d"
+        Title="Force Combination Viewer" Height="250" Width="400" MinHeight="250" MinWidth="400" MaxHeight="600" MaxWidth="1000" ResizeMode="CanResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResourceKey=CombinationListTemplate}" Content="{Binding}"/>
+    </Grid>
+</Window>

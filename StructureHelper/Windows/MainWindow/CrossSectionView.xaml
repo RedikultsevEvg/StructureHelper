@@ -113,6 +113,10 @@
                         Command="{Binding Add}"
                          CommandParameter="{x:Static enums:ActionType.ForceCombinationByFactor}"
                         Content="Fact" ToolTip="Add Factored Combination"/>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding Add}"
+                         CommandParameter="{x:Static enums:ActionType.ForceCombinationFromFile}"
+                        Content="File" ToolTip="Add Combination From File"/>
             </ToolBar>
             <ToolBar DataContext="{Binding MaterialsLogic}" ToolTip="Materials">
                 <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Concrete}">

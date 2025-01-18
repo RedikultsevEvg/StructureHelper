@@ -1,0 +1,39 @@
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StructureHelperCommon.Models.Forces
+{
+    /// <inheritdoc/>
+    public class ColumnedFilePropertyUpdateStrategy : IUpdateStrategy<IColumnedFileProperty>
+    {
+        /// <inheritdoc/>
+        public void Update(IColumnedFileProperty targetObject, IColumnedFileProperty sourceObject)
+        {
+            CheckObject.IsNull(targetObject);
+            CheckObject.IsNull(sourceObject);
+            if (ReferenceEquals(targetObject, sourceObject)) { return; }
+            UpdateObjects(targetObject, sourceObject);
+        }
+
+        private static void UpdateObjects(IColumnedFileProperty targetObject, IColumnedFileProperty sourceObject)
+        {
+            targetObject.FilePath = sourceObject.FilePath;
+            targetObject.GlobalFactor = sourceObject.GlobalFactor;
+            targetObject.SkipRowBeforeHeaderCount = sourceObject.SkipRowBeforeHeaderCount;
+            targetObject.SkipRowHeaderCount = sourceObject.SkipRowHeaderCount;
+            CheckObject.IsNull(targetObject.ColumnProperties);
+            CheckObject.IsNull(sourceObject.ColumnProperties);
+            targetObject.ColumnProperties.Clear();
+            foreach (var item in sourceObject.ColumnProperties)
+            {
+                IColumnProperty clone = (IColumnProperty)item.Clone();
+                targetObject.ColumnProperties.Add(clone);
+            }
+        }
+    }
+}

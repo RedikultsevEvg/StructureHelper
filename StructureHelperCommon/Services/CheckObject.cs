@@ -38,6 +38,12 @@ namespace StructureHelperCommon.Services
             IsNull(sourceObject, $"{senderName} source object");
         }
 
+        /// <summary>
+        /// Checks if object is null, if it is null throws new exception 
+        /// </summary>
+        /// <param name="item">Checked object</param>
+        /// <param name="message">Message while error occur</param>
+        /// <exception cref="StructureHelperException"></exception>
         public static void IsNull(object item, string message = "")
         {
             if (item is null)

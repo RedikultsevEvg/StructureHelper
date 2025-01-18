@@ -10,19 +10,23 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Settingth for column reading from MSExcel file
     /// </summary>
-    public interface IColumnProperty : ISaveable
+    public interface IColumnProperty : ISaveable, ICloneable
     {
+        /// <summary>
+        /// Name of column
+        /// </summary>
+        string Name { get; set; }
         /// <summary>
         /// Name of column for searching 
         /// </summary>
-        string ColumnName { get; set; }
+        string SearchingName { get; set; }
         /// <summary>
         /// Column index
         /// </summary>
-        int ColumnIndex { get; set; }
+        int Index { get; set; }
         /// <summary>
         /// Factor for obtaining value from column
         /// </summary>
-        double ColumnFactor { get; set; }
+        double Factor { get; set; }
     }
 }

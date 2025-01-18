@@ -8,7 +8,7 @@
              xmlns:forces="clr-namespace:StructureHelper.Windows.Forces"
              d:DataContext="{d:DesignInstance forces:ListOfFilesVM}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="250" d:DesignWidth="400">
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
@@ -21,6 +21,38 @@
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource FileOpen}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding Delete}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Delete reference to file"
+                                                IconContent="{StaticResource DeleteAnalysis }"
+                                                DescriptionText="Deletes selected reference to file"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource DeleteAnalysis}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding ShowSettings}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Settings"
+                                                IconContent="{StaticResource Settings}"
+                                                DescriptionText="Shows settings of import of file"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource Settings}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource ToolButton}" Visibility="Hidden" 
+                        Command="{Binding ShowDocument}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="View file"
+                                                IconContent="{StaticResource Report}"
+                                                DescriptionText="Shows file data if it is possible"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource Report}"/>
                     </Viewbox>
                 </Button>
             </ToolBar>

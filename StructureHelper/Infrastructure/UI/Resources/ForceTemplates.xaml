@@ -36,20 +36,23 @@
         </StackPanel>
     </DataTemplate>
     <DataTemplate x:Key="CombinationListTemplate">
+        <DataGrid x:Name="ForceGrid" Style="{StaticResource ItemsDataGrid}">
+            <DataGrid.Columns>
+                <DataGridComboBoxColumn Header="Limit state" Width="80" MinWidth="70" SelectedItemBinding="{Binding LimitState}" ItemsSource="{Binding Source={StaticResource LimitStateEnum}}"/>
+                <DataGridComboBoxColumn Header="Duration" Width="80" MinWidth="70" SelectedItemBinding="{Binding CalcTerm}" ItemsSource="{Binding Source={StaticResource CalcTermEnum}}"/>
+                <DataGridTextColumn Header="Moment Mx" Width="85" Binding="{Binding ForceTuple.Mx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                <DataGridTextColumn Header="Moment My" Width="85" Binding="{Binding ForceTuple.My, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                <DataGridTextColumn Header="Force Nz" Width="85" Binding="{Binding ForceTuple.Nz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DataTemplate>
+    <DataTemplate x:Key="CombinationListTemplateWithButton">
         <Grid Grid.Row="1" DataContext="{Binding DesignForces}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
-            <DataGrid x:Name="ForceGrid" Style="{StaticResource ItemsDataGrid}">
-                <DataGrid.Columns>
-                    <DataGridComboBoxColumn Header="Limit state" Width="80" MinWidth="70" SelectedItemBinding="{Binding LimitState}" ItemsSource="{Binding Source={StaticResource LimitStateEnum}}"/>
-                    <DataGridComboBoxColumn Header="Duration" Width="80" MinWidth="70" SelectedItemBinding="{Binding CalcTerm}" ItemsSource="{Binding Source={StaticResource CalcTermEnum}}"/>
-                    <DataGridTextColumn Header="Moment Mx" Width="85" Binding="{Binding ForceTuple.Mx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
-                    <DataGridTextColumn Header="Moment My" Width="85" Binding="{Binding ForceTuple.My, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
-                    <DataGridTextColumn Header="Force Nz" Width="85" Binding="{Binding ForceTuple.Nz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
-                </DataGrid.Columns>
-            </DataGrid>
+            <ContentControl ContentTemplate="{StaticResource CombinationListTemplate}" Content="{Binding}"/>
             <StackPanel Grid.Column="1">
                 <Button Style="{StaticResource AddButton}"/>
                 <Button Style="{StaticResource DeleteButton}"/>

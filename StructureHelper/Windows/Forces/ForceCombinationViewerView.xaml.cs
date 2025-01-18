@@ -16,22 +16,20 @@ using System.Windows.Shapes;
 namespace StructureHelper.Windows.Forces
 {
     /// <summary>
-    /// Interaction logic for ForceFilePropertyView.xaml
+    /// Interaction logic for ForceCombinationViewerView.xaml
     /// </summary>
-    public partial class ForceFilePropertyView : Window
+    public partial class ForceCombinationViewerView : Window
     {
-        private ForceFilePropertyVM viewModel;
-        public ForceFilePropertyView(ForceFilePropertyVM viewModel)
+        ForceCombinationViewerVM viewModel;
+        public ForceCombinationViewerView(ForceCombinationViewerVM viewModel)
         {
             InitializeComponent();
             this.viewModel = viewModel;
-            this.viewModel.ParentWindow = this;
             DataContext = this.viewModel;
         }
 
-        public ForceFilePropertyView(IColumnedFileProperty fileProperty) : this (new ForceFilePropertyVM(fileProperty))
+        public ForceCombinationViewerView(IForceAction action) : this (new ForceCombinationViewerVM(action))
         {
-            
         }
     }
 }

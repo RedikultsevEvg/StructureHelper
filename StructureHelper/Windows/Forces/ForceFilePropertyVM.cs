@@ -2,6 +2,7 @@
 using StructureHelperCommon.Models.Forces;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,11 +11,15 @@ namespace StructureHelper.Windows.Forces
 {
     public class ForceFilePropertyVM : OkCancelViewModelBase
     {
-        private IForceFileProperty model;
+        private IColumnedFileProperty model;
 
-        public ForceFilePropertyVM(IForceFileProperty model)
+        public ForceFilePropertyVM(IColumnedFileProperty model)
         {
             this.model = model;
+            foreach (var item in model.ColumnProperties)
+            {
+                ColumnProperties.Add(new ColumnPropertyVM(item));
+            }
         }
 
         public int SkipRowBeforeHeaderCount
@@ -54,7 +59,9 @@ namespace StructureHelper.Windows.Forces
             }
         }
 
-        public IForceFileProperty Model
+        public ObservableCollection<ColumnPropertyVM> ColumnProperties { get; set; } = new();
+
+        public IColumnedFileProperty Model
         {
             get
             {

@@ -1,13 +1,20 @@
-﻿using StructureHelper.Infrastructure.Enums;
+﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.Forces;
+using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Cracking;
+using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.Forces
 {
@@ -15,6 +22,30 @@ namespace StructureHelper.Windows.ViewModels.Forces
     {
         readonly IUpdateStrategy<IAction> updateStrategy = new ActionUpdateStrategy();
         ICrossSectionRepository repository;
+        private ICommand showCombinationsCommand;
+
+        public ICommand ShowCombinations => showCombinationsCommand ?? (
+            showCombinationsCommand = new RelayCommand(param =>
+            {
+                SafetyProcessor.RunSafeProcess(ShowDocumentMethod, "Error of opening of settings");
+            }, o => SelectedItem is not null
+            ));
+
+        private void ShowDocumentMethod()
+        {
+            if (SelectedItem is null) { return; }
+            var checkLogic = new CheckForceActionsLogic()
+            {
+                Entity = new List<IForceAction>() { SelectedItem }
+            };
+            if (checkLogic.Check() == false)
+            {
+                SafetyProcessor.ShowMessage($"Action {SelectedItem.Name} returned wrong collection of combinations", checkLogic.CheckResult);
+                return;
+            }
+            var wnd = new ForceCombinationViewerView(SelectedItem);
+            wnd.ShowDialog();
+        }
 
         public override void AddMethod(object parameter)
         {

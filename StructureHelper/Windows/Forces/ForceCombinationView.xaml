@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
         <!--ForceTemplates.xaml-->
         <ContentControl ContentTemplate="{StaticResource ResourceKey=ForceActionTemplate}" Content="{Binding}"/>
-        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResourceKey=CombinationListTemplate}" Content="{Binding}"/>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResourceKey=CombinationListTemplateWithButton}" Content="{Binding}"/>
         <ContentControl Grid.Row="2" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

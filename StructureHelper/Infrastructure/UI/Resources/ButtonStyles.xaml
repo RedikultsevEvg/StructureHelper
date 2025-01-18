@@ -85,12 +85,10 @@
         <Setter Property="Background" Value="#FFA19BC3"/>
         <Setter Property="BorderBrush" Value="Black"/>
     </Style>
-
     <Style x:Key="ToolButton24" TargetType="Button" BasedOn="{StaticResource ToolButton}">
         <Setter Property="Height" Value="24"/>
         <Setter Property="Width" Value="24"/>
     </Style>
-
     <Style x:Key="ButtonImage16" TargetType="Image">
         <Setter Property="Height" Value="16"/>
         <Setter Property="Width" Value="16"/>
@@ -116,16 +114,13 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
-
     <Style x:Key="ButtonCalculatorCanvas" TargetType="Canvas" BasedOn="{StaticResource ButtonCanvas}">
         <Setter Property="Background" Value="{DynamicResource CalculatorCanvas}"/>
     </Style>
-
     <Style x:Key="ButtonResultCanvas" TargetType="Canvas" BasedOn="{StaticResource ButtonCanvas}">
         <Setter Property="Background" Value="{DynamicResource ResultCanvas}"/>
 
     </Style>
-
     <Style x:Key="ButtonRect" TargetType="Rectangle">
         <Setter Property="Margin" Value="3"/>
         <Setter Property="Width" Value="26"/>
@@ -412,10 +407,20 @@
         </Canvas>
     </DataTemplate>
 
+    <DataTemplate x:Key="Report">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <ContentControl Canvas.Top="5" Canvas.Left="6" ContentTemplate="{DynamicResource Document}"/>
+                <ContentControl Canvas.Top="8" Canvas.Left="10" ContentTemplate="{DynamicResource Document}"/>
+                <ContentControl Canvas.Top="11" Canvas.Left="14" ContentTemplate="{DynamicResource Document}"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
     <DataTemplate x:Key="ExportToXLS">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
-                <!--<ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>-->
                 <ContentControl ContentTemplate="{DynamicResource Table}"/>
                 <TextBlock Text="CSV" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
                 <TextBlock Text="XLS" FontSize="12" FontWeight="Bold" FontStyle="Italic" Margin="6,14,0,2"/>
@@ -470,6 +475,21 @@
                 <Line X1="7" Y1="18" X2="24" Y2="18" Stroke="Black" StrokeThickness="0.5"/>
                 <Line X1="7" Y1="21" X2="24" Y2="21" Stroke="Black" StrokeThickness="0.5"/>
                 <Line X1="7" Y1="24" X2="24" Y2="24" Stroke="Black" StrokeThickness="0.5"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="Settings">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Path Margin="4" Data="M8,8 v-6 l-4,-4
+                      a7,7 90 0 1 7,10
+                      l12,12 v3 h-3 l-12,-12
+                      a7,7 90 0 1 -10,-7
+                      l4,4
+                      z" Fill="DarkGray" Stroke="Black"/>
+                <Ellipse Height="2" Width="2" Fill="White" Canvas.Left="24" Canvas.Top="24"/>
+                <Ellipse Height="5" Width="5" Fill="White" Canvas.Left="6" Canvas.Top="6"/>
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
