@@ -17,7 +17,7 @@ namespace DataAccess.DTOs
         [JsonProperty("Name")]
         public string Name { get; set; }
         [JsonProperty("InputData")]
-        public IForceCalculatorInputData InputData { get; set; } = new ForceCalculatorInputDataDTO();
+        public IForceCalculatorInputData InputData { get; set; }
         [JsonIgnore]
         public IShiftTraceLogger? TraceLogger { get; set; }
         [JsonIgnore]

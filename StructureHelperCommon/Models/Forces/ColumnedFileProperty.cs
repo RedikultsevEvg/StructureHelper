@@ -23,7 +23,7 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public double GlobalFactor { get; set; } = 1d;
         /// <inheritdoc/>
-        public List<IColumnProperty> ColumnProperties { get; } = new();
+        public List<IColumnFileProperty> ColumnProperties { get; } = new();
 
         public ColumnedFileProperty(Guid id)
         {

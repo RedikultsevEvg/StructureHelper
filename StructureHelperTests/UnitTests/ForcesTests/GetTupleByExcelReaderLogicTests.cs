@@ -37,9 +37,9 @@ namespace StructureHelperTests.UnitTests.ForcesTests
         public void GetForceTuple_ShouldReturnForceTuple_WhenDataIsValid()
         {
             // Arrange
-            var columnProperties = new List<IColumnProperty>
+            var columnProperties = new List<IColumnFileProperty>
         {
-            new Mock<IColumnProperty>().SetupAllProperties().Object
+            new Mock<IColumnFileProperty>().SetupAllProperties().Object
         };
 
             _mockFileProperty.Setup(x => x.ColumnProperties).Returns(columnProperties);

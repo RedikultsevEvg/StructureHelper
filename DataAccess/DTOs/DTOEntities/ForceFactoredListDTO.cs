@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class ForceCombinationByFactorDTO : IForceFactoredList
+    public class ForceFactoredListDTO : IForceFactoredList
     {
         [JsonProperty("Id")]
-        public Guid Id { get; set; }
+        public Guid Id { get;}
         [JsonProperty("Name")]
         public string Name { get; set; }
         [JsonProperty("ForceTuples")]
@@ -23,8 +23,12 @@ namespace DataAccess.DTOs
         [JsonProperty("ForcePoint")]
         public IPoint2D ForcePoint { get; set; } = new Point2DDTO();
         [JsonProperty("CombinationProperty")]
-        public IFactoredCombinationProperty CombinationProperty { get; } = new ForceFactoredCombinationPropertyDTO();
+        public IFactoredCombinationProperty CombinationProperty { get; set; } = new FactoredCombinationPropertyDTO(Guid.NewGuid());
 
+        public ForceFactoredListDTO(Guid id)
+        {
+            Id = id;
+        }
 
         public object Clone()
         {

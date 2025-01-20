@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace StructureHelperCommon.Models.Forces
 {
     /// <inheritdoc/>
-    public class ColumnProperty : IColumnProperty
+    public class ColumnFileProperty : IColumnFileProperty
     {
         /// <inheritdoc/>
         public Guid Id { get; private set; }
@@ -20,19 +20,19 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public double Factor { get; set; } = 1d;
 
-        public ColumnProperty(Guid id, string columnName)
+        public ColumnFileProperty(Guid id, string name)
         {
             Id = id;
-            Name = columnName;
+            Name = name;
         }
-        public ColumnProperty(string columnName) : this(Guid.NewGuid(), columnName)
+        public ColumnFileProperty(string columnName) : this(Guid.NewGuid(), columnName)
         {
             
         }
 
         public object Clone()
         {
-            var cloneLogic = new ColumnPropertyCloningStrategy();
+            var cloneLogic = new ColumnFilePropertyCloningStrategy();
             return cloneLogic.GetClone(this);
         }
     }

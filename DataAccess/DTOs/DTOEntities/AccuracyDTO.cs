@@ -6,16 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.DTOs.DTOEntities
+namespace DataAccess.DTOs
 {
     public class AccuracyDTO : IAccuracy
     {
         [JsonProperty("Id")]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get;}
         [JsonProperty("IterationAccuracy")]
         public double IterationAccuracy { get; set; }
         [JsonProperty("MaxIterationCount")]
         public int MaxIterationCount { get; set; }
-
+        public AccuracyDTO(Guid id)
+        {
+            Id = id;
+        }
     }
 }

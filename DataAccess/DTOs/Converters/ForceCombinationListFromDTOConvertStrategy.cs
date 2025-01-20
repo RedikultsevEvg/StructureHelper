@@ -1,6 +1,8 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.Logics;
+using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -29,26 +31,31 @@ namespace DataAccess.DTOs
             this.designTupleConvertStrategy = designTupleConvertStrategy;
         }
 
-        public ForceCombinationListFromDTOConvertStrategy() : this(
-            new ForceActionBaseUpdateStrategy(),
-            new ForceCombinationListUpdateStrategy(),
-            new Point2DFromDTOConvertStrategy(),
-            new DesignForceTupleFromDTOConvertStrategy())
-        {
-            
-        }
+        public ForceCombinationListFromDTOConvertStrategy() { }
 
         public override ForceCombinationList GetNewItem(ForceCombinationListDTO source)
         {
-            TraceLogger?.AddMessage($"Force combination list name = {source.Name} is starting");
+            TraceLogger?.AddMessage($"Force combination list Id = {source.Id}, Name = {source.Name} converting has been started");
+            InitializeStrategies();
+            try
+            {
+                ForceCombinationList newItem = GetNewItemBySource(source);
+                TraceLogger?.AddMessage($"Force combination list Id = {source.Id}, Name = {source.Name} has been finished successfully");
+                return newItem;
+            }
+            catch (Exception ex)
+            {
+                TraceErrorByEntity(this, ex.Message);
+                throw;
+            }
+        }
+
+        private ForceCombinationList GetNewItemBySource(ForceCombinationListDTO source)
+        {
             ForceCombinationList newItem = new(source.Id);
             baseUpdateStrategy.Update(newItem, source);
             //updateStrategy.Update(newItem, source);
-            pointConvertStrategy.ReferenceDictionary = ReferenceDictionary;
-            pointConvertStrategy.TraceLogger = TraceLogger;
             newItem.ForcePoint = pointConvertStrategy.Convert((Point2DDTO)source.ForcePoint);
-            designTupleConvertStrategy.ReferenceDictionary = ReferenceDictionary;
-            designTupleConvertStrategy.TraceLogger = TraceLogger;
             newItem.DesignForces.Clear();
             foreach (var item in source.DesignForces)
             {
@@ -57,8 +64,16 @@ namespace DataAccess.DTOs
                 TraceLogger?.AddMessage($"Mx = {newDesignTuple.ForceTuple.Mx}, My = {newDesignTuple.ForceTuple.My}, Nz = {newDesignTuple.ForceTuple.Nz}");
                 newItem.DesignForces.Add(newDesignTuple);
             }
-            TraceLogger?.AddMessage($"Force combination list name = {newItem.Name} has been finished successfully");
+
             return newItem;
+        }
+
+        private void InitializeStrategies()
+        {
+            baseUpdateStrategy ??= new ForceActionBaseUpdateStrategy();
+            updateStrategy ??= new ForceCombinationListUpdateStrategy();
+            pointConvertStrategy ??= new Point2DFromDTOConvertStrategy() { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger};
+            designTupleConvertStrategy ??= new DesignForceTupleFromDTOConvertStrategy() { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
         }
     }
 }

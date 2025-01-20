@@ -19,9 +19,9 @@ namespace DataAccess.DTOs
         [JsonProperty("Triangulate")]
         public bool Triangulate { get; set; }
         [JsonProperty("UsersPrestrain")]
-        public IForceTuple UsersPrestrain { get; set; } = new ForceTupleDTO();
+        public IForceTuple UsersPrestrain { get; set; } = new ForceTupleDTO(Guid.NewGuid());
         [JsonProperty("AutoPrestrain")]
-        public IForceTuple AutoPrestrain { get; set; } = new ForceTupleDTO();
+        public IForceTuple AutoPrestrain { get; set; } = new ForceTupleDTO(Guid.NewGuid());
 
 
         public object Clone()

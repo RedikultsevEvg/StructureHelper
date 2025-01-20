@@ -14,9 +14,6 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<IForceTuple> updateStrategy;
 
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
-
         public ForceTupleToDTOConvertStrategy(IUpdateStrategy<IForceTuple> updateStrategy)
         {
             this.updateStrategy = updateStrategy;
@@ -29,7 +26,7 @@ namespace DataAccess.DTOs
 
         public override ForceTupleDTO GetNewItem(IForceTuple source)
         {
-            ForceTupleDTO newItem = new() { Id = source.Id};
+            ForceTupleDTO newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
             return newItem;
         }

@@ -1,23 +1,17 @@
-﻿using DataAccess.DTOs.DTOEntities;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Sections;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
     public class ForceCalculatorInputDataDTO : IForceCalculatorInputData
     {
         [JsonProperty("Id")]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; }
         [JsonProperty("ForceActions")]
         public List<IForceAction> ForceActions { get; set; } = new();
         [JsonProperty("Primitives")]
@@ -27,11 +21,14 @@ namespace DataAccess.DTOs
         [JsonProperty("CalcTermList")]
         public List<CalcTerms> CalcTermsList { get; set; } = new();
         [JsonProperty("Accuracy")]
-        public IAccuracy Accuracy { get; set; } = new AccuracyDTO();
+        public IAccuracy Accuracy { get; set; }
         [JsonProperty("CompressedMember")]
         public ICompressedMember CompressedMember { get; set; } = new CompressedMemberDTO();
-        //[JsonIgnore]
-        //public List<IForceCombinationList> ForceCombinationLists { get; set; } = new();
+
+        public ForceCalculatorInputDataDTO(Guid id)
+        {
+            Id = id;
+        }
 
     }
 }

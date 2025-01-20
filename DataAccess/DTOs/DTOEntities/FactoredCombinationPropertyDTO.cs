@@ -4,8 +4,10 @@ using StructureHelperCommon.Models.Forces;
 
 namespace DataAccess.DTOs
 {
-    public class ForceFactoredCombinationPropertyDTO : IFactoredCombinationProperty
+    public class FactoredCombinationPropertyDTO : IFactoredCombinationProperty
     {
+        [JsonProperty("Id")]
+        public Guid Id { get; }
         [JsonProperty("CalctTerm")]
         public CalcTerms CalcTerm { get; set; }
         [JsonProperty("LimitState")]
@@ -14,5 +16,9 @@ namespace DataAccess.DTOs
         public double LongTermFactor { get; set; }
         [JsonProperty("ULSFactor")]
         public double ULSFactor { get; set; }
+        public FactoredCombinationPropertyDTO(Guid id)
+        {
+            Id = id;
+        }
     }
 }

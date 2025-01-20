@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public class ColumnPropertyUpdateStrategy : IUpdateStrategy<IColumnProperty>
+    public class ColumnFilePropertyUpdateStrategy : IUpdateStrategy<IColumnFileProperty>
     {
-        public void Update(IColumnProperty targetObject, IColumnProperty sourceObject)
+        public void Update(IColumnFileProperty targetObject, IColumnFileProperty sourceObject)
         {
             CheckObject.IsNull(targetObject);
             CheckObject.IsNull(sourceObject);

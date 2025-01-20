@@ -28,6 +28,6 @@ namespace StructureHelperCommon.Models.Forces
         /// <summary>
         /// Collection of column's properties which will be imported
         /// </summary>
-        List<IColumnProperty> ColumnProperties { get; }
+        List<IColumnFileProperty> ColumnProperties { get; }
     }
 }

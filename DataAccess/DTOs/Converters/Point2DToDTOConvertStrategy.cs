@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.DTOs.Converters
+namespace DataAccess.DTOs
 {
     public class Point2DToDTOConvertStrategy : IConvertStrategy<Point2DDTO, IPoint2D>
     {

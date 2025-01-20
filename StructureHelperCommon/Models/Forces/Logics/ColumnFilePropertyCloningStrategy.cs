@@ -8,28 +8,28 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public class ColumnPropertyCloningStrategy : ICloneStrategy<IColumnProperty>
+    public class ColumnFilePropertyCloningStrategy : ICloneStrategy<IColumnFileProperty>
     {
-        private IUpdateStrategy<IColumnProperty> updateStrategy;
+        private IUpdateStrategy<IColumnFileProperty> updateStrategy;
 
-        public ColumnPropertyCloningStrategy(IUpdateStrategy<IColumnProperty> updateStrategy)
+        public ColumnFilePropertyCloningStrategy(IUpdateStrategy<IColumnFileProperty> updateStrategy)
         {
             this.updateStrategy = updateStrategy;
         }
 
-        public ColumnPropertyCloningStrategy()
+        public ColumnFilePropertyCloningStrategy()
         {
             
         }
 
-        public IColumnProperty GetClone(IColumnProperty sourceObject)
+        public IColumnFileProperty GetClone(IColumnFileProperty sourceObject)
         {
             CheckObject.IsNull(sourceObject);
             if (updateStrategy is null)
             {
-                updateStrategy = new ColumnPropertyUpdateStrategy();
+                updateStrategy = new ColumnFilePropertyUpdateStrategy();
             }
-            ColumnProperty newItem = new(sourceObject.Name);
+            ColumnFileProperty newItem = new(sourceObject.Name);
             updateStrategy.Update(newItem, sourceObject);
             return newItem;
         }

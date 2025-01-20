@@ -1,4 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -24,10 +26,24 @@ namespace DataAccess.DTOs
 
         public override Point2D GetNewItem(Point2DDTO source)
         {
-            TraceLogger?.AddMessage("Point 2D converting is started");
+            TraceLogger?.AddMessage("Point 2D converting has been started");
+            try
+            {
+                Point2D newItem = GetNewItemBySource(source);
+                TraceLogger?.AddMessage("Point 2D converting has been finished");
+                return newItem;
+            }
+            catch (Exception ex)
+            {
+                TraceLogger?.AddMessage($"Logic: {LoggerStrings.LogicType(this)} made error: {ex.Message}", TraceLogStatuses.Error);
+                throw;
+            }
+        }
+
+        private Point2D GetNewItemBySource(Point2DDTO source)
+        {
             Point2D newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
-            TraceLogger?.AddMessage("Point 2D converting has been finished");
             return newItem;
         }
     }

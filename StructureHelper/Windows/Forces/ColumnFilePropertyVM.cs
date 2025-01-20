@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.Forces
 {
-    public class ColumnPropertyVM : ViewModelBase, IDataErrorInfo
+    public class ColumnFilePropertyVM : ViewModelBase, IDataErrorInfo
     {
-        private IColumnProperty model;
+        private IColumnFileProperty model;
 
-        public ColumnPropertyVM(IColumnProperty model)
+        public ColumnFilePropertyVM(IColumnFileProperty model)
         {
             this.model = model;
         }

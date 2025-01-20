@@ -17,13 +17,24 @@ namespace StructureHelperCommon.Models.Forces
         IGetTuplesFromFileLogic getTupleFromFileLogic;
         
         private IForceFactoredList factoredCombination;
-        public Guid Id { get; set; }
+        public Guid Id { get; }
+
+        public ForceCombinationFromFile(Guid id)
+        {
+            Id = id;
+        }
+
+        public ForceCombinationFromFile() : this(Guid.NewGuid())
+        {
+            
+        }
+
         public string Name { get; set; } = string.Empty;
         public List<IColumnedFileProperty> ForceFiles { get; set; } = new();
         public bool SetInGravityCenter { get; set; } = true;
         public IPoint2D ForcePoint { get; set; } = new Point2D();
 
-        public IFactoredCombinationProperty CombinationProperty { get; } = new FactoredCombinationProperty();
+        public IFactoredCombinationProperty CombinationProperty { get; set; } = new FactoredCombinationProperty();
 
         public object Clone()
         {

@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.DTOs.Converters
+namespace DataAccess.DTOs
 {
     public class DesignForceTupleToDTOConvertStrategy : IConvertStrategy<DesignForceTupleDTO, IDesignForceTuple>
     {

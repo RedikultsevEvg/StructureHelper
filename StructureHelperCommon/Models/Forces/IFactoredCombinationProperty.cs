@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Properties of factored combination of forces
     /// </summary>
-    public interface IFactoredCombinationProperty
+    public interface IFactoredCombinationProperty : ISaveable
     {
         /// <summary>
         /// Term of calculation for assigned combination

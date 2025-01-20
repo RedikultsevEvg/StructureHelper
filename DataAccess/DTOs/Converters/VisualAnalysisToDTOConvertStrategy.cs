@@ -17,11 +17,9 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    internal class VisualAnalysisToDTOConvertStrategy : IConvertStrategy<VisualAnalysisDTO, IVisualAnalysis>
+    internal class VisualAnalysisToDTOConvertStrategy : ConvertStrategy<VisualAnalysisDTO, IVisualAnalysis>
     {
         private IConvertStrategy<IAnalysis, IAnalysis> convertStrategy;
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
 
         public VisualAnalysisToDTOConvertStrategy(IConvertStrategy<IAnalysis, IAnalysis> convertStrategy)
         {
@@ -33,20 +31,13 @@ namespace DataAccess.DTOs
             
         }
 
-        public VisualAnalysisDTO Convert(IVisualAnalysis source)
+        public override VisualAnalysisDTO GetNewItem(IVisualAnalysis source)
         {
-            Check();
-            try
-            {
-                VisualAnalysisDTO visualAnalysisDTO = GetNewAnalysis(source);
-                return visualAnalysisDTO;
-            }
-            catch (Exception ex)
-            {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
-                throw;
-            }
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage($"Visual analysis Id = {source.Id} converting has been started");
+            VisualAnalysisDTO visualAnalysisDTO = GetNewAnalysis(source);
+            TraceLogger?.AddMessage($"Visual analysis Id = {visualAnalysisDTO.Id} converting has been finished successfully");
+            return visualAnalysisDTO;
         }
 
         private VisualAnalysisDTO GetNewAnalysis(IVisualAnalysis source)

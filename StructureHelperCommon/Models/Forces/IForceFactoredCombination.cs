@@ -10,6 +10,6 @@ namespace StructureHelperCommon.Models.Forces
         /// <summary>
         /// Properties of factored combination of forces
         /// </summary>
-        IFactoredCombinationProperty CombinationProperty { get; }
+        IFactoredCombinationProperty CombinationProperty { get; set; }
     }
 }

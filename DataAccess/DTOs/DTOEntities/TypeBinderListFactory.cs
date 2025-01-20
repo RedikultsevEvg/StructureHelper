@@ -1,5 +1,4 @@
-﻿using DataAccess.DTOs.DTOEntities;
-using StructureHelper.Models.Materials;
+﻿using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Analyses;
@@ -7,11 +6,6 @@ using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
@@ -40,6 +34,8 @@ namespace DataAccess.DTOs
             {
                 { (typeof(AccuracyDTO), "Accuracy") },
                 { (typeof(ConcreteLibMaterialDTO), "ConcreteLibMaterial") },
+                { (typeof(ColumnFilePropertyDTO), "ColumnFileProperty") },
+                { (typeof(ColumnedFilePropertyDTO), "ColumnedFileProperty") },
                 { (typeof(CompressedMemberDTO), "CompressedMember") },
                 { (typeof(CrackCalculatorDTO), "CrackCalculator") },
                 { (typeof(CrackCalculatorInputDataDTO), "CrackCalculatorInputData") },
@@ -55,9 +51,10 @@ namespace DataAccess.DTOs
                 { (typeof(ForceCalculatorDTO), "ForceCalculator") },
                 { (typeof(ForceCalculatorInputDataDTO), "ForceCalculatorInputData") },
                 { (typeof(ForceCombinationByFactorV1_0DTO), "ForceCombinationByFactor") },
-                { (typeof(ForceCombinationByFactorDTO), "ForceCombinationByFactor_v1_1") },
+                { (typeof(ForceFactoredListDTO), "ForceCombinationByFactor_v1_1") },
+                { (typeof(ForceCombinationFromFileDTO), "ForceCombinationFromFile") },
                 { (typeof(ForceCombinationListDTO), "ForceCombinationList") },
-                { (typeof(ForceFactoredCombinationPropertyDTO), "ForceFactoredCombinationProperty") },
+                { (typeof(FactoredCombinationPropertyDTO), "ForceFactoredCombinationProperty") },
                 { (typeof(ForceTupleDTO), "ForceTuple") },
                 { (typeof(FRMaterialDTO), "FRMaterial") },
                 { (typeof(HeadMaterialDTO), "HeadMaterial") },
@@ -65,6 +62,8 @@ namespace DataAccess.DTOs
                 { (typeof(NdmElementDTO), "NdmElement") },
                 { (typeof(IVisualAnalysis), "IVisualAnalysis") },
                 { (typeof(List<CalcTerms>), "ListOfCalcTerms") },
+                { (typeof(List<IColumnFileProperty>), "ColumnFileProperties") },
+                { (typeof(List<IColumnedFileProperty>), "ColumnedFileProperties") },
                 { (typeof(List<ICalculator>), "ListOfICalculator") },
                 { (typeof(List<IDateVersion>), "ListOfIDateVersion") },
                 { (typeof(List<IDesignForceTuple>), "ListOfIDesignForceTuple") },

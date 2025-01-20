@@ -1,11 +1,8 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.Logics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StructureHelperCommon.Models.Loggers;
 
 namespace DataAccess.DTOs
 {
@@ -31,14 +28,28 @@ namespace DataAccess.DTOs
 
         public override DesignForceTuple GetNewItem(DesignForceTupleDTO source)
         {
-            TraceLogger?.AddMessage("Design force tuple converting is started");
+            TraceLogger?.AddMessage("Design force tuple converting has been started");
+            try
+            {
+                DesignForceTuple newItem = GetNewItemBySource(source);
+                TraceLogger?.AddMessage("Design force tuple converting has been finished");
+                return newItem;
+            }
+            catch (Exception ex)
+            {
+                TraceErrorByEntity(this, ex.Message);
+                throw;
+            }
+        }
+
+        private DesignForceTuple GetNewItemBySource(DesignForceTupleDTO source)
+        {
             DesignForceTuple newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
             forceTupleConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             forceTupleConvertStrategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<ForceTuple, ForceTupleDTO>(this, forceTupleConvertStrategy);
             newItem.ForceTuple = convertLogic.Convert((ForceTupleDTO)source.ForceTuple);
-            TraceLogger?.AddMessage("Design force tuple converting has been finished");
             return newItem;
         }
     }

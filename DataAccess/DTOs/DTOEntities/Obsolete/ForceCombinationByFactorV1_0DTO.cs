@@ -21,7 +21,7 @@ namespace DataAccess.DTOs
         [JsonProperty("CalcTerm")]
         public CalcTerms CalcTerm { get; set; } = CalcTerms.ShortTerm;
         [JsonProperty("FullSLSForces")]
-        public IForceTuple ForceTuple { get; set; } = new ForceTupleDTO();
+        public IForceTuple ForceTuple { get; set; } = new ForceTupleDTO(Guid.NewGuid());
         [JsonProperty("ULSFactor")]
         public double ULSFactor { get; set; }
         [JsonProperty("LongTermFactor")]
@@ -31,13 +31,23 @@ namespace DataAccess.DTOs
         [JsonProperty("ForcePoint")]
         public IPoint2D ForcePoint { get; set; } = new Point2DDTO();
         [JsonIgnore]
-        public IFactoredCombinationProperty CombinationProperty => new FactoredCombinationProperty()
+        public IFactoredCombinationProperty CombinationProperty
         {
-            CalcTerm = CalcTerm,
-            LimitState = LimitState,
-            LongTermFactor = LongTermFactor,
-            ULSFactor = ULSFactor,
-        };
+            get
+            {
+                return new FactoredCombinationProperty()
+                {
+                    CalcTerm = CalcTerm,
+                    LimitState = LimitState,
+                    LongTermFactor = LongTermFactor,
+                    ULSFactor = ULSFactor,
+                };
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
         [JsonIgnore]
         public List<IForceTuple> ForceTuples => new() { ForceTuple};
 

@@ -1,19 +1,12 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperLogics.Models.CrossSections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DataAccess.DTOs.Converters
+namespace DataAccess.DTOs
 {
-    public class ForceCombinationListToDTOConvertStrategy : IConvertStrategy<ForceCombinationListDTO, IForceCombinationList>
+    public class ForceCombinationListToDTOConvertStrategy : ConvertStrategy<ForceCombinationListDTO, IForceCombinationList>
     {
         private IUpdateStrategy<IForceCombinationList> updateStrategy;
         private IConvertStrategy<DesignForceTupleDTO, IDesignForceTuple> convertStrategy;
@@ -32,37 +25,20 @@ namespace DataAccess.DTOs.Converters
             this.pointUpdateStrategy = pointUpdateStrategy;
         }
 
-        public ForceCombinationListToDTOConvertStrategy() : this (
-            new ForceCombinationListUpdateStrategy(),
-            new DesignForceTupleToDTOConvertStrategy(),
-            new ForceActionBaseUpdateStrategy(),
-            new Point2DToDTOConvertStrategy())
+        public ForceCombinationListToDTOConvertStrategy() { }
+
+        public override ForceCombinationListDTO GetNewItem(IForceCombinationList source)
         {
-            
-        }
-
-
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
-
-        public ForceCombinationListDTO Convert(IForceCombinationList source)
-        {
-            try
-            {
-                Check();
-                return GetNewForceCombinationList(source);
-            }
-            catch (Exception ex)
-            {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
-                throw;
-            }
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage($"Factored combination list Name: {source.Name} has been started");
+            ForceCombinationListDTO forceCombinationListDTO = GetNewForceCombinationList(source);
+            TraceLogger?.AddMessage($"Factored combination list Name: {source.Name} has been finished");
+            return forceCombinationListDTO;
         }
 
         private ForceCombinationListDTO GetNewForceCombinationList(IForceCombinationList source)
         {
-
+            InitializeStrategies();
             ForceCombinationListDTO newItem = new() { Id = source.Id};
             baseUpdateStrategy.Update(newItem, source);
             updateStrategy.Update(newItem, source);
@@ -76,6 +52,14 @@ namespace DataAccess.DTOs.Converters
                 newItem.DesignForces.Add(convertLogic.Convert(item));
             }
             return newItem;
+        }
+
+        private void InitializeStrategies()
+        {
+            updateStrategy ??= new ForceCombinationListUpdateStrategy();
+            convertStrategy ??= new DesignForceTupleToDTOConvertStrategy() { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger};
+            baseUpdateStrategy ??= new ForceActionBaseUpdateStrategy();
+            pointUpdateStrategy ??= new Point2DToDTOConvertStrategy();
         }
 
         private void GetNewForcePoint(ForceCombinationListDTO newItem, IForceCombinationList source)

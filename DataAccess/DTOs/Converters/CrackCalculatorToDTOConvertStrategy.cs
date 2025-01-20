@@ -1,85 +1,51 @@
 ﻿using DataAccess.DTOs.Converters;
-using DataAccess.DTOs.DTOEntities;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
-using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class CrackCalculatorToDTOConvertStrategy : IConvertStrategy<CrackCalculatorDTO, ICrackCalculator>
+    public class CrackCalculatorToDTOConvertStrategy : ConvertStrategy<CrackCalculatorDTO, ICrackCalculator>
     {
-        private readonly IUpdateStrategy<ICrackCalculator> updateStrategy;
+        private IUpdateStrategy<ICrackCalculator> updateStrategy;
+        private IConvertStrategy<CrackCalculatorInputDataDTO, ICrackCalculatorInputData> inputDataConvertStrategy;
 
         public CrackCalculatorToDTOConvertStrategy(IUpdateStrategy<ICrackCalculator> updateStrategy)
         {
             this.updateStrategy = updateStrategy;
         }
 
-        public CrackCalculatorToDTOConvertStrategy() : this (new CrackCalculatorUpdateStrategy())
+        public CrackCalculatorToDTOConvertStrategy() {  }
+        public override CrackCalculatorDTO GetNewItem(ICrackCalculator source)
         {
-            
-        }
-
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
-
-        public CrackCalculatorDTO Convert(ICrackCalculator source)
-        {
+            InitializeStrategies();
             try
             {
-                Check();
-                return GetNewItem(source);
+                GetNewItemBySource(source);
+                return NewItem;
             }
             catch (Exception ex)
             {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
+                TraceErrorByEntity(this, ex.Message);
                 throw;
             }
         }
 
-        private CrackCalculatorDTO GetNewItem(ICrackCalculator source)
+        private void InitializeStrategies()
         {
-            CrackCalculatorDTO newItem = new() { Id = source.Id};
-            updateStrategy.Update(newItem, source);
-            ProcessForceActions(newItem.InputData, source.InputData);
-            ProcessPrimitives(newItem.InputData, source.InputData);
-            return newItem;
+            updateStrategy ??= new CrackCalculatorUpdateStrategy();
+            inputDataConvertStrategy ??= new CrackCalculatorInputDataToDTOConvertStrategy() { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger};
         }
 
-        private void ProcessPrimitives(IHasPrimitives target, IHasPrimitives source)
+        private void GetNewItemBySource(ICrackCalculator source)
         {
-            HasPrimitivesToDTOUpdateStrategy updateStrategy = new()
-            {
-                ReferenceDictionary = ReferenceDictionary,
-                TraceLogger = TraceLogger
-            };
-            updateStrategy.Update(target, source);
+            NewItem = new(source.Id);
+            updateStrategy.Update(NewItem, source);
+            NewItem.InputData = inputDataConvertStrategy.Convert(source.InputData);
         }
 
-        private void ProcessForceActions(IHasForceActions target, IHasForceActions source)
-        {
-            HasForceActionToDTOUpdateStrategy updateStrategy = new()
-            {
-                ReferenceDictionary = ReferenceDictionary,
-                TraceLogger = TraceLogger
-            };
-            updateStrategy.Update(target, source);
-        }
-
-        private void Check()
-        {
-            var checkLogic = new CheckConvertLogic<CrackCalculatorDTO, ICrackCalculator>(this);
-            checkLogic.Check();
-        }
     }
 }

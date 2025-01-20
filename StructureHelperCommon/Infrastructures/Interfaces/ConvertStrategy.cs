@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
+    /// <inheritdoc/>
     public abstract class ConvertStrategy<T, V> : IConvertStrategy<T, V>
         where T : ISaveable
         where V : ISaveable
@@ -22,7 +23,10 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
             try
             {
                 Check();
-                return GetNewItem(source);
+                TraceStartOfConverting(source);
+                T target = GetNewItem(source);
+                TraceFinishOfConverting(target);
+                return target;
             }
             catch (Exception ex)
             {
@@ -37,6 +41,19 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         {
             var checkLogic = new CheckConvertLogic<T,V>(this);
             checkLogic.Check();
+        }
+
+        public void TraceErrorByEntity(object obj, string message)
+        {
+            TraceLogger?.AddMessage($"Logic: {LoggerStrings.LogicType(obj)} made error: {message}", TraceLogStatuses.Error);
+        }
+        private void TraceStartOfConverting(ISaveable saveable)
+        {
+            TraceLogger?.AddMessage($"Converting {saveable.GetType()} Id = {saveable.Id} has been started");
+        }
+        private void TraceFinishOfConverting(ISaveable saveable)
+        {
+            TraceLogger?.AddMessage($"Converting {saveable.GetType()} Id = {saveable.Id} has been started");
         }
     }
 }

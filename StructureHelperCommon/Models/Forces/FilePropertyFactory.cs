@@ -18,7 +18,7 @@ namespace StructureHelperCommon.Models.Forces
             if (propertyType == FilePropertyType.Forces)
             {
                 ColumnedFileProperty fileProperty = new();
-                List<IColumnProperty> columnProperties = GetForceColumns();
+                List<IColumnFileProperty> columnProperties = GetForceColumns();
                 fileProperty.ColumnProperties.AddRange(columnProperties);
                 return fileProperty;
             }
@@ -28,12 +28,12 @@ namespace StructureHelperCommon.Models.Forces
             }
         }
 
-        private static List<IColumnProperty> GetForceColumns()
+        private static List<IColumnFileProperty> GetForceColumns()
         {
-            List<IColumnProperty> columnProperties = new();
-            columnProperties.Add(new ColumnProperty("Nz") { SearchingName = "N", Index = 6 });
-            columnProperties.Add(new ColumnProperty("Mx") { SearchingName = "My", Index = 8 });
-            columnProperties.Add(new ColumnProperty("My") { SearchingName = "Mz", Index = 10 });
+            List<IColumnFileProperty> columnProperties = new();
+            columnProperties.Add(new ColumnFileProperty("Nz") { SearchingName = "N", Index = 6 });
+            columnProperties.Add(new ColumnFileProperty("Mx") { SearchingName = "My", Index = 8 });
+            columnProperties.Add(new ColumnFileProperty("My") { SearchingName = "Mz", Index = 10 });
             return columnProperties;
         }
     }

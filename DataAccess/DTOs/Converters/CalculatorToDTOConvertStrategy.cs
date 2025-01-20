@@ -61,6 +61,10 @@ namespace DataAccess.DTOs
             {
                 return ProcessCrackCalculator(crackCalculator);
             }
+            if (source is LimitCurvesCalculator limitCalculator)
+            {
+                TraceLogger?.AddMessage($"Current version of StructureHelper does not suppurt saving interaction diagram calculator, {limitCalculator.Name} was ignored");
+            }
             string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source);
             TraceLogger.AddMessage(errorString, TraceLogStatuses.Error);
             throw new StructureHelperException(errorString);

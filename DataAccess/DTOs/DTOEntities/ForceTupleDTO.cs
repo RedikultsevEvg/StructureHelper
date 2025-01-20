@@ -25,6 +25,10 @@ namespace DataAccess.DTOs
         [JsonProperty("Mz")]
         public double Mz { get; set; }
 
+        public ForceTupleDTO(Guid id)
+        {
+            Id = id;
+        }
 
         public void Clear()
         {

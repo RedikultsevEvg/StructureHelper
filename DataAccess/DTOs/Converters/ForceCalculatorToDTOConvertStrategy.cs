@@ -14,73 +14,37 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class ForceCalculatorToDTOConvertStrategy : IConvertStrategy<ForceCalculatorDTO, IForceCalculator>
+    public class ForceCalculatorToDTOConvertStrategy : ConvertStrategy<ForceCalculatorDTO, IForceCalculator>
     {
-        private readonly IUpdateStrategy<IForceCalculator> updateStrategy;
+        private IUpdateStrategy<IForceCalculator> updateStrategy;
+        private IConvertStrategy<ForceCalculatorInputDataDTO, IForceCalculatorInputData> inputDataConvertStrategy;
 
-        public ForceCalculatorToDTOConvertStrategy(IUpdateStrategy<IForceCalculator> updateStrategy)
+        public override ForceCalculatorDTO GetNewItem(IForceCalculator source)
         {
-            this.updateStrategy = updateStrategy;
-        }
-
-        public ForceCalculatorToDTOConvertStrategy() : this (
-            new ForceCalculatorUpdateStrategy()
-            )
-        {
-            
-        }
-
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
-
-        public ForceCalculatorDTO Convert(IForceCalculator source)
-        {
+            InitializeStrategies();
             try
             {
-                Check();
-                return GetNewItem(source);
+                GetNewItemBySource(source);
+                return NewItem;
             }
             catch (Exception ex)
             {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
+                TraceErrorByEntity(this, ex.Message);
                 throw;
             }
         }
 
-        private ForceCalculatorDTO GetNewItem(IForceCalculator source)
+        private void InitializeStrategies()
         {
-            ForceCalculatorDTO newItem = new() { Id = source.Id};
-            updateStrategy.Update(newItem, source);
-            ProcessForceActions(newItem.InputData, source.InputData);
-            ProcessPrimitives(newItem.InputData, source.InputData);
-            return newItem;
+            updateStrategy ??= new ForceCalculatorUpdateStrategy();
+            inputDataConvertStrategy ??= new ForceCalculatorInputDataToDTOConvertStrategy() { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger};
         }
 
-        private void ProcessPrimitives(IHasPrimitives target, IHasPrimitives source)
+        private void GetNewItemBySource(IForceCalculator source)
         {
-            HasPrimitivesToDTOUpdateStrategy updateStrategy = new()
-            {
-                ReferenceDictionary = ReferenceDictionary,
-                TraceLogger = TraceLogger
-            };
-            updateStrategy.Update(target, source);
-        }
-
-        private void ProcessForceActions(IHasForceActions target, IHasForceActions source)
-        {
-            HasForceActionToDTOUpdateStrategy updateStrategy = new()
-            {
-                ReferenceDictionary = ReferenceDictionary,
-                TraceLogger = TraceLogger
-            };
-            updateStrategy.Update(target, source);
-        }
-
-        private void Check()
-        {
-            var checkLogic = new CheckConvertLogic<ForceCalculatorDTO, IForceCalculator>(this);
-            checkLogic.Check();
+            NewItem = new() { Id = source.Id};
+            updateStrategy.Update(NewItem, source);
+            NewItem.InputData = inputDataConvertStrategy.Convert(source.InputData);
         }
     }
 }

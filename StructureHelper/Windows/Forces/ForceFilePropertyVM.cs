@@ -18,7 +18,7 @@ namespace StructureHelper.Windows.Forces
             this.model = model;
             foreach (var item in model.ColumnProperties)
             {
-                ColumnProperties.Add(new ColumnPropertyVM(item));
+                ColumnProperties.Add(new ColumnFilePropertyVM(item));
             }
         }
 
@@ -59,7 +59,7 @@ namespace StructureHelper.Windows.Forces
             }
         }
 
-        public ObservableCollection<ColumnPropertyVM> ColumnProperties { get; set; } = new();
+        public ObservableCollection<ColumnFilePropertyVM> ColumnProperties { get; set; } = new();
 
         public IColumnedFileProperty Model
         {

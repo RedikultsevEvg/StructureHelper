@@ -1,10 +1,4 @@
-﻿using DataAccess.DTOs;
-using DataAccess.DTOs.DTOEntities;
-using DataAccess.JsonConverters;
-using Newtonsoft.Json;
-using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Infrastructures.Settings;
-using StructureHelperCommon.Models;
+﻿using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Projects;
 using StructureHelperCommon.Services.FileServices;
 

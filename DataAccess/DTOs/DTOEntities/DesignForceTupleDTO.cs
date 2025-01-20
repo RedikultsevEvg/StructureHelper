@@ -16,7 +16,7 @@ namespace DataAccess.DTOs
         [JsonProperty("CalcTerm")]
         public CalcTerms CalcTerm { get; set; }
         [JsonProperty("ForceTuple")]
-        public IForceTuple ForceTuple { get; set; } = new ForceTupleDTO();
+        public IForceTuple ForceTuple { get; set; } = new ForceTupleDTO(Guid.NewGuid());
 
 
         public object Clone()

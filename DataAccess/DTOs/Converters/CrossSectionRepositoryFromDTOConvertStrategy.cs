@@ -23,8 +23,8 @@ namespace DataAccess.DTOs
         private const string convertFinished = " converting has been finished successfully";
         private CrossSectionRepository newRepository;
 
-        private IHasPrimitivesProcessLogic primitivesProcessLogic = new HasPrimitivesProcessLogic();
-        private IHasForceActionsProcessLogic actionsProcessLogic = new HasForceActionsProcessLogic();
+        private IHasPrimitivesProcessLogic primitivesProcessLogic = new HasPrimitivesProcessLogic(ConvertDirection.FromDTO);
+        private IHasForceActionsProcessLogic actionsProcessLogic = new HasForceActionsProcessLogic(ConvertDirection.FromDTO);
 
         public override CrossSectionRepository GetNewItem(ICrossSectionRepository source)
         {
