@@ -36,6 +36,11 @@
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding My, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
                         <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Nz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
                     </Grid>
+                    <Image Height="50" Width="50" Stretch="UniformToFill" Source="/Windows/Forces/Forces.jpg" HorizontalAlignment="Left">
+                        <Image.ToolTip>
+                            <Image Height="250" Width="250" Stretch="UniformToFill" Source="/Windows/Forces/Forces.jpg"/>
+                        </Image.ToolTip>
+                    </Image>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Force point">

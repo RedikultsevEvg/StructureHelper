@@ -28,6 +28,7 @@
     <None Remove="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_graph_1.png" />
     <None Remove="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_graph_2.png" />
     <None Remove="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_interpolation_1_1.png" />
+    <None Remove="Windows\Forces\Forces.jpg" />
     <None Remove="Windows\MainWindow\Analysis32.png" />
     <None Remove="Windows\MainWindow\Beam32.png" />
     <None Remove="Windows\MainWindow\Calculator32.png" />
@@ -106,6 +107,7 @@
     <Resource Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_graph_1.png" />
     <Resource Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_graph_2.png" />
     <Resource Include="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\32px_interpolation_1_1.png" />
+    <Resource Include="Windows\Forces\Forces.jpg" />
     <Resource Include="Windows\MainWindow\Analysis32.png" />
     <Resource Include="Windows\MainWindow\Beam32.png" />
     <Resource Include="Windows\MainWindow\Calculator32.png" />
