@@ -1,0 +1,1055 @@
+{
+  "$id": "1",
+  "$type": "RootObject",
+  "FileVersion": {
+    "Id": "9973277a-474f-43b6-97f1-cd3547b01af5",
+    "VersionNumber": 1,
+    "SubVersionNumber": 0
+  },
+  "Project": {
+    "Id": "7d509f68-8d16-4c2d-ad4b-31f69ac162d9",
+    "VisualAnalyses": {
+      "$id": "2",
+      "$type": "ListOfIVisualAnalysis",
+      "$values": [
+        {
+          "$id": "3",
+          "$type": "VisualAnalysis",
+          "Id": "51e25911-3ac4-4683-b84e-3d13012a099d",
+          "Analysis": {
+            "$id": "4",
+            "$type": "CrossSectionNdmAnalysis",
+            "Id": "12f04d65-5c44-4324-88a8-163020ffe972",
+            "Name": "New NDM Analysis",
+            "Tags": "#New group",
+            "VersionProcessor": {
+              "$id": "5",
+              "$type": "VersionProcessor",
+              "Id": "98aa6050-b623-4287-bcfa-cebd9ae7e554",
+              "Versions": {
+                "$type": "ListOfIDateVersion",
+                "$values": [
+                  {
+                    "$id": "6",
+                    "$type": "DateVersion",
+                    "Id": "1519c9d3-93b1-4bea-ad78-2bbd4c71470b",
+                    "DateTime": "2025-01-09T11:13:54.7740392+05:00",
+                    "Comment": "",
+                    "AnalysisVersion": {
+                      "$id": "7",
+                      "$type": "CrossSection",
+                      "Id": "748e1260-031b-4ce2-8d19-4a650a68f534",
+                      "SectionRepository": {
+                        "$id": "8",
+                        "$type": "CrossSectionRepository",
+                        "Id": "b8f22792-de51-4139-87e6-05ecfb8dad77",
+                        "HeadMaterials": {
+                          "$type": "ListOfIHeadMaterial",
+                          "$values": [
+                            {
+                              "$id": "9",
+                              "$type": "HeadMaterial",
+                              "Id": "84403e6f-703e-4f92-8909-1c162ddff6a9",
+                              "Name": "В30",
+                              "Color": "#FFF0F8FF",
+                              "HelperMaterial": {
+                                "$id": "10",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "5225dc5a-e194-4156-907b-8f74360b9f46",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "2f5b70b9-f4c1-470d-ac27-a39a7093b6ea",
+                                "SafetyFactors": {
+                                  "$id": "11",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "12",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "99deb22f-d506-4174-a59f-fc821d8ea7aa",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "13",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "4a8807d7-df2c-463f-ba10-2395223d4256",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "14",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "e29ccb05-15c4-49b1-bb8c-3ff886c9c9b5",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "15",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "9555cff7-85c3-4ff8-8d89-619b58b8b548",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "16",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "74a330f4-2adb-4dd0-b19e-bff6e87a0fc7",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "17",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "ec16a1e5-db5d-4ce9-b60e-c7bc7da5b025",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "18",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "d85f45d3-1a2a-4720-bdbe-57f8201b649b",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "19",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "b7d15479-a121-4707-a68c-05561612d524",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "20",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "94dd5b8a-7495-4032-9c30-38c872131861",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "21",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "506a3dd3-d0db-445a-9907-ecd4927ddd57",
+                                      "Name": "New factor",
+                                      "Take": true,
+                                      "Description": "Material safety factor for ...",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "22",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "04b3b298-f0c6-4048-9e93-2dbdabff31dd",
+                                            "FactorValue": 0.95,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "23",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "9303affb-a658-434c-b2b2-50176e0833cb",
+                                            "FactorValue": 0.95,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            },
+                            {
+                              "$id": "24",
+                              "$type": "HeadMaterial",
+                              "Id": "ca4cb6da-3b20-4817-954d-3d8dd4dcf47c",
+                              "Name": "А600",
+                              "Color": "#FFFF0000",
+                              "HelperMaterial": {
+                                "$id": "25",
+                                "$type": "ReinforcementLibMaterial",
+                                "Id": "204e4bc5-aed7-43e2-924e-11b12a8bdeca",
+                                "MaterialEntityId": "e3cfc6fb-fbd0-47dd-ab4a-79c030704acf",
+                                "SafetyFactors": {
+                                  "$id": "26",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "27",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "1f5909ac-ee63-49db-8465-e417bbf64ddb",
+                                      "Name": "New factor",
+                                      "Take": true,
+                                      "Description": "Material safety factor for ...",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "28",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "328decb3-b7db-450d-8e8f-33b7c0ba7433",
+                                            "FactorValue": 0.95,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 2
+                                          },
+                                          {
+                                            "$id": "29",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "9d323f10-8dcb-47b6-acba-9ab640020845",
+                                            "FactorValue": 0.95,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 2
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                              }
+                            }
+                          ]
+                        },
+                        "ForceActions": {
+                          "$type": "ListOfIForceAction",
+                          "$values": [
+                            {
+                              "$id": "30",
+                              "$type": "ForceCombinationByFactor",
+                              "Id": "edeec238-5432-498b-acf7-4964140f0a2f",
+                              "Name": "New Factored Load",
+                              "LimitState": 2,
+                              "CalcTerm": 1,
+                              "FullSLSForces": {
+                                "$id": "31",
+                                "$type": "ForceTuple",
+                                "Id": "6a3810e8-e056-4c2d-bc2c-44ecba862bf6",
+                                "Mx": -750000.0,
+                                "My": 0.0,
+                                "Nz": 0.0,
+                                "Qx": 0.0,
+                                "Qy": 0.0,
+                                "Mz": 0.0
+                              },
+                              "ULSFactor": 1.053333,
+                              "LongTermFactor": 0.95,
+                              "SetInGravityCenter": true,
+                              "ForcePoint": {
+                                "$id": "32",
+                                "$type": "Point2D",
+                                "Id": "dae32093-862c-413a-958f-d2c6363e2478",
+                                "X": 0.0,
+                                "Y": 0.0
+                              }
+                            }
+                          ]
+                        },
+                        "Primitives": {
+                          "$type": "ListOfINdmPrimitive",
+                          "$values": [
+                            {
+                              "$id": "33",
+                              "$type": "RectangleNdmPrimitive",
+                              "Id": "b00f5255-d6ab-48f3-af20-faf47a6302d0",
+                              "Name": "Concrete block",
+                              "RectangleShape": {
+                                "$id": "34",
+                                "$type": "RectangleShape",
+                                "Id": "ff4ee69a-8403-4ec9-bdbc-04c3f2ab356d",
+                                "Width": 0.3,
+                                "Height": 0.7
+                              },
+                              "NdmElement": {
+                                "$id": "35",
+                                "$type": "NdmElement",
+                                "Id": "fba3002d-6972-40e5-a15d-8c71053a9642",
+                                "HeadMaterial": {
+                                  "$ref": "9"
+                                },
+                                "Triangulate": true,
+                                "UsersPrestrain": {
+                                  "$id": "36",
+                                  "$type": "ForceTuple",
+                                  "Id": "845bfb97-21ae-437b-abca-2c44b6b7cecd",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                },
+                                "AutoPrestrain": {
+                                  "$id": "37",
+                                  "$type": "ForceTuple",
+                                  "Id": "89c7dc5e-80b8-4499-b64d-ac2381a3112f",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                }
+                              },
+                              "VisualProperty": {
+                                "$id": "38",
+                                "$type": "VisualProperty",
+                                "Id": "55b7e840-6a50-446a-b905-67fd0d40ab8b",
+                                "IsVisible": true,
+                                "Color": "#FF380B5C",
+                                "SetMaterialColor": true,
+                                "ZIndex": 0,
+                                "Opacity": 0.8
+                              },
+                              "Center": {
+                                "$id": "39",
+                                "$type": "Point2D",
+                                "Id": "cbc9c7ac-d9cd-44a6-84e3-0d7753d45e80",
+                                "X": 0.0,
+                                "Y": 0.02178985714089101
+                              },
+                              "DivisionSize": {
+                                "$id": "40",
+                                "$type": "DivisionSize",
+                                "Id": "89020079-38ea-4b77-8f65-582f607e1863",
+                                "NdmMaxSize": 0.01,
+                                "NdmMinDivision": 10,
+                                "ClearUnderlying": false
+                              },
+                              "RotationAngle": 0.0
+                            },
+                            {
+                              "$id": "41",
+                              "$type": "RebarNdmPrimitive",
+                              "Id": "fd79f46e-53cd-4754-8808-2ada6f43f071",
+                              "Name": "н арм",
+                              "NdmElement": {
+                                "$id": "42",
+                                "$type": "NdmElement",
+                                "Id": "2fe6c6d8-d13d-466a-a645-c0c2dff0142c",
+                                "HeadMaterial": {
+                                  "$ref": "24"
+                                },
+                                "Triangulate": true,
+                                "UsersPrestrain": {
+                                  "$id": "43",
+                                  "$type": "ForceTuple",
+                                  "Id": "6b00c6fd-97f6-447b-a590-5502987bbaac",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                },
+                                "AutoPrestrain": {
+                                  "$id": "44",
+                                  "$type": "ForceTuple",
+                                  "Id": "7297719e-76cc-44eb-af7a-a48ac96076e4",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                }
+                              },
+                              "VisualProperty": {
+                                "$id": "45",
+                                "$type": "VisualProperty",
+                                "Id": "b65871c7-a4be-4326-b81c-8e35bbd12cca",
+                                "IsVisible": true,
+                                "Color": "#FFAE5533",
+                                "SetMaterialColor": true,
+                                "ZIndex": 0,
+                                "Opacity": 1.0
+                              },
+                              "Center": {
+                                "$id": "46",
+                                "$type": "Point2D",
+                                "Id": "262a5c09-485b-40e8-8cfd-0aac6658f7c1",
+                                "X": -0.12,
+                                "Y": -0.268210142859109
+                              },
+                              "RotationAngle": 0.0,
+                              "Area": 7.85E-05,
+                              "HostPrimitive": {
+                                "$ref": "33"
+                              }
+                            },
+                            {
+                              "$id": "47",
+                              "$type": "RebarNdmPrimitive",
+                              "Id": "3be92064-6e44-4139-a24d-dc7978e0a106",
+                              "Name": "н арм",
+                              "NdmElement": {
+                                "$id": "48",
+                                "$type": "NdmElement",
+                                "Id": "b41dbf5e-e702-41dd-87cd-e49c9cdf00af",
+                                "HeadMaterial": {
+                                  "$ref": "24"
+                                },
+                                "Triangulate": true,
+                                "UsersPrestrain": {
+                                  "$id": "49",
+                                  "$type": "ForceTuple",
+                                  "Id": "94d31f1a-4a7d-4f18-95e0-25154680fcc8",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                },
+                                "AutoPrestrain": {
+                                  "$id": "50",
+                                  "$type": "ForceTuple",
+                                  "Id": "a5ecbc8b-62ea-46bf-8cf6-6bb222a0217b",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                }
+                              },
+                              "VisualProperty": {
+                                "$id": "51",
+                                "$type": "VisualProperty",
+                                "Id": "48323af0-4bc4-411e-ba5c-89079245a016",
+                                "IsVisible": true,
+                                "Color": "#FF86AD23",
+                                "SetMaterialColor": true,
+                                "ZIndex": 0,
+                                "Opacity": 1.0
+                              },
+                              "Center": {
+                                "$id": "52",
+                                "$type": "Point2D",
+                                "Id": "725fbc41-6bfc-4430-bea9-9d5273eeab0b",
+                                "X": 0.12,
+                                "Y": -0.268210142859109
+                              },
+                              "RotationAngle": 0.0,
+                              "Area": 7.85E-05,
+                              "HostPrimitive": {
+                                "$ref": "33"
+                              }
+                            },
+                            {
+                              "$id": "53",
+                              "$type": "RebarNdmPrimitive",
+                              "Id": "b075397e-215b-4ef2-9eeb-7d2172eb95fa",
+                              "Name": "Напрягаемая арм",
+                              "NdmElement": {
+                                "$id": "54",
+                                "$type": "NdmElement",
+                                "Id": "c90b84ac-97d6-4240-acad-1074664e2b54",
+                                "HeadMaterial": {
+                                  "$ref": "24"
+                                },
+                                "Triangulate": true,
+                                "UsersPrestrain": {
+                                  "$id": "55",
+                                  "$type": "ForceTuple",
+                                  "Id": "f6d650e9-38e3-4857-a859-3fcc7627f632",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0024,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                },
+                                "AutoPrestrain": {
+                                  "$id": "56",
+                                  "$type": "ForceTuple",
+                                  "Id": "ca8c62cc-b84f-4769-9837-c69a5e3ba59a",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                }
+                              },
+                              "VisualProperty": {
+                                "$id": "57",
+                                "$type": "VisualProperty",
+                                "Id": "b4b99697-d178-4dd3-b702-164d285768b3",
+                                "IsVisible": true,
+                                "Color": "#FF8DAE22",
+                                "SetMaterialColor": true,
+                                "ZIndex": 0,
+                                "Opacity": 1.0
+                              },
+                              "Center": {
+                                "$id": "58",
+                                "$type": "Point2D",
+                                "Id": "d7933102-6628-4478-a68c-50af91e13de1",
+                                "X": -0.072,
+                                "Y": -0.268210142859109
+                              },
+                              "RotationAngle": 0.0,
+                              "Area": 0.000804,
+                              "HostPrimitive": {
+                                "$ref": "33"
+                              }
+                            },
+                            {
+                              "$id": "59",
+                              "$type": "RebarNdmPrimitive",
+                              "Id": "67a763b5-f370-4779-bcf3-16d70552d664",
+                              "Name": "Напрягаемая арм",
+                              "NdmElement": {
+                                "$id": "60",
+                                "$type": "NdmElement",
+                                "Id": "f50a0561-91a2-4927-866a-b75bb1cc8ca4",
+                                "HeadMaterial": {
+                                  "$ref": "24"
+                                },
+                                "Triangulate": true,
+                                "UsersPrestrain": {
+                                  "$id": "61",
+                                  "$type": "ForceTuple",
+                                  "Id": "f0f39025-f510-437a-9f24-8385bd732f3e",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0024,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                },
+                                "AutoPrestrain": {
+                                  "$id": "62",
+                                  "$type": "ForceTuple",
+                                  "Id": "9f886a3e-19cf-4b29-8a87-22165aacf5f2",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                }
+                              },
+                              "VisualProperty": {
+                                "$id": "63",
+                                "$type": "VisualProperty",
+                                "Id": "2c53338f-747c-4e13-9d38-ddb25c36f67e",
+                                "IsVisible": true,
+                                "Color": "#FF15CA7B",
+                                "SetMaterialColor": true,
+                                "ZIndex": 0,
+                                "Opacity": 1.0
+                              },
+                              "Center": {
+                                "$id": "64",
+                                "$type": "Point2D",
+                                "Id": "68ae032f-bd70-4685-ac34-daa6bb86d620",
+                                "X": -0.023999999999999994,
+                                "Y": -0.268210142859109
+                              },
+                              "RotationAngle": 0.0,
+                              "Area": 0.000804,
+                              "HostPrimitive": {
+                                "$ref": "33"
+                              }
+                            },
+                            {
+                              "$id": "65",
+                              "$type": "RebarNdmPrimitive",
+                              "Id": "d3208ee1-6752-45f3-868b-969a8888c84f",
+                              "Name": "в арм",
+                              "NdmElement": {
+                                "$id": "66",
+                                "$type": "NdmElement",
+                                "Id": "6cbc8a59-e94a-4083-888e-b15cc530da9d",
+                                "HeadMaterial": {
+                                  "$ref": "24"
+                                },
+                                "Triangulate": true,
+                                "UsersPrestrain": {
+                                  "$id": "67",
+                                  "$type": "ForceTuple",
+                                  "Id": "87cfc795-8750-4a1d-86c2-4476758e9829",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.002425,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                },
+                                "AutoPrestrain": {
+                                  "$id": "68",
+                                  "$type": "ForceTuple",
+                                  "Id": "c7af005b-5d4d-4653-8693-d7d27dbde896",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                }
+                              },
+                              "VisualProperty": {
+                                "$id": "69",
+                                "$type": "VisualProperty",
+                                "Id": "959b6d65-2eb2-467f-9ec4-a301c4705562",
+                                "IsVisible": true,
+                                "Color": "#FF45DC90",
+                                "SetMaterialColor": true,
+                                "ZIndex": 0,
+                                "Opacity": 1.0
+                              },
+                              "Center": {
+                                "$id": "70",
+                                "$type": "Point2D",
+                                "Id": "b96b48b4-989d-4561-a528-5b1215ff278c",
+                                "X": -0.023999999999999994,
+                                "Y": 0.34178985714089094
+                              },
+                              "RotationAngle": 0.0,
+                              "Area": 0.000201,
+                              "HostPrimitive": {
+                                "$ref": "33"
+                              }
+                            },
+                            {
+                              "$id": "71",
+                              "$type": "RebarNdmPrimitive",
+                              "Id": "fae43479-3f4f-42a5-8286-0aba28f15297",
+                              "Name": "Напрягаемая арм",
+                              "NdmElement": {
+                                "$id": "72",
+                                "$type": "NdmElement",
+                                "Id": "2932859f-e71f-478f-a6d6-57305ec0a5e4",
+                                "HeadMaterial": {
+                                  "$ref": "24"
+                                },
+                                "Triangulate": true,
+                                "UsersPrestrain": {
+                                  "$id": "73",
+                                  "$type": "ForceTuple",
+                                  "Id": "895f5fe6-5320-4a65-82a4-71057acba7e0",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0024,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                },
+                                "AutoPrestrain": {
+                                  "$id": "74",
+                                  "$type": "ForceTuple",
+                                  "Id": "179b6c54-d66d-46a2-ab01-9fb6c9b26fb0",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                }
+                              },
+                              "VisualProperty": {
+                                "$id": "75",
+                                "$type": "VisualProperty",
+                                "Id": "6b90a3aa-0edd-496d-8297-19f120e9abcc",
+                                "IsVisible": true,
+                                "Color": "#FF633ED3",
+                                "SetMaterialColor": true,
+                                "ZIndex": 0,
+                                "Opacity": 1.0
+                              },
+                              "Center": {
+                                "$id": "76",
+                                "$type": "Point2D",
+                                "Id": "8d67a54a-8a03-4628-8618-43bbfb0026f0",
+                                "X": 0.02400000000000002,
+                                "Y": -0.268210142859109
+                              },
+                              "RotationAngle": 0.0,
+                              "Area": 0.000804,
+                              "HostPrimitive": {
+                                "$ref": "33"
+                              }
+                            },
+                            {
+                              "$id": "77",
+                              "$type": "RebarNdmPrimitive",
+                              "Id": "89789139-8a03-4486-9916-cd55cc2ca8d4",
+                              "Name": "в арм",
+                              "NdmElement": {
+                                "$id": "78",
+                                "$type": "NdmElement",
+                                "Id": "f8a06129-438b-4e5e-9ea8-68f643fe2519",
+                                "HeadMaterial": {
+                                  "$ref": "24"
+                                },
+                                "Triangulate": true,
+                                "UsersPrestrain": {
+                                  "$id": "79",
+                                  "$type": "ForceTuple",
+                                  "Id": "0147d082-7257-4dc0-8abb-7eef00250939",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.002425,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                },
+                                "AutoPrestrain": {
+                                  "$id": "80",
+                                  "$type": "ForceTuple",
+                                  "Id": "39b71fc4-02cb-469b-b5b7-61e8152ca56f",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                }
+                              },
+                              "VisualProperty": {
+                                "$id": "81",
+                                "$type": "VisualProperty",
+                                "Id": "0a8278e1-ae5e-49f4-a8ae-db0c00bec7eb",
+                                "IsVisible": true,
+                                "Color": "#FF53EA74",
+                                "SetMaterialColor": true,
+                                "ZIndex": 0,
+                                "Opacity": 1.0
+                              },
+                              "Center": {
+                                "$id": "82",
+                                "$type": "Point2D",
+                                "Id": "5320e0d2-1bb6-4752-a1ad-2d0850ce4926",
+                                "X": 0.02400000000000002,
+                                "Y": 0.34178985714089094
+                              },
+                              "RotationAngle": 0.0,
+                              "Area": 0.000201,
+                              "HostPrimitive": {
+                                "$ref": "33"
+                              }
+                            },
+                            {
+                              "$id": "83",
+                              "$type": "RebarNdmPrimitive",
+                              "Id": "08416efc-a4cb-4ad4-be58-e51d5a88cb2e",
+                              "Name": "Напрягаемая арм copy",
+                              "NdmElement": {
+                                "$id": "84",
+                                "$type": "NdmElement",
+                                "Id": "ba7f17f3-5341-4a14-abf9-7466ca21e41a",
+                                "HeadMaterial": {
+                                  "$ref": "24"
+                                },
+                                "Triangulate": true,
+                                "UsersPrestrain": {
+                                  "$id": "85",
+                                  "$type": "ForceTuple",
+                                  "Id": "beafa9e0-7629-41b8-a42c-1316340669fb",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0024,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                },
+                                "AutoPrestrain": {
+                                  "$id": "86",
+                                  "$type": "ForceTuple",
+                                  "Id": "c6a677df-6ef0-49e8-9219-967f96d8983d",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                }
+                              },
+                              "VisualProperty": {
+                                "$id": "87",
+                                "$type": "VisualProperty",
+                                "Id": "a4a61568-44f8-4941-b229-9e4f6de50458",
+                                "IsVisible": true,
+                                "Color": "#FF633ED3",
+                                "SetMaterialColor": true,
+                                "ZIndex": 0,
+                                "Opacity": 1.0
+                              },
+                              "Center": {
+                                "$id": "88",
+                                "$type": "Point2D",
+                                "Id": "6559478f-40b3-4173-a9a7-6692b66acfd6",
+                                "X": 0.072,
+                                "Y": -0.268210142859109
+                              },
+                              "RotationAngle": 0.0,
+                              "Area": 0.000804,
+                              "HostPrimitive": {
+                                "$ref": "33"
+                              }
+                            }
+                          ]
+                        },
+                        "Calculators": {
+                          "$type": "ListOfICalculator",
+                          "$values": [
+                            {
+                              "$id": "89",
+                              "$type": "ForceCalculator",
+                              "Id": "ef4566f2-0529-4726-95b4-e2283ceefdc5",
+                              "Name": "New Force Calculator",
+                              "InputData": {
+                                "$id": "90",
+                                "$type": "ForceCalculatorInputData",
+                                "Id": "97fa65a1-9663-40e2-9f3d-035b13992a4b",
+                                "ForceActions": {
+                                  "$id": "91",
+                                  "$type": "ListOfIForceAction",
+                                  "$values": [
+                                    {
+                                      "$ref": "30"
+                                    }
+                                  ]
+                                },
+                                "Primitives": {
+                                  "$id": "92",
+                                  "$type": "ListOfINdmPrimitive",
+                                  "$values": [
+                                    {
+                                      "$ref": "83"
+                                    },
+                                    {
+                                      "$ref": "33"
+                                    },
+                                    {
+                                      "$ref": "41"
+                                    },
+                                    {
+                                      "$ref": "47"
+                                    },
+                                    {
+                                      "$ref": "53"
+                                    },
+                                    {
+                                      "$ref": "59"
+                                    },
+                                    {
+                                      "$ref": "65"
+                                    },
+                                    {
+                                      "$ref": "71"
+                                    },
+                                    {
+                                      "$ref": "77"
+                                    }
+                                  ]
+                                },
+                                "LimitStatesList": {
+                                  "$id": "93",
+                                  "$type": "ListOfLimitState",
+                                  "$values": [
+                                    1,
+                                    2
+                                  ]
+                                },
+                                "CalcTermList": {
+                                  "$id": "94",
+                                  "$type": "ListOfCalcTerms",
+                                  "$values": [
+                                    1,
+                                    2
+                                  ]
+                                },
+                                "Accuracy": {
+                                  "$id": "95",
+                                  "$type": "Accuracy",
+                                  "Id": "d87e8681-2112-448d-9832-f6efbe451ddf",
+                                  "IterationAccuracy": 0.001,
+                                  "MaxIterationCount": 1000
+                                },
+                                "CompressedMember": {
+                                  "$id": "96",
+                                  "$type": "CompressedMember",
+                                  "Id": "025ae09b-57d4-4cac-a99f-7245acc92d17",
+                                  "Bucling": false,
+                                  "GeometryLength": 3.0,
+                                  "LengthFactorX": 1.0,
+                                  "DiagramFactorX": 1.0,
+                                  "LengthFactorY": 1.0,
+                                  "DiagramFactorY": 1.0
+                                }
+                              }
+                            },
+                            {
+                              "$id": "97",
+                              "$type": "CrackCalculator",
+                              "Id": "02463847-646e-4214-93a8-1bae166f6ec4",
+                              "Name": "New Crack Calculator",
+                              "InputData": {
+                                "$id": "98",
+                                "$type": "CrackCalculatorInputData",
+                                "Id": "e7ef7b51-3bac-4eb4-8894-b4d504528e29",
+                                "ForceActions": {
+                                  "$id": "99",
+                                  "$type": "ListOfIForceAction",
+                                  "$values": [
+                                    {
+                                      "$ref": "30"
+                                    }
+                                  ]
+                                },
+                                "ForcePrimitives": {
+                                  "$id": "100",
+                                  "$type": "ListOfINdmPrimitive",
+                                  "$values": [
+                                    {
+                                      "$ref": "33"
+                                    },
+                                    {
+                                      "$ref": "41"
+                                    },
+                                    {
+                                      "$ref": "47"
+                                    },
+                                    {
+                                      "$ref": "53"
+                                    },
+                                    {
+                                      "$ref": "59"
+                                    },
+                                    {
+                                      "$ref": "65"
+                                    },
+                                    {
+                                      "$ref": "71"
+                                    },
+                                    {
+                                      "$ref": "77"
+                                    }
+                                  ]
+                                },
+                                "UserCrackInputData": {
+                                  "$id": "101",
+                                  "$type": "UserCrackInputData",
+                                  "Id": "196fd948-9e2e-4d0e-a21a-b1a99385518e",
+                                  "LengthBetweenCracks": 0.4,
+                                  "SetLengthBetweenCracks": true,
+                                  "SetSofteningFactors": true,
+                                  "SofteningFactors": 1.0,
+                                  "UltimateLongCrackWidths": 0.0003,
+                                  "UltimateShortCrackWidths": 0.0004
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "Comment": "",
+            "Color": "#FF800000"
+          }
+        },
+        {
+          "$id": "102",
+          "$type": "VisualAnalysis",
+          "Id": "40717304-189b-4f75-b0e8-80427c5c6536",
+          "Analysis": {
+            "$id": "103",
+            "$type": "CrossSectionNdmAnalysis",
+            "Id": "6211b6ab-f666-41fa-84b5-992cf5722b8a",
+            "Name": "New NDM Analysis",
+            "Tags": "#New group",
+            "VersionProcessor": {
+              "$id": "104",
+              "$type": "VersionProcessor",
+              "Id": "0f0d8b5e-2f54-4ae2-bff3-0118f7cf2808",
+              "Versions": {
+                "$type": "ListOfIDateVersion",
+                "$values": [
+                  {
+                    "$id": "105",
+                    "$type": "DateVersion",
+                    "Id": "cc66f1cc-9e5d-4889-a502-281fb44bb2eb",
+                    "DateTime": "2025-01-09T13:08:16.3211502+05:00",
+                    "Comment": "",
+                    "AnalysisVersion": {
+                      "$id": "106",
+                      "$type": "CrossSection",
+                      "Id": "ec658d00-1447-42d2-9666-9c9ed0942d7e",
+                      "SectionRepository": {
+                        "$id": "107",
+                        "$type": "CrossSectionRepository",
+                        "Id": "b6df8bda-9e3c-40c7-b564-fc4e96bdf341",
+                        "HeadMaterials": {
+                          "$type": "ListOfIHeadMaterial",
+                          "$values": []
+                        },
+                        "ForceActions": {
+                          "$type": "ListOfIForceAction",
+                          "$values": []
+                        },
+                        "Primitives": {
+                          "$type": "ListOfINdmPrimitive",
+                          "$values": []
+                        },
+                        "Calculators": {
+                          "$type": "ListOfICalculator",
+                          "$values": []
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "Comment": "",
+            "Color": "#FF800000"
+          }
+        }
+      ]
+    }
+  }
+}
