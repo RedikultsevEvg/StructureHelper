@@ -1,6 +1,9 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using DataAccess.DTOs.Converters;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models.WorkPlanes;
 using StructureHelperLogics.Models.CrossSections;
 using System;
 using System.Collections.Generic;
@@ -12,23 +15,24 @@ namespace DataAccess.DTOs
 {
     public class CrossSectionFromDTOConvertStrategy : IConvertStrategy<ICrossSection, ICrossSection>
     {
-        private readonly IConvertStrategy<ICrossSectionRepository, ICrossSectionRepository> convertStrategy;
+        private IConvertStrategy<ICrossSectionRepository, ICrossSectionRepository> repositoryConvertStrategy;
+        private IConvertStrategy<WorkPlaneProperty, WorkPlanePropertyDTO> workPlaneConvertStrategy;
 
-        public CrossSectionFromDTOConvertStrategy(IConvertStrategy<ICrossSectionRepository, ICrossSectionRepository> convertStrategy)
+        public CrossSectionFromDTOConvertStrategy(IConvertStrategy<ICrossSectionRepository, ICrossSectionRepository> repositoryConvertStrategy,
+            IConvertStrategy<WorkPlaneProperty, WorkPlanePropertyDTO> workPlaneConvertStrategy)
         {
-            this.convertStrategy = convertStrategy;
+            this.repositoryConvertStrategy = repositoryConvertStrategy;
+            this.workPlaneConvertStrategy = workPlaneConvertStrategy;
         }
 
-        public CrossSectionFromDTOConvertStrategy() : this (new CrossSectionRepositoryFromDTOConvertStrategy())
-        {
-            
-        }
+        public CrossSectionFromDTOConvertStrategy() {  }
 
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
         public ICrossSection Convert(ICrossSection source)
         {
+            InitializeStrategies();
             try
             {
                 Check();
@@ -42,20 +46,38 @@ namespace DataAccess.DTOs
             }
         }
 
+        private void InitializeStrategies()
+        {
+            repositoryConvertStrategy ??= new CrossSectionRepositoryFromDTOConvertStrategy(ReferenceDictionary, TraceLogger);
+            workPlaneConvertStrategy ??= new WorkPlanePropertyFromDTOConvertStrategy(ReferenceDictionary,TraceLogger);
+        }
+
         private ICrossSection GetNewCrossSection(ICrossSection source)
         {
             TraceLogger?.AddMessage("Cross-Section converting is started", TraceLogStatuses.Service);
             CrossSection newItem = new(source.Id);
-            convertStrategy.ReferenceDictionary = ReferenceDictionary;
-            convertStrategy.TraceLogger = TraceLogger;
             newItem.SectionRepository = GetNewCrossSectionRepository(source.SectionRepository);
             TraceLogger?.AddMessage("Cross-Section converting has been finished successfully", TraceLogStatuses.Service);
+            if (source.WorkPlaneProperty is null)
+            {
+                TraceLogger?.AddMessage("Work plane properties is not found", TraceLogStatuses.Warning);
+                newItem.WorkPlaneProperty = new WorkPlaneProperty(Guid.NewGuid());
+                TraceLogger?.AddMessage("New work plane properties were generated", TraceLogStatuses.Debug);
+            }
+            else if (source.WorkPlaneProperty is WorkPlanePropertyDTO dto)
+            {
+                newItem.WorkPlaneProperty = workPlaneConvertStrategy.Convert(dto);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source.WorkPlaneProperty));
+            }
             return newItem;
         }
 
         private ICrossSectionRepository GetNewCrossSectionRepository(ICrossSectionRepository source)
         {
-            ICrossSectionRepository newItem = convertStrategy.Convert(source);
+            ICrossSectionRepository newItem = repositoryConvertStrategy.Convert(source);
             TraceLogger?.AddMessage($"Object of type <<{newItem.GetType()}>> was obtained", TraceLogStatuses.Service);
             return newItem;
         }

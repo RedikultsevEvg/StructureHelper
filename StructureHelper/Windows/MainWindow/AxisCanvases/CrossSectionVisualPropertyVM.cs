@@ -3,6 +3,7 @@ using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Models.WorkPlanes;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Windows.Input;
@@ -148,9 +149,9 @@ namespace StructureHelper.Windows.MainWindow
 
         public CrossSectionViewModel ParentViewModel { get; set; }
 
-        public CrossSectionVisualPropertyVM()
+        public CrossSectionVisualPropertyVM(IWorkPlaneProperty workPlaneProperty)
         {
-            AxisCanvasVM = new();
+            AxisCanvasVM = new(workPlaneProperty);
         }
     }
 }

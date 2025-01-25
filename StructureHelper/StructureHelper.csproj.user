@@ -102,6 +102,9 @@
     <Compile Update="Windows\UserControls\MultiplyDouble.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\UserControls\WorkPlane.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Infrastructure\UI\Resources\Cracks.xaml">
@@ -120,6 +123,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Infrastructure\UI\Resources\Materials.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Infrastructure\UI\Resources\ScrollableWorkPlane.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Infrastructure\UI\Resources\ServiceColors.xaml">
@@ -219,6 +225,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\UserControls\MultiplyDouble.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\UserControls\WorkPlane.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

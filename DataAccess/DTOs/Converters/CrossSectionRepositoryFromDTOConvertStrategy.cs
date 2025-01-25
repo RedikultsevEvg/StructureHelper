@@ -26,6 +26,10 @@ namespace DataAccess.DTOs
         private IHasPrimitivesProcessLogic primitivesProcessLogic = new HasPrimitivesProcessLogic(ConvertDirection.FromDTO);
         private IHasForceActionsProcessLogic actionsProcessLogic = new HasForceActionsProcessLogic(ConvertDirection.FromDTO);
 
+        public CrossSectionRepositoryFromDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger) : base(referenceDictionary, traceLogger)
+        {
+        }
+
         public override CrossSectionRepository GetNewItem(ICrossSectionRepository source)
         {
             TraceLogger?.AddMessage("Cross-Section repository" + convertStarted);

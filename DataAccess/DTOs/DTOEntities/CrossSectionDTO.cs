@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using StructureHelperCommon.Models.WorkPlanes;
 using StructureHelperLogics.Models.CrossSections;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace DataAccess.DTOs
         public Guid Id { get; set; }
         [JsonProperty("SectionRepository")]
         public ICrossSectionRepository SectionRepository { get; set; }
+
+        public IWorkPlaneProperty WorkPlaneProperty { get; set; }
 
         public object Clone()
         {

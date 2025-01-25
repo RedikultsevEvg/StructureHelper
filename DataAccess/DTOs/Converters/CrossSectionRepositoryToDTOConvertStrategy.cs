@@ -19,10 +19,10 @@ namespace DataAccess.DTOs
             this.materialConvertStrategy = materialConvertStrategy;
         }
 
-        public CrossSectionRepositoryToDTOConvertStrategy() : this(
-            new HeadMaterialToDTOConvertStrategy())
+        public CrossSectionRepositoryToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
         {
-            
+            ReferenceDictionary = referenceDictionary;
+            TraceLogger = traceLogger;
         }
 
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
@@ -31,6 +31,7 @@ namespace DataAccess.DTOs
         public CrossSectionRepositoryDTO Convert(ICrossSectionRepository source)
         {
             Check();
+            InitializeStrategies();
             try
             {
                 CrossSectionRepositoryDTO newItem = GetNewRepository(source);
@@ -42,6 +43,11 @@ namespace DataAccess.DTOs
                 TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
                 throw;
             }
+        }
+
+        private void InitializeStrategies()
+        {
+            materialConvertStrategy ??= new HeadMaterialToDTOConvertStrategy();
         }
 
         private CrossSectionRepositoryDTO GetNewRepository(ICrossSectionRepository source)

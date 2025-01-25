@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.Forces"
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Forces"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance vm:ForceCombinationViewModel}"
         mc:Ignorable="d"
         Title="Force Combination" Height="350" Width="550" MinHeight="300" MinWidth="450" MaxWidth="500" WindowStartupLocation="CenterScreen">
@@ -12,13 +13,70 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="95"/>
             <RowDefinition/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <!--ForceTemplates.xaml-->
-        <ContentControl ContentTemplate="{StaticResource ResourceKey=ForceActionTemplate}" Content="{Binding}"/>
-        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResourceKey=CombinationListTemplateWithButton}" Content="{Binding}"/>
+        <TabControl>
+            <TabItem Header="Main">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <!--ForceTemplates.xaml-->  
+                    <ContentControl ContentTemplate="{StaticResource ResourceKey=ForceActionNameTemplate}" Content="{Binding}"/>
+                    <DockPanel Grid.Row="1" DataContext="{Binding DesignForces}">
+                        <ToolBarTray DockPanel.Dock="Top">
+                            <ToolBar>
+                                <Button Style="{StaticResource ToolButton24}" Command="{Binding Add}">
+                                    <Button.ToolTip>
+                                        <uc:ButtonToolTipEh HeaderText="Add combination"
+                                                IconContent="{StaticResource AddEntity}"
+                                                DescriptionText="Adds new combination of forces"/>
+                                    </Button.ToolTip>
+                                    <Viewbox Width="24" Height="24">
+                                        <ContentControl ContentTemplate="{DynamicResource AddEntity}"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button Style="{StaticResource ToolButton24}" Command="{Binding Copy}">
+                                    <Button.ToolTip>
+                                        <uc:ButtonToolTipEh HeaderText="Copy Analysis"
+                                                IconContent="{StaticResource CopyAnalysis}"
+                                                DescriptionText="Creates copy of selected analysis"/>
+                                    </Button.ToolTip>
+                                    <Viewbox Width="24" Height="24">
+                                        <ContentControl ContentTemplate="{DynamicResource CopyAnalysis}"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button Style="{StaticResource ToolButton24}" Command="{Binding Delete}">
+                                    <Button.ToolTip>
+                                        <uc:ButtonToolTipEh HeaderText="Delete Analysis"
+                                                IconContent="{StaticResource DeleteEntity }"
+                                                DescriptionText="Delete selected analysis"/>
+                                    </Button.ToolTip>
+                                    <Viewbox Width="24" Height="24">
+                                        <ContentControl ContentTemplate="{DynamicResource DeleteEntity}"/>
+                                    </Viewbox>
+                                </Button>
+                            </ToolBar>
+                        </ToolBarTray>
+                        <Grid>
+                            <ContentControl ContentTemplate="{StaticResource ResourceKey=CombinationListTemplate}" Content="{Binding}"/>
+                        </Grid>
+                    </DockPanel>
+                    <Image Grid.Row="2" Height="50" Width="50" Stretch="UniformToFill" Source="/Windows/Forces/Forces.jpg" HorizontalAlignment="Left">
+                        <Image.ToolTip>
+                            <Image Height="250" Width="250" Stretch="UniformToFill" Source="/Windows/Forces/Forces.jpg"/>
+                        </Image.ToolTip>
+                    </Image>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Force point">
+                <!--ForceTemplates.xaml-->
+                <ContentControl Height="80" ContentTemplate="{StaticResource ResourceKey=ForceActionPointTemplate}" Content="{Binding}" VerticalAlignment="Top"/>
+            </TabItem>
+        </TabControl>
         <ContentControl Grid.Row="2" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

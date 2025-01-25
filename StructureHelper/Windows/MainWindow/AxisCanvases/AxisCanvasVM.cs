@@ -1,6 +1,7 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Models.WorkPlanes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,24 +14,25 @@ namespace StructureHelper.Windows.MainWindow
 {
     public class AxisCanvasVM : OkCancelViewModelBase, IRectangleShape
     {
-        private double axisLineThickness;
-        private double gridLineThickness;
-        private double gridSize;
-        private double width;
-        private double height;
-        private Color xAxisColor;
-        private Color yAxisColor;
-        private Color gridColor;
+        private IWorkPlaneProperty workPlaneProperty;
+
+        public AxisCanvasVM(IWorkPlaneProperty workPlaneProperty)
+        {
+            this.workPlaneProperty = workPlaneProperty;
+        }
+        private Color xAxisColor = Colors.Red;
+        private Color yAxisColor = Colors.ForestGreen;
+        private Color gridColor = Colors.DarkGray;
 
         /// <summary>
         /// Thickness of x-, and y- axis line
         /// </summary>
         public double AxisLineThickness
         {
-            get => axisLineThickness;
+            get => workPlaneProperty.AxisLineThickness;
             set
             {
-                axisLineThickness = value;
+                workPlaneProperty.AxisLineThickness = value;
                 OnPropertyChanged(nameof(AxisLineThickness));
             }
         }
@@ -39,10 +41,10 @@ namespace StructureHelper.Windows.MainWindow
         /// </summary>
         public double GridLineThickness
         {
-            get => gridLineThickness;
+            get => workPlaneProperty.GridLineThickness;
             set
             {
-                gridLineThickness = value;
+                workPlaneProperty.GridLineThickness = value;
                 OnPropertyChanged(nameof(GridLineThickness));
             }
         }
@@ -51,9 +53,9 @@ namespace StructureHelper.Windows.MainWindow
         /// </summary>
         public double GridSize
         {
-            get => gridSize; set
+            get => workPlaneProperty.GridSize; set
             {
-                gridSize = value;
+                workPlaneProperty.GridSize = value;
                 OnPropertyChanged(nameof(GridSize));
             }
         }
@@ -62,9 +64,9 @@ namespace StructureHelper.Windows.MainWindow
         /// </summary>
         public double Width
         {
-            get => width; set
+            get => workPlaneProperty.Width; set
             {
-                width = value;
+                workPlaneProperty.Width = value;
                 OnPropertyChanged(nameof(Width));
             }
         }
@@ -73,9 +75,9 @@ namespace StructureHelper.Windows.MainWindow
         /// </summary>
         public double Height
         {
-            get => height; set
+            get => workPlaneProperty.Height; set
             {
-                height = value;
+                workPlaneProperty.Height = value;
                 OnPropertyChanged(nameof(Height));
             }
         }
@@ -101,7 +103,8 @@ namespace StructureHelper.Windows.MainWindow
 
         public Color GridColor
         {
-            get => gridColor; set
+            get => gridColor;
+            set
             {
                 gridColor = value;
                 OnPropertyChanged(nameof(GridColor));
@@ -109,17 +112,5 @@ namespace StructureHelper.Windows.MainWindow
         }
 
         public Guid Id => throw new NotImplementedException();
-
-        public AxisCanvasVM()
-        {
-            AxisLineThickness = 2d;
-            GridLineThickness = 0.25d;
-            GridSize = 0.05d;
-            Width = 1.2d;
-            Height = 1.2d;
-            XAxisColor = Colors.Red;
-            YAxisColor = Colors.ForestGreen;
-            GridColor = Colors.DarkGray;
-        }
     }
 }

@@ -89,6 +89,7 @@ namespace DataAccess.DTOs
                 { (typeof(VisualAnalysisDTO), "VisualAnalysis") },
                 { (typeof(VisualPropertyDTO), "VisualProperty") },
                 { (typeof(UserCrackInputDataDTO), "UserCrackInputData") },
+                { (typeof(WorkPlanePropertyDTO), "WorkPlanePropertyDTO") },
             };
             return newList;
         }

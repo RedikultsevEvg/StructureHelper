@@ -34,7 +34,7 @@ namespace DataAccess.DTOs.Converters
             try
             {
                 Check();
-                ICrossSectionNdmAnalysis newItem = GetCrossSectinNDMAnalysis(source);
+                ICrossSectionNdmAnalysis newItem = GetCrossSectionNDMAnalysis(source);
                 return newItem;
             }
             catch (Exception ex)
@@ -46,7 +46,7 @@ namespace DataAccess.DTOs.Converters
             
         }
 
-        private ICrossSectionNdmAnalysis GetCrossSectinNDMAnalysis(ICrossSectionNdmAnalysis source)
+        private ICrossSectionNdmAnalysis GetCrossSectionNDMAnalysis(ICrossSectionNdmAnalysis source)
         {
             TraceLogger?.AddMessage("Cross-section sonverting is started");
             CrossSectionNdmAnalysis newItem = new(source.Id);

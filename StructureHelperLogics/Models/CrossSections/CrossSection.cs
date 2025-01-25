@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.WorkPlanes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace StructureHelperLogics.Models.CrossSections
         public ICrossSectionRepository SectionRepository { get; set; } = new CrossSectionRepository();
 
         public Guid Id { get; private set; }
+        public IWorkPlaneProperty WorkPlaneProperty { get; set; } = new WorkPlaneProperty(Guid.NewGuid());
 
         public CrossSection(Guid id)
         {

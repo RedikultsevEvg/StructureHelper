@@ -84,7 +84,7 @@
                                 <ContentControl ContentTemplate="{DynamicResource DeSelectAll}"/>
                             </Viewbox>
                         </Button>
-                        <Button Style="{StaticResource ToolButton24}" Command="{Binding Add}" ToolTip="Inver Selection">
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding Add}" ToolTip="Invert Selection">
                             <Viewbox Width="24" Height="24">
                                 <ContentControl ContentTemplate="{DynamicResource InvertSelection}"/>
                             </Viewbox>
@@ -133,11 +133,11 @@
                         <Button Style="{StaticResource ToolButton24}" Command="{Binding DeleteCommand}">
                             <Button.ToolTip>
                                 <uc:ButtonToolTipEh HeaderText="Delete Analysis"
-                                                IconContent="{StaticResource DeleteAnalysis }"
+                                                IconContent="{StaticResource DeleteEntity }"
                                                 DescriptionText="Delete selected analysis"/>
                             </Button.ToolTip>
                             <Viewbox Width="24" Height="24">
-                                <ContentControl ContentTemplate="{DynamicResource DeleteAnalysis}"/>
+                                <ContentControl ContentTemplate="{DynamicResource DeleteEntity}"/>
                             </Viewbox>
                         </Button>
                     </ToolBar>
@@ -192,7 +192,7 @@
                                 <MenuItem Header="Delete" Command="{Binding DeleteCommand}" ToolTip="Delete analysis">
                                     <MenuItem.Icon>
                                         <Viewbox Height="16" Width="16">
-                                            <ContentControl ContentTemplate="{StaticResource DeleteAnalysis}"/>
+                                            <ContentControl ContentTemplate="{StaticResource DeleteEntity}"/>
                                         </Viewbox>
                                     </MenuItem.Icon>
                                 </MenuItem>

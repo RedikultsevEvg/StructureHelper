@@ -127,7 +127,7 @@ namespace StructureHelper.Windows.MainWindow
         public CrossSectionViewModel(ICrossSection section)
         {
             Section = section;
-            VisualProperty = new CrossSectionVisualPropertyVM()
+            VisualProperty = new CrossSectionVisualPropertyVM(Section.WorkPlaneProperty)
             {
                 ScaleValue = 500d,
                 ParentViewModel = this
@@ -300,7 +300,7 @@ namespace StructureHelper.Windows.MainWindow
             //    GlobalRepository.Actions.Create(item);
             //}
             return primitives;
-            
+            //WorkPlane
         }
     }
 }

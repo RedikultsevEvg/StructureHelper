@@ -130,6 +130,30 @@
         <Setter Property="StrokeThickness" Value="1"/>
     </Style>
 
+    <DataTemplate x:Key="AddEntity">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="16" Y1="4" X2="16" Y2="26" Stroke="Black" StrokeThickness="2"/>
+                <Line X1="4" Y1="16" X2="26" Y2="16" Stroke="Black" StrokeThickness="2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="CopyAnalysis">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Ellipse Width="16" Height="16"  Fill="LightGray" Stroke="Black" StrokeThickness="1" Margin="12,12,0,0"/>
+                <Ellipse Width="18" Height="18"  Fill="White" Stroke="Black" StrokeThickness="1" Margin="3,3,0,0"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="DeleteEntity">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="4" Y1="4" X2="26" Y2="26" Stroke="Black" StrokeThickness="2"/>
+                <Line X1="4" Y1="26" X2="26" Y2="4" Stroke="Black" StrokeThickness="2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
 
     <DataTemplate x:Key="OkCancelButtons">
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -544,14 +568,6 @@
         </Canvas>
     </DataTemplate>
 
-    <DataTemplate x:Key="CopyAnalysis">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <Ellipse Width="16" Height="16"  Fill="LightGray" Stroke="Black" StrokeThickness="1" Margin="12,12,0,0"/>
-                <Ellipse Width="18" Height="18"  Fill="White" Stroke="Black" StrokeThickness="1" Margin="3,3,0,0"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
 
     <DataTemplate x:Key="AnalysisVersions">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
@@ -579,14 +595,6 @@
         </Canvas>
     </DataTemplate>
 
-    <DataTemplate x:Key="DeleteAnalysis">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <Line X1="4" Y1="4" X2="26" Y2="26" Stroke="Black" StrokeThickness="2"/>
-                <Line X1="4" Y1="26" X2="26" Y2="4" Stroke="Black" StrokeThickness="2"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
 
     <DataTemplate x:Key="Restore">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
@@ -641,7 +649,7 @@
     <DataTemplate x:Key="RestoreAndDelete">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource DeleteAnalysis}"/>
+                <ContentControl ContentTemplate="{DynamicResource DeleteEntity}"/>
                 <ContentControl ContentTemplate="{DynamicResource Back}"/>
             </Canvas.Children>
         </Canvas>

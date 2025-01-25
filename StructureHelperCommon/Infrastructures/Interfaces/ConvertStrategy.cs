@@ -13,6 +13,17 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         where T : ISaveable
         where V : ISaveable
     {
+        protected ConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
+        {
+            ReferenceDictionary = referenceDictionary;
+            TraceLogger = traceLogger;
+        }
+
+        public ConvertStrategy()
+        {
+            
+        }
+
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 

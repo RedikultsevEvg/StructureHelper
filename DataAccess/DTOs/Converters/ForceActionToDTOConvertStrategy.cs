@@ -44,7 +44,7 @@ namespace DataAccess.DTOs
             else
             {
                 string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source);
-                TraceLogger.AddMessage(errorString, TraceLogStatuses.Error);
+                TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
                 throw new StructureHelperException(errorString);
             }
         }

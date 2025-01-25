@@ -12,46 +12,46 @@
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
-                <Button Style="{StaticResource ToolButton}" 
+                <Button Style="{StaticResource ToolButton24}" 
                         Command="{Binding FileOpen}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Open file"
                                                 IconContent="{StaticResource FileOpen}"
                                                 DescriptionText="Open exsisting project from file"/>
                     </Button.ToolTip>
-                    <Viewbox>
+                    <Viewbox Height="24" Width="24">
                         <ContentControl ContentTemplate="{DynamicResource FileOpen}"/>
                     </Viewbox>
                 </Button>
-                <Button Style="{StaticResource ToolButton}" Command="{Binding Delete}">
+                <Button Style="{StaticResource ToolButton24}" Command="{Binding Delete}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Delete reference to file"
-                                                IconContent="{StaticResource DeleteAnalysis }"
+                                                IconContent="{StaticResource DeleteEntity }"
                                                 DescriptionText="Deletes selected reference to file"/>
                     </Button.ToolTip>
-                    <Viewbox>
-                        <ContentControl ContentTemplate="{DynamicResource DeleteAnalysis}"/>
+                    <Viewbox Height="24" Width="24">
+                        <ContentControl ContentTemplate="{DynamicResource DeleteEntity}"/>
                     </Viewbox>
                 </Button>
-                <Button Style="{StaticResource ToolButton}" 
+                <Button Style="{StaticResource ToolButton24}" 
                         Command="{Binding ShowSettings}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Settings"
                                                 IconContent="{StaticResource Settings}"
                                                 DescriptionText="Shows settings of import of file"/>
                     </Button.ToolTip>
-                    <Viewbox>
+                    <Viewbox Height="24" Width="24">
                         <ContentControl ContentTemplate="{DynamicResource Settings}"/>
                     </Viewbox>
                 </Button>
-                <Button Style="{StaticResource ToolButton}" Visibility="Hidden" 
+                <Button Style="{StaticResource ToolButton24}" Visibility="Hidden" 
                         Command="{Binding ShowDocument}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="View file"
                                                 IconContent="{StaticResource Report}"
                                                 DescriptionText="Shows file data if it is possible"/>
                     </Button.ToolTip>
-                    <Viewbox>
+                    <Viewbox Height="24" Width="24">
                         <ContentControl ContentTemplate="{DynamicResource Report}"/>
                     </Viewbox>
                 </Button>

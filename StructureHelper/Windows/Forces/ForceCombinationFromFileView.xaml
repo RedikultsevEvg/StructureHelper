@@ -7,7 +7,7 @@
         xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance local:ForceCombinationFromFileVM}"
         mc:Ignorable="d"
-        Title="Force Combination By Files" Height="280" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Force Combination By Files" Height="330" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -20,8 +20,13 @@
                     <ContentControl ContentTemplate="{StaticResource ResourceKey=ForceActionNameTemplate}" Content="{Binding}"/>
                     <TextBlock Text="List of Files"/>
                     <Grid>
-                        <uc:ListOfFileControl DataContext="{Binding Files}"/>
+                        <uc:ListOfFileControl Height="130" DataContext="{Binding Files}"/>
                     </Grid>
+                    <Image Grid.Row="2" Height="50" Width="50" Stretch="UniformToFill" Source="/Windows/Forces/Forces.jpg" HorizontalAlignment="Left">
+                        <Image.ToolTip>
+                            <Image Height="250" Width="250" Stretch="UniformToFill" Source="/Windows/Forces/Forces.jpg"/>
+                        </Image.ToolTip>
+                    </Image>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Force Point">
