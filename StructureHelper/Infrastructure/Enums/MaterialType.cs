@@ -12,6 +12,7 @@ namespace StructureHelper.Infrastructure.Enums
         Reinforcement,
         Elastic,
         CarbonFiber,
-        GlassFiber
+        GlassFiber,
+        Function,
     }
 }

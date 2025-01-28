@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="StructureHelperLogics.Models.Materials.ConcreteLibMaterial" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAACAgAQAQEBAAADEQAiBQAAAgQAAgAAAAAACAAAAhA=</HashCode>
+      <FileName>Models\Materials\ConcreteLibMaterial.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="StructureHelperLogics.Models.Materials.ElasticMaterial" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAQgAEBAAAAAQAAAAAQAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Materials\ElasticMaterial.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="StructureHelperLogics.Models.Materials.HeadMaterialRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAIAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Materials\HeadMaterialRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="StructureHelperLogics.Models.Materials.LibMaterial" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAIBQCAMBAQIAAAAABAQAAAAAAgAEAgAEAAAAAhA=</HashCode>
+      <FileName>Models\Materials\LibMaterial.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="StructureHelper.Models.Materials.HeadMaterial" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAIAUAAABAAAAEAAAAAQAgAAAAACAAAAAgAAAABA=</HashCode>
+      <FileName>Models\Materials\HeadMaterial.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="StructureHelperLogics.Models.Materials.IConcreteLibMaterial" Collapsed="true">
+    <Position X="7.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAQAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Materials\IConcreteLibMaterial.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="StructureHelperLogics.Models.Materials.IElasticMaterial" Collapsed="true">
+    <Position X="3.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAEAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Materials\IElasticMaterial.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="StructureHelperLogics.Models.Materials.IHasHeadMaterials" Collapsed="true">
+    <Position X="9.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Materials\IHasHeadMaterials.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="StructureHelperLogics.Models.Materials.IHeadMaterialRepository" Collapsed="true">
+    <Position X="13.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAIAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Materials\IHeadMaterialRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="StructureHelperLogics.Models.Materials.IHelperMaterial" Collapsed="true">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Materials\IHelperMaterial.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="StructureHelperLogics.Models.Materials.ILibMaterial">
+    <Position X="6" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAABAAAAAAAAgAAAAAAAAAAAgA=</HashCode>
+      <FileName>Models\Materials\ILibMaterial.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="StructureHelperLogics.Models.Materials.IMaterialOptionLogic" Collapsed="true">
+    <Position X="9.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Materials\IMaterialOptionLogic.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="StructureHelperLogics.Models.Materials.IReinforcementLibMaterial" Collapsed="true">
+    <Position X="5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Materials\IReinforcementLibMaterial.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="StructureHelper.Models.Materials.IHeadMaterial" Collapsed="true">
+    <Position X="11.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAUAAABAAAAAAAAAAQAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Models\Materials\IHeadMaterial.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="StructureHelperLogics.Models.Materials.IFunctionMaterial">
+    <Position X="0.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Materials\IFunctionMaterial.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

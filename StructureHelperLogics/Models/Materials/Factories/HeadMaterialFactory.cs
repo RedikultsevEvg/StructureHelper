@@ -1,4 +1,5 @@
-﻿using StructureHelper.Models.Materials;
+﻿using NLog.MessageTemplates;
+using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
@@ -20,7 +21,8 @@ namespace StructureHelperLogics.Models.Materials
         Reinforecement500,
         Elastic200,
         Carbon1400,
-        Glass1200
+        Glass1200,
+        Function,
     }     
 
     public static class HeadMaterialFactory
@@ -37,6 +39,7 @@ namespace StructureHelperLogics.Models.Materials
             if (type == HeadmaterialType.Elastic200) { return GetElastic200(); }
             if (type == HeadmaterialType.Carbon1400) { return GetCarbon1400(); }
             if (type == HeadmaterialType.Glass1200) { return GetGlass1200(); }
+            if (type == HeadmaterialType.Function) { return GetFunction(); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(type));
         }
 
@@ -101,6 +104,12 @@ namespace StructureHelperLogics.Models.Materials
             libMat.TensionForSLS = true;
             material.HelperMaterial = libMat;
             return material;
+        }
+        private static IHeadMaterial GetFunction()
+        {
+            var material = new HeadMaterial();
+            material.HelperMaterial = new 
+            return material; 
         }
     }
 }
