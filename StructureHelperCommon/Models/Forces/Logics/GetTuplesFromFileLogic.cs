@@ -78,6 +78,7 @@ namespace StructureHelperCommon.Models.Forces
                         }
                         catch (Exception ex)
                         {
+                            //to do implement case when file has a data in the row, but thus date is not correct
                             string errorString = ErrorStrings.DataIsInCorrect + $": incorrect data in file {ForceFileProperty.FilePath}, " + ex.Message;
                             TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
                             throw new StructureHelperException(errorString);
