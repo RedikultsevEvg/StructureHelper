@@ -30,7 +30,7 @@ namespace StructureHelperLogic.Models.Analyses
 
         public CrossSectionNdmAnalysis() : this(Guid.NewGuid(), new VersionProcessor())
         {
-            CrossSection crossSection = new CrossSection();
+            CrossSection crossSection = new();
             VersionProcessor.AddVersion(crossSection);
         }
 

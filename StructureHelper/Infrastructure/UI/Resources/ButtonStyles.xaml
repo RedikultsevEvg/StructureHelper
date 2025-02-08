@@ -155,13 +155,19 @@
         </Canvas>
     </DataTemplate>
 
-    <DataTemplate x:Key="OkCancelButtons">
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Style="{StaticResource CancelButton}" Command="{Binding CancelCommand}"/>
-            <Button Style="{StaticResource OkButton}" Command="{Binding OkCommand}"/>
-        </StackPanel>
+    <DataTemplate x:Key="Back">
+        <Path Margin="4" Data="M -1 18 l 2 -9 l 1 3 a 15 15 90 0 1 22 -3 l -2 4 a 13 13 90 0 0 -18 2 l 3 3 z" Fill="White" Stroke="Black"/>
     </DataTemplate>
-
+    <DataTemplate x:Key="BeamShear">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="2" Y1="11" X2="30" Y2="11" Stroke="Black" StrokeThickness="0.5"/>
+                <Path Data="M2,11 v-6 l28,12 v-6" Stroke="Black" StrokeThickness="1"/>
+                <Path Data="M2,26 v-8 h10 v2 l-8,6 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+                <Path Data="M14,22 v-2 h16 v8 h-24 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="ButtonCalculatorRectangle">
         <Rectangle Style="{DynamicResource ButtonRect}" Stroke="{DynamicResource CalculatorFrame}">
             <Rectangle.Fill>
@@ -172,7 +178,6 @@
             </Rectangle.Fill>
         </Rectangle>
     </DataTemplate>
-
     <DataTemplate x:Key="ButtonResultRectangle">
         <Rectangle Style="{DynamicResource ButtonRect}" Stroke="{DynamicResource ResultFrame}">
             <Rectangle.Fill>
@@ -183,19 +188,15 @@
             </Rectangle.Fill>
         </Rectangle>
     </DataTemplate>
-
-    <DataTemplate x:Key="DiagramCalculator">
+    
+    <DataTemplate x:Key="CalculatorRun">
         <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
             <Canvas.Children>
                 <ContentControl ContentTemplate="{DynamicResource ButtonCalculatorRectangle}"/>
-                <Line Margin="4" X1="0" Y1="20" X2="25" Y2="20" StrokeThickness="1.5" Stroke="{DynamicResource CalculatorFrame}"/>
-                <Line Margin="4" X1="4" Y1="0" X2="4" Y2="25" StrokeThickness="1.5" Stroke="{DynamicResource CalculatorFrame}"/>
-                <Path Margin="4" Data="M 0 5 l 4 -4 l 7 4 l 7 6 l 2 4 l -2 7 l -2 2 " Stroke="{DynamicResource CalculatorFrame}"/>
-                <TextBlock Margin="4,2,0,0" Text="M-N" Foreground="Black" FontSize="10" HorizontalAlignment="Stretch" FontWeight="Bold" />
+                <Path Margin="4" Data="M 4 2 l 12 10 l -12 10 l 0 -20" Fill="{DynamicResource CalculatorFrame}"/>
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-
     <DataTemplate x:Key="CrackCalculator">
         <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
             <Canvas.Children>
@@ -212,16 +213,15 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-
-    <DataTemplate x:Key="CalculatorRun">
-        <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
+    <DataTemplate x:Key="CopyToClipboard">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource ButtonCalculatorRectangle}"/>
-                <Path Margin="4" Data="M 4 2 l 12 10 l -12 10 l 0 -20" Fill="{DynamicResource CalculatorFrame}"/>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <ContentControl Canvas.Top="10" Canvas.Left="14" ContentTemplate="{DynamicResource Document}"/>
+                <ContentControl Canvas.Top="6" Canvas.Left="8" ContentTemplate="{DynamicResource Document}"/>
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-
     <DataTemplate x:Key="CoordGrid">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -231,47 +231,6 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-
-    <DataTemplate x:Key="StepSolution">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource CoordGrid}"/>
-                <Line X1="5" Y1="27" X2="26" Y2="6" Stroke="Black"/>
-                <Line X1="25.5" Y1="22" X2="25.5" Y2="6" Stroke="LightGray"/>
-                <Line X1="10" Y1="6" X2="25.5" Y2="6" Stroke="LightGray"/>
-                <Line X1="5.5" Y1="26" X2="5.5" Y2="22" Stroke="LightGray"/>
-                <Line X1="5.5" Y1="26" X2="10" Y2="26" Stroke="LightGray"/>
-                <Ellipse Margin="4, 25, 0, 0" Width="3" Height="3" Fill="Black"/>
-                <Ellipse Margin="11, 18, 0, 0" Width="3" Height="3" Fill="Black"/>
-                <Ellipse Margin="18, 11, 0, 0" Width="3" Height="3" Fill="Black"/>
-                <Ellipse Margin="24, 5, 0, 0" Width="3" Height="3" Fill="Black"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="MomentCurvature">
-        <Path Margin="4" Data="M 3 18 l 4 -7 h 4 l 8 -7 h 5" Stroke="Black"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="MomentCurvatureDiagram">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource CoordGrid}"/>
-                <ContentControl ContentTemplate="{DynamicResource MomentCurvature}"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="MomentCurvatureCrackDiagram">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource CoordGrid}"/>
-                <ContentControl ContentTemplate="{DynamicResource MomentCurvature}"/>
-                <TextBlock Text="Crc" FontSize="8" FontWeight="Bold" Margin="4,2,0,0"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
     <DataTemplate x:Key="CrackForces">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -281,7 +240,255 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-
+    
+    <DataTemplate x:Key="DeSelectAll">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="False" IsEnabled="False"/>
+                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="False" IsEnabled="False"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="Diagrams">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="2" Y1="16" X2="30" Y2="16" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="16" Y1="2" X2="16" Y2="30" Stroke="Black" StrokeThickness="0.5"/>
+                <Path Margin="2" Data="M 0 21 l 6 0 l 9 -8 l 9 -8 l 4 0" Stroke="Black" StrokeThickness="1"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="DiagramCalculator">
+        <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonCalculatorRectangle}"/>
+                <Line Margin="4" X1="0" Y1="20" X2="25" Y2="20" StrokeThickness="1.5" Stroke="{DynamicResource CalculatorFrame}"/>
+                <Line Margin="4" X1="4" Y1="0" X2="4" Y2="25" StrokeThickness="1.5" Stroke="{DynamicResource CalculatorFrame}"/>
+                <Path Margin="4" Data="M 0 5 l 4 -4 l 7 4 l 7 6 l 2 4 l -2 7 l -2 2 " Stroke="{DynamicResource CalculatorFrame}"/>
+                <TextBlock Margin="4,2,0,0" Text="M-N" Foreground="Black" FontSize="10" HorizontalAlignment="Stretch" FontWeight="Bold" />
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="Document">
+        <Canvas>
+            <Canvas.Children>
+                <Rectangle Height="16" Width="12" Fill="White" Stroke="DarkGray"/>
+                <Line X1="2" Y1="4" X2="10" Y2="4" Stroke="Black"/>
+                <Line X1="2" Y1="7" X2="10" Y2="7" Stroke="Black"/>
+                <Line X1="2" Y1="10" X2="10" Y2="10" Stroke="Black"/>
+                <Line X1="2" Y1="13" X2="10" Y2="13" Stroke="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="EditAnalysis">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Path Margin="4" Data="M 2 22 l 4 -6 l 15 -16 l 4 4 l -15 14 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="AnalysisVersions">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Ellipse Width="10" Height="10"  Fill="LightGray" Stroke="Black" StrokeThickness="1" Margin="18,18,0,0"/>
+                <Ellipse Width="12" Height="12"  Fill="LightGray" Stroke="Black" StrokeThickness="1" Margin="12,12,0,0"/>
+                <Ellipse Width="14" Height="14"  Fill="White" Stroke="Black" StrokeThickness="1" Margin="5,5,0,0"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="ExportToNewAnalysis">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Path Margin="4" Data="M 12 22 l 0 -18 l 12 0 l 0 14 l -4 4 z" Fill="White" Stroke="Black"/>
+                <Path Margin="4" Data="M 20 22 l 0 -4 l 4 0 " Fill="White" Stroke="Black"/>
+                <TextBlock Margin="16, 4, 0, 0" Text="+-" FontSize="10"/>
+                <Path Margin="4" Data="M -1 18 l 0 -4 l 10 0 l 0 -3 l 5 5 l -5 5 l 0 -3 z" Fill="White" Stroke="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="ExportToXLS">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource Table}"/>
+                <TextBlock Text="CSV" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
+                <TextBlock Text="XLS" FontSize="12" FontWeight="Bold" FontStyle="Italic" Margin="6,14,0,2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="ExportToExcelButton">
+        <Button Style="{DynamicResource ToolButton}" Command="{Binding ExportToCSVCommand}">
+            <Button.ToolTip>
+                <uc:ButtonToolTipEh HeaderText="Export to *.csv"
+                                                IconContent="{StaticResource ExportToXLS}"
+                                                DescriptionText="Export all valid results to *.csv file"/>
+            </Button.ToolTip>
+            <Viewbox>
+                <ContentControl ContentTemplate="{DynamicResource ExportToXLS}"/>
+            </Viewbox>
+        </Button>
+    </DataTemplate>
+    <DataTemplate x:Key="FileOpen">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Path Margin="4" Data="M 2 6 l 8 0 l 3 3 l 6 0 l 0 12 l -17 0 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+                <Path Margin="4" Data="M 6 12 l 20 0 l -5 10 l -19 0 z" Fill="LightGray" Stroke="Black" StrokeThickness="1"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="FileSave">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Rectangle Height="26" Width="26" Canvas.Left="3" Canvas.Top="3"
+                            Fill="DarkGray" Stroke="Black" StrokeThickness="1"
+                            RadiusX="2" RadiusY="2"/>
+                <Rectangle Height="8" Width="12" Canvas.Left="10" Canvas.Top="4"
+                            Fill="LightGray" Stroke="Black" StrokeThickness="0.5"/>
+                <Rectangle Height="6" Width="4" Canvas.Left="16" Canvas.Top="5"
+                            Fill="DarkGray" Stroke="Black" StrokeThickness="0.5"/>
+                <Rectangle Height="14" Width="22" Canvas.Left="5" Canvas.Top="13"
+                            Fill="LightGray" Stroke="Black" StrokeThickness="0.5"
+                            RadiusX="2" RadiusY="2"/>
+                <Line X1="7" Y1="18" X2="24" Y2="18" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="7" Y1="21" X2="24" Y2="21" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="7" Y1="24" X2="24" Y2="24" Stroke="Black" StrokeThickness="0.5"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="ForceTable">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <ContentControl ContentTemplate="{DynamicResource Table}"/>
+                <TextBlock Text="Force" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="Forward">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource Back}">
+                    <ContentControl.RenderTransform>
+                        <TransformGroup>
+                            <TranslateTransform Y="-5"/>
+                            <ScaleTransform ScaleX="-1" CenterX="15" CenterY="8"/>
+                        </TransformGroup>
+                    </ContentControl.RenderTransform>
+                </ContentControl>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="GeometryTable">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <ContentControl ContentTemplate="{DynamicResource Table}"/>
+                <TextBlock Text="Geom" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="GetArea">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <TextBlock Text="A" FontSize="22" FontWeight="Bold" Margin="2,-4,0,2"/>
+                <TextBlock Text="?" FontSize="18" FontWeight="Bold" Margin="20,8,0,2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="Image">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <Path Data="M 4 16 l 8 -3 l 3 3 l 6 -3 l 7 3 v 12 h -24 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+                <Ellipse Canvas.Top="16" Canvas.Left="18" Height="6" Width="6" Fill="White"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="InteractionDiagram">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource CoordGrid}"/>
+                <Path Margin="4" Data="M 6 0 l 5 3 l 6 4 l 3 5 l 0 4 l -4 3 l -10 3 z" Stroke="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="InvertSelection">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="True" IsEnabled="False"/>
+                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="False" IsEnabled="False"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="IsoFieldResult">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <Path Margin="4" Data="M 0 0 h 20 A 20 20 90 0 1 0 24 z" Fill="Gray"/>
+                <Path Margin="4" Data="M 0 0 h 16 A 16 16 90 0 1 0 18 z" Fill="DarkGray"/>
+                <Path Margin="4" Data="M 0 0 h 10 A 10 10 90 0 1 0 10 z" Fill="LightGray"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="LappingLength">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <Line X1="10" Y1="17" X2="28" Y2="17" Stroke="Black"/>
+                <Line X1="3" Y1="20" X2="22" Y2="20" Stroke="Black"/>
+                <Line X1="10" Y1="6" X2="10" Y2="15" Stroke="Black"/>
+                <Line X1="22" Y1="6" X2="22" Y2="15" Stroke="Black"/>
+                <Line X1="7" Y1="10" X2="25" Y2="10" Stroke="Black"/>
+                <Line X1="7" Y1="13" X2="13" Y2="7" Stroke="Black"/>
+                <Line X1="19" Y1="13" X2="25" Y2="7" Stroke="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="MomentCurvature">
+        <Path Margin="4" Data="M 3 18 l 4 -7 h 4 l 8 -7 h 5" Stroke="Black"/>
+    </DataTemplate>
+    <DataTemplate x:Key="MomentCurvatureCrackDiagram">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource CoordGrid}"/>
+                <ContentControl ContentTemplate="{DynamicResource MomentCurvature}"/>
+                <TextBlock Text="Crc" FontSize="8" FontWeight="Bold" Margin="4,2,0,0"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="MomentCurvatureDiagram">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource CoordGrid}"/>
+                <ContentControl ContentTemplate="{DynamicResource MomentCurvature}"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="NdmCrossSection">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Rectangle Height="16" Width="8" Canvas.Left="12" Canvas.Top="12"
+                            Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+                <Rectangle Height="6" Width="16" Canvas.Left="8" Canvas.Top="7"
+                            Fill="LightGray" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="2" Y1="16" X2="30" Y2="16" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="16" Y1="2" X2="16" Y2="30" Stroke="Black" StrokeThickness="0.5"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="OkCancelButtons">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Style="{StaticResource CancelButton}" Command="{Binding CancelCommand}"/>
+            <Button Style="{StaticResource OkButton}" Command="{Binding OkCommand}"/>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="PngImage">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource Image}"/>
+                <TextBlock Text="PNG" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="Prestrain">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -306,279 +513,6 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-
-    <DataTemplate x:Key="LappingLength">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
-                <Line X1="10" Y1="17" X2="28" Y2="17" Stroke="Black"/>
-                <Line X1="3" Y1="20" X2="22" Y2="20" Stroke="Black"/>
-                <Line X1="10" Y1="6" X2="10" Y2="15" Stroke="Black"/>
-                <Line X1="22" Y1="6" X2="22" Y2="15" Stroke="Black"/>
-                <Line X1="7" Y1="10" X2="25" Y2="10" Stroke="Black"/>
-                <Line X1="7" Y1="13" X2="13" Y2="7" Stroke="Black"/>
-                <Line X1="19" Y1="13" X2="25" Y2="7" Stroke="Black"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="ValuePointDiagram">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource CoordGrid}"/>
-                <Path Margin="4" Data="M 3 0 l 4 12 l 12 6 h 5" Stroke="Black"/>
-                <Rectangle Margin="15, 5, 0, 0" Width="10" Height="10" Fill="DarkGray"/>
-                <Ellipse Margin="23, 13, 0, 0" Width="3" Height="3" Fill="Black"/>
-                <Ellipse Margin="23, 4, 0, 0" Width="3" Height="3" Fill="Black"/>
-                <Ellipse Margin="14, 13, 0, 0" Width="3" Height="3" Fill="Black"/>
-                <Ellipse Margin="14, 4, 0, 0" Width="3" Height="3" Fill="Black"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="InteractionDiagram">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource CoordGrid}"/>
-                <Path Margin="4" Data="M 6 0 l 5 3 l 6 4 l 3 5 l 0 4 l -4 3 l -10 3 z" Stroke="Black"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="Table">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
-                <Line X1="4" Y1="13" X2="28" Y2="13" Stroke="Black"/>
-                <Line X1="4" Y1="16" X2="28" Y2="16" Stroke="Black"/>
-                <Line X1="4" Y1="19" X2="28" Y2="19" Stroke="DarkGray" StrokeThickness="0.5"/>
-                <Line X1="4" Y1="22" X2="28" Y2="22" Stroke="DarkGray" StrokeThickness="0.5"/>
-                <Line X1="4" Y1="25" X2="28" Y2="25" Stroke="DarkGray" StrokeThickness="0.5"/>
-                <Line X1="12" Y1="13" X2="12" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
-                <Line X1="17" Y1="13" X2="17" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
-                <Line X1="22" Y1="13" X2="22" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="GeometryTable">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
-                <ContentControl ContentTemplate="{DynamicResource Table}"/>
-                <TextBlock Text="Geom" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="ForceTable">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
-                <ContentControl ContentTemplate="{DynamicResource Table}"/>
-                <TextBlock Text="Force" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="Image">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
-                <Path Data="M 4 16 l 8 -3 l 3 3 l 6 -3 l 7 3 v 12 h -24 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
-                <Ellipse Canvas.Top="16" Canvas.Left="18" Height="6" Width="6" Fill="White"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="GetArea">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <TextBlock Text="A" FontSize="22" FontWeight="Bold" Margin="2,-4,0,2"/>
-                <TextBlock Text="?" FontSize="18" FontWeight="Bold" Margin="20,8,0,2"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="PngImage">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource Image}"/>
-                <TextBlock Text="PNG" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="Document">
-        <Canvas>
-            <Canvas.Children>
-                <Rectangle Height="16" Width="12" Fill="White" Stroke="DarkGray"/>
-                <Line X1="2" Y1="4" X2="10" Y2="4" Stroke="Black"/>
-                <Line X1="2" Y1="7" X2="10" Y2="7" Stroke="Black"/>
-                <Line X1="2" Y1="10" X2="10" Y2="10" Stroke="Black"/>
-                <Line X1="2" Y1="13" X2="10" Y2="13" Stroke="Black"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="CopyToClipboard">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
-                <ContentControl Canvas.Top="10" Canvas.Left="14" ContentTemplate="{DynamicResource Document}"/>
-                <ContentControl Canvas.Top="6" Canvas.Left="8" ContentTemplate="{DynamicResource Document}"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="Report">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
-                <ContentControl Canvas.Top="5" Canvas.Left="6" ContentTemplate="{DynamicResource Document}"/>
-                <ContentControl Canvas.Top="8" Canvas.Left="10" ContentTemplate="{DynamicResource Document}"/>
-                <ContentControl Canvas.Top="11" Canvas.Left="14" ContentTemplate="{DynamicResource Document}"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="ExportToXLS">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource Table}"/>
-                <TextBlock Text="CSV" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
-                <TextBlock Text="XLS" FontSize="12" FontWeight="Bold" FontStyle="Italic" Margin="6,14,0,2"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="IsoFieldResult">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
-                <Path Margin="4" Data="M 0 0 h 20 A 20 20 90 0 1 0 24 z" Fill="Gray"/>
-                <Path Margin="4" Data="M 0 0 h 16 A 16 16 90 0 1 0 18 z" Fill="DarkGray"/>
-                <Path Margin="4" Data="M 0 0 h 10 A 10 10 90 0 1 0 10 z" Fill="LightGray"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="ShowRebarsResult">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
-                <Rectangle Canvas.Left="8" Canvas.Top="6" Width="16" Height="21" Fill="LightGray" Stroke ="Black"/>
-                <Ellipse Canvas.Left="10" Canvas.Top="21" Width="4" Height="4" Fill="DarkGray" Stroke ="Black"/>
-                <Ellipse Canvas.Left="18" Canvas.Top="21" Width="4" Height="4" Fill="DarkGray" Stroke ="Black"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="FileOpen">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <Path Margin="4" Data="M 2 6 l 8 0 l 3 3 l 6 0 l 0 12 l -17 0 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
-                <Path Margin="4" Data="M 6 12 l 20 0 l -5 10 l -19 0 z" Fill="LightGray" Stroke="Black" StrokeThickness="1"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="FileSave">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <Rectangle Height="26" Width="26" Canvas.Left="3" Canvas.Top="3"
-                            Fill="DarkGray" Stroke="Black" StrokeThickness="1"
-                            RadiusX="2" RadiusY="2"/>
-                <Rectangle Height="8" Width="12" Canvas.Left="10" Canvas.Top="4"
-                            Fill="LightGray" Stroke="Black" StrokeThickness="0.5"/>
-                <Rectangle Height="6" Width="4" Canvas.Left="16" Canvas.Top="5"
-                            Fill="DarkGray" Stroke="Black" StrokeThickness="0.5"/>
-                <Rectangle Height="14" Width="22" Canvas.Left="5" Canvas.Top="13"
-                            Fill="LightGray" Stroke="Black" StrokeThickness="0.5"
-                            RadiusX="2" RadiusY="2"/>
-                <Line X1="7" Y1="18" X2="24" Y2="18" Stroke="Black" StrokeThickness="0.5"/>
-                <Line X1="7" Y1="21" X2="24" Y2="21" Stroke="Black" StrokeThickness="0.5"/>
-                <Line X1="7" Y1="24" X2="24" Y2="24" Stroke="Black" StrokeThickness="0.5"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="Settings">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <Path Margin="4" Data="M8,8 v-6 l-4,-4
-                      a7,7 90 0 1 7,10
-                      l12,12 v3 h-3 l-12,-12
-                      a7,7 90 0 1 -10,-7
-                      l4,4
-                      z" Fill="DarkGray" Stroke="Black"/>
-                <Ellipse Height="2" Width="2" Fill="White" Canvas.Left="24" Canvas.Top="24"/>
-                <Ellipse Height="5" Width="5" Fill="White" Canvas.Left="6" Canvas.Top="6"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="Diagrams">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <Line X1="2" Y1="16" X2="30" Y2="16" Stroke="Black" StrokeThickness="0.5"/>
-                <Line X1="16" Y1="2" X2="16" Y2="30" Stroke="Black" StrokeThickness="0.5"/>
-                <Path Margin="2" Data="M 0 21 l 6 0 l 9 -8 l 9 -8 l 4 0" Stroke="Black" StrokeThickness="1"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="NdmCrossSection">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <Rectangle Height="16" Width="8" Canvas.Left="12" Canvas.Top="12"
-                            Fill="DarkGray" Stroke="Black" StrokeThickness="1"/> 
-                <Rectangle Height="6" Width="16" Canvas.Left="8" Canvas.Top="7"
-                            Fill="LightGray" Stroke="Black" StrokeThickness="1"/>
-                <Line X1="2" Y1="16" X2="30" Y2="16" Stroke="Black" StrokeThickness="0.5"/>
-                <Line X1="16" Y1="2" X2="16" Y2="30" Stroke="Black" StrokeThickness="0.5"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="SelectAll">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="True" IsEnabled="False"/>
-                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="True" IsEnabled="False"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="DeSelectAll">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="False" IsEnabled="False"/>
-                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="False" IsEnabled="False"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-    
-    <DataTemplate x:Key="InvertSelection">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="True" IsEnabled="False"/>
-                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="False" IsEnabled="False"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-
-    <DataTemplate x:Key="AnalysisVersions">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <Ellipse Width="10" Height="10"  Fill="LightGray" Stroke="Black" StrokeThickness="1" Margin="18,18,0,0"/>
-                <Ellipse Width="12" Height="12"  Fill="LightGray" Stroke="Black" StrokeThickness="1" Margin="12,12,0,0"/>
-                <Ellipse Width="14" Height="14"  Fill="White" Stroke="Black" StrokeThickness="1" Margin="5,5,0,0"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
     <DataTemplate x:Key="RunAnalysis">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -586,43 +520,6 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-
-    <DataTemplate x:Key="EditAnalysis">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <Path Margin="4" Data="M 2 22 l 4 -6 l 15 -16 l 4 4 l -15 14 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-
-    <DataTemplate x:Key="Restore">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource Back}"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
-    <DataTemplate x:Key="Back">
-        <Path Margin="4" Data="M -1 18 l 2 -9 l 1 3 a 15 15 90 0 1 22 -3 l -2 4 a 13 13 90 0 0 -18 2 l 3 3 z" Fill="White" Stroke="Black"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="Forward">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <ContentControl ContentTemplate="{DynamicResource Back}">
-                    <ContentControl.RenderTransform>
-                        <TransformGroup>
-                            <TranslateTransform Y="-5"/>
-                            <ScaleTransform ScaleX="-1" CenterX="15" CenterY="8"/>
-                        </TransformGroup>
-                    </ContentControl.RenderTransform>
-                </ContentControl>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
     <DataTemplate x:Key="Renew">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -645,7 +542,23 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-
+    <DataTemplate x:Key="Report">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <ContentControl Canvas.Top="5" Canvas.Left="6" ContentTemplate="{DynamicResource Document}"/>
+                <ContentControl Canvas.Top="8" Canvas.Left="10" ContentTemplate="{DynamicResource Document}"/>
+                <ContentControl Canvas.Top="11" Canvas.Left="14" ContentTemplate="{DynamicResource Document}"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="Restore">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource Back}"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="RestoreAndDelete">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -654,22 +567,6 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-
-    <DataTemplate x:Key="StraightArrow">
-        <Path Margin="4" Data="M 5 13 l 0 -4 l 10 0 l 0 -3 l 5 5 l -5 5 l 0 -3 z" Fill="White" Stroke="Black"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="ExportToNewAnalysis">
-        <Canvas Style="{DynamicResource ButtonResultCanvas}">
-            <Canvas.Children>
-                <Path Margin="4" Data="M 12 22 l 0 -18 l 12 0 l 0 14 l -4 4 z" Fill="White" Stroke="Black"/>
-                <Path Margin="4" Data="M 20 22 l 0 -4 l 4 0 " Fill="White" Stroke="Black"/>
-                <TextBlock Margin="16, 4, 0, 0" Text="+-" FontSize="10"/>
-                <Path Margin="4" Data="M -1 18 l 0 -4 l 10 0 l 0 -3 l 5 5 l -5 5 l 0 -3 z" Fill="White" Stroke="Black"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
-
     <DataTemplate x:Key="Print">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -682,18 +579,83 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-
-    <DataTemplate x:Key="ExportToExcelButton">
-        <Button Style="{DynamicResource ToolButton}" Command="{Binding ExportToCSVCommand}">
-            <Button.ToolTip>
-                <uc:ButtonToolTipEh HeaderText="Export to *.csv"
-                                                IconContent="{StaticResource ExportToXLS}"
-                                                DescriptionText="Export all valid results to *.csv file"/>
-            </Button.ToolTip>
-            <Viewbox>
-                <ContentControl ContentTemplate="{DynamicResource ExportToXLS}"/>
-            </Viewbox>
-        </Button>
+    <DataTemplate x:Key="SelectAll">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <CheckBox Canvas.Left="13" Canvas.Top="13" IsChecked="True" IsEnabled="False"/>
+                <CheckBox Canvas.Left="2" Canvas.Top="2" IsChecked="True" IsEnabled="False"/>
+            </Canvas.Children>
+        </Canvas>
     </DataTemplate>
-
+    <DataTemplate x:Key="Settings">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Path Margin="4" Data="M8,8 v-6 l-4,-4
+                      a7,7 90 0 1 7,10
+                      l12,12 v3 h-3 l-12,-12
+                      a7,7 90 0 1 -10,-7
+                      l4,4
+                      z" Fill="DarkGray" Stroke="Black"/>
+                <Ellipse Height="2" Width="2" Fill="White" Canvas.Left="24" Canvas.Top="24"/>
+                <Ellipse Height="5" Width="5" Fill="White" Canvas.Left="6" Canvas.Top="6"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="ShowRebarsResult">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <Rectangle Canvas.Left="8" Canvas.Top="6" Width="16" Height="21" Fill="LightGray" Stroke ="Black"/>
+                <Ellipse Canvas.Left="10" Canvas.Top="21" Width="4" Height="4" Fill="DarkGray" Stroke ="Black"/>
+                <Ellipse Canvas.Left="18" Canvas.Top="21" Width="4" Height="4" Fill="DarkGray" Stroke ="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="StepSolution">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource CoordGrid}"/>
+                <Line X1="5" Y1="27" X2="26" Y2="6" Stroke="Black"/>
+                <Line X1="25.5" Y1="22" X2="25.5" Y2="6" Stroke="LightGray"/>
+                <Line X1="10" Y1="6" X2="25.5" Y2="6" Stroke="LightGray"/>
+                <Line X1="5.5" Y1="26" X2="5.5" Y2="22" Stroke="LightGray"/>
+                <Line X1="5.5" Y1="26" X2="10" Y2="26" Stroke="LightGray"/>
+                <Ellipse Margin="4, 25, 0, 0" Width="3" Height="3" Fill="Black"/>
+                <Ellipse Margin="11, 18, 0, 0" Width="3" Height="3" Fill="Black"/>
+                <Ellipse Margin="18, 11, 0, 0" Width="3" Height="3" Fill="Black"/>
+                <Ellipse Margin="24, 5, 0, 0" Width="3" Height="3" Fill="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="StraightArrow">
+        <Path Margin="4" Data="M 5 13 l 0 -4 l 10 0 l 0 -3 l 5 5 l -5 5 l 0 -3 z" Fill="White" Stroke="Black"/>
+    </DataTemplate>
+    <DataTemplate x:Key="Table">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <Line X1="4" Y1="13" X2="28" Y2="13" Stroke="Black"/>
+                <Line X1="4" Y1="16" X2="28" Y2="16" Stroke="Black"/>
+                <Line X1="4" Y1="19" X2="28" Y2="19" Stroke="DarkGray" StrokeThickness="0.5"/>
+                <Line X1="4" Y1="22" X2="28" Y2="22" Stroke="DarkGray" StrokeThickness="0.5"/>
+                <Line X1="4" Y1="25" X2="28" Y2="25" Stroke="DarkGray" StrokeThickness="0.5"/>
+                <Line X1="12" Y1="13" X2="12" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="17" Y1="13" X2="17" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="22" Y1="13" X2="22" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="ValuePointDiagram">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource CoordGrid}"/>
+                <Path Margin="4" Data="M 3 0 l 4 12 l 12 6 h 5" Stroke="Black"/>
+                <Rectangle Margin="15, 5, 0, 0" Width="10" Height="10" Fill="DarkGray"/>
+                <Ellipse Margin="23, 13, 0, 0" Width="3" Height="3" Fill="Black"/>
+                <Ellipse Margin="23, 4, 0, 0" Width="3" Height="3" Fill="Black"/>
+                <Ellipse Margin="14, 13, 0, 0" Width="3" Height="3" Fill="Black"/>
+                <Ellipse Margin="14, 4, 0, 0" Width="3" Height="3" Fill="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
 </ResourceDictionary>

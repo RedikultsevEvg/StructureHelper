@@ -2,21 +2,15 @@
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.AddMaterialWindow;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.Materials;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 
 namespace StructureHelper.Windows.ViewModels.Materials
 {
-    internal class HeadMaterialViewModel : OkCancelViewModelBase
+    public class HeadMaterialViewModel : OkCancelViewModelBase
     {
         IHeadMaterial headMaterial;
         HelperMaterialViewModel helperMaterialViewModel;

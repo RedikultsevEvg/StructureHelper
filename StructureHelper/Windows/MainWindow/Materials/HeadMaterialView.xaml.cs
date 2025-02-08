@@ -24,63 +24,60 @@ namespace StructureHelper.Windows.MainWindow.Materials
     public partial class HeadMaterialView : Window
     {
         IHeadMaterial headMaterial;
-        HeadMaterialViewModel vm;
+        HeadMaterialViewModel viewModel;
+        Dictionary<string, Binding> bindings = new();
+        IHelperMaterial helperMaterial;
+        string templateName;
+
+        public HeadMaterialView(HeadMaterialViewModel viewModel)
+        {
+            this.viewModel = viewModel;
+        }
+
 
         public HeadMaterialView(IHeadMaterial headMaterial)
         {
             InitializeComponent();
             this.headMaterial = headMaterial;
-            vm = new HeadMaterialViewModel(this.headMaterial)
+            helperMaterial = this.headMaterial.HelperMaterial;
+            viewModel = new HeadMaterialViewModel(this.headMaterial)
             {
                 ParentWindow = this
             };
-            DataContext = vm;
+            DataContext = viewModel;
             AddDataTemplates();
         }
 
         private void AddDataTemplates()
         {
             StpMaterialProperties.Children.Clear();
-            var bindings = new Dictionary<string, Binding>();
-            var helperMaterial = headMaterial.HelperMaterial;
-            string templateName;
+            GetByndingsByMaterial();
+            SetContentControls();
+        }
+
+        private void GetByndingsByMaterial()
+        {
             if (helperMaterial is IConcreteLibMaterial)
             {
-                templateName = "ConcreteMaterial";
-                var binding = new Binding();
-                binding.Source = vm.HelperMaterialViewModel;
-                bindings.Add(templateName, binding);
+                SetConcreteLibraryMaterial();
             }
             else if (helperMaterial is IReinforcementLibMaterial)
             {
-                templateName = "ReinforcementMaterial";
-                var binding = new Binding();
-                binding.Source = vm.HelperMaterialViewModel;
-                bindings.Add(templateName, binding);
+                SetReinForcementLibraryMaterial();
             }
             else if (helperMaterial is IElasticMaterial)
             {
-                templateName = "ElasticMaterial";
-                var binding = new Binding();
-                binding.Source = vm.HelperMaterialViewModel;
-                bindings.Add(templateName, binding);
-                if (helperMaterial is IFRMaterial)
-                {
-                    templateName = "CarbonProperties";
-                    var carbonBinding = new Binding();
-                    carbonBinding.Source = vm.HelperMaterialViewModel as FRViewModel;
-                    bindings.Add(templateName, carbonBinding);
-                }
-                templateName = "DirectSafetyFactors";
-                var frBinding = new Binding();
-                frBinding.Source = (vm.HelperMaterialViewModel as ElasticViewModel).SafetyFactors;
-                bindings.Add(templateName, frBinding);
+                SetElasticMaterial();
             }
             else
             {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Expected: {typeof(IHelperMaterial)}, but was: {helperMaterial.GetType()}");
+                string errorString = ErrorStrings.ObjectTypeIsUnknown + $". Expected: {typeof(IHelperMaterial)}, but was: {helperMaterial.GetType()}";
+                throw new StructureHelperException(errorString);
             }
-                
+        }
+
+        private void SetContentControls()
+        {
             foreach (var item in bindings)
             {
                 ContentControl contentControl = new ContentControl();
@@ -88,6 +85,38 @@ namespace StructureHelper.Windows.MainWindow.Materials
                 contentControl.SetBinding(ContentProperty, item.Value);
                 StpMaterialProperties.Children.Add(contentControl);
             }
+        }
+        private void SetElasticMaterial()
+        {
+            templateName = "ElasticMaterial";
+            var binding = new Binding();
+            binding.Source = viewModel.HelperMaterialViewModel;
+            bindings.Add(templateName, binding);
+            if (helperMaterial is IFRMaterial)
+            {
+                templateName = "CarbonProperties";
+                var carbonBinding = new Binding();
+                carbonBinding.Source = viewModel.HelperMaterialViewModel as FRViewModel;
+                bindings.Add(templateName, carbonBinding);
+            }
+            templateName = "DirectSafetyFactors";
+            var frBinding = new Binding();
+            frBinding.Source = (viewModel.HelperMaterialViewModel as ElasticViewModel).SafetyFactors;
+            bindings.Add(templateName, frBinding);
+        }
+        private void SetReinForcementLibraryMaterial()
+        {
+            templateName = "ReinforcementMaterial";
+            var binding = new Binding();
+            binding.Source = viewModel.HelperMaterialViewModel;
+            bindings.Add(templateName, binding);
+        }
+        private void SetConcreteLibraryMaterial()
+        {
+            templateName = "ConcreteMaterial";
+            var binding = new Binding();
+            binding.Source = viewModel.HelperMaterialViewModel;
+            bindings.Add(templateName, binding);
         }
     }
 }

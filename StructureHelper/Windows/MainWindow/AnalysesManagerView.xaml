@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow"
+        xmlns:enums="clr-namespace:StructureHelper.Infrastructure.Enums"
         xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:AnalysesManagerViewModel}"
@@ -51,7 +52,7 @@
                     </Button>
                 </ToolBar>
                 <ToolBar ToolTip="Cross-sections">
-                    <Button Style="{DynamicResource ToolButton}" Command="{Binding AnalysesLogic.AddAnalysisCommand}">
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding AnalysesLogic.AddAnalysisCommand}" CommandParameter="{x:Static enums:AnalysisTypes.CrossSection}">
                         <Button.ToolTip>
                             <uc:ButtonToolTipEh HeaderText="NDM Cross-Section Analysis"
                                                 IconContent="{StaticResource NdmCrossSection}"
@@ -59,6 +60,16 @@
                         </Button.ToolTip>
                         <Viewbox>
                             <ContentControl ContentTemplate="{DynamicResource NdmCrossSection}"/>
+                        </Viewbox>
+                    </Button>
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding AnalysesLogic.AddAnalysisCommand}" CommandParameter="{x:Static enums:AnalysisTypes.BeamShear}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Beam shear Analysis"
+                                                IconContent="{StaticResource BeamShear}"
+                                                DescriptionText="Extended analysis of end of reinforced concrete beams for shear strength"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{StaticResource BeamShear}"/>
                         </Viewbox>
                     </Button>
                 </ToolBar>

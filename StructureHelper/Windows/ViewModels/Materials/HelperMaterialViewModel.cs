@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.ViewModels.Materials
 {
-    internal abstract class HelperMaterialViewModel : ViewModelBase
+    public abstract class HelperMaterialViewModel : ViewModelBase
     {
     }
 }

@@ -1,10 +1,12 @@
 ﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.MainWindow.Analyses;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogic.Models.Analyses;
+using StructureHelperLogics.Models.Analyses;
 using StructureHelperLogics.Models.CrossSections;
 using System;
 using System.Collections.Generic;
@@ -36,7 +38,14 @@ namespace StructureHelper.Windows.MainWindow
             {
                 return addAnalyisCommand ??= new RelayCommand(obj =>
                 {
-                    AddCrossSectionNdmAnalysis();
+                    if (obj is AnalysisTypes.CrossSection)
+                    {
+                        AddCrossSectionNdmAnalysis();
+                    }
+                    else if (obj is AnalysisTypes.BeamShear)
+                    {
+                        AddBeamShearAnalysis();
+                    }
                     Refresh();
                 });
             }
@@ -181,10 +190,20 @@ namespace StructureHelper.Windows.MainWindow
         }
         private void AddCrossSectionNdmAnalysis()
         {
-            var analysis = new CrossSectionNdmAnalysis();
+            CrossSectionNdmAnalysis analysis = new();
             analysis.Name = "New NDM Analysis";
             analysis.Tags = "#New group";
             var visualAnalysis = new VisualAnalysis(analysis);
+            ProgramSetting.CurrentProject.VisualAnalyses.Add(visualAnalysis);
+            ProgramSetting.SetCurrentProjectToNotActual();
+        }
+
+        private void AddBeamShearAnalysis()
+        {
+            BeamShearAnalysis analysis = new(Guid.NewGuid());
+            analysis.Name = "New Beam Shear Analysis";
+            analysis.Tags = "#New group";
+            VisualAnalysis visualAnalysis = new(analysis);
             ProgramSetting.CurrentProject.VisualAnalyses.Add(visualAnalysis);
             ProgramSetting.SetCurrentProjectToNotActual();
         }
