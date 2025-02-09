@@ -12,6 +12,10 @@ namespace StructureHelperLogics.Models.BeamShears
     /// </summary>
     public interface IStirrup : ISaveable, ICloneable
     {
-        string Name { get; set; }
+        string? Name { get; set; }
+        /// <summary>
+        /// Distance from axis of comressed rebar to edge of comressed zone, m 
+        /// </summary>
+        double CompressedGap { get; set; }
     }
 }

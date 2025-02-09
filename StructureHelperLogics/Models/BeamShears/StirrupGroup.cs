@@ -11,6 +11,7 @@ namespace StructureHelperLogics.Models.BeamShears
         public Guid Id { get; }
         public string Name { get; set; }
         public List<IStirrup> Stirrups { get; } = new();
+        public double CompressedGap { get; set; }
 
         public double GetShearBearingCapacity(IInclinedSection inclinedSection)
         {

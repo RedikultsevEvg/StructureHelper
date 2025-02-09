@@ -11,6 +11,7 @@ namespace StructureHelperLogics.Models.BeamShears
         public Guid Id { get; }
         public string Name { get; set; } = string.Empty;
         public double StirrupDensity { get; set; }
+        public double CompressedGap { get; set; }
 
         public StirrupByDensity(Guid id)
         {

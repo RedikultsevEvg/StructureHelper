@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public class BeamSheaStrengthByStirrupDensity : IBeamShearStrenghLogic
+    public class BeamShearStrengthByStirrupDensityLogic : IBeamShearStrenghLogic
     {
         private readonly IStirrupEffectiveness stirrupEffectiveness;
         private readonly IStirrupByDensity stirrupByDensity;
         private readonly IInclinedSection inclinedSection;
 
 
-        public BeamSheaStrengthByStirrupDensity(
+        public BeamShearStrengthByStirrupDensityLogic(
             IStirrupEffectiveness stirrupEffectiveness,
             IStirrupByDensity stirrupByDensity,
             IInclinedSection inclinedSection,
@@ -40,8 +40,8 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger?.AddMessage("Calculation has been started", TraceLogStatuses.Debug);
             double crackLength = inclinedSection.EndCoord - inclinedSection.StartCoord;
             TraceLogger?.AddMessage($"Length of crack = {inclinedSection.EndCoord} - {inclinedSection.StartCoord} = {crackLength}(m)");
-            double maxCrackLength = stirrupEffectiveness.MaxCrackLengthFactor * inclinedSection.EffectiveDepth;
-            TraceLogger?.AddMessage($"Max length of crack = {stirrupEffectiveness.MaxCrackLengthFactor} * {inclinedSection.EffectiveDepth} = {maxCrackLength}(m)");
+            double maxCrackLength = stirrupEffectiveness.MaxCrackLengthRatio * inclinedSection.EffectiveDepth;
+            TraceLogger?.AddMessage($"Max length of crack = {stirrupEffectiveness.MaxCrackLengthRatio} * {inclinedSection.EffectiveDepth} = {maxCrackLength}(m)");
             double finalCrackLength = Math.Min(crackLength, maxCrackLength);
             TraceLogger?.AddMessage($"Length of crack = Min({crackLength}, {maxCrackLength}) = {finalCrackLength}(m)");
             double strength = stirrupEffectiveness.StirrupShapeFactor * stirrupEffectiveness.StirrupPlacementFactor * finalCrackLength * stirrupByDensity.StirrupDensity;

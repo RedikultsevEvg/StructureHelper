@@ -6,10 +6,22 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
+    /// <summary>
+    /// Properties of stirrups effectiveness
+    /// </summary>
     public interface IStirrupEffectiveness
     {
-        double MaxCrackLengthFactor { get; set; }
+        /// <summary>
+        /// Ratio of maximum crack length to effective depth 
+        /// </summary>
+        double MaxCrackLengthRatio { get; set; }
+        /// <summary>
+        /// Factor of effectiveness due to non-rectangle shape of stirrup
+        /// </summary>
         double StirrupShapeFactor { get; set; }
+        /// <summary>
+        /// Factor of difference between real and uniform distribution
+        /// </summary>
         double StirrupPlacementFactor { get; set; }
     }
 }

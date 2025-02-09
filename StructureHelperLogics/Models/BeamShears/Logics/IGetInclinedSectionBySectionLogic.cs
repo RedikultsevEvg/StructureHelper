@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public interface IInclinedSection : IEffectiveDepth
+    public interface IGetInclinedSectionLogic : ILogic
     {
-        double WebWidth { get; set; }
-        double StartCoord { get; set; }
-        double EndCoord { get; set; }
+        IInclinedSection GetInclinedSection();
     }
 }
