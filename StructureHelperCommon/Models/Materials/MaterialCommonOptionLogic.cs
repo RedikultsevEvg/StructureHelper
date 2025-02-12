@@ -19,12 +19,12 @@ namespace StructureHelperCommon.Models.Materials
 
         public void SetMaterialOptions(LCMB.IMaterialOptions materialOptions)
         {
-            materialOptions.InitModulus = options.MaterialEntity.InitModulus;
+            /*materialOptions.InitModulus = options.MaterialEntity.InitModulus;
             materialOptions.Strength = options.MaterialEntity.MainStrength;
             ProcessCodeType(materialOptions);
             ProcessLimitState(materialOptions);
             ProcessCalcTerm(materialOptions);
-            ProcessExternalFactors(materialOptions);
+            ProcessExternalFactors(materialOptions);*/
         }
 
         private void ProcessExternalFactors(IMaterialOptions materialOptions)

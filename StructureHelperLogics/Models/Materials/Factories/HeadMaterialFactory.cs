@@ -108,7 +108,7 @@ namespace StructureHelperLogics.Models.Materials
         private static IHeadMaterial GetFunction()
         {
             var material = new HeadMaterial();
-            material.HelperMaterial = new 
+            material.HelperMaterial = new ReinforcementLibMaterial();
             return material; 
         }
     }

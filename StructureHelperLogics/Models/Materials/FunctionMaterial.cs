@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperLogics.Models.Materials.Logics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Materials
 {
-    public class FunctionMaterial
+    public class FunctionMaterial : IFunctionMaterial
     {
-        private IElasticMaterialLogic elasticMaterialLogic => new ElasticMaterialLogic();
+        private IFunctionMaterialLogic functionMaterialLogic => new FunctionMaterialLogic();
         public double Modulus { get; set; }
         public double CompressiveStrength { get; set; }
         public double TensileStrength { get; set; }
@@ -29,14 +30,14 @@ namespace StructureHelperLogics.Models.Materials
         }
         public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
-            var material = elasticMaterialLogic.GetLoaderMaterial(this, limitState, calcTerm);
+            var material = functionMaterialLogic.GetLoaderMaterial(this, limitState, calcTerm);
             return material;
         }
 
         public object Clone()
         {
-            var newItem = new ElasticMaterial();
-            var updateStrategy = new ElasticUpdateStrategy();
+            var newItem = new FunctionMaterial();
+            var updateStrategy = new FunctionUpdateStrategy();
             updateStrategy.Update(newItem, this);
             return newItem;
         }
