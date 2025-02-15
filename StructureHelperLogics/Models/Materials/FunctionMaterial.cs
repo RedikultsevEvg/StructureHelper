@@ -1,5 +1,6 @@
 ﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperLogics.Models.Materials.Logics;
 using System;
@@ -14,9 +15,10 @@ namespace StructureHelperLogics.Models.Materials
     {
         private IFunctionMaterialLogic functionMaterialLogic => new FunctionMaterialLogic();
         public double Modulus { get; set; }
-        public double CompressiveStrength { get; set; }
-        public double TensileStrength { get; set; }
+        public double CompressiveStrength { get; set; } 
+        public double TensileStrength { get; set; } 
         public List<IMaterialSafetyFactor> SafetyFactors { get; } = new();
+        public IOneVariableFunction Function { get; set; }
 
         public Guid Id { get; }
 
@@ -33,7 +35,6 @@ namespace StructureHelperLogics.Models.Materials
             var material = functionMaterialLogic.GetLoaderMaterial(this, limitState, calcTerm);
             return material;
         }
-
         public object Clone()
         {
             var newItem = new FunctionMaterial();
@@ -41,7 +42,6 @@ namespace StructureHelperLogics.Models.Materials
             updateStrategy.Update(newItem, this);
             return newItem;
         }
-
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
             return GetLoaderMaterial(limitState, calcTerm);

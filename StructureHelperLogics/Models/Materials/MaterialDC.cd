@@ -47,7 +47,7 @@
       <FileName>Models\Materials\IConcreteLibMaterial.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StructureHelperLogics.Models.Materials.IElasticMaterial" Collapsed="true">
+  <Interface Name="StructureHelperLogics.Models.Materials.IElasticMaterial">
     <Position X="3.25" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAgAEAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -69,7 +69,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="StructureHelperLogics.Models.Materials.IHelperMaterial" Collapsed="true">
-    <Position X="4.25" Y="0.5" Width="1.5" />
+    <Position X="3.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAQAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Materials\IHelperMaterial.cs</FileName>
@@ -89,7 +89,7 @@
       <FileName>Models\Materials\IMaterialOptionLogic.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StructureHelperLogics.Models.Materials.IReinforcementLibMaterial" Collapsed="true">
+  <Interface Name="StructureHelperLogics.Models.Materials.IReinforcementLibMaterial">
     <Position X="5" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -106,7 +106,7 @@
   <Interface Name="StructureHelperLogics.Models.Materials.IFunctionMaterial">
     <Position X="0.75" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAgAEAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Materials\IFunctionMaterial.cs</FileName>
     </TypeIdentifier>
   </Interface>

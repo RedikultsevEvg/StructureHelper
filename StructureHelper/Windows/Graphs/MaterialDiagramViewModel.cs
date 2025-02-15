@@ -7,6 +7,7 @@ using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Services.ColorServices;
+using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -174,7 +175,7 @@ namespace StructureHelper.Windows.Graphs
                         for (double s = minValue; s < maxValue; s += step)
                         {
                             double strain = s * factor;
-                            double diagramValue = loaderMaterial.Diagram.Invoke(loaderMaterial.DiagramParameters, strain) * factor;
+                            double diagramValue = loaderMaterial.Diagram.Invoke(loaderMaterial.DiagramParameters, strain) * factor; //!!!!!!!!!!!!!!!!!!!!
                             StressEntity stressEntity = new()
                             {
                                 LimitState = limitState,

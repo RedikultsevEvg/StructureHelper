@@ -12,12 +12,14 @@ namespace StructureHelperLogics.Models.Materials.Logics
     internal class FunctionMaterialLogic : IFunctionMaterialLogic
     {
         private List<double> parameters;
+        private IFunctionMaterial functionMaterial;
         public IMaterial GetLoaderMaterial(IFunctionMaterial functionMaterial, LimitStates limitState, CalcTerms calcTerm, double factor = 1d)
         {
             IMaterial material = new Material();
-            /*material.InitModulus = functionMaterial.Modulus;
+            material.InitModulus = functionMaterial.Modulus;
             IFactorLogic factorLogic = new FactorLogic(functionMaterial.SafetyFactors);
             var factors = factorLogic.GetTotalFactor(limitState, calcTerm);
+            this.functionMaterial = functionMaterial;
             parameters = new List<double>()
             {
                 functionMaterial.Modulus,
@@ -25,17 +27,12 @@ namespace StructureHelperLogics.Models.Materials.Logics
                 functionMaterial.TensileStrength * factors.Tensile * factor
             };
             material.DiagramParameters = parameters;
-            material.Diagram = GetStressByStrain;*/
+            material.Diagram = GetStressByStrain;
             return material;
         }
         private double GetStressByStrain(IEnumerable<double> parameters1, double strain)
         {
-            double modulus = parameters.First();
-            double stress = modulus * strain;
-            double compressiveStrength = (-1d) * parameters.ElementAt(1);
-            double tensileStrength = parameters.ElementAt(2);
-            if (stress > tensileStrength || stress < compressiveStrength) { return 0d; }
-            else { return stress; }
+            return functionMaterial.Function.GetByX(strain);
         }
     }
 }
