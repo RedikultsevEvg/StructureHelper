@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
+    /// <summary>
+    /// Implement collection of shear beams load
+    /// </summary>
     public interface IHasBeamShearActions
     {
         List<IBeamShearAction> BeamShearActions { get; }

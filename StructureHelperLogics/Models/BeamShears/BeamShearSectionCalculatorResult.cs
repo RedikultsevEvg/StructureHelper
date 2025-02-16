@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StructureHelperLogics.Models.BeamShears
+{
+    public class BeamShearSectionCalculatorResult : IBeamShearSectionCalculatorResult
+    {
+        public bool IsValid { get; set; }
+        public string? Description { get; set; }
+    }
+}

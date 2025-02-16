@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperCommon.Models.Forces
+namespace StructureHelperLogics.Models.BeamShears
 {
-    public interface IBeamShearAction : IAction
+    public interface IHasStirrups
     {
-
+        List<IStirrup> Stirrups { get; }
     }
 }

@@ -1,11 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -17,6 +12,8 @@ namespace StructureHelperLogics.Models.BeamShears
         private double width;
         private double depth;
         private double effectiveDepth;
+        private InclinedSection? inclinedSection;
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public GetInclinedSectionLogic(
             IBeamShearSection beamShearSection,
@@ -31,14 +28,26 @@ namespace StructureHelperLogics.Models.BeamShears
             Check();
         }
 
-        public GetInclinedSectionLogic(IShiftTraceLogger? traceLogger)
+        public IInclinedSection GetInclinedSection()
         {
-            TraceLogger = traceLogger;
+            GetShapeParameters();
+            GetSection();
+            return inclinedSection;
         }
 
-        public IShiftTraceLogger? TraceLogger { get; set; }
-
-        public IInclinedSection GetInclinedSection()
+        private void GetSection()
+        {
+            effectiveDepth = depth - beamShearSection.CenterCover;
+            inclinedSection = new()
+            {
+                FullDepth = depth,
+                EffectiveDepth = effectiveDepth,
+                StartCoord = startCoord,
+                EndCoord = endCoord,
+                WebWidth = width
+            };
+        }
+        private void GetShapeParameters()
         {
             if (beamShearSection.Shape is IRectangleShape rectangle)
             {
@@ -54,17 +63,7 @@ namespace StructureHelperLogics.Models.BeamShears
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(beamShearSection.Shape));
             }
-            effectiveDepth = depth - beamShearSection.CenterCover;
-            InclinedSection inclinedSection = new()
-            {
-                EffectiveDepth = effectiveDepth,
-                StartCoord = startCoord,
-                EndCoord = endCoord,
-                WebWidth = width
-            };
-            return inclinedSection;
         }
-
         private void Check()
         {
             if (beamShearSection is null)

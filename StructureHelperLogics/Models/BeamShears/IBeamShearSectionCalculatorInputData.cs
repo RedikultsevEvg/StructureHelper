@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public interface IBeamShearRepository : ISaveable, IHasBeamShearActions, IHasCalculators, IHasBeamShearSections, IHasStirrups, ICloneable
+    public interface IBeamShearSectionCalculatorInputData : IInputData, ISaveable
     {
-        
+        IBeamShearSection? BeamShearSection { get; set; }
+        IBeamShearAction? BeamShearAction { get; set; }
+        IStirrup? Stirrup { get; set; }
     }
 }

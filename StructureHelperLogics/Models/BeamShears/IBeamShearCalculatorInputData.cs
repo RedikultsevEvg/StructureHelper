@@ -1,6 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Forces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public interface IBeamShearRepository : ISaveable, IHasBeamShearActions, IHasCalculators, IHasBeamShearSections, IHasStirrups, ICloneable
+    public interface IBeamShearCalculatorInputData : ISaveable, IInputData, IHasBeamShearActions, IHasBeamShearSections, IHasStirrups
     {
         
     }
