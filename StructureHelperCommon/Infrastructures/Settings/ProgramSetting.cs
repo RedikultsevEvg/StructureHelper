@@ -1,10 +1,12 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Codes;
 using StructureHelperCommon.Models.Codes.Factories;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Models.Projects;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using System.Windows.Documents;
@@ -90,5 +92,6 @@ namespace StructureHelperCommon.Infrastructures.Settings
                 SubVersionNumber = 0
             };
         }
+        public static ObservableCollection<IOneVariableFunction> Functions { get; set; }
     }
 }

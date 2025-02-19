@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperLogics.Models.Materials.Logics;
 using System;
@@ -28,7 +29,7 @@ namespace StructureHelperLogics.Models.Materials
         }
         public FunctionMaterial() : this(Guid.NewGuid())
         {
-
+            Function = ProgramSetting.Functions.First();
         }
         public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {

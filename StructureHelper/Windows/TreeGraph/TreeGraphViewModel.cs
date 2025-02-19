@@ -29,6 +29,7 @@ namespace StructureHelper.Windows.TreeGraph
         private RelayCommand _scaleCommand;
         private RelayCommand _limCommand;
         private RelayCommand _deleteCommand;
+        private RelayCommand _saveCommand;
         private TreeGraphView _treeGraphView_win;
         private IOneVariableFunction selectedFunction;
         public IOneVariableFunction SelectedFuntion
@@ -95,6 +96,10 @@ namespace StructureHelper.Windows.TreeGraph
         public ICommand DeleteCommand
         {
             get => _deleteCommand ??= new RelayCommand(o => Delete());
+        }
+        public ICommand SaveCommand
+        {
+            get => _saveCommand ??= new RelayCommand(o => Save());
         }
         public TreeGraphViewModel(IOneVariableFunction rootFunction)
         {
@@ -231,6 +236,10 @@ namespace StructureHelper.Windows.TreeGraph
             GraphService.SetVisualProps(LineSeries, VisualProps);
             SeriesCollection = new SeriesCollection();
             SeriesCollection.Add(LineSeries);
+        }
+        public void Save()
+        {
+            
         }
     }
 }

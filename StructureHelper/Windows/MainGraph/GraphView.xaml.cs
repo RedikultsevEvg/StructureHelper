@@ -38,11 +38,13 @@ namespace StructureHelper.Windows.MainGraph
         {
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(FunctionList.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription(GROUP_FACTOR);
+            view.GroupDescriptions.Clear();
             view.GroupDescriptions.Add(groupDescription);
         }
         public void Refresh()
         {
             FunctionList.Items.Refresh();
         }
+
     }
 }
