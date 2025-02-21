@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Codes;
 using StructureHelperCommon.Models.Codes.Factories;
+using StructureHelperCommon.Models.Functions;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Models.Projects;
@@ -41,7 +42,8 @@ namespace StructureHelperCommon.Infrastructures.Settings
         public static LimitStatesList LimitStatesList => new LimitStatesList();
         public static CalcTermList CalcTermList => new CalcTermList();
         public static List<ICodeEntity> CodesList
-        { get
+        {
+            get
             {
                 codesList ??= CodeFactory
                     .GetCodeEntities()
@@ -92,6 +94,33 @@ namespace StructureHelperCommon.Infrastructures.Settings
                 SubVersionNumber = 0
             };
         }
-        public static ObservableCollection<IOneVariableFunction> Functions { get; set; }
+        public static ObservableCollection<IOneVariableFunction> Functions { get; set; } = new ObservableCollection<IOneVariableFunction>
+        {
+            new TableFunction()
+            {
+                Name = "Табличная системная функция",
+                Table = new List<GraphPoint>()
+                {
+                    new GraphPoint(1, 1),
+                    new GraphPoint(2, 2),
+                    new GraphPoint(3, 3),
+                    new GraphPoint(4, 4),
+                    new GraphPoint(5, 5),
+                    new GraphPoint(6, 6),
+                },
+                IsUser = false,
+                Description = "Пример описания",
+            },
+            new FormulaFunction()
+            {
+                Name = "Формульная системная функция",
+                Formula = "x^2",
+                Step = 100,
+                MinArg = 1,
+                MaxArg = 1000,
+                IsUser = false,
+                Description = "Пример описания",
+            }
+        };
     }
 }

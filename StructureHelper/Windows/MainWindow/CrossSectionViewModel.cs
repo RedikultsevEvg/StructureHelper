@@ -77,7 +77,6 @@ namespace StructureHelper.Windows.MainWindow
         public ICommand LeftButtonDown { get; }
         public ICommand LeftButtonUp { get; }
         public ICommand MovePrimitiveToGravityCenterCommand { get; }
-
         public ICommand ClearSelection { get; }
         public ICommand OpenMaterialCatalog { get; }
         public ICommand OpenMaterialCatalogWithSelection { get; }

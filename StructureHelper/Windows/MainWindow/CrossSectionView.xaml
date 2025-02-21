@@ -161,7 +161,7 @@
                     <Image Source="/Windows/MainWindow/GlassMaterial32.png"/>
                 </Button>
                 <Button Style="{StaticResource ToolButton}"  Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Function}" ToolTip="Add Glass Fiber Material">
-                    <Image Source="/Windows/MainWindow/Run.png"/>
+                    <Image Source="/Windows/MainWindow/FunctionMaterial.png"/>
                 </Button>
                 <Button Style="{StaticResource ToolButton}" Command="{Binding EditMaterialsCommand}" ToolTip="Show Materials">
                     <Image Source="/Windows/MainWindow/Materials32.png"/>

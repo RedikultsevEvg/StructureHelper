@@ -19,6 +19,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public bool IsUser { get; set; }
         public string Group { get; set; }
         public FunctionType Type { get; set; }
+        public FunctionPurpose FunctionPurpose { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public List<GraphPoint> Table { get; set; }

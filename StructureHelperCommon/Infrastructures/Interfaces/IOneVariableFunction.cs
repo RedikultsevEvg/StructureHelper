@@ -20,6 +20,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public bool IsUser { get; set; }
         public string Group { get; set; }
         public FunctionType Type { get; set; }
+        public FunctionPurpose FunctionPurpose { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public double MinArg { get; set; }
@@ -27,6 +28,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public Color Color { get; set; }
         public string Trace { get; set; }
         public ObservableCollection<IOneVariableFunction> Functions { get; set; }
+
         public bool Check();
         public double GetByX(double xValue);
         public GraphSettings GetGraphSettings();

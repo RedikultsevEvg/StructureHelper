@@ -27,6 +27,7 @@ namespace StructureHelperCommon.Models.Functions
         public const string GROUP_TYPE_2 = "User function";
         public bool IsUser { get; set; }
         public FunctionType Type { get; set; }
+        public FunctionPurpose FunctionPurpose { get; set; }
         public string Group { get; set; }
         public string Name { get; set; }
         public string Description { get ; set; }

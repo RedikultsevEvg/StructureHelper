@@ -39,6 +39,7 @@
     <None Remove="Windows\MainWindow\Delete.png" />
     <None Remove="Windows\MainWindow\Edit.png" />
     <None Remove="Windows\MainWindow\ElasticMaterial32.png" />
+    <None Remove="Windows\MainWindow\FunctionMaterial.png" />
     <None Remove="Windows\MainWindow\GetY.png" />
     <None Remove="Windows\MainWindow\GlassMaterial32.png" />
     <None Remove="Windows\MainWindow\LimX.png" />
@@ -124,6 +125,7 @@
     <Resource Include="Windows\MainWindow\Rebar32.png" />
     <Resource Include="Windows\MainWindow\Rectangle32.png" />
     <Resource Include="Windows\MainWindow\RectangleColumn32.png" />
+    <Resource Include="Windows\MainWindow\FunctionMaterial.png" />
     <Resource Include="Windows\MainWindow\RFMaterial32.png" />
     <Resource Include="Windows\MainWindow\Run.png" />
     <Resource Include="Windows\MainWindow\ScaleX.png" />

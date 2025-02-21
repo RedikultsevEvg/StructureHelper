@@ -5,6 +5,7 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Codes;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Windows;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -107,6 +108,8 @@ namespace StructureHelperLogics.Models.Materials
         }
         private static IHeadMaterial GetFunction()
         {
+            var functionSelectionView = new FunctionSelectionView();
+            functionSelectionView.ShowDialog();
             var material = new HeadMaterial();
             material.HelperMaterial = new FunctionMaterial() { Modulus = 2e11d, CompressiveStrength = 4e8d, TensileStrength = 4e8d };
             return material; 

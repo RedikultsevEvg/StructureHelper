@@ -22,7 +22,7 @@ namespace StructureHelper.Windows.TreeGraph
         private LineSeries lineSeries;
         private SeriesCollection seriesCollection;
         private List<string> labels;
-        readonly ObservableCollection<TreeViewItemViewModel> _firstGeneration;
+        readonly ObservableCollection<TreeViewItemViewModel> _tree;
         readonly TreeViewItemViewModel _rootFunction;
         readonly ICommand _searchCommand;
         private RelayCommand _getYCommand;
@@ -76,9 +76,9 @@ namespace StructureHelper.Windows.TreeGraph
             get => _treeGraphView_win;
             set => _treeGraphView_win = value; 
         }
-        public ObservableCollection<TreeViewItemViewModel> FirstGeneration
+        public ObservableCollection<TreeViewItemViewModel> Tree
         {
-            get => _firstGeneration;
+            get => _tree;
         }
         public GraphVisualProps VisualProps { get; } = new GraphVisualProps();
         public ICommand GetYCommand
@@ -105,7 +105,7 @@ namespace StructureHelper.Windows.TreeGraph
         {
             _rootFunction = new TreeViewItemViewModel(rootFunction, this);
 
-            _firstGeneration = new ObservableCollection<TreeViewItemViewModel>
+            _tree = new ObservableCollection<TreeViewItemViewModel>
                 (
                     new ObservableCollection<TreeViewItemViewModel>()
                     {

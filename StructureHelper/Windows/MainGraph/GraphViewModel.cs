@@ -118,41 +118,7 @@ namespace StructureHelper.Windows.MainGraph
         }
         public GraphViewModel()
         {
-            Functions = null;
-            if (ProgramSetting.Functions is null)
-            {
-                //Пример 1
-                Functions = new ObservableCollection<IOneVariableFunction>();
-                var f1 = new TableFunction();
-                f1.Name = "Табличная системная функция";
-                f1.Table = new List<GraphPoint>()
-                {
-                    new GraphPoint(1, 1),
-                    new GraphPoint(2, 2),
-                    new GraphPoint(3, 3),
-                    new GraphPoint(4, 4),
-                    new GraphPoint(5, 5),
-                    new GraphPoint(6, 6),
-                };
-                f1.IsUser = false;
-                f1.Description = "Описание табличной системной функции";
-                //Пример 2
-                var f2 = new FormulaFunction();
-                f2.Name = "Формульная системная функция";
-                f2.Formula = "x^2";
-                f2.Step = 100;
-                f2.MinArg = 1;
-                f2.MaxArg = 1000;
-                f2.IsUser = false;
-                f2.Description = "Описание формульной системной функции";
-
-                Functions.Add(f1);
-                Functions.Add(f2);
-            }
-            else
-            {
-                Functions = ProgramSetting.Functions;
-            }
+            Functions = ProgramSetting.Functions;
         }
         private void AddTable()
         {
@@ -242,10 +208,6 @@ namespace StructureHelper.Windows.MainGraph
             {
                 return;
             }
-
-            //var testFunction = Database.GetFunctionTree();
-            //var treeGraphVM = new TreeGraphViewModel(testFunction);
-
             var treeGraphVM = new TreeGraphViewModel(SelectedFuntion);
             var treeGraph = new TreeGraphView();
             treeGraph.DataContext = treeGraphVM;
