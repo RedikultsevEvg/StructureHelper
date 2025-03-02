@@ -1,7 +1,7 @@
 ﻿using StructureHelperCommon.Models.Materials.Libraries;
 using System.Collections.Generic;
 
-namespace StructureHelperLogics.Models.Materials
+namespace StructureHelperCommon.Models.Materials
 {
     public interface IHasSafetyFactors
     {

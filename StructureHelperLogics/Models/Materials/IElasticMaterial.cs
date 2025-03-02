@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models.Materials.Libraries;
+﻿using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Materials.Libraries;
 using System;
 using System.Collections.Generic;
 using System.Linq;

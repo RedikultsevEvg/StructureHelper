@@ -13,5 +13,6 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
     public interface IHasBeamShearActions
     {
         List<IBeamShearAction> BeamShearActions { get; }
+        void DeleteAction(IBeamShearAction action);
     }
 }

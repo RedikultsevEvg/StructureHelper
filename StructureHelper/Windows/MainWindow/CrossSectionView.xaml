@@ -15,7 +15,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:CrossSectionViewModel}"
-        Title="StructureHelper" Height="700" Width="1000" MinHeight="400" MinWidth="600" WindowStartupLocation="CenterScreen">
+        Title="Cross-Section NDM Analysis" Height="700" Width="1000" MinHeight="400" MinWidth="600" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <DataTemplate DataType="{x:Type dataContexts:RectangleViewPrimitive}">
             <dataTemplates:RectangleTemplate/>
@@ -27,48 +27,6 @@
             <dataTemplates:EllipseTemplate/>
         </DataTemplate>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <ContextMenu x:Key="EditCopyDelete">
-            <MenuItem Header="Edit" Command="{Binding Edit}">
-                <MenuItem.Icon>
-                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Edit.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Copy" Command="{Binding Copy}">
-                <MenuItem.Icon>
-                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Copy.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Delete" Command="{Binding Delete}">
-                <MenuItem.Icon>
-                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Delete.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-        </ContextMenu>
-        <ContextMenu x:Key="AnalisesCRUD">
-            <MenuItem Header="Run" Command="{Binding Run}">
-                <MenuItem.Icon>
-                    <Viewbox Width="16" Height="16">
-                        <ContentControl ContentTemplate="{DynamicResource CalculatorRun}"/>
-                    </Viewbox>
-                </MenuItem.Icon>
-            </MenuItem>
-            <Separator/>
-            <MenuItem Header="Edit" Command="{Binding Edit}">
-                <MenuItem.Icon>
-                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Edit.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Copy" Command="{Binding Copy}">
-                <MenuItem.Icon>
-                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Copy.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Delete" Command="{Binding Delete}">
-                <MenuItem.Icon>
-                    <Image Width="16" Height="16" Source="/Windows/MainWindow/Delete.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-        </ContextMenu>
     </Window.Resources>
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
@@ -287,7 +245,7 @@
                             </Expander.Header>
                             <Expander.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="Add" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.ForceCalculator}">
+                                    <MenuItem Header="Add">
                                         <MenuItem Header="Add Force Calculator" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.ForceCalculator}">
                                             <MenuItem.Icon>
                                                 <Image Width="16" Height="16" Source="/Windows/MainWindow/Calculator32.png" />

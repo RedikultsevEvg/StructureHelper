@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperLogics.Models.Materials;
 
 namespace StructureHelperTests.UnitTests.MaterialTests

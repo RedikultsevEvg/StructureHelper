@@ -1,0 +1,99 @@
+﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.Enums;
+using StructureHelper.Windows.ViewModels;
+using StructureHelper.Windows.ViewModels.Errors;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Calculators;
+using StructureHelperLogics.Models.BeamShears;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Input;
+
+namespace StructureHelper.Windows.BeamShears
+{
+    public class BeamShearCalculatorsViewModel : SelectItemVM<ICalculator>
+    {
+        private object parameter;
+        private readonly IBeamShearRepository shearRepository;
+        private RelayCommand runCommand;
+
+        public ICommand Run
+        {
+            get
+            {
+                return runCommand ??
+                    (
+                    runCommand = new RelayCommand(param =>
+                    {
+                        RunMethod(param);
+                    }
+                    ));
+            }
+        }
+
+        public override void AddMethod(object parameter)
+        {
+            this.parameter = parameter;
+            SafetyProcessor.RunSafeProcess(AddCalculator, "Error of creating calculator");
+        }
+
+
+        public override void EditMethod(object parameter)
+        {
+            SafetyProcessor.RunSafeProcess(EditCalculator, $"Error of calculator {SelectedItem.Name}");
+            base.EditMethod(parameter);
+        }
+
+        public BeamShearCalculatorsViewModel(IBeamShearRepository shearRepository) : base(shearRepository.Calculators)
+        {
+            this.shearRepository = shearRepository;
+        }
+        private void AddCalculator()
+        {
+            if (parameter is CalculatorTypes.BeamShearCalculator)
+            {
+                NewItem  = new BeamShearCalculator(Guid.NewGuid())
+                {
+                    Name = "New shear calculator",
+                    TraceLogger = new ShiftTraceLogger()
+                };
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(parameter));
+            }
+            base.AddMethod(parameter);
+        }
+        private void EditCalculator()
+        {
+            if (SelectedItem is IBeamShearCalculator beamShearCalculator)
+            {
+                //to do
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));
+            }
+        }
+        private void RunMethod(object param)
+        {
+            SafetyProcessor.RunSafeProcess(RunCalculator, $"Error of calculator {SelectedItem.Name}");
+        }
+        private void RunCalculator()
+        {
+            if (SelectedItem is IBeamShearCalculator beamShearCalculator)
+            {
+                beamShearCalculator.Run();
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));
+            }
+        }
+    }
+}

@@ -6,6 +6,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/CommonEnums.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/ContextMenus.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Styles.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/DataGridStyles.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/ButtonStyles.xaml"/>

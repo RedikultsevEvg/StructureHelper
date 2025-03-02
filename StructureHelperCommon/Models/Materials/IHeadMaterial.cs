@@ -1,7 +1,7 @@
 ﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperLogics.Models.Materials;
+using StructureHelperCommon.Models.Materials;
 using System;
 using System.Windows.Media;
 

@@ -26,5 +26,19 @@ namespace StructureHelperLogics.Models.BeamShears
             Id = id;
         }
 
+        public void DeleteAction(IBeamShearAction action)
+        {
+            //nothing to do
+        }
+
+        public void DeleteSection(IBeamShearSection section)
+        {
+            //nothing to do
+        }
+
+        public void DeleteStirrup(IStirrup stirrup)
+        {
+            //nothing to do
+        }
     }
 }

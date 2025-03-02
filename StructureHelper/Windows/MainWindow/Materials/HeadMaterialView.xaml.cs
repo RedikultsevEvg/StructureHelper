@@ -1,6 +1,7 @@
 ﻿using StructureHelper.Models.Materials;
 using StructureHelper.Windows.ViewModels.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;

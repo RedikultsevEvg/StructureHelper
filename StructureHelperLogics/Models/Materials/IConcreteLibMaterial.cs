@@ -6,8 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
+
 namespace StructureHelperLogics.Models.Materials
 {
+    /// <summary>
+    /// Implements logic for library concrete material
+    /// </summary>
     public interface IConcreteLibMaterial : ILibMaterial, ICrackedMaterial
     {
         /// <summary>

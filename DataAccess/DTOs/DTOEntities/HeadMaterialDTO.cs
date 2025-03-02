@@ -2,13 +2,7 @@
 using Newtonsoft.Json;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperLogics.Models.Materials;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StructureHelperCommon.Models.Materials;
 using System.Windows.Media;
 
 namespace DataAccess.DTOs

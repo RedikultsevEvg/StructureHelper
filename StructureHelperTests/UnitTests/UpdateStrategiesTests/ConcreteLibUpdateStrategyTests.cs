@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperLogics.Models.Materials;
 using System;
 

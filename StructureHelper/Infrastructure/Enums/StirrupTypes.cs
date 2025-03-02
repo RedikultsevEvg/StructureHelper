@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Infrastructure.Enums
 {
-    public enum CalculatorTypes
+    public enum StirrupTypes
     {
-        ForceCalculator,
-        LimitCurveCalculator,
-        CrackCalculator,
-        FireCalculator,
-        BeamShearCalculator
+        Density,
+        UniformRebar
     }
 }

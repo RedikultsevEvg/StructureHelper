@@ -9,5 +9,6 @@ namespace StructureHelperLogics.Models.BeamShears
     public interface IHasBeamShearSections
     {
         List<IBeamShearSection> ShearSections { get; }
+        void DeleteSection(IBeamShearSection section);
     }
 }

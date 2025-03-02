@@ -1,14 +1,10 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
-using StructureHelperLogics.Models.CrossSections;
-using StructureHelperLogics.Models.Materials;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StructureHelperCommon.Models.Materials;
+
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
 
 namespace DataAccess.DTOs
 {

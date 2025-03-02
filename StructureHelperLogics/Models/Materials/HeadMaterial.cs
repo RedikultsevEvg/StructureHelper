@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-using LoaderCalculator.Data.Materials;
+﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.Materials;
+using System.ComponentModel;
+using System.Windows.Media;
 
 namespace StructureHelper.Models.Materials
 {

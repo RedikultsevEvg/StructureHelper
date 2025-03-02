@@ -269,6 +269,20 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+    <DataTemplate x:Key="DistributedLoad">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="4" Y1="10" X2="28" Y2="10" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="4" Y1="10" X2="4" Y2="20" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="28" Y1="10" X2="28" Y2="20" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="2" Y1="16" X2="4" Y2="20" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="6" Y1="16" X2="4" Y2="20" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="26" Y1="16" X2="28" Y2="20" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="30" Y1="16" X2="28" Y2="20" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="2" Y1="20" X2="30" Y2="20" Stroke="Black" StrokeThickness="2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="Document">
         <Canvas>
             <Canvas.Children>
@@ -601,6 +615,25 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+    <DataTemplate x:Key="ShearRectangleSection">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Rectangle Canvas.Left="5" Canvas.Top="3" Width="22" Height="26" Fill="LightGray" Stroke ="Black"/>
+                <Ellipse Canvas.Left="10" Canvas.Top="21" Width="4" Height="4" Fill="DarkGray" Stroke ="Black"/>
+                <Ellipse Canvas.Left="18" Canvas.Top="21" Width="4" Height="4" Fill="DarkGray" Stroke ="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="ShearSectionTemplate">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Rectangle Canvas.Left="5" Canvas.Top="3" Width="22" Height="26" Fill="LightGray" Stroke ="Black"/>
+                <Rectangle Canvas.Left="8" Canvas.Top="6" Width="16" Height="20" Fill="LightGray" Stroke ="Black" RadiusX="2" RadiusY="2"/>
+                <Ellipse Canvas.Left="10" Canvas.Top="21" Width="4" Height="4" Fill="DarkGray" Stroke ="Black"/>
+                <Ellipse Canvas.Left="18" Canvas.Top="21" Width="4" Height="4" Fill="DarkGray" Stroke ="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="ShowRebarsResult">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -624,6 +657,30 @@
                 <Ellipse Margin="11, 18, 0, 0" Width="3" Height="3" Fill="Black"/>
                 <Ellipse Margin="18, 11, 0, 0" Width="3" Height="3" Fill="Black"/>
                 <Ellipse Margin="24, 5, 0, 0" Width="3" Height="3" Fill="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="StirrupDensity">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="2" Y1="8" X2="30" Y2="8" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="2" Y1="24" X2="30" Y2="24" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="4" Y1="6" X2="4" Y2="26" Stroke="Black" StrokeThickness="0.6"/>
+                <TextBlock Margin="7,9" Text="Den" FontWeight="Bold" FontSize="10" Background="White"/>
+                <Line X1="28" Y1="6" X2="28" Y2="26" Stroke="Black" StrokeThickness="0.6"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="StirrupRebars">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="2" Y1="8" X2="30" Y2="8" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="2" Y1="24" X2="30" Y2="24" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="4" Y1="6" X2="4" Y2="26" Stroke="Black" StrokeThickness="0.6"/>
+                <Line X1="10" Y1="6" X2="10" Y2="26" Stroke="Black" StrokeThickness="0.6"/>
+                <Line X1="16" Y1="6" X2="16" Y2="26" Stroke="Black" StrokeThickness="0.6"/>
+                <Line X1="22" Y1="6" X2="22" Y2="26" Stroke="Black" StrokeThickness="0.6"/>
+                <Line X1="28" Y1="6" X2="28" Y2="26" Stroke="Black" StrokeThickness="0.6"/>
             </Canvas.Children>
         </Canvas>
     </DataTemplate>

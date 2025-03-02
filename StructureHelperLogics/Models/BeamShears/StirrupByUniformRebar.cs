@@ -12,6 +12,7 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         /// <inheritdoc/>
         public Guid Id { get; }
+
         public string? Name { get; set; }
         /// <inheritdoc/>
         public IReinforcementLibMaterial Material { get; set; }
@@ -24,6 +25,10 @@ namespace StructureHelperLogics.Models.BeamShears
         /// <inheritdoc/>
         public double CompressedGap { get; set; } = 0;
 
+        public StirrupByUniformRebar(Guid id)
+        {
+            Id = id;
+        }
 
         public object Clone()
         {

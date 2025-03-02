@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Materials;
 using System;
@@ -18,11 +19,11 @@ namespace StructureHelperLogics.Models.BeamShears
         /// <summary>
         /// Concrete of cross-section
         /// </summary>
-        IConcreteLibMaterial Material { get; set; }
+        IMaterialStrength MaterialStrength { get;}
         /// <summary>
         /// Shape of cross-section
         /// </summary>
-        IShape Shape {get;}
+        IShape Shape { get; }
         /// <summary>
         /// Distance from edge of tension zone to center of the nearest reinforcement bar
         /// </summary>

@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
+using StructureHelper.Windows.BeamShears;
 using StructureHelper.Windows.MainWindow.Analyses;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
@@ -7,6 +8,7 @@ using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogic.Models.Analyses;
 using StructureHelperLogics.Models.Analyses;
+using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.Models.CrossSections;
 using System;
 using System.Collections.Generic;
@@ -220,10 +222,21 @@ namespace StructureHelper.Windows.MainWindow
             {
                 ProcessCrossSection(crossSection);
             }
+            else if (version.AnalysisVersion is IBeamShear beamShear)
+            {
+                ProcessBeamShear(beamShear);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(version));
             }
+        }
+
+        private void ProcessBeamShear(IBeamShear beamShear)
+        {
+            BeamShearViewModel viewModel = new BeamShearViewModel(beamShear);
+            var window = new BeamShearView(viewModel);
+            window.ShowDialog();
         }
 
         private void ProcessCrossSection(ICrossSection crossSection)

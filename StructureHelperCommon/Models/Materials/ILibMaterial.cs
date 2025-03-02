@@ -1,18 +1,20 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
-using StructureHelperLogics.Models.Materials;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace StructureHelperLogics.Models.Materials
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
+namespace StructureHelperCommon.Models.Materials
 {
-    public interface ILibMaterial : IHelperMaterial
+    /// <summary>
+    /// Implements logic for library material
+    /// </summary>
+    public interface ILibMaterial : IHelperMaterial, IMaterialStrength
     {
         ILibMaterialEntity MaterialEntity { get; set; }
         IMaterialLogic MaterialLogic { get; set; }
         List<IMaterialLogic> MaterialLogics { get; }
-        (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm);
     }
 }

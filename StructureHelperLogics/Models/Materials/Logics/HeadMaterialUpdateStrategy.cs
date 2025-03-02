@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.Materials

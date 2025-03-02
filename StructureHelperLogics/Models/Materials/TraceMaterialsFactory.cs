@@ -1,17 +1,12 @@
-﻿using LoaderCalculator.Data.Materials;
-using StructureHelper.Models.Materials;
+﻿using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Models.Tables;
-using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-using System.Windows.Shapes;
+
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
 
 namespace StructureHelperLogics.Models.Materials
 {

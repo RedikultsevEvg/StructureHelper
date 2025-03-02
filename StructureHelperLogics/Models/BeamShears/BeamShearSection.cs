@@ -1,10 +1,6 @@
-﻿using StructureHelperCommon.Models.Shapes;
+﻿using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.Materials;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -12,16 +8,17 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         public Guid Id { get; }
         public string? Name { get; set; }
-        public IConcreteLibMaterial Material { get; set; }
-
-        public IShape Shape { get; }
+        /// <inheritdoc/>
+        public IMaterialStrength MaterialStrength { get; } = new MaterialStrengthByLibMaterial(Guid.NewGuid(), new ConcreteLibMaterial(Guid.NewGuid()));
+        /// <inheritdoc/>
+        public IShape Shape { get; } = new RectangleShape(Guid.NewGuid()) { Height = 0.6, Width = 0.4};
 
         public double CenterCover { get; set; }
 
-        public BeamShearSection(Guid id, IShape shape)
+
+        public BeamShearSection(Guid id)
         {
             Id = id;
-            Shape = shape;
         }
 
         public object Clone()

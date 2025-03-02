@@ -12,6 +12,9 @@
     <Compile Update="Windows\Arrays\ArrayView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\BeamShears\BeamShearView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -107,6 +110,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Infrastructure\UI\Resources\ContextMenus.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Infrastructure\UI\Resources\Cracks.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -132,6 +138,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\Arrays\ArrayView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\BeamShears\BeamShearView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml">

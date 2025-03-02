@@ -3,6 +3,7 @@ using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperLogics.Models.Materials;
 using System;
 using System.CodeDom;

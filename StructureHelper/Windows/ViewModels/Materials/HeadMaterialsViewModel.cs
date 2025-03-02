@@ -6,6 +6,7 @@ using StructureHelper.Windows.MainWindow;
 using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.Materials;

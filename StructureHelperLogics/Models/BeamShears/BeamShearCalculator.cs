@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    internal class BeamShearCalculator : IBeamShearCalculator
+    public class BeamShearCalculator : IBeamShearCalculator
     {
         private ICheckInputDataLogic<IBeamShearCalculatorInputData> checkInputDataLogic;
-        IGetResultByInputDataLogic<IBeamShearCalculatorInputData, IBeamShearCalculatorResult> calculationLogic;
+        private IGetResultByInputDataLogic<IBeamShearCalculatorInputData, IBeamShearCalculatorResult> calculationLogic;
         private IBeamShearCalculatorResult result;
 
         public Guid Id { get; }
@@ -23,6 +23,10 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
+        public BeamShearCalculator(Guid id)
+        {
+            Id = id;
+        }
 
         public object Clone()
         {

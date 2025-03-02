@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.Models.Materials.Logics;
