@@ -111,7 +111,17 @@ namespace StructureHelperLogics.Models.Materials
             var functionSelectionView = new FunctionSelectionView();
             functionSelectionView.ShowDialog();
             var material = new HeadMaterial();
-            material.HelperMaterial = new FunctionMaterial() { Modulus = 2e11d, CompressiveStrength = 4e8d, TensileStrength = 4e8d };
+            material.HelperMaterial = new FunctionMaterial() 
+            { 
+                Modulus = 2e11d, 
+                CompressiveStrength = 4e8d, 
+                TensileStrength = 4e8d, 
+                FunctionStorage = functionSelectionView.ViewModel.FunctionStorage,
+            };
+            if (functionSelectionView.DialogResult == true)
+            {
+                material.SuccessfullyCreated = true;
+            }
             return material; 
         }
     }

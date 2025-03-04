@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Functions;
 using StructureHelperCommon.Models.Materials.Libraries;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace StructureHelperLogics.Models.Materials
         double CompressiveStrength { get; set; }
         double TensileStrength { get; set; }
         List<IMaterialSafetyFactor> SafetyFactors { get; }
+        public FunctionStorage FunctionStorage { get; set; }
         public IOneVariableFunction Function { get; set; }
     }
 }

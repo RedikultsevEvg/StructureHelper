@@ -43,8 +43,11 @@ namespace StructureHelper.Windows.ViewModels.Materials
             else if (parameterType == MaterialType.GlassFiber) { AddGlassFiber(); }
             else if (parameterType == MaterialType.Function) { AddFunctionMaterial(); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Expected: {typeof(MaterialType)}, Actual type: {nameof(parameterType)}");
-            GlobalRepository.Materials.Create(NewItem);
-            base.AddMethod(parameter);
+            if (!(NewItem is null))
+            {
+                GlobalRepository.Materials.Create(NewItem);
+                base.AddMethod(parameter);
+            }
         }
         public override void DeleteMethod(object parameter)
         {
@@ -123,7 +126,14 @@ namespace StructureHelper.Windows.ViewModels.Materials
         {
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Function);
             material.Name = "New Function Material";
-            NewItem = material;
+            if ((material as HeadMaterial).SuccessfullyCreated)
+            {
+                NewItem = material;
+            }
+            else
+            {
+                NewItem = null;
+            }
         }
         private void CheckParameters(object parameter)
         {

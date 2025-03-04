@@ -175,7 +175,7 @@ namespace StructureHelper.Windows.Graphs
                         for (double s = minValue; s < maxValue; s += step)
                         {
                             double strain = s * factor;
-                            double diagramValue = loaderMaterial.Diagram.Invoke(loaderMaterial.DiagramParameters, strain) * factor; //!!!!!!!!!!!!!!!!!!!!
+                            double diagramValue = loaderMaterial.Diagram.Invoke(loaderMaterial.DiagramParameters, strain) * factor;
                             StressEntity stressEntity = new()
                             {
                                 LimitState = limitState,

@@ -31,7 +31,7 @@ namespace StructureHelper.Models.Materials
             }
         }
         public IHelperMaterial HelperMaterial {get; set;}
-
+        public bool SuccessfullyCreated { get; set; } = false;
 
         public HeadMaterial(Guid id)
         {

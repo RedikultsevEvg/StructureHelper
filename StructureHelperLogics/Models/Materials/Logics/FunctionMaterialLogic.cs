@@ -1,11 +1,6 @@
 ﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials.Libraries;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Materials.Logics
 {
@@ -17,16 +12,37 @@ namespace StructureHelperLogics.Models.Materials.Logics
         {
             IMaterial material = new Material();
             material.InitModulus = functionMaterial.Modulus;
-            IFactorLogic factorLogic = new FactorLogic(functionMaterial.SafetyFactors);
-            var factors = factorLogic.GetTotalFactor(limitState, calcTerm);
-            this.functionMaterial = functionMaterial;
-            parameters = new List<double>()
+            if (calcTerm == CalcTerms.ShortTerm)
             {
-                functionMaterial.Modulus,
-                functionMaterial.CompressiveStrength * factors.Compressive * factor,
-                functionMaterial.TensileStrength * factors.Tensile * factor
-            };
-            material.DiagramParameters = parameters;
+                if (limitState == LimitStates.ULS)
+                {
+                    functionMaterial.Function = functionMaterial.FunctionStorage.Func_ST_ULS;
+                }
+                else if (limitState == LimitStates.SLS)
+                {
+                    functionMaterial.Function = functionMaterial.FunctionStorage.Func_ST_SLS;
+                }
+                else if (limitState == LimitStates.Special)
+                {
+                    functionMaterial.Function = functionMaterial.FunctionStorage.Func_ST_Special;
+                }
+            }
+            else if (calcTerm == CalcTerms.LongTerm)
+            {
+                if (limitState == LimitStates.ULS)
+                {
+                    functionMaterial.Function = functionMaterial.FunctionStorage.Func_LT_ULS;
+                }
+                else if (limitState == LimitStates.SLS)
+                {
+                    functionMaterial.Function = functionMaterial.FunctionStorage.Func_LT_SLS;
+                }
+                else if (limitState == LimitStates.Special)
+                {
+                    functionMaterial.Function = functionMaterial.FunctionStorage.Func_LT_Special;
+                }
+            }
+            this.functionMaterial = functionMaterial;
             material.Diagram = GetStressByStrain;
             return material;
         }

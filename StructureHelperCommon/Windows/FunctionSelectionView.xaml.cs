@@ -19,11 +19,11 @@ namespace StructureHelperCommon.Windows
     /// </summary>
     public partial class FunctionSelectionView : Window
     {
-        private FunctionSelectionVM viewModel;
+        public FunctionSelectionVM ViewModel {  get; set; }
         public FunctionSelectionView(FunctionSelectionVM viewModel)
         {
-            this.viewModel = viewModel;
-            DataContext = this.viewModel;
+            this.ViewModel = viewModel;
+            DataContext = this.ViewModel;
             InitializeComponent();
         }
         public FunctionSelectionView() : this(new FunctionSelectionVM())

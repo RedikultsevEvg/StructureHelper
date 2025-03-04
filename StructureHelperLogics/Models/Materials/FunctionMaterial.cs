@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models.Functions;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperLogics.Models.Materials.Logics;
 using System;
@@ -20,6 +21,7 @@ namespace StructureHelperLogics.Models.Materials
         public double TensileStrength { get; set; } 
         public List<IMaterialSafetyFactor> SafetyFactors { get; } = new();
         public IOneVariableFunction Function { get; set; }
+        public FunctionStorage FunctionStorage { get; set; }
 
         public Guid Id { get; }
 
@@ -29,7 +31,6 @@ namespace StructureHelperLogics.Models.Materials
         }
         public FunctionMaterial() : this(Guid.NewGuid())
         {
-            Function = ProgramSetting.Functions.First();
         }
         public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
