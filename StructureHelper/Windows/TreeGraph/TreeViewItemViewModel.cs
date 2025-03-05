@@ -46,6 +46,11 @@ namespace StructureHelper.Windows.TreeGraph
         public string Name
         {
             get { return _function.Name; }
+            set 
+            { 
+                _function.Name = value;
+                OnPropertyChanged(nameof(Name));
+            }
         }
         public bool IsExpanded
         {
@@ -71,6 +76,7 @@ namespace StructureHelper.Windows.TreeGraph
                 {
                     _isSelected = value;
                     _treeGraphViewModel.DrawGraph();
+                    _treeGraphViewModel.Save();
                     OnPropertyChanged(nameof(IsSelected));
                 }
             }

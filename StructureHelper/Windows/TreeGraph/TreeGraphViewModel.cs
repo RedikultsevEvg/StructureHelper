@@ -14,6 +14,8 @@ using System.Windows.Input;
 using StructureHelperCommon.Models.Functions.Decorator;
 using System.Windows.Media;
 using StructureHelper.Windows.Graphs;
+using System.Windows.Controls;
+
 
 namespace StructureHelper.Windows.TreeGraph
 {
@@ -23,15 +25,18 @@ namespace StructureHelper.Windows.TreeGraph
         private SeriesCollection seriesCollection;
         private List<string> labels;
         readonly ObservableCollection<TreeViewItemViewModel> _tree;
-        readonly TreeViewItemViewModel _rootFunction;
+        readonly TreeViewItemViewModel _root;
         readonly ICommand _searchCommand;
         private RelayCommand _getYCommand;
         private RelayCommand _scaleCommand;
         private RelayCommand _limCommand;
         private RelayCommand _deleteCommand;
+        private RelayCommand _treeCommand;
+        private RelayCommand _renameCommand;
         private RelayCommand _saveCommand;
         private TreeGraphView _treeGraphView_win;
         private IOneVariableFunction selectedFunction;
+        private IOneVariableFunction rootFunction;
         public IOneVariableFunction SelectedFuntion
         {
             get
@@ -42,6 +47,18 @@ namespace StructureHelper.Windows.TreeGraph
             {
                 selectedFunction = value;
                 OnPropertyChanged(nameof(SelectedFuntion));
+            }
+        }
+        public IOneVariableFunction RootFunction
+        {
+            get
+            {
+                return rootFunction;
+            }
+            set
+            {
+                rootFunction = value;
+                OnPropertyChanged(nameof(RootFunction));
             }
         }
         public SeriesCollection SeriesCollection
@@ -97,19 +114,27 @@ namespace StructureHelper.Windows.TreeGraph
         {
             get => _deleteCommand ??= new RelayCommand(o => Delete());
         }
+        public ICommand TreeCommand
+        {
+            get => _treeCommand ??= new RelayCommand(o => NewTree());
+        }
+        public ICommand RenameCommand
+        {
+            get => _renameCommand ??= new RelayCommand(o => Rename(o));
+        }
         public ICommand SaveCommand
         {
             get => _saveCommand ??= new RelayCommand(o => Save());
         }
         public TreeGraphViewModel(IOneVariableFunction rootFunction)
         {
-            _rootFunction = new TreeViewItemViewModel(rootFunction, this);
-
+            RootFunction = rootFunction;
+            _root = new TreeViewItemViewModel(rootFunction, this);
             _tree = new ObservableCollection<TreeViewItemViewModel>
                 (
                     new ObservableCollection<TreeViewItemViewModel>()
                     {
-                        _rootFunction,
+                        _root,
                     }
                 );
         }
@@ -218,6 +243,39 @@ namespace StructureHelper.Windows.TreeGraph
             }
             selectedTreeViewItemParent.Children.Remove(selectedTreeViewItem);
         }
+        private void Rename(object parameter)
+        {
+            var selectedTreeViewItem = TreeGraphView_win.FunctionTreeView.SelectedItem as TreeViewItemViewModel;
+            if (selectedTreeViewItem is null)
+            {
+                return;
+            }
+            var selectedTreeViewItemParent = selectedTreeViewItem.Parent;
+            if (selectedTreeViewItemParent is null)
+            {
+                return;
+            }
+            var renameViewModel = new RenameViewModel(selectedTreeViewItem);
+            var renameView = new RenameView();
+            renameView.DataContext = renameViewModel;
+            if (renameView.ShowDialog() == true)
+            {
+                selectedTreeViewItem.Name = renameViewModel.FunctionName;
+            }
+        }
+        private void NewTree()
+        {
+            if (SelectedFuntion is null)
+            {
+                return;
+            }
+            var treeGraphVM = new TreeGraphViewModel(SelectedFuntion);
+            var treeGraph = new TreeGraphView();
+            treeGraph.DataContext = treeGraphVM;
+            treeGraphVM.TreeGraphView_win = treeGraph;
+            treeGraph.ShowDialog();
+            //Сохранить поддерево
+        }
         public void DrawGraph()
         {
             var labels = new List<string>();
@@ -240,6 +298,12 @@ namespace StructureHelper.Windows.TreeGraph
         public void Save()
         {
             
+            
+        
+        }
+        private List<IOneVariableFunction> GetFunctionChildern(TreeViewItemViewModel item)
+        {
+            return null;
         }
     }
 }

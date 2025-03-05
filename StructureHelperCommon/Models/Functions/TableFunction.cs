@@ -68,6 +68,7 @@ namespace StructureHelperCommon.Models.Functions
             tableFunction.Table = newTable;
             tableFunction.IsUser = true;
             tableFunction.Group = GROUP_TYPE_2;
+            tableFunction.FunctionPurpose = FunctionPurpose;
             return tableFunction;
         }
 

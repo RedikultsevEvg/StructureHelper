@@ -95,6 +95,7 @@ namespace StructureHelperCommon.Models.Functions
             formulaFunction.Step = Step;
             formulaFunction.MinArg = MinArg;
             formulaFunction.MaxArg = MaxArg;
+            formulaFunction.FunctionPurpose = FunctionPurpose;
             return formulaFunction;
         }
 

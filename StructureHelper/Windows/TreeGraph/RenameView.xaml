@@ -1,0 +1,51 @@
+﻿<Window x:Class="StructureHelper.Windows.TreeGraph.RenameView"
+        x:Name="RenameView_win"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.TreeGraph"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance local:RenameViewModel}"
+        Title="Scale" Height="200" Width="250"
+        MinWidth="250">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" 
+                    Margin="5"
+                    Text="Enter new function name:" 
+                    VerticalAlignment="Center"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="1" Text="{Binding FunctionName,
+                                 UpdateSourceTrigger=PropertyChanged}"      
+                      Margin="5"/>
+            </Grid>
+        </Grid>
+        <TextBlock Grid.Row="1"
+                Margin="5"
+                Background="LightYellow" 
+                Text="{Binding FunctionName, 
+                       UpdateSourceTrigger=PropertyChanged}"
+                TextAlignment="Center"
+                FontSize="20"
+                TextWrapping="Wrap">
+        </TextBlock>
+        <Button Grid.Row="4" Margin="5" Content="Save"
+                Command="{Binding SaveCommand}"
+                CommandParameter="{Binding ElementName=RenameView_win}">
+        </Button>
+    </Grid>
+</Window>
+

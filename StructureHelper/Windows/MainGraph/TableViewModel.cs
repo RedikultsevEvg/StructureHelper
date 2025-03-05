@@ -1,4 +1,5 @@
 ﻿using StructureHelper.Infrastructure;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Functions;
 using StructureHelperCommon.Models.Shapes;
@@ -79,6 +80,15 @@ namespace StructureHelper.Windows.MainGraph
                 name = value;
             }
         }
+        private FunctionPurpose functionPurpose;
+        public FunctionPurpose FunctionPurpose
+        {
+            get => functionPurpose;
+            set
+            {
+                functionPurpose = value;
+            }
+        }
         private string description;
         public string Description
         {
@@ -114,6 +124,7 @@ namespace StructureHelper.Windows.MainGraph
             Function = tableFunction;
             Table = new ObservableCollection<GraphPoint>((Function as TableFunction).Table);
             Name = Function.Name;
+            FunctionPurpose = Function.FunctionPurpose;
             Description = Function.Description;
             Color = Function.Color;
         }
@@ -134,6 +145,7 @@ namespace StructureHelper.Windows.MainGraph
             Function.IsUser = true;
             (Function as TableFunction).Table = Table.OrderBy(x => x.X).ToList();
             Function.Color = Color;
+            Function.FunctionPurpose = FunctionPurpose;
             var window = parameter as Window;
             window.DialogResult = true;
             window.Close();

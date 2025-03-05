@@ -1,5 +1,6 @@
 ﻿
 using StructureHelper.Infrastructure;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Functions;
 using StructureHelperCommon.Services.ColorServices;
@@ -103,6 +104,15 @@ namespace StructureHelper.Windows.MainGraph
                 name = value;
             }
         }
+        private FunctionPurpose functionPurpose;
+        public FunctionPurpose FunctionPurpose
+        {
+            get => functionPurpose;
+            set
+            {
+                functionPurpose = value;
+            }
+        }
         private string description;
         public string Description
         {
@@ -148,6 +158,7 @@ namespace StructureHelper.Windows.MainGraph
             Formula = formulaFunction.Formula;
             Step = formulaFunction.Step;
             Name = Function.Name;
+            FunctionPurpose = Function.FunctionPurpose;
             Description = Function.Description;
             LeftBound = Function.MinArg;
             RightBound = Function.MaxArg;
@@ -173,6 +184,7 @@ namespace StructureHelper.Windows.MainGraph
             Function.Color = Color;
             Function.MinArg = LeftBound;
             Function.MaxArg = RightBound;
+            Function.FunctionPurpose = FunctionPurpose;
             var window = parameter as Window;
             if (LeftBound > RightBound)
             {

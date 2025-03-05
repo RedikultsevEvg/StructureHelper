@@ -27,7 +27,7 @@ namespace StructureHelperCommon.Windows
         public string SPECIAL { get; } = "Special Limit State";
         public string CREATE_MATERIAL { get; } = "Create Function Material";
         private const string ERROR_TEXT_1 = "Not all material states have functions ";
-        public ObservableCollection<IOneVariableFunction> Functions { get; set; } = ProgramSetting.Functions;
+        public ObservableCollection<IOneVariableFunction> Functions { get; set; }
         public IOneVariableFunction Func_ST_ULS { get; set; }
         public IOneVariableFunction Func_ST_SLS { get; set; }
         public IOneVariableFunction Func_ST_Special { get; set; }
@@ -35,6 +35,11 @@ namespace StructureHelperCommon.Windows
         public IOneVariableFunction Func_LT_SLS { get; set; }
         public IOneVariableFunction Func_LT_Special { get; set; }
         public FunctionStorage FunctionStorage { get; set; } = new();
+        public FunctionSelectionVM()
+        {
+            var listFunctions = ProgramSetting.Functions.Where(x => x.FunctionPurpose == Infrastructures.Enums.FunctionPurpose.StressStrain).ToList();
+            Functions = new ObservableCollection<IOneVariableFunction>();
+        }
         private void CreateFunctionMaterial(object parameter)
         {
             var window = parameter as Window;

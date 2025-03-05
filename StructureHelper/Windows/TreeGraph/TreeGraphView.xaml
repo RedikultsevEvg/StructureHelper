@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.TreeGraph"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:TreeGraphViewModel}"
-        Title="StructureHelper" Height="700" 
+        Title="StructureHelper" Height="750" 
         Width="1000" MinHeight="400" MinWidth="600">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -17,6 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="170"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <TreeView Name="FunctionTreeView"
@@ -123,6 +124,23 @@
             <Button Grid.Column="6" Margin="5" Content="Delete"
                     Background="LightPink"
                     Command="{Binding DeleteCommand}"/>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Button Grid.Column="0" Margin="5" Content="Tree"
+                    Background="AntiqueWhite"
+                    Command="{Binding TreeCommand}"/>
+            <Button Grid.Column="1" Margin="5" Content="Rename"
+                    FontSize="10"
+                    Background="HotPink"
+                    Command="{Binding RenameCommand}"
+                    CommandParameter="{Binding ElementName=FunctionTreeView}"/>
         </Grid>
         <lvc:CartesianChart Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
                             Series="{Binding SeriesCollection}" Margin="5"
