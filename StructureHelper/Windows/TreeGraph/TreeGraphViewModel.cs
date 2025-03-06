@@ -121,7 +121,7 @@ namespace StructureHelper.Windows.TreeGraph
         }
         public ICommand TreeCommand
         {
-            get => _treeCommand ??= new RelayCommand(o => NewTree());
+            get => _treeCommand ??= new RelayCommand(o => NewTree(o));
         }
         public ICommand RenameCommand
         {
@@ -276,9 +276,15 @@ namespace StructureHelper.Windows.TreeGraph
             }
             Save();
         }
-        private void NewTree()
+        private void NewTree(object parameter)
         {
-            if (SelectedFuntion is null)
+            var selectedTreeViewItem = TreeGraphView_win.FunctionTreeView.SelectedItem as TreeViewItemViewModel;
+            if (selectedTreeViewItem is null)
+            {
+                return;
+            }
+            var selectedTreeViewItemParent = selectedTreeViewItem.Parent;
+            if (selectedTreeViewItemParent is null)
             {
                 return;
             }

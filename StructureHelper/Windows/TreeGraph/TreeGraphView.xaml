@@ -85,6 +85,20 @@
                             <Image Width="16" Height="16" Source="/Windows/MainWindow/Delete.png" />
                         </MenuItem.Icon>
                     </MenuItem>
+                    <MenuItem Header="Tree" 
+                              Command="{Binding TreeCommand}"
+                              CommandParameter="{Binding ElementName=FunctionTreeView}">
+                        <MenuItem.Icon>
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Tree.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Rename" 
+                              Command="{Binding RenameCommand}"
+                              CommandParameter="{Binding ElementName=FunctionTreeView}">
+                        <MenuItem.Icon>
+                            <Image Width="16" Height="16" Source="/Windows/MainWindow/Edit.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </ContextMenu>
             </TreeView.ContextMenu>
         </TreeView>
@@ -136,7 +150,8 @@
             </Grid.RowDefinitions>
             <Button Grid.Column="0" Margin="5" Content="Tree"
                     Background="AntiqueWhite"
-                    Command="{Binding TreeCommand}"/>
+                    Command="{Binding TreeCommand}"
+                    CommandParameter="{Binding ElementName=FunctionTreeView}"/>
             <Button Grid.Column="1" Margin="5" Content="Rename"
                     FontSize="10"
                     Background="HotPink"
