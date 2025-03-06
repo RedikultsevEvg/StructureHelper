@@ -24,8 +24,8 @@ namespace StructureHelper.Windows.TreeGraph
         private LineSeries lineSeries;
         private SeriesCollection seriesCollection;
         private List<string> labels;
-        readonly ObservableCollection<TreeViewItemViewModel> _tree;
-        readonly TreeViewItemViewModel _root;
+        private ObservableCollection<TreeViewItemViewModel> _tree;
+        private TreeViewItemViewModel _root;
         readonly ICommand _searchCommand;
         private RelayCommand _getYCommand;
         private RelayCommand _scaleCommand;
@@ -96,6 +96,11 @@ namespace StructureHelper.Windows.TreeGraph
         public ObservableCollection<TreeViewItemViewModel> Tree
         {
             get => _tree;
+            set
+            {
+                _tree = value;
+                OnPropertyChanged(nameof(Tree));
+            }
         }
         public GraphVisualProps VisualProps { get; } = new GraphVisualProps();
         public ICommand GetYCommand
@@ -129,8 +134,12 @@ namespace StructureHelper.Windows.TreeGraph
         public TreeGraphViewModel(IOneVariableFunction rootFunction)
         {
             RootFunction = rootFunction;
+            RunTreeView(rootFunction);
+        }
+        private void RunTreeView(IOneVariableFunction rootFunction)
+        {
             _root = new TreeViewItemViewModel(rootFunction, this);
-            _tree = new ObservableCollection<TreeViewItemViewModel>
+            Tree = new ObservableCollection<TreeViewItemViewModel>
                 (
                     new ObservableCollection<TreeViewItemViewModel>()
                     {
@@ -189,6 +198,7 @@ namespace StructureHelper.Windows.TreeGraph
             {
                 return;
             }
+            Save();
         }
         private void Limit(object parameter)
         {
@@ -228,6 +238,7 @@ namespace StructureHelper.Windows.TreeGraph
             {
                 return;
             }
+            Save();
         }
         private void Delete()
         {
@@ -242,6 +253,7 @@ namespace StructureHelper.Windows.TreeGraph
                 return;
             }
             selectedTreeViewItemParent.Children.Remove(selectedTreeViewItem);
+            Save();
         }
         private void Rename(object parameter)
         {
@@ -262,6 +274,7 @@ namespace StructureHelper.Windows.TreeGraph
             {
                 selectedTreeViewItem.Name = renameViewModel.FunctionName;
             }
+            Save();
         }
         private void NewTree()
         {
@@ -274,7 +287,8 @@ namespace StructureHelper.Windows.TreeGraph
             treeGraph.DataContext = treeGraphVM;
             treeGraphVM.TreeGraphView_win = treeGraph;
             treeGraph.ShowDialog();
-            //Сохранить поддерево
+            Save();
+            RunTreeView(RootFunction);
         }
         public void DrawGraph()
         {
@@ -297,13 +311,24 @@ namespace StructureHelper.Windows.TreeGraph
         }
         public void Save()
         {
-            
-            
-        
+            GetFunctionTree(Tree, RootFunction);
         }
-        private List<IOneVariableFunction> GetFunctionChildern(TreeViewItemViewModel item)
+        private void GetFunctionTree(ObservableCollection<TreeViewItemViewModel> tree, IOneVariableFunction function)
         {
-            return null;
+            function.Functions.Clear();
+            foreach (TreeViewItemViewModel item in tree)
+            {
+                if (item.Function is null)
+                {
+                    return;
+                }
+                function.Functions.Add(item.Function);
+                if (item.Children.Count > 0)
+                {
+                    var newTree = item.Children;
+                    GetFunctionTree(newTree, item.Function);
+                }
+            }
         }
     }
 }

@@ -27,6 +27,7 @@ namespace StructureHelperCommon.Models.Functions
         public FunctionPurpose FunctionPurpose { get; set; }
         public string Group { get; set; }
         public string Name { get; set; }
+        public string FullName { get; set; }
         public string Description { get; set; }
         public List<GraphPoint> Table { get; set; }
         public Guid Id => throw new NotImplementedException();
@@ -62,6 +63,7 @@ namespace StructureHelperCommon.Models.Functions
             var tableFunction = new TableFunction();
             tableFunction.Type = Type;
             tableFunction.Name = $"{Name} {COPY}";
+            tableFunction.FullName = tableFunction.Name;
             tableFunction.Description = Description;
             var newTable = new List<GraphPoint>();
             Table.ForEach(x => newTable.Add(x.Clone() as GraphPoint));
@@ -71,7 +73,6 @@ namespace StructureHelperCommon.Models.Functions
             tableFunction.FunctionPurpose = FunctionPurpose;
             return tableFunction;
         }
-
         public double GetByX(double xValue)
         {
             double yValue = 0;

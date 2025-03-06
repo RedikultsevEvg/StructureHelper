@@ -21,6 +21,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <TreeView Name="FunctionTreeView"
+                  
                   Grid.Row="0" 
                   Grid.Column="0" 
                   Margin="5"

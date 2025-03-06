@@ -177,6 +177,7 @@ namespace StructureHelper.Windows.MainGraph
                 Function = new FormulaFunction(isUser: true);
             }
             Function.Name = Name;
+            Function.FullName = Name;
             Function.Description = Description;
             Function.IsUser = true;
             (Function as FormulaFunction).Step = Step;

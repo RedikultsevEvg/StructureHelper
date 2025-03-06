@@ -99,6 +99,7 @@ namespace StructureHelperCommon.Infrastructures.Settings
             new TableFunction()
             {
                 Name = "Not StressStrain",
+                FullName = "Not StressStrain",
                 FunctionPurpose = FunctionPurpose.FireProtection,
                 Table = new List<GraphPoint>()
                 {
@@ -115,6 +116,7 @@ namespace StructureHelperCommon.Infrastructures.Settings
             new TableFunction()
             {
                 Name = "Табличная системная функция",
+                FullName = "Табличная системная функция",
                 FunctionPurpose = FunctionPurpose.StressStrain,
                 Table = new List<GraphPoint>()
                 {
@@ -131,6 +133,7 @@ namespace StructureHelperCommon.Infrastructures.Settings
             new FormulaFunction()
             {
                 Name = "Формульная системная функция",
+                FullName = "Формульная системная функция",
                 FunctionPurpose = FunctionPurpose.StressStrain,
                 Formula = "x^2",
                 Step = 100,

@@ -16,6 +16,7 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         public LimYDecorator(IOneVariableFunction function, double downBound, double upBound) : base(function)
         {
             Name = $"y\u2208[{downBound};{upBound}]";
+            FullName = $"{function.FullName}/{Name}";
             this.downBound = downBound;
             this.upBound = upBound;
         }

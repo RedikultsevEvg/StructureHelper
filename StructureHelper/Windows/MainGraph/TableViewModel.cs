@@ -141,6 +141,7 @@ namespace StructureHelper.Windows.MainGraph
                 Function = new TableFunction(isUser: true);
             }
             Function.Name = Name;
+            Function.FullName = Name;
             Function.Description = Description;
             Function.IsUser = true;
             (Function as TableFunction).Table = Table.OrderBy(x => x.X).ToList();

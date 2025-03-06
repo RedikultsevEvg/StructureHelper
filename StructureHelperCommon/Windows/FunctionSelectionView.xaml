@@ -33,7 +33,7 @@
         </Style>
         <Style x:Key="FuncComboBox" TargetType="ComboBox">
             <Setter Property="ItemsSource" Value="{Binding Functions}"/>
-            <Setter Property="DisplayMemberPath" Value="Name"/>
+            <Setter Property="DisplayMemberPath" Value="FullName"/>
             <Setter Property="Margin" Value="10"/>
         </Style>
     </Window.Resources>

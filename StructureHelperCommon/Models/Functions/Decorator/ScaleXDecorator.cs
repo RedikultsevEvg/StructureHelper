@@ -16,6 +16,7 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         {
             this.factor = factor;
             Name = $"y=f({factor}x)";
+            FullName = $"{function.FullName}/{Name}";
         }
         public override bool Check()
         {

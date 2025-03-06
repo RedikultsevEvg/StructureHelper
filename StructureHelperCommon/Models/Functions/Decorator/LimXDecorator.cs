@@ -17,6 +17,7 @@ namespace StructureHelperCommon.Models.Functions.Decorator
         public LimXDecorator(IOneVariableFunction function, double leftBound, double rightBound) : base(function)
         {
             Name = $"x\u2208[{leftBound};{rightBound}]";
+            FullName = $"{function.FullName}/{Name}";
             this.leftBound = leftBound;
             this.rightBound = rightBound;
         }

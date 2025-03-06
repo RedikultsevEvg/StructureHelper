@@ -17,7 +17,7 @@ namespace StructureHelper.Windows.TreeGraph
         readonly IOneVariableFunction _function;
         readonly TreeGraphViewModel _treeGraphViewModel;
 
-        bool _isExpanded;
+        bool _isExpanded = true;
         bool _isSelected;
 
         public TreeViewItemViewModel(IOneVariableFunction function, TreeGraphViewModel treeGraphViewModel) : this(function, null, treeGraphViewModel)

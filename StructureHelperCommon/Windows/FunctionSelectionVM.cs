@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Commands;
+﻿using LiveCharts.Wpf;
+using StructureHelperCommon.Infrastructures.Commands;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Functions;
@@ -27,7 +28,7 @@ namespace StructureHelperCommon.Windows
         public string SPECIAL { get; } = "Special Limit State";
         public string CREATE_MATERIAL { get; } = "Create Function Material";
         private const string ERROR_TEXT_1 = "Not all material states have functions ";
-        public ObservableCollection<IOneVariableFunction> Functions { get; set; }
+        public ObservableCollection<IOneVariableFunction> Functions { get; set; } = new ObservableCollection<IOneVariableFunction>();
         public IOneVariableFunction Func_ST_ULS { get; set; }
         public IOneVariableFunction Func_ST_SLS { get; set; }
         public IOneVariableFunction Func_ST_Special { get; set; }
@@ -37,8 +38,23 @@ namespace StructureHelperCommon.Windows
         public FunctionStorage FunctionStorage { get; set; } = new();
         public FunctionSelectionVM()
         {
-            var listFunctions = ProgramSetting.Functions.Where(x => x.FunctionPurpose == Infrastructures.Enums.FunctionPurpose.StressStrain).ToList();
-            Functions = new ObservableCollection<IOneVariableFunction>();
+            var stressStrainFunctions = new ObservableCollection<IOneVariableFunction>
+                (
+                ProgramSetting.Functions
+                .Where(x => x.FunctionPurpose == Infrastructures.Enums.FunctionPurpose.StressStrain)
+                );
+            GetFunctionsFromTree(stressStrainFunctions);
+        }
+        private void GetFunctionsFromTree(ObservableCollection<IOneVariableFunction> stressStrainFunctions)
+        {
+            foreach (IOneVariableFunction func in  stressStrainFunctions)
+            {
+                Functions.Add(func);
+                if (func.Functions.Count > 0)
+                {
+                    GetFunctionsFromTree(func.Functions);
+                }
+            }
         }
         private void CreateFunctionMaterial(object parameter)
         {

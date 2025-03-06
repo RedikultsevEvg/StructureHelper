@@ -30,6 +30,7 @@ namespace StructureHelperCommon.Models.Functions
         public FunctionPurpose FunctionPurpose { get; set; }
         public string Group { get; set; }
         public string Name { get; set; }
+        public string FullName { get; set; }    
         public string Description { get ; set; }
         public int Step { get; set; }
         public string Formula 
@@ -87,7 +88,8 @@ namespace StructureHelperCommon.Models.Functions
         {
             var formulaFunction = new FormulaFunction();
             formulaFunction.Type = Type;
-            formulaFunction.Name = $"{Name} {COPY}"; 
+            formulaFunction.Name = $"{Name} {COPY}";
+            formulaFunction.FullName = formulaFunction.Name;
             formulaFunction.Description = Description;
             formulaFunction.Formula = Formula;
             formulaFunction.IsUser = true;

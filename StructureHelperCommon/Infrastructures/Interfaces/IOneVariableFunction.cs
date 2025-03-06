@@ -22,6 +22,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public FunctionType Type { get; set; }
         public FunctionPurpose FunctionPurpose { get; set; }
         public string Name { get; set; }
+        public string FullName { get; set; }
         public string Description { get; set; }
         public double MinArg { get; set; }
         public double MaxArg { get; set; }
