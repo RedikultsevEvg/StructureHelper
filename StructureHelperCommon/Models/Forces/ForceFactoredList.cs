@@ -23,7 +23,7 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public List<IForceTuple> ForceTuples { get; } = new() { new ForceTuple()};
         /// <inheritdoc/>
-        public IFactoredCombinationProperty CombinationProperty { get; set; }= new FactoredCombinationProperty();
+        public IFactoredCombinationProperty CombinationProperty { get; set; }= new FactoredCombinationProperty(Guid.NewGuid());
 
 
         public ForceFactoredList(Guid id)

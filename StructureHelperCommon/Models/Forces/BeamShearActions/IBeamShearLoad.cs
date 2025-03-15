@@ -12,7 +12,7 @@ namespace StructureHelperCommon.Models.Forces
     public interface IBeamShearLoad : IAction
     {
         /// <summary>
-        /// Value of level where action is applyied at, 0.5 is top surface, -0.5 is bottom surface
+        /// Value of level where action is applyied at, 0.5 is top surface of beam, -0.5 is bottom surface of beam
         /// </summary>
         double RelativeLoadLevel { get; set; }
         /// <summary>

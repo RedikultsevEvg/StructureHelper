@@ -34,7 +34,7 @@ namespace StructureHelperCommon.Models.Forces
         public bool SetInGravityCenter { get; set; } = true;
         public IPoint2D ForcePoint { get; set; } = new Point2D();
 
-        public IFactoredCombinationProperty CombinationProperty { get; set; } = new FactoredCombinationProperty();
+        public IFactoredCombinationProperty CombinationProperty { get; set; } = new FactoredCombinationProperty(Guid.NewGuid());
 
         public object Clone()
         {

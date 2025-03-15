@@ -9,7 +9,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Implement properties for concentrated load in beam
     /// </summary>
-    public interface IConcenratedForce : IBeamShearLoad
+    public interface IConcentratedForce : IBeamShearLoad
     {
         /// <summary>
         /// Coordinate of location of force along beam, m

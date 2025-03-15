@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
+using StructureHelper.Windows.CalculationWindows.ProgressViews;
 using StructureHelper.Windows.ViewModels;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -31,7 +32,7 @@ namespace StructureHelper.Windows.BeamShears
                     runCommand = new RelayCommand(param =>
                     {
                         RunMethod(param);
-                    }
+                    }, o => SelectedItem != null
                     ));
             }
         }
@@ -86,6 +87,14 @@ namespace StructureHelper.Windows.BeamShears
         }
         private void RunCalculator()
         {
+            if (SelectedItem.TraceLogger is not null)
+            {
+                SelectedItem.TraceLogger.TraceLoggerEntries.Clear();
+            }
+            else
+            {
+                SelectedItem.TraceLogger = new ShiftTraceLogger();
+            }
             if (SelectedItem is IBeamShearCalculator beamShearCalculator)
             {
                 beamShearCalculator.Run();
@@ -94,6 +103,7 @@ namespace StructureHelper.Windows.BeamShears
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));
             }
+            TraceDocumentService.ShowDocument(SelectedItem.TraceLogger.TraceLoggerEntries);
         }
     }
 }

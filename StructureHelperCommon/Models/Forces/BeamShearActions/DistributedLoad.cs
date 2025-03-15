@@ -1,4 +1,6 @@
-﻿using System;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Forces.BeamShearActions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public class UniformlyDistributedLoad : IUniformlyDistributedLoad
+    public class DistributedLoad : IDistributedLoad
     {
         private double relativeLoadLevel;
+        private IUpdateStrategy<IDistributedLoad> updateStrategy;
 
         public Guid Id { get; }
 
@@ -30,14 +33,17 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public double LoadRatio { get; set; } = 1;
 
-        public UniformlyDistributedLoad(Guid id)
+        public DistributedLoad(Guid id)
         {
             Id = id;
         }
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            DistributedLoad distributedLoad = new(Guid.NewGuid());
+            updateStrategy ??= new DistributedLoadUpdateStrategy();
+            updateStrategy.Update(distributedLoad, this);
+            return distributedLoad;
         }
     }
 }

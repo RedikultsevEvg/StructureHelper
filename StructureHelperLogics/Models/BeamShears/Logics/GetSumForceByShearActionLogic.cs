@@ -20,11 +20,11 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public double GetSumShearForce(IBeamShearLoad beamShearAction, double startCoord, double endCoord)
         {
-            if (beamShearAction is IUniformlyDistributedLoad distributedLoad)
+            if (beamShearAction is IDistributedLoad distributedLoad)
             {
                 return GetDistributedLoadSum(distributedLoad, startCoord, endCoord);
             }
-            else if (beamShearAction is IConcenratedForce concenratedForce)
+            else if (beamShearAction is IConcentratedForce concenratedForce)
             {
                 return GetConcentratedForceSum(concenratedForce, startCoord, endCoord);
             }
@@ -34,7 +34,7 @@ namespace StructureHelperLogics.Models.BeamShears
             }
         }
 
-        private double GetConcentratedForceSum(IConcenratedForce concentratedForce, double startCoord, double endCoord)
+        private double GetConcentratedForceSum(IConcentratedForce concentratedForce, double startCoord, double endCoord)
         {
             TraceLogger?.AddMessage($"Concentrated force Name = {concentratedForce.Name}, Value = {concentratedForce.ForceValue}(N/m) ");
             if (concentratedForce.ForceCoordinate > endCoord)
@@ -61,7 +61,7 @@ namespace StructureHelperLogics.Models.BeamShears
             return totalLoad;
         }
 
-        private double GetDistributedLoadSum(IUniformlyDistributedLoad distributedLoad, double startCoord, double endCoord)
+        private double GetDistributedLoadSum(IDistributedLoad distributedLoad, double startCoord, double endCoord)
         {
             TraceLogger?.AddMessage($"Uniformly distributed load Name = {distributedLoad.Name}, Value = {distributedLoad.LoadValue}(N/m) ");
             double loadStartCoord = Math.Max(distributedLoad.StartCoordinate, 0d);

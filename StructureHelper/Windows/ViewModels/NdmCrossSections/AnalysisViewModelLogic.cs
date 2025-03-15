@@ -210,12 +210,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                     ProcessResult();
                 }
             }
-
-            if (SelectedItem.TraceLogger is not null)
-            {
-                var wnd = new TraceDocumentView(SelectedItem.TraceLogger.TraceLoggerEntries);
-                wnd.ShowDialog();
-            }
+            TraceDocumentService.ShowDocument(SelectedItem.TraceLogger.TraceLoggerEntries);
         }
 
         private void ShowInteractionDiagramByInputData(LimitCurvesCalculator calculator)

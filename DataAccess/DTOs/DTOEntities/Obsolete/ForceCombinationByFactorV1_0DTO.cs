@@ -35,7 +35,7 @@ namespace DataAccess.DTOs
         {
             get
             {
-                return new FactoredCombinationProperty()
+                return new FactoredCombinationProperty(Guid.NewGuid())
                 {
                     CalcTerm = CalcTerm,
                     LimitState = LimitState,

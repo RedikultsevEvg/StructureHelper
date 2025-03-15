@@ -20,5 +20,10 @@ namespace DataAccess.DTOs
         {
             Id = id;
         }
+
+        public object Clone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -615,6 +615,15 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+    <DataTemplate x:Key="ShearCalculator">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <TextBlock Text="+-" FontSize="20" FontWeight="Bold" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="4,-6,0,0"/>
+                <Path Data="M2,26 v-8 h10 v2 l-8,6 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+                <Path Data="M14,22 v-2 h16 v8 h-24 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="ShearRectangleSection">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>

@@ -1,4 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Forces.Logics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <inheritdoc/>
     public class FactoredCombinationProperty : IFactoredCombinationProperty
     {
+        private IUpdateStrategy<IFactoredCombinationProperty> updateStrategy;
         /// <inheritdoc/>
         public Guid Id { get; }
         /// <inheritdoc/>
@@ -25,9 +28,13 @@ namespace StructureHelperCommon.Models.Forces
         {
             Id = id;
         }
-        public FactoredCombinationProperty() : this(Guid.NewGuid())
+
+        public object Clone()
         {
-            
+            FactoredCombinationProperty factoredCombinationProperty = new(Guid.NewGuid());
+            updateStrategy ??= new FactoredCombinationPropertyUpdateStrategy();
+            updateStrategy.Update(factoredCombinationProperty, this);
+            return factoredCombinationProperty;
         }
     }
 }

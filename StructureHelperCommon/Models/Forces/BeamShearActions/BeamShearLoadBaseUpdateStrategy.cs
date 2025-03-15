@@ -6,17 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperCommon.Models.Forces
+namespace StructureHelperCommon.Models.Forces.BeamShearActions
 {
-    public class UniformlyDisributedLoadUpdateStrategy : IUpdateStrategy<IDistributedLoad>
+    public class BeamShearLoadBaseUpdateStrategy : IUpdateStrategy<IBeamShearLoad>
     {
-        public void Update(IDistributedLoad targetObject, IDistributedLoad sourceObject)
+        public void Update(IBeamShearLoad targetObject, IBeamShearLoad sourceObject)
         {
             CheckObject.IsNull(targetObject);
             CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
-            targetObject.LoadValue = sourceObject.LoadValue;
+            targetObject.LoadRatio = sourceObject.LoadRatio;
             targetObject.RelativeLoadLevel = sourceObject.RelativeLoadLevel;
         }
     }

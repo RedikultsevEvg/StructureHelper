@@ -1,4 +1,6 @@
 ﻿using NLog;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Forces.BeamShearActions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +10,15 @@ using System.Threading.Tasks;
 namespace StructureHelperCommon.Models.Forces
 {
     /// <inheritdoc/>
-    public class ConcentratedForce : IConcenratedForce
+    public class ConcentratedForce : IConcentratedForce
     {
         private double relativeLoadLevel;
+        private IUpdateStrategy<IConcentratedForce>? updateStrategy;
 
         /// <inheritdoc/>
-        public Guid Id { get; set; }
+        public Guid Id { get;}
+
+
         /// <inheritdoc/>
         public string Name { get; set; }
         /// <inheritdoc/>
@@ -33,10 +38,18 @@ namespace StructureHelperCommon.Models.Forces
         }
         /// <inheritdoc/>
         public double LoadRatio { get; set; } = 1;
+        public ConcentratedForce(Guid id)
+        {
+            Id = id;
+        }
 
+        /// <inheritdoc/>
         public object Clone()
         {
-            throw new NotImplementedException();
+            ConcentratedForce concentratedForce = new(Guid.NewGuid());
+            updateStrategy ??= new ConcentratedForceUpdateStrategy();
+            updateStrategy.Update(concentratedForce, this);
+            return concentratedForce;
         }
     }
 }

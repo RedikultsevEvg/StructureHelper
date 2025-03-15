@@ -1,0 +1,41 @@
+﻿<Window x:Class="StructureHelper.Windows.BeamShears.UniformDistributedLoadView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.BeamShears"
+        d:DataContext="{d:DesignInstance local:UniformDistributedLoadViewModel}"
+        mc:Ignorable="d"
+        Title="Uniformly Distributed Load" Height="200" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Load value"/>
+            <TextBox Grid.Column="1" Text="{Binding LoadValue}"/>
+            <TextBlock Grid.Row="1" Text="Substract ratio"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LoadRatio, Converter={StaticResource PlainDouble}}"/>
+            <TextBlock Grid.Row="2" Text="Relative applying level"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding RelativeLevel, Converter={StaticResource LengthConverter}}"/>
+            <TextBlock Grid.Row="3" Text="Start point"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding StartCoordinate, Converter={StaticResource LengthConverter}}"/>
+            <TextBlock Grid.Row="4" Text="End point"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding EndCoordinate, Converter={StaticResource LengthConverter}}"/>
+        </Grid>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>

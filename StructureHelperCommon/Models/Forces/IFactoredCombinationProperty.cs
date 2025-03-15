@@ -11,7 +11,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Properties of factored combination of forces
     /// </summary>
-    public interface IFactoredCombinationProperty : ISaveable
+    public interface IFactoredCombinationProperty : ISaveable, ICloneable
     {
         /// <summary>
         /// Term of calculation for assigned combination

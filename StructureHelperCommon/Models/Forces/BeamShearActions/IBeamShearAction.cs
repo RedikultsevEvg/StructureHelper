@@ -8,7 +8,7 @@ namespace StructureHelperCommon.Models.Forces
 {
     public interface IBeamShearAction : IAction
     {
-        IBeamShearAxisAction XAxisSheaAction { get; }
-        IBeamShearAxisAction YAxisSheaAction { get; }
+        IBeamShearAxisAction XAxisShearAction { get; }
+        IBeamShearAxisAction YAxisShearAction { get; }
     }
 }

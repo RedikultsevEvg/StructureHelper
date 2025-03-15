@@ -17,7 +17,7 @@
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Shear action"
                                                 IconContent="{StaticResource DistributedLoad}"
-                                                DescriptionText="Add beam shear action"/>
+                                                DescriptionText="Adds beam shear action"/>
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource DistributedLoad}"/>
@@ -44,7 +44,7 @@
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Add stirrups by density"
                                                 IconContent="{StaticResource StirrupDensity}"
-                                                DescriptionText="Add uniformly distributed stirrups by value of density"/>
+                                                DescriptionText="Adds uniformly distributed stirrups by value of density"/>
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource StirrupDensity}"/>
@@ -54,25 +54,25 @@
                         Command="{Binding Add}"
                         CommandParameter="{x:Static enums:StirrupTypes.UniformRebar}">
                     <Button.ToolTip>
-                        <uc:ButtonToolTipEh HeaderText="Open file"
+                        <uc:ButtonToolTipEh HeaderText="Add stirrup by rebars"
                                                 IconContent="{StaticResource StirrupRebars}"
-                                                DescriptionText="Add uniformly distributed stirrups by rebars (step, diameter, strength)"/>
+                                                DescriptionText="Adds uniformly distributed stirrups by rebars (step, diameter, strength)"/>
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource StirrupRebars}"/>
                     </Viewbox>
                 </Button>
             </ToolBar>
-            <ToolBar ToolTip="Calculators">
+            <ToolBar ToolTip="Calculators" DataContext="{Binding Calculators}">
                 <Button Style="{StaticResource ToolButton}" 
-                        Command="{Binding FileOpen}">
+                        Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.BeamShearCalculator}">
                     <Button.ToolTip>
-                        <uc:ButtonToolTipEh HeaderText="Open file"
-                                                IconContent="{StaticResource FileOpen}"
-                                                DescriptionText="Open exsisting project from file"/>
+                        <uc:ButtonToolTipEh HeaderText="Add shear calculator"
+                                                IconContent="{StaticResource ShearCalculator}"
+                                                DescriptionText="Creates new shear beam calculator"/>
                     </Button.ToolTip>
                     <Viewbox>
-                        <ContentControl ContentTemplate="{DynamicResource FileOpen}"/>
+                        <ContentControl ContentTemplate="{DynamicResource ShearCalculator}"/>
                     </Viewbox>
                 </Button>
             </ToolBar>
@@ -80,7 +80,7 @@
                 <Button Style="{StaticResource ToolButton}" 
                         Command="{Binding AddTemplate}">
                     <Button.ToolTip>
-                        <uc:ButtonToolTipEh HeaderText="Open file"
+                        <uc:ButtonToolTipEh HeaderText="Create rectangle template"
                                                 IconContent="{StaticResource ShearSectionTemplate}"
                                                 DescriptionText="Create rectangle section by template"/>
                     </Button.ToolTip>
