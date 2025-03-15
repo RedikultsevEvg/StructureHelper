@@ -1,0 +1,409 @@
+{
+  "$id": "1",
+  "$type": "RootObject",
+  "FileVersion": {
+    "Id": "fafa4a8c-f8e7-4b57-9aa5-bc522300fb91",
+    "VersionNumber": 1,
+    "SubVersionNumber": 1
+  },
+  "Project": {
+    "Id": "853e94ab-cba9-4db3-914d-0d1a9e80f7ee",
+    "VisualAnalyses": {
+      "$id": "2",
+      "$type": "ListOfIVisualAnalysis",
+      "$values": [
+        {
+          "$id": "3",
+          "$type": "VisualAnalysis",
+          "Id": "df76bb4a-b072-4a12-967e-004a212f5b96",
+          "Analysis": {
+            "$id": "4",
+            "$type": "CrossSectionNdmAnalysis",
+            "Id": "2746c30d-b4cb-4246-b7f2-fb1c0406c4ce",
+            "Name": "New NDM Analysis",
+            "Tags": "#New group",
+            "VersionProcessor": {
+              "$id": "5",
+              "$type": "VersionProcessor",
+              "Id": "8289545f-1430-4daf-aee2-21ad484c2eb8",
+              "Versions": {
+                "$type": "ListOfIDateVersion",
+                "$values": [
+                  {
+                    "$id": "6",
+                    "$type": "DateVersion",
+                    "Id": "b725678e-2962-4cf5-98d6-c86488549b9e",
+                    "DateTime": "2025-02-12T10:23:50.720799+05:00",
+                    "Comment": "",
+                    "AnalysisVersion": {
+                      "$id": "7",
+                      "$type": "CrossSection",
+                      "Id": "b583a8c1-1dd9-487b-9285-d1e19810ced5",
+                      "SectionRepository": {
+                        "$id": "8",
+                        "$type": "CrossSectionRepository",
+                        "Id": "5ce9356d-a1de-4390-8333-42d30cd1682e",
+                        "HeadMaterials": {
+                          "$type": "ListOfIHeadMaterial",
+                          "$values": [
+                            {
+                              "$id": "9",
+                              "$type": "HeadMaterial",
+                              "Id": "ddf532e0-51c7-498d-a7ba-0d6e2437ae67",
+                              "Name": "Concrete",
+                              "Color": "#FFF0F8FF",
+                              "HelperMaterial": {
+                                "$id": "10",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "b80a8eda-7956-4b35-a40e-277f7fce8d02",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "1cdc3598-c67b-4e35-89ac-3f7c0a9db167",
+                                "SafetyFactors": {
+                                  "$id": "11",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "12",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "b20ee540-708c-4ca9-b2ad-f8a288589455",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "13",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "37fcb598-d554-4869-b054-595c62b0179e",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "14",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "c6bf116a-4ecc-47be-9cf6-5f1fc25ebd6b",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "15",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "4fbbbb40-147c-4e4c-bdc3-f9db65c02bec",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "16",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "7f29ada7-af9b-4083-b64e-82c341c720e1",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "17",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "8c3d8e1d-4872-4075-8d49-0437625ce09f",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "18",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "1a9eceb7-1a98-46ee-af53-17954c6b09ad",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "19",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "ae02223a-d92b-46ea-9b1e-1729f2a828f5",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "20",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "0c26d6ef-7982-42e8-9ec4-6e6edc8f1cb3",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "21",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "abf4f24d-c467-4e11-b19b-54d9ec3fc754",
+                                      "Name": "New factor",
+                                      "Take": true,
+                                      "Description": "Material safety factor for ...",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "22",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "1ccbdf9a-4953-490d-bf86-92b1e7bf9afb",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "23",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "d1036931-1998-4d61-a0c3-6834ce6ccf72",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            }
+                          ]
+                        },
+                        "ForceActions": {
+                          "$type": "ListOfIForceAction",
+                          "$values": [
+                            {
+                              "$id": "24",
+                              "$type": "ForceCombinationByFactor_v1_1",
+                              "Id": "9afcc586-7e8f-4c3c-b912-071e5b5bad71",
+                              "Name": "New Factored Load",
+                              "ForceTuples": {
+                                "$type": "ListOfIForceTuple",
+                                "$values": [
+                                  {
+                                    "$id": "25",
+                                    "$type": "ForceTuple",
+                                    "Id": "db9c1997-3f71-4533-9f02-2aed3e27803d",
+                                    "Mx": 12600.0,
+                                    "My": 0.0,
+                                    "Nz": -650000.0,
+                                    "Qx": 0.0,
+                                    "Qy": 0.0,
+                                    "Mz": 0.0
+                                  }
+                                ]
+                              },
+                              "SetInGravityCenter": true,
+                              "ForcePoint": {
+                                "$id": "26",
+                                "$type": "Point2D",
+                                "Id": "15f0a88a-4cdc-493b-a75a-2c6ef7519300",
+                                "X": 0.0,
+                                "Y": 0.0
+                              },
+                              "CombinationProperty": {
+                                "$id": "27",
+                                "$type": "ForceFactoredCombinationProperty",
+                                "Id": "6d19ffe7-ee1f-4b0e-a968-c4c8a8e54304",
+                                "CalctTerm": 1,
+                                "LimitState": 1,
+                                "LongTermFactor": 0.93,
+                                "ULSFactor": 1.0
+                              }
+                            }
+                          ]
+                        },
+                        "Primitives": {
+                          "$type": "ListOfINdmPrimitive",
+                          "$values": [
+                            {
+                              "$id": "28",
+                              "$type": "RectangleNdmPrimitive",
+                              "Id": "0c2396d7-597a-4a66-8963-4b60d937feaa",
+                              "Name": "Concrete block",
+                              "RectangleShape": {
+                                "$id": "29",
+                                "$type": "RectangleShape",
+                                "Id": "b47141c0-d97b-4d84-ad06-b466a2476654",
+                                "Width": 1.0,
+                                "Height": 0.15
+                              },
+                              "NdmElement": {
+                                "$id": "30",
+                                "$type": "NdmElement",
+                                "Id": "2c15dc20-1837-43e8-a46f-4ec8c0e49a7c",
+                                "HeadMaterial": {
+                                  "$ref": "9"
+                                },
+                                "Triangulate": true,
+                                "UsersPrestrain": {
+                                  "$id": "31",
+                                  "$type": "ForceTuple",
+                                  "Id": "37f4dd6a-8dd9-4911-b742-14f6c6e2eee9",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                },
+                                "AutoPrestrain": {
+                                  "$id": "32",
+                                  "$type": "ForceTuple",
+                                  "Id": "10759762-0049-47c6-ac62-c883f2672ad7",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                }
+                              },
+                              "VisualProperty": {
+                                "$id": "33",
+                                "$type": "VisualProperty",
+                                "Id": "e61390c6-5c0f-4e59-8518-9acf33bd10a3",
+                                "IsVisible": true,
+                                "Color": "#FFF79C2D",
+                                "SetMaterialColor": true,
+                                "ZIndex": 0,
+                                "Opacity": 0.8
+                              },
+                              "Center": {
+                                "$id": "34",
+                                "$type": "Point2D",
+                                "Id": "35a849f4-0cc4-4ebc-be4f-dd62ae97e3d2",
+                                "X": 0.0,
+                                "Y": 0.0
+                              },
+                              "DivisionSize": {
+                                "$id": "35",
+                                "$type": "DivisionSize",
+                                "Id": "c486cd66-14a3-4037-8642-1de42c49891c",
+                                "NdmMaxSize": 0.01,
+                                "NdmMinDivision": 10,
+                                "ClearUnderlying": false
+                              },
+                              "RotationAngle": 0.0
+                            }
+                          ]
+                        },
+                        "Calculators": {
+                          "$type": "ListOfICalculator",
+                          "$values": [
+                            {
+                              "$id": "36",
+                              "$type": "ForceCalculator",
+                              "Id": "178bb339-da84-40c8-94fc-04d942134307",
+                              "Name": "New Force Calculator",
+                              "InputData": {
+                                "$id": "37",
+                                "$type": "ForceCalculatorInputData",
+                                "Id": "5a84e36a-faad-4653-8307-7ab65da0da1a",
+                                "ForceActions": {
+                                  "$id": "38",
+                                  "$type": "ListOfIForceAction",
+                                  "$values": [
+                                    {
+                                      "$ref": "24"
+                                    }
+                                  ]
+                                },
+                                "Primitives": {
+                                  "$id": "39",
+                                  "$type": "ListOfINdmPrimitive",
+                                  "$values": [
+                                    {
+                                      "$ref": "28"
+                                    }
+                                  ]
+                                },
+                                "LimitStatesList": {
+                                  "$id": "40",
+                                  "$type": "ListOfLimitState",
+                                  "$values": [
+                                    1
+                                  ]
+                                },
+                                "CalcTermList": {
+                                  "$id": "41",
+                                  "$type": "ListOfCalcTerms",
+                                  "$values": [
+                                    1,
+                                    2
+                                  ]
+                                },
+                                "Accuracy": {
+                                  "$id": "42",
+                                  "$type": "Accuracy",
+                                  "Id": "bc83fdf2-eb23-4074-8c40-be576ec362c3",
+                                  "IterationAccuracy": 0.001,
+                                  "MaxIterationCount": 1000
+                                },
+                                "CompressedMember": {
+                                  "$id": "43",
+                                  "$type": "CompressedMember",
+                                  "Id": "d4ec7ca5-78d7-4bd9-b96a-9084510c811d",
+                                  "Bucling": false,
+                                  "GeometryLength": 3.0,
+                                  "LengthFactorX": 1.0,
+                                  "DiagramFactorX": 1.0,
+                                  "LengthFactorY": 1.0,
+                                  "DiagramFactorY": 1.0
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "WorkPlaneProperty": {
+                        "$id": "44",
+                        "$type": "WorkPlanePropertyDTO",
+                        "Id": "d24af04e-e4fe-4528-bbc6-c4fd3c8bbf86",
+                        "GridSize": 0.05,
+                        "Width": 1.2,
+                        "Height": 1.2,
+                        "AxisLineThickness": 2.0,
+                        "GridLineThickness": 0.25
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "Comment": "",
+            "Color": "#FF800000"
+          }
+        }
+      ]
+    }
+  }
+}
