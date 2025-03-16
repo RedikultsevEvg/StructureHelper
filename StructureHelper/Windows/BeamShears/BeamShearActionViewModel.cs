@@ -11,12 +11,22 @@ namespace StructureHelper.Windows.BeamShears
     public class BeamShearActionViewModel : OkCancelViewModelBase
     {
         private readonly IBeamShearAction shearAction;
-        public BeamShearLoadsViewModel ShearLoads { get; private set; }
+        private string name;
+
+        public string Name
+        {
+            get => shearAction.Name;
+            set
+            {
+                shearAction.Name = value;
+            }
+        }
+        public BeamShearAxisActionViewModel YAxisAction { get; private set; }
 
         public BeamShearActionViewModel(IBeamShearAction shearAction)
         {
             this.shearAction = shearAction;
-            ShearLoads = new(this.shearAction.YAxisShearAction.ShearLoads);
+            YAxisAction = new(this.shearAction.YAxisShearAction);
         }
     }
 }

@@ -8,10 +8,18 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.BeamShears
 {
-    public class UniformDistributedLoadViewModel : OkCancelViewModelBase
+    public class DistributedLoadViewModel : OkCancelViewModelBase
     {
         private readonly IDistributedLoad distributedLoad;
 
+        public string Name
+        {
+            get => distributedLoad.Name;
+            set
+            {
+                distributedLoad.Name = value;
+            }
+        }
         public double LoadRatio
         {
             get => distributedLoad.LoadRatio;
@@ -22,10 +30,10 @@ namespace StructureHelper.Windows.BeamShears
         }
         public double LoadValue
         {
-            get => distributedLoad.LoadValue * -1;
+            get => distributedLoad.LoadValue;
             set
             {
-                distributedLoad.LoadValue = value * -1;
+                distributedLoad.LoadValue = value;
             }
         }
         public double RelativeLevel
@@ -63,7 +71,7 @@ namespace StructureHelper.Windows.BeamShears
             }
         }
 
-        public UniformDistributedLoadViewModel(IDistributedLoad distributedLoad)
+        public DistributedLoadViewModel(IDistributedLoad distributedLoad)
         {
             this.distributedLoad = distributedLoad;
         }

@@ -6,7 +6,14 @@ namespace StructureHelper.Windows.BeamShears
     public class ConcentratedForceViewModel : OkCancelViewModelBase
     {
         private readonly IConcentratedForce concenratedForce;
-
+        public string Name
+        {
+            get => concenratedForce.Name;
+            set
+            {
+                concenratedForce.Name = value;
+            }
+        }
         public double ForceCoordinate
         {
             get => concenratedForce.ForceCoordinate;

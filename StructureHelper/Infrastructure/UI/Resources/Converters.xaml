@@ -13,5 +13,6 @@
     <convertersUnits:Stress x:Key="StressConverter"/>
     <convertersUnits:Curvature x:Key="Curvature"/>
     <convertersUnits:CrackWidth x:Key="CrackWidth"/>
+    <convertersUnits:DistributedLoad x:Key="DistributedLoadConverter"/>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 </ResourceDictionary>

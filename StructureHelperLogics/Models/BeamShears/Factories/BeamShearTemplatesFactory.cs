@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Forces.BeamShearActions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,9 @@ namespace StructureHelperLogics.Models.BeamShears
         private static IBeamShearRepository GetRectangleSection()
         {
             BeamShearRepository shearRepository = new(Guid.Empty);
+            IBeamShearAction shearAction = BeamShearActionFactory.GetBeamShearAction(ShearActionTypes.DistributedLoad);
+            shearAction.Name = "New shear action";
+            shearRepository.BeamShearActions.Add(shearAction);
             BeamShearSection section = new(Guid.Empty) { Name = "New shear section"};
             shearRepository.ShearSections.Add(section);
             StirrupByUniformRebar stirrupByUniformRebar = new(Guid.Empty) { Name = "New uniform stirrup"};

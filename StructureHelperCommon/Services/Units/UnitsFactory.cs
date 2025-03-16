@@ -38,6 +38,10 @@ namespace StructureHelperCommon.Services.Units
             units.Add(new Unit() { UnitType = type, Name = "1/m", Multiplyer = 1d });
             units.Add(new Unit() { UnitType = type, Name = "1/mm", Multiplyer = 1e-3d });
             units.Add(new Unit() { UnitType = type, Name = "1/cm", Multiplyer = 1e-2d });
+            type = UnitTypes.DistributedLoad;
+            units.Add(new Unit() { UnitType = type, Name = "N/m", Multiplyer = 1d });
+            units.Add(new Unit() { UnitType = type, Name = "kN/m", Multiplyer = 1e-3d });
+            units.Add(new Unit() { UnitType = type, Name = "MN/m", Multiplyer = 1e-6d });
             return units;
         }
     }

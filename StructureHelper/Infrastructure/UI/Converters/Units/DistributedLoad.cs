@@ -1,0 +1,17 @@
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services.Units;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StructureHelper.Infrastructure.UI.Converters.Units
+{
+    internal class DistributedLoad : UnitBase
+    {
+        public override UnitTypes UnitType { get => UnitTypes.DistributedLoad; }
+        public override IUnit CurrentUnit { get => UnitLogic.GetUnit(UnitType, "kN/m"); }
+        public override string UnitName { get => "DistributedLoad"; }
+    }
+}

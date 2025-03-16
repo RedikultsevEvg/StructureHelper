@@ -4,10 +4,118 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.BeamShears"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        xmlns:enums="clr-namespace:StructureHelper.Infrastructure.Enums"
         d:DataContext="{d:DesignInstance local:BeamShearActionViewModel}"
         mc:Ignorable="d"
-        Title="BeamShearActionView" Height="450" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Shear Action" Height="300" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Name"/>
+                <TextBox Grid.Column="1" Text="{Binding Name}"/>
+            </Grid>
+            <TabControl Grid.Row="1"  DataContext="{Binding YAxisAction}">
+                <TabItem Header="Support">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Shear force at support"/>
+                            <TextBox Grid.Column="1" Text="{Binding SupportShearForce, Converter={StaticResource ForceConverter}}"/>
+                        </Grid>
+                        <uc:FactoredCombination Grid.Row="1" DataContext="{Binding CombinationProperty}"/>
+                    </Grid>
+                </TabItem>
+                <TabItem DataContext="{Binding ShearLoads}" Header="Span loads">
+                    <DockPanel>
+                        <ToolBarTray DockPanel.Dock="Top">
+                            <ToolBar>
+                                <Button Style="{StaticResource ToolButton24}" 
+                                    Command="{Binding Add}" CommandParameter="{x:Static enums:LoadTypes.DistributetLoad}">
+                                    <Button.ToolTip>
+                                        <uc:ButtonToolTipEh HeaderText="Add distributed load"
+                                                IconContent="{StaticResource DistributedLoad}"
+                                                DescriptionText="Add new uniformly distributed load as span load"/>
+                                    </Button.ToolTip>
+                                    <Viewbox Height="24" Width="24">
+                                        <ContentControl ContentTemplate="{DynamicResource DistributedLoad}"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button Style="{StaticResource ToolButton24}" 
+                                    Command="{Binding Add}" CommandParameter="{x:Static enums:LoadTypes.ConcentratedForce}">
+                                    <Button.ToolTip>
+                                        <uc:ButtonToolTipEh HeaderText="Add concentrated force"
+                                                IconContent="{StaticResource ConcentratedForce}"
+                                                DescriptionText="Add concentrated force as span load"/>
+                                    </Button.ToolTip>
+                                    <Viewbox Height="24" Width="24">
+                                        <ContentControl ContentTemplate="{DynamicResource ConcentratedForce}"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button Style="{StaticResource ToolButton24}" Command="{Binding Delete}">
+                                    <Button.ToolTip>
+                                        <uc:ButtonToolTipEh HeaderText="Delete span load"
+                                                IconContent="{StaticResource DeleteEntity }"
+                                                DescriptionText="Deletes selected span load"/>
+                                    </Button.ToolTip>
+                                    <Viewbox Height="24" Width="24">
+                                        <ContentControl ContentTemplate="{DynamicResource DeleteEntity}"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button Style="{StaticResource ToolButton24}" 
+                                    Command="{Binding Edit}">
+                                    <Button.ToolTip>
+                                        <uc:ButtonToolTipEh HeaderText="Edit"
+                                                IconContent="{StaticResource Settings}"
+                                                DescriptionText="Edit selected span load"/>
+                                    </Button.ToolTip>
+                                    <Viewbox Height="24" Width="24">
+                                        <ContentControl ContentTemplate="{DynamicResource Settings}"/>
+                                    </Viewbox>
+                                </Button>
+                            </ToolBar>
+                        </ToolBarTray>
+                        <ListBox 
+                        ItemsSource="{Binding Items}"
+                        SelectedItem="{Binding SelectedItem}"
+                        ContextMenu="{StaticResource EditCopyDelete}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </TabItem>
+            </TabControl>
+        </Grid>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

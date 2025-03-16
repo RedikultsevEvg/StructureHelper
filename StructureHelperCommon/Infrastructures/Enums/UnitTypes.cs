@@ -7,6 +7,7 @@
         Stress,
         Force,
         Moment,
-        Curvature
+        Curvature,
+        DistributedLoad
     }
 }

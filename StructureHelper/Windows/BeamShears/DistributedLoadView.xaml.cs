@@ -4,19 +4,20 @@ using System.Windows;
 namespace StructureHelper.Windows.BeamShears
 {
     /// <summary>
-    /// Interaction logic for BeamShearActionView.xaml
+    /// Interaction logic for UniformDistributedLoadView.xaml
     /// </summary>
-    public partial class BeamShearActionView : Window
+    public partial class DistributedLoadView : Window
     {
-        private readonly BeamShearActionViewModel viewModel;
-        public BeamShearActionView(BeamShearActionViewModel viewModel)
+        private readonly DistributedLoadViewModel viewModel;
+        public DistributedLoadView(DistributedLoadViewModel viewModel)
         {
             InitializeComponent();
             this.viewModel = viewModel;
             this.DataContext = this.viewModel;
             this.viewModel.ParentWindow = this;
         }
-        public BeamShearActionView(IBeamShearAction beamShearAction) : this(new BeamShearActionViewModel(beamShearAction))
+
+        public DistributedLoadView(IDistributedLoad distributedLoad) : this(new DistributedLoadViewModel(distributedLoad))
         {
             
         }

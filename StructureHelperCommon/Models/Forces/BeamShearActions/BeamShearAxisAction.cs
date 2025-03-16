@@ -1,9 +1,9 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
 
 namespace StructureHelperCommon.Models.Forces.BeamShearActions
 {
@@ -20,7 +20,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
         ///<inheritdoc/>
         public IFactoredCombinationProperty FactoredCombinationProperty { get; } = new FactoredCombinationProperty(Guid.NewGuid());
         ///<inheritdoc/>
-        public List<IBeamShearLoad> ShearLoads { get; }
+        public List<IBeamShearLoad> ShearLoads { get; } = new();
 
 
         public BeamShearAxisAction(Guid id)
@@ -31,6 +31,8 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
         public object Clone()
         {
             BeamShearAxisAction beamShearAxisAction = new(Guid.NewGuid());
+            updateStrategy ??= new BeamShearAxisActionUpdateStrategy();
+            updateStrategy.Update(beamShearAxisAction, this);
             return beamShearAxisAction;
         }
     }

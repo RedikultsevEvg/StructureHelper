@@ -103,10 +103,31 @@
                 <ScrollViewer>
                     <StackPanel>
                         <Expander Header="Actions" DataContext="{Binding Actions}">
-                            
+                            <Expander.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Add" Command="{Binding Add}"/>
+                                </ContextMenu>
+                            </Expander.ContextMenu>
+                            <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ContextMenu="{StaticResource EditCopyDelete}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </Expander>
                         <Expander Header="Cross-Sections" DataContext="{Binding Sections}">
-                            
+                            <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ContextMenu="{StaticResource EditCopyDelete}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </Expander>
                         <Expander Header="Stirrups" DataContext="{Binding Stirrups}">
                             <Expander.ContextMenu>

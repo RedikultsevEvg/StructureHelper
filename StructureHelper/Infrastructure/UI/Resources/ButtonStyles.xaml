@@ -197,6 +197,17 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+    <DataTemplate x:Key="ConcentratedForce">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="16" Y1="4" X2="16" Y2="20" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="10" Y1="12" X2="16" Y2="20" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="22" Y1="12" X2="16" Y2="20" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="2" Y1="20" X2="30" Y2="20" Stroke="Black" StrokeThickness="2"/>
+                <Ellipse Canvas.Left="13" Canvas.Top="17" Height="6" Width="6" Stroke="Black" StrokeThickness="1" Fill="White"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="CrackCalculator">
         <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
             <Canvas.Children>

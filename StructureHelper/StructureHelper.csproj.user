@@ -21,7 +21,7 @@
     <Compile Update="Windows\BeamShears\ConcentratedForceView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\BeamShears\UniformDistributedLoadView.xaml.cs">
+    <Compile Update="Windows\BeamShears\DistributedLoadView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml.cs">
@@ -158,7 +158,7 @@
     <Page Update="Windows\BeamShears\ConcentratedForceView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\BeamShears\UniformDistributedLoadView.xaml">
+    <Page Update="Windows\BeamShears\DistributedLoadView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml">
