@@ -1,0 +1,67 @@
+﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Loggers;
+using StructureHelperLogics.Models.BeamShears.Logics;
+
+namespace StructureHelperLogics.Models.BeamShears
+{
+    public class SumForceByShearLoadLogic : ISumForceByShearLoadLogic
+    {
+        private ISumForceByShearLoadLogic sumDistributedLoadLogic;
+        private ISumForceByShearLoadLogic sumConcentratedForceLogic;
+        public IShiftTraceLogger? TraceLogger { get; set; }
+
+        public SumForceByShearLoadLogic(IShiftTraceLogger? traceLogger)
+        {
+            TraceLogger = traceLogger;
+        }
+
+        public SumForceByShearLoadLogic(
+            ISumForceByShearLoadLogic sumDistributedLoadLogic,
+            ISumForceByShearLoadLogic sumConcentratedForceLogic,
+            IShiftTraceLogger? traceLogger)
+        {
+            this.sumDistributedLoadLogic = sumDistributedLoadLogic;
+            this.sumConcentratedForceLogic = sumConcentratedForceLogic;
+            TraceLogger = traceLogger;
+        }
+
+        public double GetSumShearForce(IBeamShearLoad beamShearLoad, double startCoord, double endCoord)
+        {
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
+            if (beamShearLoad is IDistributedLoad distributedLoad)
+            {
+                TraceLogger?.AddMessage($"Load is uniformly distributed load");
+                double sumDistributed = GetDistributedLoadSum(distributedLoad, startCoord, endCoord);
+                return sumDistributed;
+            }
+            else if (beamShearLoad is IConcentratedForce concenratedForce)
+            {
+                TraceLogger?.AddMessage($"Load is concentrated force");
+                return GetConcentratedForceSum(concenratedForce, startCoord, endCoord);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(beamShearLoad));
+            }
+        }
+
+        private double GetConcentratedForceSum(IConcentratedForce concenratedForce, double startCoord, double endCoord)
+        {
+            sumConcentratedForceLogic ??= new SumConcentratedForceLogic(TraceLogger);
+            double sumForce = sumConcentratedForceLogic.GetSumShearForce(concenratedForce, startCoord, endCoord);
+            TraceLogger?.AddMessage($"Sum of uniformly distributed load Qud = {sumForce}(N)");
+            return sumForce;
+        }
+
+        private double GetDistributedLoadSum(IDistributedLoad distributedLoad, double startCoord, double endCoord)
+        {
+            sumDistributedLoadLogic ??= new SumDistributedLoadLogic(TraceLogger);
+            double sumForce = sumDistributedLoadLogic.GetSumShearForce(distributedLoad, startCoord, endCoord);
+            TraceLogger?.AddMessage($"Sum of concentrated force Qcf = {sumForce}(N)");
+            return sumForce;
+        }
+
+    }
+}
