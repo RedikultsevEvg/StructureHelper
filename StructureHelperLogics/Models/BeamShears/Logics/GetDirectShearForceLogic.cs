@@ -44,7 +44,7 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             InitializeStrategies();
-            double supportShearForce = AxisAction.SupportShearForce;
+            double supportShearForce = AxisAction.SupportForce.ForceTuple.Qx;
             TraceLogger?.AddMessage($"Shear force at support Qmax = {supportShearForce}(N)");
             TraceLogger?.AddMessage($"Start of inclined section a,start = {InclinedSection.StartCoord}(m)");
             TraceLogger?.AddMessage($"End of inclined section a,end = {InclinedSection.EndCoord}(m)");

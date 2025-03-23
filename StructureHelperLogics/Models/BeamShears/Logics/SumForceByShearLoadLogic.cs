@@ -2,7 +2,6 @@
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Loggers;
-using StructureHelperLogics.Models.BeamShears.Logics;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -27,7 +26,7 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger = traceLogger;
         }
 
-        public double GetSumShearForce(IBeamShearLoad beamShearLoad, double startCoord, double endCoord)
+        public double GetSumShearForce(IBeamSpanLoad beamShearLoad, double startCoord, double endCoord)
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             if (beamShearLoad is IDistributedLoad distributedLoad)

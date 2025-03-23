@@ -1,20 +1,23 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
 
 namespace StructureHelperCommon.Models.Forces.BeamShearActions
 {
+    /// <inheritdoc/>
     public class BeamShearAction : IBeamShearAction
     {
         private IUpdateStrategy<IBeamShearAction> updateStrategy;
+        /// <inheritdoc/>
         public Guid Id { get; }
+        /// <inheritdoc/>
         public string Name { get; set; }
-        public IBeamShearAxisAction XAxisShearAction { get; } = new BeamShearAxisAction(Guid.NewGuid());
-
-        public IBeamShearAxisAction YAxisShearAction { get; } = new BeamShearAxisAction(Guid.NewGuid());
+        /// <inheritdoc/>
+        public IFactoredForceTuple ExternalForce { get; } = new FactoredForceTuple(Guid.NewGuid());
+        /// <inheritdoc/>
+        public IBeamShearAxisAction SupportAction { get; } = new BeamShearAxisAction(Guid.NewGuid());
 
         public BeamShearAction(Guid id)
         {

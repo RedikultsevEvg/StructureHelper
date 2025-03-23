@@ -16,12 +16,9 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
         ///<inheritdoc/>
         public string Name { get; set; } = string.Empty;
         ///<inheritdoc/>
-        public double SupportShearForce { get; set; }
+        public IFactoredForceTuple SupportForce { get; set; } = new FactoredForceTuple(Guid.NewGuid());
         ///<inheritdoc/>
-        public IFactoredCombinationProperty FactoredCombinationProperty { get; } = new FactoredCombinationProperty(Guid.NewGuid());
-        ///<inheritdoc/>
-        public List<IBeamShearLoad> ShearLoads { get; } = new();
-
+        public List<IBeamSpanLoad> ShearLoads { get; } = new();
 
         public BeamShearAxisAction(Guid id)
         {

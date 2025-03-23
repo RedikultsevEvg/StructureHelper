@@ -60,7 +60,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             public void GetSumShearForce_ShouldThrowException_ForInvalidShearLoad()
             {
                 // Arrange
-                var mockInvalidShearLoad = new Mock<IBeamShearLoad>();
+                var mockInvalidShearLoad = new Mock<IBeamSpanLoad>();
 
                 // Act & Assert
                 Assert.Throws<StructureHelperException>(() => _logic.GetSumShearForce(mockInvalidShearLoad.Object, 2.0, 5.0));

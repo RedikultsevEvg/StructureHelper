@@ -22,7 +22,7 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger = traceLogger;
         }
 
-        public double GetSumShearForce(IBeamShearLoad beamShearLoad, double startCoord, double endCoord)
+        public double GetSumShearForce(IBeamSpanLoad beamShearLoad, double startCoord, double endCoord)
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             if (beamShearLoad is IConcentratedForce concentratedForce)

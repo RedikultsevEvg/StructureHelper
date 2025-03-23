@@ -9,7 +9,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Implement properties for shear beam load 
     /// </summary>
-    public interface IBeamShearLoad : IAction
+    public interface IBeamSpanLoad : IAction
     {
         /// <summary>
         /// Value of level where action is applyied at, 0.5 is top surface of beam, -0.5 is bottom surface of beam

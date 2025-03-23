@@ -3,7 +3,7 @@
     /// <summary>
     /// Implement properties of 
     /// </summary>
-    public interface IDistributedLoad : IBeamShearLoad
+    public interface IDistributedLoad : IBeamSpanLoad
     {
         /// <summary>
         /// Value of uniformly distributed load, N/m

@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,28 +38,34 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             {
                 Name = "Beam shear action"
             };
-            SetAction(beamShearAction.XAxisShearAction, 0);
-            SetFactors(beamShearAction.XAxisShearAction);
-            beamShearAction.XAxisShearAction.ShearLoads.Clear();
+            SetExternalForceFactors(beamShearAction.ExternalForce.CombinationProperty);
 
-            SetAction(beamShearAction.YAxisShearAction, 1e5);
-            SetFactors(beamShearAction.YAxisShearAction);
+            SetAction(beamShearAction.SupportAction, 1e5);
+            SetFactors(beamShearAction.SupportAction);
             return beamShearAction;
+        }
+
+        private static void SetExternalForceFactors(IFactoredCombinationProperty combinationProperty)
+        {
+            combinationProperty.CalcTerm = CalcTerms.ShortTerm;
+            combinationProperty.LimitState = LimitStates.ULS;
+            combinationProperty.LongTermFactor = 1;
+            combinationProperty.ULSFactor = 1;
         }
 
         private static void SetAction(IBeamShearAxisAction beamShearAxisAction, double supportForce)
         {
-            beamShearAxisAction.SupportShearForce = 1e5;
-            IBeamShearLoad distributedLoad = BeamShearLoadFactory.GetBeamShearLoad(ShearLoadTypes.DistributedLoad);
+            beamShearAxisAction.SupportForce.ForceTuple.Qy = supportForce;
+            IBeamSpanLoad distributedLoad = BeamShearLoadFactory.GetBeamShearLoad(ShearLoadTypes.DistributedLoad);
             beamShearAxisAction.ShearLoads.Add(distributedLoad);
         }
 
         private static void SetFactors(IBeamShearAxisAction beamShearAxisAction)
         {
-            beamShearAxisAction.FactoredCombinationProperty.LimitState = Infrastructures.Enums.LimitStates.ULS;
-            beamShearAxisAction.FactoredCombinationProperty.CalcTerm = Infrastructures.Enums.CalcTerms.ShortTerm;
-            beamShearAxisAction.FactoredCombinationProperty.LongTermFactor = 0.95;
-            beamShearAxisAction.FactoredCombinationProperty.ULSFactor = 1.2;
+            beamShearAxisAction.SupportForce.CombinationProperty.LimitState = LimitStates.ULS;
+            beamShearAxisAction.SupportForce.CombinationProperty.CalcTerm = CalcTerms.ShortTerm;
+            beamShearAxisAction.SupportForce.CombinationProperty.LongTermFactor = 0.95;
+            beamShearAxisAction.SupportForce.CombinationProperty.ULSFactor = 1.2;
         }
     }
 }

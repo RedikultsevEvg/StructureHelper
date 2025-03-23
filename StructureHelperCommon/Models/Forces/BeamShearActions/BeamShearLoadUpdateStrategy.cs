@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces.BeamShearActions
 {
-    public class BeamShearLoadUpdateStrategy : IUpdateStrategy<IBeamShearLoad>
+    public class BeamShearLoadUpdateStrategy : IUpdateStrategy<IBeamSpanLoad>
     {
         private IUpdateStrategy<IConcentratedForce> concentratedForceUpdateStrategy;
         private IUpdateStrategy<IDistributedLoad> distributedLoadUpdateStrategy;
-        public void Update(IBeamShearLoad targetObject, IBeamShearLoad sourceObject)
+        public void Update(IBeamSpanLoad targetObject, IBeamSpanLoad sourceObject)
         {
             CheckObject.IsNull(targetObject);
             CheckObject.IsNull(sourceObject);
@@ -22,7 +22,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             UpdateObjects(targetObject, sourceObject);
         }
 
-        private void UpdateObjects(IBeamShearLoad targetObject, IBeamShearLoad sourceObject)
+        private void UpdateObjects(IBeamSpanLoad targetObject, IBeamSpanLoad sourceObject)
         {
             if (sourceObject is IDistributedLoad distributedSource)
             {

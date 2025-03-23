@@ -25,10 +25,10 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
                 _mockSummaryForceLogic = new Mock<ISumForceByShearLoadLogic>();
                 var mockAxisAction = new Mock<IBeamShearAxisAction>();
                 var mockInclinedSection = new Mock<IInclinedSection>();
-                var mockShearLoad = new Mock<IBeamShearLoad>();
+                var mockShearLoad = new Mock<IBeamSpanLoad>();
 
-                mockAxisAction.Setup(a => a.SupportShearForce).Returns(100.0);
-                mockAxisAction.Setup(a => a.ShearLoads).Returns(new List<IBeamShearLoad> { mockShearLoad.Object });
+                mockAxisAction.Setup(a => a.SupportForce.ForceTuple.Qx).Returns(100.0);
+                mockAxisAction.Setup(a => a.ShearLoads).Returns(new List<IBeamSpanLoad> { mockShearLoad.Object });
 
                 mockInclinedSection.Setup(i => i.StartCoord).Returns(2.0);
                 mockInclinedSection.Setup(i => i.EndCoord).Returns(5.0);

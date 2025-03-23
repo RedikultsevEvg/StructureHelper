@@ -12,16 +12,12 @@ namespace StructureHelperCommon.Models.Forces
     public interface IBeamShearAxisAction : IAction
     {
         /// <summary>
-        /// Shear force at support point, N
+        /// Internal force at support point
         /// </summary>
-        double SupportShearForce { get; set; }
-        /// <summary>
-        /// Properties of combination of forces
-        /// </summary>
-        IFactoredCombinationProperty FactoredCombinationProperty { get; }
+        IFactoredForceTuple SupportForce { get; set; }
         /// <summary>
         /// Collection of loads which are applyed on beam at its span
         /// </summary>
-        List<IBeamShearLoad> ShearLoads {get;}
+        List<IBeamSpanLoad> ShearLoads {get;}
     }
 }

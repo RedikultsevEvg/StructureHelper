@@ -1,4 +1,6 @@
-﻿using StructureHelper.Windows.ViewModels;
+﻿using StructureHelper.Windows.Forces;
+using StructureHelper.Windows.ViewModels;
+using StructureHelper.Windows.ViewModels.Forces;
 using StructureHelperCommon.Models.Forces;
 using System;
 using System.Collections.Generic;
@@ -21,12 +23,16 @@ namespace StructureHelper.Windows.BeamShears
                 shearAction.Name = value;
             }
         }
-        public BeamShearAxisActionViewModel YAxisAction { get; private set; }
+
+        public FactoredForceTupleViewModel ExternalForces { get; private set; }
+
+        public BeamShearAxisActionViewModel SupportAction { get; private set; }
 
         public BeamShearActionViewModel(IBeamShearAction shearAction)
         {
             this.shearAction = shearAction;
-            YAxisAction = new(this.shearAction.YAxisShearAction);
+            SupportAction = new(this.shearAction.SupportAction);
+            ExternalForces = new(this.shearAction.ExternalForce);
         }
     }
 }

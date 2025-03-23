@@ -12,12 +12,9 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeStrategies();
-            CheckObject.IsNull(targetObject.XAxisShearAction);
-            CheckObject.IsNull(sourceObject.XAxisShearAction);
-            axisActionUpdateStrategy.Update(targetObject.XAxisShearAction, sourceObject.XAxisShearAction);
-            CheckObject.IsNull(sourceObject.YAxisShearAction);
-            CheckObject.IsNull(targetObject.YAxisShearAction);
-            axisActionUpdateStrategy.Update(targetObject.YAxisShearAction, sourceObject.YAxisShearAction);
+            CheckObject.IsNull(sourceObject.SupportAction);
+            CheckObject.IsNull(targetObject.SupportAction);
+            axisActionUpdateStrategy.Update(targetObject.SupportAction, sourceObject.SupportAction);
         }
 
         private void InitializeStrategies()

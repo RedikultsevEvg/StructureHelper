@@ -45,7 +45,7 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             getFactorLogic ??= new GetFactorByFactoredCombinationProperty()
             {
-                CombinationProperty = InputData.AxisAction.FactoredCombinationProperty,
+                CombinationProperty = InputData.AxisAction.SupportForce.CombinationProperty,
                 LimitState = InputData.LimitState,
                 CalcTerm = InputData.CalcTerm
             };

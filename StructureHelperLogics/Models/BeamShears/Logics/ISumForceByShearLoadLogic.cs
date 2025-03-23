@@ -20,6 +20,6 @@ namespace StructureHelperLogics.Models.BeamShears
         /// <param name="startCoord">Coordinate of start point, m</param>
         /// <param name="endCoord">Coordinate of end point, m</param>
         /// <returns>Summary force, N</returns>
-        double GetSumShearForce(IBeamShearLoad beamShearLoad, double startCoord, double endCoord);
+        double GetSumShearForce(IBeamSpanLoad beamShearLoad, double startCoord, double endCoord);
     }
 }

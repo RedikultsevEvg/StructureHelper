@@ -1,11 +1,10 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Windows.Forces;
+using StructureHelper.Windows.ViewModels.Forces;
 using StructureHelperCommon.Models.Forces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
 
 namespace StructureHelper.Windows.BeamShears
 {
@@ -13,21 +12,13 @@ namespace StructureHelper.Windows.BeamShears
     {
         private readonly IBeamShearAxisAction beamShearAxisAction;
 
-        public double SupportShearForce
-        {
-            get => beamShearAxisAction.SupportShearForce;
-            set
-            {
-                beamShearAxisAction.SupportShearForce = value;
-            }
-        }
-        public FactoredCombinationPropertyVM CombinationProperty { get; }
+        public FactoredForceTupleViewModel SupportForces { get; private set; }
         public BeamShearLoadsViewModel ShearLoads { get; }
 
         public BeamShearAxisActionViewModel(IBeamShearAxisAction beamShearAxisAction)
         {
             this.beamShearAxisAction = beamShearAxisAction;
-            CombinationProperty = new(this.beamShearAxisAction.FactoredCombinationProperty);
+            SupportForces = new(this.beamShearAxisAction.SupportForce);
             ShearLoads = new(this.beamShearAxisAction.ShearLoads);
         }
     }

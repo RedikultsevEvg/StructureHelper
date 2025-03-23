@@ -5,7 +5,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
 {
     public class DistributedLoadUpdateStrategy : IUpdateStrategy<IDistributedLoad>
     {
-        private IUpdateStrategy<IBeamShearLoad> baseUpdateStrategy;
+        private IUpdateStrategy<IBeamSpanLoad> baseUpdateStrategy;
         public void Update(IDistributedLoad targetObject, IDistributedLoad sourceObject)
         {
             CheckObject.IsNull(targetObject);

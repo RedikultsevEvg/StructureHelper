@@ -19,16 +19,16 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeStrategies();
             targetObject.Name = sourceObject.Name;
-            targetObject.SupportShearForce = sourceObject.SupportShearForce;
-            CheckObject.IsNull(targetObject.FactoredCombinationProperty);
-            CheckObject.IsNull(sourceObject.FactoredCombinationProperty);
-            combinationUpdateStrategy.Update(targetObject.FactoredCombinationProperty, sourceObject.FactoredCombinationProperty);
+            targetObject.SupportForce = sourceObject.SupportForce;
+            CheckObject.IsNull(targetObject.SupportForce.CombinationProperty);
+            CheckObject.IsNull(sourceObject.SupportForce.CombinationProperty);
+            combinationUpdateStrategy.Update(targetObject.SupportForce.CombinationProperty, sourceObject.SupportForce.CombinationProperty);
             CheckObject.IsNull(targetObject.ShearLoads);
             targetObject.ShearLoads.Clear();
             CheckObject.IsNull(sourceObject.ShearLoads);
             foreach (var item in sourceObject.ShearLoads)
             {
-                IBeamShearLoad beamShearLoad = item.Clone() as IBeamShearLoad;
+                IBeamSpanLoad beamShearLoad = item.Clone() as IBeamSpanLoad;
                 targetObject.ShearLoads.Add(beamShearLoad);
             }
         }

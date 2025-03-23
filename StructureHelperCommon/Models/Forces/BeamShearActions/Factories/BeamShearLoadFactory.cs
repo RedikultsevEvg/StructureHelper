@@ -13,7 +13,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
     }
     public static class BeamShearLoadFactory
     {
-        public static IBeamShearLoad GetBeamShearLoad(ShearLoadTypes loadType)
+        public static IBeamSpanLoad GetBeamShearLoad(ShearLoadTypes loadType)
         {
             if (loadType == ShearLoadTypes.DistributedLoad)
             {

@@ -5,7 +5,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
 {
     public class ConcentratedForceUpdateStrategy : IUpdateStrategy<IConcentratedForce>
     {
-        private IUpdateStrategy<IBeamShearLoad> baseUpdateStrategy;
+        private IUpdateStrategy<IBeamSpanLoad> baseUpdateStrategy;
         public void Update(IConcentratedForce targetObject, IConcentratedForce sourceObject)
         {
             CheckObject.IsNull(targetObject);

@@ -14,10 +14,10 @@ using System.Windows.Forms;
 
 namespace StructureHelper.Windows.BeamShears
 {
-    public class BeamShearLoadsViewModel : SelectItemVM<IBeamShearLoad>
+    public class BeamShearLoadsViewModel : SelectItemVM<IBeamSpanLoad>
     {
-        private IUpdateStrategy<IBeamShearLoad> updateStrategy;
-        public BeamShearLoadsViewModel(List<IBeamShearLoad> collection) : base(collection)
+        private IUpdateStrategy<IBeamSpanLoad> updateStrategy;
+        public BeamShearLoadsViewModel(List<IBeamSpanLoad> collection) : base(collection)
         {
         }
         public override void AddMethod(object parameter)
@@ -41,7 +41,7 @@ namespace StructureHelper.Windows.BeamShears
         {
             if (SelectedItem is null) { return; }
             Window window;
-            IBeamShearLoad temporaryShearLoad = SelectedItem.Clone() as IBeamShearLoad;
+            IBeamSpanLoad temporaryShearLoad = SelectedItem.Clone() as IBeamSpanLoad;
             if (SelectedItem is IDistributedLoad distributedLoad)
             {
                 window = new DistributedLoadView(distributedLoad);
