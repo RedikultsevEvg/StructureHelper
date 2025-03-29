@@ -47,10 +47,10 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
 
         private static void SetExternalForceFactors(IFactoredCombinationProperty combinationProperty)
         {
-            combinationProperty.CalcTerm = CalcTerms.ShortTerm;
             combinationProperty.LimitState = LimitStates.ULS;
+            combinationProperty.CalcTerm = CalcTerms.ShortTerm;
             combinationProperty.LongTermFactor = 1;
-            combinationProperty.ULSFactor = 1;
+            combinationProperty.ULSFactor = 1.2;
         }
 
         private static void SetAction(IBeamShearAxisAction beamShearAxisAction, double supportForce)

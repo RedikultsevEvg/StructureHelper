@@ -4,19 +4,19 @@ using System.Windows;
 namespace StructureHelper.Windows.BeamShears
 {
     /// <summary>
-    /// Interaction logic for StirrupByDensityView.xaml
+    /// Interaction logic for SectionView.xaml
     /// </summary>
-    public partial class StirrupByDensityView : Window
+    public partial class SectionView : Window
     {
-        private readonly StirrupByDensityViewModel viewModel;
-        public StirrupByDensityView(StirrupByDensityViewModel viewModel)
+        private readonly SectionViewModel viewModel;
+        public SectionView(SectionViewModel viewModel)
         {
             InitializeComponent();
             this.viewModel = viewModel;
             this.viewModel.ParentWindow = this;
             this.DataContext = this.viewModel;
         }
-        public StirrupByDensityView(IStirrupByDensity stirrupByDensity) : this(new StirrupByDensityViewModel(stirrupByDensity))
+        public SectionView(IBeamShearSection section) : this(new SectionViewModel(section))
         {
             
         }

@@ -7,16 +7,7 @@
             <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding CodeList}" SelectedItem="{Binding CodeEntity}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Name}">
-                            <!--<ToolTip>
-                                <StackPanel>
-                                    <TextBlock FontWeight="Bold" Text="Code short name:"/>
-                                    <TextBlock Text="{Binding Name}"/>
-                                    <TextBlock FontWeight="Bold" Text="Full name:"/>
-                                    <TextBlock Text="{Binding FullName}"/>
-                                </StackPanel>
-                            </ToolTip>-->
-                        </TextBlock>
+                        <TextBlock Text="{Binding Name}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
@@ -28,8 +19,11 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <TextBlock Text="Material Model"/>
-            <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding MaterialLogics}" SelectedItem="{Binding MaterialLogic}">
+            <TextBlock Text="Material Model" Visibility="{Binding MaterialLogicVisibility, Converter = {StaticResource BooleanToVisibilityConverter}}"/>
+            <ComboBox Height="25" VerticalAlignment="Top"
+                      ItemsSource="{Binding MaterialLogics}"
+                      SelectedItem="{Binding MaterialLogic}"
+                      Visibility="{Binding MaterialLogicVisibility, Converter = {StaticResource BooleanToVisibilityConverter}}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
@@ -113,12 +107,12 @@
                     <RowDefinition Height="22"/>
                     <RowDefinition Height="22"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Tension for ULS"/>
-                <TextBlock Grid.Row="1" Text="Tension for SLS"/>
-                <TextBlock Grid.Row="2" Text="Relative humidity"/>
-                <CheckBox Grid.Column="1" IsChecked="{Binding TensionForULS}"/>
-                <CheckBox Grid.Column="1" Grid.Row="1" IsChecked="{Binding TensionForSLS}"/>
-                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Humidity}"/>
+                <TextBlock Grid.Row="0" Text="Tension for ULS" Visibility="{Binding TensionForULSVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <CheckBox Grid.Column="1" IsChecked="{Binding TensionForULS}" Visibility="{Binding TensionForULSVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <TextBlock Grid.Row="1" Text="Tension for SLS" Visibility="{Binding TensionForSLSVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <CheckBox Grid.Column="1" Grid.Row="1" IsChecked="{Binding TensionForSLS}" Visibility="{Binding TensionForSLSVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <TextBlock Grid.Row="2" Text="Relative humidity" Visibility="{Binding HumidityVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Humidity}" Visibility="{Binding HumidityVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
             <Button Content="Show Safety Factors" Command="{Binding ShowSafetyFactors}"/>
             <ContentControl ContentTemplate="{StaticResource MaterialSafetyFactors}" Content="{Binding SafetyFactors}"/>

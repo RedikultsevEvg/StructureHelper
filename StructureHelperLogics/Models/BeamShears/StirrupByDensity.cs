@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
     public class StirrupByDensity : IStirrupByDensity
     {
+        private IUpdateStrategy<IStirrupByDensity> updateStrategy;
         public Guid Id { get; }
         public string Name { get; set; } = string.Empty;
         public double StirrupDensity { get; set; }
@@ -20,7 +17,10 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            StirrupByDensity newItem = new(Guid.NewGuid());
+            updateStrategy ??= new StirrupByDensityUpdateStrategy();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

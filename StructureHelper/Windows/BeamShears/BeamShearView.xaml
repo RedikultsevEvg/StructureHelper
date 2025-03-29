@@ -24,9 +24,10 @@
                     </Viewbox>
                 </Button>
             </ToolBar>
-            <ToolBar ToolTip="Sections">
+            <ToolBar ToolTip="Sections" DataContext="{Binding Sections}">
                 <Button Style="{StaticResource ToolButton}" 
-                        Command="{Binding FileOpen}">
+                        Command="{Binding Add}"
+                        CommandParameter="{x:Static enums:PrimitiveType.Rectangle}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Rectangle section"
                                                 IconContent="{StaticResource ShearRectangleSection}"

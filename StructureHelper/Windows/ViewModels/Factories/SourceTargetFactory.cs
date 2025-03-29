@@ -38,6 +38,16 @@ namespace StructureHelper.Windows.ViewModels
             return result;
         }
 
+        public static DataTemplate GetSimpleTemplate()
+        {
+            return GetDataTemplate(SimpleItemTemplate);
+        }
+
+        public static DataTemplate GetColoredTemplate()
+        {
+            return GetDataTemplate(ColoredItemTemplate);
+        }
+
         private static DataTemplate GetDataTemplate(string dataTemplateName)
         {
             DataTemplate dataTemplate;

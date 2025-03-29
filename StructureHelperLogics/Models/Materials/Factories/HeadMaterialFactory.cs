@@ -1,15 +1,7 @@
 ﻿using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Settings;
-using StructureHelperCommon.Models.Codes;
 using StructureHelperCommon.Models.Materials.Libraries;
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Materials
 {
@@ -17,7 +9,7 @@ namespace StructureHelperLogics.Models.Materials
     {
         Concrete40,
         Reinforcement400,
-        Reinforecement500,
+        Reinforcement500,
         Elastic200,
         Carbon1400,
         Glass1200
@@ -33,7 +25,7 @@ namespace StructureHelperLogics.Models.Materials
         {
             if (type == HeadmaterialType.Concrete40) { return GetConcrete40(); }
             if (type == HeadmaterialType.Reinforcement400) { return GetReinforcement400(); }
-            if (type == HeadmaterialType.Reinforecement500) { return GetReinforcement500(); }
+            if (type == HeadmaterialType.Reinforcement500) { return GetReinforcement500(); }
             if (type == HeadmaterialType.Elastic200) { return GetElastic200(); }
             if (type == HeadmaterialType.Carbon1400) { return GetCarbon1400(); }
             if (type == HeadmaterialType.Glass1200) { return GetGlass1200(); }
@@ -94,12 +86,7 @@ namespace StructureHelperLogics.Models.Materials
         private static IHeadMaterial GetConcrete40()
         {
             var material = new HeadMaterial();
-            var libMaterial = LibConcreteMaterials.Where(x => x.Name.Contains("40")).First();
-            var libMat = new ConcreteLibMaterial();
-            libMat.MaterialEntity = libMaterial;
-            libMat.TensionForULS = false;
-            libMat.TensionForSLS = true;
-            material.HelperMaterial = libMat;
+            material.HelperMaterial = ConcreteLibMaterialFactory.GetConcreteLibMaterial(ConcreteLibTypes.Concrete40);
             return material;
         }
     }

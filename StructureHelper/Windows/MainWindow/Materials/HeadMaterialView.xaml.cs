@@ -24,10 +24,10 @@ namespace StructureHelper.Windows.MainWindow.Materials
     /// </summary>
     public partial class HeadMaterialView : Window
     {
-        IHeadMaterial headMaterial;
-        HeadMaterialViewModel viewModel;
-        Dictionary<string, Binding> bindings = new();
-        IHelperMaterial helperMaterial;
+        private readonly IHeadMaterial headMaterial;
+        private readonly HeadMaterialViewModel viewModel;
+        private readonly Dictionary<string, Binding> bindings = new();
+        private readonly IHelperMaterial helperMaterial;
         string templateName;
 
         public HeadMaterialView(HeadMaterialViewModel viewModel)
@@ -64,7 +64,7 @@ namespace StructureHelper.Windows.MainWindow.Materials
             }
             else if (helperMaterial is IReinforcementLibMaterial)
             {
-                SetReinForcementLibraryMaterial();
+                SetReinforcementLibraryMaterial();
             }
             else if (helperMaterial is IElasticMaterial)
             {
@@ -81,7 +81,7 @@ namespace StructureHelper.Windows.MainWindow.Materials
         {
             foreach (var item in bindings)
             {
-                ContentControl contentControl = new ContentControl();
+                ContentControl contentControl = new();
                 contentControl.SetResourceReference(ContentTemplateProperty, item.Key);
                 contentControl.SetBinding(ContentProperty, item.Value);
                 StpMaterialProperties.Children.Add(contentControl);
@@ -105,11 +105,13 @@ namespace StructureHelper.Windows.MainWindow.Materials
             frBinding.Source = (viewModel.HelperMaterialViewModel as ElasticViewModel).SafetyFactors;
             bindings.Add(templateName, frBinding);
         }
-        private void SetReinForcementLibraryMaterial()
+        private void SetReinforcementLibraryMaterial()
         {
             templateName = "ReinforcementMaterial";
-            var binding = new Binding();
-            binding.Source = viewModel.HelperMaterialViewModel;
+            var binding = new Binding
+            {
+                Source = viewModel.HelperMaterialViewModel
+            };
             bindings.Add(templateName, binding);
         }
         private void SetConcreteLibraryMaterial()

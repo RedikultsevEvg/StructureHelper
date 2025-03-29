@@ -1,29 +1,23 @@
-﻿using LoaderCalculator.Data.Materials;
-using StructureHelper.Infrastructure;
+﻿using StructureHelper.Infrastructure;
 using StructureHelper.Windows.AddMaterialWindow;
-using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Codes;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
-using StructureHelperLogics.Models.Materials;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.Materials
 {
-    internal class LibMaterialViewModel<T> : HelperMaterialViewModel where T: class, ILibMaterialEntity
+    public class LibMaterialViewModel<T> : HelperMaterialViewModel where T: class, ILibMaterialEntity
     {
-        ILibMaterial material;
-        ICommand showSafetyFactors;
+        private readonly ILibMaterial material;
+        private ICommand showSafetyFactors;
         SafetyFactorsViewModel safetyFactorsViewModel;
         private ICodeEntity codeEntity;
-        private IMaterialLogic materialLogic;
+        //private IMaterialLogic materialLogic;
 
         public ILibMaterialEntity MaterialEntity
         {
@@ -50,28 +44,12 @@ namespace StructureHelper.Windows.ViewModels.Materials
         }
 
         public List<IMaterialLogic> MaterialLogics => material.MaterialLogics;
-        public IMaterialLogic MaterialLogic { get => material.MaterialLogic; set => material.MaterialLogic = value; }
-
-        private void FillMaterialKinds()
+        public IMaterialLogic MaterialLogic
         {
-            var materialKinds = ProgramSetting
-                .MaterialRepository
-                .Repository
-                .Where(x => x.Code == codeEntity & x is T);
-
-            MaterialLibrary = new ObservableCollection<T>();
-            if (materialKinds.Count() > 0)
-            {
-                foreach (var item in materialKinds)
-                {
-                    MaterialLibrary.Add((T)item);
-                }
-                OnPropertyChanged(nameof(MaterialLibrary));
-                material.MaterialEntity = MaterialLibrary.First();
-                OnPropertyChanged(nameof(MaterialEntity));
-            }
+            get => material.MaterialLogic;
+            set => material.MaterialLogic = value;
         }
-
+        public bool MaterialLogicVisibility { get; set; } = true;
         public ObservableCollection<ICodeEntity> CodeList { get; }
         public ObservableCollection<T> MaterialLibrary { get; private set; }
         public SafetyFactorsViewModel SafetyFactors => safetyFactorsViewModel;
@@ -84,7 +62,6 @@ namespace StructureHelper.Windows.ViewModels.Materials
                 safetyFactorsViewModel = new SafetyFactorsViewModel(material.SafetyFactors);
                 OnPropertyChanged(nameof(SafetyFactors));
             });
-
 
         public LibMaterialViewModel(ILibMaterial material)
         {
@@ -107,6 +84,25 @@ namespace StructureHelper.Windows.ViewModels.Materials
                 .Single(x => x.Id == selectedMaterialKind.Id);
             OnPropertyChanged(nameof(MaterialEntity));
             safetyFactorsViewModel = new SafetyFactorsViewModel(material.SafetyFactors);
+        }
+        private void FillMaterialKinds()
+        {
+            var materialKinds = ProgramSetting
+                .MaterialRepository
+                .Repository
+                .Where(x => x.Code == codeEntity & x is T);
+
+            MaterialLibrary = new ObservableCollection<T>();
+            if (materialKinds.Count() > 0)
+            {
+                foreach (var item in materialKinds)
+                {
+                    MaterialLibrary.Add((T)item);
+                }
+                OnPropertyChanged(nameof(MaterialLibrary));
+                material.MaterialEntity = MaterialLibrary.First();
+                OnPropertyChanged(nameof(MaterialEntity));
+            }
         }
     }
 }

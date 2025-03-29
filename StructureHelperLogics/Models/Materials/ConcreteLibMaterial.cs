@@ -28,17 +28,17 @@ namespace StructureHelperLogics.Models.Materials
         /// <inheritdoc/>
         public List<IMaterialSafetyFactor> SafetyFactors { get; set; }
         /// <inheritdoc/>
-        public bool TensionForULS { get ; set; }
+        public bool TensionForULS { get; set; } = false;
         /// <inheritdoc/>
-        public bool TensionForSLS { get; set; }
+        public bool TensionForSLS { get; set; } = true;
         /// <inheritdoc/>
-        public double RelativeHumidity { get; set; }
+        public double RelativeHumidity { get; set; } = 0.55d;
         /// <inheritdoc/>
         public IMaterialLogic MaterialLogic { get; set; }
         /// <inheritdoc/>
-        public double MinAge { get; set; }
+        public double MinAge { get; set; } = 0d;
         /// <inheritdoc/>
-        public double MaxAge { get; set; }
+        public double MaxAge { get; set; } = maxAge;
         /// <inheritdoc/>
         public List<IMaterialLogic> MaterialLogics => materialLogics;
 
@@ -51,11 +51,6 @@ namespace StructureHelperLogics.Models.Materials
             SafetyFactors = new List<IMaterialSafetyFactor>();
             lmOptions = new LMBuilders.ConcreteOptions();
             SafetyFactors.AddRange(PartialCoefficientFactory.GetDefaultConcreteSafetyFactors(ProgramSetting.CodeType));
-            TensionForULS = false;
-            TensionForSLS = true;
-            RelativeHumidity = 0.55d;
-            MinAge = 0d;
-            MaxAge = maxAge;
         }
 
         public ConcreteLibMaterial() : this (Guid.NewGuid())

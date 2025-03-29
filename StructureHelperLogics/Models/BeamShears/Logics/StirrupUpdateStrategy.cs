@@ -12,7 +12,7 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
     public class StirrupUpdateStrategy : IUpdateStrategy<IStirrup>
     {
         private IUpdateStrategy<IStirrupByDensity> densityUpdateStrategy;
-        private IUpdateStrategy<IStirrupByUniformRebar> uniformUpdateStrategy;
+        private IUpdateStrategy<IStirrupByRebar> uniformUpdateStrategy;
         public void Update(IStirrup targetObject, IStirrup sourceObject)
         {
             CheckObject.IsNull(targetObject);
@@ -22,7 +22,7 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
             {
                 UpdateByDensity(targetObject, density);
             }
-            else if (sourceObject is IStirrupByUniformRebar stirrupByUniformRebar)
+            else if (sourceObject is IStirrupByRebar stirrupByUniformRebar)
             {
                 UpdateByUniformRebar(targetObject, stirrupByUniformRebar);
             }
@@ -32,10 +32,10 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
             }
         }
 
-        private void UpdateByUniformRebar(IStirrup targetObject, IStirrupByUniformRebar stirrupByUniformRebar)
+        private void UpdateByUniformRebar(IStirrup targetObject, IStirrupByRebar stirrupByUniformRebar)
         {
-            uniformUpdateStrategy ??= new StirrupByUniformRebarUpdateStrategy();
-            if (targetObject is IStirrupByUniformRebar targetUniformRebar)
+            uniformUpdateStrategy ??= new StirrupByRebarUpdateStrategy();
+            if (targetObject is IStirrupByRebar targetUniformRebar)
             {
                 uniformUpdateStrategy.Update(targetUniformRebar, stirrupByUniformRebar);
             }

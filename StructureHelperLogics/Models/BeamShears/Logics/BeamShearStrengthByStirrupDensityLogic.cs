@@ -1,17 +1,13 @@
 ﻿using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 //Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
 
 namespace StructureHelperLogics.Models.BeamShears
 {
+    /// <inheritdoc/>
     public class BeamShearStrengthByStirrupDensityLogic : IBeamShearStrenghLogic
     {
         private readonly IStirrupEffectiveness stirrupEffectiveness;
@@ -32,7 +28,7 @@ namespace StructureHelperLogics.Models.BeamShears
         }
 
         public IShiftTraceLogger? TraceLogger { get; set; }
-
+        /// <inheritdoc/>
         public double GetShearStrength()
         {
             Check();

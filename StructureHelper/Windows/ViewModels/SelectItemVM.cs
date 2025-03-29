@@ -1,7 +1,5 @@
-﻿using LoaderCalculator;
-using StructureHelper.Infrastructure;
+﻿using StructureHelper.Infrastructure;
 using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -86,7 +84,10 @@ namespace StructureHelper.Windows.ViewModels
                     ));
             }
         }
-
+        /// <summary>
+        /// Incaplsulates logic of editing of object when Edit-command runs
+        /// </summary>
+        /// <param name="parameter"></param>
         public virtual void EditMethod(object parameter)
         {
             Items.Clear();

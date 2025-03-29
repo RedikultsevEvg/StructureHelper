@@ -67,11 +67,11 @@ namespace StructureHelperLogics.Models.BeamShears
         private void GetSectionInputDatas(IBeamShearCalculatorInputData inputData)
         {
             sectionInputDatas = new();
-            foreach (var beamShearSection in inputData.ShearSections)
+            foreach (var beamShearSection in inputData.Sections)
             {
                 foreach (var stirrup in inputData.Stirrups)
                 {
-                    foreach (var beamShearAction in inputData.BeamShearActions)
+                    foreach (var beamShearAction in inputData.Actions)
                     {
                         BeamShearSectionCalculatorInputData newInputData = new(Guid.NewGuid())
                         {

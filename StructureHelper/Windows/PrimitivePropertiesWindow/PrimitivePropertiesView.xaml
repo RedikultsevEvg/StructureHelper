@@ -9,23 +9,9 @@
         mc:Ignorable="d"
         Title="PrimitiveProperties" Height="450" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <DataTemplate x:Key="RectangleProperties">
             <Expander Header="Rectangle" IsExpanded="True">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="22"/>
-                        <RowDefinition Height="22"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0" Text="Width"/>
-                    <TextBlock Grid.Row="1" Text="Height"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Width, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding Height, Converter={StaticResource LengthConverter}, ValidatesOnExceptions=True}"/>
-                </Grid>
+                <ContentControl ContentTemplate="{StaticResource RectangleShapeEdit}" Content="{Binding}"/>
             </Expander>
         </DataTemplate>
         <DataTemplate x:Key="CircleProperties">

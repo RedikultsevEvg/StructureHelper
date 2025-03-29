@@ -7,12 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperLogics.Models.BeamShears.Logics
+namespace StructureHelperLogics.Models.BeamShears
 {
-    public class StirrupByUniformRebarUpdateStrategy : IUpdateStrategy<IStirrupByUniformRebar>
+    public class StirrupByRebarUpdateStrategy : IUpdateStrategy<IStirrupByRebar>
     {
         private IUpdateStrategy<IStirrup>? baseUpdateStrategy;
-        public void Update(IStirrupByUniformRebar targetObject, IStirrupByUniformRebar sourceObject)
+        public void Update(IStirrupByRebar targetObject, IStirrupByRebar sourceObject)
         {
             CheckObject.IsNull(targetObject);
             CheckObject.IsNull(sourceObject);
@@ -23,7 +23,7 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
             targetObject.Material = sourceObject.Material.Clone() as IReinforcementLibMaterial;
             targetObject.Diameter = sourceObject.Diameter;
             targetObject.LegCount = sourceObject.LegCount;
-            targetObject.Step = sourceObject.Step;
+            targetObject.Spacing = sourceObject.Spacing;
         }
     }
 }

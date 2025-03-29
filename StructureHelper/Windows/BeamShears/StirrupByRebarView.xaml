@@ -1,0 +1,48 @@
+﻿<Window x:Class="StructureHelper.Windows.BeamShears.StirrupByRebarView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.BeamShears"
+        d:DataContext="{d:DesignInstance local:StirrupByRebarViewModel}"
+        mc:Ignorable="d"
+        Title="Stirrup by uniformly distributed rebars" Height="350" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary Source="/Infrastructure/UI/Resources/Materials.xaml"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header="Main">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Name"/>
+                    <TextBox Grid.Column="1" Text="{Binding Name}"/>
+                    <TextBlock Grid.Row="1" Text="Diameter"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Diameter, Converter={StaticResource LengthConverter}}"/>
+                    <TextBlock Grid.Row="2" Text="Number of legs"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding LegCount, Converter={StaticResource PlainDouble}}"/>
+                    <TextBlock Grid.Row="3" Text="Spacing"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Spacing, Converter={StaticResource LengthConverter}}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Material" DataContext="{Binding Material}">
+                <ContentControl ContentTemplate="{StaticResource ReinforcementMaterial}" Content="{Binding}"/>
+            </TabItem>
+        </TabControl>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>

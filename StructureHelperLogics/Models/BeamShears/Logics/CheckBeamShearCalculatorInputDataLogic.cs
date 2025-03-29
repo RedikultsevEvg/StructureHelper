@@ -34,13 +34,13 @@ namespace StructureHelperLogics.Models.BeamShears
                 string errorString = ErrorStrings.ParameterIsNull + ": Input data";
                 throw new StructureHelperException(errorString);
             }
-            if (InputData.BeamShearActions is null || ! InputData.BeamShearActions.Any())
+            if (InputData.Actions is null || ! InputData.Actions.Any())
             {
                 result = false;
                 string errorString = "Collection of actions does not contain any action";
                 TraceMessage(errorString);
             }
-            if (InputData.ShearSections is null || ! InputData.ShearSections.Any())
+            if (InputData.Sections is null || ! InputData.Sections.Any())
             {
                 result = false;
                 string errorString = "Collection of sections does not contain any section";

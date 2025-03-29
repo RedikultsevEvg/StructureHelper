@@ -9,8 +9,14 @@ using StructureHelperLogics.Models.Materials;
 using System;
 using System.Windows;
 
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
 namespace StructureHelper.Windows.BeamShears
 {
+    /// <summary>
+    /// Implements logic of CRUD operations with stirrups in beam shear calculations
+    /// </summary>
     public class BeamStirrupsViewModel : SelectItemVM<IStirrup>
     {
         private const string ErrorText = "Error of creating of stirrup";
@@ -22,37 +28,14 @@ namespace StructureHelper.Windows.BeamShears
         {
             this.shearRepository = shearRepository;
         }
-
+        /// <inheritdoc/>
         public override void EditMethod(object parameter)
         {
             if (SelectedItem is null) { return; }
             SafetyProcessor.RunSafeProcess(EditStirrup, "Error of editing of stirrup");
             base.EditMethod(parameter);
         }
-
-        private void EditStirrup()
-        {
-            Window window;
-            IStirrup temporaryStirrup = SelectedItem.Clone() as IStirrup;
-            if (SelectedItem is IStirrupByDensity stirrupByDensity)
-            {
-                window = new StirrupByDensityView(stirrupByDensity);
-            }
-            //else if (SelectedItem is IStirrupByUniformRebar stirrupByUniformRebar)
-            //{
-            //    window = ;
-            //}
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));
-            }
-            window.ShowDialog();
-            if (window.DialogResult != true)
-            {
-                updateStrategy ??= new StirrupUpdateStrategy();
-            }
-        }
-
+        /// <inheritdoc/>
         public override void AddMethod(object parameter)
         {
             if (parameter is StirrupTypes stirrupParameter)
@@ -66,6 +49,29 @@ namespace StructureHelper.Windows.BeamShears
                 return;
             }
         }
+        private void EditStirrup()
+        {
+            Window window;
+            IStirrup temporaryStirrup = SelectedItem.Clone() as IStirrup;
+            if (SelectedItem is IStirrupByDensity stirrupByDensity)
+            {
+                window = new StirrupByDensityView(stirrupByDensity);
+            }
+            else if (SelectedItem is IStirrupByRebar stirrupByRebar)
+            {
+                window = new StirrupByRebarView(stirrupByRebar);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));
+            }
+            window.ShowDialog();
+            if (window.DialogResult != true)
+            {
+                updateStrategy ??= new StirrupUpdateStrategy();
+                updateStrategy.Update(SelectedItem, temporaryStirrup);
+            }
+        }
 
         private void AddStirrup()
         {
@@ -73,26 +79,29 @@ namespace StructureHelper.Windows.BeamShears
             {
                 AddStirrupByDensity();
             }
-            if (stirrupType is StirrupTypes.UniformRebar)
+            else if (stirrupType is StirrupTypes.UniformRebar)
             {
                 AddUniformRebarStirrup();
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(stirrupType));
             }
             base.AddMethod(stirrupType);
         }
 
         private void AddUniformRebarStirrup()
         {
-            IReinforcementLibMaterial reinforcement = new ReinforcementLibMaterial(Guid.NewGuid());
-            NewItem = new StirrupByUniformRebar(Guid.NewGuid())
+            IReinforcementLibMaterial reinforcement = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforcement400).HelperMaterial as IReinforcementLibMaterial;
+            NewItem = new StirrupByRebar(Guid.NewGuid())
             {
                 Name = "New stirrup by uniformly distributed rebar",
                 Diameter = 0.008,
                 LegCount = 2,
-                Step = 0.1,
+                Spacing = 0.1,
                 Material = reinforcement
             };
         }
-
         private void AddStirrupByDensity()
         {
             NewItem = new StirrupByDensity(Guid.NewGuid())
@@ -104,7 +113,7 @@ namespace StructureHelper.Windows.BeamShears
 
         public override void DeleteMethod(object parameter)
         {
-            shearRepository.DeleteStirrup(SelectedItem);
+            BeamShearRepositoryService.DeleteStirrup(shearRepository, SelectedItem);
             base.DeleteMethod(parameter);
         }
     }

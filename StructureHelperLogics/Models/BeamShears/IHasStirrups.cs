@@ -9,6 +9,5 @@ namespace StructureHelperLogics.Models.BeamShears
     public interface IHasStirrups
     {
         List<IStirrup> Stirrups { get; }
-        void DeleteStirrup(IStirrup stirrup);
     }
 }

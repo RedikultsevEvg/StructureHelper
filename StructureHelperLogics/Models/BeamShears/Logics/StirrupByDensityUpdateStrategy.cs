@@ -4,7 +4,7 @@ using StructureHelperCommon.Services;
 //Copyright (c) 2026 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
 
-namespace StructureHelperLogics.Models.BeamShears.Logics
+namespace StructureHelperLogics.Models.BeamShears
 {
     public class StirrupByDensityUpdateStrategy : IUpdateStrategy<IStirrupByDensity>
     {

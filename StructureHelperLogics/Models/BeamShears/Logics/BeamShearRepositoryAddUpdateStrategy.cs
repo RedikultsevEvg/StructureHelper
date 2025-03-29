@@ -11,8 +11,8 @@ namespace StructureHelperLogics.Models.BeamShears
             CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
             CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
-            targetObject.BeamShearActions.AddRange(sourceObject.BeamShearActions);
-            targetObject.ShearSections.AddRange(sourceObject.ShearSections);
+            targetObject.Actions.AddRange(sourceObject.Actions);
+            targetObject.Sections.AddRange(sourceObject.Sections);
             targetObject.Stirrups.AddRange(sourceObject.Stirrups);
             targetObject.Calculators.AddRange(sourceObject.Calculators);
         }

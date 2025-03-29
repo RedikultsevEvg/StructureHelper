@@ -16,9 +16,9 @@ namespace StructureHelperLogics.Models.BeamShears
 
 
         /// <inheritdoc/>
-        public List<IBeamShearAction> BeamShearActions { get; } = new();
+        public List<IBeamShearAction> Actions { get; } = new();
         /// <inheritdoc/>
-        public List<IBeamShearSection> ShearSections { get; } = new();
+        public List<IBeamShearSection> Sections { get; } = new();
         /// <inheritdoc/>
         public List<IStirrup> Stirrups { get; } = new();
         public BeamShearCalculatorInputData(Guid id)

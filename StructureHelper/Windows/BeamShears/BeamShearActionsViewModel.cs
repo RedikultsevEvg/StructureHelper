@@ -12,7 +12,7 @@ namespace StructureHelper.Windows.BeamShears
         private readonly IBeamShearRepository shearRepository;
         private IUpdateStrategy<IBeamShearAction> updateStrategy;
 
-        public BeamShearActionsViewModel(IBeamShearRepository shearRepository) : base(shearRepository.BeamShearActions)
+        public BeamShearActionsViewModel(IBeamShearRepository shearRepository) : base(shearRepository.Actions)
         {
             this.shearRepository = shearRepository;
         }
@@ -36,7 +36,7 @@ namespace StructureHelper.Windows.BeamShears
         }
         public override void DeleteMethod(object parameter)
         {
-            shearRepository.DeleteAction(SelectedItem);
+            BeamShearRepositoryService.DeleteAction(shearRepository, SelectedItem);
             base.DeleteMethod(parameter);
         }
     }

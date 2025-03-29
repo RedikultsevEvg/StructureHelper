@@ -15,6 +15,9 @@
     <Compile Update="Windows\BeamShears\BeamShearActionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\BeamShears\BeamShearCalculatorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\BeamShears\BeamShearView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -24,7 +27,13 @@
     <Compile Update="Windows\BeamShears\DistributedLoadView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\BeamShears\SectionView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\BeamShears\StirrupByDensityView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\BeamShears\StirrupByRebarView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml.cs">
@@ -114,6 +123,9 @@
     <Compile Update="Windows\UserControls\ListOfFileControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\UserControls\Materials\ReinforcementSelector.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\UserControls\MultiplyDouble.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -155,6 +167,9 @@
     <Page Update="Windows\BeamShears\BeamShearActionView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Windows\BeamShears\BeamShearCalculatorView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\BeamShears\BeamShearView.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -164,7 +179,13 @@
     <Page Update="Windows\BeamShears\DistributedLoadView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Windows\BeamShears\SectionView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\BeamShears\StirrupByDensityView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\BeamShears\StirrupByRebarView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml">
@@ -255,6 +276,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\UserControls\ListOfFileControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\UserControls\Materials\ReinforcementSelector.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\UserControls\MultiplyDouble.xaml">

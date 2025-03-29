@@ -19,7 +19,7 @@ namespace StructureHelperLogics.Models.BeamShears
         /// <summary>
         /// Concrete of cross-section
         /// </summary>
-        IMaterialStrength MaterialStrength { get;}
+        IConcreteLibMaterial Material { get; set; }
         /// <summary>
         /// Shape of cross-section
         /// </summary>

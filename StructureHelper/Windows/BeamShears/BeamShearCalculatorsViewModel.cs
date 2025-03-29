@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -72,14 +73,17 @@ namespace StructureHelper.Windows.BeamShears
         }
         private void EditCalculator()
         {
+            Window window; 
             if (SelectedItem is IBeamShearCalculator beamShearCalculator)
             {
-                //to do
+                var viewModel = new BeamShearCalculatorViewModel(shearRepository, beamShearCalculator);
+                window = new BeamShearCalculatorView(viewModel);
             }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));
             }
+            window.ShowDialog();
         }
         private void RunMethod(object param)
         {

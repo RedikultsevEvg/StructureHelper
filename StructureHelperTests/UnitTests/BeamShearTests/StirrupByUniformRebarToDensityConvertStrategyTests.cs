@@ -17,7 +17,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
     {
         private Mock<IUpdateStrategy<IStirrup>> _mockUpdateStrategy;
         private Mock<IShiftTraceLogger> _mockTraceLogger;
-        private StirrupByUniformRebarToDensityConvertStrategy _convertStrategy;
+        private StirrupByRebarToDensityConvertStrategy _convertStrategy;
 
         [SetUp]
         public void Setup()
@@ -25,7 +25,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             _mockUpdateStrategy = new Mock<IUpdateStrategy<IStirrup>>();
             _mockTraceLogger = new Mock<IShiftTraceLogger>();
 
-            _convertStrategy = new StirrupByUniformRebarToDensityConvertStrategy(
+            _convertStrategy = new StirrupByRebarToDensityConvertStrategy(
                 _mockUpdateStrategy.Object,
                 _mockTraceLogger.Object
             );
@@ -38,11 +38,11 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             var mockMaterial = new Mock<IReinforcementLibMaterial>();
             mockMaterial.Setup(m => m.GetStrength(LimitStates.ULS, CalcTerms.ShortTerm)).Returns((2e8, 2e8));
 
-            var stirrupRebar = new Mock<IStirrupByUniformRebar>();
+            var stirrupRebar = new Mock<IStirrupByRebar>();
             stirrupRebar.Setup(s => s.Diameter).Returns(0.02);
             stirrupRebar.Setup(s => s.Material).Returns(mockMaterial.Object);
             stirrupRebar.Setup(s => s.LegCount).Returns(2);
-            stirrupRebar.Setup(s => s.Step).Returns(0.15);
+            stirrupRebar.Setup(s => s.Spacing).Returns(0.15);
 
             // Act
             var result = _convertStrategy.Convert(stirrupRebar.Object);

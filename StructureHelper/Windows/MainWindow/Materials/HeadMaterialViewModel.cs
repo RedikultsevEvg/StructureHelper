@@ -13,8 +13,8 @@ namespace StructureHelper.Windows.ViewModels.Materials
 {
     public class HeadMaterialViewModel : OkCancelViewModelBase
     {
-        IHeadMaterial headMaterial;
-        HelperMaterialViewModel helperMaterialViewModel;
+        private readonly IHeadMaterial headMaterial;
+        private readonly HelperMaterialViewModel helperMaterialViewModel;
         private ICommand showSafetyFactors;
         private ICommand editColorCommand;
 
@@ -41,10 +41,9 @@ namespace StructureHelper.Windows.ViewModels.Materials
             {
                 return showSafetyFactors ??= new RelayCommand(o =>
                 {
-                    if (headMaterial is ILibMaterial)
+                    if (headMaterial is ILibMaterial libMaterial)
                     {
-                        var material = headMaterial as ILibMaterial;
-                        var wnd = new SafetyFactorsView(material.SafetyFactors);
+                        var wnd = new SafetyFactorsView(libMaterial.SafetyFactors);
                         wnd.ShowDialog();
                     }
                 }, o => headMaterial is LibMaterial
@@ -66,27 +65,23 @@ namespace StructureHelper.Windows.ViewModels.Materials
         {
             this.headMaterial = headMaterial;
             var helperMaterial = headMaterial.HelperMaterial;
-            if (helperMaterial is IConcreteLibMaterial)
+            if (helperMaterial is IConcreteLibMaterial concreteMaterial)
             {
-                var material = helperMaterial as IConcreteLibMaterial;
-                helperMaterialViewModel = new ConcreteViewModel(material);
+                helperMaterialViewModel = new ConcreteViewModel(concreteMaterial);
             }
-            else if (helperMaterial is IReinforcementLibMaterial)
+            else if (helperMaterial is IReinforcementLibMaterial reinforcementMaterial)
             {
-                var material = helperMaterial as IReinforcementLibMaterial;
-                helperMaterialViewModel = new LibMaterialViewModel<IReinforcementMaterialEntity>(material);
+                helperMaterialViewModel = new LibMaterialViewModel<IReinforcementMaterialEntity>(reinforcementMaterial);
             }
-            else if (helperMaterial is IElasticMaterial)
+            else if (helperMaterial is IElasticMaterial elasticMaterial)
             {
-                if (helperMaterial is IFRMaterial)
+                if (helperMaterial is IFRMaterial fRMaterial)
                 {
-                    var material = helperMaterial as IFRMaterial;
-                    helperMaterialViewModel = new FRViewModel(material);
+                    helperMaterialViewModel = new FRViewModel(fRMaterial);
                 }
                 else
                 {
-                    var material = helperMaterial as IElasticMaterial;
-                    helperMaterialViewModel = new ElasticViewModel(material);
+                    helperMaterialViewModel = new ElasticViewModel(elasticMaterial);
                 }
             }
             else

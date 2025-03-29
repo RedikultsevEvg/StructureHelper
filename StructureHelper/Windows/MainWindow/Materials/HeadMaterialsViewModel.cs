@@ -1,23 +1,15 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Models.Materials;
-using StructureHelper.Services.Primitives;
 using StructureHelper.Windows.AddMaterialWindow;
-using StructureHelper.Windows.MainWindow;
 using StructureHelper.Windows.MainWindow.Materials;
-using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -26,10 +18,10 @@ namespace StructureHelper.Windows.ViewModels.Materials
 {
     public class HeadMaterialsViewModel : ViewModelBase
     {
-        IHasHeadMaterials parent;
-        List<IHeadMaterial> headMaterials;
-        IHeadMaterial selectedMaterial;
-        ILibMaterialEntity selectedLibMaterial;
+        private readonly IHasHeadMaterials parent;
+        private readonly List<IHeadMaterial> headMaterials;
+        private IHeadMaterial selectedMaterial;
+        private ILibMaterialEntity selectedLibMaterial;
 
         public ICommand AddNewConcreteMaterialCommand { get;}
         public ICommand AddNewReinforcementMaterialCommand { get; }

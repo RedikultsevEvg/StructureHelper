@@ -10,7 +10,7 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <summary>
     /// Implement properties for uniformly distributed stirrups
     /// </summary>
-    public interface IStirrupByUniformRebar : IStirrup
+    public interface IStirrupByRebar : IStirrup
     {
         /// <summary>
         /// Material of stirrups
@@ -27,6 +27,6 @@ namespace StructureHelperLogics.Models.BeamShears
         /// <summary>
         /// Step of uniformly distibuted stirrup along axis of beam, m
         /// </summary>
-        double Step { get; set; }
+        double Spacing { get; set; }
     }
 }
