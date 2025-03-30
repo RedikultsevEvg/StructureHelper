@@ -24,10 +24,10 @@ namespace StructureHelper.Windows.BeamShears
         }
         public double ForceValue
         {
-            get => concenratedForce.ForceValue;
+            get => concenratedForce.ForceValue.Qy;
             set
             {
-                concenratedForce.ForceValue = value;
+                concenratedForce.ForceValue.Qy = value;
             }
         }
         public double LoadRatio

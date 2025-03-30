@@ -18,6 +18,6 @@ namespace StructureHelperCommon.Models.Forces
         /// <summary>
         /// Value of force, N
         /// </summary>
-        double ForceValue { get; set; }
+        IForceTuple ForceValue { get; set; }
     }
 }

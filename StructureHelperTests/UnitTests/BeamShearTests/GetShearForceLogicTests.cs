@@ -35,10 +35,10 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             {
                 // Arrange
                 _mockGetFactorLogic.Setup(f => f.GetFactor()).Returns(1.5);
-                _mockGetDirectShearForceLogic.Setup(d => d.CalculateShearForce()).Returns(100.0);
+                _mockGetDirectShearForceLogic.Setup(d => d.CalculateShearForce()).Returns(new ForceTuple() { Qy = 100.0 });
 
                 // Act
-                double result = _logic.GetShearForce();
+                double result = _logic.GetShearForce().Qy;
 
                 // Assert
                 Assert.That(result, Is.EqualTo(150.0));

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public class BeamShearSectionCalculatorResult : IBeamShearSectionCalculatorResult
+    public class BeamShearSectionCalculatorResult : IBeamShearSectionLogicResult
     {
         public bool IsValid { get; set; }
         public string? Description { get; set; }

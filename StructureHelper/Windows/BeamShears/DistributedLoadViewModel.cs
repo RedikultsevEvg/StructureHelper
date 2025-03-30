@@ -30,10 +30,10 @@ namespace StructureHelper.Windows.BeamShears
         }
         public double LoadValue
         {
-            get => distributedLoad.LoadValue;
+            get => distributedLoad.LoadValue.Qy;
             set
             {
-                distributedLoad.LoadValue = value;
+                distributedLoad.LoadValue.Qy = value;
             }
         }
         public double RelativeLevel

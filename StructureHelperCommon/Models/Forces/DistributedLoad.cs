@@ -16,7 +16,7 @@ namespace StructureHelperCommon.Models.Forces
         public Guid Id { get; }
 
         public string Name { get; set; } = string.Empty;
-        public double LoadValue { get; set; } = 0d;
+        public IForceTuple LoadValue { get; set; } = new ForceTuple(Guid.NewGuid());
         public double RelativeLoadLevel
         {
             get => relativeLoadLevel;

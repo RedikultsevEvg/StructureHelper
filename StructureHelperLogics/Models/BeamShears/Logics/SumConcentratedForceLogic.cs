@@ -2,6 +2,7 @@
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Services.Forces;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -22,13 +23,13 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger = traceLogger;
         }
 
-        public double GetSumShearForce(IBeamSpanLoad beamShearLoad, double startCoord, double endCoord)
+        public IForceTuple GetSumShearForce(IBeamSpanLoad beamShearLoad, double startCoord, double endCoord)
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             if (beamShearLoad is IConcentratedForce concentratedForce)
             {
                 InitializeStrategies();
-                double sumForce = GetConcentratedForceSum(concentratedForce, startCoord, endCoord);
+                IForceTuple sumForce = GetConcentratedForceSum(concentratedForce, startCoord, endCoord);
                 return sumForce;
             }
             else
@@ -42,20 +43,20 @@ namespace StructureHelperLogics.Models.BeamShears
             coordinateByLevelLogic ??= new CoordinateByLevelLogic(TraceLogger);
         }
 
-        private double GetConcentratedForceSum(IConcentratedForce concentratedForce, double startCoord, double endCoord)
+        private IForceTuple GetConcentratedForceSum(IConcentratedForce concentratedForce, double startCoord, double endCoord)
         {
-            TraceLogger?.AddMessage($"Concentrated force Name = {concentratedForce.Name}, Value = {concentratedForce.ForceValue}(N/m) ");
+            TraceLogger?.AddMessage($"Concentrated force Name = {concentratedForce.Name}, Value = {concentratedForce.ForceValue.Qy}(N/m) ");
             if (concentratedForce.ForceCoordinate > endCoord)
             {
                 TraceLogger?.AddMessage($"Force coordinate {concentratedForce.ForceCoordinate}(m) is bigger than section end {endCoord}(m), so total load is zero");
-                return 0;
+                return new ForceTuple(Guid.NewGuid());
             }
             return GetConcentratedForce(concentratedForce, startCoord, endCoord);
         }
 
-        private double GetConcentratedForce(IConcentratedForce concentratedForce, double startCoord, double endCoord)
+        private IForceTuple GetConcentratedForce(IConcentratedForce concentratedForce, double startCoord, double endCoord)
         {
-            double totalLoad;
+            IForceTuple totalLoad;
             double limitCoordinate = startCoord;
             if (concentratedForce.ForceCoordinate >= startCoord)
             {
@@ -63,13 +64,13 @@ namespace StructureHelperLogics.Models.BeamShears
             }
             if (concentratedForce.ForceCoordinate < limitCoordinate)
             {
-                totalLoad = concentratedForce.ForceValue * concentratedForce.LoadRatio;
+                totalLoad = ForceTupleService.MultiplyTupleByFactor(concentratedForce.ForceValue, concentratedForce.LoadRatio);
                 TraceLogger?.AddMessage($"Total load Q,tot = {concentratedForce.ForceValue}(N) * {concentratedForce.LoadRatio} = {totalLoad}(N)");
             }
             else
             {
                 TraceLogger?.AddMessage($"Force coordinate {concentratedForce.ForceCoordinate}(m) is bigger than limit coordinate {limitCoordinate}(m), so total load is zero");
-                totalLoad = 0d;
+                totalLoad = new ForceTuple(Guid.NewGuid());
             }
             return totalLoad;
         }

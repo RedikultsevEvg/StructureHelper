@@ -1,0 +1,24 @@
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Forces;
+
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
+namespace StructureHelperLogics.Models.BeamShears
+{
+    /// <inheritdoc/>
+    public class BeamShearSectionLogicInputData : IBeamShearSectionLogicInputData
+    {
+        /// <inheritdoc/>
+        public IBeamShearSection BeamShearSection { get; set; }
+        /// <inheritdoc/>
+        public IStirrup Stirrup { get; set; }
+        /// <inheritdoc/>
+        public LimitStates LimitState { get; set; }
+        /// <inheritdoc/>
+        public CalcTerms CalcTerm { get; set; }
+        /// <inheritdoc/>
+        public IForceTuple ForceTuple { get; set; }
+
+    }
+}

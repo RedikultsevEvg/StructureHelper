@@ -24,7 +24,7 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public double ForceCoordinate { get; set; }
         /// <inheritdoc/>
-        public double ForceValue { get; set; }
+        public IForceTuple ForceValue { get; set; } = new ForceTuple(Guid.NewGuid());
         /// <inheritdoc/>
         public double RelativeLoadLevel
         {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public interface IBeamShearSectionCalculatorResult : IResult
+    public interface IBeamShearSectionLogicResult : IResult
     {
     }
 }

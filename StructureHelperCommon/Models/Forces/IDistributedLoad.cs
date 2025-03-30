@@ -8,7 +8,7 @@
         /// <summary>
         /// Value of uniformly distributed load, N/m
         /// </summary>
-        double LoadValue { get; set; }
+        IForceTuple LoadValue { get; set; }
         /// <summary>
         /// Coordinate of start of load, m
         /// </summary>

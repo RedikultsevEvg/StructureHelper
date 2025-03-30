@@ -8,23 +8,15 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public class BeamShearSectionCalculator : IBeamShearSectionCalculator
+    public class BeamShearSectionLogic : IBeamShearSectionLogic
     {
-        private IBeamShearSectionCalculatorResult result;
+        private IBeamShearSectionLogicResult result;
 
-        public Guid Id { get; }
-        public string Name { get; set; }
-        public IBeamShearSectionCalculatorInputData InputData { get; set; }
+        public IBeamShearSectionLogicInputData InputData { get; set; }
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public IResult Result => result;
 
-        public IShiftTraceLogger? TraceLogger { get; set; }
-
-
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
 
         public void Run()
         {

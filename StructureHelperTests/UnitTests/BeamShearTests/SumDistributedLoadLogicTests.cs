@@ -29,14 +29,14 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
                 var mockDistributedLoad = new Mock<IDistributedLoad>();
                 mockDistributedLoad.Setup(d => d.StartCoordinate).Returns(1.0);
                 mockDistributedLoad.Setup(d => d.EndCoordinate).Returns(4.0);
-                mockDistributedLoad.Setup(d => d.LoadValue).Returns(50.0);
+                mockDistributedLoad.Setup(d => d.LoadValue).Returns(new ForceTuple() { Qy = 50.0 });
                 mockDistributedLoad.Setup(d => d.LoadRatio).Returns(0.9);
                 mockDistributedLoad.Setup(d => d.RelativeLoadLevel).Returns(0.5);
 
                 _mockCoordinateByLevelLogic.Setup(c => c.GetCoordinate(2.0, 5.0, 0.5)).Returns(4.5);
 
                 // Act
-                double result = _logic.GetSumShearForce(mockDistributedLoad.Object, 2.0, 5.0);
+                double result = _logic.GetSumShearForce(mockDistributedLoad.Object, 2.0, 5.0).Qy;
 
                 // Assert
                 Assert.That(result, Is.EqualTo(135.0));
@@ -51,7 +51,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
                 mockDistributedLoad.Setup(d => d.StartCoordinate).Returns(6.0);
 
                 // Act
-                double result = _logic.GetSumShearForce(mockDistributedLoad.Object, 2.0, 5.0);
+                double result = _logic.GetSumShearForce(mockDistributedLoad.Object, 2.0, 5.0).Qy;
 
                 // Assert
                 Assert.That(result, Is.EqualTo(0.0));

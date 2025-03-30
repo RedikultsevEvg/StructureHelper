@@ -2,6 +2,7 @@
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Services.Forces;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -31,13 +32,13 @@ namespace StructureHelperLogics.Models.BeamShears
             this.getDirectShearForceLogic = getDirectShearForceLogic;
         }
 
-        public double GetShearForce()
+        public IForceTuple GetShearForce()
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             InitializeStrategies();
             double factor = getFactorLogic.GetFactor();
-            double directShearForce = getDirectShearForceLogic.CalculateShearForce();
-            double shearForce = directShearForce * factor;
+            IForceTuple directShearForce = getDirectShearForceLogic.CalculateShearForce();
+            IForceTuple shearForce = ForceTupleService.MultiplyTupleByFactor(directShearForce,factor);
             return shearForce;
         }
 

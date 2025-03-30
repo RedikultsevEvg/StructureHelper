@@ -28,14 +28,14 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
                 // Arrange
                 var mockConcentratedForce = new Mock<IConcentratedForce>();
                 mockConcentratedForce.Setup(f => f.ForceCoordinate).Returns(3.0);
-                mockConcentratedForce.Setup(f => f.ForceValue).Returns(100.0);
+                mockConcentratedForce.Setup(f => f.ForceValue).Returns(new ForceTuple() { Qy = 100.0 });
                 mockConcentratedForce.Setup(f => f.LoadRatio).Returns(0.8);
                 mockConcentratedForce.Setup(f => f.RelativeLoadLevel).Returns(0.5);
 
                 _mockCoordinateByLevelLogic.Setup(c => c.GetCoordinate(2.0, 5.0, 0.5)).Returns(3.5);
 
                 // Act
-                double result = _logic.GetSumShearForce(mockConcentratedForce.Object, 2.0, 5.0);
+                double result = _logic.GetSumShearForce(mockConcentratedForce.Object, 2.0, 5.0).Qy;
 
                 // Assert
                 Assert.That(result, Is.EqualTo(80.0));
@@ -50,7 +50,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
                 mockConcentratedForce.Setup(f => f.ForceCoordinate).Returns(6.0);
 
                 // Act
-                double result = _logic.GetSumShearForce(mockConcentratedForce.Object, 2.0, 5.0);
+                double result = _logic.GetSumShearForce(mockConcentratedForce.Object, 2.0, 5.0).Qy;
 
                 // Assert
                 Assert.That(result, Is.EqualTo(0.0));

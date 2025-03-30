@@ -33,7 +33,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
                 mockInclinedSection.Setup(i => i.StartCoord).Returns(2.0);
                 mockInclinedSection.Setup(i => i.EndCoord).Returns(5.0);
 
-                _mockSummaryForceLogic.Setup(s => s.GetSumShearForce(mockShearLoad.Object, 2.0, 5.0)).Returns(50.0);
+                _mockSummaryForceLogic.Setup(s => s.GetSumShearForce(mockShearLoad.Object, 2.0, 5.0)).Returns(new ForceTuple() { Qy = 50.0});
                 _logic = new GetDirectShearForceLogic(mockAxisAction.Object, mockInclinedSection.Object, _mockLogger.Object, _mockSummaryForceLogic.Object);
             }
 
@@ -43,7 +43,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
                 // Arrange
 
                 // Act
-                double result = _logic.CalculateShearForce();
+                double result = _logic.CalculateShearForce().Qy;
 
                 // Assert
                 Assert.That(result, Is.EqualTo(150.0));

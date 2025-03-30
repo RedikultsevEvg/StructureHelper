@@ -34,11 +34,11 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             ConcentratedForce concentratedForce = new(Guid.NewGuid())
             {
                 Name = "Concentrated force",
-                ForceValue = -5e4,
                 LoadRatio = 1,
                 RelativeLoadLevel = 0.5,
                 ForceCoordinate = 1
             };
+            concentratedForce.ForceValue.Qy = -5e4;
             return concentratedForce;
         }
 
@@ -47,12 +47,12 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             DistributedLoad distributedLoad = new(Guid.NewGuid())
             {
                 Name = "Distributed load",
-                LoadValue = -5e3,
                 LoadRatio = 1,
                 RelativeLoadLevel = 0.5,
                 StartCoordinate = 0,
                 EndCoordinate = 100
             };
+            distributedLoad.LoadValue.Qy = -5e3;
             return distributedLoad;
         }
     }

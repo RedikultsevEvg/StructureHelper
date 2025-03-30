@@ -11,15 +11,15 @@ namespace StructureHelperLogics.Models.BeamShears
     public class BeamShearCalculatorLogic : IGetResultByInputDataLogic<IBeamShearCalculatorInputData, IBeamShearCalculatorResult>
     {
         private IBeamShearCalculatorResult result;
-        private IBeamShearSectionCalculator beamShearSectionCalculator;
-        private List<IBeamShearSectionCalculatorInputData> sectionInputDatas;
+        private IBeamShearSectionLogic beamShearSectionLogic;
+        private List<IBeamShearSectionLogicInputData> sectionInputDatas;
+        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public BeamShearCalculatorLogic(IShiftTraceLogger? traceLogger)
         {
             TraceLogger = traceLogger;
         }
 
-        public IShiftTraceLogger? TraceLogger { get; set; }
 
         public IBeamShearCalculatorResult GetResultByInputData(IBeamShearCalculatorInputData inputData)
         {
@@ -43,16 +43,16 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             foreach (var sectionInputData in sectionInputDatas)
             {
-                beamShearSectionCalculator.InputData = sectionInputData;
-                beamShearSectionCalculator.Run();
-                var sectionResult = beamShearSectionCalculator.Result as IBeamShearSectionCalculatorResult;
+                beamShearSectionLogic.InputData = sectionInputData;
+                beamShearSectionLogic.Run();
+                var sectionResult = beamShearSectionLogic.Result as IBeamShearSectionLogicResult;
                 result.SectionResults.Add(sectionResult);
             }
         }
 
         private void InitializeStrategies()
         {
-            beamShearSectionCalculator ??= new BeamShearSectionCalculator();
+            beamShearSectionLogic ??= new BeamShearSectionLogic();
         }
 
         private void PrepareNewResult()
@@ -66,23 +66,23 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void GetSectionInputDatas(IBeamShearCalculatorInputData inputData)
         {
-            sectionInputDatas = new();
-            foreach (var beamShearSection in inputData.Sections)
-            {
-                foreach (var stirrup in inputData.Stirrups)
-                {
-                    foreach (var beamShearAction in inputData.Actions)
-                    {
-                        BeamShearSectionCalculatorInputData newInputData = new(Guid.NewGuid())
-                        {
-                            BeamShearSection = beamShearSection,
-                            Stirrup = stirrup,
-                            BeamShearAction = beamShearAction
-                        };
-                        sectionInputDatas.Add(newInputData);
-                    }
-                }
-            }
+            //sectionInputDatas = new();
+            //foreach (var beamShearSection in inputData.Sections)
+            //{
+            //    foreach (var stirrup in inputData.Stirrups)
+            //    {
+            //        foreach (var beamShearAction in inputData.Actions)
+            //        {
+            //            BeamShearSectionLogicInputData newInputData = new(Guid.NewGuid())
+            //            {
+            //                BeamShearSection = beamShearSection,
+            //                Stirrup = stirrup,
+            //                BeamShearAction = beamShearAction
+            //            };
+            //            sectionInputDatas.Add(newInputData);
+            //        }
+            //    }
+            //}
         }
     }
 }

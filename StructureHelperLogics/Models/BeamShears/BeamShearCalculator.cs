@@ -1,16 +1,12 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
     public class BeamShearCalculator : IBeamShearCalculator
     {
+        private IUpdateStrategy<IBeamShearCalculator> updateStrategy;
         private ICheckInputDataLogic<IBeamShearCalculatorInputData> checkInputDataLogic;
         private IGetResultByInputDataLogic<IBeamShearCalculatorInputData, IBeamShearCalculatorResult> calculationLogic;
         private IBeamShearCalculatorResult result;
@@ -30,7 +26,10 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            BeamShearCalculator newItem = new(Guid.NewGuid());
+            updateStrategy ??= new BeamShearCalculatorUpdateStrategy();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
 
         public void Run()

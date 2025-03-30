@@ -53,7 +53,7 @@
                         <uc:FactoredCombination Grid.Row="1" DataContext="{Binding CombinationProperty}"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Imternal force" DataContext="{Binding SupportAction.SupportForces}">
+                <TabItem Header="Internal force" DataContext="{Binding SupportAction.SupportForces}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50"/>

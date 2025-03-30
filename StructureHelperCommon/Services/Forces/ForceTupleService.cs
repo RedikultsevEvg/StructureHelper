@@ -71,6 +71,12 @@ namespace StructureHelperCommon.Services.Forces
             }
             return tuples;
         }
+        /// <summary>
+        /// Renew target force tuple with adding source tuple
+        /// </summary>
+        /// <param name="source">Source tuple</param>
+        /// <param name="target">Target tuple</param>
+        /// <param name="factor">Factor which source tuple will be multiplied by (1d is default value)</param>
         public static void SumTupleToTarget(IForceTuple source, IForceTuple target, double factor = 1d)
         {
             target.Mx += source.Mx * factor;
