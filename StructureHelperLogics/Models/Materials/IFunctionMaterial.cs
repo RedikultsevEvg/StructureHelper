@@ -17,5 +17,7 @@ namespace StructureHelperLogics.Models.Materials
         List<IMaterialSafetyFactor> SafetyFactors { get; }
         public FunctionStorage FunctionStorage { get; set; }
         public IOneVariableFunction Function { get; set; }
+
+
     }
 }

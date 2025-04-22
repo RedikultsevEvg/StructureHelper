@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Commands;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Functions;
+using StructureHelperCommon.Models.Materials;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -36,6 +37,7 @@ namespace StructureHelperCommon.Windows
         public IOneVariableFunction Func_LT_SLS { get; set; }
         public IOneVariableFunction Func_LT_Special { get; set; }
         public FunctionStorage FunctionStorage { get; set; } = new();
+        public ObservableCollection<MaterialSettings> MaterialSettings { get; set; } = new();
         public FunctionSelectionVM()
         {
             var stressStrainFunctions = new ObservableCollection<IOneVariableFunction>

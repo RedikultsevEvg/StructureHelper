@@ -108,17 +108,18 @@ namespace StructureHelperLogics.Models.Materials
         }
         private static IHeadMaterial GetFunction()
         {
-            var functionSelectionView = new FunctionSelectionView();
-            functionSelectionView.ShowDialog();
+            var functionMaterialCreationView = new FunctionMaterialCreationView();
+            functionMaterialCreationView.ShowDialog();
             var material = new HeadMaterial();
-            material.HelperMaterial = new FunctionMaterial() 
-            { 
-                Modulus = 2e11d, 
-                CompressiveStrength = 4e8d, 
-                TensileStrength = 4e8d, 
-                FunctionStorage = functionSelectionView.ViewModel.FunctionStorage,
+            material.HelperMaterial = new FunctionMaterial()
+            {
+                Modulus = functionMaterialCreationView.ViewModel.Modulus,
+                CompressiveStrength = 4e8d,
+                TensileStrength = 4e8d,
+                //FunctionStorage = functionMaterialCreationView.ViewModel.FunctionStorage,
+                MaterialSettings = functionMaterialCreationView.ViewModel.MaterialSettingsList.ToList(),
             };
-            if (functionSelectionView.DialogResult == true)
+            if (functionMaterialCreationView.DialogResult == true)
             {
                 material.SuccessfullyCreated = true;
             }
