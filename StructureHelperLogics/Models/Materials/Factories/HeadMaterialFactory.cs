@@ -116,7 +116,7 @@ namespace StructureHelperLogics.Models.Materials
                 Modulus = functionMaterialCreationView.ViewModel.Modulus,
                 CompressiveStrength = 4e8d,
                 TensileStrength = 4e8d,
-                MaterialSettings = functionMaterialCreationView.ViewModel.MaterialSettingsList.ToList(),
+                MaterialSettings = functionMaterialCreationView.ViewModel.MaterialSettingsList.Where(x => x.IsActive).ToList(),
             };
             if (functionMaterialCreationView.DialogResult == true)
             {
