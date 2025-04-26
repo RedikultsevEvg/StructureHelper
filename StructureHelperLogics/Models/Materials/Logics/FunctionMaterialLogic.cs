@@ -12,36 +12,14 @@ namespace StructureHelperLogics.Models.Materials.Logics
         {
             IMaterial material = new Material();
             material.InitModulus = functionMaterial.Modulus;
-            if (calcTerm == CalcTerms.ShortTerm)
-            {
-                if (limitState == LimitStates.ULS)
-                {
-                    functionMaterial.Function = functionMaterial.FunctionStorage.Func_ST_ULS;
-                }
-                else if (limitState == LimitStates.SLS)
-                {
-                    functionMaterial.Function = functionMaterial.FunctionStorage.Func_ST_SLS;
-                }
-                else if (limitState == LimitStates.Special)
-                {
-                    functionMaterial.Function = functionMaterial.FunctionStorage.Func_ST_Special;
-                }
-            }
-            else if (calcTerm == CalcTerms.LongTerm)
-            {
-                if (limitState == LimitStates.ULS)
-                {
-                    functionMaterial.Function = functionMaterial.FunctionStorage.Func_LT_ULS;
-                }
-                else if (limitState == LimitStates.SLS)
-                {
-                    functionMaterial.Function = functionMaterial.FunctionStorage.Func_LT_SLS;
-                }
-                else if (limitState == LimitStates.Special)
-                {
-                    functionMaterial.Function = functionMaterial.FunctionStorage.Func_LT_Special;
-                }
-            }
+            functionMaterial.Function = functionMaterial.MaterialSettings
+                .Where(
+                        x => x.LimitState.Equals(limitState) 
+                             &&
+                             x.CalcTerm.Equals(calcTerm)
+                      )
+                .Select(x => x.Function)
+                .First();
             this.functionMaterial = functionMaterial;
             material.Diagram = GetStressByStrain;
             return material;

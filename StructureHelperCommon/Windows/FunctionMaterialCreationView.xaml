@@ -6,14 +6,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelperCommon.Windows"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:ens="clr-namespace:StructureHelperCommon.Infrastructures.Enums"
         mc:Ignorable="d"
         Title="FunctionMaterial" Height="250" Width="860"
         d:DataContext="{d:DesignInstance local:FunctionMaterialCreationVM}"
         Background="LightYellow">
     <Window.Resources>
+        <ObjectDataProvider x:Key="LimitStates" MethodName="GetValues"
+                ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ens:LimitStates"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="CalcTerms" MethodName="GetValues"
+                ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ens:CalcTerms"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="100"/>
@@ -25,73 +40,72 @@
         </Grid.RowDefinitions>
         <DataGrid 
             Name="DataGrid"
-            Grid.ColumnSpan="4"
+            Grid.ColumnSpan="6"
             AutoGenerateColumns="False"
-            CanUserDeleteRows="True"
-            CanUserAddRows="True"
+            CanUserAddRows="False"
             Margin="10"
             ItemsSource="{Binding MaterialSettingsList}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="50"
-                                        Header="Active">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                IsChecked="{Binding IsActive}">
-                            </CheckBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="150"
-                                        Header="Limit state">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <ComboBox SelectedItem ="{Binding LimitState}">
-                            </ComboBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="150"
-                                        Header="Calculation term">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <ComboBox SelectedItem ="{Binding CalcTerm}">
-                            </ComboBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="*"
-                                        Header="Function">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <ComboBox ItemsSource="{Binding Functions}"
-                                      SelectedItem="{Binding Function}">
-                            </ComboBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="50"
+                                    Header="№"
+                                    IsReadOnly="True"
+                                    Binding="{Binding Number, Mode=TwoWay}">
+                </DataGridTextColumn>
+                <DataGridCheckBoxColumn Width="50"
+                                        Header="Active"
+                                        Binding="{Binding IsActive}">
+                </DataGridCheckBoxColumn>
+                <DataGridComboBoxColumn Width="150"
+                                        Header="Limit state"
+                                        ItemsSource="{Binding Source={StaticResource LimitStates}}"
+                                        SelectedItemBinding="{Binding LimitState}">
+                </DataGridComboBoxColumn>
+                <DataGridComboBoxColumn Width="150"
+                                        Header="Calculation term"
+                                        ItemsSource="{Binding Source={StaticResource CalcTerms}}"
+                                        SelectedItemBinding="{Binding CalcTerm}">
+                </DataGridComboBoxColumn>
+                <DataGridComboBoxColumn x:Name="FunctionCB"
+                                        Width="*"
+                                        Header="Function"
+                                        SelectedItemBinding="{Binding Function}">
+                                        
+                </DataGridComboBoxColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Column="1"
-                   Grid.Row="3"
-                   Text="{Binding MODULUS_OF_ELASTICITY}"
+        <TextBlock Grid.Column="3"
+                   Grid.Row="2"
+                   Text="{Binding MODULUS_OF_ELASTYCITY}"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Right">
         </TextBlock>
-        <TextBox Grid.Column="2"
+        <TextBox Grid.Column="4"
                  Grid.Row="2"
                  Height="20"
                  VerticalAlignment="Center"
                  Text="{Binding Modulus}"
                  >
         </TextBox>
-        <Button Grid.Column="3" 
+        <Button Grid.Column="5" 
                 Grid.Row="3"
                 Margin="10"
                 Content="{Binding CREATE_MATERIAL}"
                 Command="{Binding CreateFunctionMaterialCommand}"
-                CommandParameter="{Binding ElementName=FunctionSelectionView_win}" Click="Button_Click"/>
+                CommandParameter="{Binding ElementName=FunctionMaterialCreationView_win}" Click="Button_Click"/>
+        <Button Grid.Column="0" 
+                Grid.Row="3"
+                Margin="10"
+                Content="{Binding  ADD}"
+                Background="LightGreen"
+                Command="{Binding AddCommand}">
+        </Button>
+        <Button Grid.Column="1" 
+                Grid.Row="3"
+                Margin="10"
+                Content="{Binding  DELETE}"
+                Background="LightPink"
+                Command="{Binding DeleteCommand}"
+                CommandParameter="{Binding ElementName=DataGrid}">
+        </Button>
     </Grid>
 </Window>

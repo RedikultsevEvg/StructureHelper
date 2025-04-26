@@ -26,7 +26,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public List<GraphPoint> Table { get; set; }
         public double MinArg { get; set; }
         public double MaxArg { get; set; }
-        public ObservableCollection<IOneVariableFunction> Functions { get; set; } = new ObservableCollection<IOneVariableFunction>();
+        public List<IOneVariableFunction> Functions { get; set; } = new List<IOneVariableFunction>();
 
         public Guid Id => throw new NotImplementedException();
 

@@ -10,6 +10,7 @@ namespace StructureHelperCommon.Models.Materials
 {
     public class MaterialSettings
     {
+        public int Number { get; set; }
         public bool IsActive { get; set; }
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }

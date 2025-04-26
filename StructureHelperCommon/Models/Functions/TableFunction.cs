@@ -31,7 +31,7 @@ namespace StructureHelperCommon.Models.Functions
         public string Description { get; set; }
         public List<GraphPoint> Table { get; set; }
         public Guid Id => throw new NotImplementedException();
-        public ObservableCollection<IOneVariableFunction> Functions { get; set; } = new ObservableCollection<IOneVariableFunction>();
+        public List<IOneVariableFunction> Functions { get; set; } = new List<IOneVariableFunction>();
         public double MinArg { get; set; }
         public double MaxArg { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }

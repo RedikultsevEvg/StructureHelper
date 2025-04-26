@@ -22,7 +22,6 @@ namespace StructureHelperLogics.Models.Materials
         public double TensileStrength { get; set; } 
         public List<IMaterialSafetyFactor> SafetyFactors { get; } = new();
         public IOneVariableFunction Function { get; set; }
-        public FunctionStorage FunctionStorage { get; set; }
         public List<MaterialSettings> MaterialSettings { get; set; }
 
         public Guid Id { get; }

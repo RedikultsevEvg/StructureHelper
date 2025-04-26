@@ -16,7 +16,7 @@ namespace StructureHelper.Windows.TreeGraph
             return new TableFunction()
             {
                 Name = "func0",
-                Functions = new ObservableCollection<IOneVariableFunction>()
+                Functions = new List<IOneVariableFunction>()
                 {
                     new FormulaFunction()
                     {
@@ -29,7 +29,7 @@ namespace StructureHelper.Windows.TreeGraph
                     new FormulaFunction()
                     {
                         Name = "func1.3",
-                        Functions = new ObservableCollection<IOneVariableFunction>()
+                        Functions = new List<IOneVariableFunction>()
                         {
                             new FormulaFunction()
                             {

@@ -116,7 +116,6 @@ namespace StructureHelperLogics.Models.Materials
                 Modulus = functionMaterialCreationView.ViewModel.Modulus,
                 CompressiveStrength = 4e8d,
                 TensileStrength = 4e8d,
-                //FunctionStorage = functionMaterialCreationView.ViewModel.FunctionStorage,
                 MaterialSettings = functionMaterialCreationView.ViewModel.MaterialSettingsList.ToList(),
             };
             if (functionMaterialCreationView.DialogResult == true)

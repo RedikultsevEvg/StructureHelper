@@ -94,7 +94,7 @@ namespace StructureHelperCommon.Infrastructures.Settings
                 SubVersionNumber = 0
             };
         }
-        public static ObservableCollection<IOneVariableFunction> Functions { get; set; } = new ObservableCollection<IOneVariableFunction>
+        public static List<IOneVariableFunction> Functions { get; set; } = new List<IOneVariableFunction>
         {
             new TableFunction()
             {

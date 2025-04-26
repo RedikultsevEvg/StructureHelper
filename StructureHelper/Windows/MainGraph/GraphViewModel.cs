@@ -118,7 +118,7 @@ namespace StructureHelper.Windows.MainGraph
         }
         public GraphViewModel()
         {
-            Functions = ProgramSetting.Functions;
+            Functions = new ObservableCollection<IOneVariableFunction>(ProgramSetting.Functions);
         }
         private void AddTable()
         {
@@ -226,7 +226,7 @@ namespace StructureHelper.Windows.MainGraph
         }
         public void Save()
         {
-            ProgramSetting.Functions = Functions;
+            ProgramSetting.Functions = new List<IOneVariableFunction>(Functions);
         }
     }
 }

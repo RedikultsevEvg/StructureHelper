@@ -25,6 +25,8 @@ namespace StructureHelperCommon.Windows
             this.ViewModel = viewModel;
             DataContext = this.ViewModel;
             InitializeComponent();
+            FunctionCB.ItemsSource = viewModel.Functions;
+            FunctionCB.DisplayMemberPath = "FullName";
         }
         public FunctionMaterialCreationView() : this(new FunctionMaterialCreationVM())
         {
