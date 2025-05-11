@@ -82,6 +82,9 @@
     <Reference Include="LoaderCalculator">
       <HintPath>Libraries\LoaderCalculator.dll</HintPath>
     </Reference>
+    <Reference Include="StructureMath">
+      <HintPath>..\..\srgpt\LoaderAssistant\LoaderCalculator\LoaderCalculator\Libraries\StructureMath.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

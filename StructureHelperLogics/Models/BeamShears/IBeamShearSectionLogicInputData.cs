@@ -8,6 +8,9 @@ using StructureHelperCommon.Models.Forces;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
+    /// <summary>
+    /// Implements input data for calculating bearing capacity of cross-section of RC member for shear
+    /// </summary>
     public interface IBeamShearSectionLogicInputData : IInputData
     {
         IBeamShearSection BeamShearSection { get; set; }
