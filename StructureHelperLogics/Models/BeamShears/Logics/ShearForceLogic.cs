@@ -37,7 +37,7 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             InitializeStrategies();
             double factor = getFactorLogic.GetFactor();
-            IForceTuple directShearForce = getDirectShearForceLogic.CalculateShearForce();
+            IForceTuple directShearForce = getDirectShearForceLogic.CalculateShearForceTuple();
             IForceTuple shearForce = ForceTupleService.MultiplyTupleByFactor(directShearForce,factor);
             return shearForce;
         }
@@ -50,7 +50,7 @@ namespace StructureHelperLogics.Models.BeamShears
                 LimitState = InputData.LimitState,
                 CalcTerm = InputData.CalcTerm
             };
-            getDirectShearForceLogic ??= new GetDirectShearForceLogic(InputData.AxisAction, InputData.InclinedSection, TraceLogger);
+            //getDirectShearForceLogic ??= new GetDirectShearForceLogic(InputData.AxisAction, InputData.InclinedSection, TraceLogger);
         }
     }
 }

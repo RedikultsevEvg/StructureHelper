@@ -12,6 +12,6 @@ namespace StructureHelperLogics.Models.BeamShears
         /// Returns value of shear force at the end of inclined section
         /// </summary>
         /// <returns>Value of shear force at the end of inclined section</returns>
-        IForceTuple CalculateShearForce();
+        IForceTuple CalculateShearForceTuple();
     }
 }

@@ -28,9 +28,9 @@ namespace StructureHelperLogics.Models.BeamShears
                         foreach (var calcTerm in calcTerms)
                         {
                             IForceTuple forceTuple = GetForceTuple(action, limitState, calcTerm);
-                            BeamShearSectionLogicInputData newItem = new()
+                            BeamShearSectionLogicInputData newItem = new(Guid.NewGuid())
                             {
-                                BeamShearSection = section,
+                                //BeamShearSection = section,
                                 ForceTuple = forceTuple,
                                 Stirrup = stirrup,
                                 LimitState = limitState,

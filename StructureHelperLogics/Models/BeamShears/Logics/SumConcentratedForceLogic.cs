@@ -65,7 +65,7 @@ namespace StructureHelperLogics.Models.BeamShears
             if (concentratedForce.ForceCoordinate < limitCoordinate)
             {
                 totalLoad = ForceTupleService.MultiplyTupleByFactor(concentratedForce.ForceValue, concentratedForce.LoadRatio);
-                TraceLogger?.AddMessage($"Total load Q,tot = {concentratedForce.ForceValue}(N) * {concentratedForce.LoadRatio} = {totalLoad}(N)");
+                TraceLogger?.AddMessage($"Total load Q,tot = {concentratedForce.ForceValue.Qy}(N) * {concentratedForce.LoadRatio} = {totalLoad}(N)");
             }
             else
             {

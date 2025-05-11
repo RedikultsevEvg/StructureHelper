@@ -57,7 +57,7 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger?.AddMessage($"Total length L,tot = {loadEndCoord}(m) - {loadStartCoord}(m) = {loadLength}(m)");
             double sumFactor = distributedLoad.LoadRatio * loadLength;
             IForceTuple totalLoad = ForceTupleService.MultiplyTupleByFactor(distributedLoad.LoadValue, sumFactor);
-            TraceLogger?.AddMessage($"Total load Q,tot = {distributedLoad.LoadValue.Qy}(N/m) * {distributedLoad.LoadRatio} * {loadLength}(m) = {totalLoad}(N)");
+            TraceLogger?.AddMessage($"Total load Q,tot = {distributedLoad.LoadValue.Qy}(N/m) * {distributedLoad.LoadRatio} * {loadLength}(m) = {totalLoad.Qy}(N)");
             return totalLoad;
         }
     }

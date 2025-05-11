@@ -50,7 +50,7 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             sumConcentratedForceLogic ??= new SumConcentratedForceLogic(TraceLogger);
             IForceTuple sumForce = sumConcentratedForceLogic.GetSumShearForce(concenratedForce, startCoord, endCoord);
-            TraceLogger?.AddMessage($"Sum of uniformly distributed load Qud = {sumForce}(N)");
+            TraceLogger?.AddMessage($"Sum of concentrated force Qcf = {sumForce.Qy}(N)");
             return sumForce;
         }
 
@@ -58,7 +58,7 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             sumDistributedLoadLogic ??= new SumDistributedLoadLogic(TraceLogger);
             IForceTuple sumForce = sumDistributedLoadLogic.GetSumShearForce(distributedLoad, startCoord, endCoord);
-            TraceLogger?.AddMessage($"Sum of concentrated force Qcf = {sumForce}(N)");
+            TraceLogger?.AddMessage($"Sum of uniformly distributed load Qud = {sumForce.Qy}(N)");
             return sumForce;
         }
 

@@ -5,6 +5,7 @@
 
 namespace StructureHelperCommon.Models.Forces.Logics
 {
+    /// <inheritdoc/>
     public class GetFactorByFactoredCombinationProperty : IGetLoadFactor
     {
         private const double defaultSLSfactor = 1d;
@@ -13,7 +14,7 @@ namespace StructureHelperCommon.Models.Forces.Logics
         public IFactoredCombinationProperty CombinationProperty { get; set; }
         public LimitStates LimitState { get; set; }
         public CalcTerms CalcTerm { get; set; }
-
+        /// <inheritdoc/>
         public double GetFactor()
         {
             double stateFactor = CombinationProperty.LimitState is LimitStates.SLS ? defaultSLSfactor : (1d / CombinationProperty.ULSFactor);

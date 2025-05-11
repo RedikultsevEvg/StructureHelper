@@ -11,7 +11,7 @@ namespace StructureHelperCommon.Models.Forces
     {
         readonly IUpdateStrategy<IForceFactoredList> updateStrategy = new ForceFactoredListUpdateStrategy();
         private List<IForceCombinationList> result;
-        private IGetCombinationByFactoredTupleLogic getCombinationLogic = new GetCombinationByFactoredTupleLogic();
+        private IGetCombinationsByFactoredTupleLogic getCombinationLogic = new GetCombinationsByFactoredTupleLogic();
 
         /// <inheritdoc/>
         public Guid Id { get; }

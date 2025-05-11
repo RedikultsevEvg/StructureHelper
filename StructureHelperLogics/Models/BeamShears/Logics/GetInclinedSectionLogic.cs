@@ -4,6 +4,7 @@ using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
+    /// <inheritdoc/>
     public class GetInclinedSectionLogic : IGetInclinedSectionLogic
     {
         private readonly IBeamShearSection beamShearSection;

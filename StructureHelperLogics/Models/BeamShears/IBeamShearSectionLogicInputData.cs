@@ -11,12 +11,27 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <summary>
     /// Implements input data for calculating bearing capacity of cross-section of RC member for shear
     /// </summary>
-    public interface IBeamShearSectionLogicInputData : IInputData
+    public interface IBeamShearSectionLogicInputData : IInputData, ISaveable
     {
-        IBeamShearSection BeamShearSection { get; set; }
+        /// <summary>
+        /// Properties of RC cross-section
+        /// </summary>
+        IInclinedSection InclinedSection { get; set; }
+        /// <summary>
+        /// Properties of stirrups in cross-section
+        /// </summary>
         IStirrup Stirrup { get; set; }
+        /// <summary>
+        /// Limit state for calculating
+        /// </summary>
         LimitStates LimitState { get; set; }
+        /// <summary>
+        /// Term (Duration) for calculation
+        /// </summary>
         CalcTerms CalcTerm { get; set; }
+        /// <summary>
+        /// Force tuple for calculation
+        /// </summary>
         IForceTuple ForceTuple { get; set; }
     }
 }

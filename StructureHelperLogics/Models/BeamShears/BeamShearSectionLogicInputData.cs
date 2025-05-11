@@ -10,7 +10,9 @@ namespace StructureHelperLogics.Models.BeamShears
     public class BeamShearSectionLogicInputData : IBeamShearSectionLogicInputData
     {
         /// <inheritdoc/>
-        public IBeamShearSection BeamShearSection { get; set; }
+        public Guid Id { get; }
+        /// <inheritdoc/>
+        public IInclinedSection InclinedSection { get; set; }
         /// <inheritdoc/>
         public IStirrup Stirrup { get; set; }
         /// <inheritdoc/>
@@ -19,6 +21,11 @@ namespace StructureHelperLogics.Models.BeamShears
         public CalcTerms CalcTerm { get; set; }
         /// <inheritdoc/>
         public IForceTuple ForceTuple { get; set; }
+
+        public BeamShearSectionLogicInputData(Guid id)
+        {
+            Id = id;
+        }
 
     }
 }

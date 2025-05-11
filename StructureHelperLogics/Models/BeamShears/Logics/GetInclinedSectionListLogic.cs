@@ -7,7 +7,7 @@ namespace StructureHelperLogics.Models.BeamShears
 {
     public class GetInclinedSectionListLogic : IGetInclinedSectionListLogic
     {
-        private readonly GetInclinedSectionListInputData inputData;
+        private readonly IGetInclinedSectionListInputData inputData;
         private IGetInclinedSectionLogic inclinedSectionLogic;
         private double depth;
         private double effectiveDepth;
@@ -16,7 +16,7 @@ namespace StructureHelperLogics.Models.BeamShears
         public IShiftTraceLogger? TraceLogger { get; set; }
 
         public GetInclinedSectionListLogic(
-            GetInclinedSectionListInputData inputData,
+            IGetInclinedSectionListInputData inputData,
             IShiftTraceLogger? traceLogger)
         {
             this.inputData = inputData;

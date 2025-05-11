@@ -1,5 +1,7 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Forces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +12,13 @@ namespace StructureHelperLogics.Models.BeamShears
 {
     public class BeamShearCalculatorLogic : IGetResultByInputDataLogic<IBeamShearCalculatorInputData, IBeamShearCalculatorResult>
     {
+        private const LimitStates CollapsLimitState = LimitStates.ULS;
         private IBeamShearCalculatorResult result;
         private IBeamShearSectionLogic beamShearSectionLogic;
         private List<IBeamShearSectionLogicInputData> sectionInputDatas;
+        private IBeamShearCalculatorInputData inputData;
+        private List<CalcTerms> calcTerms = new() { CalcTerms.LongTerm, CalcTerms.ShortTerm };
+
         public IShiftTraceLogger? TraceLogger { get; set; }
 
         public BeamShearCalculatorLogic(IShiftTraceLogger? traceLogger)
@@ -23,11 +29,12 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public IBeamShearCalculatorResult GetResultByInputData(IBeamShearCalculatorInputData inputData)
         {
+            this.inputData = inputData;
             PrepareNewResult();
             InitializeStrategies();
             try
             {
-                GetSectionInputDatas(inputData);
+                GetSectionInputDatas();
                 CalculateResult();
             }
             catch (Exception ex)
@@ -64,25 +71,53 @@ namespace StructureHelperLogics.Models.BeamShears
             };
         }
 
-        private void GetSectionInputDatas(IBeamShearCalculatorInputData inputData)
+        private void GetSectionInputDatas()
         {
-            //sectionInputDatas = new();
-            //foreach (var beamShearSection in inputData.Sections)
-            //{
-            //    foreach (var stirrup in inputData.Stirrups)
-            //    {
-            //        foreach (var beamShearAction in inputData.Actions)
-            //        {
-            //            BeamShearSectionLogicInputData newInputData = new(Guid.NewGuid())
-            //            {
-            //                BeamShearSection = beamShearSection,
-            //                Stirrup = stirrup,
-            //                BeamShearAction = beamShearAction
-            //            };
-            //            sectionInputDatas.Add(newInputData);
-            //        }
-            //    }
-            //}
+            sectionInputDatas = new();
+            foreach (var beamShearSection in inputData.Sections)
+            {
+                List<IInclinedSection> inclinedSections = GetInclinedSections(beamShearSection);
+                foreach (var inclinedSection in inclinedSections)
+                {
+                    GetSections(inclinedSection);
+                }
+            }
+        }
+
+        private void GetSections(IInclinedSection inclinedSection)
+        {
+            foreach (var stirrup in inputData.Stirrups)
+            {
+                foreach (var beamShearAction in inputData.Actions)
+                {
+                    foreach (var calcTerm in calcTerms)
+                    {
+                        IForceTuple forceTuple = GetForceTupleByShearAction(beamShearAction, inclinedSection, CollapsLimitState, calcTerm);
+                        BeamShearSectionLogicInputData newInputData = new(Guid.NewGuid())
+                        {
+                            InclinedSection = inclinedSection,
+                            Stirrup = stirrup,
+                            ForceTuple = forceTuple,
+                            LimitState = CollapsLimitState,
+                            CalcTerm = calcTerm
+                        };
+                        sectionInputDatas.Add(newInputData);
+                    }
+                }
+            }
+        }
+
+        private List<IInclinedSection> GetInclinedSections(IBeamShearSection beamShearSection)
+        {
+            IGetInclinedSectionListInputData inclinedSectionInputDataLogic = new GetInclinedSectionListInputData(beamShearSection);
+            IGetInclinedSectionListLogic getInclinedSectionListLogic = new GetInclinedSectionListLogic(inclinedSectionInputDataLogic, TraceLogger);
+            return getInclinedSectionListLogic.GetInclinedSections();
+        }
+
+        private IForceTuple GetForceTupleByShearAction(IBeamShearAction beamShearAction, IInclinedSection inclinedSection, LimitStates limitState, CalcTerms calcTerm)
+        {
+            IGetDirectShearForceLogic getDirectShearForceLogic = new GetDirectShearForceLogic(beamShearAction, inclinedSection, limitState, calcTerm, TraceLogger);
+            return getDirectShearForceLogic.CalculateShearForceTuple();
         }
     }
 }

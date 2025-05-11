@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
+    /// <inheritdoc/>
     public class GetInclinedSectionListInputData : IGetInclinedSectionListInputData
     {
         public int StepCount { get; set; } = 50;

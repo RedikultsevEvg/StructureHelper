@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace StructureHelperLogics.Models.BeamShears
 {
     /// <summary>
-    /// Properties of concrete cross-section for shear strength of beam
+    /// Properties of RC cross-section for shear strength of beam
     /// </summary>
     public interface IBeamShearSection : ISaveable, ICloneable
     {

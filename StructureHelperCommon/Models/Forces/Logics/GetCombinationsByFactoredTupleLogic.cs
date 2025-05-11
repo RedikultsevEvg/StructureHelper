@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
 namespace StructureHelperCommon.Models.Forces.Logics
 {
-    public class GetCombinationByFactoredTupleLogic : IGetCombinationByFactoredTupleLogic
+    public class GetCombinationsByFactoredTupleLogic : IGetCombinationsByFactoredTupleLogic
     {
         private ForceCombinationList? result;
         private IForceTuple? fullSLSTuple;
@@ -20,7 +24,7 @@ namespace StructureHelperCommon.Models.Forces.Logics
 
         public IForceTuple? SourceForceTuple { get; set; }
         public IFactoredCombinationProperty? CombinationProperty { get; set; }
-        public IForceActionProperty? ForceActionProperty { get; set; }
+        public IForceActionProperty? ForceActionProperty { get; set; } = new ForceActionProperty() { ForcePoint = new Point2D(), SetInGravityCenter = false };
         public IForceCombinationList GetCombinationList()
         {
             Check();

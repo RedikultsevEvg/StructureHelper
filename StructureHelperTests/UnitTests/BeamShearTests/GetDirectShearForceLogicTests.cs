@@ -43,7 +43,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
                 // Arrange
 
                 // Act
-                double result = _logic.CalculateShearForce().Qy;
+                double result = _logic.CalculateShearForceTuple().Qy;
 
                 // Assert
                 Assert.That(result, Is.EqualTo(150.0));

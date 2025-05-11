@@ -35,7 +35,7 @@ namespace StructureHelperLogics.Models.BeamShears
         public void Run()
         {
             PrepareNewResult();
-            PrepareInputData();
+            //PrepareInputData();
             try
             {
                 InitializeStrategies();

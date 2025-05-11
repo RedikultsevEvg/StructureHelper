@@ -1,16 +1,18 @@
 ﻿namespace StructureHelperCommon.Models.Forces.Logics
 {
     /// <summary>
-    /// Return combinations for source combination and properties
+    /// Returns combinations for source combination and properties
     /// </summary>
-    public interface IGetCombinationByFactoredTupleLogic
-    {
-        /// <summary>
+    public interface IGetCombinationsByFactoredTupleLogic
+    {        /// <summary>
         /// Source combination of forces
         /// </summary>
         IForceTuple? SourceForceTuple { get; set; }
-        /// <inheritdoc/>
+        /// <summary>
+        /// Properties of combination for source combination of force
+        /// </summary>
         IFactoredCombinationProperty? CombinationProperty { get; set; }
+
         /// <inheritdoc/>
         IForceActionProperty? ForceActionProperty { get; set; }
         /// <summary>

@@ -8,6 +8,10 @@ namespace StructureHelperCommon.Models.Forces
     /// </summary>
     public interface IGetLoadFactor
     {
+        /// <summary>
+        /// Returns factor for load
+        /// </summary>
+        /// <returns>Factor for load</returns>
         double GetFactor();
     }
 }
