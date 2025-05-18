@@ -1,4 +1,5 @@
 ﻿using NLog;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces.BeamShearActions;
 using System;
@@ -38,6 +39,9 @@ namespace StructureHelperCommon.Models.Forces
         }
         /// <inheritdoc/>
         public double LoadRatio { get; set; } = 1;
+        /// <inheritdoc/>
+        public IFactoredCombinationProperty CombinationProperty { get; set; } = new FactoredCombinationProperty(Guid.NewGuid()) { LimitState = LimitStates.ULS, CalcTerm = CalcTerms.ShortTerm };
+
         public ConcentratedForce(Guid id)
         {
             Id = id;

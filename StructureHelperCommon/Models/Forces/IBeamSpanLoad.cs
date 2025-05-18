@@ -19,5 +19,9 @@ namespace StructureHelperCommon.Models.Forces
         /// Ratio of substraction load from total shear force 
         /// </summary>
         double LoadRatio { get; set; }
+        /// <summary>
+        /// Properties of combination of forces
+        /// </summary>
+        IFactoredCombinationProperty CombinationProperty { get; set; }
     }
 }

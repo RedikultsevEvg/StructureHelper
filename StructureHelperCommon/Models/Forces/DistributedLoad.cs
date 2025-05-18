@@ -1,10 +1,10 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces.BeamShearActions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
 
 namespace StructureHelperCommon.Models.Forces
 {
@@ -32,6 +32,8 @@ namespace StructureHelperCommon.Models.Forces
         public double EndCoordinate { get; set; } = double.PositiveInfinity;
         /// <inheritdoc/>
         public double LoadRatio { get; set; } = 1;
+        /// <inheritdoc/>
+        public IFactoredCombinationProperty CombinationProperty { get; set; } = new FactoredCombinationProperty(Guid.NewGuid()) { LimitState = LimitStates.ULS, CalcTerm = CalcTerms.ShortTerm};
 
         public DistributedLoad(Guid id)
         {

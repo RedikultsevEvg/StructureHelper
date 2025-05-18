@@ -1,7 +1,10 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Services.Forces;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -10,6 +13,8 @@ namespace StructureHelperLogics.Models.BeamShears
         private ISumForceByShearLoadLogic sumDistributedLoadLogic;
         private ISumForceByShearLoadLogic sumConcentratedForceLogic;
         public IShiftTraceLogger? TraceLogger { get; set; }
+        public LimitStates LimitState { get; set; }
+        public CalcTerms CalcTerm { get; set; }
 
         public SumForceByShearLoadLogic(IShiftTraceLogger? traceLogger)
         {
@@ -46,17 +51,19 @@ namespace StructureHelperLogics.Models.BeamShears
             }
         }
 
-        private IForceTuple GetConcentratedForceSum(IConcentratedForce concenratedForce, double startCoord, double endCoord)
+        private IForceTuple GetConcentratedForceSum(IConcentratedForce concentratedForce, double startCoord, double endCoord)
         {
-            sumConcentratedForceLogic ??= new SumConcentratedForceLogic(TraceLogger);
-            IForceTuple sumForce = sumConcentratedForceLogic.GetSumShearForce(concenratedForce, startCoord, endCoord);
+            sumConcentratedForceLogic ??= new SumConcentratedForceLogic(TraceLogger) { LimitState = LimitState, CalcTerm = CalcTerm};
+            IForceTuple sumForce = sumConcentratedForceLogic.GetSumShearForce(concentratedForce, startCoord, endCoord);
             TraceLogger?.AddMessage($"Sum of concentrated force Qcf = {sumForce.Qy}(N)");
             return sumForce;
         }
 
+
+
         private IForceTuple GetDistributedLoadSum(IDistributedLoad distributedLoad, double startCoord, double endCoord)
         {
-            sumDistributedLoadLogic ??= new SumDistributedLoadLogic(TraceLogger);
+            sumDistributedLoadLogic ??= new SumDistributedLoadLogic(TraceLogger) { LimitState = LimitState, CalcTerm = CalcTerm };
             IForceTuple sumForce = sumDistributedLoadLogic.GetSumShearForce(distributedLoad, startCoord, endCoord);
             TraceLogger?.AddMessage($"Sum of uniformly distributed load Qud = {sumForce.Qy}(N)");
             return sumForce;

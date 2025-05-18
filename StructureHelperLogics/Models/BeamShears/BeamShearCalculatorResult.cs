@@ -10,6 +10,6 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         public bool IsValid { get; set; } = true;
         public string? Description { get; set; } = string.Empty;
-        public List<IBeamShearSectionLogicResult> SectionResults { get; set; } = new();
+        public List<IBeamShearActionResult> ActionResults { get; set; } = new();
     }
 }

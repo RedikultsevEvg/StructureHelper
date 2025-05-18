@@ -1,6 +1,8 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Services.Forces;
 
@@ -10,6 +12,8 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         private ICoordinateByLevelLogic coordinateByLevelLogic;
         public IShiftTraceLogger? TraceLogger { get; set; }
+        public LimitStates LimitState { get; set; }
+        public CalcTerms CalcTerm { get; set; }
 
         public SumDistributedLoadLogic(IShiftTraceLogger? traceLogger)
         {
@@ -55,10 +59,22 @@ namespace StructureHelperLogics.Models.BeamShears
             double loadEndCoord = Math.Min(distributedLoad.EndCoordinate, endCoordByLevel);
             double loadLength = loadEndCoord - loadStartCoord;
             TraceLogger?.AddMessage($"Total length L,tot = {loadEndCoord}(m) - {loadStartCoord}(m) = {loadLength}(m)");
-            double sumFactor = distributedLoad.LoadRatio * loadLength;
+            double loadFactor = GetLoadFactor(distributedLoad);
+            double sumFactor = distributedLoad.LoadRatio * loadLength * loadFactor;
             IForceTuple totalLoad = ForceTupleService.MultiplyTupleByFactor(distributedLoad.LoadValue, sumFactor);
-            TraceLogger?.AddMessage($"Total load Q,tot = {distributedLoad.LoadValue.Qy}(N/m) * {distributedLoad.LoadRatio} * {loadLength}(m) = {totalLoad.Qy}(N)");
+            TraceLogger?.AddMessage($"Total load Q,tot = {distributedLoad.LoadValue.Qy}(N/m) * {distributedLoad.LoadRatio} * {loadLength}(m) * {loadFactor} = {totalLoad.Qy}(N)");
             return totalLoad;
+        }
+
+        private double GetLoadFactor(IBeamSpanLoad spanLoad)
+        {
+            var getFactorLogic = new GetFactorByFactoredCombinationProperty()
+            {
+                CombinationProperty = spanLoad.CombinationProperty,
+                LimitState = LimitState,
+                CalcTerm = CalcTerm
+            };
+            return getFactorLogic.GetFactor();
         }
     }
 }

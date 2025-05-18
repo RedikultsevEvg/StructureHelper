@@ -1,4 +1,5 @@
-﻿using StructureHelper.Windows.ViewModels;
+﻿using StructureHelper.Windows.Forces;
+using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Models.Forces;
 using System;
 using System.Collections.Generic;
@@ -70,10 +71,12 @@ namespace StructureHelper.Windows.BeamShears
                 distributedLoad.EndCoordinate = value;
             }
         }
+        public FactoredCombinationPropertyVM CombinationProperty { get; }
 
         public DistributedLoadViewModel(IDistributedLoad distributedLoad)
         {
             this.distributedLoad = distributedLoad;
+            CombinationProperty = new(this.distributedLoad.CombinationProperty);
         }
     }
 }

@@ -148,10 +148,6 @@
             </ToolBar>
         </ToolBarTray>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-
-            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="22"/>
@@ -181,26 +177,7 @@
                     <DataGridTextColumn Header="Description" Width="300" Binding="{Binding Description}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <StatusBar Grid.Row="1">
-                <StatusBarItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Valid result(s): "/>
-                        <TextBlock Text="{Binding ValidResultCount}"/>
-                    </StackPanel>
-                </StatusBarItem>
-                <StatusBarItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Invalid result(s): "/>
-                        <TextBlock Text="{Binding InvalidResultCount}"/>
-                    </StackPanel>
-                </StatusBarItem>
-                <StatusBarItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Total: "/>
-                        <TextBlock Text="{Binding TotalResultCount}"/>
-                    </StackPanel>
-                </StatusBarItem>
-            </StatusBar>
+            <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResultValidness}" Content="{Binding ValidResultCounter}"/>
         </Grid>
     </DockPanel>
 

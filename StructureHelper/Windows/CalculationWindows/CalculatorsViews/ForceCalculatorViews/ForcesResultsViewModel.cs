@@ -1,7 +1,6 @@
 ﻿using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Infrastructure;
-using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Services.Exports;
 using StructureHelper.Services.Reports;
 using StructureHelper.Services.Reports.CalculationReports;
@@ -33,6 +32,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
+
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
     public class ForcesResultsViewModel : ViewModelBase
@@ -62,14 +64,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private ICommand? showGraphsCommand;
         private ICommand? showCrackResult;
         private ICommand? showCrackGraphsCommand;
-        private ICommand? showCrackWidthResult;
+        //private ICommand? showCrackWidthResult;
         private ICommand? showInteractionDiagramCommand;
         private ICommand? graphValuepointsCommand;
         private ICommand showForceResultCommand;
 
-        public int ValidResultCount => resultModel.ForcesResultList.Count(x => x.IsValid == true);
-        public int InvalidResultCount => resultModel.ForcesResultList.Count(x => x.IsValid == false);
-        public int TotalResultCount => resultModel.ForcesResultList.Count;
+        public ValidResultCounterVM ValidResultCounter { get; }
 
         public IForcesResults ForcesResults
         {
@@ -430,6 +430,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             this.forceCalculator = forceCalculator;
             resultModel = forceCalculator.Result as IForcesResults;
+            ValidResultCounter = new(resultModel.ForcesResultList);
             ndmPrimitives = forceCalculator.InputData.Primitives;
         }
 

@@ -53,7 +53,7 @@ namespace StructureHelperLogics.Models.BeamShears
                 beamShearSectionLogic.InputData = sectionInputData;
                 beamShearSectionLogic.Run();
                 var sectionResult = beamShearSectionLogic.Result as IBeamShearSectionLogicResult;
-                result.SectionResults.Add(sectionResult);
+                //result.ActionResults.Add(sectionResult);
             }
         }
 

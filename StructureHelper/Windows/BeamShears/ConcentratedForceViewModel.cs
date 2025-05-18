@@ -1,4 +1,5 @@
-﻿using StructureHelper.Windows.ViewModels;
+﻿using StructureHelper.Windows.Forces;
+using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Models.Forces;
 
 namespace StructureHelper.Windows.BeamShears
@@ -57,9 +58,12 @@ namespace StructureHelper.Windows.BeamShears
             }
         }
 
+        public FactoredCombinationPropertyVM CombinationProperty { get; }
+
         public ConcentratedForceViewModel(IConcentratedForce concenratedForce)
         {
             this.concenratedForce = concenratedForce;
+            CombinationProperty = new(this.concenratedForce.CombinationProperty);
         }
     }
 }

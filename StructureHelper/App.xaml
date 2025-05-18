@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="Infrastructure/UI/Styles.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/DataGridStyles.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/StatusBarStyles.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/Converters.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/DataGridTemplates.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/PrimitiveTemplates.xaml"/>

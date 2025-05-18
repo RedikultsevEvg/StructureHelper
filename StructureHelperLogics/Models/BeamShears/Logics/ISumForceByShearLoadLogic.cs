@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace StructureHelperLogics.Models.BeamShears
     /// </summary>
     public interface ISumForceByShearLoadLogic : ILogic
     {
+        LimitStates LimitState { get; set; }
+        CalcTerms CalcTerm { get; set; }
         /// <summary>
         /// Returns summary force of action from start to end
         /// </summary>

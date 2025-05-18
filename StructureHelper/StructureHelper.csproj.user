@@ -18,6 +18,9 @@
     <Compile Update="Windows\BeamShears\BeamShearCalculatorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\BeamShears\BeamShearResultView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\BeamShears\BeamShearView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -161,6 +164,9 @@
     <Page Update="Infrastructure\UI\Resources\ServiceColors.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Infrastructure\UI\Resources\StatusBarStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\Arrays\ArrayView.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -168,6 +174,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\BeamShears\BeamShearCalculatorView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\BeamShears\BeamShearResultView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\BeamShears\BeamShearView.xaml">

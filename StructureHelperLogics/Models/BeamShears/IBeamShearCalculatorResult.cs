@@ -9,6 +9,6 @@ namespace StructureHelperLogics.Models.BeamShears
 {
     public interface IBeamShearCalculatorResult : IResult
     {
-        List<IBeamShearSectionLogicResult> SectionResults { get; set; }
+        List<IBeamShearActionResult> ActionResults { get; set; }
     }
 }

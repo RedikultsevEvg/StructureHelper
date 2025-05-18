@@ -1,6 +1,8 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Services.Forces;
 
@@ -10,6 +12,8 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         private ICoordinateByLevelLogic coordinateByLevelLogic;
         public IShiftTraceLogger? TraceLogger { get; set; }
+        public LimitStates LimitState { get; set; }
+        public CalcTerms CalcTerm { get; set; }
 
         public SumConcentratedForceLogic(ICoordinateByLevelLogic coordinateByLevelLogic, IShiftTraceLogger? traceLogger)
         {
@@ -64,8 +68,10 @@ namespace StructureHelperLogics.Models.BeamShears
             }
             if (concentratedForce.ForceCoordinate < limitCoordinate)
             {
-                totalLoad = ForceTupleService.MultiplyTupleByFactor(concentratedForce.ForceValue, concentratedForce.LoadRatio);
-                TraceLogger?.AddMessage($"Total load Q,tot = {concentratedForce.ForceValue.Qy}(N) * {concentratedForce.LoadRatio} = {totalLoad}(N)");
+                double loadFactor = GetLoadFactor(concentratedForce);
+                double sumFactor = concentratedForce.LoadRatio * loadFactor;
+                totalLoad = ForceTupleService.MultiplyTupleByFactor(concentratedForce.ForceValue, sumFactor);
+                TraceLogger?.AddMessage($"Total load Q,tot = {concentratedForce.ForceValue.Qy}(N) * {concentratedForce.LoadRatio} * {loadFactor} = {totalLoad}(N)");
             }
             else
             {
@@ -73,6 +79,17 @@ namespace StructureHelperLogics.Models.BeamShears
                 totalLoad = new ForceTuple(Guid.NewGuid());
             }
             return totalLoad;
+        }
+
+        private double GetLoadFactor(IBeamSpanLoad spanLoad)
+        {
+            var getFactorLogic = new GetFactorByFactoredCombinationProperty()
+            {
+                CombinationProperty = spanLoad.CombinationProperty,
+                LimitState = LimitState,
+                CalcTerm = CalcTerm
+            };
+            return getFactorLogic.GetFactor();
         }
     }
 }
