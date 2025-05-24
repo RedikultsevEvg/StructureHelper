@@ -6,6 +6,7 @@ using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Forces.BeamShearActions;
 using StructureHelperLogics.Models.BeamShears;
 using System;
 using System.Windows;
@@ -18,6 +19,7 @@ namespace StructureHelper.Windows.BeamShears
         private object parameter;
         private readonly IBeamShearRepository shearRepository;
         private RelayCommand runCommand;
+        private BeamShearCalculatorUpdateStrategy updateStrategy;
 
         public ICommand Run
         {
@@ -69,14 +71,21 @@ namespace StructureHelper.Windows.BeamShears
             Window window; 
             if (SelectedItem is IBeamShearCalculator beamShearCalculator)
             {
+                var tmpCalculator = beamShearCalculator.Clone() as IBeamShearCalculator;
                 var viewModel = new BeamShearCalculatorViewModel(shearRepository, beamShearCalculator);
                 window = new BeamShearCalculatorView(viewModel);
+                window.ShowDialog();
+                if (window.DialogResult != true)
+                {
+                    updateStrategy ??= new BeamShearCalculatorUpdateStrategy();
+                    updateStrategy.Update(beamShearCalculator, tmpCalculator);
+                }
+                base.EditMethod(parameter);
             }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));
             }
-            window.ShowDialog();
         }
         private void RunMethod(object param)
         {
@@ -95,12 +104,18 @@ namespace StructureHelper.Windows.BeamShears
             if (SelectedItem is IBeamShearCalculator beamShearCalculator)
             {
                 beamShearCalculator.Run();
+                var result = beamShearCalculator.Result as IBeamShearCalculatorResult;
+                Window window = new BeamShearResultView(result);
+                window.ShowDialog();
+                if (beamShearCalculator.ShowTraceData == true)
+                {
+                    TraceDocumentService.ShowDocument(SelectedItem.TraceLogger.TraceLoggerEntries);
+                }
             }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));
             }
-            TraceDocumentService.ShowDocument(SelectedItem.TraceLogger.TraceLoggerEntries);
         }
     }
 }

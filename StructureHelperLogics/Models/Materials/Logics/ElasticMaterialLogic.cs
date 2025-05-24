@@ -18,7 +18,7 @@ namespace StructureHelperLogics.Models.Materials
         { 
             IMaterial material = new Material();
             material.InitModulus = elasticMaterial.Modulus;
-            IFactorLogic factorLogic = new FactorLogic(elasticMaterial.SafetyFactors);
+            IMaterialFactorLogic factorLogic = new MaterialFactorLogic(elasticMaterial.SafetyFactors);
             var factors = factorLogic.GetTotalFactor(limitState, calcTerm);
             parameters = new List<double>()
             {

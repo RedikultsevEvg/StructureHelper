@@ -15,7 +15,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
         private Mock<IStirrupByDensity> _mockStirrupByDensity;
         private Mock<IInclinedSection> _mockInclinedSection;
         private Mock<IShiftTraceLogger> _mockTraceLogger;
-        private BeamShearStrengthByStirrupDensityLogic _beamShearStrength;
+        private StirrupByDensityStrengthLogic _beamShearStrength;
 
         [SetUp]
         public void Setup()
@@ -25,7 +25,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             _mockInclinedSection = new Mock<IInclinedSection>();
             _mockTraceLogger = new Mock<IShiftTraceLogger>();
 
-            _beamShearStrength = new BeamShearStrengthByStirrupDensityLogic(
+            _beamShearStrength = new StirrupByDensityStrengthLogic(
                 _mockStirrupEffectiveness.Object,
                 _mockStirrupByDensity.Object,
                 _mockInclinedSection.Object,
@@ -61,7 +61,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
         public void GetShearStrength_ThrowsException_WhenDependenciesAreNull()
         {
             // Arrange
-            var invalidInstance = new BeamShearStrengthByStirrupDensityLogic(
+            var invalidInstance = new StirrupByDensityStrengthLogic(
                 _mockStirrupEffectiveness.Object,
                 null, // Invalid
                 _mockInclinedSection.Object,

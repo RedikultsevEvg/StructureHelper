@@ -16,6 +16,7 @@ namespace StructureHelperLogics.Models.BeamShears
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
             InitializeStrategies();
             hasActionUpdateStrategy?.Update(targetObject, sourceObject);
+            hasSectionsUpdateStrategy?.Update(targetObject, sourceObject);
             hasStirrupsUpdateStrategy?.Update(targetObject, sourceObject);
 
         }

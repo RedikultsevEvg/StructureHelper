@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Loggers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace StructureHelperLogics.Models.BeamShears
 {
     public class BeamShearCalculatorLogic : IGetResultByInputDataLogic<IBeamShearCalculatorInputData, IBeamShearCalculatorResult>
     {
-        private const LimitStates CollapsLimitState = LimitStates.ULS;
+        private const LimitStates CollapseLimitState = LimitStates.ULS;
         private IBeamShearCalculatorResult result;
         private IBeamShearSectionLogic beamShearSectionLogic;
-        private List<IBeamShearSectionLogicInputData> sectionInputDatas;
+        private List<IBeamShearActionResult> actionResults;
         private IBeamShearCalculatorInputData inputData;
         private List<CalcTerms> calcTerms = new() { CalcTerms.LongTerm, CalcTerms.ShortTerm };
 
@@ -29,13 +30,14 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public IBeamShearCalculatorResult GetResultByInputData(IBeamShearCalculatorInputData inputData)
         {
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             this.inputData = inputData;
             PrepareNewResult();
             InitializeStrategies();
             try
             {
-                GetSectionInputDatas();
-                CalculateResult();
+                GetSections();
+                result.ActionResults = actionResults;
             }
             catch (Exception ex)
             {
@@ -46,20 +48,17 @@ namespace StructureHelperLogics.Models.BeamShears
             return result;
         }
 
-        private void CalculateResult()
+        private IBeamShearSectionLogicResult CalculateResult(IBeamShearSectionLogicInputData sectionInputData)
         {
-            foreach (var sectionInputData in sectionInputDatas)
-            {
-                beamShearSectionLogic.InputData = sectionInputData;
-                beamShearSectionLogic.Run();
-                var sectionResult = beamShearSectionLogic.Result as IBeamShearSectionLogicResult;
-                //result.ActionResults.Add(sectionResult);
-            }
+            beamShearSectionLogic.InputData = sectionInputData;
+            beamShearSectionLogic.Run();
+            var sectionResult = beamShearSectionLogic.Result as IBeamShearSectionLogicResult;
+            return sectionResult;
         }
 
         private void InitializeStrategies()
         {
-            beamShearSectionLogic ??= new BeamShearSectionLogic();
+            beamShearSectionLogic ??= new BeamShearSectionLogic(TraceLogger);
         }
 
         private void PrepareNewResult()
@@ -71,40 +70,92 @@ namespace StructureHelperLogics.Models.BeamShears
             };
         }
 
-        private void GetSectionInputDatas()
+        private void GetSections()
         {
-            sectionInputDatas = new();
-            foreach (var beamShearSection in inputData.Sections)
+            actionResults = new();
+            foreach (var beamShearAction in inputData.Actions)
             {
-                List<IInclinedSection> inclinedSections = GetInclinedSections(beamShearSection);
-                foreach (var inclinedSection in inclinedSections)
+                foreach (var calcTerm in calcTerms)
                 {
-                    GetSections(inclinedSection);
+                    foreach (var section in inputData.Sections)
+                    {
+                        foreach (var stirrup in inputData.Stirrups)
+                        {
+                            List<IInclinedSection> inclinedSections = GetInclinedSections(section);
+                            List<IBeamShearSectionLogicInputData> sectionInputDatas = GetSectionInputDatas(beamShearAction, calcTerm, section, stirrup, inclinedSections);
+                            List<IBeamShearSectionLogicResult> sectionResults = GetSectionResults(sectionInputDatas);
+                            BeamShearActionResult actionResult = GetActionResult(beamShearAction, calcTerm, section, stirrup, sectionResults);
+                            actionResults.Add(actionResult);
+                        }
+                    }
                 }
             }
         }
 
-        private void GetSections(IInclinedSection inclinedSection)
+        private BeamShearActionResult GetActionResult(IBeamShearAction beamShearAction, CalcTerms calcTerm, IBeamShearSection section, IStirrup stirrup, List<IBeamShearSectionLogicResult> sectionResults)
         {
-            foreach (var stirrup in inputData.Stirrups)
+            BeamShearActionResult actionResult = PrepareNewActionResult(beamShearAction, calcTerm, section, stirrup);
+            if (sectionResults.Any(x => x.IsValid == false))
             {
-                foreach (var beamShearAction in inputData.Actions)
+                actionResult.IsValid = false;
+                if (actionResult.Description.Length > 0)
                 {
-                    foreach (var calcTerm in calcTerms)
-                    {
-                        IForceTuple forceTuple = GetForceTupleByShearAction(beamShearAction, inclinedSection, CollapsLimitState, calcTerm);
-                        BeamShearSectionLogicInputData newInputData = new(Guid.NewGuid())
-                        {
-                            InclinedSection = inclinedSection,
-                            Stirrup = stirrup,
-                            ForceTuple = forceTuple,
-                            LimitState = CollapsLimitState,
-                            CalcTerm = calcTerm
-                        };
-                        sectionInputDatas.Add(newInputData);
-                    }
+                    actionResult.Description += "\n";
                 }
+                actionResult.Description += $"There are {sectionResults.Count(x => x.IsValid == false)} invalid section result(s)";
             }
+            actionResult.SectionResults = sectionResults;
+            return actionResult;
+        }
+
+        private List<IBeamShearSectionLogicResult> GetSectionResults(List<IBeamShearSectionLogicInputData> sectionInputDatas)
+        {
+            List<IBeamShearSectionLogicResult> sectionResults = new();
+            foreach (var item in sectionInputDatas)
+            {
+                IBeamShearSectionLogicResult sectionResult = CalculateResult(item);
+                sectionResults.Add(sectionResult);
+            }
+
+            return sectionResults;
+        }
+
+        private List<IBeamShearSectionLogicInputData> GetSectionInputDatas(IBeamShearAction beamShearAction, CalcTerms calcTerm, IBeamShearSection section, IStirrup stirrup, List<IInclinedSection> inclinedSections)
+        {
+            List<IBeamShearSectionLogicInputData> sectionInputDatas = new();
+            var material = section.Material;
+            var strength = material.GetStrength(CollapseLimitState, calcTerm);
+            foreach (var inclinedSection in inclinedSections)
+            {
+                inclinedSection.ConcreteCompressionStrength = strength.Compressive;
+                inclinedSection.ConcreteTensionStrength = strength.Tensile;
+                IForceTuple forceTuple = GetForceTupleByShearAction(beamShearAction, inclinedSection, CollapseLimitState, calcTerm);
+                BeamShearSectionLogicInputData newInputData = new(Guid.NewGuid())
+                {
+                    InclinedSection = inclinedSection,
+                    Stirrup = stirrup,
+                    ForceTuple = forceTuple,
+                    LimitState = CollapseLimitState,
+                    CalcTerm = calcTerm
+                };
+                sectionInputDatas.Add(newInputData);
+            }
+
+            return sectionInputDatas;
+        }
+
+        private static BeamShearActionResult PrepareNewActionResult(IBeamShearAction beamShearAction, CalcTerms calcTerm, IBeamShearSection section, IStirrup stirrup)
+        {
+            return new()
+            {
+                IsValid = true,
+                Description = string.Empty,
+                BeamShearAction = beamShearAction,
+                LimitState = CollapseLimitState,
+                CalcTerm = calcTerm,
+                Section = section,
+                Stirrup = stirrup
+            };
         }
 
         private List<IInclinedSection> GetInclinedSections(IBeamShearSection beamShearSection)

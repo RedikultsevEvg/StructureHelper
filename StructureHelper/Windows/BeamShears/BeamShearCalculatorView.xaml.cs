@@ -15,5 +15,10 @@ namespace StructureHelper.Windows.BeamShears
             this.viewModel.ParentWindow = this;
             this.DataContext = this.viewModel;
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            viewModel.Refresh();
+        }
     }
 }

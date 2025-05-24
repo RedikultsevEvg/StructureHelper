@@ -15,6 +15,8 @@ namespace StructureHelperLogics.Models.BeamShears
         public string? Description { get; set; }
         /// <inheritdoc/>
         public LimitStates LimitState { get; set; }
+        public IBeamShearSection Section { get; set; }
+        public IStirrup Stirrup { get; set; }
         public CalcTerms CalcTerm { get; set; }
         public IBeamShearAction BeamShearAction { get; set; }
         public List<IBeamShearSectionLogicResult> SectionResults { get; set; } = new();

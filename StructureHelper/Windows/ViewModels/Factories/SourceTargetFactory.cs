@@ -25,7 +25,7 @@ namespace StructureHelper.Windows.ViewModels
                 result.SetTargetItems(viewPrimitives);
             }
             result.SetSourceItems(sourceViewPrimitives);
-            result.ItemDataDemplate = GetDataTemplate(ColoredItemTemplate);
+            result.ItemDataTemplate = GetDataTemplate(ColoredItemTemplate);
             return result;
         }
 
@@ -34,7 +34,7 @@ namespace StructureHelper.Windows.ViewModels
             var result = new SourceTargetVM<IForceAction>();
             result.SetTargetItems(targetCombinations);
             result.SetSourceItems(allowedCombinations);
-            result.ItemDataDemplate = GetDataTemplate(SimpleItemTemplate);
+            result.ItemDataTemplate = GetDataTemplate(SimpleItemTemplate);
             return result;
         }
 

@@ -1,12 +1,7 @@
 ﻿using StructureHelper.Infrastructure;
-using StructureHelperCommon.Models.Forces;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace StructureHelper.Windows.ViewModels
@@ -24,7 +19,7 @@ namespace StructureHelper.Windows.ViewModels
         public TItem SelectedTargetItem { get; set; }
         public ObservableCollection<TItem> SourceItems { get; }
         public ObservableCollection<TItem> TargetItems { get; }
-        public DataTemplate ItemDataDemplate { get; set; }
+        public DataTemplate ItemDataTemplate { get; set; }
         public RelayCommand AddAll
         {
             get

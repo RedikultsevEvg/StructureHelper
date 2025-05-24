@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace StructureHelperLogics.Models.BeamShears
 {
     /// <summary>
-    /// Properties of concrete cross-section effectiveness for shear
+    /// Implements properties of concrete cross-section effectiveness for shear
     /// </summary>
     public interface ISectionEffectiveness
     {

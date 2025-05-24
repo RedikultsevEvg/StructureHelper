@@ -12,6 +12,9 @@
     <Compile Update="Windows\Arrays\ArrayView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\BeamShears\BeamShearActionResultView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\BeamShears\BeamShearActionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -168,6 +171,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\Arrays\ArrayView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\BeamShears\BeamShearActionResultView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\BeamShears\BeamShearActionView.xaml">

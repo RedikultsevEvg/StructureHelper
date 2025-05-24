@@ -10,7 +10,7 @@ namespace StructureHelperCommon.Models.Materials
     public class MaterialCommonOptionLogic : IMaterialOptionLogic
     {
         private IMaterialLogicOptions options;
-        private FactorLogic factorLogic;
+        private MaterialFactorLogic factorLogic;
 
         public MaterialCommonOptionLogic(IMaterialLogicOptions options)
         {
@@ -29,7 +29,7 @@ namespace StructureHelperCommon.Models.Materials
 
         private void ProcessExternalFactors(IMaterialOptions materialOptions)
         {
-            factorLogic = new FactorLogic(options.SafetyFactors);
+            factorLogic = new MaterialFactorLogic(options.SafetyFactors);
             var strength = factorLogic.GetTotalFactor(options.LimitState, options.CalcTerm);
             materialOptions.ExternalFactor.Compressive = strength.Compressive;
             materialOptions.ExternalFactor.Tensile = strength.Tensile;

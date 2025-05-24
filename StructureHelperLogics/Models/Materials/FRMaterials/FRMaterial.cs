@@ -72,7 +72,7 @@ namespace StructureHelperLogics.Models.Materials
         {
             const double gammaF2Max = 0.9d;
             double gammaF2;
-            IFactorLogic factorLogic = new FactorLogic(SafetyFactors);
+            IMaterialFactorLogic factorLogic = new MaterialFactorLogic(SafetyFactors);
             var factors = factorLogic.GetTotalFactor(LimitStates.ULS, CalcTerms.ShortTerm);
             var rf = TensileStrength * factors.Tensile;
             var epsUlt = rf / Modulus;

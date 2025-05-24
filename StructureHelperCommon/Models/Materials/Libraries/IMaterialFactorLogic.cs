@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Materials.Libraries
 {
-    public interface IFactorLogic
+    public interface IMaterialFactorLogic
     {
         List<IMaterialSafetyFactor> SafetyFactors { get; }
         (double Compressive, double Tensile) GetTotalFactor(LimitStates limitState, CalcTerms calcTerm);

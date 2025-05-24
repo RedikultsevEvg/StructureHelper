@@ -10,7 +10,7 @@
             </Grid.ColumnDefinitions>
             <ListBox ItemsSource="{Binding SourceItems}"
                      SelectedItem="{Binding SelectedSourceItem}"
-                     ItemTemplate="{Binding ItemDataDemplate}">
+                     ItemTemplate="{Binding ItemDataTemplate}">
                 <!--<InputBindingCollection>
                     <MouseBinding Gesture="LeftDoubleClick" Command="{Binding AddSelected}"/>
                 </InputBindingCollection>-->
@@ -23,7 +23,7 @@
             </StackPanel>
             <ListBox Grid.Column="2" ItemsSource="{Binding TargetItems}"
                      SelectedItem="{Binding SelectedTargetItem}"
-                     ItemTemplate="{Binding ItemDataDemplate}"
+                     ItemTemplate="{Binding ItemDataTemplate}"
                      >
                 <!--<InputBindingCollection>
                     <MouseBinding Gesture="LeftDoubleClick" Command="{Binding RemoveSelected}"/>

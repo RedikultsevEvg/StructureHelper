@@ -14,6 +14,8 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         LimitStates LimitState { get; set; }
         CalcTerms CalcTerm { get; set; }
+        IBeamShearSection Section { get; set; }
+        IStirrup Stirrup { get; set; }  
         IBeamShearAction BeamShearAction { get; set; }
         List<IBeamShearSectionLogicResult> SectionResults { get; set; }
     }

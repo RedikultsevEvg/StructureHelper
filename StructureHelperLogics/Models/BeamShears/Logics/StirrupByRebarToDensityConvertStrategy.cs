@@ -13,6 +13,11 @@ namespace StructureHelperLogics.Models.BeamShears
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
+        public StirrupByRebarToDensityConvertStrategy(IShiftTraceLogger traceLogger)
+        {
+            TraceLogger = traceLogger;
+        }
+
         public StirrupByRebarToDensityConvertStrategy(IUpdateStrategy<IStirrup> updateStrategy, IShiftTraceLogger traceLogger)
         {
             this.updateStrategy = updateStrategy;

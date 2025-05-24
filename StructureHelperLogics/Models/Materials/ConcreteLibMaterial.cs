@@ -17,7 +17,7 @@ namespace StructureHelperLogics.Models.Materials
         private readonly List<IMaterialLogic> materialLogics;
         private LMBuilders.ConcreteOptions lmOptions;
         private IMaterialOptionLogic optionLogic;
-        private IFactorLogic factorLogic => new FactorLogic(SafetyFactors);
+        private IMaterialFactorLogic factorLogic => new MaterialFactorLogic(SafetyFactors);
         private LMLogic.ITrueStrengthLogic strengthLogic;
         private IUpdateStrategy<IConcreteLibMaterial> updateStrategy = new ConcreteLibUpdateStrategy();
 

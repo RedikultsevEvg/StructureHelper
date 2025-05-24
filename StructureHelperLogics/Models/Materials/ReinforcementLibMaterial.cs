@@ -18,7 +18,7 @@ namespace StructureHelperLogics.Models.Materials
     {
         const MaterialTypes materialType = MaterialTypes.Reinforcement;
 
-        private IFactorLogic factorLogic => new FactorLogic(SafetyFactors);
+        private IMaterialFactorLogic factorLogic => new MaterialFactorLogic(SafetyFactors);
         private LoaderMaterialLogics.ITrueStrengthLogic strengthLogic;
         private readonly List<IMaterialLogic> materialLogics;
 

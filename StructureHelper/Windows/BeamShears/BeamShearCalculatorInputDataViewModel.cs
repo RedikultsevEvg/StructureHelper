@@ -2,6 +2,9 @@
 using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.BeamShears;
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace StructureHelper.Windows.BeamShears
 {
@@ -25,13 +28,23 @@ namespace StructureHelper.Windows.BeamShears
         {
             ActionSourceTarget.SetTargetItems(inputData.Actions);
             ActionSourceTarget.SetSourceItems(shearRepository.Actions);
-            ActionSourceTarget.ItemDataDemplate = SourceTargetFactory.GetSimpleTemplate();
+            ActionSourceTarget.ItemDataTemplate = SourceTargetFactory.GetSimpleTemplate();
             StirrupSourceTarget.SetTargetItems(inputData.Stirrups);
             StirrupSourceTarget.SetSourceItems(shearRepository.Stirrups);
-            StirrupSourceTarget.ItemDataDemplate = SourceTargetFactory.GetSimpleTemplate();
+            StirrupSourceTarget.ItemDataTemplate = SourceTargetFactory.GetSimpleTemplate();
             SectionSourceTarget.SetTargetItems(inputData.Sections);
             SectionSourceTarget.SetSourceItems(shearRepository.Sections);
-            SectionSourceTarget.ItemDataDemplate = SourceTargetFactory.GetSimpleTemplate();
+            SectionSourceTarget.ItemDataTemplate = SourceTargetFactory.GetSimpleTemplate();
+        }
+
+        internal void Refresh()
+        {
+            inputData.Actions.Clear();
+            inputData.Actions.AddRange(ActionSourceTarget.GetTargetItems());
+            inputData.Stirrups.Clear();
+            inputData.Stirrups.AddRange(StirrupSourceTarget.GetTargetItems());
+            inputData.Sections.Clear();
+            inputData.Sections.AddRange(SectionSourceTarget.GetTargetItems());
         }
     }
 }

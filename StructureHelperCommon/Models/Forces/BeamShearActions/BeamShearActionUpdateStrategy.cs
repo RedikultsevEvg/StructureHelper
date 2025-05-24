@@ -11,6 +11,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             CheckObject.IsNull(targetObject);
             CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
+            targetObject.Name = sourceObject.Name;
             InitializeStrategies();
             CheckObject.IsNull(sourceObject.SupportAction);
             CheckObject.IsNull(targetObject.SupportAction);

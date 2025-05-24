@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Loggers;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -18,6 +19,7 @@ namespace StructureHelperLogics.Models.BeamShears
         public IResult Result => result;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
+        public bool ShowTraceData { get; set; } = false;
 
         public BeamShearCalculator(Guid id)
         {
@@ -34,6 +36,7 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public void Run()
         {
+            TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             PrepareNewResult();
             //PrepareInputData();
             try
@@ -82,7 +85,8 @@ namespace StructureHelperLogics.Models.BeamShears
             result = new BeamShearCalculatorResult()
             {
                 IsValid = true,
-                Description = string.Empty
+                Description = string.Empty,
+                InputData = InputData
             };
         }
     }

@@ -13,6 +13,7 @@ namespace StructureHelperLogics.Models.BeamShears
             CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
             targetObject.Name = sourceObject.Name;
+            targetObject.ShowTraceData = sourceObject.ShowTraceData;
             targetObject.InputData ??= new BeamShearCalculatorInputData(Guid.NewGuid());
             InitializeStrategies();
             inputDataUpdateStrategy.Update(targetObject.InputData, sourceObject.InputData);

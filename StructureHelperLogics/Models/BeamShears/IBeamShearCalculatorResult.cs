@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
+    /// <summary>
+    /// Implements group of results for beam shear calculator
+    /// </summary>
     public interface IBeamShearCalculatorResult : IResult
     {
+        IBeamShearCalculatorInputData InputData {get;set;}
         List<IBeamShearActionResult> ActionResults { get; set; }
     }
 }

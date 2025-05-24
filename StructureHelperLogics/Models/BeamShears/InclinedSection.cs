@@ -19,5 +19,7 @@ namespace StructureHelperLogics.Models.BeamShears
         public double StartCoord { get; set; }
         /// <inheritdoc/>
         public double EndCoord { get; set; }
+        public double ConcreteCompressionStrength { get; set; }
+        public double ConcreteTensionStrength { get; set; }
     }
 }

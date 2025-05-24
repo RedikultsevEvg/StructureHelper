@@ -51,7 +51,8 @@ namespace StructureHelperLogics.Models.BeamShears
             for (int i = 0; i < inputData.StepCount + 1; i++)
             {
                 double endCoord = step * i;
-                coordinates.Add(endCoord);
+                double roundedEndCoord = Math.Round(endCoord, 6);
+                coordinates.Add(roundedEndCoord);
             }
         }
         private void Check()

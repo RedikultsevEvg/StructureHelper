@@ -24,6 +24,14 @@ namespace StructureHelperLogics.Models.BeamShears
         /// Coordinate of end of inclined cross-section
         /// </summary>
         double EndCoord { get; set; }
+        /// <summary>
+        /// Strength of concrete in compression, Pa
+        /// </summary>
+        double ConcreteCompressionStrength { get; set; }
+        /// <summary>
+        /// Strength of concrete in tension, Pa
+        /// </summary>
+        double ConcreteTensionStrength { get; set; }
 
     }
 }

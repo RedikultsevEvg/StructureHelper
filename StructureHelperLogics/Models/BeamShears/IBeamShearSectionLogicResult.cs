@@ -9,5 +9,10 @@ namespace StructureHelperLogics.Models.BeamShears
 {
     public interface IBeamShearSectionLogicResult : IResult
     {
+        IBeamShearSectionLogicInputData InputData { get; set; }
+        public double ConcreteStrength { get; set; }
+        public double StirrupStrength { get; set; }
+        public double TotalStrength { get; set; }
+        public double FactorOfUsing { get; }
     }
 }
