@@ -15,9 +15,9 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
         /// <inheritdoc/>
         public string Name { get; set; }
         /// <inheritdoc/>
-        public IFactoredForceTuple ExternalForce { get; } = new FactoredForceTuple(Guid.NewGuid());
+        public IFactoredForceTuple ExternalForce { get; set; } = new FactoredForceTuple(Guid.NewGuid());
         /// <inheritdoc/>
-        public IBeamShearAxisAction SupportAction { get; } = new BeamShearAxisAction(Guid.NewGuid());
+        public IBeamShearAxisAction SupportAction { get; set; } = new BeamShearAxisAction(Guid.NewGuid());
 
         public BeamShearAction(Guid id)
         {
@@ -26,10 +26,10 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
 
         public object Clone()
         {
-            BeamShearAction beamShearAction = new(Guid.NewGuid());
+            BeamShearAction newItem = new(Guid.NewGuid());
             updateStrategy ??= new BeamShearActionUpdateStrategy();
-            updateStrategy.Update(beamShearAction, this);
-            return beamShearAction;
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

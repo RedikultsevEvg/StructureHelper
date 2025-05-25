@@ -6,6 +6,7 @@ using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.BeamShearActions;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace StructureHelper.Windows.BeamShears
 {
@@ -56,6 +57,14 @@ namespace StructureHelper.Windows.BeamShears
                 updateStrategy.Update(SelectedItem, temporaryShearLoad);
             }
             base.EditMethod(parameter);
+        }
+        public override void DeleteMethod(object parameter)
+        {
+            var dialogResult = System.Windows.Forms.MessageBox.Show("Delete load?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                base.DeleteMethod(parameter);
+            }
         }
     }
 }

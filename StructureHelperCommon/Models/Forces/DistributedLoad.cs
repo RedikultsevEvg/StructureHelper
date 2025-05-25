@@ -42,10 +42,10 @@ namespace StructureHelperCommon.Models.Forces
 
         public object Clone()
         {
-            DistributedLoad distributedLoad = new(Guid.NewGuid());
+            DistributedLoad newItem = new(Guid.NewGuid());
             updateStrategy ??= new DistributedLoadUpdateStrategy();
-            updateStrategy.Update(distributedLoad, this);
-            return distributedLoad;
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

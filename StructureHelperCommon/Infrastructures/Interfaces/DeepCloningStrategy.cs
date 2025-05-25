@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {
     /// <summary>
-    /// Creates deep copy of object by dictionary (if copy of object is not created it create copy, otherwise take copy from dictionary) 
+    /// Creates deep copy of object by dictionary (if copy of object is not created it creates copy, otherwise take copy from dictionary) 
     /// </summary>
     public class DeepCloningStrategy : ICloningStrategy
     {

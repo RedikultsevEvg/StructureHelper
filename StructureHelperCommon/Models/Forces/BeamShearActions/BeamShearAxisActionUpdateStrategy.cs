@@ -1,11 +1,9 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
 
 namespace StructureHelperCommon.Models.Forces.BeamShearActions
 {
@@ -19,10 +17,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeStrategies();
             targetObject.Name = sourceObject.Name;
-            targetObject.SupportForce = sourceObject.SupportForce;
-            CheckObject.IsNull(targetObject.SupportForce.CombinationProperty);
-            CheckObject.IsNull(sourceObject.SupportForce.CombinationProperty);
-            combinationUpdateStrategy.Update(targetObject.SupportForce.CombinationProperty, sourceObject.SupportForce.CombinationProperty);
+            targetObject.SupportForce = sourceObject.SupportForce.Clone() as IFactoredForceTuple;
             CheckObject.IsNull(targetObject.ShearLoads);
             targetObject.ShearLoads.Clear();
             CheckObject.IsNull(sourceObject.ShearLoads);

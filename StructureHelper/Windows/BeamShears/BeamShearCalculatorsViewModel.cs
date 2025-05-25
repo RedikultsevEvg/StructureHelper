@@ -10,6 +10,7 @@ using StructureHelperCommon.Models.Forces.BeamShearActions;
 using StructureHelperLogics.Models.BeamShears;
 using System;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.BeamShears
@@ -44,6 +45,15 @@ namespace StructureHelper.Windows.BeamShears
         {
             SafetyProcessor.RunSafeProcess(EditCalculator, $"Error of calculator {SelectedItem.Name}");
             base.EditMethod(parameter);
+        }
+
+        public override void DeleteMethod(object parameter)
+        {
+            var dialogResult = System.Windows.Forms.MessageBox.Show("Delete calculator?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                base.DeleteMethod(parameter);
+            }
         }
 
         public BeamShearCalculatorsViewModel(IBeamShearRepository shearRepository) : base(shearRepository.Calculators)

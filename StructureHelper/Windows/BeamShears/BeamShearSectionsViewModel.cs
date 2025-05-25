@@ -6,6 +6,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperLogics.Models.BeamShears;
 using System;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace StructureHelper.Windows.BeamShears
 {
@@ -66,8 +67,13 @@ namespace StructureHelper.Windows.BeamShears
 
         public override void DeleteMethod(object parameter)
         {
-            BeamShearRepositoryService.DeleteSection(shearRepository, SelectedItem);
-            base.DeleteMethod(parameter);
+            var dialogResult = System.Windows.Forms.MessageBox.Show("Delete stirrup?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                BeamShearRepositoryService.DeleteSection(shearRepository, SelectedItem);
+                base.DeleteMethod(parameter);
+            }
+            
         }
     }
 }

@@ -1,28 +1,28 @@
 ﻿using Newtonsoft.Json;
 using StructureHelperCommon.Models.Analyses;
-using StructureHelperLogic.Models.Analyses;
+using StructureHelperLogics.Models.Analyses;
 using System.Windows.Media;
 
-namespace DataAccess.DTOs
+namespace DataAccess.DTOs.DTOEntities
 {
-    public class CrossSectionNdmAnalysisDTO : ICrossSectionNdmAnalysis
+    public class BeamShearAnalysisDTO : IBeamShearAnalysis
     {
         [JsonProperty("Id")]
-        public Guid Id { get; set;}
+        public Guid Id { get; }
         [JsonProperty("Name")]
         public string Name { get; set; }
         [JsonProperty("Tags")]
         public string Tags { get; set; }
-        [JsonProperty("VersionProcessor")]
-        public IVersionProcessor VersionProcessor { get; set; } = new VersionProcessorDTO();
         [JsonProperty("Comment")]
         public string Comment { get; set; } = string.Empty;
         [JsonProperty("Color")]
-        public Color Color { get; set; } = new();
+        public Color Color { get; set; }
+        public IVersionProcessor VersionProcessor { get; set; } = new VersionProcessorDTO();
+
 
         public object Clone()
         {
-            return this;
+            throw new NotImplementedException();
         }
     }
 }

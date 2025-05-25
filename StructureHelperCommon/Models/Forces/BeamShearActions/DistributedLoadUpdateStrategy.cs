@@ -13,7 +13,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeStrategies();
             baseUpdateStrategy.Update(targetObject, sourceObject);
-            targetObject.LoadValue = sourceObject.LoadValue;
+            targetObject.LoadValue = sourceObject.LoadValue.Clone() as IForceTuple;
             targetObject.StartCoordinate = sourceObject.StartCoordinate;
             targetObject.EndCoordinate = sourceObject.EndCoordinate;
         }

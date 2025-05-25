@@ -12,6 +12,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
+            targetObject.ExternalForce = sourceObject.ExternalForce.Clone() as IFactoredForceTuple;
             InitializeStrategies();
             CheckObject.IsNull(sourceObject.SupportAction);
             CheckObject.IsNull(targetObject.SupportAction);

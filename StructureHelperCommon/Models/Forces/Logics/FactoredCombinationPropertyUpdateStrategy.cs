@@ -1,10 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces.Logics
 {
@@ -15,10 +10,10 @@ namespace StructureHelperCommon.Models.Forces.Logics
             CheckObject.IsNull(targetObject);
             CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
+            targetObject.LimitState = sourceObject.LimitState;
             targetObject.ULSFactor = sourceObject.ULSFactor;
             targetObject.LongTermFactor = sourceObject.LongTermFactor;
             targetObject.CalcTerm = sourceObject.CalcTerm;
-            targetObject.LimitState = sourceObject.LimitState;
         }
     }
 }

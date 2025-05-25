@@ -4,6 +4,7 @@ using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.BeamShearActions;
 using StructureHelperLogics.Models.BeamShears;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace StructureHelper.Windows.BeamShears
 {
@@ -36,8 +37,12 @@ namespace StructureHelper.Windows.BeamShears
         }
         public override void DeleteMethod(object parameter)
         {
-            BeamShearRepositoryService.DeleteAction(shearRepository, SelectedItem);
-            base.DeleteMethod(parameter);
+            var dialogResult = MessageBox.Show("Delete action?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                BeamShearRepositoryService.DeleteAction(shearRepository, SelectedItem);
+                base.DeleteMethod(parameter);
+            }
         }
     }
 }

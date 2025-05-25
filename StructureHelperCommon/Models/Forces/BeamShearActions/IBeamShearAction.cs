@@ -17,10 +17,10 @@ namespace StructureHelperCommon.Models.Forces
         /// <summary>
         /// External force at the end of bar
         /// </summary>
-        IFactoredForceTuple ExternalForce { get; }
+        IFactoredForceTuple ExternalForce { get; set; }
         /// <summary>
         /// Internal loads on bar
         /// </summary>
-        IBeamShearAxisAction SupportAction { get; }
+        IBeamShearAxisAction SupportAction { get; set; }
     }
 }

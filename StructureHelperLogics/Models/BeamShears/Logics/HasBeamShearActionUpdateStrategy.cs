@@ -1,6 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.BeamShears

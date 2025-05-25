@@ -1,5 +1,4 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.WorkPlanes;
 using StructureHelperCommon.Services;
 
