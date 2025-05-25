@@ -10,14 +10,14 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
 {
     internal class StirrupStrengthLogic : IBeamShearStrenghLogic
     {
-        private IStirrup stirrup;
-        private IInclinedSection inclinedSection;
+        private readonly IBeamShearSectionLogicInputData inputData;
+        private IStirrup stirrup => inputData.Stirrup;
+        private IInclinedSection inclinedSection => inputData.InclinedSection;
         private IBeamShearStrenghLogic stirrupDensityStrengthLogic;
 
-        public StirrupStrengthLogic(IStirrup stirrup, IInclinedSection inclinedSection, IShiftTraceLogger? traceLogger)
+        public StirrupStrengthLogic(IBeamShearSectionLogicInputData inputData, IShiftTraceLogger? traceLogger)
         {
-            this.stirrup = stirrup;
-            this.inclinedSection = inclinedSection;
+            this.inputData = inputData;
             TraceLogger = traceLogger;
         }
 
@@ -35,7 +35,7 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
             else if (stirrup is IStirrupByRebar stirrupByRebar)
             {
                 TraceLogger?.AddMessage("Stirrups type is stirrup by rebar");
-                stirrupDensityStrengthLogic = new StirrupByRebarStrengthLogic(stirrupEffectiveness, stirrupByRebar, inclinedSection, TraceLogger);
+                stirrupDensityStrengthLogic = new StirrupByRebarStrengthLogic(stirrupEffectiveness, stirrupByRebar, inclinedSection, inputData.ForceTuple, TraceLogger);
                 return stirrupDensityStrengthLogic.GetShearStrength();
             }
             else

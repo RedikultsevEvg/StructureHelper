@@ -66,7 +66,7 @@ namespace StructureHelperLogics.Models.BeamShears
             var sectionEffectiveness = SectionEffectivenessFactory.GetSheaEffectiveness(BeamShearSectionType.Rectangle);
             double longitudinalForce = InputData.ForceTuple.Nz;
             concreteLogic = new(sectionEffectiveness, InputData.InclinedSection, longitudinalForce, TraceLogger);
-            stirrupLogic = new(InputData.Stirrup, InputData.InclinedSection, TraceLogger);
+            stirrupLogic = new(InputData, TraceLogger);
         }
 
         private void PrepareNewResult()
