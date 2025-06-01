@@ -13,12 +13,16 @@ namespace DataAccess.DTOs
     {
     
         [JsonProperty("Id")]
-        public Guid Id { get; set; }
+        public Guid Id { get;}
         [JsonProperty("Analysis")]
         public IAnalysis Analysis { get; set; }
         [JsonIgnore]
         public Action ActionToRun { get; set; }
 
+        public VisualAnalysisDTO(Guid id)
+        {
+            Id = id;
+        }
         public object Clone()
         {
             return this;

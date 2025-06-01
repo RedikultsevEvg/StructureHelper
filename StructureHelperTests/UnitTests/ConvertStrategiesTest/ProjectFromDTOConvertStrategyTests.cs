@@ -38,7 +38,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest
         public void GetNewItem_ShouldLogStartAndEndMessages()
         {
             // Arrange
-            var projectDto = new ProjectDTO
+            var projectDto = new ProjectDTO(Guid.Empty)
             {
                 VisualAnalyses = new List<IVisualAnalysis> { new Mock<IVisualAnalysis>().Object }
             };
@@ -59,7 +59,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest
         public void GetNewItem_ShouldLogWarningIfNoAnalyses()
         {
             // Arrange
-            var projectDto = new ProjectDTO
+            var projectDto = new ProjectDTO(Guid.Empty)
             {
                 VisualAnalyses = Enumerable.Empty<IVisualAnalysis>().ToList()
             };
@@ -75,7 +75,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest
         public void GetAnalyses_ShouldConvertEachVisualAnalysisAndLogCount()
         {
             // Arrange
-            var projectDto = new ProjectDTO
+            var projectDto = new ProjectDTO(Guid.Empty)
             {
                 VisualAnalyses = new List<IVisualAnalysis> { new Mock<IVisualAnalysis>().Object, new Mock<IVisualAnalysis>().Object }
             };
@@ -98,7 +98,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest
         public void GetAnalyses_ShouldLogConvertedAnalysisCount()
         {
             // Arrange
-            var projectDto = new ProjectDTO
+            var projectDto = new ProjectDTO(Guid.Empty)
             {
                 VisualAnalyses = new List<IVisualAnalysis> { new Mock<IVisualAnalysis>().Object }
             };

@@ -4,13 +4,8 @@ using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogic.Models.Analyses;
 using StructureHelperLogics.Models.Analyses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DataAccess.DTOs.Converters
+namespace DataAccess.DTOs
 {
     internal class CrossSectionNdmAnalysisToDTOConvertStrategy : IConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis>
     {
@@ -35,6 +30,16 @@ namespace DataAccess.DTOs.Converters
             null)
         {
             
+        }
+
+        public CrossSectionNdmAnalysisToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger? traceLogger)
+            : this(
+            new CrossSectionNdmAnalysisUpdateStrategy(),
+            new VersionProcessorToDTOConvertStrategy(),
+            null)
+        {
+            ReferenceDictionary = referenceDictionary;
+            TraceLogger = traceLogger;
         }
 
         public CrossSectionNdmAnalysisDTO Convert(ICrossSectionNdmAnalysis source)

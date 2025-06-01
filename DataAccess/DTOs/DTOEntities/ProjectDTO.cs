@@ -13,16 +13,19 @@ namespace DataAccess.DTOs
     public class ProjectDTO : IProject
     {
         [JsonProperty("Id")]
-        public Guid Id { get; set; }
+        public Guid Id { get;}
         [JsonIgnore]
         public string FullFileName { get; set; }
         [JsonIgnore]
         public bool IsActual { get; set; }
-
         [JsonProperty("VisualAnalyses")]
         public List<IVisualAnalysis> VisualAnalyses { get; set; } = new();
-
         [JsonIgnore]
         public string FileName { get; set; }
+
+        public ProjectDTO(Guid id)
+        {
+            Id = id;
+        }
     }
 }

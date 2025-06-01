@@ -11,7 +11,7 @@ namespace StructureHelperLogics.Models.CrossSections
 {
     public class CrossSectionRepositoryCloneStrategy : ICloneStrategy<ICrossSectionRepository>
     {
-        private ICloningStrategy cloningStrategy;
+        private readonly ICloningStrategy cloningStrategy;
         private CrossSectionRepository targetRepository;
         private IUpdateStrategy<IHasForceActions> forcesUpdateStrategy;
         private IUpdateStrategy<IHasHeadMaterials> materialsUpdateStrategy;

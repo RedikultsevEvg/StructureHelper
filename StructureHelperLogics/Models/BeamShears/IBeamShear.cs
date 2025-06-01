@@ -9,6 +9,6 @@ namespace StructureHelperLogics.Models.BeamShears
 {
     public interface IBeamShear : ISaveable, ICloneable
     {
-        IBeamShearRepository Repository { get; }
+        IBeamShearRepository Repository { get; set; }
     }
 }

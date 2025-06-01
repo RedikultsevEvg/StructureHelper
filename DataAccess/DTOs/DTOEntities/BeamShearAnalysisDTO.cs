@@ -3,7 +3,7 @@ using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogics.Models.Analyses;
 using System.Windows.Media;
 
-namespace DataAccess.DTOs.DTOEntities
+namespace DataAccess.DTOs
 {
     public class BeamShearAnalysisDTO : IBeamShearAnalysis
     {
@@ -18,6 +18,10 @@ namespace DataAccess.DTOs.DTOEntities
         [JsonProperty("Color")]
         public Color Color { get; set; }
         public IVersionProcessor VersionProcessor { get; set; } = new VersionProcessorDTO();
+        public BeamShearAnalysisDTO(Guid id)
+        {
+            Id = id;
+        }
 
 
         public object Clone()

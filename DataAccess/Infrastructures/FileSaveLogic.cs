@@ -30,6 +30,7 @@ namespace DataAccess.Infrastructures
             catch (Exception ex)
             {
                 result.IsValid = false;
+                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
                 result.Description += ex.Message;
             }
             return result;

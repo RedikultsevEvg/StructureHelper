@@ -19,6 +19,12 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
             TraceLogger = traceLogger;
         }
 
+        protected ConvertStrategy(IConvertStrategy<ISaveable, ISaveable> convertStrategy)
+        {
+            ReferenceDictionary = convertStrategy.ReferenceDictionary;
+            TraceLogger = convertStrategy.TraceLogger;
+        }
+
         public ConvertStrategy()
         {
             

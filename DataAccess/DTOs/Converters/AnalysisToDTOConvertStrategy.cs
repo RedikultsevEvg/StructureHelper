@@ -3,31 +3,31 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogic.Models.Analyses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
+using StructureHelperLogics.Models.Analyses;
 
-namespace DataAccess.DTOs.Converters
+namespace DataAccess.DTOs
 {
-    public class AnalysisToDTOConvertStrategy : IConvertStrategy<IAnalysis, IAnalysis>
+    public class AnalysisToDTOConvertStrategy : ConvertStrategy<IAnalysis, IAnalysis>
     {
         private const string Message = "Analysis type is";
-        private IConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis> convertCrossSectionNdmAnalysisStrategy = new CrossSectionNdmAnalysisToDTOConvertStrategy();
-        private DictionaryConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis> convertLogic;
 
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
+        private IConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis> crossSectionConvertLogic;
+        private IConvertStrategy<BeamShearAnalysisDTO, IBeamShearAnalysis> beamShearConvertLogic;
 
-        public IAnalysis Convert(IAnalysis source)
+        public AnalysisToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger) : base(referenceDictionary, traceLogger)
         {
-            Check();
+        }
+
+        public override IAnalysis GetNewItem(IAnalysis source)
+        {
             IAnalysis analysis;
             if (source is ICrossSectionNdmAnalysis crossSectionNdmAnalysis)
             {
                 analysis = GetCrossSectionNdmAnalysisDTO(crossSectionNdmAnalysis);
+            }
+            else if (source is IBeamShearAnalysis beamShearAnalysis)
+            {
+                analysis = GetBeamShearAnalysis(beamShearAnalysis);
             }
             else
             {
@@ -41,23 +41,26 @@ namespace DataAccess.DTOs.Converters
             }
             return analysis;
         }
+        private BeamShearAnalysisDTO GetBeamShearAnalysis(IBeamShearAnalysis beamShearAnalysis)
+        {
+            TraceLogger?.AddMessage(Message + " Beam Shear Analysis", TraceLogStatuses.Debug);
+            beamShearConvertLogic ??= new DictionaryConvertStrategy<BeamShearAnalysisDTO, IBeamShearAnalysis>
+                (this,
+                new BeamShearAnalysisToDTOConvertStrategy(ReferenceDictionary, TraceLogger)
+                );
+            BeamShearAnalysisDTO newItem = beamShearConvertLogic.Convert(beamShearAnalysis);
+            return newItem;
+        }
 
         private CrossSectionNdmAnalysisDTO GetCrossSectionNdmAnalysisDTO(ICrossSectionNdmAnalysis crossSectionNdmAnalysis)
         {
             TraceLogger?.AddMessage(Message + " Cross-Section Ndm Analysis", TraceLogStatuses.Debug);
-            convertCrossSectionNdmAnalysisStrategy.ReferenceDictionary = ReferenceDictionary;
-            convertCrossSectionNdmAnalysisStrategy.TraceLogger = TraceLogger;
-            convertLogic = new DictionaryConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis>(this, convertCrossSectionNdmAnalysisStrategy);
-            CrossSectionNdmAnalysisDTO crossSectionNdmAnalysisDTO = convertLogic.Convert(crossSectionNdmAnalysis);
-            return crossSectionNdmAnalysisDTO;
-        }
-
-        private void Check()
-        {
-            var checkLogic = new CheckConvertLogic<IAnalysis, IAnalysis>();
-            checkLogic.ConvertStrategy = this;
-            checkLogic.TraceLogger = TraceLogger;
-            checkLogic.Check();
+            crossSectionConvertLogic ??= new DictionaryConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis>
+                (this,
+                new CrossSectionNdmAnalysisToDTOConvertStrategy(ReferenceDictionary, TraceLogger)
+                );
+            CrossSectionNdmAnalysisDTO newItem = crossSectionConvertLogic.Convert(crossSectionNdmAnalysis);
+            return newItem;
         }
     }
 }

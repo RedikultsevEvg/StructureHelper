@@ -1,49 +1,33 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Infrastructures.Settings;
-using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Projects;
-using StructureHelperLogics.Models.CrossSections;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class ProjectToDTOConvertStrategy : IConvertStrategy<ProjectDTO, IProject>
+    public class ProjectToDTOConvertStrategy : ConvertStrategy<ProjectDTO, IProject>
     {
         private IUpdateStrategy<IProject> updateStrategy;
-        private IConvertStrategy<VisualAnalysisDTO, IVisualAnalysis> convertStrategy;
         private DictionaryConvertStrategy<VisualAnalysisDTO, IVisualAnalysis> convertLogic;
 
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
 
-        public ProjectToDTOConvertStrategy(IUpdateStrategy<IProject> updateStrategy, IConvertStrategy<VisualAnalysisDTO, IVisualAnalysis> convertStrategy)
-        {
-            this.updateStrategy = updateStrategy;
-            this.convertStrategy = convertStrategy;
-        }
-
-        public ProjectToDTOConvertStrategy() : this(new ProjectUpdateStrategy(), new VisualAnalysisToDTOConvertStrategy())
+        public ProjectToDTOConvertStrategy()
         {
             
         }
 
-        public ProjectDTO Convert(IProject source)
+        public ProjectToDTOConvertStrategy(
+            IUpdateStrategy<IProject> updateStrategy,
+            DictionaryConvertStrategy<VisualAnalysisDTO, IVisualAnalysis> convertLogic)
         {
-            Check();
-            ProjectDTO newItem = new()
-            {
-                Id = source.Id
-            };
+            this.updateStrategy = updateStrategy;
+            this.convertLogic = convertLogic;
+        }
+
+        public override ProjectDTO GetNewItem(IProject source)
+        {
+            InitializeStrategies();
+            ProjectDTO newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
-            convertStrategy.ReferenceDictionary = ReferenceDictionary;
-            convertStrategy.TraceLogger = TraceLogger;
-            convertLogic = new DictionaryConvertStrategy<VisualAnalysisDTO, IVisualAnalysis>(this, convertStrategy);
             newItem.VisualAnalyses.Clear();
             foreach (var item in source.VisualAnalyses)
             {
@@ -51,15 +35,15 @@ namespace DataAccess.DTOs
                 newItem.VisualAnalyses.Add(newVisualAnalysis);
             }
             return newItem;
-
         }
 
-        private void Check()
+        private void InitializeStrategies()
         {
-            var checkLogic = new CheckConvertLogic<ProjectDTO, IProject>();
-            checkLogic.ConvertStrategy = this;
-            checkLogic.TraceLogger = TraceLogger;
-            checkLogic.Check();
+            updateStrategy ??= new ProjectUpdateStrategy();
+            convertLogic ??= new DictionaryConvertStrategy<VisualAnalysisDTO, IVisualAnalysis>
+                (this,
+                new VisualAnalysisToDTOConvertStrategy(ReferenceDictionary, TraceLogger)
+                );
         }
     }
 }

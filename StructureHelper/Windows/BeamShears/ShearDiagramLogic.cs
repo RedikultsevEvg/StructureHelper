@@ -49,6 +49,7 @@ namespace StructureHelper.Windows.BeamShears
                 var valueList = new List<double>
                     {
                     results[i].InputData.InclinedSection.EndCoord,
+                    results[i].InputData.InclinedSection.EndCoord / results[i].InputData.InclinedSection.EffectiveDepth,
                     results[i].InputData.ForceTuple.Nz * unitForce.Multiplyer,
                     results[i].InputData.ForceTuple.Qy * unitForce.Multiplyer,
                     results[i].TotalStrength * unitForce.Multiplyer,
@@ -68,9 +69,10 @@ namespace StructureHelper.Windows.BeamShears
             List<string> strings = new()
             {
                 "End coord",
+                "a/d-ratio",
                 "Nz",
                 "Qy",
-                "Qlim",
+                "Qult",
                 "Qb",
                 "Qsw",
                 "Uf"

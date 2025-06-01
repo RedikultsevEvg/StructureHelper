@@ -1,11 +1,8 @@
-﻿using StructureHelperCommon.Models.Calculators;
-using StructureHelperLogics.Models.BeamShears;
+﻿using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.NdmCalculations.Analyses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
 
 namespace StructureHelper.Windows.BeamShears
 {

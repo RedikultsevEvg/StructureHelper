@@ -4,6 +4,7 @@ using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models;
 using StructureHelperLogics.Models.BeamShears.Logics;
 using StructureHelperLogics.Models.BeamShears;
+using StructureHelperCommon.Infrastructures.Enums;
 
 namespace StructureHelperTests.UnitTests.BeamShearTests
 {
@@ -23,18 +24,18 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             {
                 _mockLogger = new Mock<IShiftTraceLogger>();
                 _mockSummaryForceLogic = new Mock<ISumForceByShearLoadLogic>();
-                var mockAxisAction = new Mock<IBeamShearAxisAction>();
+                var mockAction = new Mock<IBeamShearAction>();
                 var mockInclinedSection = new Mock<IInclinedSection>();
                 var mockShearLoad = new Mock<IBeamSpanLoad>();
 
-                mockAxisAction.Setup(a => a.SupportForce.ForceTuple.Qx).Returns(100.0);
-                mockAxisAction.Setup(a => a.ShearLoads).Returns(new List<IBeamSpanLoad> { mockShearLoad.Object });
+                mockAction.Setup(a => a.SupportAction.SupportForce.ForceTuple.Qx).Returns(100.0);
+                mockAction.Setup(a => a.SupportAction.ShearLoads).Returns(new List<IBeamSpanLoad> { mockShearLoad.Object });
 
                 mockInclinedSection.Setup(i => i.StartCoord).Returns(2.0);
                 mockInclinedSection.Setup(i => i.EndCoord).Returns(5.0);
 
                 _mockSummaryForceLogic.Setup(s => s.GetSumShearForce(mockShearLoad.Object, 2.0, 5.0)).Returns(new ForceTuple() { Qy = 50.0});
-                _logic = new GetDirectShearForceLogic(mockAxisAction.Object, mockInclinedSection.Object, _mockLogger.Object, _mockSummaryForceLogic.Object);
+                _logic = new GetDirectShearForceLogic(mockAction.Object, mockInclinedSection.Object, LimitStates.ULS, CalcTerms.ShortTerm, _mockLogger.Object, _mockSummaryForceLogic.Object);
             }
 
             [Test]
