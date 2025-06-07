@@ -31,10 +31,18 @@ namespace StructureHelperLogics.NdmCalculations.Analyses
         {
             foreach (var item in results.ForcesResultList)
             {
-                if (item.IsValid == true)
+                //if (item.IsValid == true)
                 {
                     var tuple = item.DesignForceTuple.ForceTuple;
-                    var strainMatrix = item.LoaderResults.StrainMatrix;
+                    LoaderCalculator.Data.Matrix.IStrainMatrix strainMatrix = null;
+                    try
+                    {
+                        strainMatrix = item.LoaderResults.StrainMatrix;
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
                     string[] newLine =
                         {
                             item.DesignForceTuple.LimitState.ToString(),
@@ -42,9 +50,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses
                             tuple.Mx.ToString(),
                             tuple.My.ToString(),
                             tuple.Nz.ToString(),
-                            strainMatrix.Kx.ToString(),
-                            strainMatrix.Ky.ToString(),
-                            strainMatrix.EpsZ.ToString()
+                            strainMatrix?.Kx.ToString(),
+                            strainMatrix?.Ky.ToString(),
+                            strainMatrix?.EpsZ.ToString()
                         };
                     output.AppendLine(string.Join(separator, newLine));
                 }
