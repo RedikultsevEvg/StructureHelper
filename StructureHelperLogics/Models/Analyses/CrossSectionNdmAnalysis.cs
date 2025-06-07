@@ -9,7 +9,7 @@ namespace StructureHelperLogic.Models.Analyses
 {
     public class CrossSectionNdmAnalysis : ICrossSectionNdmAnalysis
     {
-        private CrossSectionNdmAnalysisUpdateStrategy updateStrategy = new();
+        private IUpdateStrategy<ICrossSectionNdmAnalysis> updateStrategy;
         public Guid Id { get; private set; }
         public string Name { get; set; }
         public string Tags { get; set; }
@@ -23,12 +23,12 @@ namespace StructureHelperLogic.Models.Analyses
             VersionProcessor = versionProcessor;
         }
 
-        public CrossSectionNdmAnalysis(Guid id) : this (id, new VersionProcessor())
+        public CrossSectionNdmAnalysis(Guid id) : this (id, new VersionProcessor(Guid.NewGuid()))
         {
             
         }
 
-        public CrossSectionNdmAnalysis() : this(Guid.NewGuid(), new VersionProcessor())
+        public CrossSectionNdmAnalysis() : this(Guid.NewGuid(), new VersionProcessor(Guid.NewGuid()))
         {
             CrossSection crossSection = new();
             VersionProcessor.AddVersion(crossSection);
@@ -36,11 +36,12 @@ namespace StructureHelperLogic.Models.Analyses
 
         public object Clone()
         {
+            updateStrategy ??= new CrossSectionNdmAnalysisUpdateStrategy();
             CrossSectionNdmAnalysis newAnalysis = new();
             updateStrategy.Update(newAnalysis, this);
+            newAnalysis.VersionProcessor.Versions.Clear();
             var currentVersion = VersionProcessor.GetCurrentVersion().AnalysisVersion as ICloneable;
             ISaveable newCrossSection = currentVersion.Clone() as ISaveable;
-            newAnalysis.VersionProcessor.Versions.Clear();
             newAnalysis.VersionProcessor.AddVersion(newCrossSection);
             return newAnalysis;
         }

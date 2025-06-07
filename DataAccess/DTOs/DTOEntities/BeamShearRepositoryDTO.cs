@@ -3,7 +3,7 @@ using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.BeamShears;
 
-namespace DataAccess.DTOs.DTOEntities
+namespace DataAccess.DTOs
 {
     public class BeamShearRepositoryDTO : IBeamShearRepository
     {

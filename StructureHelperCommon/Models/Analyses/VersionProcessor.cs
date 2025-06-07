@@ -15,13 +15,8 @@ namespace StructureHelperCommon.Models.Analyses
 
         public VersionProcessor(Guid id)
         {
-
             Id = id;
             Versions = new();
-        }
-        public VersionProcessor() : this (Guid.NewGuid())
-        {
-            
         }
 
         private void AddVersion(IDateVersion version)

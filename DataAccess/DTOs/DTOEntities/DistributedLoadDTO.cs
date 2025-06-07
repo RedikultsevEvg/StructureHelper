@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using StructureHelperCommon.Models.Forces;
 
-namespace DataAccess.DTOs.DTOEntities
+namespace DataAccess.DTOs
 {
     public class DistributedLoadDTO : IDistributedLoad
     {
@@ -20,12 +20,15 @@ namespace DataAccess.DTOs.DTOEntities
         [JsonProperty("LoadRatio")]
         public double LoadRatio { get; set; }
         [JsonProperty("CombinationProperty")]
-        public IFactoredCombinationProperty CombinationProperty { get; set; }
-
+        public IFactoredCombinationProperty CombinationProperty { get; set; } = new FactoredCombinationPropertyDTO(Guid.Empty);
+        public DistributedLoadDTO(Guid id)
+        {
+            Id = id;
+        }
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            return this;
         }
     }
 }

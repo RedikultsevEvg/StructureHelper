@@ -2,69 +2,48 @@
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Loggers;
-using StructureHelperLogics.Models.CrossSections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class VersionProcessorToDTOConvertStrategy : IConvertStrategy<VersionProcessorDTO, IVersionProcessor>
+    public class VersionProcessorToDTOConvertStrategy : ConvertStrategy<VersionProcessorDTO, IVersionProcessor>
     {
         private IConvertStrategy<DateVersionDTO, IDateVersion> dataVersionConvertStrategy;
-        private ICheckConvertLogic<VersionProcessorDTO, IVersionProcessor> checkLogic;
 
-        public VersionProcessorToDTOConvertStrategy(IConvertStrategy<DateVersionDTO, IDateVersion> dataVersionConvertStrategy)
+        public VersionProcessorToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
+            : base(referenceDictionary, traceLogger)
         {
-            this.dataVersionConvertStrategy = dataVersionConvertStrategy;
-        }
-        public VersionProcessorToDTOConvertStrategy() : this( new DateVersionToDTOConvertStrategy())
-        {
-
         }
 
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
-
-
-        public VersionProcessorDTO Convert(IVersionProcessor source)
+        public override VersionProcessorDTO GetNewItem(IVersionProcessor source)
         {
-            Check();
             try
             {
-                VersionProcessorDTO versionProcessorDTO = GetNewVersionProcessor(source);
-                return versionProcessorDTO;
+                GetNewVersionProcessor(source);
+                return NewItem;
             }
             catch (Exception ex)
             {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
+                TraceErrorByEntity(this, ex.Message);
                 throw;
-            }   
+            }
         }
 
-        private VersionProcessorDTO GetNewVersionProcessor(IVersionProcessor source)
+        private void GetNewVersionProcessor(IVersionProcessor source)
         {
-            VersionProcessorDTO newItem = new()
-            {
-                Id = source.Id
-            };
-            dataVersionConvertStrategy.ReferenceDictionary = ReferenceDictionary;
-            dataVersionConvertStrategy.TraceLogger = TraceLogger;
+            TraceLogger?.AddMessage($"Converting version processor Id={source.Id} has been started", TraceLogStatuses.Debug);
+            InitializeStrategies();
+            NewItem = new(source.Id);
             foreach (var item in source.Versions)
             {
                 var convertLogic = new DictionaryConvertStrategy<DateVersionDTO, IDateVersion>(this, dataVersionConvertStrategy);
-                newItem.Versions.Add(convertLogic.Convert(item));
+                NewItem.Versions.Add(convertLogic.Convert(item));
             }
-            return newItem;
+            TraceLogger?.AddMessage($"Converting version processor Id={NewItem.Id} has been done successfully", TraceLogStatuses.Service);
         }
 
-        private void Check()
+        private void InitializeStrategies()
         {
-            checkLogic = new CheckConvertLogic<VersionProcessorDTO, IVersionProcessor>(this);
-            checkLogic.Check();
+            dataVersionConvertStrategy ??= new DateVersionToDTOConvertStrategy(ReferenceDictionary, TraceLogger);
         }
     }
 }

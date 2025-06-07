@@ -22,7 +22,7 @@ namespace StructureHelperLogics.Models.Analyses
             targetObject.VersionProcessor.Versions.Clear();
             foreach (var version in sourceObject.VersionProcessor.Versions)
             {
-                if (version is IBeamShear beamShear)
+                if (version.AnalysisVersion is IBeamShear beamShear)
                 {
                     updateVersion(targetObject, version, beamShear);
                 }

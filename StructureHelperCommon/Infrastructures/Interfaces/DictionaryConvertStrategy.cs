@@ -28,6 +28,12 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
             TraceLogger = baseConvertStrategy.TraceLogger;
             ConvertStrategy = convertStrategy;
         }
+        public DictionaryConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger? traceLogger, IConvertStrategy<T, V> convertStrategy)
+        {
+            ReferenceDictionary = referenceDictionary;
+            TraceLogger = traceLogger;
+            ConvertStrategy = convertStrategy;
+        }
         public DictionaryConvertStrategy()
         {
 

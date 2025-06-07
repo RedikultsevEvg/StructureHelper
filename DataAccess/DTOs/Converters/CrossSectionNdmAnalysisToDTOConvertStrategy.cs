@@ -7,80 +7,48 @@ using StructureHelperLogics.Models.Analyses;
 
 namespace DataAccess.DTOs
 {
-    internal class CrossSectionNdmAnalysisToDTOConvertStrategy : IConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis>
+    internal class CrossSectionNdmAnalysisToDTOConvertStrategy : ConvertStrategy<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis>
     {
         private IUpdateStrategy<ICrossSectionNdmAnalysis> updateStrategy;
         private IConvertStrategy<VersionProcessorDTO, IVersionProcessor> convertStrategy;
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
 
-        public CrossSectionNdmAnalysisToDTOConvertStrategy(
-            IUpdateStrategy<ICrossSectionNdmAnalysis> updateStrategy,
-            IConvertStrategy<VersionProcessorDTO, IVersionProcessor> convertStrategy,
-            IShiftTraceLogger traceLogger)
+        public CrossSectionNdmAnalysisToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger) : base(referenceDictionary, traceLogger)
         {
-            this.updateStrategy = updateStrategy;
-            this.convertStrategy = convertStrategy;
-            this.TraceLogger = traceLogger;
         }
 
-        public CrossSectionNdmAnalysisToDTOConvertStrategy() : this(
-            new CrossSectionNdmAnalysisUpdateStrategy(),
-            new VersionProcessorToDTOConvertStrategy(),
-            null)
-        {
-            
-        }
-
-        public CrossSectionNdmAnalysisToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger? traceLogger)
-            : this(
-            new CrossSectionNdmAnalysisUpdateStrategy(),
-            new VersionProcessorToDTOConvertStrategy(),
-            null)
-        {
-            ReferenceDictionary = referenceDictionary;
-            TraceLogger = traceLogger;
-        }
-
-        public CrossSectionNdmAnalysisDTO Convert(ICrossSectionNdmAnalysis source)
+        public override CrossSectionNdmAnalysisDTO GetNewItem(ICrossSectionNdmAnalysis source)
         {
             try
             {
-                Check();
-                return GetNewAnalysis(source);
+                GetNewAnalysis(source);
+                return NewItem;
             }
             catch (Exception ex)
             {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
+                TraceErrorByEntity(this, ex.Message);
                 throw;
             }
         }
-
-        private CrossSectionNdmAnalysisDTO GetNewAnalysis(ICrossSectionNdmAnalysis source)
+        private void GetNewAnalysis(ICrossSectionNdmAnalysis source)
         {
             TraceLogger?.AddMessage("Cross-section ndm analysis converting is started", TraceLogStatuses.Debug);
-            CrossSectionNdmAnalysisDTO newItem = new();
-            newItem.Id = source.Id;
-            updateStrategy.Update(newItem, source);
-            convertStrategy.ReferenceDictionary = ReferenceDictionary;
-            convertStrategy.TraceLogger = TraceLogger;
-            var convertLogic = new DictionaryConvertStrategy<VersionProcessorDTO, IVersionProcessor>()
-            {
-                ReferenceDictionary = ReferenceDictionary,
-                ConvertStrategy = convertStrategy,
-                TraceLogger = TraceLogger
-            };
+            InitializeStrategies();
+            NewItem = new(source.Id);
+            updateStrategy.Update(NewItem, source);
             TraceLogger?.AddMessage("Convert version processor is started", TraceLogStatuses.Service);
-            newItem.VersionProcessor = convertLogic.Convert(source.VersionProcessor);
+            NewItem.VersionProcessor = convertStrategy.Convert(source.VersionProcessor);
             TraceLogger?.AddMessage("Cross-section ndm analysis has been converted successfully", TraceLogStatuses.Service);
-            return newItem;
         }
 
-        private void Check()
+        private void InitializeStrategies()
         {
-            var checkLogic = new CheckConvertLogic<CrossSectionNdmAnalysisDTO, ICrossSectionNdmAnalysis>(this);
-            checkLogic.Check();
+            updateStrategy ??= new CrossSectionNdmAnalysisUpdateStrategy();
+            convertStrategy = new DictionaryConvertStrategy<VersionProcessorDTO, IVersionProcessor>()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                ConvertStrategy = new VersionProcessorToDTOConvertStrategy(ReferenceDictionary, TraceLogger),
+                TraceLogger = TraceLogger
+            };
         }
     }
 }

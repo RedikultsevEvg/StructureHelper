@@ -1,10 +1,6 @@
-﻿using StructureHelperCommon.Models.Analyses;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogics.Models.BeamShears;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace StructureHelperLogics.Models.Analyses
@@ -12,6 +8,7 @@ namespace StructureHelperLogics.Models.Analyses
     /// <inheritdoc/>
     public class BeamShearAnalysis : IBeamShearAnalysis
     {
+        private IUpdateStrategy<IBeamShearAnalysis> updateStrategy;
         /// <inheritdoc/>
         public Guid Id { get; }
         /// <inheritdoc/>
@@ -23,7 +20,7 @@ namespace StructureHelperLogics.Models.Analyses
         /// <inheritdoc/>
         public Color Color { get; set; } = Color.FromRgb(128, 0, 0);
         /// <inheritdoc/>
-        public IVersionProcessor VersionProcessor { get; set; } = new VersionProcessor();
+        public IVersionProcessor VersionProcessor { get; set; } = new VersionProcessor(Guid.NewGuid());
         public BeamShearAnalysis(Guid id)
         {
             Id = id;
@@ -31,10 +28,28 @@ namespace StructureHelperLogics.Models.Analyses
             VersionProcessor.AddVersion(beamShear);
         }
 
-
+        /// <inheritdoc/>
         public object Clone()
         {
-            throw new NotImplementedException();
+            InitializeStrategies();
+            BeamShearAnalysis newAnalysis = new(Guid.NewGuid());
+            updateStrategy.Update(newAnalysis, this);
+            newAnalysis.VersionProcessor.Versions.Clear();
+            IBeamShear newVersion = GetCloneOfCurrentVersion();
+            newAnalysis.VersionProcessor.AddVersion(newVersion);
+            return newAnalysis;
+        }
+
+        private IBeamShear GetCloneOfCurrentVersion()
+        {
+            IBeamShear currentVersionOfSource = VersionProcessor.GetCurrentVersion().AnalysisVersion as IBeamShear;
+            IBeamShear newVersion = currentVersionOfSource.Clone() as IBeamShear;
+            return newVersion;
+        }
+
+        private void InitializeStrategies()
+        {
+            updateStrategy ??= new BeamShearAnalysisUpdateStrategy();
         }
     }
 }

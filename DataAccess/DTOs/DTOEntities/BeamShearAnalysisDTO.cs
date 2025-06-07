@@ -17,7 +17,7 @@ namespace DataAccess.DTOs
         public string Comment { get; set; } = string.Empty;
         [JsonProperty("Color")]
         public Color Color { get; set; }
-        public IVersionProcessor VersionProcessor { get; set; } = new VersionProcessorDTO();
+        public IVersionProcessor VersionProcessor { get; set; } = new VersionProcessorDTO(Guid.NewGuid());
         public BeamShearAnalysisDTO(Guid id)
         {
             Id = id;

@@ -26,7 +26,7 @@ namespace StructureHelperCommon.Models.Forces
 
         public object Clone()
         {
-            var newTuple = new DesignForceTuple();
+            var newTuple = new DesignForceTuple(Guid.NewGuid());
             updateStrategy.Update(newTuple, this);
             return newTuple;
         }

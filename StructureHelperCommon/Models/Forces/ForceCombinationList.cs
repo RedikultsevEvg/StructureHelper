@@ -27,7 +27,12 @@ namespace StructureHelperCommon.Models.Forces
         public ForceCombinationList(Guid id)
         {
             Id = id;
-            DesignForces = new List<IDesignForceTuple>
+            DesignForces = AddDefaultForces();
+        }
+
+        private static List<IDesignForceTuple> AddDefaultForces()
+        {
+            return new List<IDesignForceTuple>
             {
                 new DesignForceTuple()
                 {
@@ -51,6 +56,7 @@ namespace StructureHelperCommon.Models.Forces
                 }
             };
         }
+
         public ForceCombinationList() : this (Guid.NewGuid()) { }
         /// <inheritdoc/>
         public object Clone()

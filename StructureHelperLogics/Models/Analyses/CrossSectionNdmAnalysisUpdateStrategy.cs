@@ -4,11 +4,6 @@ using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Services;
 using StructureHelperLogic.Models.Analyses;
 using StructureHelperLogics.Models.CrossSections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Analyses
 {

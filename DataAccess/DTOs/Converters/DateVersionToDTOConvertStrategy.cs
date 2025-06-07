@@ -1,76 +1,58 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
-using StructureHelperCommon.Models.Loggers;
-using StructureHelperLogic.Models.Analyses;
-using StructureHelperLogics.Models.CrossSections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
+//All rights reserved.
 
 namespace DataAccess.DTOs
 {
-    public class DateVersionToDTOConvertStrategy : IConvertStrategy<DateVersionDTO, IDateVersion>
+    public class DateVersionToDTOConvertStrategy : ConvertStrategy<DateVersionDTO, IDateVersion>
     {
         private IUpdateStrategy<IDateVersion> updateStrategy;
-        private IConvertStrategy<ISaveable, ISaveable> convertStrategy;
-        private DictionaryConvertStrategy<ISaveable, ISaveable> convertLogic;
+        private DictionaryConvertStrategy<ISaveable, ISaveable> convertStrategy;
 
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
-
-        public DateVersionToDTOConvertStrategy(
-            IUpdateStrategy<IDateVersion> updateStrategy,
-            IConvertStrategy<ISaveable, ISaveable> convertStrategy)
+        public DateVersionToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
+            : base(referenceDictionary, traceLogger)
         {
-            this.updateStrategy = updateStrategy;
-            this.convertStrategy = convertStrategy;
         }
 
-        public DateVersionToDTOConvertStrategy() : this (
-            new DateVersionUpdateStrategy(),
-            new VersionItemToDTOConvertStrategy())
-        {
-            
-        }
-
-        public DateVersionDTO Convert(IDateVersion source)
+        public override DateVersionDTO GetNewItem(IDateVersion source)
         {
             try
             {
-                Check();
-                return GetNewDateVersion(source);
+                GetNewDateVersion(source);
+                return NewItem;
             }
             catch (Exception ex)
             {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
+                TraceErrorByEntity(this, ex.Message);
                 throw;
             }
         }
 
-        private DateVersionDTO GetNewDateVersion(IDateVersion source)
+        private void GetNewDateVersion(IDateVersion source)
         {
             TraceLogger?.AddMessage("Date version converting is started", TraceLogStatuses.Debug);
-            DateVersionDTO newItem = new()
+            InitializeStrategies();
+            NewItem = new()
             {
                 Id = source.Id
             };
-            updateStrategy.Update(newItem, source);
-            convertStrategy.ReferenceDictionary = ReferenceDictionary;
-            convertStrategy.TraceLogger = TraceLogger;
-            convertLogic = new DictionaryConvertStrategy<ISaveable, ISaveable>(this, convertStrategy);
-            newItem.AnalysisVersion = convertLogic.Convert(source.AnalysisVersion);
+            updateStrategy.Update(NewItem, source);
+            NewItem.AnalysisVersion = convertStrategy.Convert(source.AnalysisVersion);
             TraceLogger?.AddMessage("Date version converting has been finished", TraceLogStatuses.Service);
-            return newItem;
         }
 
-        private void Check()
+        private void InitializeStrategies()
         {
-            var checkLogic = new CheckConvertLogic<DateVersionDTO, IDateVersion>(this);
-            checkLogic.Check();
+            updateStrategy ??= new DateVersionUpdateStrategy();
+            convertStrategy = new DictionaryConvertStrategy<ISaveable, ISaveable>()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger,
+                ConvertStrategy = new VersionItemToDTOConvertStrategy(ReferenceDictionary, TraceLogger)
+            };
         }
     }
 }

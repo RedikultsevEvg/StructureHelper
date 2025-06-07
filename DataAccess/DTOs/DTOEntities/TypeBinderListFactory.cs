@@ -5,6 +5,7 @@ using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace DataAccess.DTOs
@@ -50,12 +51,6 @@ namespace DataAccess.DTOs
                 { (typeof(FileVersionDTO), "FileVersion") },
                 { (typeof(ForceCalculatorDTO), "ForceCalculator") },
                 { (typeof(ForceCalculatorInputDataDTO), "ForceCalculatorInputData") },
-                { (typeof(ForceCombinationByFactorV1_0DTO), "ForceCombinationByFactor") },
-                { (typeof(ForceFactoredListDTO), "ForceCombinationByFactor_v1_1") },
-                { (typeof(ForceCombinationFromFileDTO), "ForceCombinationFromFile") },
-                { (typeof(ForceCombinationListDTO), "ForceCombinationList") },
-                { (typeof(FactoredCombinationPropertyDTO), "ForceFactoredCombinationProperty") },
-                { (typeof(ForceTupleDTO), "ForceTuple") },
                 { (typeof(FRMaterialDTO), "FRMaterial") },
                 { (typeof(HeadMaterialDTO), "HeadMaterial") },
                 { (typeof(MaterialSafetyFactorDTO), "MaterialSafetyFactor") },
@@ -90,6 +85,42 @@ namespace DataAccess.DTOs
                 { (typeof(VisualPropertyDTO), "VisualProperty") },
                 { (typeof(UserCrackInputDataDTO), "UserCrackInputData") },
                 { (typeof(WorkPlanePropertyDTO), "WorkPlanePropertyDTO") },
+            };
+            newList.AddRange(GetForceList());
+            newList.AddRange(GetListForBeamShear());
+            return newList;
+        }
+
+        private static List<(Type type, string name)> GetForceList()
+        {
+            List<(Type type, string name)> newList = new()
+            {
+                { (typeof(ConcentratedForceDTO), "ConcentratedForce") },
+                { (typeof(DistributedLoadDTO), "DistributedLoad") },
+                { (typeof(FactoredForceTupleDTO), "FactoredForceTuple") },
+                { (typeof(ForceCombinationByFactorV1_0DTO), "ForceCombinationByFactor") },
+                { (typeof(ForceFactoredListDTO), "ForceCombinationByFactor_v1_1") },
+                { (typeof(ForceCombinationFromFileDTO), "ForceCombinationFromFile") },
+                { (typeof(ForceCombinationListDTO), "ForceCombinationList") },
+                { (typeof(FactoredCombinationPropertyDTO), "ForceFactoredCombinationProperty") },
+                { (typeof(ForceTupleDTO), "ForceTuple") },
+            };
+            return newList;
+        }
+
+        private static List<(Type type, string name)> GetListForBeamShear()
+        {
+            List<(Type type, string name)> newList = new()
+            {
+                { (typeof(BeamShearDTO), "BeamShear") },
+                { (typeof(BeamShearActionDTO), "BeamShearAction") },
+                { (typeof(BeamShearAxisActionDTO), "BeamShearAxisAction") },
+                { (typeof(BeamShearAnalysisDTO), "BeamShearAnalysis") },
+                { (typeof(BeamShearRepositoryDTO), "BeamShearRepository") },
+                { (typeof(List<IBeamShearAction>), "ListOfBeamShearActions") },
+                { (typeof(List<IBeamShearSection>), "ListOfBeamShearSections") },
+                { (typeof(List<IBeamSpanLoad>), "ListOfSpanLoads") },
+                { (typeof(List<IStirrup>), "ListOfStirrups") },
             };
             return newList;
         }

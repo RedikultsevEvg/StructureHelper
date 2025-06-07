@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.Logics;
 using System;
@@ -22,10 +23,16 @@ namespace DataAccess.DTOs
         {
             
         }
+
+        public FactoredCombinationPropertyToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
+            : base(referenceDictionary, traceLogger)
+        {
+        }
+
         public override FactoredCombinationPropertyDTO GetNewItem(IFactoredCombinationProperty source)
         {
-            InitializeStrategies();
             TraceLogger?.AddMessage($"Force factored combination property Id={source.Id} converting has been started");
+            InitializeStrategies();
             FactoredCombinationPropertyDTO newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
             TraceLogger?.AddMessage($"Force factored combination property Id={newItem.Id} converting has been finished");

@@ -2,37 +2,18 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.Models.CrossSections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace DataAccess.DTOs
 {
-    public class VersionItemToDTOConvertStrategy : IConvertStrategy<ISaveable, ISaveable>
+    public class VersionItemToDTOConvertStrategy : ConvertStrategy<ISaveable, ISaveable>
     {
         private const string AnalysisIs = "Analysis type is";
-        private IConvertStrategy<CrossSectionDTO, ICrossSection> crossSectionConvertStrategy = new CrossSectionToDTOConvertStrategy();
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
 
-
-        public ISaveable Convert(ISaveable source)
+        public VersionItemToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
+            : base(referenceDictionary, traceLogger)
         {
-            try
-            {
-                Check();
-                return GetNewAnalysis(source);
-            }
-            catch (Exception ex)
-            {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
-                throw;
-            }
         }
 
         private ISaveable GetNewAnalysis(ISaveable source)
@@ -41,6 +22,10 @@ namespace DataAccess.DTOs
             if (source is ICrossSection crossSection)
             {
                 newItem = ProcessCrossSection(crossSection);
+            }
+            else if (source is IBeamShear beamShear)
+            {
+                newItem = ProcessBeamShear(beamShear);
             }
             else
             {
@@ -51,12 +36,27 @@ namespace DataAccess.DTOs
             return newItem;
         }
 
+        private BeamShearDTO ProcessBeamShear(IBeamShear beamShear)
+        {
+            TraceLogger?.AddMessage(AnalysisIs + " Beam Shear Analysis", TraceLogStatuses.Debug);
+            var convertLogic = new DictionaryConvertStrategy<BeamShearDTO, IBeamShear>()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger,
+                ConvertStrategy = new BeamShearToDTOConvertStrategy(ReferenceDictionary, TraceLogger)
+            };
+            return convertLogic.Convert(beamShear);
+        }
+
         private ISaveable ProcessCrossSection(ICrossSection crossSection)
         {
             TraceLogger?.AddMessage(AnalysisIs + " Cross-Section Ndm Analysis", TraceLogStatuses.Debug);
             ISaveable saveable;
-            crossSectionConvertStrategy.ReferenceDictionary = ReferenceDictionary;
-            crossSectionConvertStrategy.TraceLogger = TraceLogger;
+            IConvertStrategy<CrossSectionDTO, ICrossSection> crossSectionConvertStrategy = new CrossSectionToDTOConvertStrategy
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger
+            };
             var convertLogic = new DictionaryConvertStrategy<CrossSectionDTO, ICrossSection>()
             {
                 ReferenceDictionary = ReferenceDictionary,
@@ -67,10 +67,18 @@ namespace DataAccess.DTOs
             return saveable;
         }
 
-        private void Check()
+        public override ISaveable GetNewItem(ISaveable source)
         {
-            var checkLogic = new CheckConvertLogic<ISaveable, ISaveable>(this);
-            checkLogic.Check();
+            try
+            {
+                return GetNewAnalysis(source);
+            }
+            catch (Exception ex)
+            {
+                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
+                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
+                throw;
+            }
         }
     }
 }
