@@ -1,10 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
@@ -22,8 +17,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             CheckObject.IsNull(targetObject);
             CheckObject.IsNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-
             targetObject.Name = sourceObject.Name;
+            targetObject.ShowTraceData = sourceObject.ShowTraceData;
             targetObject.InputData ??= new CrackCalculatorInputData();
             inputDataUpdateStrategy.Update(targetObject.InputData, sourceObject.InputData);
         }

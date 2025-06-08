@@ -10,7 +10,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Geometry
     {
         IParametersLogic parametersLogic;
         IGeometryResult geometryResult;
-        public string Name { get; set; }
 
         public IResult Result => geometryResult;
 

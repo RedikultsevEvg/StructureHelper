@@ -6,7 +6,7 @@ using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public interface IBeamShearRepository : ISaveable, IHasBeamShearActions, IHasCalculators, IHasBeamShearSections, IHasStirrups, ICloneable
+    public interface IBeamShearRepository : ISaveable, IHasBeamShearActions, IHasBeamShearSections, IHasStirrups,IHasCalculators, ICloneable
     {
         
     }

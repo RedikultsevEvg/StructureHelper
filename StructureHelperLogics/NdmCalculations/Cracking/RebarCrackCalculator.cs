@@ -1,11 +1,7 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Loggers;
-using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
@@ -15,7 +11,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private RebarCrackResult result;
         private ICheckInputDataLogic<IRebarCrackCalculatorInputData> checkInputDataLogic;
 
-        public string Name { get; set; }
         public RebarCrackCalculatorInputData InputData { get; set; }
         public IResult Result => result;
 

@@ -88,16 +88,21 @@
         </Grid.RowDefinitions>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="300"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Name"/>
                 <TextBox Grid.Column="1" Text="{Binding Name}"/>
+                <CheckBox Grid.Row="1" Content="Show trace data" IsChecked="{Binding ShowTraceData}"/>
             </Grid>
             <ContentControl Grid.Row="1" ContentTemplate="{StaticResource InputDataTemplate}" Content="{Binding InputData}" />
         </Grid>

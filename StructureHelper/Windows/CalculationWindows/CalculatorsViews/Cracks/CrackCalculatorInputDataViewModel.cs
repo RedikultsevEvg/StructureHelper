@@ -1,14 +1,9 @@
 ﻿using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Windows.ViewModels;
-using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 {
@@ -16,9 +11,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
     {
         private CrackCalculator calculator;
         ICrackCalculatorInputData crackInputData;
-        private bool setUserValueSofteningFactor;
-        private double softeningFactor;
-        private string name;
 
         public SourceTargetVM<IForceAction> CombinationViewModel { get; }
         public SourceTargetVM<PrimitiveBase> PrimitivesViewModel { get; private set; }
@@ -33,6 +25,21 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
                 OnPropertyChanged(nameof(WindowTitle));
             }
         }
+
+        public bool ShowTraceData
+        {
+            get
+            {
+                return calculator.ShowTraceData;
+            }
+
+            set
+            {
+                calculator.ShowTraceData = value;
+                OnPropertyChanged(nameof(ShowTraceData));
+            }
+        }
+
         public bool SetSofteningFactor
         {
             get => crackInputData.UserCrackInputData.SetSofteningFactor;

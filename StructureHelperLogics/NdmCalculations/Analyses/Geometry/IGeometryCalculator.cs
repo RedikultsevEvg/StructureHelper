@@ -2,7 +2,7 @@
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.Geometry
 {
-    public interface IGeometryCalculator : ICalculator
+    public interface IGeometryCalculator : ILogicCalculator
     {
     }
 }

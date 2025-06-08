@@ -27,8 +27,6 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         IForcesTupleResult forcesResults;
         private ITriangulatePrimitiveLogic triangulateLogic;
 
-        public string Name { get; set; }
-
         public IResult Result { get; private set; }
 
         public IAccuracy Accuracy { get; set; }

@@ -20,18 +20,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private LimitCurvesCalculatorUpdateStrategy updateStrategy => new();
 
         public Guid Id { get; }
-        public string Name { get; set; }
-        public ILimitCurvesCalculatorInputData InputData { get; set; }
+        public string Name { get; set; } = "New calculator";
+        public ILimitCurvesCalculatorInputData InputData { get; set; } = new LimitCurvesCalculatorInputData();
         public IResult Result => result;
 
         public Action<IResult> ActionToOutputResults { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
+        public bool ShowTraceData { get; set; } = false;
 
-        public LimitCurvesCalculator()
-        {
-            Name = "New calculator";
-            InputData = new LimitCurvesCalculatorInputData();
-        }
         public void Run()
         {
             TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLogStatuses.Service);

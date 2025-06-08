@@ -22,7 +22,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private RebarStressResult result;
 
         public IRebarStressCalculatorInputData InputData { get; set; }
-        public string Name { get; set; }
 
         public IResult Result => result;
 

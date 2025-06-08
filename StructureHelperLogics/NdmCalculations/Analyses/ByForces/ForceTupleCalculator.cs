@@ -12,7 +12,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private IForceTupleCalcLogic calcLogic;
 
         public IForceTupleInputData InputData { get; set; }
-        public string Name { get; set; }
         public IResult Result => result;
 
         public Action<IResult> ActionToOutputResults { get; set; }

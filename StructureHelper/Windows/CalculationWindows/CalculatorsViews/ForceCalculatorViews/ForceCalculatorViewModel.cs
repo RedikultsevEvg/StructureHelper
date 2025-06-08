@@ -17,11 +17,30 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
     public class ForceCalculatorViewModel : OkCancelViewModelBase
     {
         IForceCalculator forcesCalculator;
+        private bool showTraceData;
 
         public string Name
         {
             get { return forcesCalculator.Name; }
-            set { forcesCalculator.Name = value; }
+            set
+            {
+                forcesCalculator.Name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+
+        public bool ShowTraceData
+        {
+            get
+            {
+                return forcesCalculator.ShowTraceData;
+            }
+
+            set
+            {
+                forcesCalculator.ShowTraceData = value;
+                OnPropertyChanged(nameof(ShowTraceData));
+            }
         }
 
         public ForceCalculatorInputDataVM InputData { get; }

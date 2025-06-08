@@ -24,7 +24,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IShiftTraceLogger? TraceLogger { get; set; }
         /// <inheritdoc/>
         public IResult Result { get; private set; }
-
+        public bool ShowTraceData { get; set; }
 
         public ForceCalculator(
                 ICheckInputDataLogic<IForceCalculatorInputData> checkInputDataLogic,

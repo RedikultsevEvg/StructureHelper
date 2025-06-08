@@ -1,11 +1,8 @@
-﻿using LoaderCalculator.Data.Ndms;
-using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Services;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;

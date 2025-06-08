@@ -12,7 +12,7 @@ namespace StructureHelper.Models.Calculators
 
         public Guid Id { get; }
         public string Name { get; set; }
-
+        public bool ShowTraceData { get; set; } = false;
         public IResult Result => result;
 
         public IShiftTraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

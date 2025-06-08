@@ -10,6 +10,5 @@ namespace StructureHelperLogics.Models.BeamShears
     public interface IBeamShearCalculator : ICalculator
     {
         IBeamShearCalculatorInputData InputData { get; set; }
-        bool ShowTraceData { get; set; }
     }
 }

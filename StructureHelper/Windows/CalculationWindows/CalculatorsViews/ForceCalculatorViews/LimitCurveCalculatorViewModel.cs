@@ -1,13 +1,8 @@
 ﻿using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic;
 using StructureHelper.Windows.ViewModels;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 //Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
@@ -26,6 +21,20 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 OnPropertyChanged(nameof(Name));
             }
         }
+        public bool ShowTraceData
+        {
+            get
+            {
+                return calculator.ShowTraceData;
+            }
+
+            set
+            {
+                calculator.ShowTraceData = value;
+                OnPropertyChanged(nameof(ShowTraceData));
+            }
+        }
+
         public LimitCurveDataViewModel LimitCurveDataViewModel { get; }
         public LimitCurveCalculatorViewModel(LimitCurvesCalculator calculator, IEnumerable<INdmPrimitive> allowedPrimitives)
         {

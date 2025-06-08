@@ -3,7 +3,7 @@ using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public interface IRebarCrackCalculator : ICalculator
+    public interface IRebarCrackCalculator : ILogicCalculator
     {
         Action<IResult> ActionToOutputResults { get; set; }
         RebarCrackCalculatorInputData InputData { get; set; }

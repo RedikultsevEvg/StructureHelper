@@ -116,11 +116,16 @@ namespace DataAccess.DTOs
                 { (typeof(BeamShearActionDTO), "BeamShearAction") },
                 { (typeof(BeamShearAxisActionDTO), "BeamShearAxisAction") },
                 { (typeof(BeamShearAnalysisDTO), "BeamShearAnalysis") },
+                { (typeof(BeamShearCalculatorDTO), "BeamShearCalculator") },
+                { (typeof(BeamShearCalculatorInputDataDTO), "BeamShearCalculatorInputData") },
                 { (typeof(BeamShearRepositoryDTO), "BeamShearRepository") },
+                { (typeof(BeamShearSectionDTO), "BeamShearSection") },
                 { (typeof(List<IBeamShearAction>), "ListOfBeamShearActions") },
                 { (typeof(List<IBeamShearSection>), "ListOfBeamShearSections") },
                 { (typeof(List<IBeamSpanLoad>), "ListOfSpanLoads") },
                 { (typeof(List<IStirrup>), "ListOfStirrups") },
+                { (typeof(StirrupByDensityDTO), "StirrupByDensity") },
+                { (typeof(StirrupByRebarDTO), "StirrupByRebar") },
             };
             return newList;
         }

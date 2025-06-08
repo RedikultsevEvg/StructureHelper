@@ -1,7 +1,5 @@
 ﻿using LoaderCalculator.Data.Ndms;
-using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
@@ -10,15 +8,13 @@ using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelperLogics.NdmCalculations.Triangulations;
-using StructureHelperLogics.Services.NdmPrimitives;
 
 //Copyright (c) 2024 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class TupleCrackCalculator : ICalculator
+    public class TupleCrackCalculator : ILogicCalculator
     {
         private const CalcTerms crackingTerm = CalcTerms.ShortTerm;
         private const LimitStates crackingLimitState = LimitStates.SLS;
@@ -37,7 +33,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private double shortLength;
         private ICheckInputDataLogic<TupleCrackInputData> checkInputDataLogic;
 
-        public string Name { get; set; }
         public TupleCrackInputData InputData { get; set; }
         public IResult Result => result;
 

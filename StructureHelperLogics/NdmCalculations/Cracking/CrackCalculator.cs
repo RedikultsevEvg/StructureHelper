@@ -35,7 +35,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public IResult Result => result;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
-
+        public bool ShowTraceData { get; set; }
 
         public CrackCalculator(ICheckInputDataLogic<ICrackCalculatorInputData> checkInputDataLogic,
             IUpdateStrategy<ICrackCalculator> updateStrategy,

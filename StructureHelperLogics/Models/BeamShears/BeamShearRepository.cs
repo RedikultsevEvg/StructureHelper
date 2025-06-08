@@ -9,9 +9,9 @@ namespace StructureHelperLogics.Models.BeamShears
         private ICloneStrategy<IBeamShearRepository> cloneStrategy;
         public Guid Id { get; }
         public List<IBeamShearAction> Actions { get; } = new();
-        public List<ICalculator> Calculators { get; } = new();
         public List<IBeamShearSection> Sections { get; } = new();
         public List<IStirrup> Stirrups { get; } = new();
+        public List<ICalculator> Calculators { get; } = new();
 
 
         public BeamShearRepository(Guid id)

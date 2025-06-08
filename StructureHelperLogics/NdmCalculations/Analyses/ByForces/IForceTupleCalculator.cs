@@ -10,7 +10,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     /// <summary>
     /// Calculator for obtaining solution from loader calculator 
     /// </summary>
-    public interface IForceTupleCalculator : ICalculator, IHasActionByResult
+    public interface IForceTupleCalculator : ILogicCalculator, IHasActionByResult
     {
         /// <summary>
         /// Input data for analysis

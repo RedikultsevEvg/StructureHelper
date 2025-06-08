@@ -2,7 +2,7 @@
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public interface ILimitCurveCalculator : ICalculator, IHasActionByResult
+    public interface ILimitCurveCalculator : ILogicCalculator, IHasActionByResult
     {
         Action<IResult> ActionToOutputResults { get; set; }
         ISurroundData SurroundData { get; set; }

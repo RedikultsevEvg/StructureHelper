@@ -3,16 +3,13 @@ using System;
 
 namespace StructureHelperCommon.Models.Calculators
 {
-    public interface ICalculator : ILogic, ISaveable, ICloneable
+    public interface ICalculator : ILogicCalculator
     {      
         string Name { get; set; }
         /// <summary>
-        /// Method for calculating
+        /// Flag of exibiting of trace data
         /// </summary>
-        void Run();
-        /// <summary>
-        /// Result of Calculations
-        /// </summary>
-        IResult Result { get; }
+        bool ShowTraceData { get; set; }
+
     }
 }

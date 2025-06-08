@@ -2,7 +2,7 @@
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public interface IRebarStressCalculator : ICalculator
+    public interface IRebarStressCalculator : ILogicCalculator
     {
         IRebarStressCalculatorInputData InputData { get; set; }
     }

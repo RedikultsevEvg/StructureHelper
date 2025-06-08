@@ -33,11 +33,11 @@ namespace StructureHelperLogics.Models.BeamShears
             IBeamShearAction shearAction = BeamShearActionFactory.GetBeamShearAction(ShearActionTypes.DistributedLoad);
             shearAction.Name = "New shear action";
             shearRepository.Actions.Add(shearAction);
-            BeamShearSection section = new(Guid.Empty) { Name = "New shear section"};
+            BeamShearSection section = new(Guid.NewGuid()) { Name = "New shear section"};
             shearRepository.Sections.Add(section);
-            StirrupByRebar stirrupByUniformRebar = new(Guid.Empty) { Name = "New uniform stirrup"};
+            StirrupByRebar stirrupByUniformRebar = new(Guid.NewGuid()) { Name = "New uniform stirrup"};
             shearRepository.Stirrups.Add(stirrupByUniformRebar);
-            BeamShearCalculator beamShearCalculator = new(Guid.Empty) { Name = "New shear calculator"};
+            BeamShearCalculator beamShearCalculator = new(Guid.NewGuid()) { Name = "New shear calculator"};
             beamShearCalculator.InputData.Sections.Add(section);
             beamShearCalculator.InputData.Stirrups.Add(stirrupByUniformRebar);
             beamShearCalculator.InputData.Actions.Add(shearAction);

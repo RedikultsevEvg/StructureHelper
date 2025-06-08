@@ -2,9 +2,8 @@
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public interface ICrackForceCalculator : ICalculator
+    public interface ICrackForceCalculator : ILogicCalculator
     {
         ICrackForceCalculatorInputData InputData { get; set; }
-        string Name { get; set; }
     }
 }

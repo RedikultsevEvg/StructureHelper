@@ -25,6 +25,8 @@ namespace StructureHelperCommon.Models.Soils
 
         public Guid Id => throw new NotImplementedException();
 
+        public bool ShowTraceData { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public AnchorCalculator(SoilAnchor soilAnchor, IAnchorSoilProperties anchorSoilProperties)
         {
             Anchor = soilAnchor;
