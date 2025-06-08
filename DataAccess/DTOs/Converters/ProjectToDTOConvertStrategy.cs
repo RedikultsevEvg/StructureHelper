@@ -7,7 +7,7 @@ namespace DataAccess.DTOs
     public class ProjectToDTOConvertStrategy : ConvertStrategy<ProjectDTO, IProject>
     {
         private IUpdateStrategy<IProject> updateStrategy;
-        private DictionaryConvertStrategy<VisualAnalysisDTO, IVisualAnalysis> convertLogic;
+        private IConvertStrategy<VisualAnalysisDTO, IVisualAnalysis> convertLogic;
 
 
         public ProjectToDTOConvertStrategy()
@@ -17,7 +17,7 @@ namespace DataAccess.DTOs
 
         public ProjectToDTOConvertStrategy(
             IUpdateStrategy<IProject> updateStrategy,
-            DictionaryConvertStrategy<VisualAnalysisDTO, IVisualAnalysis> convertLogic)
+            IConvertStrategy<VisualAnalysisDTO, IVisualAnalysis> convertLogic)
         {
             this.updateStrategy = updateStrategy;
             this.convertLogic = convertLogic;
@@ -41,9 +41,7 @@ namespace DataAccess.DTOs
         {
             updateStrategy ??= new ProjectUpdateStrategy();
             convertLogic ??= new DictionaryConvertStrategy<VisualAnalysisDTO, IVisualAnalysis>
-                (this,
-                new VisualAnalysisToDTOConvertStrategy(ReferenceDictionary, TraceLogger)
-                );
+                (this, new VisualAnalysisToDTOConvertStrategy(this));
         }
     }
 }

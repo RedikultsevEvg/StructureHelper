@@ -13,7 +13,7 @@ namespace DataAccess.DTOs
     public class ProjectDTO : IProject
     {
         [JsonProperty("Id")]
-        public Guid Id { get;}
+        public Guid Id { get; set; }
         [JsonIgnore]
         public string FullFileName { get; set; }
         [JsonIgnore]
@@ -26,6 +26,11 @@ namespace DataAccess.DTOs
         public ProjectDTO(Guid id)
         {
             Id = id;
+        }
+
+        public ProjectDTO() : this(Guid.NewGuid())
+        {
+            
         }
     }
 }

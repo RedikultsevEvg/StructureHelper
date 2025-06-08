@@ -28,6 +28,10 @@ namespace DataAccess.DTOs
         {
         }
 
+        public VisualAnalysisToDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
+        {
+        }
+
         private VisualAnalysisDTO GetNewAnalysis(IVisualAnalysis source)
         {
             InitializeStrategies();

@@ -36,7 +36,7 @@ namespace DataAccess.DTOs
 
         public override Project GetNewItem(ProjectDTO source)
 {
-            TraceLogger?.AddMessage("Converting of project is started");
+            TraceLogger?.AddMessage("Converting of project has been started");
             Project newItem = new(source.Id);
             List<IVisualAnalysis> analyses = GetAnalyses(source, newItem);
             newItem.VisualAnalyses.Clear();

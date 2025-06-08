@@ -1,42 +1,24 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
-using StructureHelperCommon.Models.Loggers;
+using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.Models.CrossSections;
 
 namespace DataAccess.DTOs
 {
-    public class VersionItemFromDTOConvertStrategy : IConvertStrategy<ISaveable, ISaveable>
+    public class VersionItemFromDTOConvertStrategy : ConvertStrategy<ISaveable, ISaveable>
     {
         private const string AnalysisIs = "Analysis type is";
         private IConvertStrategy<ICrossSection, ICrossSection> crossSectionConvertStrategy;
 
-        public VersionItemFromDTOConvertStrategy(IConvertStrategy<ICrossSection, ICrossSection> crossSectionConvertStrategy)
+        public VersionItemFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
-            this.crossSectionConvertStrategy = crossSectionConvertStrategy;
         }
 
-        public VersionItemFromDTOConvertStrategy() : this (new CrossSectionFromDTOConvertStrategy())
+        public override ISaveable GetNewItem(ISaveable source)
         {
-            
-        }
-
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
-
-        public ISaveable Convert(ISaveable source)
-        {
-            try
-            {
-                Check();
-                return GetNewAnalysis(source);
-            }
-            catch (Exception ex)
-            {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
-                throw;
-            }
+            ChildClass = this;
+            return GetNewAnalysis(source);
         }
 
         private ISaveable GetNewAnalysis(ISaveable source)
@@ -45,6 +27,10 @@ namespace DataAccess.DTOs
             if (source is ICrossSection crossSection)
             {
                 newItem = ProcessCrossSection(crossSection);
+            }
+            else if (source is IBeamShear beamShear)
+            {
+                newItem = ProcessBeamShear(beamShear);
             }
             else
             {
@@ -56,22 +42,22 @@ namespace DataAccess.DTOs
             return newItem;
         }
 
+        private ISaveable ProcessBeamShear(IBeamShear beamShear)
+        {
+            throw new NotImplementedException();
+        }
+
         private ICrossSection ProcessCrossSection(ICrossSection source)
         {
             TraceLogger?.AddMessage(AnalysisIs + " Cross-Section", TraceLogStatuses.Service);
             TraceLogger?.AddMessage("Cross-Section converting is started", TraceLogStatuses.Service);
+            crossSectionConvertStrategy ??= new CrossSectionFromDTOConvertStrategy();
             crossSectionConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             crossSectionConvertStrategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<ICrossSection, ICrossSection>(this, crossSectionConvertStrategy);
             ICrossSection newItem = convertLogic.Convert(source);
             TraceLogger?.AddMessage("Cross-Section converting has been finished successfully", TraceLogStatuses.Service);
             return newItem;
-        }
-
-        private void Check()
-        {
-            var checkLogic = new CheckConvertLogic<ISaveable, ISaveable>(this);
-            checkLogic.Check();
         }
     }
 }

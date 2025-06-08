@@ -1,5 +1,4 @@
-﻿using LoaderCalculator;
-using StructureHelper.Infrastructure;
+﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
@@ -14,7 +13,6 @@ using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Logics;
 using StructureHelperLogics.NdmCalculations.Cracking;
-using System;
 using System.Windows;
 using System.Windows.Forms;
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -210,7 +208,10 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                     ProcessResult();
                 }
             }
-            TraceDocumentService.ShowDocument(SelectedItem.TraceLogger.TraceLoggerEntries);
+            if (SelectedItem.ShowTraceData == true)
+            {
+                TraceDocumentService.ShowDocument(SelectedItem.TraceLogger.TraceLoggerEntries);
+            }
         }
 
         private void ShowInteractionDiagramByInputData(LimitCurvesCalculator calculator)

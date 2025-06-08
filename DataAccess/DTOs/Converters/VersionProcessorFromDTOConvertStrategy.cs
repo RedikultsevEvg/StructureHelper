@@ -10,45 +10,20 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class VersionProcessorFromDTOConvertStrategy : IConvertStrategy<IVersionProcessor, IVersionProcessor>
+    public class VersionProcessorFromDTOConvertStrategy : ConvertStrategy<IVersionProcessor, IVersionProcessor>
     {
         private IConvertStrategy<IDateVersion, IDateVersion> dateVersionConvertStrategy;
-        private ICheckConvertLogic<IVersionProcessor, IVersionProcessor> checkLogic;
 
-        public VersionProcessorFromDTOConvertStrategy(
-            IConvertStrategy<IDateVersion, IDateVersion> dateVersionConvertStrategy)
+        public override IVersionProcessor GetNewItem(IVersionProcessor source)
         {
-            this.dateVersionConvertStrategy = dateVersionConvertStrategy;
-            this.checkLogic = checkLogic;
-        }
-
-        public VersionProcessorFromDTOConvertStrategy() : this(new DateVersionFromDTOConvertStrategy())
-        {
-            
-        }
-
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        public IShiftTraceLogger TraceLogger { get; set; }
-
-        public IVersionProcessor Convert(IVersionProcessor source)
-        {
-            try
-            {
-                Check();
-                IVersionProcessor versionProcessor = GetVersionProcessor(source);
-                return versionProcessor;
-            }
-            catch (Exception ex)
-            {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
-                TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
-                throw;
-            }
+            ChildClass = this;
+            return GetVersionProcessor(source);
         }
 
         private IVersionProcessor GetVersionProcessor(IVersionProcessor source)
         {
             TraceLogger?.AddMessage("Version processor converting is started", TraceLogStatuses.Debug);
+            dateVersionConvertStrategy ??= new DateVersionFromDTOConvertStrategy();
             IVersionProcessor newItem = new VersionProcessor(source.Id);
             TraceLogger?.AddMessage($"Source version processor has {source.Versions.Count} version(s)", TraceLogStatuses.Service);
             dateVersionConvertStrategy.ReferenceDictionary = ReferenceDictionary;
@@ -61,12 +36,6 @@ namespace DataAccess.DTOs
             TraceLogger?.AddMessage($"Totaly {newItem.Versions.Count} version(s) was(were) obtained", TraceLogStatuses.Service);
             TraceLogger?.AddMessage("Version processor has been converted successfully", TraceLogStatuses.Service);
             return newItem;
-        }
-
-        private void Check()
-        {
-            var checkLogic = new CheckConvertLogic<IVersionProcessor, IVersionProcessor>(this);
-            checkLogic.Check();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models;
+﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public IShiftTraceLogger TraceLogger { get; set; }
 
         public T NewItem { get; set; }
+        public ConvertStrategy<T, V> ChildClass { get; set; }
 
         public virtual T Convert(V source)
         {
@@ -48,12 +50,18 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
                 Check();
                 TraceStartOfConverting(source);
                 T target = GetNewItem(source);
+                if (target is null)
+                {
+                    string errorString = ErrorStrings.ParameterIsNull + ": result of converting";
+                    TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
+                    throw new StructureHelperException(errorString);
+                }
                 TraceFinishOfConverting(target);
                 return target;
             }
             catch (Exception ex)
             {
-                TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Error);
+                TraceLogger?.AddMessage(LoggerStrings.LogicType(ChildClass ?? this), TraceLogStatuses.Error);
                 TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
                 throw;
             }
@@ -76,7 +84,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         }
         private void TraceFinishOfConverting(ISaveable saveable)
         {
-            TraceLogger?.AddMessage($"Converting {saveable.GetType()} Id = {saveable.Id} has been started");
+            TraceLogger?.AddMessage($"Converting {saveable.GetType()} Id = {saveable.Id} has been finished");
         }
     }
 }
