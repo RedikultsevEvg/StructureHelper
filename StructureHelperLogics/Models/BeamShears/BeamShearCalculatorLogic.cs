@@ -73,13 +73,18 @@ namespace StructureHelperLogics.Models.BeamShears
         private void GetSections()
         {
             actionResults = new();
+            List<IStirrup> stirrups = inputData.Stirrups.ToList();
+            if (stirrups.Any() == false)
+            {
+                stirrups.Add(new StirrupByDensity(Guid.NewGuid()) { StirrupDensity = 0 });
+            }
             foreach (var beamShearAction in inputData.Actions)
             {
                 foreach (var calcTerm in calcTerms)
                 {
                     foreach (var section in inputData.Sections)
                     {
-                        foreach (var stirrup in inputData.Stirrups)
+                        foreach (var stirrup in stirrups)
                         {
                             List<IInclinedSection> inclinedSections = GetInclinedSections(section);
                             List<IBeamShearSectionLogicInputData> sectionInputDatas = GetSectionInputDatas(beamShearAction, calcTerm, section, stirrup, inclinedSections);

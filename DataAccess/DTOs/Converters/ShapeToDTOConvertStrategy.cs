@@ -1,9 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
-using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
-using System.Windows.Forms;
 
 namespace DataAccess.DTOs
 {

@@ -17,7 +17,7 @@ namespace StructureHelperLogics.Models.BeamShears
         /// <summary>
         /// Shape of cross-section
         /// </summary>
-        IShape Shape { get; }
+        IShape Shape { get; set; }
         /// <summary>
         /// Distance from edge of tension zone to center of the nearest reinforcement bar
         /// </summary>

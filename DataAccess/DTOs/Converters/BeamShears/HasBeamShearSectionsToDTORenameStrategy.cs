@@ -5,13 +5,13 @@ using StructureHelperLogics.Models.BeamShears;
 
 namespace DataAccess.DTOs
 {
-    public class HasBeamShearSectionToDTOConvertStrategy : IUpdateStrategy<IHasBeamShearSections>
+    public class HasBeamShearSectionsToDTORenameStrategy : IUpdateStrategy<IHasBeamShearSections>
     {
         private IConvertStrategy<BeamShearSectionDTO, IBeamShearSection> convertStrategy;
         private Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; }
         private IShiftTraceLogger TraceLogger { get; }
 
-        public HasBeamShearSectionToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
+        public HasBeamShearSectionsToDTORenameStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
         {
             ReferenceDictionary = referenceDictionary;
             TraceLogger = traceLogger;

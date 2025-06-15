@@ -3,21 +3,15 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.BeamShears;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DataAccess.DTOs
 {
-    public class HasStirrupToDTOConvertStrategy : IUpdateStrategy<IHasStirrups>
+    public class HasStirrupsToDTOUpdateStrategy : IUpdateStrategy<IHasStirrups>
     {
         private Dictionary<(Guid id, Type type), ISaveable> referenceDictionary;
         private IShiftTraceLogger traceLogger;
 
-        public HasStirrupToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
+        public HasStirrupsToDTOUpdateStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
         {
             this.referenceDictionary = referenceDictionary;
             this.traceLogger = traceLogger;

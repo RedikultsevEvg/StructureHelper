@@ -1,15 +1,9 @@
-﻿using DataAccess.DTOs.Converters;
-using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.WorkPlanes;
 using StructureHelperLogics.Models.CrossSections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
@@ -18,14 +12,11 @@ namespace DataAccess.DTOs
         private IConvertStrategy<ICrossSectionRepository, ICrossSectionRepository> repositoryConvertStrategy;
         private IConvertStrategy<WorkPlaneProperty, WorkPlanePropertyDTO> workPlaneConvertStrategy;
 
-        public CrossSectionFromDTOConvertStrategy(IConvertStrategy<ICrossSectionRepository, ICrossSectionRepository> repositoryConvertStrategy,
-            IConvertStrategy<WorkPlaneProperty, WorkPlanePropertyDTO> workPlaneConvertStrategy)
+        public CrossSectionFromDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger? traceLogger)
         {
-            this.repositoryConvertStrategy = repositoryConvertStrategy;
-            this.workPlaneConvertStrategy = workPlaneConvertStrategy;
+            ReferenceDictionary = referenceDictionary;
+            TraceLogger = traceLogger;
         }
-
-        public CrossSectionFromDTOConvertStrategy() {  }
 
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }

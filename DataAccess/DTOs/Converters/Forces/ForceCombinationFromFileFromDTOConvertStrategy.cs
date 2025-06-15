@@ -105,7 +105,7 @@ namespace DataAccess.DTOs
         {
             updateStrategy ??= new ForceCombinationFromFileUpdateStrategy();
             pointConvertStrategy = new Point2DFromDTOConvertStrategy() { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger};
-            combinationPropertyConvertStrategy = new FactoredCombinationPropertyFromDTOConvertStrategy() { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger};
+            combinationPropertyConvertStrategy = new FactoredCombinationPropertyFromDTOConvertStrategy(ReferenceDictionary, TraceLogger);
             fileConvertStrategy ??= new ColumnedFilePropertyFromDTOConvertStrategy() { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
         }
     }

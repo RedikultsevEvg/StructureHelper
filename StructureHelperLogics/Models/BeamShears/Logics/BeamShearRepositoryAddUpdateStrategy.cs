@@ -4,6 +4,9 @@ using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
+    /// <summary>
+    /// Add objects from one repository to another one without deleting previous objects
+    /// </summary>
     public class BeamShearRepositoryAddUpdateStrategy : IUpdateStrategy<IBeamShearRepository>
     {
         public void Update(IBeamShearRepository targetObject, IBeamShearRepository sourceObject)

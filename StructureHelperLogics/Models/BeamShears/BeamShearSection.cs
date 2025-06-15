@@ -12,7 +12,7 @@ namespace StructureHelperLogics.Models.BeamShears
         /// <inheritdoc/>
         public IConcreteLibMaterial Material { get; set; } 
         /// <inheritdoc/>
-        public IShape Shape { get; } = new RectangleShape(Guid.NewGuid()) { Height = 0.6, Width = 0.4};
+        public IShape Shape { get; set; } = new RectangleShape(Guid.NewGuid()) { Height = 0.6, Width = 0.4};
 
         public double CenterCover { get; set; } = 0.05;
 

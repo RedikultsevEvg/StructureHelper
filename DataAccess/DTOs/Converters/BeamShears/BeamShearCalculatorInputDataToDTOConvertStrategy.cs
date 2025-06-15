@@ -42,9 +42,9 @@ namespace DataAccess.DTOs
 
         private void InitializeStrategies()
         {
-            actionUpdateStrategy ??= new HasBeamShearActionToDTOConvertStrategy(ReferenceDictionary, TraceLogger);
-            sectionUpdateStrategy ??= new HasBeamShearSectionToDTOConvertStrategy(ReferenceDictionary, TraceLogger);
-            stirrupUpdateStrategy ??= new HasStirrupToDTOConvertStrategy(ReferenceDictionary, TraceLogger);
+            actionUpdateStrategy ??= new HasBeamShearActionsToDTOUpdateStrategy(ReferenceDictionary, TraceLogger);
+            sectionUpdateStrategy ??= new HasBeamShearSectionsToDTORenameStrategy(ReferenceDictionary, TraceLogger);
+            stirrupUpdateStrategy ??= new HasStirrupsToDTOUpdateStrategy(ReferenceDictionary, TraceLogger);
         }
     }
 }

@@ -4,7 +4,7 @@ using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    internal class BeamShearCalculatorInputDataUpdateStrategy : IUpdateStrategy<IBeamShearCalculatorInputData>
+    public class BeamShearCalculatorInputDataUpdateStrategy : IUpdateStrategy<IBeamShearCalculatorInputData>
     {
         private IUpdateStrategy<IHasBeamShearActions>? hasActionUpdateStrategy;
         private IUpdateStrategy<IHasStirrups>? hasStirrupsUpdateStrategy;

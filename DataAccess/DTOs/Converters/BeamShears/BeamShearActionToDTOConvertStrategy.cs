@@ -5,17 +5,17 @@ using StructureHelperCommon.Models.Forces.BeamShearActions;
 
 namespace DataAccess.DTOs
 {
-    public class BeamShearActionConvertStrategy : ConvertStrategy<BeamShearActionDTO, IBeamShearAction>
+    public class BeamShearActionToDTOConvertStrategy : ConvertStrategy<BeamShearActionDTO, IBeamShearAction>
     {
         private IUpdateStrategy<IBeamShearAction> updateStrategy;
         private IConvertStrategy<FactoredForceTupleDTO, IFactoredForceTuple> factoredTupleConvertStrategy;
         private IConvertStrategy<BeamShearAxisActionDTO, IBeamShearAxisAction> axisActionConvertStrategy;
 
-        public BeamShearActionConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
+        public BeamShearActionToDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
         }
 
-        public BeamShearActionConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
+        public BeamShearActionToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
             : base(referenceDictionary, traceLogger)
         {
         }

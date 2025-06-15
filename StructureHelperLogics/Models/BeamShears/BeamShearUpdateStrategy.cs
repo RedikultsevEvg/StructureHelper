@@ -26,8 +26,8 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void InitializeStrategies()
         {
-            repositoryUpdateStrategy ??= new BeamShearRepositoryAddUpdateStrategy();
             clearStrategy ??= new BeamShearReporitoryClearStrategy();
+            repositoryUpdateStrategy ??= new BeamShearRepositoryAddUpdateStrategy();
         }
     }
 }

@@ -7,12 +7,12 @@ using StructureHelperLogics.Models.BeamShears;
 
 namespace DataAccess.DTOs
 {
-    public class HasBeamShearCalculatorToDTOConvertStrategy : IUpdateStrategy<IHasCalculators>
+    internal class HasBeamShearCalculatorsFromDTOUpdateStrategy : IUpdateStrategy<IHasCalculators>
     {
         private Dictionary<(Guid id, Type type), ISaveable> referenceDictionary;
         private IShiftTraceLogger traceLogger;
 
-        public HasBeamShearCalculatorToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
+        public HasBeamShearCalculatorsFromDTOUpdateStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
         {
             this.referenceDictionary = referenceDictionary;
             this.traceLogger = traceLogger;
@@ -43,7 +43,7 @@ namespace DataAccess.DTOs
 
         private ICalculator ProcessCalculator(ICalculator calculator)
         {
-            if (calculator is IBeamShearCalculator shearCalculator)
+            if (calculator is BeamShearCalculatorDTO shearCalculator)
             {
                 return ProcessShearCalculator(shearCalculator);
             }
@@ -53,11 +53,11 @@ namespace DataAccess.DTOs
             }
         }
 
-        private ICalculator ProcessShearCalculator(IBeamShearCalculator shearCalculator)
+        private ICalculator ProcessShearCalculator(BeamShearCalculatorDTO shearCalculator)
         {
             traceLogger?.AddMessage("Calcultor is beam shear calculator", TraceLogStatuses.Debug);
-            var convertStrategy = new DictionaryConvertStrategy<BeamShearCalculatorDTO, IBeamShearCalculator>
-                (referenceDictionary, traceLogger, new BeamShearCalculatorToDTOConvertStrategy(referenceDictionary, traceLogger));
+            var convertStrategy = new DictionaryConvertStrategy<BeamShearCalculator, BeamShearCalculatorDTO>
+                (referenceDictionary, traceLogger, new BeamShearCalculatorFromDTOConvertStrategy(referenceDictionary, traceLogger));
             return convertStrategy.Convert(shearCalculator);
         }
     }

@@ -5,15 +5,15 @@ using StructureHelperCommon.Services;
 
 namespace DataAccess.DTOs
 {
-    public class HasBeamShearActionToDTOConvertStrategy : IUpdateStrategy<IHasBeamShearActions>
+    public class HasBeamShearActionsToDTOUpdateStrategy : IUpdateStrategy<IHasBeamShearActions>
     {
 
-        private Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get;}
-        private IShiftTraceLogger TraceLogger { get;}
-        public HasBeamShearActionToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
+        private Dictionary<(Guid id, Type type), ISaveable> referenceDictionary;
+        private IShiftTraceLogger traceLogger;
+        public HasBeamShearActionsToDTOUpdateStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
         {
-            ReferenceDictionary = referenceDictionary;
-            TraceLogger = traceLogger;
+            this.referenceDictionary = referenceDictionary;
+            this.traceLogger = traceLogger;
         }
 
         public void Update(IHasBeamShearActions targetObject, IHasBeamShearActions sourceObject)
@@ -27,9 +27,9 @@ namespace DataAccess.DTOs
             foreach (var action in sourceObject.Actions)
             {
                 var convertStrategy = new DictionaryConvertStrategy<BeamShearActionDTO, IBeamShearAction>(
-                    ReferenceDictionary,
-                    TraceLogger,
-                    new BeamShearActionConvertStrategy(ReferenceDictionary, TraceLogger));
+                    referenceDictionary,
+                    traceLogger,
+                    new BeamShearActionToDTOConvertStrategy(referenceDictionary, traceLogger));
                 var newAction = convertStrategy.Convert(action);
                 targetObject.Actions.Add(newAction);
             }

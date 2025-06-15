@@ -3,6 +3,7 @@ using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.BeamShears;
+using StructureHelperLogics.Models.Materials;
 
 namespace DataAccess.DTOs
 {
@@ -10,7 +11,7 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<IBeamShearSection> updateStrategy;
         private IConvertStrategy<IShape, IShape> shapeConvertStrategy;
-        private ConcreteLibMaterialToDTOConvertStrategy concreteConvertStrategy;
+        private IConvertStrategy<ConcreteLibMaterialDTO, IConcreteLibMaterial> concreteConvertStrategy;
         private IUpdateStrategy<IHelperMaterial> safetyFactorUpdateStrategy;
 
         public BeamShearSectionToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)

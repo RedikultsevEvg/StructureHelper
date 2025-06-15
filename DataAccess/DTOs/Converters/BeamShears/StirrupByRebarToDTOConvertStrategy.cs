@@ -6,7 +6,7 @@ namespace DataAccess.DTOs
 {
     public class StirrupByRebarToDTOConvertStrategy : ConvertStrategy<StirrupByRebarDTO, IStirrupByRebar>
     {
-        private StirrupByRebarUpdateStrategy updateStrategy;
+        private IUpdateStrategy<IStirrupByRebar> updateStrategy;
         private ReinforcementLibMaterialToDTOConvertStrategy reinforcementConvertStrategy;
         private HelperMaterialDTOSafetyFactorUpdateStrategy safetyFactorUpdateStrategy;
 
