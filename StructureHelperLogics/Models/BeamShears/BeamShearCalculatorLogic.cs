@@ -3,11 +3,6 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Loggers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -18,7 +13,7 @@ namespace StructureHelperLogics.Models.BeamShears
         private IBeamShearSectionLogic beamShearSectionLogic;
         private List<IBeamShearActionResult> actionResults;
         private IBeamShearCalculatorInputData inputData;
-        private List<CalcTerms> calcTerms = new() { CalcTerms.LongTerm, CalcTerms.ShortTerm };
+        private readonly List<CalcTerms> calcTerms = new() { CalcTerms.LongTerm, CalcTerms.ShortTerm };
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
@@ -166,13 +161,15 @@ namespace StructureHelperLogics.Models.BeamShears
         private List<IInclinedSection> GetInclinedSections(IBeamShearSection beamShearSection)
         {
             IGetInclinedSectionListInputData inclinedSectionInputDataLogic = new GetInclinedSectionListInputData(beamShearSection);
-            IGetInclinedSectionListLogic getInclinedSectionListLogic = new GetInclinedSectionListLogic(inclinedSectionInputDataLogic, TraceLogger);
+            //IGetInclinedSectionListLogic getInclinedSectionListLogic = new GetInclinedSectionListLogic(inclinedSectionInputDataLogic, TraceLogger);
+            IGetInclinedSectionListLogic getInclinedSectionListLogic = new GetInclinedSectionListLogic(inclinedSectionInputDataLogic, null);
             return getInclinedSectionListLogic.GetInclinedSections();
         }
 
         private IForceTuple GetForceTupleByShearAction(IBeamShearAction beamShearAction, IInclinedSection inclinedSection, LimitStates limitState, CalcTerms calcTerm)
         {
-            IGetDirectShearForceLogic getDirectShearForceLogic = new GetDirectShearForceLogic(beamShearAction, inclinedSection, limitState, calcTerm, TraceLogger);
+            //IGetDirectShearForceLogic getDirectShearForceLogic = new GetDirectShearForceLogic(beamShearAction, inclinedSection, limitState, calcTerm, TraceLogger);
+            IGetDirectShearForceLogic getDirectShearForceLogic = new GetDirectShearForceLogic(beamShearAction, inclinedSection, limitState, calcTerm, null);
             return getDirectShearForceLogic.CalculateShearForceTuple();
         }
     }

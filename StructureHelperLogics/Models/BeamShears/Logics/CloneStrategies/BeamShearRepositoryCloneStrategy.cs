@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Calculators;
 
 //Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
@@ -11,6 +12,7 @@ namespace StructureHelperLogics.Models.BeamShears
         private IUpdateStrategy<IHasBeamShearActions> actionUpdateStrategy;
         private IUpdateStrategy<IHasBeamShearSections> sectionUpdateStrategy;
         private IUpdateStrategy<IHasStirrups> stirrupUpdateStrategy;
+        private IUpdateStrategy<IHasCalculators> calculatorUpdateStrategy;
         private BeamShearRepository targetRepository;
 
         public BeamShearRepositoryCloneStrategy(ICloningStrategy cloningStrategy)
@@ -24,6 +26,7 @@ namespace StructureHelperLogics.Models.BeamShears
             actionUpdateStrategy.Update(targetRepository, sourceObject);
             sectionUpdateStrategy.Update(targetRepository, sourceObject);
             stirrupUpdateStrategy.Update(targetRepository, sourceObject);
+            calculatorUpdateStrategy.Update(targetRepository, sourceObject);
             return targetRepository;
         }
 
@@ -32,6 +35,7 @@ namespace StructureHelperLogics.Models.BeamShears
             actionUpdateStrategy ??= new HasActionsUpdateCloneStrategy(cloningStrategy);
             sectionUpdateStrategy ??= new HasSectionsUpdateCloneStrategy(cloningStrategy);
             stirrupUpdateStrategy ??= new HasStirrupsUpdateCloneStrategy(cloningStrategy);
+            calculatorUpdateStrategy ??= new HasCalculatorsUpdateCloneStrategy(cloningStrategy);
         }
     }
 }

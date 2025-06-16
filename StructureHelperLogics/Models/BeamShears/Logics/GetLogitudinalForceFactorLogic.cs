@@ -44,7 +44,7 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
             }
             else
             {
-                TraceLogger?.AddMessage("Longitudinal force N={LongitudinalForce}(N) is positive (tension)", TraceLogStatuses.Service);
+                TraceLogger?.AddMessage($"Longitudinal force N={LongitudinalForce}(N) is positive (tension)", TraceLogStatuses.Service);
                 return GetPosForceResult();
             }
         }

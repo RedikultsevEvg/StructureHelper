@@ -1,6 +1,7 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.CalculationWindows.ProgressViews;
+using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.ViewModels;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -115,6 +116,12 @@ namespace StructureHelper.Windows.BeamShears
             {
                 beamShearCalculator.Run();
                 var result = beamShearCalculator.Result as IBeamShearCalculatorResult;
+                if (result.IsValid == false)
+                {
+                    ErrorProcessor vm = ShowInvalidResult(result);
+                    new ErrorMessage(vm).ShowDialog();
+                    return;
+                }
                 Window window = new BeamShearResultView(result);
                 window.ShowDialog();
                 if (beamShearCalculator.ShowTraceData == true)
@@ -126,6 +133,15 @@ namespace StructureHelper.Windows.BeamShears
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));
             }
+        }
+
+        private static ErrorProcessor ShowInvalidResult(IBeamShearCalculatorResult? result)
+        {
+            return new ErrorProcessor()
+            {
+                ShortText = "Result of calculation is not valid",
+                DetailText = $"{result.Description}"
+            };
         }
     }
 }

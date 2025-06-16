@@ -38,11 +38,10 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             PrepareNewResult();
-            //PrepareInputData();
+            InitializeStrategies();
+            if (CheckInputData() == false) { return;}
             try
             {
-                InitializeStrategies();
-                if (CheckInputData() == false) { return;}
                 CalculateResult();
             }
             catch (Exception ex)
@@ -50,11 +49,6 @@ namespace StructureHelperLogics.Models.BeamShears
                 result.IsValid = false;
                 TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
             }
-        }
-
-        private void PrepareInputData()
-        {
-            throw new NotImplementedException();
         }
 
         private bool CheckInputData()

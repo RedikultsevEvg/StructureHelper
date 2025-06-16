@@ -21,7 +21,7 @@
                         <RowDefinition Height="50"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="HeaderText" TextWrapping="Wrap" Text="Happened something wrong" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="Bold"/>
+                    <TextBlock x:Name="HeaderText" TextWrapping="Wrap" Text="Something wrong happened" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="Bold"/>
                     <TextBlock Grid.Row="1" x:Name="MainText" TextWrapping="Wrap" Text="{Binding ShortText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
             </TabItem>
