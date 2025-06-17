@@ -129,7 +129,14 @@ namespace StructureHelperLogics.Models.BeamShears
             {
                 inclinedSection.ConcreteCompressionStrength = strength.Compressive;
                 inclinedSection.ConcreteTensionStrength = strength.Tensile;
-                IForceTuple forceTuple = GetForceTupleByShearAction(beamShearAction, inclinedSection, CollapseLimitState, calcTerm);
+                DirectShearForceLogicInputData inputData = new()
+                {
+                    BeamShearAction = beamShearAction,
+                    InclinedSection = inclinedSection,
+                    LimitState = CollapseLimitState,
+                    CalcTerm = calcTerm,
+                };
+                IForceTuple forceTuple = GetForceTupleByShearAction(inputData);
                 BeamShearSectionLogicInputData newInputData = new(Guid.NewGuid())
                 {
                     InclinedSection = inclinedSection,
@@ -166,10 +173,9 @@ namespace StructureHelperLogics.Models.BeamShears
             return getInclinedSectionListLogic.GetInclinedSections();
         }
 
-        private IForceTuple GetForceTupleByShearAction(IBeamShearAction beamShearAction, IInclinedSection inclinedSection, LimitStates limitState, CalcTerms calcTerm)
+        private IForceTuple GetForceTupleByShearAction(IDirectShearForceLogicInputData inputData)
         {
-            //IGetDirectShearForceLogic getDirectShearForceLogic = new GetDirectShearForceLogic(beamShearAction, inclinedSection, limitState, calcTerm, TraceLogger);
-            IGetDirectShearForceLogic getDirectShearForceLogic = new GetDirectShearForceLogic(beamShearAction, inclinedSection, limitState, calcTerm, null);
+            IGetDirectShearForceLogic getDirectShearForceLogic = new GetDirectShearForceLogic(inputData, null);
             return getDirectShearForceLogic.CalculateShearForceTuple();
         }
     }

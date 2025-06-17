@@ -1,4 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.BeamShearActions;
@@ -15,48 +17,25 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <inheritdoc/>
     public class GetDirectShearForceLogic : IGetDirectShearForceLogic
     {
+        private IDirectShearForceLogicInputData inputData;
         private ISumForceByShearLoadLogic summaryForceLogic;
+        private ICheckInputDataLogic<IDirectShearForceLogicInputData> checkInputDataLogic;
 
         /// <inheritdoc/>
         public IShiftTraceLogger? TraceLogger { get; set; }
-        public IBeamShearAction AxisAction { get; set; }
-        public IInclinedSection InclinedSection { get; set; }
-        public LimitStates LimitState { get; set; }
-        public CalcTerms CalcTerm { get; set; }
 
-        public GetDirectShearForceLogic(
-            IBeamShearAction axisAction,
-            IInclinedSection inclinedSection,
-            LimitStates limitState,
-            CalcTerms calcTerm,
-            IShiftTraceLogger? traceLogger)
+        public GetDirectShearForceLogic(IDirectShearForceLogicInputData inputData, IShiftTraceLogger? traceLogger)
         {
-            AxisAction = axisAction;
-            InclinedSection = inclinedSection;
-            LimitState = limitState;
-            CalcTerm = calcTerm;
+            this.inputData = inputData;
             TraceLogger = traceLogger;
         }
 
-        public GetDirectShearForceLogic(
-            IBeamShearAction axisAction,
-            IInclinedSection inclinedSection,
-            LimitStates limitState,
-            CalcTerms calcTerm,
-            IShiftTraceLogger? traceLogger,
-            ISumForceByShearLoadLogic summaryForceLogic)
-        {
-            this.summaryForceLogic = summaryForceLogic;
-            AxisAction = axisAction;
-            InclinedSection = inclinedSection;
-            LimitState = limitState;
-            CalcTerm = calcTerm;
-            TraceLogger = traceLogger;
-        }
+
 
         /// <inheritdoc/>
         public IForceTuple CalculateShearForceTuple()
         {
+            Check();
             IForceTuple externalTuple = CalculateExternalForceTuple();
             IForceTuple internalTuple = CalculateInternalForceTuple();
             IForceTuple totalTuple = ForceTupleService.SumTuples(internalTuple, externalTuple);
@@ -65,13 +44,22 @@ namespace StructureHelperLogics.Models.BeamShears
             return totalTuple;
         }
 
+        private void Check()
+        {
+            checkInputDataLogic = new CheckDirectForceInputDataLogic(inputData, TraceLogger);
+            if (checkInputDataLogic.Check() == false)
+            {
+                throw new StructureHelperException(checkInputDataLogic.CheckResult);
+            }
+        }
+
         private IForceTuple CalculateExternalForceTuple()
         {
             var forceTupleLogic = new GetForceTupleByFactoredTupleLogic()
             {
-                FactoredForceTuple = AxisAction.ExternalForce,
-                LimitState = LimitState,
-                CalcTerm = CalcTerm
+                FactoredForceTuple = inputData.BeamShearAction.ExternalForce,
+                LimitState = inputData.LimitState,
+                CalcTerm = inputData.CalcTerm
             };
             IForceTuple internalForceTuple = forceTupleLogic.GetForceTuple();
             return internalForceTuple;
@@ -81,18 +69,18 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             InitializeStrategies();
-            IBeamShearAxisAction beamShearAxisAction = AxisAction.SupportAction;
+            IBeamShearAxisAction beamShearAxisAction = inputData.BeamShearAction.SupportAction;
             var forceTupleLogic = new GetForceTupleByFactoredTupleLogic()
             {
                 FactoredForceTuple = beamShearAxisAction.SupportForce,
-                LimitState = LimitState,
-                CalcTerm = CalcTerm
+                LimitState = inputData.LimitState,
+                CalcTerm = inputData.CalcTerm
             };
             IForceTuple supportShearForce = forceTupleLogic.GetForceTuple();
 
             TraceLogger?.AddMessage($"Shear force at support Qmax = {supportShearForce.Qy}(N)");
-            TraceLogger?.AddMessage($"Start of inclined section a,start = {InclinedSection.StartCoord}(m)");
-            TraceLogger?.AddMessage($"End of inclined section a,end = {InclinedSection.EndCoord}(m)");
+            TraceLogger?.AddMessage($"Start of inclined section a,start = {inputData.InclinedSection.StartCoord}(m)");
+            TraceLogger?.AddMessage($"End of inclined section a,end = {inputData.InclinedSection.EndCoord}(m)");
             ForceTuple summarySpanShearForce = GetSummarySpanShearForce(beamShearAxisAction.ShearLoads);
             TraceLogger?.AddMessage($"Summary span shear force deltaQ = {summarySpanShearForce.Qy}(N)");
             IForceTuple shearForce = ForceTupleService.SumTuples(supportShearForce, summarySpanShearForce);
@@ -105,7 +93,7 @@ namespace StructureHelperLogics.Models.BeamShears
             ForceTuple summarySpanShearForce = new(Guid.NewGuid());
             foreach (var spanLoad in spanLoads)
             {
-                IForceTuple summarySpanLoad = summaryForceLogic.GetSumShearForce(spanLoad, InclinedSection.StartCoord, InclinedSection.EndCoord);
+                IForceTuple summarySpanLoad = summaryForceLogic.GetSumShearForce(spanLoad, inputData.InclinedSection.StartCoord, inputData.InclinedSection.EndCoord);
                 ForceTupleService.SumTupleToTarget(summarySpanLoad, summarySpanShearForce);
             }
             return summarySpanShearForce;
@@ -113,7 +101,11 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void InitializeStrategies()
         {
-            summaryForceLogic ??= new SumForceByShearLoadLogic(TraceLogger) { LimitState = LimitState, CalcTerm = CalcTerm};
+            summaryForceLogic ??= new SumForceByShearLoadLogic(TraceLogger)
+            {
+                LimitState = inputData.LimitState,
+                CalcTerm = inputData.CalcTerm
+            };
         }
 
     }

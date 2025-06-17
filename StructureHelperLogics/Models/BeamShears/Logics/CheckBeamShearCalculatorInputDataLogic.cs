@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
+using StructureHelperLogics.Models.BeamShears.Logics;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         private bool result;
         private string checkResult;
+        private ICheckEntityLogic<IBeamShearSection> checkSectionLogic;
 
         public string CheckResult => checkResult;
         public IBeamShearCalculatorInputData InputData { get; set; }
@@ -34,19 +36,37 @@ namespace StructureHelperLogics.Models.BeamShears
                 string errorString = ErrorStrings.ParameterIsNull + ": Input data";
                 throw new StructureHelperException(errorString);
             }
-            if (InputData.Actions is null || ! InputData.Actions.Any())
+            if (InputData.Actions is null || !InputData.Actions.Any())
             {
                 result = false;
                 string errorString = "Collection of actions does not contain any action";
                 TraceMessage(errorString);
             }
-            if (InputData.Sections is null || ! InputData.Sections.Any())
+            CheckSections();
+            return result;
+        }
+
+        private void CheckSections()
+        {
+            if (InputData.Sections is null || !InputData.Sections.Any())
             {
                 result = false;
                 string errorString = "Collection of sections does not contain any section";
                 TraceMessage(errorString);
             }
-            return result;
+            else
+            {
+                checkSectionLogic ??= new CheckBeamShearSectionLogic(TraceLogger);
+                foreach (var item in InputData.Sections)
+                {
+                    checkSectionLogic.Entity = item;
+                    if (checkSectionLogic.Check() == false)
+                    {
+                        result = false;
+                        checkResult += checkSectionLogic.CheckResult;
+                    }
+                }
+            }
         }
 
         private void TraceMessage(string errorString)
