@@ -48,7 +48,7 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void InitializeStrategies()
         {
-            getLongitudinalForceFactorLogic ??= new GetLogitudinalForceFactorLogic(TraceLogger?.GetSimilarTraceLogger(100));
+            getLongitudinalForceFactorLogic ??= new GetLongitudinalForceFactorLogic(TraceLogger?.GetSimilarTraceLogger(100));
         }
 
         private void SetLongitudinalForce()

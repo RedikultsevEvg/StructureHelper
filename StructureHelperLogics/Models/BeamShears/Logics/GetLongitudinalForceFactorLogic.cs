@@ -1,25 +1,22 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears.Logics
 {
-    public class GetLogitudinalForceFactorLogic : IGetLongitudinalForceFactorLogic
+    public class GetLongitudinalForceFactorLogic : IGetLongitudinalForceFactorLogic
     {
-        private const double fstRatioInCompression = 1.25;
-        private const double sndRationInCompression = 0.75;
+        private const double fstRatioInCompression = 0.25;
+        private const double sndRatioInCompression = 0.75;
         private double sectionArea;
+        private ICheckEntityLogic<IInclinedSection> checkInclinedSectionLogic;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
         public IInclinedSection InclinedSection { get; set; }
         public double LongitudinalForce { get; set; }
 
-        public GetLogitudinalForceFactorLogic(IShiftTraceLogger? traceLogger)
+        public GetLongitudinalForceFactorLogic(IShiftTraceLogger? traceLogger)
         {
             TraceLogger = traceLogger;
         }
@@ -51,15 +48,11 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
 
         private void Check()
         {
-            if (InclinedSection is null)
+            checkInclinedSectionLogic ??= new CheckInclinedSectionLogic(TraceLogger);
+            checkInclinedSectionLogic.Entity = InclinedSection;
+            if (checkInclinedSectionLogic.Check() == false)
             {
-                string errorString = ErrorStrings.DataIsInCorrect + "Inclined section is null";
-                TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
-                throw new StructureHelperException(errorString);
-            }
-            if (InclinedSection.WebWidth <= 0 || InclinedSection.FullDepth <= 0)
-            {
-                string errorString = ErrorStrings.DataIsInCorrect + $"Inclined section width = {InclinedSection.WebWidth}(m), and full depth = {InclinedSection.FullDepth}, but both of them must be greater than zero";
+                string errorString = checkInclinedSectionLogic.CheckResult;
                 TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
                 throw new StructureHelperException(errorString);
             }
@@ -93,14 +86,14 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
                 TraceLogger?.AddMessage($"Stress ratio rc = {stressRatio} < {fstRatioInCompression}");
                 factor = 1 + stressRatio;
             }
-            else if (stressRatio > sndRationInCompression)
+            else if (stressRatio > sndRatioInCompression)
             {
                 factor = 5 * (1 - stressRatio);
                 factor = Math.Max(factor, 0);
             }
             else
             {
-                factor = 1;
+                factor = 1 + fstRatioInCompression;
             }
             TraceLogger?.AddMessage($"Factor value fi_n = {factor}(dimensionless)");
             return factor;

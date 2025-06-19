@@ -45,7 +45,7 @@ namespace StructureHelperLogics.Models.BeamShears
         private void InitializeStrategies()
         {
             checkInclinedSectionLogic ??= new CheckInclinedSectionLogic(InputData.InclinedSection, TraceLogger);
-            checkBeamShearActionLogic ??= new CheckBeamShearActionLogic(InputData.BeamShearAction, TraceLogger);
+            checkBeamShearActionLogic ??= new CheckBeamShearActionLogic(TraceLogger);
         }
 
         private void CheckBeamShearAction()
@@ -57,6 +57,7 @@ namespace StructureHelperLogics.Models.BeamShears
             }
             else
             {
+                checkBeamShearActionLogic.Entity = InputData.BeamShearAction;
                 if (checkBeamShearActionLogic.Check() == false)
                 {
                     result = false;

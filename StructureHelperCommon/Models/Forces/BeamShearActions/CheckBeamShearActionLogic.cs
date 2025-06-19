@@ -11,9 +11,9 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
         public IBeamShearAction Entity { get; set; }
 
         public IShiftTraceLogger? TraceLogger { get; set; }
-        public CheckBeamShearActionLogic(IBeamShearAction entity, IShiftTraceLogger? traceLogger)
+
+        public CheckBeamShearActionLogic(IShiftTraceLogger? traceLogger)
         {
-            Entity = entity;
             TraceLogger = traceLogger;
         }
 

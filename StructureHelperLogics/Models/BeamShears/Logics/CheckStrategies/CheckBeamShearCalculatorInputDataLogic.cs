@@ -1,13 +1,9 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Forces.BeamShearActions;
 using StructureHelperLogics.Models.BeamShears.Logics;
-using StructureHelperLogics.NdmCalculations.Cracking;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -15,7 +11,9 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         private bool result;
         private string checkResult;
+        private ICheckEntityLogic<IBeamShearAction> checkActionsLogic;
         private ICheckEntityLogic<IBeamShearSection> checkSectionLogic;
+        private ICheckEntityLogic<IStirrup> checkStirrupLogic;
 
         public string CheckResult => checkResult;
         public IBeamShearCalculatorInputData InputData { get; set; }
@@ -36,14 +34,55 @@ namespace StructureHelperLogics.Models.BeamShears
                 string errorString = ErrorStrings.ParameterIsNull + ": Input data";
                 throw new StructureHelperException(errorString);
             }
+            CheckActions();
+            CheckSections();
+            CheckStirrups();
+            return result;
+        }
+
+        private void CheckActions()
+        {
             if (InputData.Actions is null || !InputData.Actions.Any())
             {
                 result = false;
-                string errorString = "Collection of actions does not contain any action";
+                string errorString = "\nCollection of actions does not contain any action";
                 TraceMessage(errorString);
             }
-            CheckSections();
-            return result;
+            else
+            {
+                checkActionsLogic ??= new CheckBeamShearActionLogic(TraceLogger);
+                foreach (var action in InputData.Actions)
+                {
+                    checkActionsLogic.Entity = action;
+                    if (checkActionsLogic.Check() == false)
+                    {
+                        result = false;
+                        checkResult += checkActionsLogic.CheckResult;
+                    }
+                }
+            }
+        }
+
+        private void CheckStirrups()
+        {
+            if (InputData.Stirrups is null)
+            {
+                result = false;
+                TraceMessage("\nCollection of stirrups is null");
+            }
+            else
+            {
+                checkStirrupLogic ??= new CheckStirrupsLogic(TraceLogger);
+                foreach (var stirrup in InputData.Stirrups)
+                {
+                    checkStirrupLogic.Entity = stirrup;
+                    if (checkStirrupLogic.Check() == false)
+                    {
+                        result = false;
+                        checkResult += checkStirrupLogic.CheckResult;
+                    }
+                }
+            }
         }
 
         private void CheckSections()
@@ -51,8 +90,7 @@ namespace StructureHelperLogics.Models.BeamShears
             if (InputData.Sections is null || !InputData.Sections.Any())
             {
                 result = false;
-                string errorString = "Collection of sections does not contain any section";
-                TraceMessage(errorString);
+                TraceMessage("\nCollection of sections does not contain any section");
             }
             else
             {

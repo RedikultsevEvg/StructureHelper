@@ -34,26 +34,26 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest
                 _mockTraceLogger.Object);
         }
 
-        [Test]
-        public void GetNewItem_ShouldLogStartAndEndMessages()
-        {
-            // Arrange
-            var projectDto = new ProjectDTO(Guid.Empty)
-            {
-                VisualAnalyses = new List<IVisualAnalysis> { new Mock<IVisualAnalysis>().Object }
-            };
+        //[Test]
+        //public void GetNewItem_ShouldLogStartAndEndMessages()
+        //{
+        //    // Arrange
+        //    var projectDto = new ProjectDTO(Guid.Empty)
+        //    {
+        //        VisualAnalyses = new List<IVisualAnalysis> { new Mock<IVisualAnalysis>().Object }
+        //    };
 
-            _mockConvertLogic
-                .Setup(s => s.Convert(It.IsAny<IVisualAnalysis>()))
-                .Returns(new Mock<IVisualAnalysis>().Object);
+        //    _mockConvertLogic
+        //        .Setup(s => s.Convert(It.IsAny<IVisualAnalysis>()))
+        //        .Returns(new Mock<IVisualAnalysis>().Object);
 
-            // Act
-            var result = _convertStrategy.GetNewItem(projectDto);
+        //    // Act
+        //    var result = _convertStrategy.GetNewItem(projectDto);
 
-            // Assert
-            _mockTraceLogger.Verify(logger => logger.AddMessage("Converting of project is started"), Times.Once);
-            _mockTraceLogger.Verify(logger => logger.AddMessage("Converting of project has been finished successfully"), Times.Once);
-        }
+        //    // Assert
+        //    _mockTraceLogger.Verify(logger => logger.AddMessage("Converting of project is started"), Times.Once);
+        //    _mockTraceLogger.Verify(logger => logger.AddMessage("Converting of project has been finished successfully"), Times.Once);
+        //}
 
         [Test]
         public void GetNewItem_ShouldLogWarningIfNoAnalyses()

@@ -1,17 +1,13 @@
-﻿using StructureHelper.Infrastructure;
-using StructureHelper.Windows.ViewModels;
+﻿using StructureHelper.Windows.ViewModels;
 using StructureHelperLogics.Models.BeamShears;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace StructureHelper.Windows.BeamShears
 {
-    public class StirrupByDensityViewModel : OkCancelViewModelBase
+    public class StirrupByDensityViewModel : OkCancelViewModelBase, IDataErrorInfo
     {
         private readonly IStirrupByDensity stirrupByDensity;
+        public double MinDensity { get; set; } = 0;
 
         public string Name
         {
@@ -29,6 +25,24 @@ namespace StructureHelper.Windows.BeamShears
             {
                 stirrupByDensity.StirrupDensity = value;
                 OnPropertyChanged(nameof(Density));
+            }
+        }
+
+        public string Error => null;
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = null;
+                if (columnName == nameof(Density))
+                {
+                    if (Density < MinDensity)
+                    {
+                        result = $"Density of stirrups must not be less than {MinDensity}(N/m)";
+                    }
+                }
+                return result;
             }
         }
 

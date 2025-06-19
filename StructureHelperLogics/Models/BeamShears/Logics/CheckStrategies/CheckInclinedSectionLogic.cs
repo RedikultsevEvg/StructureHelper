@@ -19,6 +19,11 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger = traceLogger;
         }
 
+        public CheckInclinedSectionLogic(IShiftTraceLogger? traceLogger)
+        {
+            TraceLogger = traceLogger;
+        }
+
         public bool Check()
         {
             checkResult = string.Empty;
