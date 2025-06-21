@@ -16,8 +16,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Materials\DTOs\" />
-  </ItemGroup>
-
 </Project>

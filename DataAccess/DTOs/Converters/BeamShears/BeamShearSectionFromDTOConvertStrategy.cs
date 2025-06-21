@@ -13,6 +13,7 @@ namespace DataAccess.DTOs
         private IUpdateStrategy<IBeamShearSection> updateStrategy;
         private IConvertStrategy<IShape, IShape> shapeConvertStrategy;
         private IConvertStrategy<ConcreteLibMaterial, ConcreteLibMaterialDTO> concreteConvertStrategy;
+        private IConvertStrategy<ReinforcementLibMaterial, ReinforcementLibMaterialDTO> reinforcementConvertStrategy;
         private IUpdateStrategy<IHelperMaterial> safetyFactorUpdateStrategy;
 
 
@@ -26,12 +27,17 @@ namespace DataAccess.DTOs
             NewItem = new(source.Id);
             updateStrategy.Update(NewItem, source);
             NewItem.Shape = shapeConvertStrategy.Convert(source.Shape);
-            if (source.Material is not ConcreteLibMaterialDTO concreteDTO)
+            if (source.ConcreteMaterial is not ConcreteLibMaterialDTO concreteDTO)
             {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source.Material));
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source.ConcreteMaterial));
             }
-            NewItem.Material = concreteConvertStrategy.Convert(concreteDTO);
-            safetyFactorUpdateStrategy.Update(NewItem.Material, concreteDTO);
+            NewItem.ConcreteMaterial = concreteConvertStrategy.Convert(concreteDTO);
+            safetyFactorUpdateStrategy.Update(NewItem.ConcreteMaterial, concreteDTO);
+            if (source.ReinforcementMaterial is not ReinforcementLibMaterialDTO reinforcement)
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source.ReinforcementMaterial));
+            }
+            NewItem.ReinforcementMaterial = reinforcementConvertStrategy.Convert(reinforcement);
             return NewItem;
         }
 
@@ -41,6 +47,11 @@ namespace DataAccess.DTOs
             shapeConvertStrategy = new DictionaryConvertStrategy<IShape, IShape>
                 (this, new ShapeFromDTOConvertStrategy(this));
             concreteConvertStrategy = new ConcreteLibMaterialFromDTOConvertStrategy()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger
+            };
+            reinforcementConvertStrategy = new ReinforcementLibMaterialFromDTOConvertStrategy()
             {
                 ReferenceDictionary = ReferenceDictionary,
                 TraceLogger = TraceLogger

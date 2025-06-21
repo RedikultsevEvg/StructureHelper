@@ -5,7 +5,7 @@ using StructureHelperCommon.Models.Forces;
 //Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
 
-namespace StructureHelperLogics.Models.BeamShears.Logics
+namespace StructureHelperLogics.Models.BeamShears
 {
     public class StirrupByRebarStrengthLogic : IBeamShearStrenghLogic
     {
@@ -52,9 +52,15 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
         public double GetShearStrength()
         {
             InitializeStrategies();
+            TraceLogger?.AddMessage($"Stirrup diameter d = {stirrupByRebar.Diameter}(m)");
+            TraceLogger?.AddMessage($"Stirrup leg number n = {stirrupByRebar.LegCount}");
+            TraceLogger?.AddMessage($"Stirrup spacing S = {stirrupByRebar.Spacing}(m)");
             double maxSpacingRatio = inclinedSection.ConcreteTensionStrength * inclinedSection.WebWidth * inclinedSection.EffectiveDepth / forceTuple.Qy;
+            TraceLogger?.AddMessage($"Maximum spacing ratio due to strength beetwen hoops Sr,max = {maxSpacingRatio}(dimensionless)");
             maxSpacingRatio = Math.Min(maxSpacingRatio, 0.5);
+            TraceLogger?.AddMessage($"Maximum spacing ratio Sr,max = {maxSpacingRatio}(dimensionless)");
             double maxStirrupSpacingByEffectibeDepth = maxSpacingRatio * inclinedSection.EffectiveDepth;
+            TraceLogger?.AddMessage($"Maximum spacing S,max = {maxStirrupSpacingByEffectibeDepth}(m)");
             if (stirrupByRebar.Spacing > maxStirrupSpacingByEffectibeDepth)
             {
                 TraceLogger?.AddMessage($"Stirrup spacing S = {stirrupByRebar.Spacing}(m) is greater than max stirrup spacing Smax = {maxStirrupSpacingByEffectibeDepth}(m), stirrups are ignored", TraceLogStatuses.Warning);

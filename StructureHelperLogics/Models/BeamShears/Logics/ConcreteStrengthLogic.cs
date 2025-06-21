@@ -6,22 +6,19 @@ namespace StructureHelperLogics.Models.BeamShears
 {
     public class ConcreteStrengthLogic : IBeamShearStrenghLogic
     {
-        private readonly double longitudinalForce;
         private readonly ISectionEffectiveness sectionEffectiveness;
         private readonly IInclinedSection inclinedSection;
-        private IGetLongitudinalForceFactorLogic getLongitudinalForceFactorLogic;
+        
 
         private double crackLength;
 
         public ConcreteStrengthLogic(
             ISectionEffectiveness sectionEffectiveness,
             IInclinedSection inclinedSection,
-            double longitudinalForce,
             IShiftTraceLogger? traceLogger)
         {
             this.sectionEffectiveness = sectionEffectiveness;
             this.inclinedSection = inclinedSection;
-            this.longitudinalForce = longitudinalForce;
             TraceLogger = traceLogger;
         }
 
@@ -35,27 +32,29 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger?.AddMessage($"Section shape factor = {sectionEffectiveness.ShapeFactor}, (dimensionless)");
             TraceLogger?.AddMessage($"Effective depth = {inclinedSection.EffectiveDepth}, (m)");
             crackLength = inclinedSection.EndCoord - inclinedSection.StartCoord;
-            TraceLogger?.AddMessage($"Crack length = {inclinedSection.EndCoord} - {inclinedSection.StartCoord} = {crackLength}, (m)");
+            TraceLogger?.AddMessage($"Absolute crack length c = {inclinedSection.EndCoord} - {inclinedSection.StartCoord} = {crackLength}, (m)");
+            TraceLogger?.AddMessage($"Relative crack length c/d = {crackLength} / {inclinedSection.EffectiveDepth} = {crackLength/ inclinedSection.EffectiveDepth},(dimensionless)");
             RestrictCrackLength();
-            SetLongitudinalForce();
-            double factorOfLongitudinalForce = getLongitudinalForceFactorLogic.GetFactor();
-            TraceLogger?.AddMessage($"Factor of  longitudinal force = {factorOfLongitudinalForce}, (dimensionless)");
-            double concreteMoment = sectionEffectiveness.BaseShapeFactor * sectionEffectiveness.ShapeFactor * inclinedSection.ConcreteTensionStrength * inclinedSection.WebWidth * inclinedSection.EffectiveDepth * inclinedSection.EffectiveDepth;
-            double shearStrength = factorOfLongitudinalForce * concreteMoment / crackLength;
-            TraceLogger?.AddMessage($"Shear strength of concrete = {shearStrength}, (N)");
+
+
+            double concreteMoment = 
+                sectionEffectiveness.BaseShapeFactor
+                * sectionEffectiveness.ShapeFactor 
+                * inclinedSection.ConcreteTensionStrength 
+                * inclinedSection.WebWidth 
+                * inclinedSection.EffectiveDepth 
+                * inclinedSection.EffectiveDepth;
+            double shearStrength = concreteMoment / crackLength;
+            TraceLogger?.AddMessage($"Shear strength of concrete = {sectionEffectiveness.BaseShapeFactor} * {sectionEffectiveness.ShapeFactor} * {inclinedSection.ConcreteTensionStrength} * {inclinedSection.WebWidth} * {inclinedSection.EffectiveDepth} ^ 2 / {crackLength} = {shearStrength}, (N)");
             return shearStrength;
         }
 
         private void InitializeStrategies()
         {
-            getLongitudinalForceFactorLogic ??= new GetLongitudinalForceFactorLogic(TraceLogger?.GetSimilarTraceLogger(100));
+            
         }
 
-        private void SetLongitudinalForce()
-        {
-            getLongitudinalForceFactorLogic.LongitudinalForce = longitudinalForce;
-            getLongitudinalForceFactorLogic.InclinedSection = inclinedSection;
-        }
+
 
         private void RestrictCrackLength()
         {

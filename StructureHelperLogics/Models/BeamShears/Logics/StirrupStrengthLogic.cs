@@ -1,12 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StructureHelperLogics.Models.BeamShears.Logics
+namespace StructureHelperLogics.Models.BeamShears
 {
     internal class StirrupStrengthLogic : IBeamShearStrenghLogic
     {

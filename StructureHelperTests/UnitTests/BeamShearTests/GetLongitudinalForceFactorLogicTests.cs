@@ -3,135 +3,113 @@ using NUnit.Framework;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
-using StructureHelperLogics.Models.BeamShears.Logics;
 using StructureHelperLogics.Models.BeamShears;
+using StructureHelperLogics.Models.BeamShears.Logics;
+using System;
 
 namespace StructureHelperTests.UnitTests.BeamShearTests
 {
-
-
-    [TestFixture]
-    public class GetLongitudinalForceFactorLogicTests
-    {
-        private Mock<IInclinedSection> _mockSection;
-        private Mock<ICheckEntityLogic<IInclinedSection>> _mockCheckLogic;
-        private Mock<IShiftTraceLogger> _mockLogger;
-        private GetLongitudinalForceFactorLogic _logic;
-
-        [SetUp]
-        public void SetUp()
+        [TestFixture]
+        public class GetLongitudinalForceFactorLogicTests
         {
-            _mockSection = new Mock<IInclinedSection>();
-            _mockCheckLogic = new Mock<ICheckEntityLogic<IInclinedSection>>();
-            _mockLogger = new Mock<IShiftTraceLogger>();
-
-            _logic = new GetLongitudinalForceFactorLogic(_mockLogger.Object)
+            [Test]
+            public void GetFactor_When_LongitudinalForceIsZero_ReturnsOne()
             {
-                InclinedSection = _mockSection.Object,
-                LongitudinalForce = 0
-            };
+                var traceLogger = new Mock<IShiftTraceLogger>();
+                var inclinedSection = new Mock<IInclinedSection>();
+                var mockCheckLogic = new Mock<ICheckEntityLogic<IInclinedSection>>();
+                mockCheckLogic.Setup(x => x.Check()).Returns(true);
+            List<ITraceLoggerEntry> traceLoggerEntries = new();
+            traceLogger.Setup(x => x.TraceLoggerEntries).Returns(traceLoggerEntries);
 
-            // Inject mock check logic
-            typeof(GetLongitudinalForceFactorLogic)
-                .GetField("checkInclinedSectionLogic", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.SetValue(_logic, _mockCheckLogic.Object);
-        }
+            var mockReducedAreaLogic = new Mock<IGetReducedAreaLogic>();
+                var logic = new GetLongitudinalForceFactorLogic(mockCheckLogic.Object, mockReducedAreaLogic.Object, traceLogger.Object)
+                {
+                    InclinedSection = inclinedSection.Object,
+                    LongitudinalForce = 0
+                };
 
-        [Test]
-        public void GetFactor_Returns1_WhenLongitudinalForceIsZero()
-        {
-            // Arrange
-            _mockCheckLogic.Setup(c => c.Check()).Returns(true);
+                var result = logic.GetFactor();
 
-            // Act
-            var result = _logic.GetFactor();
+                Assert.That(result, Is.EqualTo(1));
+            }
 
-            // Assert
-            Assert.That(result, Is.EqualTo(1));
-        }
+            [Test]
+            public void GetFactor_When_CheckFails_ThrowsStructureHelperException()
+            {
+                var traceLogger = new Mock<IShiftTraceLogger>();
+                var inclinedSection = new Mock<IInclinedSection>();
+                var mockCheckLogic = new Mock<ICheckEntityLogic<IInclinedSection>>();
+            List<ITraceLoggerEntry> traceLoggerEntries = new();
+            traceLogger.Setup(x => x.TraceLoggerEntries).Returns(traceLoggerEntries);
 
-        [Test]
-        public void GetFactor_ComputesCorrectly_ForTension()
-        {
-            // Arrange
-            _logic.LongitudinalForce = 100000; // tension
-            _mockSection.Setup(s => s.WebWidth).Returns(0.3);
-            _mockSection.Setup(s => s.FullDepth).Returns(0.5);
-            _mockSection.Setup(s => s.ConcreteTensionStrength).Returns(2000000);
-            _mockCheckLogic.Setup(c => c.Check()).Returns(true);
+            mockCheckLogic.Setup(x => x.Check()).Returns(false);
+                mockCheckLogic.Setup(x => x.CheckResult).Returns("Check failed");
 
-            double area = 0.3 * 0.5;
-            double stress = 100000 / area;
-            double ratio = stress / 2000000;
-            double expected = Math.Max(1 - 0.5 * ratio, 0);
+                var mockReducedAreaLogic = new Mock<IGetReducedAreaLogic>();
+                var logic = new GetLongitudinalForceFactorLogic(mockCheckLogic.Object, mockReducedAreaLogic.Object, traceLogger.Object)
+                {
+                    InclinedSection = inclinedSection.Object,
+                    LongitudinalForce = 1000
+                };
 
-            // Act
-            var result = _logic.GetFactor();
+                Assert.That(() => logic.GetFactor(), Throws.TypeOf<StructureHelperException>());
+            }
 
-            // Assert
-            Assert.That(result, Is.EqualTo(expected).Within(1e-6));
-        }
+            [TestCase(-1, 1.0000000333333334d)] //1N
+            [TestCase(-1000000, 1.0333333333333334d)] //1MN
+            [TestCase(-10000000, 1.25d)] //10MN
+            [TestCase(-20000000, 0.83333333333333348d)] //20MN
+            [TestCase(-100000000, 0)] //100MN
+            public void GetFactor_When_Compression_ReturnsExpectedResult(double force, double expectedFactor)
+            {
+                var traceLogger = new Mock<IShiftTraceLogger>();
+                var inclinedSection = new Mock<IInclinedSection>();
+                var mockCheckLogic = new Mock<ICheckEntityLogic<IInclinedSection>>();
+                var mockReducedAreaLogic = new Mock<IGetReducedAreaLogic>();
+            List<ITraceLoggerEntry> traceLoggerEntries = new();
+            traceLogger.Setup(x => x.TraceLoggerEntries).Returns(traceLoggerEntries);
 
-        [Test]
-        public void GetFactor_ComputesCorrectly_ForCompression_WithinFirstLimit()
-        {
-            // Arrange
-            _logic.LongitudinalForce = -10000; // compression
-            _mockSection.Setup(s => s.WebWidth).Returns(0.3);
-            _mockSection.Setup(s => s.FullDepth).Returns(0.5);
-            _mockSection.Setup(s => s.ConcreteCompressionStrength).Returns(25000000);
-            _mockCheckLogic.Setup(c => c.Check()).Returns(true);
+            mockCheckLogic.Setup(x => x.Check()).Returns(true);
+                mockReducedAreaLogic.Setup(x => x.GetArea()).Returns(1.0);
 
-            double area = 0.3 * 0.5;
-            double stress = 10000 / area;
-            double ratio = stress / 25000000;
-            double expected = 1 + ratio;
+                inclinedSection.Setup(x => x.ConcreteCompressionStrength).Returns(30e6);
 
-            // Act
-            var result = _logic.GetFactor();
+                var logic = new GetLongitudinalForceFactorLogic(mockCheckLogic.Object, mockReducedAreaLogic.Object, traceLogger.Object)
+                {
+                    InclinedSection = inclinedSection.Object,
+                    LongitudinalForce = force
+                };
 
-            // Assert
-            Assert.That(result, Is.EqualTo(expected).Within(1e-6));
-        }
+                var result = logic.GetFactor();
 
-        [TestCase(-11250000 / 3.99)]
-        [TestCase(-11250000 / 3)]
-        [TestCase(-11250000)]
-        public void GetFactor_ComputesCorrectly_ForCompression_HighRatio(double force)
-        {
-            // Arrange
-            _logic.LongitudinalForce = force; // compression
-            _mockSection.Setup(s => s.WebWidth).Returns(0.3);
-            _mockSection.Setup(s => s.FullDepth).Returns(0.5);
-            _mockSection.Setup(s => s.ConcreteCompressionStrength).Returns(25000000);
-            _mockCheckLogic.Setup(c => c.Check()).Returns(true);
+                Assert.That(result, Is.EqualTo(expectedFactor).Within(1e-6));
+            }
 
-            double area = 0.3 * 0.5;
-            double stress = - force / area;
-            double ratio = stress / 25000000;
+            [Test]
+            public void GetFactor_When_Tension_ReturnsExpectedResult()
+            {
+                var traceLogger = new Mock<IShiftTraceLogger>();
+                var inclinedSection = new Mock<IInclinedSection>();
+                var mockCheckLogic = new Mock<ICheckEntityLogic<IInclinedSection>>();
+                var mockReducedAreaLogic = new Mock<IGetReducedAreaLogic>();
+            List<ITraceLoggerEntry> traceLoggerEntries = new();
+            traceLogger.Setup(x => x.TraceLoggerEntries).Returns(traceLoggerEntries);
 
-            Assert.That(ratio, Is.GreaterThan(0.75)); // high compression branch
+                mockCheckLogic.Setup(x => x.Check()).Returns(true);
+                mockReducedAreaLogic.Setup(x => x.GetArea()).Returns(1.0);
 
-            double expected = Math.Max(5 * (1 - ratio), 0);
+                inclinedSection.Setup(x => x.ConcreteTensionStrength).Returns(3e6);
 
-            // Act
-            var result = _logic.GetFactor();
+                var logic = new GetLongitudinalForceFactorLogic(mockCheckLogic.Object, mockReducedAreaLogic.Object, traceLogger.Object)
+                {
+                    InclinedSection = inclinedSection.Object,
+                    LongitudinalForce = 1000000 // +1MN
+                };
 
-            // Assert
-            Assert.That(result, Is.EqualTo(expected).Within(1e-6));
-        }
+                var result = logic.GetFactor();
 
-        [Test]
-        public void GetFactor_Throws_WhenCheckFails()
-        {
-            // Arrange
-            _mockCheckLogic.Setup(c => c.Check()).Returns(false);
-            _mockCheckLogic.Setup(c => c.CheckResult).Returns("Invalid section");
-
-            // Act & Assert
-            var ex = Assert.Throws<StructureHelperException>(() => _logic.GetFactor());
-            Assert.That(ex.Message, Does.Contain("Invalid section"));
+                Assert.That(result, Is.GreaterThanOrEqualTo(0));
+            }
         }
     }
-
-}

@@ -1,9 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -12,6 +8,18 @@ namespace StructureHelperLogics.Models.BeamShears
     /// </summary>
     public interface IInclinedSection : IEffectiveDepth
     {
+        /// <summary>
+        /// Reference to source beam shear section
+        /// </summary>
+        IBeamShearSection BeamShearSection { get; set; }
+        /// <summary>
+        /// Type of limite state for calculating
+        /// </summary>
+        LimitStates LimitState { get; set; }
+        /// <summary>
+        /// Type od calc term for calculating
+        /// </summary>
+        CalcTerms CalcTerm { get; set; }
         /// <summary>
         /// Width of cross-section
         /// </summary>

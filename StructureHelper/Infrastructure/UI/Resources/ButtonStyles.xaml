@@ -158,6 +158,7 @@
     <DataTemplate x:Key="Back">
         <Path Margin="4" Data="M -1 18 l 2 -9 l 1 3 a 15 15 90 0 1 22 -3 l -2 4 a 13 13 90 0 0 -18 2 l 3 3 z" Fill="White" Stroke="Black"/>
     </DataTemplate>
+    
     <DataTemplate x:Key="BeamShear">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -168,6 +169,7 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+    
     <DataTemplate x:Key="ButtonCalculatorRectangle">
         <Rectangle Style="{DynamicResource ButtonRect}" Stroke="{DynamicResource CalculatorFrame}">
             <Rectangle.Fill>

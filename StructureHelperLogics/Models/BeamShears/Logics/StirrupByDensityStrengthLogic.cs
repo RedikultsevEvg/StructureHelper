@@ -43,11 +43,11 @@ namespace StructureHelperLogics.Models.BeamShears
             double finalCrackLength = Math.Min(crackLength, maxCrackLength);
             TraceLogger?.AddMessage($"Length of crack = Min({crackLength}, {maxCrackLength}) = {finalCrackLength}(m)");
             double finalDensity = stirrupEffectiveness.StirrupShapeFactor * stirrupEffectiveness.StirrupPlacementFactor * stirrupByDensity.StirrupDensity;
-            TraceLogger?.AddMessage($"Stirrups design density qsw = {finalDensity}(N/m)");
+            TraceLogger?.AddMessage($"Stirrups design density qsw = {stirrupEffectiveness.StirrupShapeFactor} * {stirrupEffectiveness.StirrupPlacementFactor} * {stirrupByDensity.StirrupDensity} = {finalDensity}(N/m)");
             double concreteDensity = inclinedSection.WebWidth * inclinedSection.ConcreteTensionStrength;
             if (finalDensity < minStirrupRatio * concreteDensity)
             {
-                TraceLogger?.AddMessage($"Since stirrups design density qsw = {finalDensity}(N/m) less than {minStirrupRatio} * {concreteDensity}, final density is equal to zero");
+                TraceLogger?.AddMessage($"Since stirrups design density qsw = {finalDensity}(N/m) less than {minStirrupRatio} * {concreteDensity}, final density is equal to zero", TraceLogStatuses.Warning);
                 finalDensity = 0;
             }
             double strength = finalDensity * finalCrackLength;

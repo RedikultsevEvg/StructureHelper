@@ -16,10 +16,15 @@ namespace DataAccess.DTOs
         public string? Name { get; set; }
         [JsonProperty("Shape")]
         public IShape Shape { get; set; } = new RectangleShapeDTO(Guid.Empty);
-        [JsonProperty("Material")]
-        public IConcreteLibMaterial Material { get; set; }
+        [JsonProperty("ConcreteMaterial")]
+        public IConcreteLibMaterial ConcreteMaterial { get; set; }
         [JsonProperty("CenterCover")]
         public double CenterCover { get; set; }
+        [JsonProperty("ReinforcementArea")]
+        public double ReinforcementArea { get; set; }
+        [JsonProperty("ReinforcementMaterial")]
+        public IReinforcementLibMaterial ReinforcementMaterial { get; set; }
+
         public BeamShearSectionDTO(Guid id)
         {
             Id = id;

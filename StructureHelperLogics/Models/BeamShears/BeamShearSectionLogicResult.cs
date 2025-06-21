@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructureHelperCommon.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,12 @@ namespace StructureHelperLogics.Models.BeamShears
         public double StirrupStrength { get; set; }
         public double TotalStrength { get; set; }
         public double FactorOfUsing { get => InputData.ForceTuple.Qy / TotalStrength; }
+
+        public IShiftTraceLogger TraceLogger { get; }
+
+        public BeamShearSectionLogicResult(IShiftTraceLogger traceLogger)
+        {
+            TraceLogger = traceLogger;
+        }
     }
 }

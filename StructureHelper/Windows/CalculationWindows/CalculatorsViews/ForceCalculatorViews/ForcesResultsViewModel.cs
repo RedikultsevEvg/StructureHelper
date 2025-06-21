@@ -131,18 +131,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 }, o => SelectedResult != null && SelectedResult.IsValid));
             }
         }
-        public ICommand ExportToCSVCommand
-        {
-            get
-            {
-                return exportToCSVCommand ??
-                    (exportToCSVCommand = new RelayCommand(o =>
-                    {
-                        ExportToCSV();
-                    }
-                    ));
-            }
-        }
+        public ICommand ExportToCSVCommand => exportToCSVCommand ??= new RelayCommand(o => { ExportToCSV();});
         private void ExportToCSV()
         {
             var inputData = new ExportToFileInputData

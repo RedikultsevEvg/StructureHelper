@@ -15,6 +15,7 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         private IUpdateStrategy<IShape> shapeUpdateStrategy;
         private IUpdateStrategy<IConcreteLibMaterial> concreteUpdateStrategy;
+        private IUpdateStrategy<IReinforcementLibMaterial> reinforcementUpdateStrategy;
         public void Update(IBeamShearSection targetObject, IBeamShearSection sourceObject)
         {
             CheckObject.IsNull(targetObject);
@@ -22,9 +23,12 @@ namespace StructureHelperLogics.Models.BeamShears
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeStrategies();
             targetObject.Name = sourceObject.Name;
+            targetObject.ReinforcementArea = sourceObject.ReinforcementArea;
             shapeUpdateStrategy.Update(targetObject.Shape, sourceObject.Shape);
-            targetObject.Material ??= new ConcreteLibMaterial();
-            concreteUpdateStrategy.Update(targetObject.Material, sourceObject.Material);
+            targetObject.ConcreteMaterial ??= new ConcreteLibMaterial();
+            concreteUpdateStrategy.Update(targetObject.ConcreteMaterial, sourceObject.ConcreteMaterial);
+            targetObject.ReinforcementMaterial ??= new ReinforcementLibMaterial(Guid.NewGuid());
+            reinforcementUpdateStrategy.Update(targetObject.ReinforcementMaterial, sourceObject.ReinforcementMaterial);
             targetObject.CenterCover = sourceObject.CenterCover;
         }
 
@@ -32,6 +36,7 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             shapeUpdateStrategy ??= new ShapeUpdateStrategy();
             concreteUpdateStrategy ??= new ConcreteLibUpdateStrategy();
+            reinforcementUpdateStrategy ??= new ReinforcementLibUpdateStrategy();
         }
     }
 }

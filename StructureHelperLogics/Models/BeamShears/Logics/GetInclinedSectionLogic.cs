@@ -41,6 +41,7 @@ namespace StructureHelperLogics.Models.BeamShears
             effectiveDepth = depth - beamShearSection.CenterCover;
             inclinedSection = new()
             {
+                BeamShearSection = beamShearSection,
                 FullDepth = depth,
                 EffectiveDepth = effectiveDepth,
                 StartCoord = startCoord,

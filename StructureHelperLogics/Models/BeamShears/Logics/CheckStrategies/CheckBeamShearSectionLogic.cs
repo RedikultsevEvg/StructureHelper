@@ -35,7 +35,7 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
             }
             else
             {
-                if (Entity.Material is null)
+                if (Entity.ConcreteMaterial is null)
                 {
                     result = false;
                     TraceMessage($"\nMaterial of cross-section is not assigned");

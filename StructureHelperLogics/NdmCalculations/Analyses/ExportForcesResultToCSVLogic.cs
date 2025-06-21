@@ -5,6 +5,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses
 {
     public class ExportForcesResultToCSVLogic : ExportToCSVLogicBase
     {
+        private const string errorString = "-error-";
         IForcesResults results;
 
         public ExportForcesResultToCSVLogic(IForcesResults results)
@@ -45,14 +46,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses
                     }
                     string[] newLine =
                         {
-                            item.DesignForceTuple.LimitState.ToString(),
-                            item.DesignForceTuple.CalcTerm.ToString(),
-                            tuple.Mx.ToString(),
-                            tuple.My.ToString(),
-                            tuple.Nz.ToString(),
-                            strainMatrix?.Kx.ToString(),
-                            strainMatrix?.Ky.ToString(),
-                            strainMatrix?.EpsZ.ToString()
+                            item.DesignForceTuple.LimitState.ToString() ?? errorString,
+                            item.DesignForceTuple.CalcTerm.ToString() ?? errorString,
+                            tuple.Mx.ToString() ?? errorString,
+                            tuple.My.ToString() ?? errorString,
+                            tuple.Nz.ToString() ?? errorString,
+                            strainMatrix?.Kx.ToString() ?? errorString,
+                            strainMatrix?.Ky.ToString() ?? errorString,
+                            strainMatrix?.EpsZ.ToString() ?? errorString
                         };
                     output.AppendLine(string.Join(separator, newLine));
                 }

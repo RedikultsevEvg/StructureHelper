@@ -1,7 +1,9 @@
-﻿using StructureHelperCommon.Models.Calculators;
+﻿using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Calculators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,5 +16,6 @@ namespace StructureHelperLogics.Models.BeamShears
         public double StirrupStrength { get; set; }
         public double TotalStrength { get; set; }
         public double FactorOfUsing { get; }
+        public IShiftTraceLogger TraceLogger { get; }
     }
 }

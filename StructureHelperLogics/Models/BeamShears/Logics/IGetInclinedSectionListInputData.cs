@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public interface IGetInclinedSectionListInputData
+    public interface IGetInclinedSectionListInputData : IInputData
     {
         int StepCount { get; set; }
         double MaxInclinedSectionLegthFactor { get; set; }

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance local:CrackResultViewModel}"
         mc:Ignorable="d"
         Title="Result of calculations of crack" Height="450" Width="800" MinHeight="300" MinWidth="600" MaxHeight="800" MaxWidth="1000" WindowStartupLocation="CenterScreen">
@@ -16,7 +17,7 @@
     </Window.Resources>
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
-            <ToolBar>
+            <ToolBar ToolTip="Rebar results">
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowRebarsCommand}" ToolTip="Show results by rebars">
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource ShowRebarsResult}"/>
@@ -25,6 +26,18 @@
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowIsoFieldCommand}" ToolTip="Show isofield results">
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource IsoFieldResult}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+            <ToolBar ToolTip="Export">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ExportToCSVCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Export to *.csv"
+                                                IconContent="{StaticResource ExportToXLS}"
+                                                DescriptionText="Export all valid results to *.csv file"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource ExportToXLS}"/>
                     </Viewbox>
                 </Button>
             </ToolBar>
@@ -115,26 +128,7 @@
                 </DataGrid.Columns>
             </DataGrid>
             <TextBlock Grid.Row="1" Text="{Binding CrackResult.Description}"/>
-            <StatusBar Grid.Row="2">
-                <StatusBarItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Valid result(s): "/>
-                        <TextBlock Text="{Binding ValidResultCount}"/>
-                    </StackPanel>
-                </StatusBarItem>
-                <StatusBarItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Invalid result(s): "/>
-                        <TextBlock Text="{Binding InvalidResultCount}"/>
-                    </StackPanel>
-                </StatusBarItem>
-                <StatusBarItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Total: "/>
-                        <TextBlock Text="{Binding TotalResultCount}"/>
-                    </StackPanel>
-                </StatusBarItem>
-            </StatusBar>
+            <ContentControl Grid.Row="2" ContentTemplate="{StaticResource ResultValidness}" Content="{Binding ValidResultCounter}"/>
         </Grid>
     </DockPanel>
 </Window>

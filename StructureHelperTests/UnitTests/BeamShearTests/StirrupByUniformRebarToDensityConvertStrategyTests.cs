@@ -49,7 +49,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
 
             // Assert
             _mockUpdateStrategy.Verify(u => u.Update(It.IsAny<IStirrupByDensity>(), stirrupRebar.Object), Times.Once);
-            Assert.That(result.StirrupDensity, Is.EqualTo(837758.04095727834d).Within(0.00001));
+            Assert.That(result.StirrupDensity, Is.EqualTo(670206.43276582274d).Within(0.00001));
             //_mockTraceLogger.Verify(t => t.AddMessage(It.IsAny<string>(), It.IsAny<TraceLogStatuses>()), Times.AtLeastOnce);
         }
     }

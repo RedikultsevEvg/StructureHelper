@@ -32,6 +32,12 @@ namespace StructureHelperCommon.Models.Calculators
                 MaxIterationCount = 1000
             };
         }
+
+        public FindParameterCalculator(IShiftTraceLogger? traceLogger) : this()
+        {
+            TraceLogger = traceLogger;
+        }
+
         public void Run()
         {
             result = new();

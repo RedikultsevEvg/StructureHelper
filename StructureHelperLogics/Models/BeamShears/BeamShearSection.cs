@@ -10,18 +10,20 @@ namespace StructureHelperLogics.Models.BeamShears
         public Guid Id { get; }
         public string? Name { get; set; }
         /// <inheritdoc/>
-        public IConcreteLibMaterial Material { get; set; } 
+        public IConcreteLibMaterial ConcreteMaterial { get; set; } 
         /// <inheritdoc/>
         public IShape Shape { get; set; } = new RectangleShape(Guid.NewGuid()) { Height = 0.6, Width = 0.4};
 
         public double CenterCover { get; set; } = 0.05;
-
+        public double ReinforcementArea { get; set; } = 0;
+        public IReinforcementLibMaterial ReinforcementMaterial { get; set; }
 
         public BeamShearSection(Guid id)
         {
             Id = id;
-            Material = ConcreteLibMaterialFactory.GetConcreteLibMaterial(ConcreteLibTypes.Concrete25);
-            Material.TensionForULS = true;
+            ConcreteMaterial = ConcreteLibMaterialFactory.GetConcreteLibMaterial(ConcreteLibTypes.Concrete25);
+            ReinforcementMaterial = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforcement500).HelperMaterial as IReinforcementLibMaterial;
+            ConcreteMaterial.TensionForULS = true;
         }
 
         public object Clone()

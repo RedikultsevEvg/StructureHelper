@@ -30,6 +30,11 @@ namespace StructureHelperLogics.Models.Materials
             ProcessCollection();
             return traceLoggerEntries;
         }
+        public void AddEntriesToTraceLogger(IShiftTraceLogger traceLogger)
+        {
+            var entries = GetTraceEntries();
+            entries.ForEach(x => traceLogger?.AddEntry(x));
+        }
 
         private void ProcessCollection()
         {
@@ -45,7 +50,6 @@ namespace StructureHelperLogics.Models.Materials
             }
             traceLoggerEntries.Add(table);
         }
-
         private List<IShTableRow<ITraceLoggerEntry>> ProcessLibMaterial(ILibMaterial libMaterial)
         {
             List<IShTableRow<ITraceLoggerEntry>> rows = new();
@@ -76,7 +80,6 @@ namespace StructureHelperLogics.Models.Materials
             rows.Add(ndmRow);
             return rows;
         }
-
         private void Check()
         {
             if (Collection is null)
@@ -84,7 +87,6 @@ namespace StructureHelperLogics.Models.Materials
                 throw new StructureHelperException(ErrorStrings.ParameterIsNull + ": Collection of primitives");
             }
         }
-
         private IShTableRow<ITraceLoggerEntry> GetHeader(IHeadMaterial headMaterial)
         {
             const CellRole cellRole = CellRole.Header;
@@ -263,10 +265,5 @@ namespace StructureHelperLogics.Models.Materials
             return rows;
         }
 
-        public void AddEntriesToTraceLogger(IShiftTraceLogger traceLogger)
-        {
-            var entries = GetTraceEntries();
-            entries.ForEach(x => traceLogger?.AddEntry(x));
-        }
     }
 }

@@ -2,6 +2,7 @@
 using StructureHelper.Windows.ViewModels.Materials;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.BeamShears;
+using System;
 
 //Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
@@ -18,6 +19,17 @@ namespace StructureHelper.Windows.BeamShears
             set
             {
                 beamShearSection.Name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+        public double ReinforcementArea
+        {
+            get => beamShearSection.ReinforcementArea;
+            set
+            {
+                value = Math.Max(value, 0);
+                beamShearSection.ReinforcementArea = value;
+                OnPropertyChanged(nameof(ReinforcementArea));
             }
         }
         public double CenterCover
@@ -25,20 +37,18 @@ namespace StructureHelper.Windows.BeamShears
             get => beamShearSection.CenterCover;
             set
             {
-                if (value < 0)
-                {
-                    value = 0;
-                }
+                value = Math.Max(value, 0);
                 beamShearSection.CenterCover = value;
             }
         }
         public IRectangleShape Shape { get; }
-        public ConcreteViewModel Material { get; }
+        public ConcreteViewModel ConcreteMaterial { get; }
+        public ReinforcementViewModel ReinforcementMaterial { get; }
 
         public SectionViewModel(IBeamShearSection beamShearSection)
         {
             this.beamShearSection = beamShearSection;
-            Material = new(beamShearSection.Material)
+            ConcreteMaterial = new(beamShearSection.ConcreteMaterial)
             {
                 MaterialLogicVisibility = false,
                 TensionForULSVisibility = false,
@@ -46,6 +56,7 @@ namespace StructureHelper.Windows.BeamShears
                 HumidityVisibility = false
             };
             Shape = beamShearSection.Shape as IRectangleShape;
+            ReinforcementMaterial = new(beamShearSection.ReinforcementMaterial) { MaterialLogicVisibility = false };
         }
     }
 }

@@ -12,6 +12,7 @@ namespace DataAccess.DTOs
         private IUpdateStrategy<IBeamShearSection> updateStrategy;
         private IConvertStrategy<IShape, IShape> shapeConvertStrategy;
         private IConvertStrategy<ConcreteLibMaterialDTO, IConcreteLibMaterial> concreteConvertStrategy;
+        private ReinforcementLibMaterialToDTOConvertStrategy reinforcementConvertStrategy;
         private IUpdateStrategy<IHelperMaterial> safetyFactorUpdateStrategy;
 
         public BeamShearSectionToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
@@ -40,8 +41,10 @@ namespace DataAccess.DTOs
             NewItem = new(source.Id);
             updateStrategy.Update(NewItem, source);
             NewItem.Shape = shapeConvertStrategy.Convert(source.Shape);
-            NewItem.Material = concreteConvertStrategy.Convert(source.Material);
-            safetyFactorUpdateStrategy.Update(NewItem.Material, source.Material);
+            NewItem.ConcreteMaterial = concreteConvertStrategy.Convert(source.ConcreteMaterial);
+            safetyFactorUpdateStrategy.Update(NewItem.ConcreteMaterial, source.ConcreteMaterial);
+            NewItem.ReinforcementMaterial = reinforcementConvertStrategy.Convert(source.ReinforcementMaterial);
+            safetyFactorUpdateStrategy.Update(NewItem.ReinforcementMaterial, source.ReinforcementMaterial);
             TraceLogger?.AddMessage($"Beam shear section converting Id = {NewItem.Id} has been finished succesfully", TraceLogStatuses.Debug);
         }
 
@@ -53,6 +56,11 @@ namespace DataAccess.DTOs
             concreteConvertStrategy = new ConcreteLibMaterialToDTOConvertStrategy()
             { ReferenceDictionary = ReferenceDictionary,
                 TraceLogger = TraceLogger};
+            reinforcementConvertStrategy = new ReinforcementLibMaterialToDTOConvertStrategy()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger
+            };
             safetyFactorUpdateStrategy = new HelperMaterialDTOSafetyFactorUpdateStrategy(new MaterialSafetyFactorToDTOLogic());
         }
     }

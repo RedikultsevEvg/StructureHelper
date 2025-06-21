@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StructureHelperCommon.Infrastructures.Enums;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -21,5 +17,8 @@ namespace StructureHelperLogics.Models.BeamShears
         public double EndCoord { get; set; }
         public double ConcreteCompressionStrength { get; set; }
         public double ConcreteTensionStrength { get; set; }
+        public IBeamShearSection BeamShearSection { get; set; }
+        public LimitStates LimitState { get; set; }
+        public CalcTerms CalcTerm { get; set; }
     }
 }

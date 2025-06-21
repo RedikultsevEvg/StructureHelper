@@ -13,7 +13,7 @@ namespace StructureHelperLogics.Models.BeamShears
         /// <summary>
         /// Concrete of cross-section
         /// </summary>
-        IConcreteLibMaterial Material { get; set; }
+        IConcreteLibMaterial ConcreteMaterial { get; set; }
         /// <summary>
         /// Shape of cross-section
         /// </summary>
@@ -22,5 +22,13 @@ namespace StructureHelperLogics.Models.BeamShears
         /// Distance from edge of tension zone to center of the nearest reinforcement bar
         /// </summary>
         double CenterCover { get; set; }
+        /// <summary>
+        /// Area of reinforcement in tension zone, m^2
+        /// </summary>
+        double ReinforcementArea { get; set; }
+        /// <summary>
+        /// Material of reinforcement in tension zone
+        /// </summary>
+        IReinforcementLibMaterial ReinforcementMaterial { get; set; }
     }
 }

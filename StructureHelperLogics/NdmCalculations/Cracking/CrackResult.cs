@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
-    public class CrackResult : IResult
+    public class CrackResult : ICrackResult
     {
         public bool IsValid { get; set; }
         public string? Description { get; set; }
-        public List<ITupleCrackResult> TupleResults {get;set;}
+        public List<ITupleCrackResult> TupleResults { get; set; }
         public CrackResult()
         {
             TupleResults = new();

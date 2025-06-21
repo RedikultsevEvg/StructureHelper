@@ -1,10 +1,9 @@
 ﻿using StructureHelper.Infrastructure;
+using StructureHelper.Services.Exports;
+using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Cracking;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
@@ -12,16 +11,14 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
     public class CrackResultViewModel : ViewModelBase
     {
         IShowCrackIsoFieldsLogic showCrackIsoFieldsLogic => new ShowCrackIsoFieldsLogic();
-        private CrackResult resultModel;
+        private ICrackResult resultModel;
         private RelayCommand? showIsoFieldCommand;
         private RelayCommand? showRebarsCommand;
-
-        public int ValidResultCount => resultModel.TupleResults.Count(x => x.IsValid == true);
-        public int InvalidResultCount => resultModel.TupleResults.Count(x => x.IsValid == false);
-        public int TotalResultCount => resultModel.TupleResults.Count;
+        private RelayCommand exportToCSVCommand;
 
         public TupleCrackResult SelectedResult { get; set; }
         public List<ITupleCrackResult> TupleResults => CrackResult.TupleResults;
+        public ValidResultCounterVM ValidResultCounter { get; }
         public ICommand ShowRebarsCommand
         {
             get
@@ -45,11 +42,25 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
             }
         }
 
-        public CrackResult CrackResult => resultModel;
+        public ICrackResult CrackResult => resultModel;
 
-        public CrackResultViewModel(CrackResult crackResult)
+        public CrackResultViewModel(ICrackResult crackResult)
         {
             this.resultModel = crackResult;
+            ValidResultCounter = new(resultModel.TupleResults);
+        }
+
+        public ICommand ExportToCSVCommand => exportToCSVCommand ??= new RelayCommand(o => { ExportToCSV(); });
+        private void ExportToCSV()
+        {
+            var inputData = new ExportToFileInputData
+            {
+                Filter = "csv |*.csv",
+                Title = "Save in *.csv File"
+            };
+            var logic = new ExportCrackResultToCSVLogic(resultModel);
+            var exportService = new ExportToFileService(inputData, logic);
+            exportService.Export();
         }
     }
 }

@@ -1,8 +1,12 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+﻿using StructureHelper.Models.Materials;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperLogics.Models.Materials;
+using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -27,6 +31,7 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             this.inputData = inputData;
+
             PrepareNewResult();
             InitializeStrategies();
             try
@@ -38,12 +43,35 @@ namespace StructureHelperLogics.Models.BeamShears
             {
                 TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
                 result.IsValid = false;
+                result.Description += "\n" + ex.Message;
             }
 
             return result;
         }
 
-        private IBeamShearSectionLogicResult CalculateResult(IBeamShearSectionLogicInputData sectionInputData)
+        private void TraceSection(IBeamShearSection section)
+        {
+            List<IHeadMaterial> headMaterials = new()
+                {
+                    new HeadMaterial(Guid.Empty)
+                    {
+                        Name = $"{section.Name}.Concrete",
+                        HelperMaterial = section.ConcreteMaterial
+                    },
+                    new HeadMaterial(Guid.Empty)
+                    {
+                        Name = $"{section.Name}.Reinforcement",
+                        HelperMaterial = section.ReinforcementMaterial
+                    },
+                };
+            var traceLogic = new TraceMaterialsFactory()
+            {
+                Collection = headMaterials
+            };
+            traceLogic.AddEntriesToTraceLogger(TraceLogger);
+        }
+
+        private IBeamShearSectionLogicResult CalculateInclinedSectionResult(IBeamShearSectionLogicInputData sectionInputData)
         {
             beamShearSectionLogic.InputData = sectionInputData;
             beamShearSectionLogic.Run();
@@ -79,6 +107,8 @@ namespace StructureHelperLogics.Models.BeamShears
                 {
                     foreach (var section in inputData.Sections)
                     {
+                        TraceLogger?.AddMessage($"Analysis for action: {beamShearAction.Name}, section: {section.Name}, calc turm {calcTerm} has been started");
+                        TraceSection(section);
                         foreach (var stirrup in stirrups)
                         {
                             List<IInclinedSection> inclinedSections = GetInclinedSections(section);
@@ -87,6 +117,7 @@ namespace StructureHelperLogics.Models.BeamShears
                             BeamShearActionResult actionResult = GetActionResult(beamShearAction, calcTerm, section, stirrup, sectionResults);
                             actionResults.Add(actionResult);
                         }
+                        TraceLogger?.AddMessage($"Analysis for action: {beamShearAction.Name}, section: {section.Name}, calc term {calcTerm} has been finished sucessfull");
                     }
                 }
             }
@@ -113,7 +144,7 @@ namespace StructureHelperLogics.Models.BeamShears
             List<IBeamShearSectionLogicResult> sectionResults = new();
             foreach (var item in sectionInputDatas)
             {
-                IBeamShearSectionLogicResult sectionResult = CalculateResult(item);
+                IBeamShearSectionLogicResult sectionResult = CalculateInclinedSectionResult(item);
                 sectionResults.Add(sectionResult);
             }
 
@@ -123,10 +154,12 @@ namespace StructureHelperLogics.Models.BeamShears
         private List<IBeamShearSectionLogicInputData> GetSectionInputDatas(IBeamShearAction beamShearAction, CalcTerms calcTerm, IBeamShearSection section, IStirrup stirrup, List<IInclinedSection> inclinedSections)
         {
             List<IBeamShearSectionLogicInputData> sectionInputDatas = new();
-            var material = section.Material;
+            var material = section.ConcreteMaterial;
             var strength = material.GetStrength(CollapseLimitState, calcTerm);
             foreach (var inclinedSection in inclinedSections)
             {
+                inclinedSection.LimitState = CollapseLimitState;
+                inclinedSection.CalcTerm = calcTerm;
                 inclinedSection.ConcreteCompressionStrength = strength.Compressive;
                 inclinedSection.ConcreteTensionStrength = strength.Tensile;
                 DirectShearForceLogicInputData inputData = new()
