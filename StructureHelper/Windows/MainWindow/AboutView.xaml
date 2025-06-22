@@ -7,9 +7,11 @@
         xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Help"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:AboutViewModel}"
-        Title="Structure Helper" Height="200" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Structure Helper" Height="250" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="22"/>
             <RowDefinition Height="22"/>
             <RowDefinition Height="22"/>
             <RowDefinition Height="22"/>
@@ -23,6 +25,10 @@
         <TextBlock Grid.Row="2" Text="Version"/>
         <TextBlock Grid.Row="3" Text="{Binding Version}"/>
         <TextBlock Grid.Row="4" Text="Copy Right (c) Redikultsev Evgeny"/>
-        <Button Grid.Row="6" Style="{StaticResource OkButton}" Click="Button_Click"/>
+        <TextBlock Grid.Row="5" Text="www.structurehelper.ru"/>
+        <TextBlock Grid.Row="6" Text="https://vk.com/structurehelper"/>
+        <TextBlock Grid.Row="7" Text="https://t.me/StructureHelper"/>
+        
+        <Button Grid.Row="8" Style="{StaticResource OkButton}" Click="Button_Click"/>
     </Grid>
 </Window>

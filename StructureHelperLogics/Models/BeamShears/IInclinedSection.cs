@@ -4,7 +4,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 namespace StructureHelperLogics.Models.BeamShears
 {
     /// <summary>
-    /// Implement parameers of inclined cross-section for beam shear calculating
+    /// Implement parameters of inclined cross-section for beam shear calculating
     /// </summary>
     public interface IInclinedSection : IEffectiveDepth
     {

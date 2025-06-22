@@ -51,7 +51,7 @@
                         </Viewbox>
                     </Button>
                 </ToolBar>
-                <ToolBar ToolTip="Cross-sections">
+                <ToolBar ToolTip="Types of Analyses">
                     <Button Style="{DynamicResource ToolButton}" Command="{Binding AnalysesLogic.AddAnalysisCommand}" CommandParameter="{x:Static enums:AnalysisTypes.CrossSection}">
                         <Button.ToolTip>
                             <uc:ButtonToolTipEh HeaderText="NDM Cross-Section Analysis"
@@ -73,6 +73,18 @@
                         </Viewbox>
                     </Button>
                 </ToolBar>
+                <ToolBar ToolTip="About...">
+                        <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowAboutCommand}">
+                            <Button.ToolTip>
+                                <uc:ButtonToolTipEh HeaderText="About..."
+                                                IconContent="{StaticResource GetArea}"
+                                                DescriptionText="Shows short details about program"/>
+                            </Button.ToolTip>
+                            <Viewbox>
+                                <ContentControl ContentTemplate="{DynamicResource GetArea}"/>
+                            </Viewbox>
+                        </Button>
+                    </ToolBar>
             </ToolBarTray>
             <Grid>
                 <Grid.ColumnDefinitions>

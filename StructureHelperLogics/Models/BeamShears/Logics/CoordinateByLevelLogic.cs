@@ -1,13 +1,9 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
+    /// <inheritdoc/>
     public class CoordinateByLevelLogic : ICoordinateByLevelLogic
     {
         public IShiftTraceLogger? TraceLogger { get; set; }
@@ -17,6 +13,7 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger = traceLogger;
         }
 
+        /// <inheritdoc/>
         public double GetCoordinate(double startCoord, double endCoord, double relativeLevel)
         {
             CheckRelativeLevel(relativeLevel);

@@ -11,7 +11,7 @@ namespace StructureHelper.Windows.ViewModels.Help
 {
     internal class AboutViewModel : OkCancelViewModelBase
     {
-        public string Authors => "Redikultsev Evgeny, Petrov Sergey, Smirnov Nikolay";
+        public string Authors => "Redikultsev Evgeny";
         public string Version
         {
             get

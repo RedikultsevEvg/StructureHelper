@@ -1,7 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperLogics.Models.BeamShears.Logics;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
