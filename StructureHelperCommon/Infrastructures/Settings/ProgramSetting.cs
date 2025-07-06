@@ -91,7 +91,8 @@ namespace StructureHelperCommon.Infrastructures.Settings
             return new FileVersion()
             {
                 VersionNumber = 1,
-                SubVersionNumber = 2 //Add Beam shear analysis
+                //SubVersionNumber = 2 //Add Beam shear analysis
+                SubVersionNumber = 3 //Add stirrup group and inclined rebar
             };
         }
     }

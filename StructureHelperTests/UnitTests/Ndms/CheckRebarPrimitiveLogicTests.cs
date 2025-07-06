@@ -31,7 +31,7 @@ namespace StructureHelperTests.UnitTests.Ndms
 
             _checkRebarPrimitiveLogic = new CheckRebarPrimitiveLogic(_mockTraceLogger.Object)
             {
-                RebarPrimitive = _mockRebarPrimitive.Object
+                Entity = _mockRebarPrimitive.Object
             };
         }
 

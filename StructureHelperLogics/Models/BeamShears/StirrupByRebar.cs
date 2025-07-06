@@ -29,7 +29,8 @@ namespace StructureHelperLogics.Models.BeamShears
                 }
                 legCount = value;
             }
-        }         /// <inheritdoc/>
+        }         
+        /// <inheritdoc/>
         public double Diameter
         {
             get => diameter; set
@@ -44,7 +45,8 @@ namespace StructureHelperLogics.Models.BeamShears
                 }
                 diameter = value;
             }
-        }         /// <inheritdoc/>
+        }         
+        /// <inheritdoc/>
         public double Spacing
         {
             get => step; set
@@ -55,8 +57,11 @@ namespace StructureHelperLogics.Models.BeamShears
                 }
                 step = value;
             }
-        }         /// <inheritdoc/>
+        }
+        /// <inheritdoc/>
         public double CompressedGap { get; set; } = 0;
+        /// <inheritdoc/>
+        public bool IsSpiral { get; set; } = false;
 
         public StirrupByRebar(Guid id)
         {

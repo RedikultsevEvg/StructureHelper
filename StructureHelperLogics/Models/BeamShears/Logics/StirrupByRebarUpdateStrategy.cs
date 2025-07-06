@@ -24,6 +24,7 @@ namespace StructureHelperLogics.Models.BeamShears
             targetObject.Diameter = sourceObject.Diameter;
             targetObject.LegCount = sourceObject.LegCount;
             targetObject.Spacing = sourceObject.Spacing;
+            targetObject.IsSpiral = sourceObject.IsSpiral;
         }
     }
 }

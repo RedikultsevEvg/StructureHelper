@@ -29,7 +29,7 @@ namespace StructureHelperTests.UnitTests.Ndms
                 CallBase = true
             };
 
-            _mockCheckPrimitiveCollectionLogic.Object.HasPrimitives = _mockHasPrimitives.Object;
+            _mockCheckPrimitiveCollectionLogic.Object.Entity = _mockHasPrimitives.Object;
         }
 
         [Test]

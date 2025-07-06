@@ -1,16 +1,10 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.Logics;
-using StructureHelperLogics.NdmCalculations.Cracking;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StructureHelperLogics.NdmCalculations.Primitives;
+using StructureHelperLogics.NdmCalculations.Primitives.Logics;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -19,6 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private bool result;
         private string checkResult;
         private ICheckEntityLogic<IAccuracy> checkAccuracyLogic;
+        private ICheckEntityLogic<IHasPrimitives> checkPrimitiveCollectionLogic;
 
         public IForceCalculatorInputData InputData { get; set; }
 
@@ -66,9 +61,30 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 TraceMessage("Calculator does not contain any calc term");
                 result = false;
             }
+            CheckPrimitives();
             CheckAccuracy();
             CheckActions();
             return result;
+        }
+
+        private void CheckPrimitives()
+        {
+            checkPrimitiveCollectionLogic ??= new CheckPrimitiveCollectionLogic(
+                TraceLogger,
+                new CheckRebarPrimitiveLogic()
+                {
+                    CheckRebarHostMaterial = false,
+                    CheckRebarPlacement = false
+                })
+            { 
+                Entity = InputData,
+            };
+            if (checkPrimitiveCollectionLogic.Check() == false)
+            {
+                result = false;
+            }
+            TraceMessage(checkPrimitiveCollectionLogic.CheckResult);
+
         }
 
         private void CheckActions()

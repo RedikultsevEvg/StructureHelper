@@ -53,6 +53,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
         public Ndm GetConcreteNdm()
         {
+//#error //fix check rebar for host null
             var hostPrimitive = options.HostPrimitive;
             var material = hostPrimitive
                 .NdmElement

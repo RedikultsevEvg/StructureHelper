@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public interface IStirrupGroup : IStirrup
+    public interface IStirrupGroup : IStirrup, IHasStirrups
     {
-        List<IStirrup> Stirrups { get; }
     }
 }

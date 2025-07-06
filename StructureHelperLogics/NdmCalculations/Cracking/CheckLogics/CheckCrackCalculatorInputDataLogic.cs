@@ -1,18 +1,10 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
-using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Loggers;
-using StructureHelperCommon.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives.Logics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Animation;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
@@ -22,7 +14,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     public class CheckCrackCalculatorInputDataLogic : ICheckInputDataLogic<ICrackCalculatorInputData>
     {
         private bool result;
-        private ICheckPrimitiveCollectionLogic checkPrimitiveCollectionLogic;
+        private ICheckEntityLogic<IHasPrimitives> checkPrimitiveCollectionLogic;
 
         public ICrackCalculatorInputData InputData {  get; set; }
 
@@ -31,7 +23,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public CheckCrackCalculatorInputDataLogic(ICheckPrimitiveCollectionLogic checkPrimitiveCollectionLogic)
+        public CheckCrackCalculatorInputDataLogic(ICheckEntityLogic<IHasPrimitives> checkPrimitiveCollectionLogic)
         {
             this.checkPrimitiveCollectionLogic = checkPrimitiveCollectionLogic;
         }
@@ -57,7 +49,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             {
                 throw new StructureHelperException(ErrorStrings.ParameterIsNull + ": check primitive logic");
             }
-            checkPrimitiveCollectionLogic.HasPrimitives = InputData;
+            checkPrimitiveCollectionLogic.Entity = InputData;
             checkPrimitiveCollectionLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger();
             if (checkPrimitiveCollectionLogic.Check() == false)
             {

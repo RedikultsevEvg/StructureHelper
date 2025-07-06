@@ -20,6 +20,8 @@ namespace DataAccess.DTOs
         public double Spacing { get; set; }
         [JsonProperty("CompressedGap")]
         public double CompressedGap { get; set; }
+        [JsonProperty("IsSpiral")]
+        public bool IsSpiral { get; set; } = false;
 
         public StirrupByRebarDTO(Guid id)
         {

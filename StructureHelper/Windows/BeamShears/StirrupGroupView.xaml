@@ -1,0 +1,96 @@
+﻿<Window x:Class="StructureHelper.Windows.BeamShears.StirrupGroupView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.BeamShears"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        xmlns:enums="clr-namespace:StructureHelper.Infrastructure.Enums"
+        d:DataContext="{d:DesignInstance local:StirrupGroupViewModel}"
+        mc:Ignorable="d"
+        Title="Stirrup Group" Height="450" Width="400" MaxHeight="450" MaxWidth="400" MinHeight="450" MinWidth="400" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar ToolTip="Stirrups" DataContext="{Binding Stirrups}">
+                <Button Style="{StaticResource ToolButton}" 
+Command="{Binding Add}"
+CommandParameter="{x:Static enums:StirrupTypes.GroupOfStirrups}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add group of stirrup"
+                        IconContent="{StaticResource TreeGroup}"
+                        DescriptionText="Adds group of stirrup which can contain several types of child stirrups at the same time"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource TreeGroup}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding Add}"
+                        CommandParameter="{x:Static enums:StirrupTypes.Density}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add stirrups by density"
+                                                IconContent="{StaticResource StirrupDensity}"
+                                                DescriptionText="Adds uniformly distributed stirrups by value of density"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource StirrupDensity}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding Add}"
+                        CommandParameter="{x:Static enums:StirrupTypes.UniformRebar}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add stirrup by rebars"
+                                                IconContent="{StaticResource StirrupRebars}"
+                                                DescriptionText="Adds uniformly distributed stirrups by rebars (step, diameter, strength)"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource StirrupRebars}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding Add}"
+                        CommandParameter="{x:Static enums:StirrupTypes.InclinedRebar}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add inclined rebar"
+                                                IconContent="{StaticResource StirrupInclinedRebar}"
+                                                DescriptionText="Adds inclined rebar by its diameter and strength"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource StirrupInclinedRebar}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Name"/>
+                <TextBox Grid.Column="1" Text="{Binding Name}"/>
+                <Grid Grid.Row="1" Grid.ColumnSpan="2" DataContext="{Binding Stirrups}">
+                    <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ContextMenu="{StaticResource EditCopyDelete}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Grid>
+            <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+        </Grid>
+    </DockPanel>
+</Window>

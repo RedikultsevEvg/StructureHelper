@@ -72,7 +72,7 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void InitializeStrategies()
         {
-            convertStrategy ??= new StirrupByRebarToDensityConvertStrategy(TraceLogger);
+            convertStrategy ??= new StirrupByRebarToDensityConvertStrategy(TraceLogger, inclinedSection);
             IStirrupByDensity stirrupByDensity = convertStrategy.Convert(stirrupByRebar);
             stirrupDensityStrengthLogic ??= new(stirrupEffectiveness, stirrupByDensity, inclinedSection, TraceLogger);
         }

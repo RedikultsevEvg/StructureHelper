@@ -693,6 +693,15 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+    <DataTemplate x:Key="StirrupInclinedRebar">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="2" Y1="12" X2="11" Y2="12" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="11" Y1="12" X2="21" Y2="22" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="21" Y1="22" X2="30" Y2="22" Stroke="Black" StrokeThickness="1"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="StirrupRebars">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -721,6 +730,20 @@
                 <Line X1="12" Y1="13" X2="12" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
                 <Line X1="17" Y1="13" X2="17" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
                 <Line X1="22" Y1="13" X2="22" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="TreeGroup">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="2" Y1="6" X2="12" Y2="6" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="12" Y1="6" X2="12" Y2="28" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="12" Y1="10" X2="18" Y2="10" Stroke="Black" StrokeThickness="1"/>
+                <Rectangle Canvas.Top="8" Canvas.Left="18"  Height="6" Width="12" Stroke="Black" Fill="White"/>
+                <Line X1="12" Y1="18" X2="18" Y2="18" Stroke="Black" StrokeThickness="1"/>
+                <Rectangle Canvas.Top="16" Canvas.Left="18"  Height="6" Width="12" Stroke="Black" Fill="White"/>
+                <Line X1="12" Y1="26" X2="18" Y2="26" Stroke="Black" StrokeThickness="1"/>
+                <Rectangle Canvas.Top="24" Canvas.Left="18"  Height="6" Width="12" Stroke="Black" Fill="White"/>
             </Canvas.Children>
         </Canvas>
     </DataTemplate>

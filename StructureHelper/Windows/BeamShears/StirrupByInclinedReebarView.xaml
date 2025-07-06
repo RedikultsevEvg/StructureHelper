@@ -1,0 +1,43 @@
+﻿<Window x:Class="StructureHelper.Windows.BeamShears.StirrupByInclinedReebarView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.BeamShears"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        xmlns:enums="clr-namespace:StructureHelper.Infrastructure.Enums"
+        d:DataContext="{d:DesignInstance local:StirrupByInclinedRebarViewModel}"
+        mc:Ignorable="d"
+        Title="Inclined rebar"  Height="450" Width="400" MaxHeight="450" MaxWidth="400" MinHeight="450" MinWidth="400" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Name"/>
+            <TextBox Grid.Column="1" Text="{Binding Name}"/>
+            <TextBlock Grid.Row="1" Text="Start point coordinate"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding StartCoordinate, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBlock Grid.Row="2" Text="Angle of inclination"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding AngleOfInclination, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+            <TextBlock Grid.Row="3" Text="Distance to compressed edge"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding CompressedGap, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBlock Grid.Row="4" Text="Offset"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding OffSet, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+        </Grid>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>

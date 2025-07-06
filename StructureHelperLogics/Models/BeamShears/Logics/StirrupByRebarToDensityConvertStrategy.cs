@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 
@@ -8,13 +9,15 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         private const double stirrupStrengthFactor = 0.8d;
         private const double maxStirrupStrength = 3e8;
+        private IInclinedSection inclinedSection;
         private IUpdateStrategy<IStirrup> updateStrategy;
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
-        public StirrupByRebarToDensityConvertStrategy(IShiftTraceLogger traceLogger)
+        public StirrupByRebarToDensityConvertStrategy(IShiftTraceLogger traceLogger, IInclinedSection inclinedSection)
         {
             TraceLogger = traceLogger;
+            this.inclinedSection = inclinedSection;
         }
 
         public StirrupByRebarToDensityConvertStrategy(IUpdateStrategy<IStirrup> updateStrategy, IShiftTraceLogger traceLogger)
@@ -42,9 +45,33 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger?.AddMessage($"Strength of rebar Rsw = {stirrupStrengthFactor} * {materialStrength} = {stirrupStrength}(Pa)");
             double minimizedStrength = Math.Min(stirrupStrength, maxStirrupStrength);
             TraceLogger?.AddMessage($"Strength of rebar Rsw = Min({stirrupStrength}, {maxStirrupStrength})= {minimizedStrength}(Pa)");
-            double density = minimizedStrength * area * source.LegCount / source.Spacing;
-            TraceLogger?.AddMessage($"Density of stirrups = {minimizedStrength} * {area} * {source.LegCount} / {source.Spacing} = {density}(N/m)");
+            double spiralEffectiveness = 1;
+            if (source.IsSpiral = true)
+            {
+                spiralEffectiveness = GetSpiralEffectiveness(source);
+            }
+            double density = minimizedStrength * area * source.LegCount / source.Spacing * spiralEffectiveness;
+            TraceLogger?.AddMessage($"Density of stirrups = {minimizedStrength} * {area} * {source.LegCount} / {source.Spacing} * {spiralEffectiveness} = {density}(N/m)");
             return density;
+        }
+
+        private double GetSpiralEffectiveness(IStirrupByRebar source)
+        {
+            if (inclinedSection is null)
+            {
+                string errorString = ErrorStrings.ParameterIsNull + ": Inclined Section";
+                TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
+                throw new StructureHelperException(errorString);
+            }
+            double spiralHeight = inclinedSection.EffectiveDepth - (inclinedSection.FullDepth - inclinedSection.EffectiveDepth);
+            TraceLogger?.AddMessage($"Spiral height = {spiralHeight}(m)");
+            double spiralSpacing = source.Spacing;
+            TraceLogger?.AddMessage($"Spiral spacing = {spiralSpacing}(m)");
+            double spiralAng = Math.Atan2(spiralHeight, spiralSpacing);
+            double spriralEffectiveness = Math.Sin(spiralAng);
+            double spiralAngInDegrees = 180 / (Math.PI) * spiralAng;
+            TraceLogger?.AddMessage($"Spiral effectiveness factor = sin({spiralAngInDegrees}(deg)) = {spriralEffectiveness}");
+            return spriralEffectiveness;
         }
     }
 }

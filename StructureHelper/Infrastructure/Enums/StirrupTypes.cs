@@ -9,6 +9,8 @@ namespace StructureHelper.Infrastructure.Enums
     public enum StirrupTypes
     {
         Density,
-        UniformRebar
+        UniformRebar,
+        GroupOfStirrups,
+        InclinedRebar
     }
 }

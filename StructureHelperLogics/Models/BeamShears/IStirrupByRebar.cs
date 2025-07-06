@@ -17,6 +17,10 @@ namespace StructureHelperLogics.Models.BeamShears
         /// </summary>
         IReinforcementLibMaterial Material { get; set; }
         /// <summary>
+        /// True if hoop is spiral one
+        /// </summary>
+        bool IsSpiral { get; set; }
+        /// <summary>
         /// Count of legs of stirrup in specific cross-section
         /// </summary>
         double LegCount { get; set; }

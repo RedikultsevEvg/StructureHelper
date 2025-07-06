@@ -22,12 +22,12 @@ namespace StructureHelper.Windows.BeamShears
     {
         private const string ErrorText = "Error of creating of stirrup";
         private IUpdateStrategy<IStirrup> updateStrategy;
-        private readonly IBeamShearRepository shearRepository;
+        private readonly IHasStirrups hasStirrup;
         private StirrupTypes stirrupType;
 
-        public BeamStirrupsViewModel(IBeamShearRepository shearRepository) : base(shearRepository.Stirrups)
+        public BeamStirrupsViewModel(IHasStirrups hasStirrup) : base(hasStirrup.Stirrups)
         {
-            this.shearRepository = shearRepository;
+            this.hasStirrup = hasStirrup;
         }
         /// <inheritdoc/>
         public override void EditMethod(object parameter)
@@ -54,13 +54,21 @@ namespace StructureHelper.Windows.BeamShears
         {
             Window window;
             IStirrup temporaryStirrup = SelectedItem.Clone() as IStirrup;
-            if (SelectedItem is IStirrupByDensity stirrupByDensity)
+            if (SelectedItem is IStirrupGroup stirrupGroup)
+            {
+                window = new StirrupGroupView(stirrupGroup);
+            }
+            else if (SelectedItem is IStirrupByDensity stirrupByDensity)
             {
                 window = new StirrupByDensityView(stirrupByDensity);
             }
             else if (SelectedItem is IStirrupByRebar stirrupByRebar)
             {
                 window = new StirrupByRebarView(stirrupByRebar);
+            }
+            else if (SelectedItem is IStirrupByInclinedRebar stirrupByInclinedRebar)
+            {
+                window = new StirrupByInclinedReebarView(stirrupByInclinedRebar);
             }
             else
             {
@@ -76,7 +84,11 @@ namespace StructureHelper.Windows.BeamShears
 
         private void AddStirrup()
         {
-            if (stirrupType is StirrupTypes.Density)
+            if (stirrupType is StirrupTypes.GroupOfStirrups)
+            {
+                AddStirrupGroup();
+            }
+            else if (stirrupType is StirrupTypes.Density)
             {
                 AddStirrupByDensity();
             }
@@ -84,11 +96,31 @@ namespace StructureHelper.Windows.BeamShears
             {
                 AddUniformRebarStirrup();
             }
+            else if (stirrupType is StirrupTypes.InclinedRebar)
+            {
+                AddInclinedRebarStirrup();
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(stirrupType));
             }
             base.AddMethod(stirrupType);
+        }
+
+        private void AddInclinedRebarStirrup()
+        {
+            NewItem = new StirrupByInclinedRebar(Guid.NewGuid())
+            {
+                Name = "New inclined rebar"
+            };
+        }
+
+        private void AddStirrupGroup()
+        {
+            NewItem = new StirrupGroup(Guid.NewGuid())
+            {
+                Name = "New group of stirrups"
+            };
         }
 
         private void AddUniformRebarStirrup()
@@ -117,7 +149,10 @@ namespace StructureHelper.Windows.BeamShears
             var dialogResult = System.Windows.Forms.MessageBox.Show("Delete stirrup?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                BeamShearRepositoryService.DeleteStirrup(shearRepository, SelectedItem);
+                if (hasStirrup is IBeamShearRepository repository)
+                { 
+                    BeamShearRepositoryService.DeleteStirrup(repository, SelectedItem);
+                }
                 base.DeleteMethod(parameter);
             }
         }

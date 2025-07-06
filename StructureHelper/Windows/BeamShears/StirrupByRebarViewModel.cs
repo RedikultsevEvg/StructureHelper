@@ -60,6 +60,16 @@ namespace StructureHelper.Windows.BeamShears
             }
         }
 
+        public bool IsSpiral
+        {
+            get => stirrupByRebar.IsSpiral;
+            set
+            {
+                stirrupByRebar.IsSpiral = value;
+                OnPropertyChanged(nameof(IsSpiral));
+            }
+        }
+
         public ReinforcementViewModel Material { get; private set; }
 
         public string Error => null;

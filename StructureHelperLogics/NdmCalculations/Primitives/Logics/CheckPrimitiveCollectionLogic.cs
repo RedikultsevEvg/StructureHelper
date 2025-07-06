@@ -11,22 +11,24 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
 {
-    public class CheckPrimitiveCollectionLogic : ICheckPrimitiveCollectionLogic
+    public class CheckPrimitiveCollectionLogic : ICheckEntityLogic<IHasPrimitives>
     {
         private const string collectionDoesntHaveAnyPrimitives = "Calculator does not contain any primitives\n";
         private const string checkRebarLogic = ": check rebar logic";
 
         private string checkResult;
         private bool result;
-        private ICheckRebarPrimitiveLogic checkRebarPrimitiveLogic;
+        private ICheckEntityLogic<IRebarNdmPrimitive> checkRebarPrimitiveLogic;
 
-        public IHasPrimitives HasPrimitives { get; set; }
+        public IHasPrimitives Entity { get; set; }
 
         public string CheckResult => checkResult;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public CheckPrimitiveCollectionLogic(IShiftTraceLogger shiftTraceLogger, ICheckRebarPrimitiveLogic checkRebarPrimitiveLogic)
+        public CheckPrimitiveCollectionLogic(
+            IShiftTraceLogger shiftTraceLogger,
+            ICheckEntityLogic<IRebarNdmPrimitive> checkRebarPrimitiveLogic)
         {
             TraceLogger = shiftTraceLogger;
             this.checkRebarPrimitiveLogic = checkRebarPrimitiveLogic;
@@ -47,7 +49,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
 
         private void CheckPrimitives()
         {
-            if (HasPrimitives.Primitives is null || (!HasPrimitives.Primitives.Any()))
+            if (Entity.Primitives is null || (!Entity.Primitives.Any()))
             {
                 result = false;
                 checkResult += collectionDoesntHaveAnyPrimitives;
@@ -55,7 +57,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
             }
             else
             {
-                foreach (var primitive in HasPrimitives.Primitives)
+                foreach (var primitive in Entity.Primitives)
                 {
                     if (primitive is IRebarNdmPrimitive rebar)
                     {
@@ -71,7 +73,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
             {
                 throw new StructureHelperException(ErrorStrings.ParameterIsNull + checkRebarLogic);
             }
-            checkRebarPrimitiveLogic.RebarPrimitive = rebar;
+            checkRebarPrimitiveLogic.Entity = rebar;
             checkRebarPrimitiveLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger();
             if (checkRebarPrimitiveLogic.Check() == false)
             {
@@ -79,7 +81,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
                 checkResult += checkRebarPrimitiveLogic.CheckResult;
                 return;
             }
-            bool isPrimitivesContainRebarHost = HasPrimitives.Primitives.Contains(rebar.HostPrimitive);
+            bool isPrimitivesContainRebarHost = Entity.Primitives.Contains(rebar.HostPrimitive);
             if (isPrimitivesContainRebarHost == false)
             {
                 result = false;

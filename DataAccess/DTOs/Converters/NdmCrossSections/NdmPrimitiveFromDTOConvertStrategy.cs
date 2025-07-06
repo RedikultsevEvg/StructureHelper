@@ -92,7 +92,10 @@ namespace DataAccess.DTOs
             rebarConvertStrategy.TraceLogger = TraceLogger;
             RebarNdmPrimitive newItem = rebarConvertStrategy.Convert(rebar);
             TraceLogger?.AddMessage($"Primtive has been obtained successfully, Name = {newItem.Name}");
-            newItem.HostPrimitive = GetHostPrimitive(rebar);
+            if (rebar.HostPrimitive != null)
+            {
+                newItem.HostPrimitive = GetHostPrimitive(rebar);
+            }
             return newItem;
         }
 

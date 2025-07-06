@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Materials;
 using System;
@@ -9,12 +10,14 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
 {
-    public class CheckRebarPrimitiveLogic : ICheckRebarPrimitiveLogic
+    public class CheckRebarPrimitiveLogic : ICheckEntityLogic<IRebarNdmPrimitive>
     {
         private string checkResult;
         private bool result;
 
-        public IRebarNdmPrimitive RebarPrimitive { get; set; }
+        public bool CheckRebarPlacement { get; set; } = true;
+        public bool CheckRebarHostMaterial { get; set; } = true;
+        public IRebarNdmPrimitive Entity { get; set; }
 
         public string CheckResult => checkResult;
 
@@ -40,32 +43,46 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
 
         private void CheckRebar()
         {
-            if (RebarPrimitive.HostPrimitive is null)
+            if (Entity.HostPrimitive is null)
             {
                 result = false;
-                string message = $"Primitive {RebarPrimitive.Name} does not have a host\n";
+                string message = $"Primitive {Entity.Name} does not have a host\n";
                 checkResult += message;
                 TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
                 return;
             }
-
-            if (RebarPrimitive.HostPrimitive is IHasDivisionSize division)
+            if (CheckRebarPlacement == true)
             {
-                if (!division.IsPointInside(RebarPrimitive.Center))
+                CheckIfRebarInsideHostPrimitive();
+            }
+            if (CheckRebarHostMaterial == true)
+            {
+                CheckIfRemarMaterialIsCrackedMaterial();
+            }
+        }
+
+        private void CheckIfRemarMaterialIsCrackedMaterial()
+        {
+            if (Entity.HostPrimitive.NdmElement.HeadMaterial.HelperMaterial is not ICrackedMaterial)
+            {
+                result = false;
+                string message = $"Material of host of {Entity.Name} ({Entity.HostPrimitive.NdmElement.HeadMaterial.Name})  does not support cracking\n";
+                checkResult += message;
+                TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
+            }
+        }
+
+        private void CheckIfRebarInsideHostPrimitive()
+        {
+            if (Entity.HostPrimitive is IHasDivisionSize division)
+            {
+                if (!division.IsPointInside(Entity.Center))
                 {
                     result = false;
-                    string message = $"Primitive of rebar {RebarPrimitive.Name} is out of its host {RebarPrimitive.HostPrimitive.Name}";
+                    string message = $"Primitive of rebar {Entity.Name} is out of its host {Entity.HostPrimitive.Name}";
                     checkResult += message;
                     TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
                 }
-            }
-
-            if (RebarPrimitive.HostPrimitive.NdmElement.HeadMaterial.HelperMaterial is not ICrackedMaterial)
-            {
-                result = false;
-                string message = $"Material of host of {RebarPrimitive.Name} ({RebarPrimitive.HostPrimitive.NdmElement.HeadMaterial.Name})  does not support cracking\n";
-                checkResult += message;
-                TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
             }
         }
     }

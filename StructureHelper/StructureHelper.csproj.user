@@ -39,7 +39,13 @@
     <Compile Update="Windows\BeamShears\StirrupByDensityView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\BeamShears\StirrupByInclinedReebarView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\BeamShears\StirrupByRebarView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\BeamShears\StirrupGroupView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml.cs">
