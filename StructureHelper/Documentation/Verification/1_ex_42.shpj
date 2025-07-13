@@ -2,9 +2,9 @@
   "$id": "1",
   "$type": "RootObject",
   "FileVersion": {
-    "Id": "95abb17a-4564-4584-a1e7-77c444bf505e",
+    "Id": "366c2fa6-bb3d-4a16-ac5d-eea53eb7acf0",
     "VersionNumber": 1,
-    "SubVersionNumber": 0
+    "SubVersionNumber": 3
   },
   "Project": {
     "Id": "ca5be271-ef4b-4fea-884e-60595fbf73fd",
@@ -190,24 +190,25 @@
                           "$values": [
                             {
                               "$id": "24",
-                              "$type": "ForceCombinationByFactor",
+                              "$type": "ForceCombinationByFactor_v1_1",
                               "Id": "7e1f7251-925f-47a1-9dd4-8714f9510612",
                               "Name": "New Factored Load",
-                              "LimitState": 2,
-                              "CalcTerm": 1,
-                              "FullSLSForces": {
-                                "$id": "25",
-                                "$type": "ForceTuple",
-                                "Id": "2b13e0d4-3463-446b-8afd-07a6c442d861",
-                                "Mx": -60000.0,
-                                "My": 0.0,
-                                "Nz": 0.0,
-                                "Qx": 0.0,
-                                "Qy": 0.0,
-                                "Mz": 0.0
+                              "ForceTuples": {
+                                "$type": "ListOfIForceTuple",
+                                "$values": [
+                                  {
+                                    "$id": "25",
+                                    "$type": "ForceTuple",
+                                    "Id": "2b13e0d4-3463-446b-8afd-07a6c442d861",
+                                    "Mx": -60000.0,
+                                    "My": 0.0,
+                                    "Nz": 0.0,
+                                    "Qx": 0.0,
+                                    "Qy": 0.0,
+                                    "Mz": 0.0
+                                  }
+                                ]
                               },
-                              "ULSFactor": 1.2,
-                              "LongTermFactor": 0.833333,
                               "SetInGravityCenter": true,
                               "ForcePoint": {
                                 "$id": "26",
@@ -215,6 +216,15 @@
                                 "Id": "8d4be310-4de4-4f85-9e1c-8a0ff85f1a77",
                                 "X": 0.0,
                                 "Y": 0.0
+                              },
+                              "CombinationProperty": {
+                                "$id": "27",
+                                "$type": "ForceFactoredCombinationProperty",
+                                "Id": "f8025575-dc6b-4476-9b29-5f6656372d13",
+                                "CalctTerm": 1,
+                                "LimitState": 2,
+                                "LongTermFactor": 0.833333,
+                                "ULSFactor": 1.2
                               }
                             }
                           ]
@@ -223,29 +233,29 @@
                           "$type": "ListOfINdmPrimitive",
                           "$values": [
                             {
-                              "$id": "27",
+                              "$id": "28",
                               "$type": "RectangleNdmPrimitive",
                               "Id": "85958846-1e8b-4ab4-ad0a-cdd10bc57c65",
                               "Name": "Concrete block",
                               "RectangleShape": {
-                                "$id": "28",
+                                "$id": "29",
                                 "$type": "RectangleShape",
-                                "Id": "069bc370-60c3-4874-a5d2-5cc53f7922d8",
+                                "Id": "4f50a155-eb15-4df6-8ad1-6f44fdccb89d",
                                 "Width": 1.15,
                                 "Height": 0.3
                               },
                               "NdmElement": {
-                                "$id": "29",
+                                "$id": "30",
                                 "$type": "NdmElement",
-                                "Id": "b59d1618-71fa-4821-97d0-f2f90879b101",
+                                "Id": "373e44d1-cf6d-4899-9e55-c1d3445fa120",
                                 "HeadMaterial": {
                                   "$ref": "9"
                                 },
                                 "Triangulate": true,
                                 "UsersPrestrain": {
-                                  "$id": "30",
+                                  "$id": "31",
                                   "$type": "ForceTuple",
-                                  "Id": "0f60aa1f-853b-4d12-a351-30036d4c663c",
+                                  "Id": "89111fc6-c643-45b1-8b6d-daffeda7b2c9",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -254,9 +264,9 @@
                                   "Mz": 0.0
                                 },
                                 "AutoPrestrain": {
-                                  "$id": "31",
+                                  "$id": "32",
                                   "$type": "ForceTuple",
-                                  "Id": "dec689a1-e304-4992-b784-af6532f0e351",
+                                  "Id": "eb8e2b30-0094-43e6-9f6e-c22ffb31c274",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -266,9 +276,9 @@
                                 }
                               },
                               "VisualProperty": {
-                                "$id": "32",
+                                "$id": "33",
                                 "$type": "VisualProperty",
-                                "Id": "cd74b323-ebce-4bb6-a41c-d85d323c6626",
+                                "Id": "69f14b50-7b72-4074-b533-8ea17b5fafb7",
                                 "IsVisible": true,
                                 "Color": "#FF85FE06",
                                 "SetMaterialColor": true,
@@ -276,16 +286,16 @@
                                 "Opacity": 0.8
                               },
                               "Center": {
-                                "$id": "33",
+                                "$id": "34",
                                 "$type": "Point2D",
-                                "Id": "6168700c-a809-4029-99df-f34a82cdf61d",
+                                "Id": "b7198a2c-dea1-400c-a46f-d3895c31a319",
                                 "X": -8.777998444946655E-18,
                                 "Y": 0.002000407481565855
                               },
                               "DivisionSize": {
-                                "$id": "34",
+                                "$id": "35",
                                 "$type": "DivisionSize",
-                                "Id": "050617c4-ef0d-4b4b-a0a9-9456641b47e0",
+                                "Id": "445fdd7f-3a98-40af-8ca9-f9ff9d97f95a",
                                 "NdmMaxSize": 0.01,
                                 "NdmMinDivision": 10,
                                 "ClearUnderlying": false
@@ -293,22 +303,22 @@
                               "RotationAngle": 0.0
                             },
                             {
-                              "$id": "35",
+                              "$id": "36",
                               "$type": "RebarNdmPrimitive",
                               "Id": "f4ef7d29-43d2-406e-a494-06f0ba76bdcd",
                               "Name": "Left bottom rebar",
                               "NdmElement": {
-                                "$id": "36",
+                                "$id": "37",
                                 "$type": "NdmElement",
-                                "Id": "4a7f5fc1-61d1-4cb3-b9db-ffc03ece1ce6",
+                                "Id": "2a2c0d57-2199-43a6-abe2-f8f87d4b3fc1",
                                 "HeadMaterial": {
                                   "$ref": "21"
                                 },
                                 "Triangulate": true,
                                 "UsersPrestrain": {
-                                  "$id": "37",
+                                  "$id": "38",
                                   "$type": "ForceTuple",
-                                  "Id": "d214568e-56a7-434d-90e2-d4d533629d93",
+                                  "Id": "20df91f4-c4a7-482f-84e0-766a5d81a892",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -317,9 +327,9 @@
                                   "Mz": 0.0
                                 },
                                 "AutoPrestrain": {
-                                  "$id": "38",
+                                  "$id": "39",
                                   "$type": "ForceTuple",
-                                  "Id": "4c5d9100-d879-4057-a6b3-4d61bce36fe1",
+                                  "Id": "3ddf39f4-30de-4578-90db-c5298cf24d6e",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -329,9 +339,9 @@
                                 }
                               },
                               "VisualProperty": {
-                                "$id": "39",
+                                "$id": "40",
                                 "$type": "VisualProperty",
-                                "Id": "b26d54d1-c3c9-41a0-bd8d-78008a06c032",
+                                "Id": "2378967b-9c94-45b1-bebd-bab07119411b",
                                 "IsVisible": true,
                                 "Color": "#FF4CD89C",
                                 "SetMaterialColor": true,
@@ -339,35 +349,35 @@
                                 "Opacity": 1.0
                               },
                               "Center": {
-                                "$id": "40",
+                                "$id": "41",
                                 "$type": "Point2D",
-                                "Id": "c29a1aa5-359f-430e-be91-d901611e3892",
+                                "Id": "495e997f-286c-4a30-b610-fef549875322",
                                 "X": -0.5329999999999999,
                                 "Y": -0.10599959251843413
                               },
                               "RotationAngle": 0.0,
                               "Area": 0.00015393804002589986,
                               "HostPrimitive": {
-                                "$ref": "27"
+                                "$ref": "28"
                               }
                             },
                             {
-                              "$id": "41",
+                              "$id": "42",
                               "$type": "RebarNdmPrimitive",
                               "Id": "55f20aa9-fef7-43c1-8364-8ac9f10caf73",
                               "Name": "Right bottom rebar",
                               "NdmElement": {
-                                "$id": "42",
+                                "$id": "43",
                                 "$type": "NdmElement",
-                                "Id": "00038b34-2ca8-46a9-8683-02a449ad473b",
+                                "Id": "80c9cf52-4cf3-47b0-98c6-04d32b9a290e",
                                 "HeadMaterial": {
                                   "$ref": "21"
                                 },
                                 "Triangulate": true,
                                 "UsersPrestrain": {
-                                  "$id": "43",
+                                  "$id": "44",
                                   "$type": "ForceTuple",
-                                  "Id": "91ed563e-c048-4e21-8275-7ca158fae0d5",
+                                  "Id": "8dc5b003-5312-40c0-a72a-aec3f7f7f5db",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -376,9 +386,9 @@
                                   "Mz": 0.0
                                 },
                                 "AutoPrestrain": {
-                                  "$id": "44",
+                                  "$id": "45",
                                   "$type": "ForceTuple",
-                                  "Id": "f6c9d2d6-a8c8-4984-a2fe-165519ca8bd7",
+                                  "Id": "ad0ab82b-f286-413a-af22-dba4df13c13f",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -388,9 +398,9 @@
                                 }
                               },
                               "VisualProperty": {
-                                "$id": "45",
+                                "$id": "46",
                                 "$type": "VisualProperty",
-                                "Id": "74f7620b-a855-4fe3-8737-33d96fbe24bc",
+                                "Id": "d596bce4-e7de-4541-9fdd-84506fa38708",
                                 "IsVisible": true,
                                 "Color": "#FF4567F3",
                                 "SetMaterialColor": true,
@@ -398,35 +408,35 @@
                                 "Opacity": 1.0
                               },
                               "Center": {
-                                "$id": "46",
+                                "$id": "47",
                                 "$type": "Point2D",
-                                "Id": "80ea2045-2d10-4589-bb29-045e610b2b0e",
+                                "Id": "866f9307-3c11-45df-93ef-da0fdfc76312",
                                 "X": 0.5329999999999999,
                                 "Y": -0.10599959251843413
                               },
                               "RotationAngle": 0.0,
                               "Area": 0.00015393804002589986,
                               "HostPrimitive": {
-                                "$ref": "27"
+                                "$ref": "28"
                               }
                             },
                             {
-                              "$id": "47",
+                              "$id": "48",
                               "$type": "RebarNdmPrimitive",
                               "Id": "17a10289-678d-4cca-9593-341457b9a720",
                               "Name": "Bottom rebar 1",
                               "NdmElement": {
-                                "$id": "48",
+                                "$id": "49",
                                 "$type": "NdmElement",
-                                "Id": "07c06fd9-06c9-4c26-a736-05dfee7b7185",
+                                "Id": "c15343cd-3536-4e8f-a1a0-b94d8abf776d",
                                 "HeadMaterial": {
                                   "$ref": "21"
                                 },
                                 "Triangulate": true,
                                 "UsersPrestrain": {
-                                  "$id": "49",
+                                  "$id": "50",
                                   "$type": "ForceTuple",
-                                  "Id": "0bc19e57-d05e-4ee5-ad43-187c226b7186",
+                                  "Id": "d584ff30-d214-404e-8cac-c185c9024d4c",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -435,9 +445,9 @@
                                   "Mz": 0.0
                                 },
                                 "AutoPrestrain": {
-                                  "$id": "50",
+                                  "$id": "51",
                                   "$type": "ForceTuple",
-                                  "Id": "63fc53f5-0352-4f28-8a67-7cbf1359546f",
+                                  "Id": "3d613a40-b05e-4374-8ddf-fd542eea269a",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -447,9 +457,9 @@
                                 }
                               },
                               "VisualProperty": {
-                                "$id": "51",
+                                "$id": "52",
                                 "$type": "VisualProperty",
-                                "Id": "00d92a97-0a0b-4fb4-b051-136560304f9c",
+                                "Id": "4a29ee24-0eb0-484e-8914-b0f1d06dd4d3",
                                 "IsVisible": true,
                                 "Color": "#FF1357AB",
                                 "SetMaterialColor": true,
@@ -457,35 +467,35 @@
                                 "Opacity": 1.0
                               },
                               "Center": {
-                                "$id": "52",
+                                "$id": "53",
                                 "$type": "Point2D",
-                                "Id": "872d7f7b-287d-4d3a-947a-727c20ddaf7e",
+                                "Id": "5194be18-620d-4218-a466-ed03729de086",
                                 "X": -0.3198,
                                 "Y": -0.10599959251843413
                               },
                               "RotationAngle": 0.0,
                               "Area": 0.00015393804002589986,
                               "HostPrimitive": {
-                                "$ref": "27"
+                                "$ref": "28"
                               }
                             },
                             {
-                              "$id": "53",
+                              "$id": "54",
                               "$type": "RebarNdmPrimitive",
                               "Id": "81df1362-cb42-47bc-904e-56e3de0a9236",
                               "Name": "Bottom rebar 2",
                               "NdmElement": {
-                                "$id": "54",
+                                "$id": "55",
                                 "$type": "NdmElement",
-                                "Id": "a82c796f-b6dd-4840-a899-4f347bf6f509",
+                                "Id": "23c3da3c-d63e-4ef8-b789-9690ed3928d4",
                                 "HeadMaterial": {
                                   "$ref": "21"
                                 },
                                 "Triangulate": true,
                                 "UsersPrestrain": {
-                                  "$id": "55",
+                                  "$id": "56",
                                   "$type": "ForceTuple",
-                                  "Id": "9e806e03-9393-4147-a3f7-2683f2781eb8",
+                                  "Id": "5b41f4ad-db57-493d-ae3b-19c6fc2be086",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -494,9 +504,9 @@
                                   "Mz": 0.0
                                 },
                                 "AutoPrestrain": {
-                                  "$id": "56",
+                                  "$id": "57",
                                   "$type": "ForceTuple",
-                                  "Id": "306cffdf-6330-4097-b904-5ac03d3d772f",
+                                  "Id": "a1346083-924c-4701-aa64-f3e2bcbfa9bd",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -506,9 +516,9 @@
                                 }
                               },
                               "VisualProperty": {
-                                "$id": "57",
+                                "$id": "58",
                                 "$type": "VisualProperty",
-                                "Id": "4fa047f6-6172-494e-bbad-f9b80e62e1e7",
+                                "Id": "264922df-05c7-408b-b61a-4c010889ec36",
                                 "IsVisible": true,
                                 "Color": "#FFE8631E",
                                 "SetMaterialColor": true,
@@ -516,35 +526,35 @@
                                 "Opacity": 1.0
                               },
                               "Center": {
-                                "$id": "58",
+                                "$id": "59",
                                 "$type": "Point2D",
-                                "Id": "5fd6594f-90e8-4d89-b20d-126f6e22f755",
+                                "Id": "d1c1d97b-3ba1-4da7-b0fa-76e98e8f9832",
                                 "X": -0.10659999999999999,
                                 "Y": -0.10599959251843413
                               },
                               "RotationAngle": 0.0,
                               "Area": 0.00015393804002589986,
                               "HostPrimitive": {
-                                "$ref": "27"
+                                "$ref": "28"
                               }
                             },
                             {
-                              "$id": "59",
+                              "$id": "60",
                               "$type": "RebarNdmPrimitive",
                               "Id": "b730e133-2cc8-4f8d-bba5-29aeca29e004",
                               "Name": "Bottom rebar 3",
                               "NdmElement": {
-                                "$id": "60",
+                                "$id": "61",
                                 "$type": "NdmElement",
-                                "Id": "b9c35b9d-6cb4-4156-97b1-cdbbacb9080b",
+                                "Id": "73147e1c-d3de-45f9-a2c7-bfb267cac750",
                                 "HeadMaterial": {
                                   "$ref": "21"
                                 },
                                 "Triangulate": true,
                                 "UsersPrestrain": {
-                                  "$id": "61",
+                                  "$id": "62",
                                   "$type": "ForceTuple",
-                                  "Id": "fe27621c-a34b-4499-8219-454c864dbd3d",
+                                  "Id": "adacf555-558f-4754-8cf9-83e081cf5b9d",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -553,9 +563,9 @@
                                   "Mz": 0.0
                                 },
                                 "AutoPrestrain": {
-                                  "$id": "62",
+                                  "$id": "63",
                                   "$type": "ForceTuple",
-                                  "Id": "de18603e-0584-4b7e-9f93-b5ad1ddd65b8",
+                                  "Id": "24b7d07d-9f95-4e08-9379-7bd6e417576c",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -565,9 +575,9 @@
                                 }
                               },
                               "VisualProperty": {
-                                "$id": "63",
+                                "$id": "64",
                                 "$type": "VisualProperty",
-                                "Id": "37a0c822-7047-4d30-94aa-c347d7abc48c",
+                                "Id": "1674a4c6-9351-4fd0-a568-6a9fd6ec08a0",
                                 "IsVisible": true,
                                 "Color": "#FFBD022A",
                                 "SetMaterialColor": true,
@@ -575,35 +585,35 @@
                                 "Opacity": 1.0
                               },
                               "Center": {
-                                "$id": "64",
+                                "$id": "65",
                                 "$type": "Point2D",
-                                "Id": "c674d633-19c6-4c7f-b01b-5575be5b7e4e",
+                                "Id": "0fcc835f-f393-411d-9d1f-3a1590b2cd48",
                                 "X": 0.10660000000000001,
                                 "Y": -0.10599959251843413
                               },
                               "RotationAngle": 0.0,
                               "Area": 0.00015393804002589986,
                               "HostPrimitive": {
-                                "$ref": "27"
+                                "$ref": "28"
                               }
                             },
                             {
-                              "$id": "65",
+                              "$id": "66",
                               "$type": "RebarNdmPrimitive",
                               "Id": "9ab7d259-febc-4238-a947-b9408810ad69",
                               "Name": "Bottom rebar 4",
                               "NdmElement": {
-                                "$id": "66",
+                                "$id": "67",
                                 "$type": "NdmElement",
-                                "Id": "0a203b87-a0f7-4cb2-bfc1-64d4d5668504",
+                                "Id": "a1cab573-0cdc-48c8-aac7-638b9d066155",
                                 "HeadMaterial": {
                                   "$ref": "21"
                                 },
                                 "Triangulate": true,
                                 "UsersPrestrain": {
-                                  "$id": "67",
+                                  "$id": "68",
                                   "$type": "ForceTuple",
-                                  "Id": "d43732ca-5627-47f2-baf1-275828d18568",
+                                  "Id": "d163ca07-ac44-4f79-a672-1019a098d657",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -612,9 +622,9 @@
                                   "Mz": 0.0
                                 },
                                 "AutoPrestrain": {
-                                  "$id": "68",
+                                  "$id": "69",
                                   "$type": "ForceTuple",
-                                  "Id": "d80cfc29-cc57-44ee-becc-f233c6b5a921",
+                                  "Id": "9586e3de-d289-4338-94d6-03c958142ce4",
                                   "Mx": 0.0,
                                   "My": 0.0,
                                   "Nz": 0.0,
@@ -624,9 +634,9 @@
                                 }
                               },
                               "VisualProperty": {
-                                "$id": "69",
+                                "$id": "70",
                                 "$type": "VisualProperty",
-                                "Id": "3a9110ad-3389-4856-b543-c8e0dbe4fd82",
+                                "Id": "dcc01f68-e467-491b-ab48-4d0e0b9394a7",
                                 "IsVisible": true,
                                 "Color": "#FFA95DD1",
                                 "SetMaterialColor": true,
@@ -634,16 +644,16 @@
                                 "Opacity": 1.0
                               },
                               "Center": {
-                                "$id": "70",
+                                "$id": "71",
                                 "$type": "Point2D",
-                                "Id": "b2504917-1760-4edd-8901-c0351e52a7b3",
+                                "Id": "a93b1d67-bcf9-40b9-91b6-8295a32b8539",
                                 "X": 0.3198,
                                 "Y": -0.10599959251843413
                               },
                               "RotationAngle": 0.0,
                               "Area": 0.00015393804002589986,
                               "HostPrimitive": {
-                                "$ref": "27"
+                                "$ref": "28"
                               }
                             }
                           ]
@@ -652,16 +662,17 @@
                           "$type": "ListOfICalculator",
                           "$values": [
                             {
-                              "$id": "71",
+                              "$id": "72",
                               "$type": "ForceCalculator",
                               "Id": "9aab22b5-3f84-44b8-9b81-962da8d4369b",
                               "Name": "New Force Calculator",
+                              "ShowTraceData": false,
                               "InputData": {
-                                "$id": "72",
+                                "$id": "73",
                                 "$type": "ForceCalculatorInputData",
                                 "Id": "c9ed3ce7-4fce-4472-8824-e6aad143fbc5",
                                 "ForceActions": {
-                                  "$id": "73",
+                                  "$id": "74",
                                   "$type": "ListOfIForceAction",
                                   "$values": [
                                     {
@@ -670,34 +681,34 @@
                                   ]
                                 },
                                 "Primitives": {
-                                  "$id": "74",
+                                  "$id": "75",
                                   "$type": "ListOfINdmPrimitive",
                                   "$values": [
                                     {
-                                      "$ref": "27"
+                                      "$ref": "28"
                                     },
                                     {
-                                      "$ref": "35"
+                                      "$ref": "36"
                                     },
                                     {
-                                      "$ref": "41"
+                                      "$ref": "42"
                                     },
                                     {
-                                      "$ref": "47"
+                                      "$ref": "48"
                                     },
                                     {
-                                      "$ref": "53"
+                                      "$ref": "54"
                                     },
                                     {
-                                      "$ref": "59"
+                                      "$ref": "60"
                                     },
                                     {
-                                      "$ref": "65"
+                                      "$ref": "66"
                                     }
                                   ]
                                 },
                                 "LimitStatesList": {
-                                  "$id": "75",
+                                  "$id": "76",
                                   "$type": "ListOfLimitState",
                                   "$values": [
                                     1,
@@ -705,7 +716,7 @@
                                   ]
                                 },
                                 "CalcTermList": {
-                                  "$id": "76",
+                                  "$id": "77",
                                   "$type": "ListOfCalcTerms",
                                   "$values": [
                                     1,
@@ -713,16 +724,16 @@
                                   ]
                                 },
                                 "Accuracy": {
-                                  "$id": "77",
+                                  "$id": "78",
                                   "$type": "Accuracy",
                                   "Id": "2989eab5-cac4-45af-9498-33e53634adec",
                                   "IterationAccuracy": 0.001,
                                   "MaxIterationCount": 1000
                                 },
                                 "CompressedMember": {
-                                  "$id": "78",
+                                  "$id": "79",
                                   "$type": "CompressedMember",
-                                  "Id": "d4358f72-5e27-47bf-bc6a-739e4b0e7dd7",
+                                  "Id": "88cc5adb-859a-4faa-8242-6f30176ef767",
                                   "Bucling": false,
                                   "GeometryLength": 3.0,
                                   "LengthFactorX": 1.0,
@@ -733,16 +744,17 @@
                               }
                             },
                             {
-                              "$id": "79",
+                              "$id": "80",
                               "$type": "CrackCalculator",
                               "Id": "1fb5df27-e5f1-417d-a040-5e473223608a",
                               "Name": "Crack Calculator (auto Psi)",
+                              "ShowTraceData": false,
                               "InputData": {
-                                "$id": "80",
+                                "$id": "81",
                                 "$type": "CrackCalculatorInputData",
                                 "Id": "c9fed123-55c1-4739-9267-678b0bfa374f",
                                 "ForceActions": {
-                                  "$id": "81",
+                                  "$id": "82",
                                   "$type": "ListOfIForceAction",
                                   "$values": [
                                     {
@@ -751,34 +763,34 @@
                                   ]
                                 },
                                 "ForcePrimitives": {
-                                  "$id": "82",
+                                  "$id": "83",
                                   "$type": "ListOfINdmPrimitive",
                                   "$values": [
                                     {
-                                      "$ref": "27"
+                                      "$ref": "28"
                                     },
                                     {
-                                      "$ref": "35"
+                                      "$ref": "36"
                                     },
                                     {
-                                      "$ref": "41"
+                                      "$ref": "42"
                                     },
                                     {
-                                      "$ref": "47"
+                                      "$ref": "48"
                                     },
                                     {
-                                      "$ref": "53"
+                                      "$ref": "54"
                                     },
                                     {
-                                      "$ref": "59"
+                                      "$ref": "60"
                                     },
                                     {
-                                      "$ref": "65"
+                                      "$ref": "66"
                                     }
                                   ]
                                 },
                                 "UserCrackInputData": {
-                                  "$id": "83",
+                                  "$id": "84",
                                   "$type": "UserCrackInputData",
                                   "Id": "c30c7439-0fd6-4a81-9f7c-4baaae147db1",
                                   "LengthBetweenCracks": 0.4,
@@ -791,16 +803,17 @@
                               }
                             },
                             {
-                              "$id": "84",
+                              "$id": "85",
                               "$type": "CrackCalculator",
                               "Id": "99eddc5b-9338-4dfc-a804-21316228fd20",
                               "Name": "Crack Calculator (manual Psi)",
+                              "ShowTraceData": false,
                               "InputData": {
-                                "$id": "85",
+                                "$id": "86",
                                 "$type": "CrackCalculatorInputData",
                                 "Id": "8cee144c-f68f-4478-87b8-d4e23f021033",
                                 "ForceActions": {
-                                  "$id": "86",
+                                  "$id": "87",
                                   "$type": "ListOfIForceAction",
                                   "$values": [
                                     {
@@ -809,34 +822,34 @@
                                   ]
                                 },
                                 "ForcePrimitives": {
-                                  "$id": "87",
+                                  "$id": "88",
                                   "$type": "ListOfINdmPrimitive",
                                   "$values": [
                                     {
-                                      "$ref": "27"
+                                      "$ref": "28"
                                     },
                                     {
-                                      "$ref": "35"
+                                      "$ref": "36"
                                     },
                                     {
-                                      "$ref": "41"
+                                      "$ref": "42"
                                     },
                                     {
-                                      "$ref": "47"
+                                      "$ref": "48"
                                     },
                                     {
-                                      "$ref": "53"
+                                      "$ref": "54"
                                     },
                                     {
-                                      "$ref": "59"
+                                      "$ref": "60"
                                     },
                                     {
-                                      "$ref": "65"
+                                      "$ref": "66"
                                     }
                                   ]
                                 },
                                 "UserCrackInputData": {
-                                  "$id": "88",
+                                  "$id": "89",
                                   "$type": "UserCrackInputData",
                                   "Id": "8052b3b3-2638-48b3-9163-1e743a500297",
                                   "LengthBetweenCracks": 0.4,
@@ -850,6 +863,16 @@
                             }
                           ]
                         }
+                      },
+                      "WorkPlaneProperty": {
+                        "$id": "90",
+                        "$type": "WorkPlanePropertyDTO",
+                        "Id": "0409feeb-e608-40da-b765-ac4dbb6e8beb",
+                        "GridSize": 0.05,
+                        "Width": 1.3,
+                        "Height": 1.0,
+                        "AxisLineThickness": 2.0,
+                        "GridLineThickness": 0.25
                       }
                     }
                   }
