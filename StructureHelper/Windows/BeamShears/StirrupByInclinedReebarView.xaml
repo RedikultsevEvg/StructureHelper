@@ -9,35 +9,52 @@
         d:DataContext="{d:DesignInstance local:StirrupByInclinedRebarViewModel}"
         mc:Ignorable="d"
         Title="Inclined rebar"  Height="450" Width="400" MaxHeight="450" MaxWidth="400" MinHeight="450" MinWidth="400" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary Source="/Infrastructure/UI/Resources/Materials.xaml"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Name"/>
-            <TextBox Grid.Column="1" Text="{Binding Name}"/>
-            <TextBlock Grid.Row="1" Text="Start point coordinate"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding StartCoordinate, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
-            <TextBlock Grid.Row="2" Text="Angle of inclination"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding AngleOfInclination, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
-            <TextBlock Grid.Row="3" Text="Distance to compressed edge"/>
-            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding CompressedGap, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
-            <TextBlock Grid.Row="4" Text="Offset"/>
-            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding OffSet, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
-        </Grid>
+        <TabControl>
+            <TabItem Header="Main">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Name"/>
+                    <TextBox Grid.Column="1" Text="{Binding Name}"/>
+                    <TextBlock Grid.Row="1" Text="Diameter"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ValidatedError}" Text="{Binding RebarSectionViewModel.Diameter, Converter={StaticResource LengthConverter},ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="2" Text="Number of legs"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource ValidatedError}" Text="{Binding LegCount, Converter={StaticResource PlainDouble},ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="3" Text="Start point coordinate"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding StartCoordinate, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="4" Text="Angle of inclination"/>
+                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding AngleOfInclination, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="5" Text="Distance to compressed edge"/>
+                    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding CompressedGap, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="6" Text="Offset"/>
+                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding OffSet, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Material" DataContext="{Binding RebarSectionViewModel}">
+                <ContentControl ContentTemplate="{StaticResource ReinforcementMaterial}" Content="{Binding Material}"/>
+            </TabItem>
+        </TabControl>
+        
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

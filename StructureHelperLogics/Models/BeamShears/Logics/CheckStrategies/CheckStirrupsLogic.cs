@@ -44,7 +44,7 @@ namespace StructureHelperLogics.Models.BeamShears
                         checkResult += checkDensityLogic.CheckResult;
                     }
                 }
-                if (Entity is IStirrupByRebar rebar)
+                else if (Entity is IStirrupByRebar rebar)
                 {
                     checkRebarLogic ??= new CheckStirrupsByRebarLogic(TraceLogger);
                     checkRebarLogic.Entity = rebar;
@@ -53,6 +53,14 @@ namespace StructureHelperLogics.Models.BeamShears
                         result = false;
                         checkResult += checkRebarLogic.CheckResult;
                     }
+                }
+                else if (Entity is IStirrupGroup stirrupGroup)
+                {
+
+                }
+                else if (Entity is IStirrupByInclinedRebar inclinedRebar)
+                {
+
                 }
                 else
                 {

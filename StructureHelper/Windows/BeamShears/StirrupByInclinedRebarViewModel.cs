@@ -1,10 +1,6 @@
-﻿using StructureHelper.Windows.ViewModels;
+﻿using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelper.Windows.ViewModels;
 using StructureHelperLogics.Models.BeamShears;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.BeamShears
 {
@@ -63,9 +59,27 @@ namespace StructureHelper.Windows.BeamShears
             }
         }
 
+        public double LegCount
+        {
+            get => stirrupByInclinedRebar.LegCount;
+            set
+            {
+                if (value < 0.0) { value = 0.0; }
+                stirrupByInclinedRebar.LegCount = value;
+                OnPropertyChanged(nameof(LegCount));
+            }
+        }
+
+        public RebarSectionViewModel RebarSectionViewModel {get;}
+
         public StirrupByInclinedRebarViewModel(IStirrupByInclinedRebar stirrupByInclinedRebar)
         {
             this.stirrupByInclinedRebar = stirrupByInclinedRebar;
+            RebarSectionViewModel = new(this.stirrupByInclinedRebar.RebarSection)
+            {
+                MinRebarDiameter = 0.003,
+                MaxRebarDiameter = 0.032
+            };
         }
     }
 }

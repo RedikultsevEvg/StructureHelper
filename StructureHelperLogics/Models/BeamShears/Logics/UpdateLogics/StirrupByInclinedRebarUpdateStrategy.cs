@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
+using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.Models.BeamShears
@@ -18,6 +19,9 @@ namespace StructureHelperLogics.Models.BeamShears
             targetObject.StartCoordinate = sourceObject.StartCoordinate;
             targetObject.OffSet = sourceObject.OffSet;
             targetObject.AngleOfInclination = sourceObject.AngleOfInclination;
+            targetObject.LegCount = sourceObject.LegCount;
+            CheckObject.IsNull(sourceObject.RebarSection, "Rebar section");
+            targetObject.RebarSection = sourceObject.RebarSection.Clone() as IRebarSection;
         }
     }
 }

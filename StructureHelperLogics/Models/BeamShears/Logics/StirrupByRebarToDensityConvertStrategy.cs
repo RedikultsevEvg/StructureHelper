@@ -39,20 +39,26 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             double area = Math.PI * source.Diameter * source.Diameter / 4d;
             TraceLogger?.AddMessage($"Area of rebar = {Math.PI} * ({source.Diameter})^2 / 4 = {area}(m^2)");
-            double materialStrength = source.Material.GetStrength(LimitStates.ULS, CalcTerms.ShortTerm).Tensile;
-            TraceLogger?.AddMessage($"Stirrup material strength Rsw = {materialStrength}");
-            double stirrupStrength = stirrupStrengthFactor * materialStrength;
-            TraceLogger?.AddMessage($"Strength of rebar Rsw = {stirrupStrengthFactor} * {materialStrength} = {stirrupStrength}(Pa)");
-            double minimizedStrength = Math.Min(stirrupStrength, maxStirrupStrength);
-            TraceLogger?.AddMessage($"Strength of rebar Rsw = Min({stirrupStrength}, {maxStirrupStrength})= {minimizedStrength}(Pa)");
+            double minimizedStrength = GetRebarStrength(source);
             double spiralEffectiveness = 1;
-            if (source.IsSpiral = true)
+            if (source.IsSpiral == true)
             {
                 spiralEffectiveness = GetSpiralEffectiveness(source);
             }
             double density = minimizedStrength * area * source.LegCount / source.Spacing * spiralEffectiveness;
             TraceLogger?.AddMessage($"Density of stirrups = {minimizedStrength} * {area} * {source.LegCount} / {source.Spacing} * {spiralEffectiveness} = {density}(N/m)");
             return density;
+        }
+
+        private double GetRebarStrength(IStirrupByRebar source)
+        {
+            double materialStrength = source.Material.GetStrength(LimitStates.ULS, CalcTerms.ShortTerm).Tensile;
+            TraceLogger?.AddMessage($"Stirrup material strength Rsw = {materialStrength}");
+            double stirrupStrength = stirrupStrengthFactor * materialStrength;
+            TraceLogger?.AddMessage($"Strength of rebar Rsw = {stirrupStrengthFactor} * {materialStrength} = {stirrupStrength}(Pa)");
+            double minimizedStrength = Math.Min(stirrupStrength, maxStirrupStrength);
+            TraceLogger?.AddMessage($"Strength of rebar Rsw = Min({stirrupStrength}, {maxStirrupStrength})= {minimizedStrength}(Pa)");
+            return minimizedStrength;
         }
 
         private double GetSpiralEffectiveness(IStirrupByRebar source)

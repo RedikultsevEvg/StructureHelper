@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructureHelperLogics.Models.Materials;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,5 +24,13 @@ namespace StructureHelperLogics.Models.BeamShears
         /// Angle of inclination of rebar in degrees
         /// </summary>
         double AngleOfInclination { get; set; }
+        /// <summary>
+        /// Number of legs of inclinated rebar
+        /// </summary>
+        double LegCount { get; set; }
+        /// <summary>
+        /// Cross-section of rebar
+        /// </summary>
+        IRebarSection RebarSection { get; set; }
     }
 }

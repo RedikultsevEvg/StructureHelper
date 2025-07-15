@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +60,10 @@ namespace StructureHelperLogics.Models.BeamShears
                 angleOfInclination = value;
             }
         }
+        /// <inheritdoc>
+        public IRebarSection RebarSection { get; set; } = new RebarSection(Guid.NewGuid());
+        /// <inheritdoc>
+        public double LegCount { get; set; } = 2;
 
         public StirrupByInclinedRebar(Guid id)
         {
