@@ -19,7 +19,7 @@ namespace StructureHelperLogics.Models.BeamShears
         /// <summary>
         /// Distance beetwen start/end point and point where rebar work is started 
         /// </summary>
-        double OffSet { get; set; }
+        double TransferLength { get; set; }
         /// <summary>
         /// Angle of inclination of rebar in degrees
         /// </summary>

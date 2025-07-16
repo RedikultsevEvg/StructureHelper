@@ -1,6 +1,8 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.Materials;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,7 @@ namespace StructureHelperLogics.Models.BeamShears
         private double rebarEndPoint;
         private double rebarTrueStartPoint;
         private double rebarTrueEndPoint;
+        private IInterpolateValueLogic interpolationLogic;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
@@ -34,17 +37,53 @@ namespace StructureHelperLogics.Models.BeamShears
         public double GetShearStrength()
         {
             GetGeometry();
-            if (inclinedSection.StartCoord > rebarTrueEndPoint)
+            if (inclinedSection.StartCoord > rebarEndPoint)
             {
-                TraceLogger?.AddMessage($"Inclined section start point coordinate X = {inclinedSection.StartCoord} is greater than inclined rebar true end point x = {rebarTrueEndPoint}, inclined rebar has been ignored");
+                TraceLogger?.AddMessage($"Inclined section start point coordinate X = {inclinedSection.StartCoord} is greater than inclined rebar end point x = {rebarEndPoint}, inclined rebar has been ignored");
                 return 0.0;
             }
-            if (inclinedSection.EndCoord < rebarTrueStartPoint)
+            if (inclinedSection.EndCoord < rebarStartPoint)
             {
-                TraceLogger?.AddMessage($"Inclined section end point coordinate X = {inclinedSection.EndCoord} is less than inclined rebar true end point x = {rebarTrueStartPoint}, inclined rebar has been ignored");
+                TraceLogger?.AddMessage($"Inclined section end point coordinate X = {inclinedSection.EndCoord} is less than inclined rebar start point x = {rebarStartPoint}, inclined rebar has been ignored");
                 return 0.0;
+            }
+            if (inclinedSection.StartCoord > rebarTrueEndPoint & inclinedSection.StartCoord < rebarEndPoint)
+            {
+                TraceLogger?.AddMessage($"Inclined section start point coordinate X = {inclinedSection.StartCoord} is in end transfer zone");
+                return GetEndTransferValue();
+            }
+            if (inclinedSection.EndCoord > rebarStartPoint & inclinedSection.EndCoord < rebarTrueStartPoint)
+            {
+                TraceLogger?.AddMessage($"Inclined section end point coordinate X = {inclinedSection.EndCoord} is in start transfer zone");
+                return GetStartTransferValue();
             }
             return GetInclinedRebarStrength();
+        }
+
+        private double GetStartTransferValue()
+        {
+            interpolationLogic = new InterpolateValueLogic()
+            {
+                X1 = rebarStartPoint,
+                X2 = rebarTrueStartPoint,
+                Y1 = 0.0,
+                Y2 = GetInclinedRebarStrength(),
+                KnownValueX = inclinedSection.EndCoord
+            };
+            return interpolationLogic.GetValueY();
+        }
+
+        private double GetEndTransferValue()
+        {
+            interpolationLogic = new InterpolateValueLogic()
+            {
+                X1 = rebarTrueEndPoint,
+                X2 = rebarEndPoint,
+                Y1 = GetInclinedRebarStrength(),
+                Y2 = 0.0,
+                KnownValueX = inclinedSection.StartCoord
+            };
+            return interpolationLogic.GetValueY();
         }
 
         private double GetInclinedRebarStrength()
@@ -67,12 +106,13 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void GetGeometry()
         {
+            double transferLength = Math.Max(inclinedRebar.TransferLength, 0.01);
             angleInRad = inclinedRebar.AngleOfInclination / 180 * Math.PI;
             rebarStartPoint = inclinedRebar.StartCoordinate;
             rebarHeight = inclinedSection.EffectiveDepth - inclinedRebar.CompressedGap;
-            rebarEndPoint = rebarStartPoint + rebarHeight * Math.Cos(angleInRad);
-            rebarTrueStartPoint = rebarStartPoint + inclinedRebar.OffSet;
-            rebarTrueEndPoint = rebarEndPoint - inclinedRebar.OffSet;
+            rebarEndPoint = rebarStartPoint + rebarHeight / Math.Tan(angleInRad);
+            rebarTrueStartPoint = rebarStartPoint + transferLength;
+            rebarTrueEndPoint = rebarEndPoint - transferLength;
         }
     }
 }

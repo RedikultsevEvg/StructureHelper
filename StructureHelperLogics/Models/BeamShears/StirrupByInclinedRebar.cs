@@ -46,7 +46,7 @@ namespace StructureHelperLogics.Models.BeamShears
             }
         }
         /// <inheritdoc>
-        public double OffSet { get; set; } = 0.05;
+        public double TransferLength { get; set; } = 0.05;
         /// <inheritdoc>
         public double AngleOfInclination
         {

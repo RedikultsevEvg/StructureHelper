@@ -46,8 +46,8 @@
                     <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding AngleOfInclination, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
                     <TextBlock Grid.Row="5" Text="Distance to compressed edge"/>
                     <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding CompressedGap, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
-                    <TextBlock Grid.Row="6" Text="Offset"/>
-                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding OffSet, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="6" Text="Transfer length"/>
+                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding TransferLength, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Material" DataContext="{Binding RebarSectionViewModel}">

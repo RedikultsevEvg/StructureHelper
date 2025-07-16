@@ -47,6 +47,14 @@ namespace DataAccess.DTOs
             {
                 newItem = ProcessRebar(rebar);
             }
+            else if (stirrup is IStirrupGroup group)
+            {
+                newItem = ProcessGroup(group);
+            }
+            else if (stirrup is IStirrupByInclinedRebar inclinatedRebar)
+            {
+                newItem = ProcessInclinatedRebar(inclinatedRebar);
+            }
             else if (stirrup is IStirrupByDensity density)
             {
                 newItem = ProcessDensity(density);
@@ -55,8 +63,17 @@ namespace DataAccess.DTOs
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(stirrup));
             }
-
             return newItem;
+        }
+
+        private IStirrup ProcessInclinatedRebar(IStirrupByInclinedRebar inclinatedRebar)
+        {
+            throw new NotImplementedException();
+        }
+
+        private IStirrup ProcessGroup(IStirrupGroup group)
+        {
+            throw new NotImplementedException();
         }
 
         private IStirrup ProcessDensity(IStirrupByDensity density)

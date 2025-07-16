@@ -17,7 +17,7 @@ namespace StructureHelperLogics.Models.BeamShears
             baseUpdateStrategy ??= new StirrupBaseUpdateStrategy();
             baseUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.StartCoordinate = sourceObject.StartCoordinate;
-            targetObject.OffSet = sourceObject.OffSet;
+            targetObject.TransferLength = sourceObject.TransferLength;
             targetObject.AngleOfInclination = sourceObject.AngleOfInclination;
             targetObject.LegCount = sourceObject.LegCount;
             CheckObject.IsNull(sourceObject.RebarSection, "Rebar section");

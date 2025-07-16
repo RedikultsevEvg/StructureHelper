@@ -6,6 +6,7 @@ namespace StructureHelper.Windows.BeamShears
 {
     public class StirrupByInclinedRebarViewModel : OkCancelViewModelBase
     {
+        private const double minTransferLengthValue = 0.01;
         private readonly IStirrupByInclinedRebar stirrupByInclinedRebar;
 
 
@@ -49,13 +50,14 @@ namespace StructureHelper.Windows.BeamShears
             }
         }
 
-        public double OffSet
+        public double TransferLength
         {
-            get => stirrupByInclinedRebar.OffSet;
+            get => stirrupByInclinedRebar.TransferLength;
             set
             {
-                stirrupByInclinedRebar.OffSet = value;
-                OnPropertyChanged(nameof(OffSet));
+                if (value < minTransferLengthValue) { value = minTransferLengthValue; }
+                stirrupByInclinedRebar.TransferLength = value;
+                OnPropertyChanged(nameof(TransferLength));
             }
         }
 
