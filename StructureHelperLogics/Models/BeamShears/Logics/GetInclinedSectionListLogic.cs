@@ -44,17 +44,26 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void GetCoordinates()
         {
-            double maxSectionLength = inputData.MaxInclinedSectionLegthFactor * effectiveDepth;
-            double step = maxSectionLength / inputData.StepCount;
+            double maxSectionLength = GetMaxSectionLength();
+            int stepCount = inputData.DesignRangeProperty.StepCount;
+            double step = maxSectionLength / stepCount;
             inclinedSections = new();
             coordinates = new();
-            for (int i = 0; i < inputData.StepCount + 1; i++)
+            for (int i = 0; i < stepCount + 1; i++)
             {
                 double endCoord = step * i;
                 double roundedEndCoord = Math.Round(endCoord, 6);
                 coordinates.Add(roundedEndCoord);
             }
         }
+
+        private double GetMaxSectionLength()
+        {
+            double relativeLength = inputData.DesignRangeProperty.RelativeEffectiveDepthRangeValue * effectiveDepth;
+            double length = Math.Max(relativeLength, inputData.DesignRangeProperty.AbsoluteRangeValue);
+            return length;
+        }
+
         private void Check()
         {
             CheckObject.IsNull(inputData);

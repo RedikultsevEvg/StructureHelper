@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using DataAccess.DTOs.Converters.BeamShears;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperLogics.Models.BeamShears;
 
 namespace DataAccess.DTOs
@@ -9,6 +10,7 @@ namespace DataAccess.DTOs
         private IUpdateStrategy<IHasBeamShearActions> actionUpdateStrategy;
         private IUpdateStrategy<IHasBeamShearSections> sectionUpdateStrategy;
         private IUpdateStrategy<IHasStirrups> stirrupUpdateStrategy;
+        private IConvertStrategy<BeamShearDesignRangeProperty, BeamShearDesignRangePropertyDTO> designRangeConvertStrategy;
 
         public BeamShearCalculatorInputDataFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
@@ -22,6 +24,7 @@ namespace DataAccess.DTOs
             actionUpdateStrategy.Update(NewItem, source);
             sectionUpdateStrategy.Update(NewItem, source);
             stirrupUpdateStrategy.Update(NewItem, source);
+
             return NewItem;
         }
 
@@ -31,6 +34,7 @@ namespace DataAccess.DTOs
             actionUpdateStrategy ??= new HasBeamShearActionsFromDTOUpdateStrategy(ReferenceDictionary, TraceLogger);
             sectionUpdateStrategy ??= new HasBeamShearSectionsFromDTOUpdateStrategy(ReferenceDictionary, TraceLogger);
             stirrupUpdateStrategy ??= new HasStirrupsFromDTOUpdateStrategy(ReferenceDictionary, TraceLogger);
+            designRangeConvertStrategy ??= new BeamShearDesignRangePropertyFromDTOConvertStrategy(this);
         }
     }
 }

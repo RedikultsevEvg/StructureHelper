@@ -1,29 +1,23 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    internal class CheckStirrupsByDensityLogic : ICheckEntityLogic<IStirrupByDensity>
+    public class StirrupGroupCheckLogic : ICheckEntityLogic<IStirrupGroup>
     {
-        private const int minDensity = 0;
         private bool result;
         private string checkResult;
-
-        public CheckStirrupsByDensityLogic(IShiftTraceLogger? traceLogger)
-        {
-            TraceLogger = traceLogger;
-        }
-
-        public IStirrupByDensity Entity { get; set; }
+        private ICheckEntityLogic<IHasStirrups> hasStirrupsCheckLogic;
+        public IStirrupGroup Entity { get; set; }
 
         public string CheckResult => checkResult;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
+
+        public StirrupGroupCheckLogic(IShiftTraceLogger? traceLogger)
+        {
+            TraceLogger = traceLogger;
+        }
 
         public bool Check()
         {
@@ -32,18 +26,20 @@ namespace StructureHelperLogics.Models.BeamShears
             if (Entity is null)
             {
                 result = false;
-                string errorString = "\nStirrups by density is not assigned";
+                string errorString = "\nStirrup group is not assigned";
                 TraceMessage(errorString);
             }
             else
             {
-                if (Entity.StirrupDensity < minDensity)
+                hasStirrupsCheckLogic ??= new HasStirrupsCheckLogic(TraceLogger);
+                hasStirrupsCheckLogic.Entity = Entity;
+                if (hasStirrupsCheckLogic.Check() == false)
                 {
                     result = false;
-                    TraceMessage($"\nStirrup {Entity.Name} density d = {Entity.StirrupDensity} must not be less than dmin = {minDensity}");
+                    checkResult += "\nStirrup group has some errors";
+                    checkResult += hasStirrupsCheckLogic.CheckResult;
                 }
             }
-
             return result;
         }
 

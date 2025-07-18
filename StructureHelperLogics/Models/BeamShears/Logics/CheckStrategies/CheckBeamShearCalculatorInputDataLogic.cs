@@ -13,7 +13,7 @@ namespace StructureHelperLogics.Models.BeamShears
         private string checkResult;
         private ICheckEntityLogic<IBeamShearAction> checkActionsLogic;
         private ICheckEntityLogic<IBeamShearSection> checkSectionLogic;
-        private ICheckEntityLogic<IStirrup> checkStirrupLogic;
+        private ICheckEntityLogic<IHasStirrups> StirrupCheckLogic;
 
         public string CheckResult => checkResult;
         public IBeamShearCalculatorInputData InputData { get; set; }
@@ -65,23 +65,12 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void CheckStirrups()
         {
-            if (InputData.Stirrups is null)
+            StirrupCheckLogic ??= new HasStirrupsCheckLogic(TraceLogger);
+            StirrupCheckLogic.Entity = InputData;
+            if (StirrupCheckLogic.Check() == false)
             {
                 result = false;
-                TraceMessage("\nCollection of stirrups is null");
-            }
-            else
-            {
-                checkStirrupLogic ??= new CheckStirrupsLogic(TraceLogger);
-                foreach (var stirrup in InputData.Stirrups)
-                {
-                    checkStirrupLogic.Entity = stirrup;
-                    if (checkStirrupLogic.Check() == false)
-                    {
-                        result = false;
-                        checkResult += checkStirrupLogic.CheckResult;
-                    }
-                }
+                checkResult += StirrupCheckLogic.CheckResult;
             }
         }
 

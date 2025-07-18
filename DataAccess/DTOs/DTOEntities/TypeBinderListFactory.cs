@@ -75,6 +75,7 @@ namespace DataAccess.DTOs
                 { (typeof(PointNdmPrimitiveDTO), "PointNdmPrimitive") },
                 { (typeof(ProjectDTO), "Project") },
                 { (typeof(RebarNdmPrimitiveDTO), "RebarNdmPrimitive") },
+                { (typeof(RebarSectionDTO), "RebarSection") },
                 { (typeof(RectangleNdmPrimitiveDTO), "RectangleNdmPrimitive") },
                 { (typeof(RectangleShapeDTO), "RectangleShape") },
                 { (typeof(ReinforcementLibMaterialDTO), "ReinforcementLibMaterial") },
@@ -125,6 +126,8 @@ namespace DataAccess.DTOs
                 { (typeof(List<IBeamSpanLoad>), "ListOfSpanLoads") },
                 { (typeof(List<IStirrup>), "ListOfStirrups") },
                 { (typeof(StirrupByDensityDTO), "StirrupByDensity") },
+                { (typeof(StirrupGroupDTO), "StirrupGroup") },
+                { (typeof(StirrupByInclinedRebarDTO), "StirrupByInclinedRebar") },
                 { (typeof(StirrupByRebarDTO), "StirrupByRebar") },
             };
             return newList;

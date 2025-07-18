@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using DataAccess.DTOs.Converters.BeamShears;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperLogics.Models.BeamShears;
 
@@ -9,6 +10,7 @@ namespace DataAccess.DTOs
         private IUpdateStrategy<IHasBeamShearActions> actionUpdateStrategy;
         private IUpdateStrategy<IHasBeamShearSections> sectionUpdateStrategy;
         private IUpdateStrategy<IHasStirrups> stirrupUpdateStrategy;
+        private IConvertStrategy<BeamShearDesignRangePropertyDTO, IBeamShearDesignRangeProperty> designRangeConvertStrategy;
 
         public BeamShearCalculatorInputDataToDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
@@ -16,28 +18,13 @@ namespace DataAccess.DTOs
 
         public override BeamShearCalculatorInputDataDTO GetNewItem(IBeamShearCalculatorInputData source)
         {
-            try
-            {
-                GetNewInputData(source);
-                return NewItem;
-            }
-            catch (Exception ex)
-            {
-                TraceErrorByEntity(this, ex.Message);
-                throw;
-            }
-        }
-
-        private void GetNewInputData(IBeamShearCalculatorInputData source)
-        {
-            TraceLogger?.AddMessage($"Input data converting Id = {source.Id} has been started", TraceLogStatuses.Debug);
             InitializeStrategies();
             NewItem = new(source.Id);
             actionUpdateStrategy.Update(NewItem, source);
             sectionUpdateStrategy.Update(NewItem, source);
             stirrupUpdateStrategy.Update(NewItem, source);
-            TraceLogger?.AddMessage($"Input data converting Id = {NewItem.Id} has been finished", TraceLogStatuses.Debug);
-
+            NewItem.DesignRangeProperty = designRangeConvertStrategy.Convert(source.DesignRangeProperty);
+            return NewItem;
         }
 
         private void InitializeStrategies()
@@ -45,6 +32,7 @@ namespace DataAccess.DTOs
             actionUpdateStrategy ??= new HasBeamShearActionsToDTOUpdateStrategy(ReferenceDictionary, TraceLogger);
             sectionUpdateStrategy ??= new HasBeamShearSectionsToDTORenameStrategy(ReferenceDictionary, TraceLogger);
             stirrupUpdateStrategy ??= new HasStirrupsToDTOUpdateStrategy(ReferenceDictionary, TraceLogger);
+            designRangeConvertStrategy ??= new BeamShearDesignRangePropertyToDTOConvertStrategy(this);
         }
     }
 }

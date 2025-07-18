@@ -1,18 +1,14 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.Materials;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
     public class StirrupByInclinedRebarStrengthLogic : IBeamShearStrenghLogic
     {
+        const double stirrupEffectivenessFactor = 0.75;
         private readonly IStirrupByInclinedRebar inclinedRebar;
         private readonly IInclinedSection inclinedSection;
         private IRebarSectionStrengthLogic rebarSectionStrengthLogic;
@@ -57,6 +53,7 @@ namespace StructureHelperLogics.Models.BeamShears
                 TraceLogger?.AddMessage($"Inclined section end point coordinate X = {inclinedSection.EndCoord} is in start transfer zone");
                 return GetStartTransferValue();
             }
+            TraceLogger?.AddMessage($"Inclined section with start point coordinate Xstart = {inclinedSection.StartCoord}(m) and end point Xend = {inclinedSection.EndCoord}(m) intersects inclined rebar in main zone with Xstart = {rebarTrueStartPoint}(m) and Xend = {rebarTrueEndPoint}(m)");
             return GetInclinedRebarStrength();
         }
 
@@ -98,9 +95,10 @@ namespace StructureHelperLogics.Models.BeamShears
             };
             rebarSectionStrengthLogic.RebarSection = inclinedRebar.RebarSection;
             double rebarStrength = rebarSectionStrengthLogic.GetRebarMaxTensileForce();
-            double inclinedRebarStrength = rebarStrength * Math.Sin(angleInRad) * inclinedRebar.LegCount;
-            TraceLogger?.AddMessage($"Inclinated rebar {inclinedRebar.Name}, start point {rebarStartPoint}(m), end point {rebarEndPoint}(m), angle of inclination {inclinedRebar.AngleOfInclination}(deg), number of legs {inclinedRebar.LegCount}");
-            TraceLogger?.AddMessage($"Force in inclined rebar = {rebarStrength}(N) * sin({inclinedRebar.AngleOfInclination}) * {inclinedRebar.LegCount} = {inclinedRebarStrength}(N)");
+            double inclinedRebarStrength = stirrupEffectivenessFactor * rebarStrength * Math.Sin(angleInRad) * inclinedRebar.LegCount;
+            TraceLogger?.AddMessage($"Inclined rebar Name = {inclinedRebar.Name}, start point {rebarStartPoint}(m), end point {rebarEndPoint}(m), angle of inclination {inclinedRebar.AngleOfInclination}(deg), number of legs {inclinedRebar.LegCount}");
+            TraceLogger?.AddMessage($"Inclined rebar effectiveness factor fi_sw = {stirrupEffectivenessFactor}(dimensionless)");
+            TraceLogger?.AddMessage($"Force in inclined rebar = fi_sw * Fsw * sin(alpha) * n = {stirrupEffectivenessFactor} * {rebarStrength}(N) * sin({inclinedRebar.AngleOfInclination}) * {inclinedRebar.LegCount} = {inclinedRebarStrength}(N)");
             return inclinedRebarStrength;
         }
 
@@ -113,6 +111,10 @@ namespace StructureHelperLogics.Models.BeamShears
             rebarEndPoint = rebarStartPoint + rebarHeight / Math.Tan(angleInRad);
             rebarTrueStartPoint = rebarStartPoint + transferLength;
             rebarTrueEndPoint = rebarEndPoint - transferLength;
+            if (rebarTrueStartPoint >= rebarTrueEndPoint)
+            {
+                throw new StructureHelperException("Transfer aone in inclined rebar is too big");
+            }
         }
     }
 }

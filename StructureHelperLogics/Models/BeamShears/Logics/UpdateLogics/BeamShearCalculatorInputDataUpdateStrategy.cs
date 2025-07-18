@@ -4,20 +4,30 @@ using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public class BeamShearCalculatorInputDataUpdateStrategy : IUpdateStrategy<IBeamShearCalculatorInputData>
+    public class BeamShearCalculatorInputDataUpdateStrategy : IParentUpdateStrategy<IBeamShearCalculatorInputData>
     {
         private IUpdateStrategy<IHasBeamShearActions>? hasActionUpdateStrategy;
         private IUpdateStrategy<IHasStirrups>? hasStirrupsUpdateStrategy;
         private IUpdateStrategy<IHasBeamShearSections> hasSectionsUpdateStrategy;
+        private IUpdateStrategy<IBeamShearDesignRangeProperty> designRangeUpdateStrategy;
+
+        public bool UpdateChildren { get; set; } = true;
+
         public void Update(IBeamShearCalculatorInputData targetObject, IBeamShearCalculatorInputData sourceObject)
         {
             CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
             CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
-            InitializeStrategies();
-            hasActionUpdateStrategy?.Update(targetObject, sourceObject);
-            hasSectionsUpdateStrategy?.Update(targetObject, sourceObject);
-            hasStirrupsUpdateStrategy?.Update(targetObject, sourceObject);
+            if (UpdateChildren)
+            {
+                InitializeStrategies();
+                hasActionUpdateStrategy?.Update(targetObject, sourceObject);
+                hasSectionsUpdateStrategy?.Update(targetObject, sourceObject);
+                hasStirrupsUpdateStrategy?.Update(targetObject, sourceObject);
+                CheckObject.IsNull(sourceObject.DesignRangeProperty);
+                CheckObject.IsNull(targetObject.DesignRangeProperty);
+                designRangeUpdateStrategy.Update(targetObject.DesignRangeProperty, sourceObject.DesignRangeProperty);
+            }
 
         }
 
@@ -26,6 +36,7 @@ namespace StructureHelperLogics.Models.BeamShears
             hasActionUpdateStrategy ??= new HasBeamShearActionUpdateStrategy();
             hasStirrupsUpdateStrategy ??= new HasStirrupsUpdateStrategy();
             hasSectionsUpdateStrategy ??= new HasBeamShearSectionUpdateStrategy();
+            designRangeUpdateStrategy ??= new BeamShearDesignRangePropertyUpdateStrategy();
         }
     }
 }

@@ -6,9 +6,12 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public class StirrupByInclinedRebarUpdateStrategy : IUpdateStrategy<IStirrupByInclinedRebar>
+    public class StirrupByInclinedRebarUpdateStrategy : IParentUpdateStrategy<IStirrupByInclinedRebar>
     {
         private IUpdateStrategy<IStirrup>? baseUpdateStrategy;
+
+        public bool UpdateChildren { get; set; } = true;
+
         public void Update(IStirrupByInclinedRebar targetObject, IStirrupByInclinedRebar sourceObject)
         {
             CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
@@ -20,8 +23,11 @@ namespace StructureHelperLogics.Models.BeamShears
             targetObject.TransferLength = sourceObject.TransferLength;
             targetObject.AngleOfInclination = sourceObject.AngleOfInclination;
             targetObject.LegCount = sourceObject.LegCount;
-            CheckObject.IsNull(sourceObject.RebarSection, "Rebar section");
-            targetObject.RebarSection = sourceObject.RebarSection.Clone() as IRebarSection;
+            if (UpdateChildren)
+            {
+                CheckObject.IsNull(sourceObject.RebarSection, "Rebar section");
+                targetObject.RebarSection = sourceObject.RebarSection.Clone() as IRebarSection;
+            }
         }
     }
 }

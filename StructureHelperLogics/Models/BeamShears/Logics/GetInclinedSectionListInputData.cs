@@ -9,13 +9,13 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <inheritdoc/>
     public class GetInclinedSectionListInputData : IGetInclinedSectionListInputData
     {
-        public int StepCount { get; set; } = 50;
-        public double MaxInclinedSectionLegthFactor { get; set; } = 3d;
+        public IBeamShearDesignRangeProperty DesignRangeProperty { get; }
         public IGetInclinedSectionLogic? GetInclinedSectionLogic { get; set; }
         public IBeamShearSection BeamShearSection { get; set; }
 
-        public GetInclinedSectionListInputData(IBeamShearSection beamShearSection)
+        public GetInclinedSectionListInputData(IBeamShearDesignRangeProperty designRangeProperty, IBeamShearSection beamShearSection)
         {
+            DesignRangeProperty = designRangeProperty;
             BeamShearSection = beamShearSection;
         }
     }

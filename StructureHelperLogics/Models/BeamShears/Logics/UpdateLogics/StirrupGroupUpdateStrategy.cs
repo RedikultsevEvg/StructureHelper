@@ -5,9 +5,11 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public class StirrupGroupUpdateStrategy : IUpdateStrategy<IStirrupGroup>
+    public class StirrupGroupUpdateStrategy : IParentUpdateStrategy<IStirrupGroup>
     {
         private StirrupBaseUpdateStrategy baseUpdateStrategy;
+
+        public bool UpdateChildren { get; set; } = true;
 
         public void Update(IStirrupGroup targetObject, IStirrupGroup sourceObject)
         {
@@ -16,6 +18,14 @@ namespace StructureHelperLogics.Models.BeamShears
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             baseUpdateStrategy ??= new StirrupBaseUpdateStrategy();
             baseUpdateStrategy.Update(targetObject, sourceObject);
+            if (UpdateChildren == true)
+            {
+                UpdateTargetChildren(targetObject, sourceObject);
+            }
+        }
+
+        private static void UpdateTargetChildren(IStirrupGroup targetObject, IStirrupGroup sourceObject)
+        {
             CheckObject.IsNull(sourceObject.Stirrups);
             CheckObject.IsNull(targetObject.Stirrups);
             targetObject.Stirrups.Clear();

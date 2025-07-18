@@ -4,8 +4,7 @@ namespace StructureHelperLogics.Models.BeamShears
 {
     public interface IGetInclinedSectionListInputData : IInputData
     {
-        int StepCount { get; set; }
-        double MaxInclinedSectionLegthFactor { get; set; }
+        IBeamShearDesignRangeProperty DesignRangeProperty { get; }
         IGetInclinedSectionLogic? GetInclinedSectionLogic { get; set; }
         IBeamShearSection BeamShearSection { get; set; }
     }

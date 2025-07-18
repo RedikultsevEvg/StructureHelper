@@ -34,7 +34,7 @@ namespace StructureHelperLogics.Models.Materials
             double minimizedStrength = Math.Min(rebarStrength, MaxRebarStrength);
             TraceLogger?.AddMessage($"Strength of rebar Rs = Min({rebarStrength}, {MaxRebarStrength})= {minimizedStrength}(Pa)");
             double rebarForce = minimizedStrength * rebarArea;
-            TraceLogger?.AddMessage($"Force in rebar Ns = {minimizedStrength}(Pa) * {rebarArea}(m2) = {rebarForce}");
+            TraceLogger?.AddMessage($"Force in rebar Ns = {minimizedStrength}(Pa) * {rebarArea}(m2) = {rebarForce}(N)");
             return rebarForce;
         }
     }

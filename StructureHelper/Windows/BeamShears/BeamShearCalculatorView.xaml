@@ -35,6 +35,26 @@
                 <TabItem Header="Actions">
                     <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding ActionSourceTarget}"/>
                 </TabItem>
+                <TabItem Header="Design range" DataContext="{Binding DesignRangePropertyViewModel}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Minimum absolute range"/>
+                        <TextBox Grid.Column="1" Text="{Binding AbsoluteRangeValue, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                        <TextBlock Grid.Row="1" Text="Minimum relative range"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RelativeEffectiveDepthRangeValue, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                        <TextBlock Grid.Row="2" Text="Number of step"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding StepCount, ValidatesOnDataErrors=True}"/>
+                    </Grid>
+                </TabItem>
             </TabControl>
         </Grid>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>

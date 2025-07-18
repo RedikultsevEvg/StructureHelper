@@ -51,12 +51,36 @@ namespace DataAccess.DTOs
             {
                 newItem = ProcessDensity(density);
             }
+            else if (stirrup is StirrupGroupDTO stirrupGroup)
+            {
+                newItem = ProcessStirrupGroup(stirrupGroup);
+            }
+            else if (stirrup is StirrupByInclinedRebarDTO inclinedRebar)
+            {
+                newItem = ProcessInclinedRebar(inclinedRebar);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(stirrup));
             }
 
             return newItem;
+        }
+
+        private IStirrup ProcessInclinedRebar(StirrupByInclinedRebarDTO inclinedRebar)
+        {
+            traceLogger?.AddMessage("Stirrup is stirrup by inclined rebar");
+            var convertStrategy = new DictionaryConvertStrategy<StirrupByInclinedRebar, IStirrupByInclinedRebar>
+                (referenceDictionary, traceLogger, new StirrupByInclinedRebarFromDTOConvertStrategy(referenceDictionary, traceLogger));
+            return convertStrategy.Convert(inclinedRebar);
+        }
+
+        private IStirrup ProcessStirrupGroup(StirrupGroupDTO stirrupGroup)
+        {
+            traceLogger?.AddMessage("Stirrup is stirrup group");
+            var convertStrategy = new DictionaryConvertStrategy<StirrupGroup, IStirrupGroup>
+                (referenceDictionary, traceLogger, new StirrupGroupFromDTOConvertStrategy(referenceDictionary, traceLogger));
+            return convertStrategy.Convert(stirrupGroup);
         }
 
         private StirrupByDensity ProcessDensity(StirrupByDensityDTO density)

@@ -16,6 +16,7 @@ namespace StructureHelper.Windows.BeamShears
         public SourceTargetVM<IBeamShearAction> ActionSourceTarget { get; } = new();
         public SourceTargetVM<IStirrup> StirrupSourceTarget { get; } = new();
         public SourceTargetVM<IBeamShearSection> SectionSourceTarget { get; } = new();
+        public BeamShearDesignRangePropertyViewModel DesignRangePropertyViewModel { get; private set; }
 
         public BeamShearCalculatorInputDataViewModel(IBeamShearRepository shearRepository, IBeamShearCalculatorInputData inputData)
         {
@@ -35,6 +36,7 @@ namespace StructureHelper.Windows.BeamShears
             SectionSourceTarget.SetTargetItems(inputData.Sections);
             SectionSourceTarget.SetSourceItems(shearRepository.Sections);
             SectionSourceTarget.ItemDataTemplate = SourceTargetFactory.GetSimpleTemplate();
+            DesignRangePropertyViewModel = new(inputData.DesignRangeProperty);
         }
 
         internal void Refresh()

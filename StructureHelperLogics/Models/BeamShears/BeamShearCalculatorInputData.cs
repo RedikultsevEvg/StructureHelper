@@ -21,6 +21,8 @@ namespace StructureHelperLogics.Models.BeamShears
         public List<IBeamShearSection> Sections { get; } = new();
         /// <inheritdoc/>
         public List<IStirrup> Stirrups { get; } = new();
+        public IBeamShearDesignRangeProperty DesignRangeProperty { get; set; } = new BeamShearDesignRangeProperty(Guid.NewGuid());
+
         public BeamShearCalculatorInputData(Guid id)
         {
             Id = id;

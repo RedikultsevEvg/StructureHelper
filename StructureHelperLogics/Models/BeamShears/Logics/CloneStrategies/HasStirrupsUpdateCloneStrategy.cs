@@ -1,16 +1,12 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
     public class HasStirrupsUpdateCloneStrategy : IUpdateStrategy<IHasStirrups>
     {
         private readonly ICloningStrategy cloningStrategy;
+        private ICloneStrategy<IStirrupGroup> groupCloneStrategy;
 
         public HasStirrupsUpdateCloneStrategy(ICloningStrategy cloningStrategy)
         {
@@ -26,7 +22,8 @@ namespace StructureHelperLogics.Models.BeamShears
             targetObject.Stirrups.Clear();
             foreach (var item in sourceObject.Stirrups)
             {
-                IStirrup newStirrup = cloningStrategy.Clone(item);
+                IStirrup newStirrup;
+                newStirrup = cloningStrategy.Clone(item);
                 targetObject.Stirrups.Add(newStirrup);
             }
         }

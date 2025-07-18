@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    internal class CheckStirrupsByRebarLogic : ICheckEntityLogic<IStirrupByRebar>
+    internal class StirrupByRebarCheckLogic : ICheckEntityLogic<IStirrupByRebar>
     {
         private const double minDiameter = 0.003;
         private const double maxDiameter = 0.025;
@@ -18,7 +18,7 @@ namespace StructureHelperLogics.Models.BeamShears
         private bool result;
         private string checkResult;
 
-        public CheckStirrupsByRebarLogic(IShiftTraceLogger? traceLogger)
+        public StirrupByRebarCheckLogic(IShiftTraceLogger? traceLogger)
         {
             TraceLogger = traceLogger;
         }

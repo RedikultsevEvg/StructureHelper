@@ -200,7 +200,7 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private List<IInclinedSection> GetInclinedSections(IBeamShearSection beamShearSection)
         {
-            IGetInclinedSectionListInputData inclinedSectionInputDataLogic = new GetInclinedSectionListInputData(beamShearSection);
+            IGetInclinedSectionListInputData inclinedSectionInputDataLogic = new GetInclinedSectionListInputData(inputData.DesignRangeProperty, beamShearSection);
             //IGetInclinedSectionListLogic getInclinedSectionListLogic = new GetInclinedSectionListLogic(inclinedSectionInputDataLogic, TraceLogger);
             IGetInclinedSectionListLogic getInclinedSectionListLogic = new GetInclinedSectionListLogic(inclinedSectionInputDataLogic, null);
             return getInclinedSectionListLogic.GetInclinedSections();

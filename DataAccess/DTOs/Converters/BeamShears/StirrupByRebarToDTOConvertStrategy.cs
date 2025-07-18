@@ -31,13 +31,13 @@ namespace DataAccess.DTOs
 
         private void GetNewStirrup(IStirrupByRebar source)
         {
-            TraceLogger?.AddMessage($"Stirrup by density converting Id = {source.Id} has been started", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage($"Stirrup by rebar converting Id = {source.Id} has been started", TraceLogStatuses.Debug);
             InitializeStrategies();
             NewItem = new(source.Id);
             updateStrategy.Update(NewItem, source);
             NewItem.Material = reinforcementConvertStrategy.Convert(source.Material);
             safetyFactorUpdateStrategy.Update(NewItem.Material, source.Material);
-            TraceLogger?.AddMessage($"Stirrup by density converting Id = {NewItem.Id} has been finished succesfully", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage($"Stirrup by rebar converting Id = {NewItem.Id} has been finished succesfully", TraceLogStatuses.Debug);
         }
 
         private void InitializeStrategies()

@@ -42,6 +42,7 @@ namespace DataAccess.DTOs
 
         private IStirrup ProcessStirrup(IStirrup stirrup)
         {
+            traceLogger?.AddMessage($"Stirrup Id = {stirrup.Id} has been started", TraceLogStatuses.Debug);
             IStirrup newItem;
             if (stirrup is IStirrupByRebar rebar)
             {
@@ -66,14 +67,20 @@ namespace DataAccess.DTOs
             return newItem;
         }
 
-        private IStirrup ProcessInclinatedRebar(IStirrupByInclinedRebar inclinatedRebar)
+        private IStirrup ProcessInclinatedRebar(IStirrupByInclinedRebar inclinedRebar)
         {
-            throw new NotImplementedException();
+            traceLogger?.AddMessage("Stirrup is inclined rebar");
+            var convertStrategy = new DictionaryConvertStrategy<StirrupByInclinedRebarDTO, IStirrupByInclinedRebar>
+                (referenceDictionary, traceLogger, new StirrupByInclinedRebarToDTOConvertStrategy(referenceDictionary, traceLogger));
+            return convertStrategy.Convert(inclinedRebar);
         }
 
         private IStirrup ProcessGroup(IStirrupGroup group)
         {
-            throw new NotImplementedException();
+            traceLogger?.AddMessage("Stirrup is stirrup group");
+            var convertStrategy = new DictionaryConvertStrategy<StirrupGroupDTO, IStirrupGroup>
+                (referenceDictionary, traceLogger, new StirrupGroupToDTOConvertStrategy(referenceDictionary, traceLogger));
+            return convertStrategy.Convert(group);
         }
 
         private IStirrup ProcessDensity(IStirrupByDensity density)
