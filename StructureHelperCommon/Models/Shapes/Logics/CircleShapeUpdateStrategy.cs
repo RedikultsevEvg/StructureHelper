@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace StructureHelperCommon.Models.Shapes
     {
         public void Update(ICircleShape targetObject, ICircleShape sourceObject)
         {
+            CheckObject.IsNull(sourceObject);
+            CheckObject.IsNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Diameter = sourceObject.Diameter;
         }

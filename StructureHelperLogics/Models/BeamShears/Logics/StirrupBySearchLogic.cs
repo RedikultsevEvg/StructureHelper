@@ -8,29 +8,32 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         private ConcreteStrengthLogic concreteLogic;
         private StirrupStrengthLogic stirrupLogic;
-        private ShiftTraceLogger? localTraceLogger { get; set; }
-
+        public IShiftTraceLogger? TraceLogger { get; set; }
+        public IBeamShearSectionLogicInputData InputData { get; internal set; }
+        public ISectionEffectiveness SectionEffectiveness { get; internal set; }
         public StirrupBySearchLogic(IShiftTraceLogger? traceLogger)
         {
             TraceLogger = traceLogger;
         }
 
-        public IShiftTraceLogger? TraceLogger { get; set; }
-        public IBeamShearSectionLogicInputData InputData { get; internal set; }
-        public ISectionEffectiveness SectionEffectiveness { get; internal set; }
-
         public double GetShearStrength()
         {
-            double parameter = GetParameter();
-            BeamShearSectionLogicInputData newInputData = GetNewInputData(parameter);
-            stirrupLogic = new(newInputData, localTraceLogger);
+            double parameter = GetInclinedCrackRatio();
+            BeamShearSectionLogicInputData newInputData = GetNewInputDataByCrackLengthRatio(parameter);
+            TraceLogger?.AddMessage($"New value of dangerous inclinated crack has been obtained: start point Xstart = {newInputData.InclinedSection.StartCoord}(m), end point Xend = {newInputData.InclinedSection.EndCoord}(m)");
+            stirrupLogic = new(newInputData, TraceLogger);
             double stirrupStrength = stirrupLogic.GetShearStrength();
             return stirrupStrength;
         }
 
-        public double GetParameter()
+        /// <summary>
+        /// Calculates ratio of inclined crack length to inclined section length
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="StructureHelperException"></exception>
+        private double GetInclinedCrackRatio()
         {
-            var parameterCalculator = new FindParameterCalculator(TraceLogger);
+            var parameterCalculator = new FindParameterCalculator();
             parameterCalculator.InputData.Predicate = GetPredicate;
             parameterCalculator.Accuracy.IterationAccuracy = 0.0001d;
             parameterCalculator.Accuracy.MaxIterationCount = 1000;
@@ -40,24 +43,32 @@ namespace StructureHelperLogics.Models.BeamShears
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": predicate error");
             }
             var result = parameterCalculator.Result as FindParameterResult;
-            var parameter = result.Parameter;
-            return parameter;
+            var crackLengthRatio = result.Parameter;
+            while (GetPredicate(crackLengthRatio) == false)
+            {
+                crackLengthRatio += 0.0001;
+            }
+            return crackLengthRatio;
         }
-
-        private bool GetPredicate(double factor)
+        /// <summary>
+        /// Predicate of comparing of stirrup strength and concrete strength
+        /// </summary>
+        /// <param name="crackLengthRatio">Ratio of inclined crack length and inclined section length</param>
+        /// <returns>Is true when stirrup strength is greate than concrete strength</returns>
+        private bool GetPredicate(double crackLengthRatio)
         {
-            BeamShearSectionLogicInputData newInputData = GetNewInputData(factor);
-            concreteLogic = new(SectionEffectiveness, newInputData.InclinedSection, localTraceLogger);
-            stirrupLogic = new(newInputData, localTraceLogger);
+            BeamShearSectionLogicInputData newInputData = GetNewInputDataByCrackLengthRatio(crackLengthRatio);
+            concreteLogic = new(SectionEffectiveness, newInputData.InclinedSection, null);
+            stirrupLogic = new(newInputData, null);
             double concreteStrength = concreteLogic.GetShearStrength();
             double stirrupStrength = stirrupLogic.GetShearStrength();
             return stirrupStrength > concreteStrength;
         }
 
-        private BeamShearSectionLogicInputData GetNewInputData(double factor)
+        private BeamShearSectionLogicInputData GetNewInputDataByCrackLengthRatio(double crackLengthRatio)
         {
             double sourceCrackLength = InputData.InclinedSection.EndCoord - InputData.InclinedSection.StartCoord;
-            double newCrackLength = sourceCrackLength * factor;
+            double newCrackLength = sourceCrackLength * crackLengthRatio;
             double newStartCoord = InputData.InclinedSection.EndCoord - newCrackLength;
             InclinedSection newSection = new();
             var updateStrategy = new InclinedSectionUpdateStrategy();

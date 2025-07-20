@@ -21,6 +21,16 @@
                         <ContentControl ContentTemplate="{StaticResource Report}"/>
                     </Viewbox>
                 </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowDiagramCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show digram"
+                                                IconContent="{StaticResource MomentCurvatureDiagram}"
+                                                DescriptionText="Shows diagram for result where inclined section is started from selected result start point"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource MomentCurvatureDiagram}"/>
+                    </Viewbox>
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <Grid>

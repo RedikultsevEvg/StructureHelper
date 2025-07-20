@@ -3,6 +3,7 @@ using StructureHelper.Windows.ViewModels;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.BeamShears;
 using System;
 using System.Windows;
@@ -49,6 +50,18 @@ namespace StructureHelper.Windows.BeamShears
                 {
                     Name = "New rectangle section"
                 };
+            }
+            else if (sectionType is PrimitiveType.Circle)
+            {
+                NewItem = new BeamShearSection(Guid.NewGuid())
+                {
+                    Name = "New circle section",
+                    Shape = new CircleShape(Guid.NewGuid()) { Diameter = 0.6 }
+                };
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(sectionType));
             }
         }
 

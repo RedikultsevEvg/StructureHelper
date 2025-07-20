@@ -11,7 +11,7 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <inheritdoc/>
     public class StirrupByDensityStrengthLogic : IBeamShearStrenghLogic
     {
-        private const double minStirrupRatio = 0.25;
+        //private const double minStirrupRatio = 0.25;
         private readonly IStirrupEffectiveness stirrupEffectiveness;
         private readonly IStirrupByDensity stirrupByDensity;
         private readonly IInclinedSection inclinedSection;
@@ -45,9 +45,10 @@ namespace StructureHelperLogics.Models.BeamShears
             double finalDensity = stirrupEffectiveness.StirrupShapeFactor * stirrupEffectiveness.StirrupPlacementFactor * stirrupByDensity.StirrupDensity;
             TraceLogger?.AddMessage($"Stirrups design density qsw = {stirrupEffectiveness.StirrupShapeFactor} * {stirrupEffectiveness.StirrupPlacementFactor} * {stirrupByDensity.StirrupDensity} = {finalDensity}(N/m)");
             double concreteDensity = inclinedSection.WebWidth * inclinedSection.ConcreteTensionStrength;
-            if (finalDensity < minStirrupRatio * concreteDensity)
+            double minFinalDensity = stirrupEffectiveness.MinimumStirrupRatio * concreteDensity;
+            if (finalDensity < minFinalDensity)
             {
-                TraceLogger?.AddMessage($"Since stirrups design density qsw = {finalDensity}(N/m) less than {minStirrupRatio} * {concreteDensity}, final density is equal to zero", TraceLogStatuses.Warning);
+                TraceLogger?.AddMessage($"Since stirrups design density qsw = {finalDensity}(N/m) less than qsw,min = {stirrupEffectiveness.MinimumStirrupRatio} * {concreteDensity} = {minFinalDensity}(N/m), final density is equal to zero", TraceLogStatuses.Warning);
                 finalDensity = 0;
             }
             double strength = finalDensity * finalCrackLength;

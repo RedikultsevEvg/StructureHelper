@@ -28,7 +28,9 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public object Clone()
         {
-            BeamShearSection newItem = new(Guid.NewGuid());
+            var cloneStrategy = new ShapeCloneStrategy();
+            IShape shapeClone = cloneStrategy.GetClone(Shape);
+            BeamShearSection newItem = new(Guid.NewGuid()) { Shape = shapeClone};
             updateStrategy ??= new BeamShearSectionUpdateStrategy();
             updateStrategy.Update(newItem, this);
             return newItem;

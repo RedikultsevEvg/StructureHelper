@@ -2,11 +2,7 @@
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
 using StructureHelper.Windows.CalculationWindows.ProgressViews;
 using StructureHelperLogics.Models.BeamShears;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.BeamShears
@@ -15,6 +11,7 @@ namespace StructureHelper.Windows.BeamShears
     {
         private IBeamShearActionResult result;
         private RelayCommand showTraceCommand;
+        private RelayCommand showDiagramCommand;
 
         public IBeamShearSectionLogicResult SelectedResult { get; set; }
         public List<IBeamShearSectionLogicResult> SectionResults => result.SectionResults;
@@ -27,12 +24,20 @@ namespace StructureHelper.Windows.BeamShears
         }
 
         public ICommand ShowTraceCommand => showTraceCommand ??= new RelayCommand(ShowTrace, o => SelectedResult != null);
+        public ICommand ShowDiagramCommand => showDiagramCommand ??= new RelayCommand(Show2DDiagram, o => SelectedResult != null);
 
         private void ShowTrace(object obj)
         {
             if (SelectedResult.TraceLogger is null) { return; }
             var traceWindows = new TraceDocumentView(SelectedResult.TraceLogger);
             traceWindows.ShowDialog();
+        }
+
+        private void Show2DDiagram(object obj)
+        {
+            if (SelectedResult is null) { return; }
+            var logic = new ShearDiagramLogic(result);
+            logic.ShowWindow(SelectedResult.InputData.InclinedSection.StartCoord);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace StructureHelper.Windows.BeamShears
         {
             if (SelectedResult is null) { return; }
             var logic = new ShearDiagramLogic(SelectedResult);
-            logic.ShowWindow();
+            logic.ShowWindow(0.0);
         }
 
         private void ShowSectionResults(object commandParameter)

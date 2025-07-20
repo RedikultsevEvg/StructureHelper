@@ -41,7 +41,7 @@ namespace StructureHelper.Windows.BeamShears
                 beamShearSection.CenterCover = value;
             }
         }
-        public IRectangleShape Shape { get; }
+        public IShape Shape { get; }
         public ConcreteViewModel ConcreteMaterial { get; }
         public ReinforcementViewModel ReinforcementMaterial { get; }
 
@@ -55,7 +55,7 @@ namespace StructureHelper.Windows.BeamShears
                 TensionForSLSVisibility = false,
                 HumidityVisibility = false
             };
-            Shape = beamShearSection.Shape as IRectangleShape;
+            Shape = beamShearSection.Shape;
             ReinforcementMaterial = new(beamShearSection.ReinforcementMaterial) { MaterialLogicVisibility = false };
         }
     }

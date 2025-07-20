@@ -43,7 +43,7 @@ namespace DataAccess.DTOs
 
         private void InitializeStrategies()
         {
-            updateStrategy ??= new BeamShearSectionUpdateStrategy();
+            updateStrategy ??= new BeamShearSectionUpdateStrategy() { UpdateChildren = false};
             shapeConvertStrategy = new DictionaryConvertStrategy<IShape, IShape>
                 (this, new ShapeFromDTOConvertStrategy(this));
             concreteConvertStrategy = new ConcreteLibMaterialFromDTOConvertStrategy()

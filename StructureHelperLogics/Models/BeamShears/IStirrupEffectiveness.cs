@@ -23,5 +23,9 @@ namespace StructureHelperLogics.Models.BeamShears
         /// Factor of difference between real and uniform distribution
         /// </summary>
         double StirrupPlacementFactor { get; set; }
+        /// <summary>
+        /// Minimum ratio of density of stirrup to density of concrete
+        /// </summary>
+        double MinimumStirrupRatio { get; set; }
     }
 }

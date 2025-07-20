@@ -8,6 +8,7 @@ namespace DataAccess.DTOs
     public class ShapeToDTOConvertStrategy : ConvertStrategy<IShape, IShape>
     {
         private IConvertStrategy<RectangleShapeDTO, IRectangleShape> rectangleConvertStrategy;
+        private IConvertStrategy<CircleShapeDTO, ICircleShape> circleConvertStrategy;
 
         public ShapeToDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
@@ -15,16 +16,9 @@ namespace DataAccess.DTOs
 
         public override IShape GetNewItem(IShape source)
         {
-            try
-            {
-                GetNewShape(source);
-                return NewItem;
-            }
-            catch (Exception ex)
-            {
-                TraceErrorByEntity(this, ex.Message);
-                throw;
-            }
+            ChildClass = this;
+            GetNewShape(source);
+            return NewItem;
         }
 
         private void GetNewShape(IShape source)
@@ -34,12 +28,24 @@ namespace DataAccess.DTOs
             {
                 ProcessRectangle(rectangle);
             }
+            else if (source is ICircleShape circle)
+            {
+                ProcessCircle(circle);
+            }
             else
             {
                 string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source) + ": shape type";
                 throw new StructureHelperException(errorString);
             }
             TraceLogger?.AddMessage($"Shape converting Id = {NewItem.Id} has been has been finished successfully", TraceLogStatuses.Debug);
+        }
+
+        private void ProcessCircle(ICircleShape circle)
+        {
+            TraceLogger?.AddMessage($"Shape is circle", TraceLogStatuses.Debug);
+            circleConvertStrategy = new DictionaryConvertStrategy<CircleShapeDTO, ICircleShape>
+                (this, new CircleShapeToDTOConvertStrategy(this));
+            NewItem = circleConvertStrategy.Convert(circle);
         }
 
         private void ProcessRectangle(IRectangleShape rectangle)

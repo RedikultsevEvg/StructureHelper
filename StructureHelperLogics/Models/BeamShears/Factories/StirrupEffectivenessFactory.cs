@@ -36,7 +36,8 @@ namespace StructureHelperLogics.Models.BeamShears
             {
                 MaxCrackLengthRatio = 1.5,
                 StirrupPlacementFactor = 0.75,
-                StirrupShapeFactor = 0.5
+                StirrupShapeFactor = 0.5,
+                MinimumStirrupRatio = 0.1
             };
             return stirrupEffectiveness;
         }
@@ -47,7 +48,8 @@ namespace StructureHelperLogics.Models.BeamShears
             {
                 MaxCrackLengthRatio = 2,
                 StirrupPlacementFactor = 0.75,
-                StirrupShapeFactor = 1
+                StirrupShapeFactor = 1,
+                MinimumStirrupRatio = 0.25
             };
             return stirrupEffectiveness;
         }

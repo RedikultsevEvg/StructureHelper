@@ -11,8 +11,7 @@ namespace StructureHelper.Windows.BeamShears
 {
     public class ShearDiagramLogic
     {
-        const string ForceUnitString = "kN";
-
+        private const string ForceUnitString = "kN";
         private IBeamShearActionResult result;
         private IUnit unitForce;
 
@@ -23,23 +22,23 @@ namespace StructureHelper.Windows.BeamShears
             unitForce = unitLogic.GetUnit(UnitTypes.Force, ForceUnitString);
         }
 
-        public void ShowWindow()
+        public void ShowWindow(double sectionsStartCoordinate)
         {
             SafetyProcessor.RunSafeProcess(() =>
             {
                 var seriesList = new List<Series>();
-                var series = new Series(GetParametersByCurveResult()) { Name = "" };
+                var series = new Series(GetParametersByCurveResult(sectionsStartCoordinate)) { Name = "" };
                 seriesList.Add(series);
                 var vm = new GraphViewModel(seriesList);
                 var wnd = new GraphView(vm);
                 wnd.ShowDialog();
             },
-            "Errors appeared during showing a graph, see detailed information");
+            "Errors appeared during showing a chart, see detailed information");
         }
-        private ArrayParameter<double> GetParametersByCurveResult()
+        private ArrayParameter<double> GetParametersByCurveResult(double sectionsStartCoordinate)
         {
             List<IBeamShearSectionLogicResult> results = result.SectionResults
-                .Where(x => x.InputData.InclinedSection.StartCoord == 0)
+                .Where(x => x.InputData.InclinedSection.StartCoord == sectionsStartCoordinate)
                 .ToList();
             var labels = GetLabels();
             var arrayParameter = new ArrayParameter<double>(results.Count(), labels.Count(), labels);

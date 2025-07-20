@@ -35,12 +35,12 @@ namespace StructureHelperLogics.Models.BeamShears
             GetGeometry();
             if (inclinedSection.StartCoord > rebarEndPoint)
             {
-                TraceLogger?.AddMessage($"Inclined section start point coordinate X = {inclinedSection.StartCoord} is greater than inclined rebar end point x = {rebarEndPoint}, inclined rebar has been ignored");
+                TraceLogger?.AddMessage($"Inclined section start point coordinate X = {inclinedSection.StartCoord} is greater than inclined rebar end point X = {rebarEndPoint}, inclined rebar has been ignored");
                 return 0.0;
             }
             if (inclinedSection.EndCoord < rebarStartPoint)
             {
-                TraceLogger?.AddMessage($"Inclined section end point coordinate X = {inclinedSection.EndCoord} is less than inclined rebar start point x = {rebarStartPoint}, inclined rebar has been ignored");
+                TraceLogger?.AddMessage($"Inclined section end point coordinate X = {inclinedSection.EndCoord} is less than inclined rebar start point X = {rebarStartPoint}, inclined rebar has been ignored");
                 return 0.0;
             }
             if (inclinedSection.StartCoord > rebarTrueEndPoint & inclinedSection.StartCoord < rebarEndPoint)

@@ -9,6 +9,7 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
         private const double minValueOfCenterCover = 0.01;
         private const double minValueOfCrossSectionWidth = 0.05;
         private const double minValueOfCrossSectionHeight = 0.05;
+        private const double minCircleDiameter = 0.05;
         private bool result;
         private string checkResult;
 
@@ -63,11 +64,24 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
                 {
                     CheckRectangleShape(rectangle);
                 }
+                else if (Entity.Shape is ICircleShape circle)
+                {
+                    CheckCircleShape(circle);
+                }
                 else
                 {
                     result = false;
                     TraceMessage($"\nType of shape of cross-section is unknown");
                 }
+            }
+        }
+
+        private void CheckCircleShape(ICircleShape circle)
+        {
+            if (circle.Diameter < minCircleDiameter)
+            {
+                result = false;
+                TraceMessage($"\nValue of cross-section diameter D = {circle.Diameter}(m) must not be less than bmin = {minCircleDiameter}(m)");
             }
         }
 

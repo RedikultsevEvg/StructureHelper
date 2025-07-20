@@ -14,7 +14,7 @@ namespace DataAccess.DTOs
         public List<IBeamShearSection> Sections { get; } = new();
         [JsonProperty("Stirrups")]
         public List<IStirrup> Stirrups { get; } = new();
-        public IBeamShearDesignRangeProperty DesignRangeProperty { get; set; }
+        public IBeamShearDesignRangeProperty DesignRangeProperty { get; set; } = new BeamShearDesignRangePropertyDTO(Guid.NewGuid());
 
         public BeamShearCalculatorInputDataDTO(Guid id)
         {

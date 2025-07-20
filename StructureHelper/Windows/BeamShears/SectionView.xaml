@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <TabControl>
             <TabItem Header="Main">
-                <StackPanel>
+                <StackPanel x:Name="ShapeStackPanel">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -31,7 +31,6 @@
                         <TextBox Grid.Column="1" Text="{Binding Name}"/>
                     </Grid>
                     <!--ShapeEditTemplates.xaml-->
-                    <ContentControl ContentTemplate="{StaticResource RectangleShapeEdit}" Content="{Binding Shape}"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Concrete" DataContext="{Binding ConcreteMaterial}">

@@ -9,7 +9,7 @@ namespace StructureHelperLogics.Models.BeamShears
 {
     public static class SectionEffectivenessFactory
     {
-        public static ISectionEffectiveness GetSheaEffectiveness(BeamShearSectionType sectionType)
+        public static ISectionEffectiveness GetShearEffectiveness(BeamShearSectionType sectionType)
         {
             if (sectionType == BeamShearSectionType.Rectangle)
             {

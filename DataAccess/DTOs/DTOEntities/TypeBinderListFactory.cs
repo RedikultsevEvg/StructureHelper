@@ -34,6 +34,7 @@ namespace DataAccess.DTOs
             List<(Type type, string name)> newList = new List<(Type type, string name)>
             {
                 { (typeof(AccuracyDTO), "Accuracy") },
+                { (typeof(CircleShapeDTO), "CircleShape") },
                 { (typeof(ConcreteLibMaterialDTO), "ConcreteLibMaterial") },
                 { (typeof(ColumnFilePropertyDTO), "ColumnFileProperty") },
                 { (typeof(ColumnedFilePropertyDTO), "ColumnedFileProperty") },
@@ -119,6 +120,7 @@ namespace DataAccess.DTOs
                 { (typeof(BeamShearAnalysisDTO), "BeamShearAnalysis") },
                 { (typeof(BeamShearCalculatorDTO), "BeamShearCalculator") },
                 { (typeof(BeamShearCalculatorInputDataDTO), "BeamShearCalculatorInputData") },
+                { (typeof(BeamShearDesignRangePropertyDTO), "BeamShearDesignRangeProperty") },
                 { (typeof(BeamShearRepositoryDTO), "BeamShearRepository") },
                 { (typeof(BeamShearSectionDTO), "BeamShearSection") },
                 { (typeof(List<IBeamShearAction>), "ListOfBeamShearActions") },

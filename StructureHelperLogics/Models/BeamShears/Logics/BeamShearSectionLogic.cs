@@ -1,7 +1,9 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.BeamShears.Logics;
 
 namespace StructureHelperLogics.Models.BeamShears
@@ -72,7 +74,8 @@ namespace StructureHelperLogics.Models.BeamShears
             double concreteStrength = concreteLogic.GetShearStrength();
             double stirrupStrength = stirrupLogic.GetShearStrength();
             if (stirrupStrength > concreteStrength)
-            {
+            {      
+                localTraceLogger?.AddMessage($"Shear reinforcement strength Qsw = {stirrupStrength} is greater than concrete strength for shear Qb = {concreteStrength}, shear reinforcement strength has to be restricted.");
                 stirrupStrength = GetStirrupStrengthBySearch();
             }
             concreteStrength *= factorOfLongitudinalForce;
@@ -103,7 +106,7 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private double GetStirrupStrengthBySearch()
         {
-            var logic = new StirrupBySearchLogic(TraceLogger)
+            var logic = new StirrupBySearchLogic(localTraceLogger.GetSimilarTraceLogger(100))
             {
                 InputData = InputData,
                 SectionEffectiveness = sectionEffectiveness
@@ -115,7 +118,18 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void InitializeStrategies()
         {
-            sectionEffectiveness = SectionEffectivenessFactory.GetSheaEffectiveness(BeamShearSectionType.Rectangle);
+            if (InputData.InclinedSection.BeamShearSection.Shape is IRectangleShape)
+            {
+                sectionEffectiveness = SectionEffectivenessFactory.GetShearEffectiveness(BeamShearSectionType.Rectangle);
+            }
+            else if (InputData.InclinedSection.BeamShearSection.Shape is ICircleShape)
+            {
+                sectionEffectiveness = SectionEffectivenessFactory.GetShearEffectiveness(BeamShearSectionType.Circle);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(InputData.InclinedSection.BeamShearSection.Shape));
+            }
             concreteLogic = new(sectionEffectiveness, InputData.InclinedSection, localTraceLogger);
             stirrupLogic = new(InputData, localTraceLogger);
             getLongitudinalForceFactorLogic = new GetLongitudinalForceFactorLogic(localTraceLogger?.GetSimilarTraceLogger(100));

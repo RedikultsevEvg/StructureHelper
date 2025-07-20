@@ -15,5 +15,7 @@ namespace StructureHelperLogics.Models.BeamShears
         public double StirrupShapeFactor { get; set; }
         /// <inheritdoc/>
         public double StirrupPlacementFactor { get; set; }
+        /// <inheritdoc/>
+        public double MinimumStirrupRatio { get; set; }
     }
 }

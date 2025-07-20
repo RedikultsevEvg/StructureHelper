@@ -7,6 +7,7 @@ namespace DataAccess.DTOs
     internal class ShapeFromDTOConvertStrategy : ConvertStrategy<IShape, IShape>
     {
         private IConvertStrategy<RectangleShape, RectangleShapeDTO> rectangleConvertStrategy;
+        private IConvertStrategy<CircleShape, CircleShapeDTO> circleConvertStrategy;
 
         public ShapeFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
@@ -14,11 +15,18 @@ namespace DataAccess.DTOs
 
         public override IShape GetNewItem(IShape source)
         {
+            ChildClass = this;
             if (source is RectangleShapeDTO rectangleShapeDTO)
             {
                 rectangleConvertStrategy ??= new DictionaryConvertStrategy<RectangleShape, RectangleShapeDTO>
                     (this, new RectangleShapeFromDTOConvertStrategy(this));
                 NewItem = rectangleConvertStrategy.Convert(rectangleShapeDTO);
+            }
+            if (source is CircleShapeDTO circleShapeDTO)
+            {
+                circleConvertStrategy ??= new DictionaryConvertStrategy<CircleShape, CircleShapeDTO>
+                    (this, new CircleShapeFromDTOConvertStrategy(this));
+                NewItem = circleConvertStrategy.Convert(circleShapeDTO);
             }
             else
             {

@@ -37,6 +37,18 @@
                         <ContentControl ContentTemplate="{DynamicResource ShearRectangleSection}"/>
                     </Viewbox>
                 </Button>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding Add}"
+                        CommandParameter="{x:Static enums:PrimitiveType.Circle}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Circle section"
+                                                IconContent="{StaticResource ShearCircleSection}"
+                                                DescriptionText="Add circle shear section (diameter, strength)"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource ShearCircleSection}"/>
+                    </Viewbox>
+                </Button>
             </ToolBar>
             <ToolBar ToolTip="Stirrups" DataContext="{Binding Stirrups}">
                 <Button Style="{StaticResource ToolButton}" 
@@ -103,14 +115,27 @@ CommandParameter="{x:Static enums:StirrupTypes.GroupOfStirrups}">
             </ToolBar>
             <ToolBar ToolTip="Templates">
                 <Button Style="{StaticResource ToolButton}" 
-                        Command="{Binding AddTemplate}">
+                        Command="{Binding AddTemplate}"
+                        CommandParameter="{x:Static enums:PrimitiveType.Rectangle}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Create rectangle template"
-                                                IconContent="{StaticResource ShearSectionTemplate}"
+                                                IconContent="{StaticResource ShearSectionRectangleTemplate}"
                                                 DescriptionText="Create rectangle section by template"/>
                     </Button.ToolTip>
                     <Viewbox>
-                        <ContentControl ContentTemplate="{DynamicResource ShearSectionTemplate}"/>
+                        <ContentControl ContentTemplate="{DynamicResource ShearSectionRectangleTemplate}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding AddTemplate}"
+                        CommandParameter="{x:Static enums:PrimitiveType.Circle}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Create circle template"
+                                                IconContent="{StaticResource ShearSectionCircleTemplate}"
+                                                DescriptionText="Create circle section by template"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource ShearSectionCircleTemplate}"/>
                     </Viewbox>
                 </Button>
             </ToolBar>

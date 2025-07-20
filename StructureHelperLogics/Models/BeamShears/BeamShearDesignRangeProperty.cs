@@ -5,11 +5,11 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <inheritdoc>
     public class BeamShearDesignRangeProperty : IBeamShearDesignRangeProperty
     {
-        private const int minStepCount = 0;
+        private const int minStepCount = 10;
         private const int maxStepCount = 1000;
         private double absoluteRangeValue = 0.0;
-        private double relativeEffectiveDepthRangeValue = 3.0;
-        private int stepCount = 50;
+        private double relativeEffectiveDepthRangeValue = 3.3;
+        private int stepCount = 55;
 
         /// <inheritdoc>
         public Guid Id { get; }

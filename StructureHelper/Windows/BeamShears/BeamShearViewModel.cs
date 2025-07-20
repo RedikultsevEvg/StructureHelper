@@ -1,4 +1,6 @@
 ﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperLogics.Models.Analyses;
 using StructureHelperLogics.Models.BeamShears;
 using System;
@@ -38,10 +40,24 @@ namespace StructureHelper.Windows.BeamShears
 
         private void AddTemplateMethod(object param)
         {
-            var templateRepository = BeamShearTemplatesFactory.GetTemplateRepository(ShearSectionTemplateTypes.Rectangle);
-            var updateStrategy = new BeamShearRepositoryAddUpdateStrategy();
-            updateStrategy.Update(repository, templateRepository);
-            Refresh();
+            if (param is PrimitiveType.Rectangle)
+            {
+                var templateRepository = BeamShearTemplatesFactory.GetTemplateRepository(ShearSectionTemplateTypes.Rectangle);
+                var updateStrategy = new BeamShearRepositoryAddUpdateStrategy();
+                updateStrategy.Update(repository, templateRepository);
+                Refresh();
+            }
+            else if (param is PrimitiveType.Circle)
+            {
+                var templateRepository = BeamShearTemplatesFactory.GetTemplateRepository(ShearSectionTemplateTypes.Circle);
+                var updateStrategy = new BeamShearRepositoryAddUpdateStrategy();
+                updateStrategy.Update(repository, templateRepository);
+                Refresh();
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(param));
+            }
         }
 
         private void Refresh()
