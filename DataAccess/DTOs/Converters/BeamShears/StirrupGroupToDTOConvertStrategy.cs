@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.Models.BeamShears.Logics;
 using System;
@@ -14,6 +15,7 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<IStirrupGroup> updateStrategy;
         private IUpdateStrategy<IHasStirrups> stirrupUpdateStrategy;
+
 
         public StirrupGroupToDTOConvertStrategy(
             Dictionary<(Guid id, Type type), ISaveable> referenceDictionary,
@@ -34,7 +36,7 @@ namespace DataAccess.DTOs
 
         private void InitializeStrategies()
         {
-            updateStrategy ??= new StirrupGroupUpdateStrategy();
+            updateStrategy ??= new StirrupGroupUpdateStrategy() { UpdateChildren = false};
             stirrupUpdateStrategy ??= new HasStirrupsToDTOUpdateStrategy(ReferenceDictionary, TraceLogger);
         }
     }

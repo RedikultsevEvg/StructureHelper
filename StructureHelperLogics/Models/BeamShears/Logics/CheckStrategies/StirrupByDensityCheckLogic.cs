@@ -37,14 +37,29 @@ namespace StructureHelperLogics.Models.BeamShears
             }
             else
             {
-                if (Entity.StirrupDensity < minDensity)
-                {
-                    result = false;
-                    TraceMessage($"\nStirrup {Entity.Name} density d = {Entity.StirrupDensity} must not be less than dmin = {minDensity}");
-                }
+                CheckEntity();
             }
 
             return result;
+        }
+
+        private void CheckEntity()
+        {
+            if (Entity.StirrupDensity < minDensity)
+            {
+                result = false;
+                TraceMessage($"\nStirrup {Entity.Name} density d = {Entity.StirrupDensity} must not be less than dmin = {minDensity}");
+            }
+            if (Entity.StartCoordinate < 0)
+            {
+                result = false;
+                TraceMessage($"\nStirrup {Entity.Name} start coordinate must not be less than zero, but was {Entity.StartCoordinate}");
+            }
+            if (Entity.EndCoordinate <= Entity.StartCoordinate)
+            {
+                result = false;
+                TraceMessage($"\nStirrup {Entity.Name} start coordinate must be less than end coordinte, but was Xstart = {Entity.StartCoordinate}(m), Xend = {Entity.EndCoordinate}(m)");
+            }
         }
 
         private void TraceMessage(string errorString)

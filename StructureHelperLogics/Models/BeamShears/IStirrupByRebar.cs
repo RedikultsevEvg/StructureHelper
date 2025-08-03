@@ -10,7 +10,7 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <summary>
     /// Implement properties for uniformly distributed stirrups
     /// </summary>
-    public interface IStirrupByRebar : IStirrup
+    public interface IStirrupByRebar : IStirrup, IHasStartEndCoordinate
     {
         /// <summary>
         /// Material of stirrups

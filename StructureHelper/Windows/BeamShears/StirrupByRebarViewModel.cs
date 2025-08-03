@@ -60,6 +60,28 @@ namespace StructureHelper.Windows.BeamShears
             }
         }
 
+        public double StartCoordinate
+        {
+            get => stirrupByRebar.StartCoordinate;
+            set
+            {
+                if (value < 0) { value = 0;}
+                stirrupByRebar.StartCoordinate = value;
+                OnPropertyChanged(nameof(StartCoordinate));
+            }
+        }
+
+        public double EndCoordinate
+        {
+            get => stirrupByRebar.EndCoordinate;
+            set
+            {
+                if (value < 0) { value = 0; }
+                stirrupByRebar.EndCoordinate = value;
+                OnPropertyChanged(nameof(EndCoordinate));
+            }
+        }
+
         public bool IsSpiral
         {
             get => stirrupByRebar.IsSpiral;
@@ -104,7 +126,21 @@ namespace StructureHelper.Windows.BeamShears
                 {
                     if (Spacing < MinSpacing)
                     {
-                        result = $"Spacing of stirrups must not be less than {MinSpacing}";
+                        result = $"Spacing of stirrups must not be less than {MinSpacing}(m)";
+                    }
+                }
+                if (columnName == nameof(StartCoordinate))
+                {
+                    if (StartCoordinate < 0)
+                    {
+                        result = $"Start coordinate must not be less than zero";
+                    }
+                }
+                if (columnName == nameof(EndCoordinate))
+                {
+                    if (EndCoordinate < StartCoordinate)
+                    {
+                        result = $"End coordinate must not be greate than start coordinate {StartCoordinate}(m)";
                     }
                 }
                 return result;

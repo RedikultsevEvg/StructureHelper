@@ -28,6 +28,28 @@ namespace StructureHelper.Windows.BeamShears
             }
         }
 
+        public double StartCoordinate
+        {
+            get => stirrupByDensity.StartCoordinate;
+            set
+            {
+                if (value < 0) { value = 0; }
+                stirrupByDensity.StartCoordinate = value;
+                OnPropertyChanged(nameof(StartCoordinate));
+            }
+        }
+
+        public double EndCoordinate
+        {
+            get => stirrupByDensity.EndCoordinate;
+            set
+            {
+                if (value < 0) { value = 0; }
+                stirrupByDensity.EndCoordinate = value;
+                OnPropertyChanged(nameof(EndCoordinate));
+            }
+        }
+
         public string Error => null;
 
         public string this[string columnName]

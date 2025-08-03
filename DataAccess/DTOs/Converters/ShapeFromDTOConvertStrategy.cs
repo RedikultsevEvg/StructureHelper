@@ -22,7 +22,7 @@ namespace DataAccess.DTOs
                     (this, new RectangleShapeFromDTOConvertStrategy(this));
                 NewItem = rectangleConvertStrategy.Convert(rectangleShapeDTO);
             }
-            if (source is CircleShapeDTO circleShapeDTO)
+            else if (source is CircleShapeDTO circleShapeDTO)
             {
                 circleConvertStrategy ??= new DictionaryConvertStrategy<CircleShape, CircleShapeDTO>
                     (this, new CircleShapeFromDTOConvertStrategy(this));

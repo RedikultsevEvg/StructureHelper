@@ -32,6 +32,8 @@ namespace StructureHelperLogics.Models.BeamShears
             StirrupByDensity stirrupByDensity = new(Guid.NewGuid());
             updateStrategy.Update(stirrupByDensity, source);
             stirrupByDensity.StirrupDensity = GetStirrupDensity(source);
+            stirrupByDensity.StartCoordinate = source.StartCoordinate;
+            stirrupByDensity.EndCoordinate = source.EndCoordinate;
             return stirrupByDensity;
         }
 

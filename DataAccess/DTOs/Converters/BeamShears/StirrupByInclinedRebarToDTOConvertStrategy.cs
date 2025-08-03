@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.Models.Materials;
 using System;
@@ -14,6 +15,7 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<IStirrupByInclinedRebar> updateStrategy;
         private IConvertStrategy<RebarSectionDTO, IRebarSection> rebarConvertStrategy;
+        
 
         public StirrupByInclinedRebarToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger) : base(referenceDictionary, traceLogger)
         {

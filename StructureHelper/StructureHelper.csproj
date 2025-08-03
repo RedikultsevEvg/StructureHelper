@@ -8,7 +8,7 @@
     <UseWPF>true</UseWPF>
     <ImplicitUsings>disable</ImplicitUsings>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <ApplicationIcon>Infrastructure\UI\Icons\SH_лого_16.ico</ApplicationIcon>
     <AssemblyVersion></AssemblyVersion>
   </PropertyGroup>

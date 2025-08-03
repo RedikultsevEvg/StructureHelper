@@ -41,5 +41,10 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         {
             
         }
+
+        public object Clone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

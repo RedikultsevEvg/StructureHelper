@@ -38,10 +38,14 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger?.AddMessage("Calculation has been started", TraceLogStatuses.Debug);
             double crackLength = inclinedSection.EndCoord - inclinedSection.StartCoord;
             TraceLogger?.AddMessage($"Length of crack = {inclinedSection.EndCoord} - {inclinedSection.StartCoord} = {crackLength}(m)");
+            double crackEndCoord = Math.Min(stirrupByDensity.EndCoordinate, inclinedSection.EndCoord);
+            double crackStartCoord = Math.Max(stirrupByDensity.StartCoordinate, inclinedSection.StartCoord);
+            double crackLengthViaStirrup = crackEndCoord - crackStartCoord;
+            TraceLogger?.AddMessage($"Length of crack via stirrup = {crackEndCoord} - {crackStartCoord} = {crackLengthViaStirrup}(m)");
             double maxCrackLength = stirrupEffectiveness.MaxCrackLengthRatio * inclinedSection.EffectiveDepth;
             TraceLogger?.AddMessage($"Max length of crack = {stirrupEffectiveness.MaxCrackLengthRatio} * {inclinedSection.EffectiveDepth} = {maxCrackLength}(m)");
-            double finalCrackLength = Math.Min(crackLength, maxCrackLength);
-            TraceLogger?.AddMessage($"Length of crack = Min({crackLength}, {maxCrackLength}) = {finalCrackLength}(m)");
+            double finalCrackLength = Math.Min(crackLengthViaStirrup, maxCrackLength);
+            TraceLogger?.AddMessage($"Length of crack = Min({crackLengthViaStirrup}, {maxCrackLength}) = {finalCrackLength}(m)");
             double finalDensity = stirrupEffectiveness.StirrupShapeFactor * stirrupEffectiveness.StirrupPlacementFactor * stirrupByDensity.StirrupDensity;
             TraceLogger?.AddMessage($"Stirrups design density qsw = {stirrupEffectiveness.StirrupShapeFactor} * {stirrupEffectiveness.StirrupPlacementFactor} * {stirrupByDensity.StirrupDensity} = {finalDensity}(N/m)");
             double concreteDensity = inclinedSection.WebWidth * inclinedSection.ConcreteTensionStrength;

@@ -17,6 +17,8 @@ namespace StructureHelperLogics.Models.BeamShears
             baseUpdateStrategy ??= new StirrupBaseUpdateStrategy();
             baseUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.StirrupDensity = sourceObject.StirrupDensity;
+            targetObject.StartCoordinate = sourceObject.StartCoordinate;
+            targetObject.EndCoordinate = sourceObject.EndCoordinate;
         }
     }
 }

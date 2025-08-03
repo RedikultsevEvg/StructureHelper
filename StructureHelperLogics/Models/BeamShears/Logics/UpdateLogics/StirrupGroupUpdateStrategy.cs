@@ -16,7 +16,10 @@ namespace StructureHelperLogics.Models.BeamShears
             CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
             CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            baseUpdateStrategy ??= new StirrupBaseUpdateStrategy();
+            baseUpdateStrategy ??= new StirrupBaseUpdateStrategy()
+            {
+                UpdateChildren = this.UpdateChildren
+            };
             baseUpdateStrategy.Update(targetObject, sourceObject);
             if (UpdateChildren == true)
             {

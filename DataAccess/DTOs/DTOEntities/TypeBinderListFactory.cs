@@ -74,6 +74,7 @@ namespace DataAccess.DTOs
                 { (typeof(List<IVisualAnalysis>), "ListOfIVisualAnalysis") },
                 { (typeof(Point2DDTO), "Point2D") },
                 { (typeof(PointNdmPrimitiveDTO), "PointNdmPrimitive") },
+                { (typeof(PrimitiveVisualPropertyDTO), "PrimitiveVisualProperty") },
                 { (typeof(ProjectDTO), "Project") },
                 { (typeof(RebarNdmPrimitiveDTO), "RebarNdmPrimitive") },
                 { (typeof(RebarSectionDTO), "RebarSection") },

@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.BeamShears;
+using System.Windows.Media;
 
 namespace DataAccess.DTOs
 {
@@ -10,13 +12,23 @@ namespace DataAccess.DTOs
         [JsonProperty("Name")]
         public string? Name { get; set; } = string.Empty;
         [JsonProperty("StirrupDensity")]
-        public double StirrupDensity { get; set; }
+        public double StirrupDensity { get; set; } = 30000;
         [JsonProperty("CompressedGap")]
-        public double CompressedGap { get; set; }
+        public double CompressedGap { get; set; } = 0;
+        [JsonProperty("StartCoordinate")]
+        public double StartCoordinate { get; set; } = 0;
+        [JsonProperty("EndCoordinate")]
+        public double EndCoordinate { get; set; } = 100;
+        [JsonProperty("VisualProperty")]
+        public IPrimitiveVisualProperty VisualProperty { get; set; }
 
         public StirrupByDensityDTO(Guid id)
         {
             Id = id;
+            VisualProperty = new PrimitiveVisualPropertyDTO(Guid.NewGuid())
+            {
+                Color = (Color)ColorConverter.ConvertFromString("Black")
+            };
         }
 
         public object Clone()

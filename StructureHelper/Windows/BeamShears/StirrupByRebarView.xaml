@@ -44,6 +44,23 @@
             <TabItem Header="Material" DataContext="{Binding Material}">
                 <ContentControl ContentTemplate="{StaticResource ReinforcementMaterial}" Content="{Binding}"/>
             </TabItem>
+            <TabItem Header="Misc.">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Start coordinate"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource ValidatedError}" Text="{Binding StartCoordinate, Converter={StaticResource LengthConverter},ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="1" Text="End coordinate"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ValidatedError}" Text="{Binding EndCoordinate, Converter={StaticResource LengthConverter},ValidatesOnDataErrors=True}"/>
+                </Grid>
+            </TabItem>
         </TabControl>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>

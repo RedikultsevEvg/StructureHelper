@@ -1,10 +1,12 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -64,10 +66,15 @@ namespace StructureHelperLogics.Models.BeamShears
         public IRebarSection RebarSection { get; set; } = new RebarSection(Guid.NewGuid());
         /// <inheritdoc>
         public double LegCount { get; set; } = 2;
+        public IPrimitiveVisualProperty VisualProperty { get; set; }
 
         public StirrupByInclinedRebar(Guid id)
         {
             Id = id;
+            VisualProperty = new PrimitiveVisualProperty(Guid.NewGuid())
+            {
+                Color = (Color)ColorConverter.ConvertFromString("Black")
+            };
         }
 
         public object Clone()

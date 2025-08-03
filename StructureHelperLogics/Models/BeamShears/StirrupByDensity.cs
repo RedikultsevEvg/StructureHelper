@@ -1,4 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.VisualProperties;
+using System.Windows.Media;
+
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -9,10 +12,17 @@ namespace StructureHelperLogics.Models.BeamShears
         public string Name { get; set; } = string.Empty;
         public double StirrupDensity { get; set; }
         public double CompressedGap { get; set; }
+        public IPrimitiveVisualProperty VisualProperty { get; set; }
+        public double StartCoordinate { get; set; } = 0;
+        public double EndCoordinate { get; set; } = 100;
 
         public StirrupByDensity(Guid id)
         {
             Id = id;
+            VisualProperty = new PrimitiveVisualProperty(Guid.NewGuid())
+            {
+                Color = (Color)ColorConverter.ConvertFromString("Black")
+            };
         }
 
         public object Clone()

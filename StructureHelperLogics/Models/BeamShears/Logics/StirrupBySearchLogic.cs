@@ -18,7 +18,7 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public double GetShearStrength()
         {
-            double parameter = GetInclinedCrackRatio();
+            double parameter = GetCrackLengthRatio();
             BeamShearSectionLogicInputData newInputData = GetNewInputDataByCrackLengthRatio(parameter);
             TraceLogger?.AddMessage($"New value of dangerous inclinated crack has been obtained: start point Xstart = {newInputData.InclinedSection.StartCoord}(m), end point Xend = {newInputData.InclinedSection.EndCoord}(m)");
             stirrupLogic = new(newInputData, TraceLogger);
@@ -31,7 +31,7 @@ namespace StructureHelperLogics.Models.BeamShears
         /// </summary>
         /// <returns></returns>
         /// <exception cref="StructureHelperException"></exception>
-        private double GetInclinedCrackRatio()
+        private double GetCrackLengthRatio()
         {
             var parameterCalculator = new FindParameterCalculator();
             parameterCalculator.InputData.Predicate = GetPredicate;
@@ -48,6 +48,7 @@ namespace StructureHelperLogics.Models.BeamShears
             {
                 crackLengthRatio += 0.0001;
             }
+            crackLengthRatio = Math.Max(crackLengthRatio, 0);
             return crackLengthRatio;
         }
         /// <summary>

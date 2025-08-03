@@ -12,21 +12,42 @@
             <RowDefinition/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Name"/>
-            <TextBox Grid.Column="1" Text="{Binding Name}"/>
-            <TextBlock Grid.Row="1" Text="Density"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ValidatedError}" Text="{Binding Density, Converter={StaticResource DistributedLoadConverter}, ValidatesOnDataErrors=True}"/>
-        </Grid>
+        <TabControl>
+            <TabItem Header="Main">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Name"/>
+                    <TextBox Grid.Column="1" Text="{Binding Name}"/>
+                    <TextBlock Grid.Row="1" Text="Density"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ValidatedError}" Text="{Binding Density, Converter={StaticResource DistributedLoadConverter}, ValidatesOnDataErrors=True}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Misc.">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Start coordinate"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource ValidatedError}" Text="{Binding StartCoordinate, Converter={StaticResource LengthConverter},ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="1" Text="End coordinate"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ValidatedError}" Text="{Binding EndCoordinate, Converter={StaticResource LengthConverter},ValidatesOnDataErrors=True}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

@@ -1,10 +1,5 @@
 ﻿using Newtonsoft.Json;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace DataAccess.DTOs
@@ -24,5 +19,9 @@ namespace DataAccess.DTOs
         [JsonProperty("Opacity")]
         public double Opacity { get; set; }
 
+        public object Clone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

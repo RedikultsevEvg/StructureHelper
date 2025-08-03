@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.BeamShears;
 
@@ -10,6 +11,7 @@ namespace DataAccess.DTOs
     {
         private Dictionary<(Guid id, Type type), ISaveable> referenceDictionary;
         private IShiftTraceLogger traceLogger;
+        private IUpdateStrategy<IHasVisualProperty> visualUpdateStrategy;
 
         public HasStirrupsFromDTOUpdateStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
         {
@@ -63,7 +65,8 @@ namespace DataAccess.DTOs
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(stirrup));
             }
-
+            visualUpdateStrategy = new HasVisualPropertyFromDTOUpdateStrategy(referenceDictionary, traceLogger);
+            visualUpdateStrategy.Update(newItem, stirrup);
             return newItem;
         }
 

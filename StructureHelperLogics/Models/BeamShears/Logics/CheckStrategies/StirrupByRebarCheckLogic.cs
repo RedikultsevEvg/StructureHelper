@@ -41,34 +41,50 @@ namespace StructureHelperLogics.Models.BeamShears
             }
             else
             {
-                if (Entity.Diameter < minDiameter)
-                {
-                    result = false;
-                    TraceMessage($"\nStirrup {Entity.Name} diameter d = {Entity.Diameter} must not be less than dmin = {minDiameter}");
-                }
-                if (Entity.Diameter > maxDiameter)
-                {
-                    result = false;
-                    TraceMessage($"\nStirrup {Entity.Name} diameter d = {Entity.Diameter} must be less or equal than dmax = {maxDiameter}");
-                }
-                if (Entity.Spacing < minSpacing)
-                {
-                    result = false;
-                    TraceMessage($"\nStirrup {Entity.Name} spacing s = {Entity.Spacing} must not be less than smin = {minSpacing}");
-                }
-                if (Entity.Spacing > maxSpacing)
-                {
-                    result = false;
-                    TraceMessage($"\nStirrup {Entity.Name} spacing s = {Entity.Spacing} must be less or equal than smax = {maxSpacing}");
-                }
-                if (Entity.LegCount < minLegCount)
-                {
-                    result = false;
-                    TraceMessage($"\nStirrup {Entity.Name} leg count n = {Entity.LegCount} must not be less than nmin = {minLegCount}");
-                }
+                CheckEntity();
             }
             return result;
         }
+
+        private void CheckEntity()
+        {
+            if (Entity.Diameter < minDiameter)
+            {
+                result = false;
+                TraceMessage($"\nStirrup {Entity.Name} diameter d = {Entity.Diameter} must not be less than dmin = {minDiameter}");
+            }
+            if (Entity.Diameter > maxDiameter)
+            {
+                result = false;
+                TraceMessage($"\nStirrup {Entity.Name} diameter d = {Entity.Diameter} must be less or equal than dmax = {maxDiameter}");
+            }
+            if (Entity.Spacing < minSpacing)
+            {
+                result = false;
+                TraceMessage($"\nStirrup {Entity.Name} spacing s = {Entity.Spacing} must not be less than smin = {minSpacing}");
+            }
+            if (Entity.Spacing > maxSpacing)
+            {
+                result = false;
+                TraceMessage($"\nStirrup {Entity.Name} spacing s = {Entity.Spacing} must be less or equal than smax = {maxSpacing}");
+            }
+            if (Entity.LegCount < minLegCount)
+            {
+                result = false;
+                TraceMessage($"\nStirrup {Entity.Name} leg count n = {Entity.LegCount} must not be less than nmin = {minLegCount}");
+            }
+            if (Entity.StartCoordinate < 0)
+            {
+                result = false;
+                TraceMessage($"\nStirrup {Entity.Name} start coordinate must not be less than zero, but was {Entity.StartCoordinate}");
+            }
+            if (Entity.EndCoordinate <= Entity.StartCoordinate)
+            {
+                result = false;
+                TraceMessage($"\nStirrup {Entity.Name} start coordinate must be less than end coordinte, but was Xstart = {Entity.StartCoordinate}(m), Xend = {Entity.EndCoordinate}(m)");
+            }
+        }
+
         private void TraceMessage(string errorString)
         {
             checkResult += errorString;

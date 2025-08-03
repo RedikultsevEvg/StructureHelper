@@ -25,6 +25,8 @@ namespace StructureHelperLogics.Models.BeamShears
             targetObject.LegCount = sourceObject.LegCount;
             targetObject.Spacing = sourceObject.Spacing;
             targetObject.IsSpiral = sourceObject.IsSpiral;
+            targetObject.StartCoordinate = sourceObject.StartCoordinate;
+            targetObject.EndCoordinate = sourceObject.EndCoordinate;
         }
     }
 }

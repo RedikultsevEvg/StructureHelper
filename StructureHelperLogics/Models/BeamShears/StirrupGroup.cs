@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StructureHelperCommon.Models.VisualProperties;
+using System.Windows.Media;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -13,10 +9,15 @@ namespace StructureHelperLogics.Models.BeamShears
         public string Name { get; set; } = string.Empty;
         public List<IStirrup> Stirrups { get; } = new();
         public double CompressedGap { get; set; }
+        public IPrimitiveVisualProperty VisualProperty { get; set; }
 
         public StirrupGroup(Guid id)
         {
             Id = id;
+            VisualProperty = new PrimitiveVisualProperty(Guid.NewGuid())
+            {
+                Color = (Color)ColorConverter.ConvertFromString("Black")
+            };
         }
 
         public object Clone()

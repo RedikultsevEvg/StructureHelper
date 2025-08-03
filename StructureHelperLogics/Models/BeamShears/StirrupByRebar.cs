@@ -1,6 +1,8 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.Materials;
+using System.Windows.Media;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -62,11 +64,18 @@ namespace StructureHelperLogics.Models.BeamShears
         public double CompressedGap { get; set; } = 0;
         /// <inheritdoc/>
         public bool IsSpiral { get; set; } = false;
+        public double StartCoordinate { get; set; } = 0;
+        public double EndCoordinate { get; set; } = 100;
+        public IPrimitiveVisualProperty VisualProperty { get; set; }
 
         public StirrupByRebar(Guid id)
         {
             Id = id;
             Material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforcement400).HelperMaterial as IReinforcementLibMaterial;
+            VisualProperty = new PrimitiveVisualProperty(Guid.NewGuid())
+            {
+                Color = (Color)ColorConverter.ConvertFromString("Black")
+            };
         }
 
         public object Clone()

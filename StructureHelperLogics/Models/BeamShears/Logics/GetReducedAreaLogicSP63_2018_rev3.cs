@@ -1,5 +1,7 @@
-﻿using StructureHelperCommon.Models;
+﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -91,7 +93,18 @@ namespace StructureHelperLogics.Models.BeamShears
         private void GetAreas()
         {
             reducingFactor = reinforcementModulus / concreteModulus;
-            concreteArea = inclinedSection.WebWidth * inclinedSection.FullDepth;
+            if (inclinedSection.BeamShearSection.Shape is IRectangleShape)
+            {
+                concreteArea = inclinedSection.WebWidth * inclinedSection.FullDepth;
+            }
+            else if (inclinedSection.BeamShearSection.Shape is ICircleShape)
+            {
+                concreteArea = inclinedSection.WebWidth * inclinedSection.FullDepth * 0.785398; // * 0.785398 = PI/4
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(inclinedSection.BeamShearSection.Shape));
+            }
             TraceLogger?.AddMessage($"Concrete area Ac = {concreteArea}(m^2)");
             reinforcementArea = inclinedSection.BeamShearSection.ReinforcementArea;
             TraceLogger?.AddMessage($"Reinforcement area As = {reinforcementArea}(m^2)");

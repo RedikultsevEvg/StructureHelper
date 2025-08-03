@@ -51,9 +51,7 @@
                 </Button>
             </ToolBar>
             <ToolBar ToolTip="Stirrups" DataContext="{Binding Stirrups}">
-                <Button Style="{StaticResource ToolButton}" 
-Command="{Binding Add}"
-CommandParameter="{x:Static enums:StirrupTypes.GroupOfStirrups}">
+                <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:StirrupTypes.GroupOfStirrups}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Add group of stirrup"
                         IconContent="{StaticResource TreeGroup}"
@@ -152,7 +150,15 @@ CommandParameter="{x:Static enums:StirrupTypes.GroupOfStirrups}">
                 </Grid.ColumnDefinitions>
                 <ScrollViewer>
                     <StackPanel>
-                        <Expander Header="Actions" DataContext="{Binding Actions}">
+                        <Expander DataContext="{Binding Actions}">
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Height="16" Width="16">
+                                        <ContentControl ContentTemplate="{DynamicResource DistributedLoad}"/>
+                                    </Viewbox>
+                                    <TextBlock Text="Actions"/>
+                                </StackPanel>
+                            </Expander.Header>
                             <Expander.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Add" Command="{Binding Add}"/>
@@ -168,32 +174,29 @@ CommandParameter="{x:Static enums:StirrupTypes.GroupOfStirrups}">
                                 </ListBox.ItemTemplate>
                             </ListBox>
                         </Expander>
-                        <Expander Header="Cross-Sections" DataContext="{Binding Sections}">
-                            <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ContextMenu="{StaticResource EditCopyDelete}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <TextBlock Text="{Binding Name}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Expander>
-                        <Expander Header="Stirrups" DataContext="{Binding Stirrups}">
+                        <Expander DataContext="{Binding Sections}">
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Height="16" Width="16">
+                                        <ContentControl ContentTemplate="{DynamicResource ShearRectangleSection}"/>
+                                    </Viewbox>
+                                    <TextBlock Text="Cross-sections"/>
+                                </StackPanel>
+                            </Expander.Header>
                             <Expander.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Add">
-                                        <MenuItem Header="Uniformly distributed density" Command="{Binding Add}" CommandParameter="{x:Static enums:StirrupTypes.Density}">
+                                        <MenuItem Header="Rectangle section" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}">
                                             <MenuItem.Icon>
-                                                <Viewbox Height="24" Width="24">
-                                                    <ContentControl ContentTemplate="{DynamicResource StirrupDensity}"/>
+                                                <Viewbox Height="16" Width="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource ShearRectangleSection}"/>
                                                 </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Uniformly distributed rebars" Command="{Binding Add}" CommandParameter="{x:Static enums:StirrupTypes.UniformRebar}">
+                                        <MenuItem Header="Circle section" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}">
                                             <MenuItem.Icon>
-                                                <Viewbox Height="24" Width="24">
-                                                    <ContentControl ContentTemplate="{DynamicResource StirrupRebars}"/>
+                                                <Viewbox Height="16" Width="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource ShearCircleSection}"/>
                                                 </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>
@@ -210,7 +213,68 @@ CommandParameter="{x:Static enums:StirrupTypes.GroupOfStirrups}">
                                 </ListBox.ItemTemplate>
                             </ListBox>
                         </Expander>
-                        <Expander Header="Calculators" DataContext="{Binding Calculators}">
+                        <Expander DataContext="{Binding Stirrups}">
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Height="16" Width="16">
+                                        <ContentControl ContentTemplate="{DynamicResource StirrupRebars}"/>
+                                    </Viewbox>
+                                    <TextBlock Text="Stirrups"/>
+                                </StackPanel>
+                            </Expander.Header>
+                            <Expander.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Add">
+                                        <MenuItem Header="Group of stirrup" Command="{Binding Add}" CommandParameter="{x:Static enums:StirrupTypes.GroupOfStirrups}">
+                                            <MenuItem.Icon>
+                                                <Viewbox Height="16" Width="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource TreeGroup}"/>
+                                                </Viewbox>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Uniformly distributed density" Command="{Binding Add}" CommandParameter="{x:Static enums:StirrupTypes.Density}">
+                                            <MenuItem.Icon>
+                                                <Viewbox Height="16" Width="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource StirrupDensity}"/>
+                                                </Viewbox>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Uniformly distributed rebars" Command="{Binding Add}" CommandParameter="{x:Static enums:StirrupTypes.UniformRebar}">
+                                            <MenuItem.Icon>
+                                                <Viewbox Height="16" Width="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource StirrupRebars}"/>
+                                                </Viewbox>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Inclined rebar" Command="{Binding Add}" CommandParameter="{x:Static enums:StirrupTypes.Density}">
+                                            <MenuItem.Icon>
+                                                <Viewbox Height="16" Width="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource StirrupInclinedRebar}"/>
+                                                </Viewbox>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Expander.ContextMenu>
+                            <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ContextMenu="{StaticResource EditCopyDelete}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Expander>
+                        <Expander DataContext="{Binding Calculators}">
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Height="16" Width="16">
+                                        <ContentControl ContentTemplate="{DynamicResource ShearCalculator}"/>
+                                    </Viewbox>
+                                    <TextBlock Text="Calculators"/>
+                                </StackPanel>
+                            </Expander.Header>
                             <Expander.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Add">
