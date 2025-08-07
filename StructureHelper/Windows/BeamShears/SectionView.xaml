@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.BeamShears"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance local:SectionViewModel}"
         mc:Ignorable="d"
         Title="Beam shear section" Height="400" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
@@ -54,6 +55,9 @@
                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding CenterCover, Converter={StaticResource LengthConverter}}"/>
                     <ContentControl Grid.Row="2" Grid.ColumnSpan="2" ContentTemplate="{StaticResource ReinforcementMaterial}" Content="{Binding ReinforcementMaterial}"/>
                 </Grid>
+            </TabItem>
+            <TabItem Header="Visual">
+                <uc:PrimitiveVisualProperty ObjectVisual="{Binding VisualProperty}"/>
             </TabItem>
         </TabControl>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>

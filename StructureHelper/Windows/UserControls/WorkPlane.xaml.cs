@@ -1,4 +1,6 @@
-﻿using StructureHelper.Infrastructure.UI.DataContexts;
+﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.MainWindow;
 using StructureHelper.Windows.ViewModels.Materials;
 using System;
@@ -23,7 +25,9 @@ namespace StructureHelper.Windows.UserControls
     /// </summary>
     public partial class WorkPlane : UserControl
     {
-
+        private IFrameWorkElementServiseLogic frameWorkElementServiseLogic = new FrameWorkElementServiseLogic();
+        private RelayCommand saveImageCommand;
+        private RelayCommand copyToClipboardCommand;
 
         public CrossSectionViewModel ViewModel
         {
@@ -35,7 +39,15 @@ namespace StructureHelper.Windows.UserControls
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register(nameof(ViewModel), typeof(CrossSectionViewModel), typeof(WorkPlane), new PropertyMetadata(null));
 
+        public ICommand SaveAsImageCommand
+        {
+            get => saveImageCommand ??= new RelayCommand(o => frameWorkElementServiseLogic.SaveImageToFile(WorkPlaneGrid));
+        }
 
+        public ICommand CopyToClipboardCommand
+        {
+            get => copyToClipboardCommand ??= new RelayCommand(o => frameWorkElementServiseLogic.CopyImageToClipboard(WorkPlaneGrid));
+        }
 
         public WorkPlane()
         {

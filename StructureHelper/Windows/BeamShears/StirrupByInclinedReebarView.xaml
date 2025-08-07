@@ -53,6 +53,9 @@
             <TabItem Header="Material" DataContext="{Binding RebarSectionViewModel}">
                 <ContentControl ContentTemplate="{StaticResource ReinforcementMaterial}" Content="{Binding Material}"/>
             </TabItem>
+            <TabItem Header="Visual">
+                <uc:PrimitiveVisualProperty ObjectVisual="{Binding VisualProperty}"/>
+            </TabItem>
         </TabControl>
         
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>

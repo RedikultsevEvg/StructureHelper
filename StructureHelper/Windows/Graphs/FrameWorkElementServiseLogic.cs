@@ -13,19 +13,19 @@ namespace StructureHelper.Windows.Graphs
 {
     public class FrameWorkElementServiseLogic : IFrameWorkElementServiseLogic
     {
-        public void SaveImageToFile(FrameworkElement element)
+        public void SaveImageToFile(FrameworkElement element, double scaleFactor = 1)
         {
             var inputData = new ExportToFileInputData
             {
                 Filter = "png |*.png",
                 Title = "Save in *.png File"
             };
-            var logic = new ExportFrameWorkElementLogic(element);
+            var logic = new ExportFrameWorkElementLogic(element, scaleFactor);
             var exportService = new ExportToFileService(inputData, logic);
             exportService.Export();
         }
 
-        public void CopyImageToClipboard(FrameworkElement element)
+        public void CopyImageToClipboard(FrameworkElement element, double scaleFactor = 1)
         {
             if (element == null) return;
 
@@ -35,8 +35,8 @@ namespace StructureHelper.Windows.Graphs
 
             // Render the element to a RenderTargetBitmap
             var renderTarget = new RenderTargetBitmap(
-            (int)element.ActualWidth,
-                (int)element.ActualHeight,
+            (int)(element.ActualWidth * scaleFactor),
+                (int)(element.ActualHeight * scaleFactor),
                 96, // DPI X
                 96, // DPI Y
                 PixelFormats.Pbgra32);

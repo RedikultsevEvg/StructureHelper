@@ -4,163 +4,194 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StructureHelper.Windows.UserControls"
+             xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
              xmlns:enums="clr-namespace:StructureHelper.Infrastructure.Enums"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:infrastructure="clr-namespace:StructureHelper.Infrastructure"
                     xmlns:mouseEventTriggers="clr-namespace:StructureHelper.Infrastructure.UI.Triggers.MouseEventTriggers"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding CopyToClipboardCommand, RelativeSource={RelativeSource AncestorType=local:WorkPlane}}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Copy to clipboard"
+                                                IconContent="{StaticResource CopyToClipboard}"
+                                                DescriptionText="Copy chart to clipboard as image"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource CopyToClipboard}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding SaveAsImageCommand, RelativeSource={RelativeSource AncestorType=local:WorkPlane}}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Export to *.png"
+                                                IconContent="{StaticResource PngImage}"
+                                                DescriptionText="Export chart to *.png file"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource PngImage}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
         <ScrollViewer
+                        Name="MainScrollViewer"
                         DataContext="{Binding VisualProperty}"
                         VerticalScrollBarVisibility="Visible"
-                        HorizontalScrollBarVisibility="Visible">
-            <Canvas Name="WorkPlaneName"
+                        HorizontalScrollBarVisibility="Visible"
+                        Background="White">
+            <Grid x:Name="WorkPlaneGrid" Background="White">
+                <Canvas Name="WorkPlaneName"
                                 ClipToBounds="True"
                                 Width="{Binding Width}"
-                                Height="{Binding Height}">
-                <Canvas.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Add" DataContext="{Binding ParentViewModel.PrimitiveLogic}">
-                            <MenuItem Header="Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}">
-                                <MenuItem.Icon>
-                                    <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Rectangle32.png" />
-                                </MenuItem.Icon>
+                                Height="{Binding Height}"
+                                >
+                    <Canvas.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add" DataContext="{Binding ParentViewModel.PrimitiveLogic}">
+                                <MenuItem Header="Rectangle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}">
+                                    <MenuItem.Icon>
+                                        <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Rectangle32.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Circle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}">
+                                    <MenuItem.Icon>
+                                        <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Circle32.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Rebar" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}">
+                                    <MenuItem.Icon>
+                                        <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Rebar32.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}">
+                                    <MenuItem.Icon>
+                                        <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Point32.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </MenuItem>
-                            <MenuItem Header="Circle" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Circle}">
-                                <MenuItem.Icon>
-                                    <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Circle32.png" />
-                                </MenuItem.Icon>
+                            <MenuItem Header="Templates" DataContext="{Binding ParentViewModel}">
+                                <MenuItem Header="Add Rectangle RC Column" Command="{Binding AddColumnCase}">
+                                    <MenuItem.Icon>
+                                        <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/RectangleColumn32.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Add Circle RC Column" Command="{Binding AddRCCircleCase}">
+                                    <MenuItem.Icon>
+                                        <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/CircleColumn32.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Add RC Beam" Command="{Binding AddBeamCase}">
+                                    <MenuItem.Icon>
+                                        <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Beam32.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Add RC slab" Command="{Binding AddSlabCase}">
+                                    <MenuItem.Icon>
+                                        <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Slab32.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </MenuItem>
-                            <MenuItem Header="Rebar" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Reinforcement}">
-                                <MenuItem.Icon>
-                                    <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Rebar32.png" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}">
-                                <MenuItem.Icon>
-                                    <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Point32.png" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
-                        <MenuItem Header="Templates" DataContext="{Binding ParentViewModel}">
-                            <MenuItem Header="Add Rectangle RC Column" Command="{Binding AddColumnCase}">
-                                <MenuItem.Icon>
-                                    <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/RectangleColumn32.png" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Add Circle RC Column" Command="{Binding AddRCCircleCase}">
-                                <MenuItem.Icon>
-                                    <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/CircleColumn32.png" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Add RC Beam" Command="{Binding AddBeamCase}">
-                                <MenuItem.Icon>
-                                    <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Beam32.png" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Add RC slab" Command="{Binding AddSlabCase}">
-                                <MenuItem.Icon>
-                                    <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Slab32.png" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
-                    </ContextMenu>
-                </Canvas.ContextMenu>
-                <i:Interaction.Behaviors>
-                    <infrastructure:MouseBehaviour MouseX="{Binding PanelX, Mode=OneWayToSource}" MouseY="{Binding PanelY, Mode=OneWayToSource}"/>
-                </i:Interaction.Behaviors>
-                <i:Interaction.Triggers>
-                    <mouseEventTriggers:MouseWheelDownEventTrigger EventName="PreviewMouseWheel">
-                        <i:InvokeCommandAction Command="{Binding ScaleCanvasDown}"/>
-                    </mouseEventTriggers:MouseWheelDownEventTrigger>
-                    <mouseEventTriggers:MouseWheelUpEventTrigger EventName="PreviewMouseWheel">
-                        <i:InvokeCommandAction Command="{Binding ScaleCanvasUp}"/>
-                    </mouseEventTriggers:MouseWheelUpEventTrigger>
-                </i:Interaction.Triggers>
-                <Canvas.LayoutTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleX="{Binding ScaleValue}" ScaleY="{Binding ScaleValue}"
+                        </ContextMenu>
+                    </Canvas.ContextMenu>
+                    <i:Interaction.Behaviors>
+                        <infrastructure:MouseBehaviour MouseX="{Binding PanelX, Mode=OneWayToSource}" MouseY="{Binding PanelY, Mode=OneWayToSource}"/>
+                    </i:Interaction.Behaviors>
+                    <i:Interaction.Triggers>
+                        <mouseEventTriggers:MouseWheelDownEventTrigger EventName="PreviewMouseWheel">
+                            <i:InvokeCommandAction Command="{Binding ScaleCanvasDown}"/>
+                        </mouseEventTriggers:MouseWheelDownEventTrigger>
+                        <mouseEventTriggers:MouseWheelUpEventTrigger EventName="PreviewMouseWheel">
+                            <i:InvokeCommandAction Command="{Binding ScaleCanvasUp}"/>
+                        </mouseEventTriggers:MouseWheelUpEventTrigger>
+                    </i:Interaction.Triggers>
+                    <Canvas.LayoutTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="{Binding ScaleValue}" ScaleY="{Binding ScaleValue}"
                                             CenterX="{Binding ScrollPanelX}" CenterY="{Binding ScrollPanelY}"/>
-                    </TransformGroup>
-                </Canvas.LayoutTransform>
-                <Canvas.Background>
-                    <VisualBrush TileMode="Tile"
+                        </TransformGroup>
+                    </Canvas.LayoutTransform>
+                    <Canvas.Background>
+                        <VisualBrush TileMode="Tile"
                                 Viewport="{Binding CanvasViewportSize}" ViewportUnits="Absolute" 
                                 Viewbox="{Binding CanvasViewportSize}" ViewboxUnits="Absolute">
-                        <VisualBrush.Visual>
-                            <Rectangle
+                            <VisualBrush.Visual>
+                                <Rectangle
                                             Height="{Binding GridSize}"
                                             Width="{Binding GridSize}"
                                             Stroke="{Binding GridColorBrush}"
-                                            StrokeThickness="{Binding GridLineThickness}"/>
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </Canvas.Background>
-                <!--Horizontal axis line-->
-                <TextBlock Canvas.Left="0" Canvas.Top="{Binding HalfOfHeight}"
+                                            StrokeThickness="{Binding GridLineThickness}"
+                                            Fill="White"/>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Canvas.Background>
+                    <!--Horizontal axis line-->
+                    <TextBlock Canvas.Left="0" Canvas.Top="{Binding HalfOfHeight}"
                                        Margin="0,0,0,0" Text="X" FontSize="{Binding MainTextFontSize}"
                                        Background="AliceBlue"
                                        Foreground="{Binding XAxisColorBrush}">
-                    <TextBlock.RenderTransform>
-                        <ScaleTransform ScaleX="{Binding TextScaleValue}" ScaleY="{Binding TextScaleValue}"/>
-                    </TextBlock.RenderTransform>
-                </TextBlock>
-                <TextBlock Canvas.Left="{Binding Width}" Canvas.Top="{Binding HalfOfHeight}"
+                        <TextBlock.RenderTransform>
+                            <ScaleTransform ScaleX="{Binding TextScaleValue}" ScaleY="{Binding TextScaleValue}"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <TextBlock Canvas.Left="{Binding Width}" Canvas.Top="{Binding HalfOfHeight}"
                                        Margin="-0.02,0,0,0" Text="X" FontSize="{Binding MainTextFontSize}"
                                        Background="AliceBlue"
                                        Foreground="{Binding XAxisColorBrush}">
-                    <TextBlock.RenderTransform>
-                        <ScaleTransform ScaleX="{Binding TextScaleValue}" ScaleY="{Binding TextScaleValue}" />
-                    </TextBlock.RenderTransform>
-                </TextBlock>
-                <Line
+                        <TextBlock.RenderTransform>
+                            <ScaleTransform ScaleX="{Binding TextScaleValue}" ScaleY="{Binding TextScaleValue}" />
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <Line
                                 X1="0" X2="{Binding Width}"
                                 Y1="{Binding HalfOfHeight}" Y2="{Binding HalfOfHeight}"
                                 Stroke="{Binding XAxisColorBrush}"
                                 StrokeThickness="{Binding AxisLineThickness}"/>
-                <!--Vertical axis line-->
-                <TextBlock Canvas.Left="{Binding HalfOfWidth}" Canvas.Top="0"
+                    <!--Vertical axis line-->
+                    <TextBlock Canvas.Left="{Binding HalfOfWidth}" Canvas.Top="0"
                                        Margin="0.01,0,0,0" Text="Y" FontSize="{Binding MainTextFontSize}"
                                        Background="AliceBlue"
                                        Foreground="{Binding YAxisColorBrush}">
-                    <TextBlock.RenderTransform>
-                        <ScaleTransform ScaleX="{Binding TextScaleValue}" ScaleY="{Binding TextScaleValue}"/>
-                    </TextBlock.RenderTransform>
-                </TextBlock>
-                <TextBlock Canvas.Left="{Binding HalfOfWidth}" Canvas.Top="{Binding Height}"
+                        <TextBlock.RenderTransform>
+                            <ScaleTransform ScaleX="{Binding TextScaleValue}" ScaleY="{Binding TextScaleValue}"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <TextBlock Canvas.Left="{Binding HalfOfWidth}" Canvas.Top="{Binding Height}"
                                        Margin="0.01,-0.05,0,0" Text="Y" FontSize="{Binding MainTextFontSize}"
                                        Background="AliceBlue"
                                        Foreground="{Binding YAxisColorBrush}">
-                    <TextBlock.RenderTransform>
-                        <ScaleTransform ScaleX="{Binding TextScaleValue}" ScaleY="{Binding TextScaleValue}" />
-                    </TextBlock.RenderTransform>
-                </TextBlock>
-                <Line
+                        <TextBlock.RenderTransform>
+                            <ScaleTransform ScaleX="{Binding TextScaleValue}" ScaleY="{Binding TextScaleValue}" />
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <Line
                                 X1="{Binding HalfOfWidth}" X2="{Binding HalfOfWidth}"
                                 Y1="0" Y2="{Binding Height}"
                                 Stroke="{Binding YAxisColorBrush}"
                                 StrokeThickness="{Binding AxisLineThickness}"/>
-                <ItemsControl
+                    <ItemsControl
                                 DataContext="{Binding ParentViewModel.PrimitiveLogic}"
                                 ItemsSource="{Binding Items}"
                                 ContextMenu="{StaticResource PrimitiveCRUD}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style TargetType="ContentPresenter">
-                            <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}"/>
-                            <Setter Property="Canvas.Left" Value="{Binding PrimitiveLeft}"/>
-                            <Setter Property="Canvas.Top" Value="{Binding PrimitiveTop}"/>
-                            <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                            <EventSetter Event="MouseDown" Handler="ContentPresenter_MouseLeftButtonDown"/>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                </ItemsControl>
-            </Canvas>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}"/>
+                                <Setter Property="Canvas.Left" Value="{Binding PrimitiveLeft}"/>
+                                <Setter Property="Canvas.Top" Value="{Binding PrimitiveTop}"/>
+                                <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <EventSetter Event="MouseDown" Handler="ContentPresenter_MouseLeftButtonDown"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+                </Canvas>
+            </Grid>
         </ScrollViewer>
-    </Grid>
+    </DockPanel>
 </UserControl>

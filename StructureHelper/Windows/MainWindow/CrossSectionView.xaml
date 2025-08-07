@@ -287,7 +287,6 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <uc:WorkPlane ViewModel="{Binding}"/>
-                    <!--<ContentControl ContentTemplate="{StaticResource WorkPlane}" Content="{Binding VisualProperty}"/>-->
                 </Border>
             </Grid>
             <StatusBar Grid.Row="1">

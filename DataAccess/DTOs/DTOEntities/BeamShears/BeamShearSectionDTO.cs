@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.Models.Materials;
+using System.Windows.Media;
 
 //Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
@@ -24,10 +26,15 @@ namespace DataAccess.DTOs
         public double ReinforcementArea { get; set; }
         [JsonProperty("ReinforcementMaterial")]
         public IReinforcementLibMaterial ReinforcementMaterial { get; set; } = new ReinforcementLibMaterial(Guid.NewGuid());
+        public IPrimitiveVisualProperty VisualProperty { get; set; }
 
         public BeamShearSectionDTO(Guid id)
         {
             Id = id;
+            VisualProperty = new PrimitiveVisualPropertyDTO(Guid.NewGuid())
+            {
+                Color = (Color)ColorConverter.ConvertFromString("DarkGray")
+            };
         }
 
         public object Clone()

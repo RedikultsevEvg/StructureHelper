@@ -52,6 +52,16 @@ namespace StructureHelperLogics.Models.BeamShears
         public double GetShearStrength()
         {
             InitializeStrategies();
+            if (stirrupByRebar.EndCoordinate < inclinedSection.StartCoord)
+            {
+                TraceLogger?.AddMessage($"Stirrup end coordinate Xend = {stirrupByRebar.EndCoordinate}(m) is less than incline section start coordinate Xstart = {inclinedSection.StartCoord}(m), stirrup {stirrupByRebar.Name} has been ignored");
+                return 0;
+            }
+            if (stirrupByRebar.StartCoordinate > inclinedSection.EndCoord)
+            {
+                TraceLogger?.AddMessage($"Stirrup start coordinate Xstart = {stirrupByRebar.StartCoordinate}(m) is bigger than incline section end coordinate Xend = {inclinedSection.EndCoord}(m), stirrup {stirrupByRebar.Name} has been ignored");
+                return 0;
+            }
             TraceLogger?.AddMessage($"Stirrup diameter d = {stirrupByRebar.Diameter}(m)");
             TraceLogger?.AddMessage($"Stirrup leg number n = {stirrupByRebar.LegCount}");
             TraceLogger?.AddMessage($"Stirrup spacing S = {stirrupByRebar.Spacing}(m)");

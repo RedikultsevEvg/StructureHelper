@@ -33,6 +33,9 @@
     <Compile Update="Windows\BeamShears\DistributedLoadView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\BeamShears\InclinedSectionViewerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\BeamShears\SectionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -144,7 +147,19 @@
     <Compile Update="Windows\UserControls\MultiplyDouble.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\UserControls\PrimitiveVisualProperty.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\UserControls\WorkPlane.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\UserControls\WorkPlanes\AxisLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\UserControls\WorkPlanes\GridLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\UserControls\WorkPlanes\WorkPlaneRoot.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

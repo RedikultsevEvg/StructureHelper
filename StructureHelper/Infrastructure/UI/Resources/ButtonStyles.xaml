@@ -170,6 +170,15 @@
         </Canvas>
     </DataTemplate>
     
+    <DataTemplate x:Key="BeamShearInclinedSection">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Path Data="M2,26 v-8 h10 v2 l-8,6 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+                <Path Data="M14,22 v-2 h16 v8 h-24 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
     <DataTemplate x:Key="ButtonCalculatorRectangle">
         <Rectangle Style="{DynamicResource ButtonRect}" Stroke="{DynamicResource CalculatorFrame}">
             <Rectangle.Fill>

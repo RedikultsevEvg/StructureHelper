@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="StructureHelper.Windows.UserControls.WorkPlanes.AxisLayer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StructureHelper.Windows.UserControls.WorkPlanes"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance local:WorkPlaneRootViewModel}"
+             x:Name="AxisRoot"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Canvas x:Name="AxisCanvas" DataContext="{Binding WorkPlaneConfig}">
+            <!-- Horizontal Axis -->
+            <Line X1="0" X2="{Binding Width, ElementName=AxisRoot}" Y1="0" Y2="0"
+              Stroke="{Binding XAxisColorBrush, ElementName=AxisRoot}" StrokeThickness="{Binding AxisLineThickness}" />
+            <TextBlock Canvas.Left="0" Canvas.Top="{Binding HalfOfHeight, ElementName=AxisRoot}" 
+                   Text="X" FontSize="{Binding AxisFontSize}" 
+                   Foreground="{Binding XAxisColorBrush, ElementName=AxisRoot}" />
+
+            <!-- Vertical Axis -->
+            <Line X1="0" X2="0" Y1="0" Y2="{Binding Height, ElementName=AxisRoot}"
+              Stroke="{Binding YAxisColorBrush, ElementName=AxisRoot}" StrokeThickness="{Binding AxisLineThickness}" />
+            <TextBlock Canvas.Left="{Binding HalfOfWidth, ElementName=AxisRoot}" Canvas.Top="0"
+                   Text="Y" FontSize="{Binding AxisFontSize}"
+                   Foreground="{Binding YAxisColorBrush, ElementName=AxisRoot}" />
+        </Canvas>
+    </Grid>
+</UserControl>

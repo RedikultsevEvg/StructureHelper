@@ -1,6 +1,8 @@
 ﻿using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelper.Windows.UserControls;
 using StructureHelper.Windows.ViewModels;
 using StructureHelperLogics.Models.BeamShears;
+using System.Windows.Media;
 
 namespace StructureHelper.Windows.BeamShears
 {
@@ -8,7 +10,7 @@ namespace StructureHelper.Windows.BeamShears
     {
         private const double minTransferLengthValue = 0.01;
         private readonly IStirrupByInclinedRebar stirrupByInclinedRebar;
-
+        private PrimitiveVisualPropertyViewModel visual;
 
         public string Name
         {
@@ -73,6 +75,15 @@ namespace StructureHelper.Windows.BeamShears
         }
 
         public RebarSectionViewModel RebarSectionViewModel {get;}
+        public PrimitiveVisualPropertyViewModel VisualProperty
+        {
+            get => visual;
+            private set
+            {
+                visual = value;
+                OnPropertyChanged(nameof(VisualProperty));
+            }
+        }
 
         public StirrupByInclinedRebarViewModel(IStirrupByInclinedRebar stirrupByInclinedRebar)
         {
@@ -82,6 +93,7 @@ namespace StructureHelper.Windows.BeamShears
                 MinRebarDiameter = 0.003,
                 MaxRebarDiameter = 0.032
             };
+            VisualProperty = new(this.stirrupByInclinedRebar.VisualProperty);
         }
     }
 }

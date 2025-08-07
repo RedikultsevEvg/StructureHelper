@@ -1,6 +1,9 @@
-﻿using StructureHelper.Windows.ViewModels;
+﻿using StructureHelper.Windows.UserControls;
+using StructureHelper.Windows.ViewModels;
 using StructureHelper.Windows.ViewModels.Materials;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.BeamShears;
+using System;
 using System.ComponentModel;
 
 namespace StructureHelper.Windows.BeamShears
@@ -8,6 +11,8 @@ namespace StructureHelper.Windows.BeamShears
     public class StirrupByRebarViewModel : OkCancelViewModelBase, IDataErrorInfo
     {
         private readonly IStirrupByRebar stirrupByRebar;
+        private PrimitiveVisualPropertyViewModel visual;
+        private PrimitiveVisualPropertyViewModel visual2;
 
         public string Name
         {
@@ -92,6 +97,17 @@ namespace StructureHelper.Windows.BeamShears
             }
         }
 
+        public PrimitiveVisualPropertyViewModel VisualProperty
+        {
+            get => visual;
+            private set
+            {
+                visual = value;
+                OnPropertyChanged(nameof(VisualProperty));
+            }
+        }
+
+
         public ReinforcementViewModel Material { get; private set; }
 
         public string Error => null;
@@ -151,6 +167,7 @@ namespace StructureHelper.Windows.BeamShears
         {
             this.stirrupByRebar = stirrupByRebar;
             Material = new(this.stirrupByRebar.Material) { MaterialLogicVisibility = false};
+            VisualProperty = new(this.stirrupByRebar.VisualProperty);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.Materials;
+using System.Windows.Media;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -17,6 +19,7 @@ namespace StructureHelperLogics.Models.BeamShears
         public double CenterCover { get; set; } = 0.05;
         public double ReinforcementArea { get; set; } = 0;
         public IReinforcementLibMaterial ReinforcementMaterial { get; set; }
+        public IPrimitiveVisualProperty VisualProperty { get; set; }
 
         public BeamShearSection(Guid id)
         {
@@ -24,6 +27,10 @@ namespace StructureHelperLogics.Models.BeamShears
             ConcreteMaterial = ConcreteLibMaterialFactory.GetConcreteLibMaterial(ConcreteLibTypes.Concrete25);
             ReinforcementMaterial = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforcement500).HelperMaterial as IReinforcementLibMaterial;
             ConcreteMaterial.TensionForULS = true;
+            VisualProperty = new PrimitiveVisualProperty(Guid.NewGuid())
+            {
+                Color = (Color)ColorConverter.ConvertFromString("DarkGray")
+            };
         }
 
         public object Clone()

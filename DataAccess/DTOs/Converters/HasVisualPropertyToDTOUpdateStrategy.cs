@@ -11,6 +11,7 @@ namespace DataAccess.DTOs
         private IShiftTraceLogger traceLogger;
         private IConvertStrategy<PrimitiveVisualPropertyDTO, IPrimitiveVisualProperty> convertStrategy;
 
+
         public HasVisualPropertyToDTOUpdateStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
         {
             this.referenceDictionary = referenceDictionary;

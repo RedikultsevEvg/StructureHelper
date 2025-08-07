@@ -36,6 +36,16 @@ namespace StructureHelperLogics.Models.BeamShears
             Check();
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             TraceLogger?.AddMessage("Calculation has been started", TraceLogStatuses.Debug);
+            if (stirrupByDensity.EndCoordinate < inclinedSection.StartCoord)
+            {
+                TraceLogger?.AddMessage($"Stirrup end coordinate Xend = {stirrupByDensity.EndCoordinate}(m) is less than incline section start coordinate Xstart = {inclinedSection.StartCoord}(m), stirrup {stirrupByDensity.Name} has been ignored");
+                return 0;
+            }
+            if (stirrupByDensity.StartCoordinate > inclinedSection.EndCoord)
+            {
+                TraceLogger?.AddMessage($"Stirrup start coordinate Xstart = {stirrupByDensity.StartCoordinate}(m) is bigger than incline section end coordinate Xend = {inclinedSection.EndCoord}(m), stirrup {stirrupByDensity.Name} has been ignored");
+                return 0;
+            }
             double crackLength = inclinedSection.EndCoord - inclinedSection.StartCoord;
             TraceLogger?.AddMessage($"Length of crack = {inclinedSection.EndCoord} - {inclinedSection.StartCoord} = {crackLength}(m)");
             double crackEndCoord = Math.Min(stirrupByDensity.EndCoordinate, inclinedSection.EndCoord);

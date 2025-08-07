@@ -2,6 +2,7 @@
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.Models.Materials;
 
@@ -14,6 +15,7 @@ namespace DataAccess.DTOs
         private IConvertStrategy<ConcreteLibMaterialDTO, IConcreteLibMaterial> concreteConvertStrategy;
         private ReinforcementLibMaterialToDTOConvertStrategy reinforcementConvertStrategy;
         private IUpdateStrategy<IHelperMaterial> safetyFactorUpdateStrategy;
+        private IUpdateStrategy<IHasVisualProperty> visualUpdateStrategy;
 
         public BeamShearSectionToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
             : base(referenceDictionary, traceLogger)
@@ -46,6 +48,7 @@ namespace DataAccess.DTOs
             NewItem.ReinforcementMaterial = reinforcementConvertStrategy.Convert(source.ReinforcementMaterial);
             safetyFactorUpdateStrategy.Update(NewItem.ReinforcementMaterial, source.ReinforcementMaterial);
             TraceLogger?.AddMessage($"Beam shear section converting Id = {NewItem.Id} has been finished succesfully", TraceLogStatuses.Debug);
+            visualUpdateStrategy.Update(NewItem, source);
         }
 
         private void InitializeStrategies()
@@ -62,6 +65,7 @@ namespace DataAccess.DTOs
                 TraceLogger = TraceLogger
             };
             safetyFactorUpdateStrategy = new HelperMaterialDTOSafetyFactorUpdateStrategy(new MaterialSafetyFactorToDTOLogic());
+            visualUpdateStrategy = new HasVisualPropertyToDTOUpdateStrategy(ReferenceDictionary, TraceLogger);
         }
     }
 }

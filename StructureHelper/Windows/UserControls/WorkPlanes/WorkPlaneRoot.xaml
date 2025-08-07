@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="StructureHelper.Windows.UserControls.WorkPlanes.WorkPlaneRoot"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StructureHelper.Windows.UserControls.WorkPlanes"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance local:WorkPlaneRootViewModel}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                
+            </ToolBar>
+        </ToolBarTray>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Background="White">
+                <Canvas x:Name="RootCanvas" Width="{Binding WorkPlaneConfig.CanvasWidth}" Height="{Binding WorkPlaneConfig.CanvasHeight}">
+                    <Canvas.RenderTransform>
+                        <TransformGroup>
+                            <!-- Shift origin to canvas center -->
+                            <TranslateTransform 
+                        X="{Binding WorkPlaneConfig.CenterOffsetX}" 
+                        Y="{Binding WorkPlaneConfig.CenterOffsetY}" />
+
+                            <!-- Apply zoom scale -->
+                            <ScaleTransform 
+                        ScaleX="{Binding WorkPlaneConfig.ScaleValue}" 
+                        ScaleY="{Binding WorkPlaneConfig.NegativeScaleValue}" 
+                        CenterX="{Binding WorkPlaneConfig.ZoomCenterX}" 
+                        CenterY="{Binding WorkPlaneConfig.ZoomCenterY}" />
+                        </TransformGroup>
+                    </Canvas.RenderTransform>
+
+                    <!-- Grid layer -->
+                    <local:GridLayer 
+                GridSize="{Binding WorkPlaneConfig.GridSize}"
+                GridColorBrush="{Binding WorkPlaneConfig.GridColorBrush}"
+                GridLineThickness="{Binding WorkPlaneConfig.GridLineThickness}"
+                CanvasViewportSize="{Binding WorkPlaneConfig.CanvasViewportSize}" />
+
+                    <!-- Axis layer -->
+                    <local:AxisLayer
+                Width="{Binding WorkPlaneConfig.CanvasWidth}"
+                Height="{Binding WorkPlaneConfig.CanvasHeight}"
+                XAxisColorBrush="{Binding WorkPlaneConfig.XAxisColorBrush}"
+                YAxisColorBrush="{Binding WorkPlaneConfig.YAxisColorBrush}"
+                AxisLineThickness="{Binding WorkPlaneConfig.AxisLineThickness}" />
+
+                    <!-- Primitives (ItemsControl) -->
+                    <ItemsControl ItemsSource="{Binding PrimitiveCollection.Primitives}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplateSelector>
+                            <local:PrimitiveTemplateSelector
+                        BeamShearSectionTemplate="{StaticResource BeamShearSectionPrimitiveTemplate}"
+                        InclinedSectionTemplate="{StaticResource InclinedSectionPrimitiveTemplate}"
+                        />
+                        </ItemsControl.ItemTemplateSelector>
+
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Canvas.Left" Value="{Binding CenterX}" />
+                                <Setter Property="Canvas.Top" Value="{Binding CenterY}" />
+                                <!--<Setter Property="Canvas.ZIndex" Value="{Binding WorkPlaneConfig.ZIndex}" />
+                                <Setter Property="Visibility" Value="{Binding WorkPlaneConfig.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />-->
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+                </Canvas>
+            </ScrollViewer>
+            <StatusBar Grid.Row="1">
+                <StatusBarItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Scale = "/>
+                        <TextBlock Width="50" Text="{Binding WorkPlaneConfig.ScaleValue}"/>
+                    </StackPanel>
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+
+
+    </DockPanel>
+</UserControl>

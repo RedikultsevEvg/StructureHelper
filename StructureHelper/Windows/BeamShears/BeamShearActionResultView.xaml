@@ -31,6 +31,16 @@
                         <ContentControl ContentTemplate="{StaticResource MomentCurvatureDiagram}"/>
                     </Viewbox>
                 </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowGraphResultsCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show inclined section"
+                                                IconContent="{StaticResource BeamShearInclinedSection}"
+                                                DescriptionText="Shows graphical results for inclined section"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource BeamShearInclinedSection}"/>
+                    </Viewbox>
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <Grid>

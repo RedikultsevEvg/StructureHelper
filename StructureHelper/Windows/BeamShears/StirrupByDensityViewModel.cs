@@ -1,12 +1,16 @@
-﻿using StructureHelper.Windows.ViewModels;
+﻿using StructureHelper.Windows.UserControls;
+using StructureHelper.Windows.ViewModels;
 using StructureHelperLogics.Models.BeamShears;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace StructureHelper.Windows.BeamShears
 {
     public class StirrupByDensityViewModel : OkCancelViewModelBase, IDataErrorInfo
     {
         private readonly IStirrupByDensity stirrupByDensity;
+        private PrimitiveVisualPropertyViewModel visual;
+
         public double MinDensity { get; set; } = 0;
 
         public string Name
@@ -50,6 +54,16 @@ namespace StructureHelper.Windows.BeamShears
             }
         }
 
+        public PrimitiveVisualPropertyViewModel VisualProperty
+        {
+            get => visual;
+            private set
+            {
+                visual = value;
+                OnPropertyChanged(nameof(VisualProperty));
+            }
+        }
+
         public string Error => null;
 
         public string this[string columnName]
@@ -71,6 +85,7 @@ namespace StructureHelper.Windows.BeamShears
         public StirrupByDensityViewModel(IStirrupByDensity stirrupByDensity)
         {
             this.stirrupByDensity = stirrupByDensity;
+            VisualProperty = new(this.stirrupByDensity.VisualProperty);
         }
     }
 }

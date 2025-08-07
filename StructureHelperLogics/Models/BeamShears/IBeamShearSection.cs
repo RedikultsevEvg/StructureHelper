@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.Materials;
 
 namespace StructureHelperLogics.Models.BeamShears
@@ -7,7 +8,7 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <summary>
     /// Properties of RC cross-section for shear strength of beam
     /// </summary>
-    public interface IBeamShearSection : ISaveable, ICloneable
+    public interface IBeamShearSection : ISaveable, ICloneable, IHasVisualProperty
     {
         string? Name { get; set; }
         /// <summary>

@@ -7,7 +7,7 @@ namespace StructureHelperCommon.Models.VisualProperties
     /// <inheritdoc/>
     public class PrimitiveVisualProperty : IPrimitiveVisualProperty
     {
-        private double opacity = 0;
+        private double opacity = 1;
 
         /// <inheritdoc/>
         public Guid Id { get; }
@@ -25,7 +25,7 @@ namespace StructureHelperCommon.Models.VisualProperties
             {
                 if (value < 0)
                 {
-                    opacity = 1;
+                    opacity = 0;
                     return;
                 }
                 if (value > 1)

@@ -23,6 +23,7 @@
                 <ResourceDictionary Source="Infrastructure/UI/Resources/LimitCurveTemplates.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/ServiceColors.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/ScrollableWorkPlane.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/BeamShearTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

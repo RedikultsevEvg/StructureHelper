@@ -2,9 +2,8 @@
 using StructureHelper.Services.Exports;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
 using StructureHelperLogics.Models.BeamShears;
-using StructureHelperLogics.NdmCalculations.Analyses;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -16,6 +15,7 @@ namespace StructureHelper.Windows.BeamShears
         private RelayCommand showSectionResultsCommand;
         private RelayCommand showDiagramCommand;
         private RelayCommand exportToExcelCommand;
+        private RelayCommand showGraphResultsCommand;
 
         public IBeamShearActionResult SelectedResult { get; set; }
         public List<IBeamShearActionResult> ActionResults => result.ActionResults;
@@ -28,8 +28,22 @@ namespace StructureHelper.Windows.BeamShears
         }
 
         public ICommand ShowSectionResultsCommand => showSectionResultsCommand ??= new RelayCommand(ShowSectionResults, o=>SelectedResult != null);
+
+
         public ICommand ShowDiagramCommand => showDiagramCommand ??= new RelayCommand(Show2DDiagram, o=>SelectedResult != null);
         public ICommand ExportToExcelCommand => exportToExcelCommand ??= new RelayCommand(ExportToExcel, o=>SelectedResult != null);
+        public ICommand ShowGraphResultsCommand => showGraphResultsCommand ??= new RelayCommand(ShowGraphResults, o => SelectedResult != null);
+
+        private void ShowGraphResults(object obj)
+        {
+            if (SelectedResult is null) {return; }
+            if (SelectedResult.SectionResults is null) {return; }
+            var sectionResult = SelectedResult.SectionResults
+            .OrderByDescending(x => x.FactorOfUsing)
+            .FirstOrDefault();
+            var window = new InclinedSectionViewerView(sectionResult);
+            window.ShowDialog();
+        }
 
         private void ExportToExcel(object obj)
         {

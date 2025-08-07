@@ -12,6 +12,7 @@ namespace StructureHelper.Windows.BeamShears
         private IBeamShearActionResult result;
         private RelayCommand showTraceCommand;
         private RelayCommand showDiagramCommand;
+        private RelayCommand showGraphResultsCommand;
 
         public IBeamShearSectionLogicResult SelectedResult { get; set; }
         public List<IBeamShearSectionLogicResult> SectionResults => result.SectionResults;
@@ -25,6 +26,13 @@ namespace StructureHelper.Windows.BeamShears
 
         public ICommand ShowTraceCommand => showTraceCommand ??= new RelayCommand(ShowTrace, o => SelectedResult != null);
         public ICommand ShowDiagramCommand => showDiagramCommand ??= new RelayCommand(Show2DDiagram, o => SelectedResult != null);
+        public ICommand ShowGraphResultsCommand => showGraphResultsCommand ??= new RelayCommand(ShowGraphResults, o => SelectedResult != null);
+
+        private void ShowGraphResults(object obj)
+        {
+            var window = new InclinedSectionViewerView(SelectedResult);
+            window.ShowDialog();
+        }
 
         private void ShowTrace(object obj)
         {

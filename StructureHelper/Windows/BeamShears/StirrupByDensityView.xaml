@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.BeamShears"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance local:StirrupByDensityViewModel}"
         mc:Ignorable="d"
         Title="Stirrups by uniform density" Height="200" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
@@ -46,6 +47,9 @@
                     <TextBlock Grid.Row="1" Text="End coordinate"/>
                     <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ValidatedError}" Text="{Binding EndCoordinate, Converter={StaticResource LengthConverter},ValidatesOnDataErrors=True}"/>
                 </Grid>
+            </TabItem>
+            <TabItem Header="Visual">
+                <uc:PrimitiveVisualProperty ObjectVisual="{Binding VisualProperty}"/>
             </TabItem>
         </TabControl>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
