@@ -1,20 +1,33 @@
 ﻿using StructureHelper.Infrastructure.UI.GraphicalPrimitives;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperLogics.Models.BeamShears;
+using System;
 using System.Collections.Generic;
 
 namespace StructureHelper.Windows.BeamShears
 {
     public class SectionResultToGraphicalPrimitivesConvertLogic : IObjectConvertStrategy<List<IGraphicalPrimitive>, IBeamShearSectionLogicResult>
     {
+        private IObjectConvertStrategy<List<IGraphicalPrimitive>, IStirrup> stirrupLogic;
+        private IInclinedSection inclinedSection;
+
         public List<IGraphicalPrimitive> Convert(IBeamShearSectionLogicResult source)
         {
+            inclinedSection = source.InputData.InclinedSection;
+            InitializeStrategies();
             List<IGraphicalPrimitive> graphicalPrimitives = new List<IGraphicalPrimitive>();
-            BeamShearSectionPrimitive beamShearSectionPrimitive = new(source.InputData.InclinedSection.BeamShearSection, source.InputData.InclinedSection);
+            BeamShearSectionPrimitive beamShearSectionPrimitive = new(source.InputData.InclinedSection.BeamShearSection, inclinedSection);
             graphicalPrimitives.Add(beamShearSectionPrimitive);
+            graphicalPrimitives.AddRange(stirrupLogic.Convert(source.InputData.Stirrup));
             InclinedSectionPrimitive inclinedSectionPrimitive = new(source);
             graphicalPrimitives.Add((inclinedSectionPrimitive));
             return graphicalPrimitives;
+        }
+
+        private void InitializeStrategies()
+        {
+            stirrupLogic ??= new StirrupToGraphicPrimitiveConvertLogic(inclinedSection);
         }
     }
 }

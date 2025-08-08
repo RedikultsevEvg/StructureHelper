@@ -74,7 +74,8 @@ namespace StructureHelperLogics.Models.BeamShears
             Material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforcement400).HelperMaterial as IReinforcementLibMaterial;
             VisualProperty = new PrimitiveVisualProperty(Guid.NewGuid())
             {
-                Color = (Color)ColorConverter.ConvertFromString("Brown")
+                Color = (Color)ColorConverter.ConvertFromString("Brown"),
+                Opacity = 0.5
             };
         }
 

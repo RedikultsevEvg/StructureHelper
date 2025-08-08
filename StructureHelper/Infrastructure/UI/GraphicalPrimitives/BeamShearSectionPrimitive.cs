@@ -17,9 +17,11 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         public double CenterX { get; set; } = 0;
         public double CenterY { get; set; } = 0;
         public double FullDepth => inclinedSection.FullDepth;
-        public double EffectiveDepth => inclinedSection.EffectiveDepth;
-        public double BottomCover => FullDepth - EffectiveDepth;
-        public double PositiveLength => inclinedSection.EffectiveDepth * 3.5;
+        public double WebWidth => inclinedSection.WebWidth;
+        public double ReinforcementArea => inclinedSection.BeamShearSection.ReinforcementArea;
+        public double EffectiveDepth => Math.Round(inclinedSection.EffectiveDepth, 3);
+        public double BottomCover => Math.Round(FullDepth - EffectiveDepth, 3);
+        public double PositiveLength => 100;
         public double NegativeLength { get; set; } = -0.1;
         public double SupportHeight { get; set; } = 0.1;
         public double SupportWidth { get; set; } = 0.2;
@@ -28,6 +30,8 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         public string SupportPathData => $"M 0 0 L {SupportWidth / 2} {-SupportHeight} L {-SupportWidth / 2} {-SupportHeight} Z";
 
         public IPrimitiveVisualProperty VisualProperty => beamShearSection.VisualProperty;
+
+        public IBeamShearSection BeamShearSection => beamShearSection;
 
         public BeamShearSectionPrimitive(IBeamShearSection beamShearSection, IInclinedSection inclinedSection)
         {

@@ -63,6 +63,9 @@
                             <local:PrimitiveTemplateSelector
                         BeamShearSectionTemplate="{StaticResource BeamShearSectionPrimitiveTemplate}"
                         InclinedSectionTemplate="{StaticResource InclinedSectionPrimitiveTemplate}"
+                        StirrupByRebarTemplate="{StaticResource StirrupByRebarPrimitiveTemplate}"
+                        StirrupByDensityTemplate="{StaticResource StirrupByDensityPrimitiveTemplate}"
+                        StirrupByInclinedRebarTemplate="{StaticResource StirrupByInclinedRebarPrimitiveTemplate}"
                         />
                         </ItemsControl.ItemTemplateSelector>
 

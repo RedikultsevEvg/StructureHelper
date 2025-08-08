@@ -14,9 +14,11 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         public double SectionEndX => inclinedSection.EndCoord;
         public double SectionStartY => inclinedSection.FullDepth - inclinedSection.EffectiveDepth;
         public double SectionEndY => inclinedSection.FullDepth;
-        public double FactorOfUsing => source.FactorOfUsing;
-        public double EffectiveDepth => inclinedSection.EffectiveDepth;
+        public double FactorOfUsing => Math.Round(source.FactorOfUsing, 4);
+        public double EffectiveDepth => Math.Round(inclinedSection.EffectiveDepth, 3);
         public double SpanRatio => (inclinedSection.EndCoord - inclinedSection.StartCoord) / inclinedSection.EffectiveDepth;
+        public double ActualShearForce => Math.Round(source.InputData.ForceTuple.Qy);
+        public double UltimateShearForce => Math.Round(source.TotalStrength);
 
         public double CenterX => 0;
         public double CenterY => 0;

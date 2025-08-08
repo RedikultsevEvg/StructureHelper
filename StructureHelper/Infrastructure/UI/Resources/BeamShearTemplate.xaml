@@ -9,9 +9,11 @@
             <Rectangle
                 Width="{Binding PositiveLength}"
                 Height="{Binding FullDepth}"        
-                Stroke="Black"
-                StrokeThickness="0.02"
+                StrokeThickness="0.01"
                 >
+                <Rectangle.Stroke>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}"/>
+                </Rectangle.Stroke>
                 <Rectangle.Fill>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
                 </Rectangle.Fill>
@@ -27,11 +29,14 @@
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Beam shear section"/>
-                        <TextBlock Grid.Row="1" Text="Full depth"/>
+                        <TextBlock Text="Beam shear section: "/>
+                        <TextBlock Grid.Column="1" Text="{Binding BeamShearSection.Name}"/>
+                        <TextBlock Grid.Row="1" Text="Depth: "/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding FullDepth, Converter={StaticResource LengthConverter}}"/>
-                        <TextBlock Grid.Row="2" Text="Effective depth"/>
-                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding EffectiveDepth, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="2" Text="Width: "/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding WebWidth, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="3" Text="Effective depth: "/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding EffectiveDepth, Converter={StaticResource LengthConverter}}"/>
                     </Grid>
                 </Rectangle.ToolTip>
             </Rectangle>
@@ -40,9 +45,25 @@
                 X2="{Binding PositiveLength}"
                 Y1="{Binding BottomCover}"
                 Y2="{Binding BottomCover}"
-                Stroke="DarkGray"
-                StrokeThickness="0.02"
-                />
+                Stroke="Black"
+                StrokeThickness="0.012"
+                >
+                <Line.ToolTip>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Reinforcement"/>
+                        <TextBlock Grid.Row="1" Text="Area: "/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ReinforcementArea, Converter={StaticResource AreaConverter}}"/>
+                    </Grid>
+                </Line.ToolTip>
+            </Line>
             <Rectangle
                 Canvas.Left="{Binding SupportStartX}"
                 Canvas.Top="{Binding SupportStartY}"
@@ -60,6 +81,7 @@
                 />
         </Canvas>
     </DataTemplate>
+    
     <DataTemplate x:Key="InclinedSectionPrimitiveTemplate"
               DataType="primitives:InclinedSectionPrimitive">
         <Canvas>
@@ -68,7 +90,7 @@
                 X2="{Binding SectionEndX}"
                 Y1="{Binding SectionStartY}"
                 Y2="{Binding SectionEndY}"
-                StrokeThickness="0.02"
+                StrokeThickness="0.01"
                 >
                 <Line.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
@@ -86,18 +108,25 @@
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
                         <TextBlock Text="Inclinated section"/>
-                        <TextBlock Grid.Row="1" Text="Start coordinate"/>
+                        <TextBlock Grid.Row="1" Text="Start coordinate: "/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SectionStartX, Converter={StaticResource LengthConverter}}"/>
-                        <TextBlock Grid.Row="2" Text="End coordinate"/>
+                        <TextBlock Grid.Row="2" Text="End coordinate: "/>
                         <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SectionEndX, Converter={StaticResource LengthConverter}}"/>
-                        <TextBlock Grid.Row="3" Text="Factor of using"/>
-                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding FactorOfUsing, Converter={StaticResource PlainDouble}}"/>
-                        <TextBlock Grid.Row="4" Text="Effective depth"/>
-                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding EffectiveDepth, Converter={StaticResource LengthConverter}}"/>
-                        <TextBlock Grid.Row="5" Text="Span c/d ratio"/>
-                        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding SpanRatio, Converter={StaticResource PlainDouble}}"/>
+                        <TextBlock Grid.Row="3" Text="Actual shear force: "/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ActualShearForce, Converter={StaticResource ForceConverter}}"/>
+                        <TextBlock Grid.Row="4" Text="Ultimate shear force: "/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding UltimateShearForce, Converter={StaticResource ForceConverter}}"/>
+                        <TextBlock Grid.Row="5" Text="Factor of using: "/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding FactorOfUsing, Converter={StaticResource PlainDouble}}"/>
+                        <TextBlock Grid.Row="6" Text="Effective depth: "/>
+                        <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding EffectiveDepth, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="7" Text="Span c/d ratio: "/>
+                        <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding SpanRatio, Converter={StaticResource PlainDouble}}"/>
+
                     </Grid>
                 </Line.ToolTip>
             </Line>
@@ -106,7 +135,155 @@
                 X2="{Binding SectionStartX}"
                 Y1="0"
                 Y2="{Binding SectionStartY}"
-                StrokeThickness="0.02"
+                StrokeThickness="0.01"
+                >
+                <Line.Stroke>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
+                </Line.Stroke>
+            </Line>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="StirrupByRebarPrimitiveTemplate"
+              DataType="primitives:StirrupByRebarPrimitive">
+        <Canvas>
+            <Rectangle
+                Width="{Binding Length}"
+                Height="{Binding Depth}"        
+                StrokeThickness="0.005"
+                Canvas.Left="{Binding StartPoinX}"
+                Canvas.Top="{Binding BottomPointY}"
+                >
+                <Rectangle.Stroke>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}"/>
+                </Rectangle.Stroke>
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
+                </Rectangle.Fill>
+                <Rectangle.ToolTip>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="23"/>
+                            <RowDefinition Height="23"/>
+                            <RowDefinition Height="23"/>
+                            <RowDefinition Height="23"/>
+                            <RowDefinition Height="23"/>
+                            <RowDefinition Height="23"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Stirrup by rebar: "/>
+                        <TextBlock Grid.Column="1" Text="{Binding StirrupByRebar.Name}"/>
+                        <TextBlock Grid.Row="1" Text="Diameter: "/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding StirrupByRebar.Diameter, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="2" Text="Steel: "/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding StirrupByRebar.Material.MaterialEntity.Name}"/>
+                        <TextBlock Grid.Row="3" Text="Spacing: "/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StirrupByRebar.Spacing, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="4" Text="Leg count: "/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding StirrupByRebar.LegCount, Converter={StaticResource PlainDouble}}"/>
+                        <TextBlock Grid.Row="5" Text="Density: "/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Density, Converter={StaticResource DistributedLoadConverter}}"/>
+                    </Grid>
+                </Rectangle.ToolTip>
+            </Rectangle>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="StirrupByDensityPrimitiveTemplate"
+          DataType="primitives:StirrupByDensityPrimitive">
+        <Canvas>
+            <Rectangle
+            Width="{Binding Length}"
+            Height="{Binding Depth}"        
+            StrokeThickness="0.005"
+            Canvas.Left="{Binding StartPoinX}"
+            Canvas.Top="{Binding BottomPointY}"
+            >
+                <Rectangle.Stroke>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}"/>
+                </Rectangle.Stroke>
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
+                </Rectangle.Fill>
+                <Rectangle.ToolTip>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="23"/>
+                            <RowDefinition Height="23"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Stirrup by density: "/>
+                        <TextBlock Grid.Column="1" Text="{Binding StirrupByDensity.Name}"/>
+                        <TextBlock Grid.Row="1" Text="Density: "/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding StirrupByDensity.StirrupDensity, Converter={StaticResource DistributedLoadConverter}}"/>
+                    </Grid>
+                </Rectangle.ToolTip>
+            </Rectangle>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="StirrupByInclinedRebarPrimitiveTemplate"
+      DataType="primitives:StirrupByInclinedRebarPrimitive">
+        <Canvas>
+            <Line
+                X1="{Binding StartPointX}"
+                X2="{Binding EndPointX}"
+                Y1="{Binding StartPointY}"
+                Y2="{Binding EndPointY}"
+                StrokeThickness="{Binding StirrupByInclinedRebar.RebarSection.Diameter}"
+                >
+                <Line.Stroke>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
+                </Line.Stroke>
+                <Line.ToolTip>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Inclinated rebar: "/>
+                        <TextBlock Grid.Column="1" Text="{Binding StirrupByInclinedRebar.Name}"/>
+                        <TextBlock Grid.Row="1" Text="Diameter: "/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding StirrupByInclinedRebar.RebarSection.Diameter, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="2" Text="Material: "/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding StirrupByInclinedRebar.RebarSection.Material.MaterialEntity.Name}"/>
+                        <TextBlock Grid.Row="3" Text="Start coordinate: "/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StirrupByInclinedRebar.StartCoordinate, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="4" Text="Angle of inclination: "/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding StirrupByInclinedRebar.AngleOfInclination, Converter={StaticResource PlainDouble}}"/>
+                    </Grid>
+                </Line.ToolTip>
+            </Line>
+            <Line
+                X1="0"
+                X2="{Binding StartPointX}"
+                Y1="{Binding StartPointY}"
+                Y2="{Binding StartPointY}"
+                StrokeThickness="{Binding StirrupByInclinedRebar.RebarSection.Diameter}"
+                >
+                <Line.Stroke>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
+                </Line.Stroke>
+            </Line>
+            <Line
+                X1="{Binding EndPointX}"
+                X2="100"
+                Y1="{Binding EndPointY}"
+                Y2="{Binding EndPointY}"
+                StrokeThickness="{Binding StirrupByInclinedRebar.RebarSection.Diameter}"
                 >
                 <Line.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>

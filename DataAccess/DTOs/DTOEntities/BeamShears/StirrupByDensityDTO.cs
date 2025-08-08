@@ -27,7 +27,8 @@ namespace DataAccess.DTOs
             Id = id;
             VisualProperty = new PrimitiveVisualPropertyDTO(Guid.NewGuid())
             {
-                Color = (Color)ColorConverter.ConvertFromString("Black")
+                Color = (Color)ColorConverter.ConvertFromString("Gray"),
+                Opacity = 0.5
             };
         }
 

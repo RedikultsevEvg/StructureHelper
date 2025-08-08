@@ -21,7 +21,8 @@ namespace StructureHelperLogics.Models.BeamShears
             Id = id;
             VisualProperty = new PrimitiveVisualProperty(Guid.NewGuid())
             {
-                Color = (Color)ColorConverter.ConvertFromString("Gray")
+                Color = (Color)ColorConverter.ConvertFromString("Gray"),
+                Opacity = 0.5
             };
         }
 
