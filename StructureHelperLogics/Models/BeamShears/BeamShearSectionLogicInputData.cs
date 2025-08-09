@@ -14,6 +14,8 @@ namespace StructureHelperLogics.Models.BeamShears
         /// <inheritdoc/>
         public IInclinedSection InclinedSection { get; set; }
         /// <inheritdoc/>
+        public IInclinedSection InclinedCrack { get; set; }
+        /// <inheritdoc/>
         public IStirrup Stirrup { get; set; }
         /// <inheritdoc/>
         public LimitStates LimitState { get; set; }
@@ -21,6 +23,10 @@ namespace StructureHelperLogics.Models.BeamShears
         public CalcTerms CalcTerm { get; set; }
         /// <inheritdoc/>
         public IForceTuple ForceTuple { get; set; }
+        /// <inheritdoc/>
+        public IBeamShearAction BeamShearAction { get; set; }
+        /// <inheritdoc/>
+        public IBeamShearSection BeamShearSection { get; set; }
 
         public BeamShearSectionLogicInputData(Guid id)
         {

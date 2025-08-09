@@ -10,6 +10,8 @@ namespace StructureHelperLogics.Models.BeamShears
         private double absoluteRangeValue = 0.0;
         private double relativeEffectiveDepthRangeValue = 3.3;
         private int stepCount = 55;
+        private double relativeEffectiveDepthSectionLengthMaxValue = 3;
+        private double relativeEffectiveDepthSectionLengthMinValue = 0;
 
         /// <inheritdoc>
         public Guid Id { get; }
@@ -56,6 +58,33 @@ namespace StructureHelperLogics.Models.BeamShears
                 stepCount = value;
             }
         }
+
+        public double RelativeEffectiveDepthSectionLengthMaxValue
+        {
+            get => relativeEffectiveDepthSectionLengthMaxValue;
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new StructureHelperException($"Maximum inclined section factor must be greater than zero, but was {value}");
+                }
+                relativeEffectiveDepthSectionLengthMaxValue = value;
+            }
+        }
+
+        public double RelativeEffectiveDepthSectionLengthMinValue
+        {
+            get => relativeEffectiveDepthSectionLengthMinValue;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new StructureHelperException($"Maximum inclined section factor must be greater than zero, but was {value}");
+                }
+                relativeEffectiveDepthSectionLengthMinValue = value;
+            }
+        }
+
         public BeamShearDesignRangeProperty(Guid id)
         {
             Id = id;

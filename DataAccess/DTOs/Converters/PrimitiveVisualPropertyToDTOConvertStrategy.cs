@@ -19,6 +19,7 @@ namespace DataAccess.DTOs
             _updateStrategy ??= new PrimitiveVisualPropertyUpdateStrategy();
             ChildClass = this;
             NewItem = new(source.Id);
+            _updateStrategy.Update(NewItem, source);
             return NewItem;
         }
     }

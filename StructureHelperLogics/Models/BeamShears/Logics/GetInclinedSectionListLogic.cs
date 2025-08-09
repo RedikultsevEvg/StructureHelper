@@ -7,19 +7,18 @@ namespace StructureHelperLogics.Models.BeamShears
 {
     public class GetInclinedSectionListLogic : IGetInclinedSectionListLogic
     {
-        private readonly IGetInclinedSectionListInputData inputData;
         private IGetInclinedSectionLogic inclinedSectionLogic;
         private double depth;
         private double effectiveDepth;
         private List<IInclinedSection> inclinedSections;
         private List<double> coordinates;
+
+        public IBeamShearDesignRangeProperty DesignRangeProperty { get; set; }
+        public IBeamShearSection BeamShearSection { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public GetInclinedSectionListLogic(
-            IGetInclinedSectionListInputData inputData,
-            IShiftTraceLogger? traceLogger)
+        public GetInclinedSectionListLogic(IShiftTraceLogger? traceLogger)
         {
-            this.inputData = inputData;
             TraceLogger = traceLogger;
         }
 
@@ -29,14 +28,20 @@ namespace StructureHelperLogics.Models.BeamShears
             Check();
             GetShapeParameters();
             GetCoordinates();
+            double minSectionLength = DesignRangeProperty.RelativeEffectiveDepthSectionLengthMinValue * effectiveDepth;
+            double maxSectionLength = DesignRangeProperty.RelativeEffectiveDepthSectionLengthMaxValue * effectiveDepth;
             foreach (var startCoord in coordinates)
             {
                 var endCoordinates = coordinates.Where(x => x >= startCoord);
                 foreach (var endCoord in endCoordinates)
                 {
-                    inclinedSectionLogic = InitializeInclinedSectionLogic(startCoord, endCoord);
-                    IInclinedSection inclinedSection = inclinedSectionLogic.GetInclinedSection();
-                    inclinedSections.Add(inclinedSection);
+                    double sectionLength = endCoord - startCoord;
+                    if (sectionLength >= minSectionLength & sectionLength <= maxSectionLength)
+                    {
+                        inclinedSectionLogic = new GetInclinedSectionLogic(BeamShearSection, startCoord, endCoord, TraceLogger);
+                        IInclinedSection inclinedSection = inclinedSectionLogic.GetInclinedSection();
+                        inclinedSections.Add(inclinedSection);
+                    }  
                 }
             }
             return inclinedSections;
@@ -44,8 +49,8 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void GetCoordinates()
         {
-            double maxSectionLength = GetMaxSectionLength();
-            int stepCount = inputData.DesignRangeProperty.StepCount;
+            double maxSectionLength = GetMaxLengthOfInclinedSection();
+            int stepCount = DesignRangeProperty.StepCount;
             double step = maxSectionLength / stepCount;
             inclinedSections = new();
             coordinates = new();
@@ -57,41 +62,36 @@ namespace StructureHelperLogics.Models.BeamShears
             }
         }
 
-        private double GetMaxSectionLength()
+        private double GetMaxLengthOfInclinedSection()
         {
-            double relativeLength = inputData.DesignRangeProperty.RelativeEffectiveDepthRangeValue * effectiveDepth;
-            double length = Math.Max(relativeLength, inputData.DesignRangeProperty.AbsoluteRangeValue);
+            double minimumRelativeLength = DesignRangeProperty.RelativeEffectiveDepthRangeValue * effectiveDepth;
+            double minimumAbsoluteLength = DesignRangeProperty.AbsoluteRangeValue;
+            double length = Math.Max(minimumRelativeLength, minimumAbsoluteLength);
             return length;
         }
 
         private void Check()
         {
-            CheckObject.IsNull(inputData);
-            CheckObject.IsNull(inputData.BeamShearSection);
+            CheckObject.IsNull(BeamShearSection);
+            CheckObject.IsNull(DesignRangeProperty);
         }
-        private IGetInclinedSectionLogic InitializeInclinedSectionLogic(double startCoord, double endCoord)
-        {
-            if (inputData.GetInclinedSectionLogic is not null)
-            {
-                return inputData.GetInclinedSectionLogic;
-            }
-            return new GetInclinedSectionLogic(inputData.BeamShearSection, startCoord, endCoord, TraceLogger);
-        }
+
         private void GetShapeParameters()
         {
-            if (inputData.BeamShearSection.Shape is IRectangleShape rectangle)
+            if (BeamShearSection.Shape is IRectangleShape rectangle)
             {
                 depth = rectangle.Height;
             }
-            else if (inputData.BeamShearSection.Shape is ICircleShape circle)
+            else if (BeamShearSection.Shape is ICircleShape circle)
             {
                 depth = circle.Diameter;
             }
             else
             {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(inputData.BeamShearSection.Shape));
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(BeamShearSection.Shape));
             }
-            effectiveDepth = depth - inputData.BeamShearSection.CenterCover;
+            double coverLayerOfConcrete = BeamShearSection.CenterCover;
+            effectiveDepth = depth - coverLayerOfConcrete;
         }
     }
 }

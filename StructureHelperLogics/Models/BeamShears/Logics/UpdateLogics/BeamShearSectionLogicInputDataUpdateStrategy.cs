@@ -12,6 +12,7 @@ namespace StructureHelperLogics.Models.BeamShears
             CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.InclinedSection = sourceObject.InclinedSection;
+            targetObject.InclinedCrack = sourceObject.InclinedCrack;
             targetObject.Stirrup = sourceObject.Stirrup;
             targetObject.LimitState = sourceObject.LimitState;
             targetObject.CalcTerm = sourceObject.CalcTerm;

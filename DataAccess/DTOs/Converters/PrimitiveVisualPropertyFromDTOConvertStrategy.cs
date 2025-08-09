@@ -6,7 +6,7 @@ namespace DataAccess.DTOs
 {
     internal class PrimitiveVisualPropertyFromDTOConvertStrategy : ConvertStrategy<PrimitiveVisualProperty, PrimitiveVisualPropertyDTO>
     {
-        private IUpdateStrategy<IPrimitiveVisualProperty> _updateStrategy;
+        private IUpdateStrategy<IPrimitiveVisualProperty> updateStrategy;
 
         public PrimitiveVisualPropertyFromDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger) : base(referenceDictionary, traceLogger)
         {
@@ -14,9 +14,10 @@ namespace DataAccess.DTOs
 
         public override PrimitiveVisualProperty GetNewItem(PrimitiveVisualPropertyDTO source)
         {
-            _updateStrategy ??= new PrimitiveVisualPropertyUpdateStrategy();
+            updateStrategy ??= new PrimitiveVisualPropertyUpdateStrategy();
             ChildClass = this;
             NewItem = new(source.Id);
+            updateStrategy.Update(NewItem, source);
             return NewItem;
         }
     }

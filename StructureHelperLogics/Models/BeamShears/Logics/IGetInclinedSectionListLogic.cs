@@ -7,6 +7,8 @@ namespace StructureHelperLogics.Models.BeamShears
     /// </summary>
     public interface IGetInclinedSectionListLogic : ILogic
     {
+        public IBeamShearDesignRangeProperty DesignRangeProperty { get; set; }
+        public IBeamShearSection BeamShearSection { get; set; }
         List<IInclinedSection> GetInclinedSections();
     }
 }

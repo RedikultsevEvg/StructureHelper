@@ -9,16 +9,21 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
     {
         private IBeamShearSectionLogicResult source;
         private IInclinedSection inclinedSection => source.InputData.InclinedSection;
+        private IInclinedSection inclinedCrack => source.InputData.InclinedCrack;
 
         public double SectionStartX => inclinedSection.StartCoord;
         public double SectionEndX => inclinedSection.EndCoord;
         public double SectionStartY => inclinedSection.FullDepth - inclinedSection.EffectiveDepth;
         public double SectionEndY => inclinedSection.FullDepth;
+        public double CrackStartX => inclinedCrack.StartCoord;
         public double FactorOfUsing => Math.Round(source.FactorOfUsing, 4);
         public double EffectiveDepth => Math.Round(inclinedSection.EffectiveDepth, 3);
         public double SpanRatio => (inclinedSection.EndCoord - inclinedSection.StartCoord) / inclinedSection.EffectiveDepth;
+        public double CrackSpanRatio => (inclinedCrack.EndCoord - inclinedCrack.StartCoord) / inclinedSection.EffectiveDepth;
         public double ActualShearForce => Math.Round(source.InputData.ForceTuple.Qy);
         public double UltimateShearForce => Math.Round(source.TotalStrength);
+        public double ConcreteShearForce => Math.Round(source.ConcreteStrength);
+        public double StirrupShearForce => Math.Round(source.StirrupStrength);
 
         public double CenterX => 0;
         public double CenterY => 0;

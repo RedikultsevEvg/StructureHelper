@@ -8,7 +8,7 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         private readonly IBeamShearSectionLogicInputData inputData;
         private IStirrup stirrup => inputData.Stirrup;
-        private IInclinedSection inclinedSection => inputData.InclinedSection;
+        private IInclinedSection inclinedSection => inputData.InclinedCrack;
         private IBeamShearStrenghLogic stirrupByDensityStrengthLogic;
         private IBeamShearStrenghLogic stirrupGroupStrengthLogic;
         private IBeamShearStrenghLogic stirrupByInclinedRebarStrengthLogic;

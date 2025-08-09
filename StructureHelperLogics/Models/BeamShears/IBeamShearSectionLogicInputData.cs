@@ -13,10 +13,13 @@ namespace StructureHelperLogics.Models.BeamShears
     /// </summary>
     public interface IBeamShearSectionLogicInputData : IInputData, ISaveable
     {
+        IBeamShearAction BeamShearAction { get; set; }
+        IBeamShearSection BeamShearSection { get; set; }
         /// <summary>
         /// Properties of RC cross-section
         /// </summary>
         IInclinedSection InclinedSection { get; set; }
+        IInclinedSection InclinedCrack { get; set; }
         /// <summary>
         /// Properties of stirrups in cross-section
         /// </summary>

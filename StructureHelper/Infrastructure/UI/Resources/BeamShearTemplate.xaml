@@ -24,12 +24,12 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Beam shear section: "/>
+                        <TextBlock Margin="0,0,0,2" Text="Beam shear section: "/>
                         <TextBlock Grid.Column="1" Text="{Binding BeamShearSection.Name}"/>
                         <TextBlock Grid.Row="1" Text="Depth: "/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding FullDepth, Converter={StaticResource LengthConverter}}"/>
@@ -85,12 +85,14 @@
     <DataTemplate x:Key="InclinedSectionPrimitiveTemplate"
               DataType="primitives:InclinedSectionPrimitive">
         <Canvas>
+            <!--InclinedSection-->
             <Line
                 X1="{Binding SectionStartX}"
                 X2="{Binding SectionEndX}"
                 Y1="{Binding SectionStartY}"
                 Y2="{Binding SectionEndY}"
                 StrokeThickness="0.01"
+                StrokeDashArray="0.05 0.02"
                 >
                 <Line.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
@@ -102,16 +104,16 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Inclinated section"/>
+                        <TextBlock Margin="0,0,0,2" Text="Inclined section"/>
                         <TextBlock Grid.Row="1" Text="Start coordinate: "/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SectionStartX, Converter={StaticResource LengthConverter}}"/>
                         <TextBlock Grid.Row="2" Text="End coordinate: "/>
@@ -126,7 +128,6 @@
                         <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding EffectiveDepth, Converter={StaticResource LengthConverter}}"/>
                         <TextBlock Grid.Row="7" Text="Span c/d ratio: "/>
                         <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding SpanRatio, Converter={StaticResource PlainDouble}}"/>
-
                     </Grid>
                 </Line.ToolTip>
             </Line>
@@ -140,6 +141,48 @@
                 <Line.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
                 </Line.Stroke>
+            </Line>
+            <!--InclinedCrack-->
+            <Line
+                X1="{Binding CrackStartX}"
+                X2="{Binding SectionEndX}"
+                Y1="{Binding SectionStartY}"
+                Y2="{Binding SectionEndY}"
+                StrokeThickness="0.02"
+                >
+                <Line.Stroke>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
+                </Line.Stroke>
+                <Line.ToolTip>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Margin="0,0,0,2" Text="Inclined crack"/>
+                        <TextBlock Grid.Row="1" Text="Start coordinate: "/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding CrackStartX, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="2" Text="End coordinate: "/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SectionEndX, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="3" Text="Ultimate shear force: "/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding UltimateShearForce, Converter={StaticResource ForceConverter}}"/>
+                        <TextBlock Grid.Row="4" Text="Concrete shear force: "/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ConcreteShearForce, Converter={StaticResource ForceConverter}}"/>
+                        <TextBlock Grid.Row="5" Text="Stirrup shear force: "/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding StirrupShearForce, Converter={StaticResource ForceConverter}}"/>
+                        <TextBlock Grid.Row="6" Text="Crack span c0/d ratio: "/>
+                        <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding CrackSpanRatio, Converter={StaticResource PlainDouble}}"/>
+                    </Grid>
+                </Line.ToolTip>
             </Line>
         </Canvas>
     </DataTemplate>
@@ -167,14 +210,14 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="23"/>
-                            <RowDefinition Height="23"/>
-                            <RowDefinition Height="23"/>
-                            <RowDefinition Height="23"/>
-                            <RowDefinition Height="23"/>
-                            <RowDefinition Height="23"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Stirrup by rebar: "/>
+                        <TextBlock Margin="0,0,0,2" Text="Stirrup by rebar: "/>
                         <TextBlock Grid.Column="1" Text="{Binding StirrupByRebar.Name}"/>
                         <TextBlock Grid.Row="1" Text="Diameter: "/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding StirrupByRebar.Diameter, Converter={StaticResource LengthConverter}}"/>
@@ -215,10 +258,10 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="23"/>
-                            <RowDefinition Height="23"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Stirrup by density: "/>
+                        <TextBlock Margin="0,0,0,2" Text="Stirrup by density: "/>
                         <TextBlock Grid.Column="1" Text="{Binding StirrupByDensity.Name}"/>
                         <TextBlock Grid.Row="1" Text="Density: "/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding StirrupByDensity.StirrupDensity, Converter={StaticResource DistributedLoadConverter}}"/>
@@ -248,13 +291,14 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Inclinated rebar: "/>
+                        <TextBlock Margin="0,0,0,2" Text="Inclinated rebar: "/>
                         <TextBlock Grid.Column="1" Text="{Binding StirrupByInclinedRebar.Name}"/>
                         <TextBlock Grid.Row="1" Text="Diameter: "/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding StirrupByInclinedRebar.RebarSection.Diameter, Converter={StaticResource LengthConverter}}"/>
@@ -262,8 +306,10 @@
                         <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding StirrupByInclinedRebar.RebarSection.Material.MaterialEntity.Name}"/>
                         <TextBlock Grid.Row="3" Text="Start coordinate: "/>
                         <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StirrupByInclinedRebar.StartCoordinate, Converter={StaticResource LengthConverter}}"/>
-                        <TextBlock Grid.Row="4" Text="Angle of inclination: "/>
-                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding StirrupByInclinedRebar.AngleOfInclination, Converter={StaticResource PlainDouble}}"/>
+                        <TextBlock Grid.Row="4" Text="End coordinate: "/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding EndPointX, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="5" Text="Angle of inclination: "/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding StirrupByInclinedRebar.AngleOfInclination, Converter={StaticResource PlainDouble}}"/>
                     </Grid>
                 </Line.ToolTip>
             </Line>

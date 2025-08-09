@@ -12,7 +12,15 @@ namespace StructureHelperCommon.Models.Calculators
 {
     public class FindParameterCalculator : IFindParameterCalculator
     {
-        FindParameterResult result;
+        private double start, end;
+        private Predicate<double> predicate;
+        private FindParameterResult result;
+        private double precision;
+        private int maxIterationCount;
+        private double current;
+        private double step;
+        private int iterationNum;
+
         public string Name { get; set; }
         public IFindParameterCalculatorInputData InputData { get; set; }
         public IAccuracy Accuracy { get; set; }
@@ -43,7 +51,10 @@ namespace StructureHelperCommon.Models.Calculators
             result = new();
             try
             {
-                FindMinimumValue(InputData.StartValue, InputData.EndValue, InputData.Predicate);
+                start = InputData.StartValue;
+                end = InputData.EndValue;
+                predicate = InputData.Predicate;
+                FindMinimumValue();
             }
             catch (Exception ex)
             {
@@ -56,7 +67,7 @@ namespace StructureHelperCommon.Models.Calculators
             throw new NotImplementedException();
         }
 
-        private void FindMinimumValue(double start, double end, Predicate<double> predicate)
+        private void FindMinimumValue()
         {
             TraceLogger?.AddMessage($"Calculating parameter by iterations is started,\nrequired precision {Accuracy.IterationAccuracy}");
             if (predicate(end) == false)
@@ -64,47 +75,52 @@ namespace StructureHelperCommon.Models.Calculators
                 TraceLogger?.AddMessage($"Predicate for end value must be true", TraceLogStatuses.Error);
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": predicate for end value must be true");
             }
-            double precision = Accuracy.IterationAccuracy;
-            int maxIterationCount = Accuracy.MaxIterationCount;
-            double current = start;
-            double step = (end - start) / 2d;
-            int iterationNum = 0;
+            precision = Accuracy.IterationAccuracy;
+            maxIterationCount = Accuracy.MaxIterationCount;
+            current = start;
+            step = (end - start) / 2d;
+            iterationNum = 0;
             while (step > precision)
             {
-                TraceLogger?.AddMessage($"Iteration number {iterationNum} is started", TraceLogStatuses.Debug);
-                if (predicate(current) == true)
-                {
-                    TraceLogger?.AddMessage($"Predicate value in {current} is true", TraceLogStatuses.Debug, 50);
-                    end = current;
-                }
-                else
-                {
-                    TraceLogger?.AddMessage($"Predicate value in {current} is false", TraceLogStatuses.Debug, 50);
-                    start = current;
-                }
-                current = (start + end) / 2d;
-                TraceLogger?.AddMessage($"New current value Cur=({start}+{end})/2={current}", TraceLogStatuses.Debug);
-                step = (end - start) / 2d;
-                TraceLogger?.AddMessage($"New step S={current}", TraceLogStatuses.Debug, 50);
-                iterationNum++;
-
-                result.IsValid = false;
-                result.IterationNumber = iterationNum;
-                result.CurrentAccuracy = step;
-                ActionToOutputResults?.Invoke(result);
-
-                if (iterationNum > maxIterationCount)
-                {
-                    TraceLogger?.AddMessage($"Recuired precision was not achieved, current step {step}, required precision {precision}", TraceLogStatuses.Error);
-                    result.Description = "Parameter was not found succefully: \n";
-                    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": violation of iteration count");
-                }
+                ProcessIteration();
             }
             TraceLogger?.AddMessage($"Parameter value Cur={current} was found,\nCalculation has finished succefully");
             result.Parameter = current;
             result.Description = "Parameter was found succefully";
             result.IsValid = true;
             ActionToOutputResults?.Invoke(result);
+        }
+
+        private void ProcessIteration()
+        {
+            TraceLogger?.AddMessage($"Iteration number {iterationNum} is started", TraceLogStatuses.Debug);
+            if (predicate(current) == true)
+            {
+                TraceLogger?.AddMessage($"Predicate value in {current} is true", TraceLogStatuses.Debug, 50);
+                end = current;
+            }
+            else
+            {
+                TraceLogger?.AddMessage($"Predicate value in {current} is false", TraceLogStatuses.Debug, 50);
+                start = current;
+            }
+            current = (start + end) / 2d;
+            TraceLogger?.AddMessage($"New current value Cur=({start}+{end})/2={current}", TraceLogStatuses.Debug);
+            step = (end - start) / 2d;
+            TraceLogger?.AddMessage($"New step S={current}", TraceLogStatuses.Debug, 50);
+            iterationNum++;
+
+            result.IsValid = false;
+            result.IterationNumber = iterationNum;
+            result.CurrentAccuracy = step;
+            ActionToOutputResults?.Invoke(result);
+
+            if (iterationNum > maxIterationCount)
+            {
+                TraceLogger?.AddMessage($"Recuired precision was not achieved, current step {step}, required precision {precision}", TraceLogStatuses.Error);
+                result.Description = "Parameter was not found succefully: \n";
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": violation of iteration count");
+            }
         }
     }
 }

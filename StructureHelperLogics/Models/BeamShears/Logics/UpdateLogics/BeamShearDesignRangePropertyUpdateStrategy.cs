@@ -14,6 +14,8 @@ namespace StructureHelperLogics.Models.BeamShears
             targetObject.AbsoluteRangeValue = sourceObject.AbsoluteRangeValue;
             targetObject.RelativeEffectiveDepthRangeValue = sourceObject.RelativeEffectiveDepthRangeValue;
             targetObject.StepCount = sourceObject.StepCount;
+            targetObject.RelativeEffectiveDepthSectionLengthMaxValue = sourceObject.RelativeEffectiveDepthSectionLengthMaxValue;
+            targetObject.RelativeEffectiveDepthSectionLengthMinValue = sourceObject.RelativeEffectiveDepthSectionLengthMinValue;
         }
     }
 }

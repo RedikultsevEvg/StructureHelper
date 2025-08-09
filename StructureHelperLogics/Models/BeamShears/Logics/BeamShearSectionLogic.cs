@@ -17,6 +17,8 @@ namespace StructureHelperLogics.Models.BeamShears
         private IGetLongitudinalForceFactorLogic getLongitudinalForceFactorLogic;
         private string sectionMessage;
         private ICheckInputDataLogic<IBeamShearSectionLogicInputData> checkInputDataLogic;
+        private double concreteStrength;
+        private double stirrupStrength;
 
         private ShiftTraceLogger? localTraceLogger { get; set; }
 
@@ -41,6 +43,7 @@ namespace StructureHelperLogics.Models.BeamShears
             InitializeStrategies();
             try
             {
+                AddInclinedCrackToInputData();
                 CalculateResult();
             }
             catch (Exception ex)
@@ -48,6 +51,20 @@ namespace StructureHelperLogics.Models.BeamShears
                 result.IsValid = false;
                 result.Description += ex.Message;
             }
+        }
+
+        private void AddInclinedCrackToInputData()
+        {
+            InclinedSection newSection = new();
+            var updateStrategy = new InclinedSectionUpdateStrategy();
+            updateStrategy.Update(newSection, InputData.InclinedSection);
+            double crackLength = newSection.EndCoord - newSection.StartCoord;
+            double maxCrackLength = 2 * newSection.EffectiveDepth;
+            if (crackLength > maxCrackLength)
+            {
+                newSection.StartCoord = newSection.EndCoord - maxCrackLength;
+            }
+            InputData.InclinedCrack = newSection;
         }
 
         private bool Check()
@@ -71,8 +88,8 @@ namespace StructureHelperLogics.Models.BeamShears
             SetLongitudinalForce();
             double factorOfLongitudinalForce = getLongitudinalForceFactorLogic.GetFactor();
             localTraceLogger?.AddMessage($"Factor of  longitudinal force = {factorOfLongitudinalForce}, (dimensionless)");
-            double concreteStrength = concreteLogic.GetShearStrength();
-            double stirrupStrength = stirrupLogic.GetShearStrength();
+            concreteStrength = concreteLogic.GetShearStrength();
+            stirrupStrength = stirrupLogic.GetShearStrength();
             if (stirrupStrength > concreteStrength)
             {      
                 localTraceLogger?.AddMessage($"Shear reinforcement strength Qsw = {stirrupStrength} is greater than concrete strength for shear Qb = {concreteStrength}, shear reinforcement strength has to be restricted.");
@@ -113,6 +130,7 @@ namespace StructureHelperLogics.Models.BeamShears
             };
             double stirrupStrength = logic.GetShearStrength();
             localTraceLogger?.AddMessage($"Stirrup strength was restricted as Qsw,restricted = {stirrupStrength}(N)");
+            InputData.InclinedCrack = logic.InclinedCrack;
             return stirrupStrength;
         }
 
