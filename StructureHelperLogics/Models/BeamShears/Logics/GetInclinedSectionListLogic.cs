@@ -7,6 +7,8 @@ namespace StructureHelperLogics.Models.BeamShears
 {
     public class GetInclinedSectionListLogic : IGetInclinedSectionListLogic
     {
+        private const int minimumInclinedSectionLengthFactor = 0;
+        private const int maximumInclinedSectionLengthFactor = 3;
         private IGetInclinedSectionLogic inclinedSectionLogic;
         private double depth;
         private double effectiveDepth;
@@ -28,8 +30,8 @@ namespace StructureHelperLogics.Models.BeamShears
             Check();
             GetShapeParameters();
             GetCoordinates();
-            double minSectionLength = DesignRangeProperty.RelativeEffectiveDepthSectionLengthMinValue * effectiveDepth;
-            double maxSectionLength = DesignRangeProperty.RelativeEffectiveDepthSectionLengthMaxValue * effectiveDepth;
+            double minSectionLength = minimumInclinedSectionLengthFactor * effectiveDepth;
+            double maxSectionLength = maximumInclinedSectionLengthFactor * effectiveDepth;
             foreach (var startCoord in coordinates)
             {
                 var endCoordinates = coordinates.Where(x => x >= startCoord);

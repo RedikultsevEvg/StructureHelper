@@ -13,6 +13,10 @@ namespace StructureHelperLogics.Models.BeamShears
         /// </summary>
         IBeamShearSectionLogicInputData InputData { get; set; }
         /// <summary>
+        /// New Input data for calculating
+        /// </summary>
+        IBeamShearSectionLogicInputData ResultInputData { get; set; }
+        /// <summary>
         /// Ultimate shear force due to cocrete
         /// </summary>
         public double ConcreteStrength { get; set; }

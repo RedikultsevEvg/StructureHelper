@@ -10,6 +10,7 @@
                 Width="{Binding PositiveLength}"
                 Height="{Binding FullDepth}"        
                 StrokeThickness="0.01"
+                Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                 >
                 <Rectangle.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}"/>
@@ -47,6 +48,8 @@
                 Y2="{Binding BottomCover}"
                 Stroke="Black"
                 StrokeThickness="0.012"
+                StrokeDashArray="0.1 0.05"
+                Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                 >
                 <Line.ToolTip>
                     <Grid>
@@ -93,6 +96,7 @@
                 Y2="{Binding SectionEndY}"
                 StrokeThickness="0.01"
                 StrokeDashArray="0.05 0.02"
+                Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                 >
                 <Line.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
@@ -131,17 +135,6 @@
                     </Grid>
                 </Line.ToolTip>
             </Line>
-            <Line
-                X1="{Binding SectionStartX}"
-                X2="{Binding SectionStartX}"
-                Y1="0"
-                Y2="{Binding SectionStartY}"
-                StrokeThickness="0.01"
-                >
-                <Line.Stroke>
-                    <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
-                </Line.Stroke>
-            </Line>
             <!--InclinedCrack-->
             <Line
                 X1="{Binding CrackStartX}"
@@ -149,6 +142,7 @@
                 Y1="{Binding SectionStartY}"
                 Y2="{Binding SectionEndY}"
                 StrokeThickness="0.02"
+                Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                 >
                 <Line.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
@@ -179,7 +173,7 @@
                         <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ConcreteShearForce, Converter={StaticResource ForceConverter}}"/>
                         <TextBlock Grid.Row="5" Text="Stirrup shear force: "/>
                         <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding StirrupShearForce, Converter={StaticResource ForceConverter}}"/>
-                        <TextBlock Grid.Row="6" Text="Crack span c0/d ratio: "/>
+                        <TextBlock Grid.Row="6" Text="Span c0/d ratio: "/>
                         <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding CrackSpanRatio, Converter={StaticResource PlainDouble}}"/>
                     </Grid>
                 </Line.ToolTip>
@@ -196,6 +190,7 @@
                 StrokeThickness="0.005"
                 Canvas.Left="{Binding StartPoinX}"
                 Canvas.Top="{Binding BottomPointY}"
+                Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                 >
                 <Rectangle.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}"/>
@@ -244,6 +239,7 @@
             StrokeThickness="0.005"
             Canvas.Left="{Binding StartPoinX}"
             Canvas.Top="{Binding BottomPointY}"
+            Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
             >
                 <Rectangle.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}"/>
@@ -279,6 +275,7 @@
                 X2="{Binding EndPointX}"
                 Y1="{Binding StartPointY}"
                 Y2="{Binding EndPointY}"
+                Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                 StrokeThickness="{Binding StirrupByInclinedRebar.RebarSection.Diameter}"
                 >
                 <Line.Stroke>
@@ -319,6 +316,7 @@
                 Y1="{Binding StartPointY}"
                 Y2="{Binding StartPointY}"
                 StrokeThickness="{Binding StirrupByInclinedRebar.RebarSection.Diameter}"
+                Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                 >
                 <Line.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
@@ -330,6 +328,7 @@
                 Y1="{Binding EndPointY}"
                 Y2="{Binding EndPointY}"
                 StrokeThickness="{Binding StirrupByInclinedRebar.RebarSection.Diameter}"
+                Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                 >
                 <Line.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>

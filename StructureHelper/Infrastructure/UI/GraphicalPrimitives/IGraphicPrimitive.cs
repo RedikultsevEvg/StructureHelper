@@ -1,4 +1,5 @@
 ﻿using FieldVisualizer.Entities.Values.Primitives;
+using StructureHelper.Windows.UserControls;
 using StructureHelperCommon.Models.VisualProperties;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,6 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
 {
     public interface IGraphicalPrimitive : ICenter
     {
-        IPrimitiveVisualProperty VisualProperty { get; }
+        PrimitiveVisualPropertyViewModel VisualProperty { get; }
     }
 }

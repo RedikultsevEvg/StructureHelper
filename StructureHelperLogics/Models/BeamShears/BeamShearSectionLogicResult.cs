@@ -12,6 +12,7 @@ namespace StructureHelperLogics.Models.BeamShears
         public bool IsValid { get; set; }
         public string? Description { get; set; }
         public IBeamShearSectionLogicInputData InputData { get; set; }
+        public IBeamShearSectionLogicInputData ResultInputData { get; set; }
         public double ConcreteStrength { get; set; }
         public double StirrupStrength { get; set; }
         public double TotalStrength { get; set; }

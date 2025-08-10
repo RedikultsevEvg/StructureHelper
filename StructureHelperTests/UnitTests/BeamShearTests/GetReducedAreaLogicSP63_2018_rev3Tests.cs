@@ -3,6 +3,7 @@ using Moq;
 using NUnit.Framework;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.Models.Materials;
 using System;
@@ -36,6 +37,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
                 mockSection.Setup(s => s.ConcreteMaterial).Returns(mockConcreteMaterial.Object);
                 mockSection.Setup(s => s.ReinforcementMaterial).Returns(mockReinforcementMaterial.Object);
                 mockSection.Setup(s => s.ReinforcementArea).Returns(reinforcementArea);
+                mockSection.Setup(s => s.Shape).Returns(new RectangleShape(){ Width = 1, Height =2 });
 
                 var mockInclSection = new Mock<IInclinedSection>();
                 mockInclSection.Setup(s => s.WebWidth).Returns(width);

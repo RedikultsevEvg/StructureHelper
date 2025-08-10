@@ -61,8 +61,12 @@ namespace StructureHelper.Windows.BeamShears
         private void Show2DDiagram(object obj)
         {
             if (SelectedResult is null) { return; }
+            if (SelectedResult.SectionResults is null) { return; }
+            var sectionResult = SelectedResult.SectionResults
+            .OrderByDescending(x => x.FactorOfUsing)
+            .FirstOrDefault();
             var logic = new ShearDiagramLogic(SelectedResult);
-            logic.ShowWindow(0.0);
+            logic.ShowWindow(sectionResult.ResultInputData.InclinedSection.StartCoord);
         }
 
         private void ShowSectionResults(object commandParameter)

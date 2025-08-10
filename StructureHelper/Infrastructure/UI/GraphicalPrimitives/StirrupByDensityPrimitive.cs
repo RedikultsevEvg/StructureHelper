@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models.VisualProperties;
+﻿using StructureHelper.Windows.UserControls;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.BeamShears;
 
 namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
@@ -14,14 +15,16 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         public double TopPointY => InclinedSection.FullDepth;
         public double Length => StirrupByDensity.EndCoordinate - StirrupByDensity.StartCoordinate;
         public double Depth => InclinedSection.EffectiveDepth;
-        public IPrimitiveVisualProperty VisualProperty => StirrupByDensity.VisualProperty;
 
         public IInclinedSection InclinedSection { get; set; }
+
+        public PrimitiveVisualPropertyViewModel VisualProperty { get; }
 
         public StirrupByDensityPrimitive(IStirrupByDensity stirrupByDensity, IInclinedSection inclinedSection)
         {
             StirrupByDensity = stirrupByDensity;
             this.InclinedSection = inclinedSection;
+            VisualProperty = new(stirrupByDensity.VisualProperty);
         }
     }
 }

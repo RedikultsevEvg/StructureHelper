@@ -21,14 +21,6 @@ namespace StructureHelperLogics.Models.BeamShears
         /// </summary>
         double RelativeEffectiveDepthRangeValue { get; set; }
         /// <summary>
-        /// Relative value of inclination length as factor of effective depth of cross-section
-        /// </summary>
-        double RelativeEffectiveDepthSectionLengthMaxValue { get; set; }
-        /// <summary>
-        /// Relative value of inclination length as factor of effective depth of cross-section
-        /// </summary>
-        double RelativeEffectiveDepthSectionLengthMinValue { get; set; }
-        /// <summary>
         /// Number of step of solvation
         /// </summary>
         int StepCount { get; set; }

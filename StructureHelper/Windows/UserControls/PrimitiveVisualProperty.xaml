@@ -41,8 +41,8 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding Opacity, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}" Margin="1,2,3,4"/>
-            <Slider Grid.Column="1" Value="{Binding Opacity}" Maximum="100" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True" Margin="2"/>
+            <TextBox Text="{Binding FactoredOpacity, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}" Margin="1,2,3,4"/>
+            <Slider Grid.Column="1" Value="{Binding FactoredOpacity}" Maximum="100" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True" Margin="2"/>
         </Grid>
     </Grid>
 </UserControl>

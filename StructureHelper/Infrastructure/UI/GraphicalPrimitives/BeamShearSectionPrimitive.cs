@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models.VisualProperties;
+﻿using StructureHelper.Windows.UserControls;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.BeamShears;
 using System;
 using System.Collections.Generic;
@@ -29,14 +30,16 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         public double SupportStartY => -SupportHeight;
         public string SupportPathData => $"M 0 0 L {SupportWidth / 2} {-SupportHeight} L {-SupportWidth / 2} {-SupportHeight} Z";
 
-        public IPrimitiveVisualProperty VisualProperty => beamShearSection.VisualProperty;
 
         public IBeamShearSection BeamShearSection => beamShearSection;
+
+        public PrimitiveVisualPropertyViewModel VisualProperty {get;}
 
         public BeamShearSectionPrimitive(IBeamShearSection beamShearSection, IInclinedSection inclinedSection)
         {
             this.beamShearSection = beamShearSection;
             this.inclinedSection = inclinedSection;
+            VisualProperty = new(beamShearSection.VisualProperty);
         }
     }
 }

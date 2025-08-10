@@ -40,10 +40,10 @@ namespace StructureHelperLogics.Models.BeamShears
             PrepareNewResult();
             if (Check() == false) { return; }
             localTraceLogger?.AddMessage(sectionMessage);
-            InitializeStrategies();
             try
             {
-                AddInclinedCrackToInputData();
+                PrepareResultData();
+                InitializeStrategies();
                 CalculateResult();
             }
             catch (Exception ex)
@@ -53,18 +53,22 @@ namespace StructureHelperLogics.Models.BeamShears
             }
         }
 
-        private void AddInclinedCrackToInputData()
+        private void PrepareResultData()
         {
-            InclinedSection newSection = new();
+            InclinedSection crackSection = new();
             var updateStrategy = new InclinedSectionUpdateStrategy();
-            updateStrategy.Update(newSection, InputData.InclinedSection);
-            double crackLength = newSection.EndCoord - newSection.StartCoord;
-            double maxCrackLength = 2 * newSection.EffectiveDepth;
+            updateStrategy.Update(crackSection, InputData.InclinedSection);
+            BeamShearSectionLogicInputData resultData = new(Guid.Empty);
+            var resultDataUpdateStrategy = new BeamShearSectionLogicInputDataUpdateStrategy();
+            resultDataUpdateStrategy.Update(resultData, InputData);
+            double crackLength = crackSection.EndCoord - crackSection.StartCoord;
+            double maxCrackLength = 2 * crackSection.EffectiveDepth;
             if (crackLength > maxCrackLength)
             {
-                newSection.StartCoord = newSection.EndCoord - maxCrackLength;
+                crackSection.StartCoord = crackSection.EndCoord - maxCrackLength;
             }
-            InputData.InclinedCrack = newSection;
+            resultData.InclinedCrack = crackSection;
+            result.ResultInputData = resultData;
         }
 
         private bool Check()
@@ -104,7 +108,7 @@ namespace StructureHelperLogics.Models.BeamShears
             double totalStrength = concreteStrength + stirrupStrength;
             localTraceLogger?.AddMessage($"Total strength = {concreteStrength} + {stirrupStrength} = {totalStrength}(N)");
             result.TotalStrength = totalStrength;
-            double actualShearForce = InputData.ForceTuple.Qy;
+            double actualShearForce = result.ResultInputData.ForceTuple.Qy;
             if (actualShearForce > totalStrength)
             {
                 result.IsValid = false;
@@ -125,38 +129,38 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             var logic = new StirrupBySearchLogic(localTraceLogger.GetSimilarTraceLogger(100))
             {
-                InputData = InputData,
+                InputData = result.ResultInputData,
                 SectionEffectiveness = sectionEffectiveness
             };
             double stirrupStrength = logic.GetShearStrength();
             localTraceLogger?.AddMessage($"Stirrup strength was restricted as Qsw,restricted = {stirrupStrength}(N)");
-            InputData.InclinedCrack = logic.InclinedCrack;
+            result.ResultInputData.InclinedCrack = logic.InclinedCrack;
             return stirrupStrength;
         }
 
         private void InitializeStrategies()
         {
-            if (InputData.InclinedSection.BeamShearSection.Shape is IRectangleShape)
+            if (result.ResultInputData.InclinedSection.BeamShearSection.Shape is IRectangleShape)
             {
                 sectionEffectiveness = SectionEffectivenessFactory.GetShearEffectiveness(BeamShearSectionType.Rectangle);
             }
-            else if (InputData.InclinedSection.BeamShearSection.Shape is ICircleShape)
+            else if (result.ResultInputData.InclinedSection.BeamShearSection.Shape is ICircleShape)
             {
                 sectionEffectiveness = SectionEffectivenessFactory.GetShearEffectiveness(BeamShearSectionType.Circle);
             }
             else
             {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(InputData.InclinedSection.BeamShearSection.Shape));
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(result.ResultInputData.InclinedSection.BeamShearSection.Shape));
             }
-            concreteLogic = new(sectionEffectiveness, InputData.InclinedSection, localTraceLogger);
-            stirrupLogic = new(InputData, localTraceLogger);
+            concreteLogic = new(sectionEffectiveness, result.ResultInputData.InclinedSection, localTraceLogger);
+            stirrupLogic = new(result.ResultInputData, localTraceLogger);
             getLongitudinalForceFactorLogic = new GetLongitudinalForceFactorLogic(localTraceLogger?.GetSimilarTraceLogger(100));
         }
 
         private void SetLongitudinalForce()
         {
-            getLongitudinalForceFactorLogic.LongitudinalForce = InputData.ForceTuple.Nz;
-            getLongitudinalForceFactorLogic.InclinedSection = InputData.InclinedSection;
+            getLongitudinalForceFactorLogic.LongitudinalForce = result.ResultInputData.ForceTuple.Nz;
+            getLongitudinalForceFactorLogic.InclinedSection = result.ResultInputData.InclinedSection;
         }
 
         private void PrepareNewResult()

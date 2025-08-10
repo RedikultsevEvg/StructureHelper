@@ -25,7 +25,7 @@
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Show digram"
                                                 IconContent="{StaticResource MomentCurvatureDiagram}"
-                                                DescriptionText="Shows diagram for result where inclined section started from support (Note - the most dangerous combinations may be missed)"/>
+                                                DescriptionText="Shows diagram for result for inclined section where factor of using is maximum"/>
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{StaticResource MomentCurvatureDiagram}"/>

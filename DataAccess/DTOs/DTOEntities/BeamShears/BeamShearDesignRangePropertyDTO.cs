@@ -13,10 +13,6 @@ namespace DataAccess.DTOs
         public double RelativeEffectiveDepthRangeValue { get; set; } = 3.3;
         [JsonProperty("StepCount")]
         public int StepCount { get; set; } = 55;
-        [JsonProperty("SectionLengthMaxValue")]
-        public double RelativeEffectiveDepthSectionLengthMaxValue { get; set; } = 3;
-        [JsonProperty("LengthMinValue")]
-        public double RelativeEffectiveDepthSectionLengthMinValue { get; set; } = 0;
 
         public BeamShearDesignRangePropertyDTO(Guid id)
         {

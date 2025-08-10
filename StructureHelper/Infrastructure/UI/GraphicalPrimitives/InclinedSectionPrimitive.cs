@@ -1,15 +1,16 @@
-﻿using StructureHelperCommon.Models.VisualProperties;
+﻿using StructureHelper.Windows.UserControls;
 using StructureHelperLogics.Models.BeamShears;
 using System;
 using System.Windows.Media;
+using PrimitiveVisualProperty = StructureHelperCommon.Models.VisualProperties.PrimitiveVisualProperty;
 
 namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
 {
     public class InclinedSectionPrimitive : IGraphicalPrimitive
     {
         private IBeamShearSectionLogicResult source;
-        private IInclinedSection inclinedSection => source.InputData.InclinedSection;
-        private IInclinedSection inclinedCrack => source.InputData.InclinedCrack;
+        private IInclinedSection inclinedSection => source.ResultInputData.InclinedSection;
+        private IInclinedSection inclinedCrack => source.ResultInputData.InclinedCrack;
 
         public double SectionStartX => inclinedSection.StartCoord;
         public double SectionEndX => inclinedSection.EndCoord;
@@ -27,7 +28,8 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
 
         public double CenterX => 0;
         public double CenterY => 0;
-        public IPrimitiveVisualProperty VisualProperty { get; private set; } = new PrimitiveVisualProperty(Guid.Empty);
+
+        public PrimitiveVisualPropertyViewModel VisualProperty { get; } = new(new PrimitiveVisualProperty(Guid.Empty));
 
         public InclinedSectionPrimitive(IBeamShearSectionLogicResult source)
         {

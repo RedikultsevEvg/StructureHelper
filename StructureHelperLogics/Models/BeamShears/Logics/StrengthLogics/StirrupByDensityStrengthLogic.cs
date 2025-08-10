@@ -11,7 +11,6 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <inheritdoc/>
     public class StirrupByDensityStrengthLogic : IBeamShearStrenghLogic
     {
-        //private const double minStirrupRatio = 0.25;
         private readonly IStirrupEffectiveness stirrupEffectiveness;
         private readonly IStirrupByDensity stirrupByDensity;
         private readonly IInclinedSection inclinedSection;

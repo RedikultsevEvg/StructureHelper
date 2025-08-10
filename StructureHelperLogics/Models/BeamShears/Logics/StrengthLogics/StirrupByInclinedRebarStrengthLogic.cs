@@ -11,24 +11,41 @@ namespace StructureHelperLogics.Models.BeamShears
         const double stirrupEffectivenessFactor = 0.75;
         private readonly IStirrupByInclinedRebar inclinedRebar;
         private readonly IInclinedSection inclinedSection;
-        private IRebarSectionStrengthLogic rebarSectionStrengthLogic;
         private double angleInRad;
         private double rebarStartPoint;
         private double rebarHeight;
         private double rebarEndPoint;
         private double rebarTrueStartPoint;
         private double rebarTrueEndPoint;
+        private IRebarSectionStrengthLogic rebarSectionStrengthLogic;
         private IInterpolateValueLogic interpolationLogic;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public StirrupByInclinedRebarStrengthLogic(IInclinedSection inclinedSection, IStirrupByInclinedRebar inclinedRebar, IShiftTraceLogger traceLogger)
+        public StirrupByInclinedRebarStrengthLogic(
+            IInclinedSection inclinedSection,
+            IStirrupByInclinedRebar inclinedRebar,
+            IShiftTraceLogger traceLogger) : this(
+                inclinedSection,
+                inclinedRebar,
+                new RebarSectionStrengthLogic(),
+                new InterpolateValueLogic(),
+                traceLogger
+                ) { }
+
+        public StirrupByInclinedRebarStrengthLogic(
+            IInclinedSection inclinedSection,
+            IStirrupByInclinedRebar inclinedRebar,
+            IRebarSectionStrengthLogic rebarSectionStrengthLogic,
+            IInterpolateValueLogic interpolationLogic,
+            IShiftTraceLogger? traceLogger)
         {
             this.inclinedSection = inclinedSection;
             this.inclinedRebar = inclinedRebar;
+            this.rebarSectionStrengthLogic = rebarSectionStrengthLogic;
+            this.interpolationLogic = interpolationLogic;
             TraceLogger = traceLogger;
         }
-
 
         public double GetShearStrength()
         {
@@ -48,7 +65,7 @@ namespace StructureHelperLogics.Models.BeamShears
                 TraceLogger?.AddMessage($"Inclined section start point coordinate X = {inclinedSection.StartCoord} is in end transfer zone");
                 return GetEndTransferValue();
             }
-            if (inclinedSection.EndCoord > rebarStartPoint & inclinedSection.EndCoord < rebarTrueStartPoint)
+            if (inclinedSection.EndCoord > rebarStartPoint && inclinedSection.EndCoord < rebarTrueStartPoint)
             {
                 TraceLogger?.AddMessage($"Inclined section end point coordinate X = {inclinedSection.EndCoord} is in start transfer zone");
                 return GetStartTransferValue();
@@ -59,41 +76,33 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private double GetStartTransferValue()
         {
-            interpolationLogic = new InterpolateValueLogic()
-            {
-                X1 = rebarStartPoint,
-                X2 = rebarTrueStartPoint,
-                Y1 = 0.0,
-                Y2 = GetInclinedRebarStrength(),
-                KnownValueX = inclinedSection.EndCoord
-            };
+            interpolationLogic.X1 = rebarStartPoint;
+            interpolationLogic.X2 = rebarTrueStartPoint;
+            interpolationLogic.Y1 = 0.0;
+            interpolationLogic.Y2 = GetInclinedRebarStrength();
+            interpolationLogic.KnownValueX = inclinedSection.EndCoord;
             return interpolationLogic.GetValueY();
         }
 
         private double GetEndTransferValue()
         {
-            interpolationLogic = new InterpolateValueLogic()
-            {
-                X1 = rebarTrueEndPoint,
-                X2 = rebarEndPoint,
-                Y1 = GetInclinedRebarStrength(),
-                Y2 = 0.0,
-                KnownValueX = inclinedSection.StartCoord
-            };
+            interpolationLogic.X1 = rebarTrueEndPoint;
+            interpolationLogic.X2 = rebarEndPoint;
+            interpolationLogic.Y1 = GetInclinedRebarStrength();
+            interpolationLogic.Y2 = 0.0;
+            interpolationLogic.KnownValueX = inclinedSection.StartCoord;
             return interpolationLogic.GetValueY();
         }
 
         private double GetInclinedRebarStrength()
         {
-            rebarSectionStrengthLogic ??= new RebarSectionStrengthLogic()
-            {
-                RebarStrengthFactor = 0.8,
-                MaxRebarStrength = 3e8,
-                LimitState = LimitStates.ULS,
-                CalcTerm = CalcTerms.ShortTerm,
-                TraceLogger = TraceLogger,
-            };
+            rebarSectionStrengthLogic.RebarStrengthFactor = 0.8;
+            rebarSectionStrengthLogic.MaxRebarStrength = 3e8;
+            rebarSectionStrengthLogic.LimitState = LimitStates.ULS;
+            rebarSectionStrengthLogic.CalcTerm = CalcTerms.ShortTerm;
+            rebarSectionStrengthLogic.TraceLogger = TraceLogger;
             rebarSectionStrengthLogic.RebarSection = inclinedRebar.RebarSection;
+
             double rebarStrength = rebarSectionStrengthLogic.GetRebarMaxTensileForce();
             double inclinedRebarStrength = stirrupEffectivenessFactor * rebarStrength * Math.Sin(angleInRad) * inclinedRebar.LegCount;
             TraceLogger?.AddMessage($"Inclined rebar Name = {inclinedRebar.Name}, start point {rebarStartPoint}(m), end point {rebarEndPoint}(m), angle of inclination {inclinedRebar.AngleOfInclination}(deg), number of legs {inclinedRebar.LegCount}");
@@ -113,7 +122,7 @@ namespace StructureHelperLogics.Models.BeamShears
             rebarTrueEndPoint = rebarEndPoint - transferLength;
             if (rebarTrueStartPoint >= rebarTrueEndPoint)
             {
-                throw new StructureHelperException("Transfer aone in inclined rebar is too big");
+                throw new StructureHelperException("Transfer zone in inclined rebar is too big");
             }
         }
     }

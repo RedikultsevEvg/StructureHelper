@@ -33,6 +33,11 @@ namespace StructureHelper.Windows.UserControls
 
         public double Opacity
         {
+            get => visualProperty.Opacity;
+        }
+
+        public double FactoredOpacity
+        {
             get => visualProperty.Opacity * 100d;
             set
             {

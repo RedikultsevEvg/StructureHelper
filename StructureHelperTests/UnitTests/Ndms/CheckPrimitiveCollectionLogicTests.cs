@@ -5,6 +5,7 @@ using StructureHelperCommon.Models;
 using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives.Logics;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using StructureHelperCommon.Infrastructures.Interfaces;
 
 
 namespace StructureHelperTests.UnitTests.Ndms
@@ -13,7 +14,7 @@ namespace StructureHelperTests.UnitTests.Ndms
     public class CheckPrimitiveCollectionLogicTests
     {
         private Mock<IShiftTraceLogger> _mockTraceLogger;
-        private Mock<ICheckRebarPrimitiveLogic> _mockCheckRebarPrimitiveLogic;
+        private Mock<ICheckEntityLogic<IRebarNdmPrimitive>> _mockCheckRebarPrimitiveLogic;
         private Mock<IHasPrimitives> _mockHasPrimitives;
         private Mock<CheckPrimitiveCollectionLogic> _mockCheckPrimitiveCollectionLogic;
 
@@ -21,7 +22,7 @@ namespace StructureHelperTests.UnitTests.Ndms
         public void SetUp()
         {
             _mockTraceLogger = new Mock<IShiftTraceLogger>();
-            _mockCheckRebarPrimitiveLogic = new Mock<ICheckRebarPrimitiveLogic>();
+            _mockCheckRebarPrimitiveLogic = new Mock<ICheckEntityLogic<IRebarNdmPrimitive>>();
             _mockHasPrimitives = new Mock<IHasPrimitives>();
 
             _mockCheckPrimitiveCollectionLogic = new Mock<CheckPrimitiveCollectionLogic>(_mockTraceLogger.Object, _mockCheckRebarPrimitiveLogic.Object)

@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models.VisualProperties;
+﻿using StructureHelper.Windows.UserControls;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.BeamShears;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,14 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
 
         public double CenterX => 0;
         public double CenterY => 0;
-        public IPrimitiveVisualProperty VisualProperty => StirrupByInclinedRebar.VisualProperty;
+
+        public PrimitiveVisualPropertyViewModel VisualProperty { get; }
+
         public StirrupByInclinedRebarPrimitive(IStirrupByInclinedRebar stirrupByInclinedRebar, IInclinedSection inclinedSection)
         {
             StirrupByInclinedRebar = stirrupByInclinedRebar;
             this.inclinedSection = inclinedSection;
+            VisualProperty = new(stirrupByInclinedRebar.VisualProperty);
         }
         private double GetRebarLengthX()
         {
