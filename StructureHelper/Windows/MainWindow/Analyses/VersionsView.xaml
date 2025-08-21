@@ -38,11 +38,11 @@
                         Command="{Binding DeleteVersionCommand}">
                         <Button.ToolTip>
                             <uc:ButtonToolTipEh HeaderText="Delete selected version"
-                                                IconContent="{StaticResource DeleteAnalysis}"
+                                                IconContent="{StaticResource DeleteEntity}"
                                                 DescriptionText="Deletes selected version (not available for unique version)"/>
                         </Button.ToolTip>
                         <Viewbox>
-                            <ContentControl ContentTemplate="{DynamicResource DeleteAnalysis}"/>
+                            <ContentControl ContentTemplate="{DynamicResource DeleteEntity}"/>
                         </Viewbox>
                     </Button>
                     <Button Style="{StaticResource ToolButton}" 
@@ -78,7 +78,7 @@
                         <MenuItem Header="Delete version" Command="{Binding DeleteVersionCommand}" ToolTip="Delete selected version">
                             <MenuItem.Icon>
                                 <Viewbox Height="16" Width="16">
-                                    <ContentControl ContentTemplate="{StaticResource DeleteAnalysis}"/>
+                                    <ContentControl ContentTemplate="{StaticResource DeleteEntity}"/>
                                 </Viewbox>
                             </MenuItem.Icon>
                         </MenuItem>
