@@ -7,14 +7,14 @@ using StructureHelperCommon.Models.Forces;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public class StirrupByRebarStrengthLogic : IBeamShearStrenghLogic
+    public class StirrupByRebarStrengthLogic : IBeamShearStrengthLogic
     {
         private IStirrupEffectiveness stirrupEffectiveness;
         private IStirrupByRebar stirrupByRebar;
         private IInclinedSection inclinedSection;
         private readonly IForceTuple forceTuple;
         private StirrupByDensityStrengthLogic stirrupDensityStrengthLogic;
-        private IConvertStrategy<IStirrupByDensity, IStirrupByRebar> convertStrategy;
+        private IObjectConvertStrategy<IStirrupByDensity, IStirrupByRebar> convertStrategy;
         public IShiftTraceLogger? TraceLogger { get; set; }
 
         public StirrupByRebarStrengthLogic(
@@ -23,7 +23,7 @@ namespace StructureHelperLogics.Models.BeamShears
             IInclinedSection inclinedSection,
             IForceTuple forceTuple,
             StirrupByDensityStrengthLogic stirrupDensityStrengthLogic,
-            IConvertStrategy<IStirrupByDensity, IStirrupByRebar> convertStrategy,
+            IObjectConvertStrategy<IStirrupByDensity, IStirrupByRebar> convertStrategy,
             IShiftTraceLogger? traceLogger)
         {
             this.stirrupEffectiveness = stirrupEffectiveness;
@@ -49,7 +49,7 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger = traceLogger;
         }
 
-        public double GetShearStrength()
+        public double CalculateShearStrength()
         {
             InitializeStrategies();
             if (stirrupByRebar.EndCoordinate < inclinedSection.StartCoord)
@@ -76,7 +76,7 @@ namespace StructureHelperLogics.Models.BeamShears
                 TraceLogger?.AddMessage($"Stirrup spacing S = {stirrupByRebar.Spacing}(m) is greater than max stirrup spacing Smax = {maxStirrupSpacingByEffectibeDepth}(m), stirrups are ignored", TraceLogStatuses.Warning);
                 return 0;
             }
-            double shearStrength = stirrupDensityStrengthLogic.GetShearStrength();
+            double shearStrength = stirrupDensityStrengthLogic.CalculateShearStrength();
             return shearStrength;
         }
 

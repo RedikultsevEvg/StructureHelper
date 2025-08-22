@@ -26,9 +26,6 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         public double ConcreteShearForce => Math.Round(source.ConcreteStrength);
         public double StirrupShearForce => Math.Round(source.StirrupStrength);
 
-        public double CenterX => 0;
-        public double CenterY => 0;
-
         public PrimitiveVisualPropertyViewModel VisualProperty { get; } = new(new PrimitiveVisualProperty(Guid.Empty));
 
         public InclinedSectionPrimitive(IBeamShearSectionLogicResult source)

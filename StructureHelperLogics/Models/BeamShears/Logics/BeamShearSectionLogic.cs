@@ -12,7 +12,7 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         private BeamShearSectionLogicResult result;
         private ISectionEffectiveness sectionEffectiveness;
-        private ConcreteStrengthLogic concreteLogic;
+        private ConcreteShearStrengthLogic concreteLogic;
         private StirrupStrengthLogic stirrupLogic;
         private IGetLongitudinalForceFactorLogic getLongitudinalForceFactorLogic;
         private string sectionMessage;
@@ -92,8 +92,8 @@ namespace StructureHelperLogics.Models.BeamShears
             SetLongitudinalForce();
             double factorOfLongitudinalForce = getLongitudinalForceFactorLogic.GetFactor();
             localTraceLogger?.AddMessage($"Factor of  longitudinal force = {factorOfLongitudinalForce}, (dimensionless)");
-            concreteStrength = concreteLogic.GetShearStrength();
-            stirrupStrength = stirrupLogic.GetShearStrength();
+            concreteStrength = concreteLogic.CalculateShearStrength();
+            stirrupStrength = stirrupLogic.CalculateShearStrength();
             if (stirrupStrength > concreteStrength)
             {      
                 localTraceLogger?.AddMessage($"Shear reinforcement strength Qsw = {stirrupStrength} is greater than concrete strength for shear Qb = {concreteStrength}, shear reinforcement strength has to be restricted.");
@@ -132,7 +132,7 @@ namespace StructureHelperLogics.Models.BeamShears
                 InputData = result.ResultInputData,
                 SectionEffectiveness = sectionEffectiveness
             };
-            double stirrupStrength = logic.GetShearStrength();
+            double stirrupStrength = logic.CalculateShearStrength();
             localTraceLogger?.AddMessage($"Stirrup strength was restricted as Qsw,restricted = {stirrupStrength}(N)");
             result.ResultInputData.InclinedCrack = logic.InclinedCrack;
             return stirrupStrength;

@@ -336,4 +336,58 @@
             </Line>
         </Canvas>
     </DataTemplate>
+
+    <DataTemplate x:Key="ConcentratedForcePrimitiveTemplate"
+      DataType="primitives:ConcentratedForcePrimitive">
+        <Canvas>
+            <Canvas.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform
+                        ScaleX="1"
+                        ScaleY="{Binding ScaleFactor}"/>
+                </TransformGroup>
+            </Canvas.RenderTransform>
+            <Line
+                X1="0"
+                X2="0"
+                Y1="-0.03"
+                Y2="-0.3"
+                Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                StrokeThickness="0.05"
+                >
+                <Line.Stroke>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
+                </Line.Stroke>
+                <Line.ToolTip>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Margin="0,0,0,2" Text="Internal force: "/>
+                        <TextBlock Grid.Column="1" Text="{Binding ConcentratedForce.Name}"/>
+                        <TextBlock Grid.Row="1" Text="Force value: "/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ConcentratedForce.ForceValue.Qy, Converter={StaticResource ForceConverter}}"/>
+                    </Grid>
+                </Line.ToolTip>
+            </Line>
+            <Path
+                Data="M 0 0 L 0.1 -0.1 L 0 -0.07 L -0.1 -0.1 Z"
+                StrokeThickness="0.005"
+                >
+                <Path.Fill>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
+                </Path.Fill>
+                <Path.Stroke>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
+                </Path.Stroke>
+            </Path>
+        </Canvas>
+    </DataTemplate>
+
+
 </ResourceDictionary>

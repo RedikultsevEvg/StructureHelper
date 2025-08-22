@@ -53,7 +53,7 @@ namespace StructureHelperTests.UnitTests
             sectionMock.SetupGet(s => s.EndCoord).Returns(12.0);
 
             var logic = CreateLogic();
-            var result = logic.GetShearStrength();
+            var result = logic.CalculateShearStrength();
 
             Assert.That(result, Is.EqualTo(0.0));
             loggerMock.Verify(l => l.AddMessage(It.Is<string>(msg => msg.Contains("has been ignored"))));
@@ -66,7 +66,7 @@ namespace StructureHelperTests.UnitTests
             sectionMock.SetupGet(s => s.EndCoord).Returns(-1.0);
 
             var logic = CreateLogic();
-            var result = logic.GetShearStrength();
+            var result = logic.CalculateShearStrength();
 
             Assert.That(result, Is.EqualTo(0.0));
             loggerMock.Verify(l => l.AddMessage(It.Is<string>(msg => msg.Contains("has been ignored"))));
@@ -79,7 +79,7 @@ namespace StructureHelperTests.UnitTests
             sectionMock.SetupGet(s => s.EndCoord).Returns(0.05); // falls in start transfer zone
 
             var logic = CreateLogic();
-            var result = logic.GetShearStrength();
+            var result = logic.CalculateShearStrength();
 
             Assert.That(result, Is.EqualTo(123.0)); // from interpolateMock
             interpolateMock.Verify(m => m.GetValueY(), Times.Once);
@@ -92,7 +92,7 @@ namespace StructureHelperTests.UnitTests
             sectionMock.SetupGet(s => s.EndCoord).Returns(2.0);
 
             var logic = CreateLogic();
-            var result = logic.GetShearStrength();
+            var result = logic.CalculateShearStrength();
 
             Assert.That(result, Is.EqualTo(123.0));
             interpolateMock.Verify(m => m.GetValueY(), Times.Once);
@@ -105,7 +105,7 @@ namespace StructureHelperTests.UnitTests
             sectionMock.SetupGet(s => s.EndCoord).Returns(1.0);
 
             var logic = CreateLogic();
-            var result = logic.GetShearStrength();
+            var result = logic.CalculateShearStrength();
 
             // Strength = 0.75 * 1000 * sin(45°) * 2
             var expected = 0.75 * 1000.0 * Math.Sin(Math.PI / 4) * 2;
@@ -118,7 +118,7 @@ namespace StructureHelperTests.UnitTests
             rebarMock.SetupGet(r => r.TransferLength).Returns(5.0); // huge transfer length
 
             var logic = CreateLogic();
-            Assert.Throws<StructureHelperException>(() => logic.GetShearStrength());
+            Assert.Throws<StructureHelperException>(() => logic.CalculateShearStrength());
         }
 
         private StirrupByInclinedRebarStrengthLogic CreateLogic()

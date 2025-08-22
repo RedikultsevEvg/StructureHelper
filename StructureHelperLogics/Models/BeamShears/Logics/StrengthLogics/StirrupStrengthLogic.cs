@@ -4,14 +4,14 @@ using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    internal class StirrupStrengthLogic : IBeamShearStrenghLogic
+    internal class StirrupStrengthLogic : IBeamShearStrengthLogic
     {
         private readonly IBeamShearSectionLogicInputData inputData;
         private IStirrup stirrup => inputData.Stirrup;
         private IInclinedSection inclinedSection => inputData.InclinedCrack;
-        private IBeamShearStrenghLogic stirrupByDensityStrengthLogic;
-        private IBeamShearStrenghLogic stirrupGroupStrengthLogic;
-        private IBeamShearStrenghLogic stirrupByInclinedRebarStrengthLogic;
+        private IBeamShearStrengthLogic stirrupByDensityStrengthLogic;
+        private IBeamShearStrengthLogic stirrupGroupStrengthLogic;
+        private IBeamShearStrengthLogic stirrupByInclinedRebarStrengthLogic;
         private IStirrupEffectiveness stirrupEffectiveness;
 
         public StirrupStrengthLogic(IBeamShearSectionLogicInputData inputData, IShiftTraceLogger? traceLogger)
@@ -22,32 +22,32 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public double GetShearStrength()
+        public double CalculateShearStrength()
         {
             GetStirrupEffectiveness();
             if (stirrup is IStirrupByRebar stirrupByRebar)
             {
                 TraceLogger?.AddMessage($"Stirrups type is stirrup by rebar Name = {stirrupByRebar.Name}");
                 stirrupByDensityStrengthLogic = new StirrupByRebarStrengthLogic(stirrupEffectiveness, stirrupByRebar, inclinedSection, inputData.ForceTuple, TraceLogger);
-                return stirrupByDensityStrengthLogic.GetShearStrength();
+                return stirrupByDensityStrengthLogic.CalculateShearStrength();
             }
             else if (stirrup is IStirrupGroup stirrupGroup)
             {
                 TraceLogger?.AddMessage($"Stirrups type is stirrup group Name = {stirrupGroup.Name}");
                 stirrupGroupStrengthLogic ??= new StirrupGroupStrengthLogic(inputData, stirrupGroup, TraceLogger);
-                return stirrupGroupStrengthLogic.GetShearStrength();
+                return stirrupGroupStrengthLogic.CalculateShearStrength();
             }
             else if (stirrup is IStirrupByDensity stirrupByDensity)
             {
                 TraceLogger?.AddMessage($"Stirrups type is stirrup by density Name = {stirrupByDensity.Name}");
                 stirrupByDensityStrengthLogic = new StirrupByDensityStrengthLogic(stirrupEffectiveness, stirrupByDensity, inclinedSection, TraceLogger);
-                return stirrupByDensityStrengthLogic.GetShearStrength();
+                return stirrupByDensityStrengthLogic.CalculateShearStrength();
             }
             else if (stirrup is IStirrupByInclinedRebar inclinedRebar)
             {
                 TraceLogger?.AddMessage($"Stirrups type is inclined rebar Name = {inclinedRebar.Name}");
                 stirrupByInclinedRebarStrengthLogic ??= new StirrupByInclinedRebarStrengthLogic(inclinedSection, inclinedRebar, TraceLogger);
-                return stirrupByInclinedRebarStrengthLogic.GetShearStrength();
+                return stirrupByInclinedRebarStrengthLogic.CalculateShearStrength();
             }
             else
             {

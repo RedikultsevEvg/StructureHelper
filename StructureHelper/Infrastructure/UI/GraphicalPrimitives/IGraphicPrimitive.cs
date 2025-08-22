@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
 {
-    public interface IGraphicalPrimitive : ICenter
+    public interface IGraphicalPrimitive
     {
         PrimitiveVisualPropertyViewModel VisualProperty { get; }
     }

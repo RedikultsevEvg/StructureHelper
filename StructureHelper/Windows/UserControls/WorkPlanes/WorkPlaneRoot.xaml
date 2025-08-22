@@ -66,6 +66,7 @@
                         StirrupByRebarTemplate="{StaticResource StirrupByRebarPrimitiveTemplate}"
                         StirrupByDensityTemplate="{StaticResource StirrupByDensityPrimitiveTemplate}"
                         StirrupByInclinedRebarTemplate="{StaticResource StirrupByInclinedRebarPrimitiveTemplate}"
+                        ConcentratedForceTemplate="{StaticResource ConcentratedForcePrimitiveTemplate}"
                         />
                         </ItemsControl.ItemTemplateSelector>
 

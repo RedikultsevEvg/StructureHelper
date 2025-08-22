@@ -3,11 +3,7 @@ using StructureHelper.Infrastructure.UI.GraphicalPrimitives;
 using StructureHelper.Windows.UserControls.WorkPlanes;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperLogics.Models.BeamShears;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.BeamShears
 {

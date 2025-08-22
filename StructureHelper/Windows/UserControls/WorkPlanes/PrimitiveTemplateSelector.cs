@@ -11,6 +11,7 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
         public DataTemplate StirrupByRebarTemplate { get; set; }
         public DataTemplate StirrupByDensityTemplate { get; set; }
         public DataTemplate StirrupByInclinedRebarTemplate { get; set; }
+        public DataTemplate ConcentratedForceTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -21,6 +22,7 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
                 StirrupByRebarPrimitive => StirrupByRebarTemplate,
                 StirrupByDensityPrimitive => StirrupByDensityTemplate,
                 StirrupByInclinedRebarPrimitive => StirrupByInclinedRebarTemplate,
+                ConcentratedForcePrimitive => ConcentratedForceTemplate,
                 _ => base.SelectTemplate(item, container)
             };
         }

@@ -10,12 +10,12 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <summary>
     /// Implement logic for calculation of bearing capacity of inclined section for shear
     /// </summary>
-    public interface IBeamShearStrenghLogic : ILogic
+    public interface IBeamShearStrengthLogic : ILogic
     {
         /// <summary>
         /// Returns Bearing capacity of inclined section for shear
         /// </summary>
         /// <returns>Bearing capacity of inclined section for shear, N</returns>
-        double GetShearStrength();
+        double CalculateShearStrength();
     }
 }

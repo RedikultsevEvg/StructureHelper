@@ -11,6 +11,7 @@ namespace StructureHelperLogics.Models.BeamShears
             CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
             CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
+            targetObject.BeamShearAction = sourceObject.BeamShearAction;
             targetObject.InclinedSection = sourceObject.InclinedSection;
             targetObject.InclinedCrack = sourceObject.InclinedCrack;
             targetObject.Stirrup = sourceObject.Stirrup;

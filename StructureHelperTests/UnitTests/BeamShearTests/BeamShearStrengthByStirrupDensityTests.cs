@@ -54,7 +54,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             _mockStirrupByDensity.Setup(s => s.EndCoordinate).Returns(stirrupEnd);
 
             // Act
-            double result = _beamShearStrength.GetShearStrength();
+            double result = _beamShearStrength.CalculateShearStrength();
 
             // Assert
             Assert.That(result, Is.EqualTo(expectedStrength).Within(1e-6));
@@ -82,7 +82,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             _mockStirrupByDensity.Setup(s => s.EndCoordinate).Returns(100);
 
             // Act
-            double result = _beamShearStrength.GetShearStrength();
+            double result = _beamShearStrength.CalculateShearStrength();
 
             // Assert
             Assert.That(result, Is.EqualTo(expectedStrength).Within(1e-6));
@@ -109,7 +109,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             _mockStirrupByDensity.Setup(s => s.EndCoordinate).Returns(100);
 
             // Act
-            double result = _beamShearStrength.GetShearStrength();
+            double result = _beamShearStrength.CalculateShearStrength();
 
             // Assert
             Assert.That(result, Is.EqualTo(expectedStrength).Within(1e-6));
@@ -136,7 +136,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             _mockStirrupByDensity.Setup(s => s.EndCoordinate).Returns(100);
 
             // Act
-            double result = _beamShearStrength.GetShearStrength();
+            double result = _beamShearStrength.CalculateShearStrength();
 
             // Assert
             Assert.That(result, Is.EqualTo(expectedStrength).Within(1e-6));
@@ -155,7 +155,7 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             );
 
             // Act & Assert
-            Assert.Throws<StructureHelperException>(() => invalidInstance.GetShearStrength());
+            Assert.Throws<StructureHelperException>(() => invalidInstance.CalculateShearStrength());
         }
     }
 

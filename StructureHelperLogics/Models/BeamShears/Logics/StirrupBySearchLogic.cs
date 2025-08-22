@@ -4,9 +4,9 @@ using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    internal class StirrupBySearchLogic : IBeamShearStrenghLogic
+    internal class StirrupBySearchLogic : IBeamShearStrengthLogic
     {
-        private ConcreteStrengthLogic concreteLogic;
+        private ConcreteShearStrengthLogic concreteLogic;
         private StirrupStrengthLogic stirrupLogic;
         private IFindParameterCalculator parameterCalculator;
 
@@ -19,14 +19,14 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger = traceLogger;
         }
 
-        public double GetShearStrength()
+        public double CalculateShearStrength()
         {
             double parameter = GetCrackLengthRatio();
             BeamShearSectionLogicInputData newInputData = GetNewInputDataByCrackLengthRatio(parameter);
             InclinedCrack = newInputData.InclinedCrack;
             TraceLogger?.AddMessage($"New value of dangerous inclinated crack has been obtained: start point Xstart = {newInputData.InclinedSection.StartCoord}(m), end point Xend = {newInputData.InclinedSection.EndCoord}(m)");
             stirrupLogic = new(newInputData, TraceLogger);
-            double stirrupStrength = stirrupLogic.GetShearStrength();
+            double stirrupStrength = stirrupLogic.CalculateShearStrength();
             return stirrupStrength;
         }
 
@@ -69,8 +69,8 @@ namespace StructureHelperLogics.Models.BeamShears
             BeamShearSectionLogicInputData newInputData = GetNewInputDataByCrackLengthRatio(crackLengthRatio);
             concreteLogic = new(SectionEffectiveness, newInputData.InclinedCrack, null);
             stirrupLogic = new(newInputData, null);
-            double concreteStrength = concreteLogic.GetShearStrength();
-            double stirrupStrength = stirrupLogic.GetShearStrength();
+            double concreteStrength = concreteLogic.CalculateShearStrength();
+            double stirrupStrength = stirrupLogic.CalculateShearStrength();
             bool predicateResult = stirrupStrength > concreteStrength;
             if (crackLengthRatio == 1 & predicateResult == false)
             {

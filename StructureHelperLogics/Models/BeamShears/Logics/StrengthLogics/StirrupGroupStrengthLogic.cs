@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    internal class StirrupGroupStrengthLogic : IBeamShearStrenghLogic
+    internal class StirrupGroupStrengthLogic : IBeamShearStrengthLogic
     {
         private readonly IBeamShearSectionLogicInputData sourceInputData;
         private IBeamShearSectionLogicInputData localInputData;
@@ -25,7 +25,7 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public double GetShearStrength()
+        public double CalculateShearStrength()
         {
             Check();
             if (!stirrupGroup.Stirrups.Any()) { return 0.0; }
@@ -35,7 +35,7 @@ namespace StructureHelperLogics.Models.BeamShears
             {
                 localInputData.Stirrup = item;
                 var stirrupSrengthLogic = new StirrupStrengthLogic(localInputData, TraceLogger?.GetSimilarTraceLogger(50));
-                shearStrength += stirrupSrengthLogic.GetShearStrength();
+                shearStrength += stirrupSrengthLogic.CalculateShearStrength();
             }
             TraceLogger?.AddMessage($"Total bearing capacity of group {stirrupGroup.Name} for shear Vtot = {shearStrength}(N)");
             return shearStrength;

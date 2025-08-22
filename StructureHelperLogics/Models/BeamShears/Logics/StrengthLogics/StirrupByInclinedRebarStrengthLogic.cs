@@ -6,7 +6,7 @@ using StructureHelperLogics.Models.Materials;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public class StirrupByInclinedRebarStrengthLogic : IBeamShearStrenghLogic
+    public class StirrupByInclinedRebarStrengthLogic : IBeamShearStrengthLogic
     {
         const double stirrupEffectivenessFactor = 0.75;
         private readonly IStirrupByInclinedRebar inclinedRebar;
@@ -47,7 +47,7 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger = traceLogger;
         }
 
-        public double GetShearStrength()
+        public double CalculateShearStrength()
         {
             GetGeometry();
             if (inclinedSection.StartCoord > rebarEndPoint)

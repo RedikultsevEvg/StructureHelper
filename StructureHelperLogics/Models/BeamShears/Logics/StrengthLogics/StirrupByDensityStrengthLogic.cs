@@ -9,7 +9,7 @@ using StructureHelperLogics.Models.BeamShears.Logics;
 namespace StructureHelperLogics.Models.BeamShears
 {
     /// <inheritdoc/>
-    public class StirrupByDensityStrengthLogic : IBeamShearStrenghLogic
+    public class StirrupByDensityStrengthLogic : IBeamShearStrengthLogic
     {
         private readonly IStirrupEffectiveness stirrupEffectiveness;
         private readonly IStirrupByDensity stirrupByDensity;
@@ -30,7 +30,7 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public IShiftTraceLogger? TraceLogger { get; set; }
         /// <inheritdoc/>
-        public double GetShearStrength()
+        public double CalculateShearStrength()
         {
             Check();
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);

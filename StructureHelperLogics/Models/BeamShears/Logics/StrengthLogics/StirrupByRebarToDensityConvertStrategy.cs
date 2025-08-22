@@ -5,13 +5,12 @@ using StructureHelperCommon.Models;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public class StirrupByRebarToDensityConvertStrategy : IConvertStrategy<IStirrupByDensity, IStirrupByRebar>
+    public class StirrupByRebarToDensityConvertStrategy : IObjectConvertStrategy<IStirrupByDensity, IStirrupByRebar>
     {
         private const double stirrupStrengthFactor = 0.8d;
         private const double maxStirrupStrength = 3e8;
         private IInclinedSection inclinedSection;
         private IUpdateStrategy<IStirrup> updateStrategy;
-        public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
         public StirrupByRebarToDensityConvertStrategy(IShiftTraceLogger traceLogger, IInclinedSection inclinedSection)
@@ -77,7 +76,7 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger?.AddMessage($"Spiral spacing = {spiralSpacing}(m)");
             double spiralAng = Math.Atan2(spiralHeight, spiralSpacing);
             double spriralEffectiveness = Math.Sin(spiralAng);
-            double spiralAngInDegrees = 180 / (Math.PI) * spiralAng;
+            double spiralAngInDegrees = 57.29578 * spiralAng; // 180/PI
             TraceLogger?.AddMessage($"Spiral effectiveness factor = sin({spiralAngInDegrees}(deg)) = {spriralEffectiveness}");
             return spriralEffectiveness;
         }
