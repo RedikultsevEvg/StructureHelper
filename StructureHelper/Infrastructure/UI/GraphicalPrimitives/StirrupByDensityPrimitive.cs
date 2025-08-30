@@ -8,8 +8,6 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
     {
         public IStirrupByDensity StirrupByDensity { get; }
 
-        public double CenterX => 0;
-        public double CenterY => 0;
         public double StartPoinX => StirrupByDensity.StartCoordinate;
         public double BottomPointY => InclinedSection.FullDepth - InclinedSection.EffectiveDepth;
         public double TopPointY => InclinedSection.FullDepth;
@@ -19,6 +17,8 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         public IInclinedSection InclinedSection { get; set; }
 
         public PrimitiveVisualPropertyViewModel VisualProperty { get; }
+
+        public string Name => StirrupByDensity.Name;
 
         public StirrupByDensityPrimitive(IStirrupByDensity stirrupByDensity, IInclinedSection inclinedSection)
         {

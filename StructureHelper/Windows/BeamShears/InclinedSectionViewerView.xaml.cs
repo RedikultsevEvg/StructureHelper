@@ -23,9 +23,9 @@ namespace StructureHelper.Windows.BeamShears
         private InclinedSectionViewerViewModel viewModel;
         public InclinedSectionViewerView(InclinedSectionViewerViewModel viewModel)
         {
-            InitializeComponent();
             this.viewModel = viewModel;
             this.DataContext = this.viewModel;
+            InitializeComponent();
         }
         public InclinedSectionViewerView(IBeamShearSectionLogicResult sectionResult) : this(new InclinedSectionViewerViewModel(sectionResult))
         {

@@ -14,9 +14,6 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         private IBeamShearSection beamShearSection;
         private IInclinedSection inclinedSection;
 
-
-        public double CenterX { get; set; } = 0;
-        public double CenterY { get; set; } = 0;
         public double FullDepth => inclinedSection.FullDepth;
         public double WebWidth => inclinedSection.WebWidth;
         public double ReinforcementArea => inclinedSection.BeamShearSection.ReinforcementArea;
@@ -34,6 +31,8 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         public IBeamShearSection BeamShearSection => beamShearSection;
 
         public PrimitiveVisualPropertyViewModel VisualProperty {get;}
+
+        public string Name => beamShearSection.Name;
 
         public BeamShearSectionPrimitive(IBeamShearSection beamShearSection, IInclinedSection inclinedSection)
         {

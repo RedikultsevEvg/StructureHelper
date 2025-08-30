@@ -23,6 +23,8 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
 
         public PrimitiveVisualPropertyViewModel VisualProperty { get; }
 
+        public string Name => StirrupByInclinedRebar.Name;
+
         public StirrupByInclinedRebarPrimitive(IStirrupByInclinedRebar stirrupByInclinedRebar, IInclinedSection inclinedSection)
         {
             StirrupByInclinedRebar = stirrupByInclinedRebar;

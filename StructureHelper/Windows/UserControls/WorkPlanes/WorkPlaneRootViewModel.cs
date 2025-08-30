@@ -1,9 +1,5 @@
 ﻿using StructureHelper.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StructureHelper.Windows.Graphs;
 
 namespace StructureHelper.Windows.UserControls.WorkPlanes
 {
@@ -11,5 +7,6 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
     {
         public WorkPlaneConfigViewModel WorkPlaneConfig { get; } = new();
         public PrimitiveCollectionViewModel PrimitiveCollection { get; } = new();
+        //public SaveCopyFWElementViewModel SaveCopyViewModel { get; } = new();
     }
 }

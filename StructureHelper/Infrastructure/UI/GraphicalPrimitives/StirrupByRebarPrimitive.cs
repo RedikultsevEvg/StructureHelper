@@ -11,8 +11,6 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         private readonly IStirrupByDensity stirrupByDensity;
 
         public IStirrupByRebar StirrupByRebar { get; }
-        public double CenterX => 0;
-        public double CenterY => 0;
         public double StartPoinX => StirrupByRebar.StartCoordinate;
         public double BottomPointY => InclinedSection.FullDepth - InclinedSection.EffectiveDepth;
         public double TopPointY => InclinedSection.FullDepth;
@@ -20,10 +18,11 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         public double Depth => InclinedSection.EffectiveDepth;
         public double Density => Math.Round(stirrupByDensity.StirrupDensity);
 
-
         public IInclinedSection InclinedSection => inclinedSection;
 
         public PrimitiveVisualPropertyViewModel VisualProperty { get; }
+
+        public string Name => StirrupByRebar.Name;
 
         public StirrupByRebarPrimitive(IStirrupByRebar stirrupByRebar, IInclinedSection inclinedSection)
         {

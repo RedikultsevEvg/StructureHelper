@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructureHelper.Windows.Graphs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,8 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
     public partial class WorkPlaneRoot : UserControl
     {
         private Point? _lastPanPoint;
+        public SaveCopyFWElementViewModel SaveCopyViewModel { get; } = new();
+
         public WorkPlaneRoot()
         {
             InitializeComponent();
@@ -28,6 +31,7 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
             this.MouseDown += WorkPlaneRoot_MouseDown;
             this.MouseMove += WorkPlaneRoot_MouseMove;
             this.MouseUp += WorkPlaneRoot_MouseUp;
+            SaveCopyViewModel.FrameWorkElement = WorkPlaneGrid;
         }
 
 

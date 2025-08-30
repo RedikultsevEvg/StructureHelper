@@ -7,8 +7,26 @@
         xmlns:ucwp="clr-namespace:StructureHelper.Windows.UserControls.WorkPlanes"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:InclinedSectionViewerViewModel}"
-        Title="Inclined Section Viewer" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+        Title="Inclined Section Viewer" Height="650" Width="1000" MinHeight="600" MinWidth="500" WindowStartupLocation="CenterScreen">
     <Grid DataContext="{Binding WorkPlaneRoot}">
-        <ucwp:WorkPlaneRoot/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" MinWidth="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListBox ItemsSource="{Binding PrimitiveCollection.Primitives}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox IsChecked="{Binding VisualProperty.IsVisible}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ucwp:WorkPlaneRoot x:Name="WorkPlaneRootPanel" Grid.Column="1"/>
     </Grid>
 </Window>

@@ -28,6 +28,8 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
 
         public PrimitiveVisualPropertyViewModel VisualProperty { get; } = new(new PrimitiveVisualProperty(Guid.Empty));
 
+        public string Name => "Inclined section";
+
         public InclinedSectionPrimitive(IBeamShearSectionLogicResult source)
         {
             this.source = source;

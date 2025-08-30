@@ -9,36 +9,38 @@ using PrimitiveVisualProperty = StructureHelperCommon.Models.VisualProperties.Pr
 
 namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
 {
-    public class ConcentratedForcePrimitive : IGraphicalPrimitive
+    public class DistributedLoadPrimitive : IGraphicalPrimitive
     {
-        private IConcentratedForce concentratedForce;
+        private IDistributedLoad distributedLoad;
         private IInclinedSection inclinedSection;
 
         public double ScaleFactor
         {
             get
             {
-                double forceValue = concentratedForce.ForceValue.Qy;
-                return forceValue / MaxForce;
+                double forceValue = distributedLoad.LoadValue.Qy;
+                return -1 * forceValue / MaxForce;
             }
         }
 
-        public double TranslateX => concentratedForce.ForceCoordinate;
+        public double TranslateX => distributedLoad.StartCoordinate;
         public double TranslateY => GetAbsoluteLevel();
+        public double Length => distributedLoad.EndCoordinate - distributedLoad.StartCoordinate;
 
 
         public PrimitiveVisualPropertyViewModel VisualProperty { get; } = new(new PrimitiveVisualProperty(Guid.Empty));
-        public IConcentratedForce ConcentratedForce => concentratedForce;
+        public IDistributedLoad DistributedLoad => distributedLoad;
 
-        public string Name => concentratedForce.Name;
+        public string Name => distributedLoad.Name;
 
         public double MaxForce { get; set; } = 1e6;
 
-        public ConcentratedForcePrimitive(IConcentratedForce concentratedForce, IInclinedSection inclinedSection)
+        public DistributedLoadPrimitive(IDistributedLoad distributedLoad, IInclinedSection inclinedSection)
         {
-            this.concentratedForce = concentratedForce;
+            this.distributedLoad = distributedLoad;
             this.inclinedSection = inclinedSection;
-            VisualProperty.Color = (Color)ColorConverter.ConvertFromString("Black");
+            VisualProperty.Color = (Color)ColorConverter.ConvertFromString("LightBlue");
+            VisualProperty.FactoredOpacity = 90;
         }
 
         private double GetAbsoluteLevel()
@@ -49,9 +51,9 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
             else if (shape is ICircleShape circle) { height = circle.Diameter; }
             else
             {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(shape) + $": concentrated force {concentratedForce.Name} shape");
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(shape) + $": distributed load {distributedLoad.Name} shape");
             }
-            double level = (concentratedForce.RelativeLoadLevel + 0.5) * height;
+            double level = (distributedLoad.RelativeLoadLevel + 0.5) * height;
             return level;
         }
     }
