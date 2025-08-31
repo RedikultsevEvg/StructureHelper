@@ -3,6 +3,7 @@ using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.BeamShears;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -12,11 +13,25 @@ namespace StructureHelper.Windows.BeamShears
     {
         private readonly IBeamShearRepository shearRepository;
         private readonly IBeamShearCalculatorInputData inputData;
+        private readonly List<ShearCodeTypes> shearCodeTypeList = new List<ShearCodeTypes>
+        { 
+            ShearCodeTypes.SP_63_13330_2018_3,
+            ShearCodeTypes.StructureHelper_0
+        };
 
         public SourceTargetVM<IBeamShearAction> ActionSourceTarget { get; } = new();
         public SourceTargetVM<IStirrup> StirrupSourceTarget { get; } = new();
         public SourceTargetVM<IBeamShearSection> SectionSourceTarget { get; } = new();
         public BeamShearDesignRangePropertyViewModel DesignRangePropertyViewModel { get; private set; }
+        public List<ShearCodeTypes> ShearCodeTypeList => shearCodeTypeList;
+        public ShearCodeTypes SelectedCodeType
+        {
+            get { return inputData.CodeType; }
+            set
+            {
+                inputData.CodeType = value;
+            }
+        }
 
         public BeamShearCalculatorInputDataViewModel(IBeamShearRepository shearRepository, IBeamShearCalculatorInputData inputData)
         {

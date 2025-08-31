@@ -1,4 +1,5 @@
 ﻿using StructureHelper.Infrastructure;
+using StructureHelper.Windows.ViewModels.Forces;
 using StructureHelperCommon.Models.Forces;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelper.Windows.ViewModels.Forces
+namespace StructureHelper.Windows.Forces
 {
     public class ForceCombinationViewModel : ForceActionVMBase
     {

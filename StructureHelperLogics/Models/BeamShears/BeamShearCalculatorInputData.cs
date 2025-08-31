@@ -22,6 +22,7 @@ namespace StructureHelperLogics.Models.BeamShears
         /// <inheritdoc/>
         public List<IStirrup> Stirrups { get; } = new();
         public IBeamShearDesignRangeProperty DesignRangeProperty { get; set; } = new BeamShearDesignRangeProperty(Guid.NewGuid());
+        public ShearCodeTypes CodeType { get; set; } = ShearCodeTypes.SP_63_13330_2018_3;
 
         public BeamShearCalculatorInputData(Guid id)
         {

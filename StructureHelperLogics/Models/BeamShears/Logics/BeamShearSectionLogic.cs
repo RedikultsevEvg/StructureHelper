@@ -21,7 +21,9 @@ namespace StructureHelperLogics.Models.BeamShears
         private double stirrupStrength;
 
         private ShiftTraceLogger? localTraceLogger { get; set; }
-
+        public ShearCodeTypes ShearCodeType { get; set; }
+        public IGetSectionEffectivenessLogic GetSectionEffectivenessLogic { get; set; }
+        public IRestrictStirrupCalculator RestrictStirrupCalculator { get; set; }
         public IBeamShearSectionLogicInputData InputData { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
@@ -97,7 +99,7 @@ namespace StructureHelperLogics.Models.BeamShears
             if (stirrupStrength > concreteStrength)
             {      
                 localTraceLogger?.AddMessage($"Shear reinforcement strength Qsw = {stirrupStrength} is greater than concrete strength for shear Qb = {concreteStrength}, shear reinforcement strength has to be restricted.");
-                stirrupStrength = GetStirrupStrengthBySearch();
+                stirrupStrength = RestrictStirrupStrength();
             }
             concreteStrength *= factorOfLongitudinalForce;
             localTraceLogger?.AddMessage($"Concrete strength Qb = {concreteStrength}(N)");
@@ -125,33 +127,32 @@ namespace StructureHelperLogics.Models.BeamShears
             }
         }
 
-        private double GetStirrupStrengthBySearch()
+        private double RestrictStirrupStrength()
         {
-            var logic = new StirrupBySearchLogic(localTraceLogger.GetSimilarTraceLogger(100))
+            RestrictStirrupCalculator.TraceLogger = localTraceLogger.GetSimilarTraceLogger(100);
+            RestrictStirrupCalculator.InputData = result.ResultInputData;
+            RestrictStirrupCalculator.SectionEffectiveness = sectionEffectiveness;
+            RestrictStirrupCalculator.SourceStirrupStrength = stirrupStrength;
+            RestrictStirrupCalculator.SourceSection = result.ResultInputData.InclinedCrack;
+            RestrictStirrupCalculator.Run();
+            var calculatorResult = RestrictStirrupCalculator.Result as RestrictCalculatorResult;
+            if (calculatorResult.IsValid == false)
             {
-                InputData = result.ResultInputData,
-                SectionEffectiveness = sectionEffectiveness
-            };
-            double stirrupStrength = logic.CalculateShearStrength();
-            localTraceLogger?.AddMessage($"Stirrup strength was restricted as Qsw,restricted = {stirrupStrength}(N)");
-            result.ResultInputData.InclinedCrack = logic.InclinedCrack;
-            return stirrupStrength;
+                result.IsValid = false;
+                result.Description += calculatorResult.Description;
+                return calculatorResult.StirrupStrength;
+            }
+            else
+            {
+                result.ResultInputData.InclinedCrack = calculatorResult.InclinedCrack;
+                return calculatorResult.StirrupStrength;
+            }
         }
 
         private void InitializeStrategies()
         {
-            if (result.ResultInputData.InclinedSection.BeamShearSection.Shape is IRectangleShape)
-            {
-                sectionEffectiveness = SectionEffectivenessFactory.GetShearEffectiveness(BeamShearSectionType.Rectangle);
-            }
-            else if (result.ResultInputData.InclinedSection.BeamShearSection.Shape is ICircleShape)
-            {
-                sectionEffectiveness = SectionEffectivenessFactory.GetShearEffectiveness(BeamShearSectionType.Circle);
-            }
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(result.ResultInputData.InclinedSection.BeamShearSection.Shape));
-            }
+            IShape shape = result.ResultInputData.InclinedSection.BeamShearSection.Shape;
+            sectionEffectiveness = GetSectionEffectivenessLogic.GetSectionEffectiveness(ShearCodeType, shape);
             concreteLogic = new(sectionEffectiveness, result.ResultInputData.InclinedSection, localTraceLogger);
             stirrupLogic = new(result.ResultInputData, localTraceLogger);
             getLongitudinalForceFactorLogic = new GetLongitudinalForceFactorLogic(localTraceLogger?.GetSimilarTraceLogger(100));

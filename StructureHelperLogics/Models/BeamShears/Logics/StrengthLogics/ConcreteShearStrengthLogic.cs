@@ -2,7 +2,6 @@
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Services.Units;
-using StructureHelperLogics.Models.BeamShears.Logics;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -18,8 +17,10 @@ namespace StructureHelperLogics.Models.BeamShears
             IInclinedSection inclinedSection,
             IShiftTraceLogger? traceLogger = null)
         {
-            this.sectionEffectiveness = sectionEffectiveness ?? throw new StructureHelperException("Section effectiveness cannot be null.");
-            this.inclinedSection = inclinedSection ?? throw new StructureHelperException("Inclined section cannot be null.");
+            this.sectionEffectiveness = sectionEffectiveness
+                ?? throw new StructureHelperException("Section effectiveness cannot be null.");
+            this.inclinedSection = inclinedSection
+                ?? throw new StructureHelperException("Inclined section cannot be null.");
             TraceLogger = traceLogger;
         }
 
@@ -27,39 +28,48 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             ValidateInput();
-
+            TraceLogger?.AddMessage($"Section effectiveness base shape factor phi_b2 = {sectionEffectiveness.BaseShapeFactor}{UnitsOfSI.Dimensionless}");
+            TraceLogger?.AddMessage($"Section effectiveness shape factor phi_shp = {sectionEffectiveness.ShapeFactor}{UnitsOfSI.Dimensionless}");
+            TraceLogger?.AddMessage($"Concrete tension strength Rbt = {inclinedSection.ConcreteTensionStrength}{UnitsOfSI.Pa}");
+            TraceLogger?.AddMessage($"Design width of cross-section b = {inclinedSection.WebWidth}{UnitsOfSI.Meters}");
+            TraceLogger?.AddMessage($"Effective depth of cross-section ho = {inclinedSection.EffectiveDepth}{UnitsOfSI.Meters}");
             double rawCrackLength = inclinedSection.EndCoord - inclinedSection.StartCoord;
+            TraceLogger?.AddMessage($"Inclination section length c = {inclinedSection.EndCoord} - {inclinedSection.StartCoord} = {rawCrackLength}{UnitsOfSI.Meters}");
             double crackLength = RestrictCrackLength(rawCrackLength);
-
             double concreteMoment = CalculateConcreteMoment();
             double shearStrength = concreteMoment / crackLength;
 
-            TraceLogger?.AddMessage($"Shear strength = {concreteMoment} / {crackLength} = {shearStrength} {UnitsOfSI.Newtons}");
+            TraceLogger?.AddMessage($"Shear strength = Mb / c = {concreteMoment}{UnitsOfSI.NewtonMeters} / {crackLength}{UnitsOfSI.Meters} = {shearStrength}{UnitsOfSI.Newtons}");
             return shearStrength;
         }
 
-        private double CalculateConcreteMoment() =>
-            sectionEffectiveness.BaseShapeFactor
-            * sectionEffectiveness.ShapeFactor
-            * inclinedSection.ConcreteTensionStrength
-            * inclinedSection.WebWidth
-            * inclinedSection.EffectiveDepth
-            * inclinedSection.EffectiveDepth;
-
-        private double RestrictCrackLength(double length)
+        private double CalculateConcreteMoment()
         {
-            double max = sectionEffectiveness.MaxCrackLengthRatio * inclinedSection.EffectiveDepth;
-            double min = sectionEffectiveness.MinCrackLengthRatio * inclinedSection.EffectiveDepth;
+            double concreteMoment = sectionEffectiveness.BaseShapeFactor
+                        * sectionEffectiveness.ShapeFactor
+                        * inclinedSection.ConcreteTensionStrength
+                        * inclinedSection.WebWidth
+                        * inclinedSection.EffectiveDepth
+                        * inclinedSection.EffectiveDepth;
+            TraceLogger?.AddMessage($"Concrete moment Mb = {sectionEffectiveness.BaseShapeFactor} * {sectionEffectiveness.ShapeFactor} * {inclinedSection.ConcreteTensionStrength}{UnitsOfSI.Pa} * {inclinedSection.WebWidth}{UnitsOfSI.Meters} * ({inclinedSection.EffectiveDepth}{UnitsOfSI.Meters})^2 = {concreteMoment}{UnitsOfSI.NewtonMeters}");
+            return concreteMoment;
+        }
 
-            if (length > max)
+        private double RestrictCrackLength(double sourceLength)
+        {
+            double length = sourceLength;
+            double maxLength = sectionEffectiveness.MaxCrackLengthRatio * inclinedSection.EffectiveDepth;
+            double minLength = sectionEffectiveness.MinCrackLengthRatio * inclinedSection.EffectiveDepth;
+
+            if (length > maxLength)
             {
-                TraceLogger?.AddMessage($"Crack length reduced from {length} to {max}");
-                return max;
+                TraceLogger?.AddMessage($"Max design crack length cmax = {sectionEffectiveness.MaxCrackLengthRatio} * {inclinedSection.EffectiveDepth}{UnitsOfSI.Meters} = {maxLength}{UnitsOfSI.Meters}. Crack length has been reduced from {length}{UnitsOfSI.Meters} to {maxLength}{UnitsOfSI.Meters}");
+                return maxLength;
             }
-            if (length < min)
+            if (length < minLength)
             {
-                TraceLogger?.AddMessage($"Crack length increased from {length} to {min}");
-                return min;
+                TraceLogger?.AddMessage($"Min design crack length cmin = {sectionEffectiveness.MinCrackLengthRatio} * {inclinedSection.EffectiveDepth}{UnitsOfSI.Meters} = {minLength}{UnitsOfSI.Meters}. Crack length has been increased from {length}{UnitsOfSI.Meters} to {minLength}{UnitsOfSI.Meters}");
+                return minLength;
             }
             return length;
         }
@@ -68,6 +78,8 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             if (inclinedSection.EffectiveDepth <= 0)
                 throw new StructureHelperException("Effective depth must be greater than zero.");
+            if (inclinedSection.WebWidth <= 0)
+                throw new StructureHelperException("Width of cross-section must be greater than zero.");
         }
     }
 

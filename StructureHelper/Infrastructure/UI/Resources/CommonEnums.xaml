@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:core="clr-namespace:System;assembly=mscorlib"
-                    xmlns:enums="clr-namespace:StructureHelperCommon.Infrastructures.Enums;assembly=StructureHelperCommon">
+                    xmlns:enums="clr-namespace:StructureHelperCommon.Infrastructures.Enums;assembly=StructureHelperCommon"
+                    xmlns:beamShear="clr-namespace:StructureHelperLogics.Models.BeamShears;assembly=StructureHelperLogics">
 
     <ObjectDataProvider x:Key="StressStateEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
         <ObjectDataProvider.MethodParameters>
@@ -16,6 +17,11 @@
     <ObjectDataProvider x:Key="CalcTermEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
         <ObjectDataProvider.MethodParameters>
             <x:Type Type="enums:CalcTerms"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    <ObjectDataProvider x:Key="ShearCodeTypesEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type Type="beamShear:ShearCodeTypes"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 </ResourceDictionary>

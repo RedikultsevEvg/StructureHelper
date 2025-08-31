@@ -35,7 +35,7 @@ namespace StructureHelperCommon.Models.Projects
             }
             if (currentVersion.SubVersionNumber < FileVersion.SubVersionNumber)
             {
-                string message = $"File version {FileVersion.VersionNumber}.{FileVersion.SubVersionNumber} is bigger than suitable version {currentVersion.VersionNumber}.{currentVersion.VersionNumber}";
+                string message = $"File version {FileVersion.VersionNumber}.{FileVersion.SubVersionNumber} is bigger than suitable version {currentVersion.VersionNumber}.{currentVersion.SubVersionNumber}";
                 TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
                 CheckResult += message;
                 return false;

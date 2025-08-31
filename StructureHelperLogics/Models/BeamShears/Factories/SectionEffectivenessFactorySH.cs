@@ -1,15 +1,10 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public static class SectionEffectivenessFactory
+    public class SectionEffectivenessFactorySH : ISectionEffectivenessFactory
     {
-        public static ISectionEffectiveness GetShearEffectiveness(BeamShearSectionType sectionType)
+        public ISectionEffectiveness GetShearEffectiveness(BeamShearSectionType sectionType)
         {
             if (sectionType == BeamShearSectionType.Rectangle)
             {

@@ -5,10 +5,7 @@ using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Models.Projects;
 using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
 using System.Linq;
-using System.Windows.Documents;
-using System.Windows.Navigation;
 
 namespace StructureHelperCommon.Infrastructures.Settings
 {
@@ -16,6 +13,7 @@ namespace StructureHelperCommon.Infrastructures.Settings
     {
         private static List<IMaterialLogic> materialLogics;
         private static List<ICodeEntity> codesList;
+        private static List<ICodeRevision> codesRevisions;
         private static IMaterialRepository materialRepository;
         private static NatSystems natSystem;
         private static GeometryNames geometryNames;
@@ -28,10 +26,7 @@ namespace StructureHelperCommon.Infrastructures.Settings
             set
             {
                 natSystem = value;
-                codesList ??= CodeFactory
-                    .GetCodeEntities()
-                    .Where(x => x.NatSystem == natSystem)
-                    .ToList();
+                SetCodeList();
                 materialRepository ??= new MaterialRepository(codesList);
             }
         }
@@ -41,22 +36,30 @@ namespace StructureHelperCommon.Infrastructures.Settings
         public static List<ICodeEntity> CodesList
         { get
             {
-                codesList ??= CodeFactory
-                    .GetCodeEntities()
-                    .Where(x => x.NatSystem == NatSystem)
-                    .ToList();
+                SetCodeList();
                 return codesList;
             }
+        }
+
+        private static void SetCodeList()
+        {
+            if (codesList is null)
+            {
+                var codes = CodeFactory.GetCodeEntities();
+                codesList = codes.codes
+                    .Where(x => x.NatSystem == NatSystem)
+                    .ToList();
+                codesRevisions = codes.codeRevisions
+                    .Where(x => codesList.Contains(x.CodeEntity))
+                    .ToList();
+            }               
         }
 
         public static IMaterialRepository MaterialRepository
         {
             get
             {
-                codesList ??= CodeFactory
-                    .GetCodeEntities()
-                    .Where(x => x.NatSystem == NatSystem)
-                    .ToList();
+                SetCodeList();
                 materialRepository ??= new MaterialRepository(codesList);
                 return materialRepository;
             }
@@ -78,6 +81,9 @@ namespace StructureHelperCommon.Infrastructures.Settings
                 return materialLogics;
             }
         }
+
+        public static List<ICodeRevision> CodesRevisions { get => codesRevisions; set => codesRevisions = value; }
+
         public static void SetCurrentProjectToNotActual()
         {
             if (CurrentProject is null)

@@ -9,8 +9,9 @@ namespace StructureHelperLogics.Models.BeamShears
 {
     public enum BeamShearSectionType
     {
-        Rectangle,
-        Circle
+        Rectangle = 0,
+        Circle = 1,
+        TShape = 2
     }
     public static class StirrupEffectivenessFactory
     {

@@ -35,6 +35,15 @@
                 <TabItem Header="Actions">
                     <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding ActionSourceTarget}"/>
                 </TabItem>
+                <TabItem Header="Design code">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                    <ComboBox ItemsSource="{Binding ShearCodeTypeList}" SelectedItem="{Binding SelectedCodeType}"/>
+                    </Grid>
+                </TabItem>
                 <TabItem Header="Design range" DataContext="{Binding DesignRangePropertyViewModel}">
                     <Grid>
                         <Grid.ColumnDefinitions>

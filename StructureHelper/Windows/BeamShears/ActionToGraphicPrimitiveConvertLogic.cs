@@ -49,6 +49,7 @@ namespace StructureHelper.Windows.BeamShears
                 .Where(x => x is IDistributedLoad)
                 .Select(x => Math.Abs((x as IDistributedLoad).LoadValue.Qy))
                 .ToList();
+            if (! forceList.Any()) { return; }
             maxDistributedLoadValue = forceList.Max();
         }
 
@@ -82,6 +83,7 @@ namespace StructureHelper.Windows.BeamShears
                 .ToList();
             forceList.Add(Math.Abs(source.ExternalForce.ForceTuple.Nz));
             forceList.Add(Math.Abs(source.SupportAction.SupportForce.ForceTuple.Qy));
+            if (!forceList.Any()) { return; }
             maxConcentratedForceValue = forceList.Max();
         }
     }

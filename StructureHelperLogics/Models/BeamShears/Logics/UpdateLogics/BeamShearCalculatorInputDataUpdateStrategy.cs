@@ -28,7 +28,7 @@ namespace StructureHelperLogics.Models.BeamShears
                 CheckObject.IsNull(targetObject.DesignRangeProperty);
                 designRangeUpdateStrategy.Update(targetObject.DesignRangeProperty, sourceObject.DesignRangeProperty);
             }
-
+            targetObject.CodeType = sourceObject.CodeType;
         }
 
         private void InitializeStrategies()

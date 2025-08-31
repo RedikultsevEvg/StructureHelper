@@ -10,11 +10,13 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
         private const double minValueOfCrossSectionWidth = 0.05;
         private const double minValueOfCrossSectionHeight = 0.05;
         private const double minCircleDiameter = 0.05;
+        private readonly ShearCodeTypes shearCodeType;
         private bool result;
         private string checkResult;
 
-        public CheckBeamShearSectionLogic(IShiftTraceLogger? traceLogger)
+        public CheckBeamShearSectionLogic(ShearCodeTypes shearCodeType, IShiftTraceLogger? traceLogger)
         {
+            this.shearCodeType = shearCodeType;
             TraceLogger = traceLogger;
         }
 
@@ -36,6 +38,16 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
             }
             else
             {
+                try
+                {
+                    var logic = new GetSectionEffectivenessLogic();
+                    var factory = logic.GetSectionEffectiveness(shearCodeType, Entity.Shape);
+                }
+                catch (Exception ex)
+                {
+                    result = false;
+                    TraceMessage($"\nType of section {Entity.Name} is not suitable for design code {shearCodeType}");
+                }
                 if (Entity.ConcreteMaterial is null)
                 {
                     result = false;

@@ -11,6 +11,10 @@ namespace StructureHelperLogics.Models.BeamShears
         private ICheckInputDataLogic<IBeamShearCalculatorInputData> checkInputDataLogic;
         private IGetResultByInputDataLogic<IBeamShearCalculatorInputData, IBeamShearCalculatorResult> calculationLogic;
         private IBeamShearCalculatorResult result;
+        private IBeamShearSectionLogic beamShearSectionLogic;
+        private GetInclinedSectionListLogic getInclinedSectionListLogic;
+        private GetBeamShearSectionIputDatasLogic getBeamShearSectionIputDatasLogic;
+        private IInclinedSectionResultListLogic getInclinedSectionResultListLogic;
 
         public Guid Id { get; }
         public string Name { get; set; } = string.Empty;
@@ -70,8 +74,26 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void InitializeStrategies()
         {
-            checkInputDataLogic ??= new CheckBeamShearCalculatorInputDataLogic(InputData, TraceLogger);
-            calculationLogic ??= new BeamShearCalculatorLogic(TraceLogger);
+            checkInputDataLogic = new CheckBeamShearCalculatorInputDataLogic(InputData, TraceLogger);
+            ActionResultListLogic actionLogic = GetActionLogic();
+            calculationLogic = new BeamShearCalculatorLogic(actionLogic, TraceLogger);
+        }
+
+        private ActionResultListLogic GetActionLogic()
+        {
+            IGetSectionLogicFactory getSectionLogicFactory = new GetSectionLogicFactory(TraceLogger);
+            beamShearSectionLogic = getSectionLogicFactory.GetSectionLogic(InputData.CodeType);
+            getInclinedSectionListLogic = new GetInclinedSectionListLogic(null);
+            getBeamShearSectionIputDatasLogic = new GetBeamShearSectionIputDatasLogic();
+            getInclinedSectionResultListLogic = new InclinedSectionResultListLogic(beamShearSectionLogic);
+            var actionLogic = new ActionResultListLogic(
+                InputData,
+                getBeamShearSectionIputDatasLogic,
+                getInclinedSectionListLogic,
+                getInclinedSectionResultListLogic,
+                new TraceSectionLogic(TraceLogger),
+                TraceLogger); 
+            return actionLogic;
         }
 
         private void PrepareNewResult()

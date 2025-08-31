@@ -83,7 +83,7 @@ namespace StructureHelperLogics.Models.BeamShears
             }
             else
             {
-                checkSectionLogic ??= new CheckBeamShearSectionLogic(TraceLogger);
+                checkSectionLogic = new CheckBeamShearSectionLogic(InputData.CodeType, TraceLogger);
                 foreach (var item in InputData.Sections)
                 {
                     checkSectionLogic.Entity = item;
