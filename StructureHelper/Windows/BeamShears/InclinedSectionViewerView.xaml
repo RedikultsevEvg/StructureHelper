@@ -18,11 +18,17 @@
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="18"/>
                             <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <CheckBox IsChecked="{Binding VisualProperty.IsVisible}"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                        <Rectangle Grid.Column="1" Height="12" Width="20" Margin="1">
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="{Binding VisualProperty.Color}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Grid.Column="2" Text="{Binding Name}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

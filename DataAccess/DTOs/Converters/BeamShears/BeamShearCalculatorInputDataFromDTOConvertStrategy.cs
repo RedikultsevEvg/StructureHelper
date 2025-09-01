@@ -1,4 +1,5 @@
 ﻿using DataAccess.DTOs.Converters.BeamShears;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperLogics.Models.BeamShears;
 
@@ -24,7 +25,14 @@ namespace DataAccess.DTOs
             actionUpdateStrategy.Update(NewItem, source);
             sectionUpdateStrategy.Update(NewItem, source);
             stirrupUpdateStrategy.Update(NewItem, source);
-
+            if (source.DesignRangeProperty is BeamShearDesignRangePropertyDTO propertyDTO)
+            {
+                NewItem.DesignRangeProperty = designRangeConvertStrategy.Convert(propertyDTO);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source.DesignRangeProperty));
+            }
             return NewItem;
         }
 

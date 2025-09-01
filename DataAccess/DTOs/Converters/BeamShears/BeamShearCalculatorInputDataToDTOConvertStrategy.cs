@@ -1,12 +1,11 @@
-﻿using DataAccess.DTOs.Converters.BeamShears;
-using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Models;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperLogics.Models.BeamShears;
 
 namespace DataAccess.DTOs
 {
     public class BeamShearCalculatorInputDataToDTOConvertStrategy : ConvertStrategy<BeamShearCalculatorInputDataDTO, IBeamShearCalculatorInputData>
     {
+        private IUpdateStrategy<IBeamShearCalculatorInputData> updateStrategy;
         private IUpdateStrategy<IHasBeamShearActions> actionUpdateStrategy;
         private IUpdateStrategy<IHasBeamShearSections> sectionUpdateStrategy;
         private IUpdateStrategy<IHasStirrups> stirrupUpdateStrategy;
@@ -20,6 +19,7 @@ namespace DataAccess.DTOs
         {
             InitializeStrategies();
             NewItem = new(source.Id);
+            updateStrategy.Update(NewItem, source);
             actionUpdateStrategy.Update(NewItem, source);
             sectionUpdateStrategy.Update(NewItem, source);
             stirrupUpdateStrategy.Update(NewItem, source);
@@ -29,6 +29,7 @@ namespace DataAccess.DTOs
 
         private void InitializeStrategies()
         {
+            updateStrategy ??= new BeamShearCalculatorInputDataUpdateStrategy();
             actionUpdateStrategy ??= new HasBeamShearActionsToDTOUpdateStrategy(ReferenceDictionary, TraceLogger);
             sectionUpdateStrategy ??= new HasBeamShearSectionsToDTORenameStrategy(ReferenceDictionary, TraceLogger);
             stirrupUpdateStrategy ??= new HasStirrupsToDTOUpdateStrategy(ReferenceDictionary, TraceLogger);
