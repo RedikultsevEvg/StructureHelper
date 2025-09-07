@@ -21,10 +21,5 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         {
             Id = id;
         }
-
-        public DivisionSize() : this (Guid.NewGuid())
-        {
-            
-        }
     }
 }

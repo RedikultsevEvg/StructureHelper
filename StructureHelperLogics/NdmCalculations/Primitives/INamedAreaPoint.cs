@@ -6,6 +6,6 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     {
         double Area { get; set; }
         string Name { get; set; }
-        Point2D Point { get; set; }
+        IPoint2D Point { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public INdmElement NdmElement { get; } = new NdmElement();
 
-        public IDivisionSize DivisionSize { get; } = new DivisionSize();
+        public IDivisionSize DivisionSize { get; } = new DivisionSize(Guid.NewGuid());
 
         public IShape Shape => rectangleShape;
 

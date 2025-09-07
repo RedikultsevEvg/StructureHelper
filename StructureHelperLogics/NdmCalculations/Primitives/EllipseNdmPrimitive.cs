@@ -42,7 +42,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// <inheritdoc/>
         public INdmElement NdmElement { get; } = new NdmElement();
         /// <inheritdoc/>
-        public IDivisionSize DivisionSize { get; } = new DivisionSize();
+        public IDivisionSize DivisionSize { get; } = new DivisionSize(Guid.NewGuid());
         /// <inheritdoc/>
         public IShape Shape => rectangleShape;
         /// <inheritdoc/>
