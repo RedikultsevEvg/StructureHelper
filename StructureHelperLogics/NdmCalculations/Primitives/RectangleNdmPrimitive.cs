@@ -11,7 +11,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public class RectangleNdmPrimitive : IRectangleNdmPrimitive
     {
-        private readonly RectanglePrimitiveUpdateStrategy updateStrategy = new();
+        private RectanglePrimitiveUpdateStrategy updateStrategy;
         private readonly RectangleShape rectangleShape = new();
         public Guid Id { get;}
         public string Name { get; set; }
@@ -43,6 +43,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public object Clone()
         {
             var primitive = new RectangleNdmPrimitive();
+            updateStrategy ??= new();
             updateStrategy.Update(primitive, this);
             return primitive;
         }

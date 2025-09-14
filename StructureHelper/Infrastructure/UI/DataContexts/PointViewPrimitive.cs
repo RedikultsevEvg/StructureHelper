@@ -1,11 +1,5 @@
-﻿using System;
-using StructureHelper.Infrastructure.Enums;
-using StructureHelper.UnitSystem.Systems;
-using StructureHelper.Windows.MainWindow;
-using StructureHelperLogics.Models.Primitives;
-using StructureHelperLogics.Models.Materials;
-using StructureHelperCommon.Models.Shapes;
-using StructureHelperLogics.NdmCalculations.Primitives;
+﻿using StructureHelperLogics.NdmCalculations.Primitives;
+using System;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
@@ -38,10 +32,6 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         public double Diameter { get => Math.Sqrt(primitive.Area / Math.PI) * 2; }
 
-        public override INdmPrimitive GetNdmPrimitive()
-        {
-            return primitive;
-        }
         public override void Refresh()
         {
             RefreshPlacement();

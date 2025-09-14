@@ -1,6 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Models.Shapes.Logics;
 using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
@@ -18,12 +17,20 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public ShapeNDMPrimitiveUpdateStrategy(
             IUpdateStrategy<INdmPrimitive> basePrimitiveUpdateStrategy,
-            IUpdateStrategy<IDivisionSize> divisionPropsUpdateStrategy,
-            IUpdateStrategy<IShape> shapeUpdateStrategy)
+            IUpdateStrategy<IShape> shapeUpdateStrategy,
+            IUpdateStrategy<IDivisionSize> divisionPropsUpdateStrategy)
         {
             this.basePrimitiveUpdateStrategy = basePrimitiveUpdateStrategy;
-            this.divisionPropsUpdateStrategy = divisionPropsUpdateStrategy;
             this.shapeUpdateStrategy = shapeUpdateStrategy;
+            this.divisionPropsUpdateStrategy = divisionPropsUpdateStrategy;
+        }
+
+        public ShapeNDMPrimitiveUpdateStrategy() : this(
+            new BaseUpdateStrategy(),
+            new ShapeUpdateStrategy(),
+            new DivisionSizeUpdateStrategy())
+        {
+
         }
 
         public void Update(IShapeNDMPrimitive targetObject, IShapeNDMPrimitive sourceObject)

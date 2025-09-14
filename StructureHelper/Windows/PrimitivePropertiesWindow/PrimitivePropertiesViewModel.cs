@@ -2,6 +2,7 @@
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelper.Windows.Shapes;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Shapes;
@@ -23,6 +24,10 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
     {
         private PrimitiveBase primitive;
         private ICrossSectionRepository sectionRepository;
+        private RelayCommand shapeEditCommand;
+
+        private INdmPrimitive ndmPrimitive => primitive.GetNdmPrimitive();
+        private IShape shape => ndmPrimitive.Shape;
 
         public ICommand EditColorCommand { get; private set; }
         public ICommand EditMaterialCommand { get; private set; }
@@ -291,21 +296,40 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
 
         public string Error => throw new NotImplementedException();
 
+        public ICommand ShapeEditCommand => shapeEditCommand ??= new RelayCommand(ShapeEdit, o => true);
+
+        private void ShapeEdit(object obj)
+        {
+            if (shape is IPolygonShape polygon)
+            {
+                var viewModel = new PolygonShapeViewModel(polygon, new Point2D() { X = CenterX, Y = CenterY});
+                var window = new PolygonView(viewModel);
+                window.ShowDialog();
+                if (window.DialogResult == true)
+                {
+                    var newPolygon = viewModel.GetPolygonShape();
+                    var updateStrategy = new PolygonShapeUpdateStrategy();
+                    updateStrategy.Update(polygon, newPolygon);
+                    primitive.Refresh();
+                }
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(shape));
+            }
+        }
+
         public PrimitivePropertiesViewModel(PrimitiveBase primitive, ICrossSectionRepository sectionRepository)
         {
             this.primitive = primitive;
             this.sectionRepository = sectionRepository;
-            HeadMaterials = new ObservableCollection<IHeadMaterial>();
-            foreach (var material in sectionRepository.HeadMaterials)
-            {
-                HeadMaterials.Add(material);
-            }
+            HeadMaterials = [.. sectionRepository.HeadMaterials];
             EditColorCommand = new RelayCommand(o => EditColor(), o => !SetMaterialColor);
             EditMaterialCommand = new RelayCommand(o => EditMaterial());
             HostPrimitives = new ObservableCollection<PrimitiveBase>();
             foreach (var item in sectionRepository.Primitives)
             {
-                if (item is RectangleNdmPrimitive || item is EllipseNdmPrimitive)
+                if (item is IHasDivisionSize)
                 {
                     CheckHost(primitive, item);
                     HostPrimitives.Add(PrimitiveOperations.ConvertNdmPrimitiveToPrimitiveBase(item));

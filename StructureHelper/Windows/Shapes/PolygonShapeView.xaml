@@ -1,0 +1,111 @@
+﻿<Window x:Class="StructureHelper.Windows.Shapes.PolygonView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.Shapes"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        xmlns:ucwp="clr-namespace:StructureHelper.Windows.UserControls.WorkPlanes"
+        d:DataContext="{d:DesignInstance local:PolygonShapeViewModel}"
+        mc:Ignorable="d"
+        Title="Polygon" Height="450" Width="800" MinHeight="250" MinWidth="400" MaxHeight="800" MaxWidth="1200" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <DockPanel>
+            <ToolBarTray DockPanel.Dock="Top">
+                <ToolBar>
+                    <Button Style="{StaticResource ToolButton}" Command="{Binding RedrawCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Redraw polygon draft"
+                                                IconContent="{StaticResource Renew}"
+                                                DescriptionText="Redraws draft of polygon"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{StaticResource Renew}"/>
+                        </Viewbox>
+                    </Button>
+                </ToolBar>
+                <ToolBar Name="Add">
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding AddVertexCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Add vertex"
+                                        IconContent="{StaticResource TableRowAdd}"
+                                        DescriptionText="Adds new vertex in the and of polygon"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{StaticResource TableRowAdd}"/>
+                        </Viewbox>
+                    </Button>
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding AddVertexBeforeCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Add vertex before"
+                                        IconContent="{StaticResource TableRowAddBefore}"
+                                        DescriptionText="Adds new vertex before selected one"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{StaticResource TableRowAddBefore}"/>
+                        </Viewbox>
+                    </Button>
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding AddVertexAfterCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Add vertex after"
+                                        IconContent="{StaticResource TableRowAddAfter}"
+                                        DescriptionText="Add vertex after selected one"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{StaticResource TableRowAddAfter}"/>
+                        </Viewbox>
+                    </Button>
+                </ToolBar>
+                <ToolBar Name="Delete">
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding DeleteVertexCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Delete vertex"
+                                        IconContent="{StaticResource TableRowDelete}"
+                                        DescriptionText="Removes selected vertex"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{StaticResource TableRowDelete}"/>
+                        </Viewbox>
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" MinWidth="100" MaxWidth="250"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Center"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="x = "/>
+                        <TextBox Grid.Column="1" Margin="2" Text="{Binding Center.X, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}" IsEnabled="False"/>
+                        <TextBlock Grid.Row="1" Text="y = "/>
+                        <TextBox Grid.Column="1" Margin="2" Grid.Row="1" Text="{Binding Center.Y, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}" IsEnabled="False"/>
+                    </Grid>
+                    <DataGrid ItemsSource="{Binding Vertices}" SelectedItem="{Binding SelectedVertex}" AutoGenerateColumns="False"
+                                CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="5" Foreground="DarkGray"/>
+                            <DataGridTextColumn Width="100" Header="X" Binding="{Binding Point.X}" CanUserSort="False"/>
+                            <DataGridTextColumn Width="100" Header="Y" Binding="{Binding Point.Y}" CanUserSort="False"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+                <ucwp:WorkPlaneRoot x:Name="WorkPlaneRootPanel" Grid.Column="1" DataContext="{Binding WorkPlaneRoot}"/>
+            </Grid>
+        </DockPanel>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>

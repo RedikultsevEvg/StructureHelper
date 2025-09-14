@@ -26,6 +26,9 @@
         <DataTemplate DataType="{x:Type dataContexts:PointViewPrimitive}">
             <dataTemplates:EllipseTemplate/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type dataContexts:ShapeViewPrimitive}">
+            <dataTemplates:PolygonTemplate/>
+        </DataTemplate>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     <DockPanel>
@@ -65,6 +68,16 @@
                 </Button>
             </ToolBar>
             <ToolBar ToolTip="Base Primitives" DataContext="{Binding PrimitiveLogic}">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Polygon}" >
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add polygon primitive"
+                                                IconContent="{StaticResource Polygon}"
+                                                DescriptionText="Add polygon primitive with default properties into cross-section"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource Polygon}"/>
+                    </Viewbox>
+                </Button>
                 <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Rectangle}" ToolTip="Add Rectangle Primitive">
                     <Image Source="/Windows/MainWindow/Rectangle32.png"/>
                 </Button>

@@ -24,6 +24,7 @@
                 <ResourceDictionary Source="Infrastructure/UI/Resources/ServiceColors.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/ScrollableWorkPlane.xaml"/>
                 <ResourceDictionary Source="Infrastructure/UI/Resources/BeamShearTemplate.xaml"/>
+                <ResourceDictionary Source="Infrastructure/UI/Resources/ShapeTemplates.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

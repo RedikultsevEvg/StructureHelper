@@ -27,6 +27,10 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             {
                 new EllipsePrimitiveUpdateStrategy().Update(circle, (EllipseNdmPrimitive)sourceObject);
             }
+            else if (targetObject is IShapeNDMPrimitive shapePrimitive)
+            {
+                new ShapeNDMPrimitiveUpdateStrategy().Update(shapePrimitive, (IShapeNDMPrimitive)sourceObject);
+            }
             else
             {
                 ErrorCommonProcessor.ObjectTypeIsUnknown(typeof(INdmPrimitive), sourceObject.GetType());

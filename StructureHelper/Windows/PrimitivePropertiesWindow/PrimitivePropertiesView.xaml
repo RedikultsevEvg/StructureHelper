@@ -29,6 +29,16 @@
                 </Grid>
             </Expander>
         </DataTemplate>
+        <DataTemplate x:Key="PolygonProperties">
+            <Grid Height="22">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Polygon properties"/>
+                <Button Grid.Column="1" Content="Edit polygon" Command="{Binding ShapeEditCommand}"/>
+            </Grid>
+        </DataTemplate>
         <DataTemplate x:Key="PointProperties">
             <Expander Header="Point" IsExpanded="True">
                 <Grid>

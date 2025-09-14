@@ -9,6 +9,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Infrastructure\UI\DataTemplates\PolygonTemplate.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\Arrays\ArrayView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -130,6 +133,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\Services\CopyByParameterView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Shapes\PolygonShapeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\UserControls\ButtonToolTipEh.xaml.cs">

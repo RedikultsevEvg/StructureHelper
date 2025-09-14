@@ -2,9 +2,10 @@
 {
     public enum PrimitiveType
     {
-        Point,
-        Rectangle,
-        Circle,
-        Reinforcement
+        Point = 0,
+        Rectangle = 1,
+        Circle = 2,
+        Reinforcement = 3,
+        Polygon = 4
     }
 }

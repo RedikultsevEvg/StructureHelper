@@ -10,7 +10,7 @@ namespace StructureHelperCommon.Models.Shapes
 
         public Guid Id { get; }
         public IReadOnlyList<IVertex> Vertices => _vertices;
-        public bool IsClosed { get; set; }
+        public bool IsClosed { get; set; } = true;
 
         public PolygonShape(Guid id)
         {
@@ -62,7 +62,6 @@ namespace StructureHelperCommon.Models.Shapes
             {
                 throw new StructureHelperException("The specified vertex was not found in the polygon.");
             }
-
             return index;
         }
 

@@ -29,15 +29,9 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         public double PrimitiveLeft => DeltaX - Diameter / 2d;
         public double PrimitiveTop => DeltaY - Diameter / 2d;
 
-        public CircleViewPrimitive(INdmPrimitive primitive) : base(primitive)
+        public CircleViewPrimitive(IEllipseNdmPrimitive primitive) : base(primitive)
         {
-            if (primitive is not IEllipseNdmPrimitive)
-            {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"\nExpected: {nameof(IEllipseNdmPrimitive)}, But was: {nameof(primitive)}");
-            }
-            var circle = primitive as IEllipseNdmPrimitive;
-            this.primitive = circle;
-            DivisionViewModel = new HasDivisionViewModel(circle.DivisionSize);
+            DivisionViewModel = new HasDivisionViewModel(primitive.DivisionSize);
         }
 
         public override INdmPrimitive GetNdmPrimitive()

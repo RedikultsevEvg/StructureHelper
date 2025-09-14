@@ -1,4 +1,6 @@
 ﻿using LoaderCalculator.Data.Ndms;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Triangulations;
@@ -13,6 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     public class ShapeNdmPrimitive : IShapeNDMPrimitive
     {
         private IShape shape;
+        private IUpdateStrategy<IShapeNDMPrimitive> updateStrategy;
 
         public Guid Id { get; }
         public string? Name { get; set; } = string.Empty;
@@ -30,7 +33,12 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            var primitive = new ShapeNdmPrimitive(Guid.NewGuid());
+            PolygonShape polygon = new(Guid.NewGuid());
+            primitive.SetShape(polygon);
+            updateStrategy ??= new ShapeNDMPrimitiveUpdateStrategy();
+            updateStrategy.Update(primitive, this);
+            return primitive;
         }
 
         public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
@@ -69,7 +77,16 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public bool IsPointInside(IPoint2D point)
         {
-            throw new NotImplementedException();
+            if (shape is IPolygonShape polygon)
+            {
+                var newShape = PolygonGeometryUtils.GetTratsfromedPolygon(polygon, Center.X, Center.Y);
+                var calculator = new PolygonCalculator();
+                return calculator.ContainsPoint(newShape, point);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(shape));
+            }
         }
 
         public void SetShape(IShape shape)

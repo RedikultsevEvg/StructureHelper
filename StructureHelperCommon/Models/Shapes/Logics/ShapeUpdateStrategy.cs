@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperCommon.Models.Shapes.Logics
+namespace StructureHelperCommon.Models.Shapes
 {
     public class ShapeUpdateStrategy : IUpdateStrategy<IShape>
     {
@@ -24,9 +24,26 @@ namespace StructureHelperCommon.Models.Shapes.Logics
             {
                 ProcessCircles(targetObject, sourceCircle);
             }
+            else if (sourceObject is IPolygonShape sourcePolygon)
+            {
+                ProcessPolygon(targetObject, sourcePolygon);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
+            }
+        }
+
+        private void ProcessPolygon(IShape targetObject, IPolygonShape sourcePolygon)
+        {
+            if (targetObject is IPolygonShape targetPolygon)
+            {
+                var updateLogic = new PolygonShapeUpdateStrategy();
+                updateLogic.Update(targetPolygon, sourcePolygon);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": target object is not a polygon");
             }
         }
 

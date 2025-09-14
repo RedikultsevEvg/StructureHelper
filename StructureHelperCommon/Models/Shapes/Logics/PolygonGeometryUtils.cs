@@ -9,6 +9,18 @@ namespace StructureHelperCommon.Models.Shapes
 {
     public static class PolygonGeometryUtils
     {
+        public static IPolygonShape GetTratsfromedPolygon(IPolygonShape polygon, double dx, double dy)
+        {
+            IPolygonShape newPolygon = new PolygonShape(Guid.Empty);
+            var updateLogic = new PolygonShapeUpdateStrategy();
+            updateLogic.Update(newPolygon, polygon);
+            foreach (var item in newPolygon.Vertices)
+            {
+                item.Point.X += dx;
+                item.Point.Y += dy;
+            }
+            return newPolygon;
+        }
         public static bool DoPolygonsEdgesIntersect(IPolygonShape polygon)
         {
             var vertices = polygon.Vertices;

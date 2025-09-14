@@ -62,49 +62,95 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             INdmPrimitive ndmPrimitive;
             if (primitiveType == PrimitiveType.Rectangle)
             {
-                var primitive = new RectangleNdmPrimitive
-                {
-                    Width = 0.4d,
-                    Height = 0.6d
-                };
+                RectangleNdmPrimitive primitive = GetNewRectanglePrimitive();
                 ndmPrimitive = primitive;
                 viewPrimitive = new RectangleViewPrimitive(primitive);
 
             }
             else if (primitiveType == PrimitiveType.Reinforcement)
             {
-                var primitive = new RebarNdmPrimitive
-                {
-                    Area = 0.0005d
-                };
+                RebarNdmPrimitive primitive = GetNewReinforcementPrimitive();
                 ndmPrimitive = primitive;
                 viewPrimitive = new ReinforcementViewPrimitive(primitive);
             }
             else if (primitiveType == PrimitiveType.Point)
             {
-                var primitive = new PointNdmPrimitive
-                {
-                    Area = 0.0005d
-                };
+                PointNdmPrimitive primitive = GetNewPointPrimitive();
                 ndmPrimitive = primitive;
                 viewPrimitive = new PointViewPrimitive(primitive);
             }
             else if (primitiveType == PrimitiveType.Circle)
             {
-                var primitive = new EllipseNdmPrimitive
-                {
-                    Width = 0.5d
-                };
+                EllipseNdmPrimitive primitive = GetNewCirclePrimitive();
                 ndmPrimitive = primitive;
                 viewPrimitive = new CircleViewPrimitive(primitive);
             }
-            else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType)); }
+            else if (primitiveType == PrimitiveType.Polygon)
+            {
+                ShapeNdmPrimitive primitive = GetNewPolygonPrimitive();
+                ndmPrimitive = primitive;
+                viewPrimitive = new ShapeViewPrimitive(primitive);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType));
+            }
             viewPrimitive.OnNext(this);
             repository.Primitives.Add(ndmPrimitive);
             ndmPrimitive.CrossSection = section;
             Items.Add(viewPrimitive);
             OnPropertyChanged(nameof(Items));
             OnPropertyChanged(nameof(PrimitivesCount));
+        }
+
+        private ShapeNdmPrimitive GetNewPolygonPrimitive()
+        {
+            PolygonShape polygon = new(Guid.NewGuid());
+            polygon.AddVertex(new Vertex(-0.2, 0.3));
+            polygon.AddVertex(new Vertex(0.2, 0.3));
+            polygon.AddVertex(new Vertex(0.1, 0));
+            polygon.AddVertex(new Vertex(0.2, -0.3));
+            polygon.AddVertex(new Vertex(-0.2, -0.3));
+            polygon.AddVertex(new Vertex(-0.1, 0));
+            ShapeNdmPrimitive shapeNdmPrimitive = new(Guid.NewGuid())
+            {
+                Name = "New polygon primitive"
+            };
+            shapeNdmPrimitive.SetShape(polygon);
+            return shapeNdmPrimitive;
+        }
+
+        private static EllipseNdmPrimitive GetNewCirclePrimitive()
+        {
+            return new EllipseNdmPrimitive
+            {
+                Width = 0.5d
+            };
+        }
+
+        private static PointNdmPrimitive GetNewPointPrimitive()
+        {
+            return new PointNdmPrimitive
+            {
+                Area = 0.0005d
+            };
+        }
+
+        private static RebarNdmPrimitive GetNewReinforcementPrimitive()
+        {
+            return new RebarNdmPrimitive
+            {
+                Area = 0.0005d
+            };
+        }
+
+        private static RectangleNdmPrimitive GetNewRectanglePrimitive()
+        {
+            return new RectangleNdmPrimitive
+            {
+                Width = 0.4d,
+                Height = 0.6d
+            };
         }
 
         public ICommand Delete
@@ -201,7 +247,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         {
             get
             {
-                return                     copyCommand ??= new RelayCommand(
+                return  copyCommand ??= new RelayCommand(
                         o => CopySelectedItem(SelectedItem.GetNdmPrimitive()),
                         o => SelectedItem != null
                     );
@@ -242,19 +288,23 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             newPrimitive.Name += " copy";
             repository.Primitives.Add(newPrimitive);
             PrimitiveBase primitiveBase;
-            if (newPrimitive is IRectangleNdmPrimitive)
+            if (newPrimitive is IRectangleNdmPrimitive rectangle)
             {
-                primitiveBase = new RectangleViewPrimitive(newPrimitive as IRectangleNdmPrimitive);
+                primitiveBase = new RectangleViewPrimitive(rectangle);
             }
-            else if (newPrimitive is IEllipseNdmPrimitive)
+            else if (newPrimitive is IEllipseNdmPrimitive ellipse)
             {
-                primitiveBase = new CircleViewPrimitive(newPrimitive as IEllipseNdmPrimitive);
+                primitiveBase = new CircleViewPrimitive(ellipse);
+            }
+            else if (newPrimitive is IShapeNDMPrimitive shapeNDMPrimitive)
+            {
+                primitiveBase = new ShapeViewPrimitive(shapeNDMPrimitive);
             }
             else if (newPrimitive is IPointNdmPrimitive)
             {
-                if (newPrimitive is RebarNdmPrimitive)
+                if (newPrimitive is RebarNdmPrimitive rebar)
                 {
-                    primitiveBase = new ReinforcementViewPrimitive(newPrimitive as RebarNdmPrimitive);
+                    primitiveBase = new ReinforcementViewPrimitive(rebar);
                 }
                 else
                 {

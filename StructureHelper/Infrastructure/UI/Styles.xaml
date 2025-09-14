@@ -20,6 +20,7 @@
     </Style>
 
     <Style TargetType="{x:Type Shape}" x:Key="ShapeStyle">
+        <Setter Property="Tag" Value="{Binding}"/>
         <Setter Property="Fill">
             <Setter.Value>
                 <SolidColorBrush Color="{Binding Color}"/>
@@ -37,6 +38,12 @@
                 <Setter Property="Visibility" Value="Hidden"/>
             </Trigger>-->
         </Style.Triggers>
+    </Style>
+
+    <Style x:Key="PolygonStyle" TargetType="Path" BasedOn="{StaticResource ShapeStyle}">
+        <Style.Setters>
+            <Setter Property="Data" Value="{Binding PathGeometry}"/>
+        </Style.Setters>
     </Style>
 
     <Style x:Key="EllipseStyle" TargetType="Ellipse" BasedOn="{StaticResource ShapeStyle}">

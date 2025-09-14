@@ -101,9 +101,11 @@
     <Color x:Key="ButtonLight" A="255" B="255" G="255" R="255"/>
     <Color x:Key="CalculatorColor" A="255" B="149" G="149" R="211"/>
     <Color x:Key="CalculatorFrameColor" A="255" B="109" G="109" R="166"/>
+    <Color x:Key="PrimitiveColor" A="255" B="190" G="120" R="120"/>
     <Color x:Key="ResultColor" A="255" B="200" G="200" R="200"/>
     <Color x:Key="ResultFrameColor" A="255" B="100" G="100" R="100"/>
     <SolidColorBrush x:Key="CalculatorCanvas" Color="{DynamicResource CalculatorColor}"/>
+    <SolidColorBrush x:Key="PrimitiveCanvas" Color="{DynamicResource PrimitiveColor}"/>
     <SolidColorBrush x:Key="CalculatorFrame" Color="{DynamicResource CalculatorFrameColor}"/>
     <SolidColorBrush x:Key="ResultCanvas" Color="{DynamicResource ResultColor}"/>
     <SolidColorBrush x:Key="ResultFrame" Color="{DynamicResource ResultFrameColor}"/>
@@ -116,6 +118,9 @@
     </Style>
     <Style x:Key="ButtonCalculatorCanvas" TargetType="Canvas" BasedOn="{StaticResource ButtonCanvas}">
         <Setter Property="Background" Value="{DynamicResource CalculatorCanvas}"/>
+    </Style>
+    <Style x:Key="ButtonPrimitiveCanvas" TargetType="Canvas" BasedOn="{StaticResource ButtonCanvas}">
+        <Setter Property="Background" Value="{DynamicResource PrimitiveCanvas}"/>
     </Style>
     <Style x:Key="ButtonResultCanvas" TargetType="Canvas" BasedOn="{StaticResource ButtonCanvas}">
         <Setter Property="Background" Value="{DynamicResource ResultCanvas}"/>
@@ -525,6 +530,17 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+    <DataTemplate x:Key="Polygon">
+        <Canvas Style="{DynamicResource ButtonPrimitiveCanvas}">
+            <Canvas.Children>
+
+                <Path Margin="4" Data="M6,6 l2,2 l6,-6 l6,6 l1,6 l-4,8 l-16,-5
+                      z" Fill="DarkGray" Stroke="Black"/>
+                <Line X1="16" Y1="3" X2="16" Y2="29" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="3" Y1="16" X2="29" Y2="16" Stroke="Black" StrokeThickness="0.5"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="Prestrain">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -766,6 +782,59 @@
                 <Line X1="12" Y1="13" X2="12" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
                 <Line X1="17" Y1="13" X2="17" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
                 <Line X1="22" Y1="13" X2="22" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="TableHeight">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <Line X1="4" Y1="7" X2="28" Y2="7" Stroke="Black"/>
+                <Line X1="4" Y1="10" X2="28" Y2="10" Stroke="Black"/>
+                <Line X1="4" Y1="13" X2="28" Y2="13" Stroke="DarkGray" StrokeThickness="0.5"/>
+                <Line X1="4" Y1="16" X2="28" Y2="16" Stroke="DarkGray" StrokeThickness="0.5"/>
+                <Line X1="4" Y1="19" X2="28" Y2="19" Stroke="DarkGray" StrokeThickness="0.5"/>
+                <Line X1="4" Y1="22" X2="28" Y2="22" Stroke="DarkGray" StrokeThickness="0.5"/>
+                <Line X1="4" Y1="25" X2="28" Y2="25" Stroke="DarkGray" StrokeThickness="0.5"/>
+                <Line X1="12" Y1="7" X2="12" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="17" Y1="7" X2="17" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="22" Y1="7" X2="22" Y2="28" Stroke="Black" StrokeThickness="0.5"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="TableRowAdd">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource TableHeight}"/>
+                <Rectangle Canvas.Top="25" Canvas.Left="4" Height="3" Width="24" Fill="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="TableRowAddAfter">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource TableHeight}"/>
+                <Rectangle Canvas.Top="16" Canvas.Left="4" Height="3" Width="24" Fill="DarkGray"/>
+                <Rectangle Canvas.Top="19" Canvas.Left="4" Height="3" Width="24" Fill="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="TableRowAddBefore">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource TableHeight}"/>
+                <Rectangle Canvas.Top="16" Canvas.Left="4" Height="3" Width="24" Fill="Black"/>
+                <Rectangle Canvas.Top="19" Canvas.Left="4" Height="3" Width="24" Fill="DarkGray"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="TableRowDelete">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource TableHeight}"/>
+                <Rectangle Canvas.Top="16" Canvas.Left="4" Height="3" Width="24" Fill="Black"/>
+                <Line X1="4" Y1="13" X2="28" Y2="22" Stroke="Black" StrokeThickness="1"/>
+                <Line X1="4" Y1="22" X2="28" Y2="13" Stroke="Black" StrokeThickness="1"/>
             </Canvas.Children>
         </Canvas>
     </DataTemplate>

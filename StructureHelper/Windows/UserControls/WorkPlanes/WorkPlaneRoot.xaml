@@ -89,6 +89,7 @@
                         StirrupByInclinedRebarTemplate="{StaticResource StirrupByInclinedRebarPrimitiveTemplate}"
                         ConcentratedForceTemplate="{StaticResource ConcentratedForcePrimitiveTemplate}"
                         DistributedLoadTemplate="{StaticResource DistributedLoadPrimitiveTemplate}"
+                        PolygonShapeTemplate="{StaticResource PolygonShapeGraphTemplate}"
                         />
                             </ItemsControl.ItemTemplateSelector>
 

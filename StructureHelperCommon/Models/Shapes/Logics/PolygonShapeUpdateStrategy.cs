@@ -9,7 +9,7 @@ using System.Windows.Shapes;
 
 namespace StructureHelperCommon.Models.Shapes
 {
-    public class PolygonUpdateStrategy : IUpdateStrategy<IPolygonShape>
+    public class PolygonShapeUpdateStrategy : IUpdateStrategy<IPolygonShape>
     {
         public void Update(IPolygonShape targetObject, IPolygonShape sourceObject)
         {

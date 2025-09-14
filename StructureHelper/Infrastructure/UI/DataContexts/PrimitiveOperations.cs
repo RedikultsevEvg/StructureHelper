@@ -25,15 +25,17 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         public static PrimitiveBase ConvertNdmPrimitiveToPrimitiveBase(INdmPrimitive primitive)
         {
             PrimitiveBase viewItem;
-            if (primitive is IRectangleNdmPrimitive)
+            if (primitive is IRectangleNdmPrimitive rect)
             {
-                var rect = primitive as IRectangleNdmPrimitive;
                 viewItem = new RectangleViewPrimitive(rect);
             }
-            else if (primitive is IEllipseNdmPrimitive)
+            else if (primitive is IEllipseNdmPrimitive circle)
             {
-                var circle = primitive as IEllipseNdmPrimitive;
                 viewItem = new CircleViewPrimitive(circle);
+            }
+            else if (primitive is IShapeNDMPrimitive shapeNDMPrimitive)
+            {
+                viewItem = new ShapeViewPrimitive(shapeNDMPrimitive);
             }
             else if (primitive is IPointNdmPrimitive & primitive is not RebarNdmPrimitive)
             {
