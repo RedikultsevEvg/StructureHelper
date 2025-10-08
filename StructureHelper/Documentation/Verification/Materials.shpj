@@ -1,0 +1,1620 @@
+{
+  "$id": "1",
+  "$type": "RootObject",
+  "FileVersion": {
+    "Id": "24d6a33c-a189-4b16-9d14-00e18b022698",
+    "VersionNumber": 1,
+    "SubVersionNumber": 4
+  },
+  "Project": {
+    "Id": "578b2131-eea9-4259-99dc-f55cc80bf7b9",
+    "VisualAnalyses": {
+      "$id": "2",
+      "$type": "ListOfIVisualAnalysis",
+      "$values": [
+        {
+          "$id": "3",
+          "$type": "VisualAnalysis",
+          "Id": "87c16fba-5abb-41b0-b951-8a4a219dc859",
+          "Analysis": {
+            "$id": "4",
+            "$type": "CrossSectionNdmAnalysis",
+            "Id": "4027079c-d866-4266-b15e-e2a59bb69bfa",
+            "Name": "New NDM Analysis",
+            "Tags": "#New group",
+            "VersionProcessor": {
+              "$id": "5",
+              "$type": "VersionProcessor",
+              "Id": "3b8a4e6a-81dd-457d-b954-2b0a63c1aa82",
+              "Versions": {
+                "$type": "ListOfIDateVersion",
+                "$values": [
+                  {
+                    "$id": "6",
+                    "$type": "DateVersion",
+                    "Id": "82da330b-a30c-448e-9a85-afa9ef52f0a7",
+                    "DateTime": "2025-10-05T13:41:55.7932052+05:00",
+                    "Comment": "",
+                    "AnalysisVersion": {
+                      "$id": "7",
+                      "$type": "CrossSection",
+                      "Id": "69d3c72c-0795-4218-9100-791b643f4bd7",
+                      "SectionRepository": {
+                        "$id": "8",
+                        "$type": "CrossSectionRepository",
+                        "Id": "b96c5d56-f6ec-476e-92c8-ca260e939ab6",
+                        "HeadMaterials": {
+                          "$type": "ListOfIHeadMaterial",
+                          "$values": [
+                            {
+                              "$id": "9",
+                              "$type": "HeadMaterial",
+                              "Id": "f82e7816-c5ae-4d13-b0f3-79cd45c7528c",
+                              "Name": "B10",
+                              "Color": "#FFA5CB67",
+                              "HelperMaterial": {
+                                "$id": "10",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "1300c349-9dd5-419e-bf23-83868d954e2f",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "9339af2b-46da-4354-a62e-fa330f46c165",
+                                "SafetyFactors": {
+                                  "$id": "11",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "12",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "d9f3f536-c2d8-4b6f-8fb6-33d49270eb25",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "13",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "1f505ce7-d0b2-4867-9e41-bab6bab30775",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "14",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "9f35ed8b-823f-4d6b-93de-7eaf34f6c184",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "15",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "927eec03-3e92-4a2a-b349-f706cb6ca6e2",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "16",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "621e66f4-a638-42bd-93c8-4d933438073f",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "17",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "2b82247c-5279-4f43-82b7-53ec3f705ee4",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "18",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "91a8d952-c8fe-4847-99d6-9a93226ec7a4",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "19",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "b093d968-1980-405d-bb3c-5414c40ba09e",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "20",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "04c4df72-c84b-4f5d-947a-477d1d06c09a",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            },
+                            {
+                              "$id": "21",
+                              "$type": "HeadMaterial",
+                              "Id": "940a6916-0f4c-4df3-8bbf-1cfafe86ed12",
+                              "Name": "B15",
+                              "Color": "#FF5AED45",
+                              "HelperMaterial": {
+                                "$id": "22",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "dc2ca79b-8153-49b8-9d8a-c231522df7a0",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "1cdc3598-c67b-4e35-89ac-3f7c0a9db167",
+                                "SafetyFactors": {
+                                  "$id": "23",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "24",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "9981d2c5-a50a-423e-8453-db6d727c713c",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "25",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "4eb7f18a-cc25-420d-acca-7779968887e9",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "26",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "7e6d63bc-27b4-4e02-bdf0-afade674d440",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "27",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "4a3ef55a-5929-4c0c-aaa1-7ec87f7502f2",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "28",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "f373944a-7b59-4c36-8f33-1503b2c673ca",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "29",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "acbcd23e-930e-4153-8c45-153cc9303575",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "30",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "febc9f58-6868-4efd-be76-5bc2f9e11a1e",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "31",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "288b410d-47ec-42dc-a934-f06fcaa63b44",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "32",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "d1833a8a-29cf-4ded-912f-8fdae53f72e7",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            },
+                            {
+                              "$id": "33",
+                              "$type": "HeadMaterial",
+                              "Id": "037f2e4a-4aa7-4ff9-ada8-909ad68f8a03",
+                              "Name": "B20",
+                              "Color": "#FFE6B110",
+                              "HelperMaterial": {
+                                "$id": "34",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "1bb8b4b8-79a5-48f2-9c46-e0a251d309f6",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "f1d05405-2fd7-465e-82fc-d69f74e482aa",
+                                "SafetyFactors": {
+                                  "$id": "35",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "36",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "d4a1f155-4ff0-403e-82a8-d75b6e1acc16",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "37",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "0ff312eb-ff5b-414a-8cfb-582e1d971152",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "38",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "2962baa7-5a2b-470a-a329-29ea8b29086e",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "39",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "784ac4ec-51e8-40bc-af01-fb705a97ff4b",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "40",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "5ae8a0d8-bcff-46ba-af12-4d422fe1f811",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "41",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "7bc09d4f-2f68-46fc-ac27-1884fa26d2df",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "42",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "022780fc-9560-4404-8944-b40154d1c390",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "43",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "d8b9caee-8bd3-4457-8634-340fb1bc8160",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "44",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "fb3de602-a88d-42e8-949b-0fac13b21fec",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            },
+                            {
+                              "$id": "45",
+                              "$type": "HeadMaterial",
+                              "Id": "1155b035-e74e-4010-8679-d01bd1b65753",
+                              "Name": "B25",
+                              "Color": "#FF49F022",
+                              "HelperMaterial": {
+                                "$id": "46",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "92fbfc4e-e85c-4200-a7d7-3e2d0290b6c4",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "27ca419d-cff3-4f7f-82af-d577bb343651",
+                                "SafetyFactors": {
+                                  "$id": "47",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "48",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "59ae00d4-f692-4924-a163-e16e82c80eba",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "49",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "7983a8b3-34fa-4cc7-a7e8-d6d3bb728c86",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "50",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "b5a73378-ef6c-43a2-ab42-a58e134ee905",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "51",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "0637cdb8-9172-470c-be4f-7c3e16c33ac0",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "52",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "60091941-c0ec-41db-ad0a-b77ed14d3c1f",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "53",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "56f9b16b-f28b-498f-8a3d-732717c329ce",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "54",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "28aa5171-4abe-4d28-9ec5-48fe776e23a2",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "55",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "f241da4b-fa70-4b93-8ad8-6f80ed692fa6",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "56",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "892f6676-c744-4765-8c2f-95747018ee24",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            },
+                            {
+                              "$id": "57",
+                              "$type": "HeadMaterial",
+                              "Id": "5ecd57dc-1d4f-49db-a022-be049abbfdb7",
+                              "Name": "B30",
+                              "Color": "#FF29D301",
+                              "HelperMaterial": {
+                                "$id": "58",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "ccf11269-77d0-41b6-b707-224059c3b48e",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "2f5b70b9-f4c1-470d-ac27-a39a7093b6ea",
+                                "SafetyFactors": {
+                                  "$id": "59",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "60",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "75d63f7b-6a0e-41d2-8411-f7abaaab3a3b",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "61",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "8109ef17-e933-46b0-bc10-2ad5b5c1e93d",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "62",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "ef3b221e-8958-4e93-b170-4f8bcbb0d909",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "63",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "a58cd414-c26a-450b-a630-bdac8a35a77d",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "64",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "c4ba3115-9d60-496e-995a-e0226270cdb6",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "65",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "bfd01435-2bd8-4955-80c2-c649b2e74032",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "66",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "afaeec7b-003f-4408-889b-355889afdc84",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "67",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "928a81c2-e61b-4365-a898-abb46e5267e7",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "68",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "5700665c-8b58-452d-9c09-db19c4238027",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            },
+                            {
+                              "$id": "69",
+                              "$type": "HeadMaterial",
+                              "Id": "7d404ea3-f6d0-4966-846e-20452b203d3c",
+                              "Name": "B35",
+                              "Color": "#FFCF1C58",
+                              "HelperMaterial": {
+                                "$id": "70",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "8ef6486c-3e73-4653-8ed1-f0000f28dd39",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "edd16698-cbe8-43ba-b249-7bab99fa0163",
+                                "SafetyFactors": {
+                                  "$id": "71",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "72",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "a1a23b3b-8d90-438e-83b7-2cfcc3dd40cf",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "73",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "179c85f3-251c-4141-875c-ec8178769f61",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "74",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "1a75fa94-163c-4144-99d4-573916a5c6a5",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "75",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "28a7bffc-d9e7-4b0d-8432-10d6ac4ba0fc",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "76",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "a967cfe0-ae90-492a-9bcd-5b13d7a8cab5",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "77",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "70ab8a8d-9ce7-44a2-a9f2-bd96efa11014",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "78",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "bd1e4196-11f3-4e85-8be8-cf8317ab8854",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "79",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "458a2467-2fe5-4ca1-a3ba-3cb320cf3111",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "80",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "00c63a70-4c10-48fa-884b-2070ee27d045",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            },
+                            {
+                              "$id": "81",
+                              "$type": "HeadMaterial",
+                              "Id": "ff17a496-0a40-455a-8abc-4755926bf468",
+                              "Name": "B40",
+                              "Color": "#FF11339A",
+                              "HelperMaterial": {
+                                "$id": "82",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "8ba60d55-d1bc-46ee-85ab-822a01c6bedb",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "32614a91-fc85-4690-aa82-af45e00f7638",
+                                "SafetyFactors": {
+                                  "$id": "83",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "84",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "8cf80539-a1c8-46bd-bd76-121b590925b4",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "85",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "ff101baa-09f8-49ad-bd9c-01cb49b50db0",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "86",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "9c8b94c8-c6e2-48a8-8e5d-f9c53ab597e6",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "87",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "3be71b63-92dc-4651-bd0b-398acf68d929",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "88",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "247049c9-d57f-4f40-84d9-db830f265a64",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "89",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "c6de7d81-7665-4e61-9448-1ede32be93a6",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "90",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "a61eda50-9554-44e2-8881-7e7f258f7d5a",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "91",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "59f1ae11-7ea6-4605-8b5e-53d9672302e5",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "92",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "5698c6e6-1fe9-4a10-8e57-4e8336a6266d",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            },
+                            {
+                              "$id": "93",
+                              "$type": "HeadMaterial",
+                              "Id": "faf3d4dd-c3d0-4c37-badf-f0484d7bf0fd",
+                              "Name": "B50",
+                              "Color": "#FF9515F1",
+                              "HelperMaterial": {
+                                "$id": "94",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "d63e714c-318a-4770-9ac5-06289c7c0540",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "6182b496-9d80-4323-8b1e-7347923d7ceb",
+                                "SafetyFactors": {
+                                  "$id": "95",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "96",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "066d87a2-5dc8-4d35-9118-f054684a4716",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "97",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "9537976e-0a10-42c4-ab9a-7229cf75f2d9",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "98",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "d52d0f4e-5933-4c13-bd39-d8e3d213ab37",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "99",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "874b5271-bf80-46a8-bacf-07f57356d785",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "100",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "52502979-eb05-4789-969f-c04c9f52babc",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "101",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "ff236c49-1151-4cfa-94e4-9b777e07113e",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "102",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "6b6993f8-eacf-4650-b59a-1f30a266a900",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "103",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "f5f43a2b-ca2e-445c-8504-d8586d94af59",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "104",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "3f413b71-ba7c-42fb-86d0-2e80b9253d88",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            },
+                            {
+                              "$id": "105",
+                              "$type": "HeadMaterial",
+                              "Id": "dd5d4c3a-af4d-4755-8449-f5b5f8eda02a",
+                              "Name": "B60",
+                              "Color": "#FFEB62A3",
+                              "HelperMaterial": {
+                                "$id": "106",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "a1ac9a23-1126-4138-b09c-ca91b678e689",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "96217bf1-564c-4150-afd6-9fe661c2e121",
+                                "SafetyFactors": {
+                                  "$id": "107",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "108",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "be80d157-ac5c-43d8-9d6f-1ec9937fc031",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "109",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "cfed0400-8da5-40be-9ed9-df3741455e31",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "110",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "01c6ba6c-486c-4d87-9638-2dfb7b94395b",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "111",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "f4246148-336a-4553-aced-249762d1cd8c",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "112",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "41ca5f6e-cfa8-466a-8c5f-56122fb87b90",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "113",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "791549d6-ed12-4819-b2d3-0cd55b94368b",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "114",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "5d0fbd8a-d6ba-4220-a99d-5c389ca3591e",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "115",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "6879617a-d2c7-4b2a-b75b-bfbe296bd44e",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "116",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "8f5cedea-14bd-4baa-8cf1-dafd93844f99",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            },
+                            {
+                              "$id": "117",
+                              "$type": "HeadMaterial",
+                              "Id": "90aa0032-ca47-49a6-aa62-4dcef9b1fa55",
+                              "Name": "B70",
+                              "Color": "#FFD69952",
+                              "HelperMaterial": {
+                                "$id": "118",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "808a0ba7-4e6f-4986-b85e-10028ea7f74e",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "c0cac0f1-f237-4d8f-a41f-6ca1e371e042",
+                                "SafetyFactors": {
+                                  "$id": "119",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "120",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "c70a8744-6a10-48c0-9836-215b6d205fbe",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "121",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "a7129ded-1f5b-48b5-88e5-35b4b8421b41",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "122",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "b0163cf8-6b04-4ebe-a615-8313d7e40434",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "123",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "451b49f0-6023-4f64-8090-f937aeac57a6",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "124",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "69a7b025-54c1-43a5-a602-4e57a77f92d3",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "125",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "a1eb2bfe-6700-48d8-9fbe-937af1932afd",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "126",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "5da37a6f-a9cf-4eb4-af61-be5f2400f805",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "127",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "55e5dca2-fdd8-421c-82e9-134173e695e8",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "128",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "24d04ce7-b1b5-4108-a7a4-01877629b731",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            },
+                            {
+                              "$id": "129",
+                              "$type": "HeadMaterial",
+                              "Id": "37c8c95f-5f3c-440c-9f6a-9719bc199443",
+                              "Name": "B80",
+                              "Color": "#FF3CE8EC",
+                              "HelperMaterial": {
+                                "$id": "130",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "4f39e3bd-2e9d-429a-9eb5-095d84f1b967",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "ecb2e32a-6089-4ecc-afb7-023f66e69f49",
+                                "SafetyFactors": {
+                                  "$id": "131",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "132",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "78c6b107-5bf2-45c8-820e-09fcc8971617",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "133",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "9541aad0-ab74-4211-93ea-537578b44aa1",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "134",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "be665c54-ab76-4e41-86df-e55ef583153c",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "135",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "afab2b21-c692-4cb2-8f08-7e1f3ef6121e",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "136",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "e82bd196-3ea6-4d3c-9a7f-161ad1537dca",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "137",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "15939835-21e8-4b1f-afa3-8e75c6446df0",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "138",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "d9dc98af-3dc9-4e17-bfef-3f5feb149701",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "139",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "292f3410-299c-47e5-a9d1-181305c0f542",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "140",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "59219bc3-12f7-44d3-a616-2fe14cd0800f",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            },
+                            {
+                              "$id": "141",
+                              "$type": "HeadMaterial",
+                              "Id": "028c536b-8e12-4cc4-b582-880c91982578",
+                              "Name": "B90",
+                              "Color": "#FF53EB3D",
+                              "HelperMaterial": {
+                                "$id": "142",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "c0ef3cb6-643a-4b9f-b1ac-70006e1e1b36",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "2882b08e-d22b-43f8-9c8b-a505feac3465",
+                                "SafetyFactors": {
+                                  "$id": "143",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "144",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "82a13016-65e5-49ef-a2b5-a0213d36d820",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "145",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "2fcb652c-4ce0-4441-81e1-3222c8d44252",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "146",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "fa5ca6a9-8667-4d30-b2a0-211e7a9cd654",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "147",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "9250be27-ff44-4403-b25f-a04eae8acc5f",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "148",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "61d02b07-417d-43d2-aaf1-88f42c3e8c1f",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "149",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "63f0bb89-4749-4352-8517-011bf227e056",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "150",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "fcb4b352-7ac9-4436-8137-4f682eff9420",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "151",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "c33678af-4d12-455c-9c80-11be08556cfd",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "152",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "e4408646-a39c-4834-9d32-5bf1ff3750be",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            },
+                            {
+                              "$id": "153",
+                              "$type": "HeadMaterial",
+                              "Id": "fb3bfd9e-1e47-4cb9-bf22-af3b8a049c97",
+                              "Name": "B100",
+                              "Color": "#FFD55922",
+                              "HelperMaterial": {
+                                "$id": "154",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "5903ef89-ec6e-41c0-91bf-225034cc2e98",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "becacaff-0c74-4845-b0f0-3ae8e1c1d0ff",
+                                "SafetyFactors": {
+                                  "$id": "155",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "156",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "63d9652d-6554-4fe8-bb9d-a9daaf51c481",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "157",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "8b774bb6-0be6-4332-b0c1-06afe9596c16",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "158",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "5dadec97-d806-4def-aa91-521a03234fce",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "159",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "1482eb98-2f74-44c9-a861-c36b5d2e0c8a",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "160",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "82887aa5-adfc-441f-8e60-69d8245cd457",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "161",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "2b599965-d19b-415d-a376-120e6b76d7a2",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "162",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "2bafb8ca-72e1-4710-850e-247509f488f4",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "163",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "b43f0675-d3d0-4954-8535-4398c913907e",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "164",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "89a6090d-8db9-4203-9419-8fa002fc52ab",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": false,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              }
+                            }
+                          ]
+                        },
+                        "ForceActions": {
+                          "$type": "ListOfIForceAction",
+                          "$values": []
+                        },
+                        "Primitives": {
+                          "$type": "ListOfINdmPrimitive",
+                          "$values": []
+                        },
+                        "Calculators": {
+                          "$type": "ListOfICalculator",
+                          "$values": []
+                        }
+                      },
+                      "WorkPlaneProperty": {
+                        "$id": "165",
+                        "$type": "WorkPlanePropertyDTO",
+                        "Id": "31ec91ea-d0bc-4426-9ca4-e22e17889457",
+                        "GridSize": 0.05,
+                        "Width": 1.2,
+                        "Height": 1.2,
+                        "AxisLineThickness": 2.0,
+                        "GridLineThickness": 0.25
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "Comment": "",
+            "Color": "#FF800000"
+          }
+        }
+      ]
+    }
+  }
+}

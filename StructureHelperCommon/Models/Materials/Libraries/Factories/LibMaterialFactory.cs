@@ -206,7 +206,36 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "B60",
-                    MainStrength = 60e6 }
+                    MainStrength = 60e6
+                },
+                new ConcreteMaterialEntity(new Guid("c0cac0f1-f237-4d8f-a41f-6ca1e371e042"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "B70",
+                    MainStrength = 70e6
+                },
+                new ConcreteMaterialEntity(new Guid("ecb2e32a-6089-4ecc-afb7-023f66e69f49"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "B80",
+                    MainStrength = 80e6
+                },
+                new ConcreteMaterialEntity(new Guid("2882b08e-d22b-43f8-9c8b-a505feac3465"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "B90",
+                    MainStrength = 90e6
+                }                ,
+                new ConcreteMaterialEntity(new Guid("becacaff-0c74-4845-b0f0-3ae8e1c1d0ff"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "B100",
+                    MainStrength = 100e6
+                }
             };
             return libMaterials;
         }
