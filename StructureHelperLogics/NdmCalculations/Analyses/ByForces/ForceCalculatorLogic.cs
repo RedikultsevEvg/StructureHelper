@@ -223,7 +223,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             {
                 NdmCollection = ndmCollection,
                 ForceTuple = tuple,
-                Accuracy = accuracy
+                Accuracy = accuracy,
+                CheckStrainLimit = InputData.CheckStrainLimit,
             };
             var calculator = new ForceTupleCalculator();
             calculator.InputData = inputData;

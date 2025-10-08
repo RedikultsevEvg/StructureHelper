@@ -44,6 +44,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             CheckObject.IsNull(targetObject, sourceObject, "Force calculator input data");
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Accuracy ??= new Accuracy();
+            targetObject.CheckStrainLimit = sourceObject.CheckStrainLimit;
             accuracyUpdateStrategy.Update(targetObject.Accuracy, sourceObject.Accuracy);
             targetObject.CompressedMember ??= new CompressedMember();
             compressedMemberUpdateStrategy.Update(targetObject.CompressedMember, sourceObject.CompressedMember);

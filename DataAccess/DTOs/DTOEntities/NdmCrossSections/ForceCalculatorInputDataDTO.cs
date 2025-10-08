@@ -24,6 +24,8 @@ namespace DataAccess.DTOs
         public IAccuracy Accuracy { get; set; }
         [JsonProperty("CompressedMember")]
         public ICompressedMember CompressedMember { get; set; } = new CompressedMemberDTO();
+        [JsonProperty("CheckStrainLimit")]
+        public bool CheckStrainLimit { get; set; } = true;
 
         public ForceCalculatorInputDataDTO(Guid id)
         {

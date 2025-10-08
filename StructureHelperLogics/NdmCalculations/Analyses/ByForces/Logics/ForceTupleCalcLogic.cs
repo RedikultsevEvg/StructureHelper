@@ -123,7 +123,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 TraceLogger = TraceLogger
             };
             forceTupleTraceResultLogic.TraceResult(result);
-            CheckOverStrainedNdms();
+            if (InputData.CheckStrainLimit == true)
+            {
+                CheckOverStrainedNdms();
+            }
         }
 
         private bool CheckOverStrainedNdms()

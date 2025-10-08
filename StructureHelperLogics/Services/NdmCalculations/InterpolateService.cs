@@ -19,6 +19,7 @@ namespace StructureHelperLogics.Services.NdmCalculations
             calculator.InputData.Accuracy = source.InputData.Accuracy;
             calculator.InputData.Primitives.AddRange(source.InputData.Primitives);
             calculator.InputData.ForceActions.Clear();
+            calculator.InputData.CheckStrainLimit = source.InputData.CheckStrainLimit;
             var forceTuples = ForceTupleService.InterpolateDesignTuple(interpolateTuplesResult.FinishTuple, interpolateTuplesResult.StartTuple, interpolateTuplesResult.StepCount);
             foreach (var forceTuple in forceTuples)
             {

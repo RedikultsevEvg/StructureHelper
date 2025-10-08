@@ -26,5 +26,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         /// Settings of iteration
         /// </summary>
         IAccuracy Accuracy { get; set; }
+        bool CheckStrainLimit { get; set; }
     }
 }

@@ -28,5 +28,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         /// Settings for calculating of stability fo compressed members
         /// </summary>
         ICompressedMember CompressedMember { get; set; }
+        bool CheckStrainLimit { get; set; }
     }
 }

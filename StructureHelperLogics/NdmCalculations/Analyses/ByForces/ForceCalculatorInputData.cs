@@ -15,6 +15,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public List<INdmPrimitive> Primitives { get; private set; } = new();
         public ICompressedMember CompressedMember { get; set; } = new CompressedMember() { Buckling = false};
         public IAccuracy Accuracy { get; set; } = new Accuracy() {IterationAccuracy = 0.001d, MaxIterationCount = 1000};
+        public bool CheckStrainLimit { get; set; } = true;
+
         //public List<IForceCombinationList> ForceCombinationLists { get; set; }
 
         public ForceCalculatorInputData(Guid id)

@@ -17,6 +17,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
     {
         private IForceCalculatorInputData inputData;
         SecondOrderViewModel secondOrderViewModel;
+        private bool checkStrainLimit;
 
         public double IterationAccuracy
         {
@@ -36,6 +37,15 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         public bool SLS { get; set; }
         public bool ShortTerm { get; set; }
         public bool LongTerm { get; set; }
+        public bool CheckStrainLimit
+        {
+            get => inputData.CheckStrainLimit;
+            set
+            {
+                inputData.CheckStrainLimit = value;
+                OnPropertyChanged(nameof(CheckStrainLimit));
+            }
+        }
 
         public SourceTargetVM<IForceAction> CombinationViewModel { get; }
         public SourceTargetVM<PrimitiveBase> PrimitivesViewModel { get; private set; }
