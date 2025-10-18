@@ -2,7 +2,7 @@
   "$id": "1",
   "$type": "RootObject",
   "FileVersion": {
-    "Id": "0e4e721a-1df3-4693-999d-3670b14f7113",
+    "Id": "f5247ddd-f79f-4943-9e09-764e2a47d0d3",
     "VersionNumber": 1,
     "SubVersionNumber": 4
   },
@@ -20,7 +20,7 @@
             "$id": "4",
             "$type": "CrossSectionNdmAnalysis",
             "Id": "4027079c-d866-4266-b15e-e2a59bb69bfa",
-            "Name": "New NDM Analysis",
+            "Name": "Materials",
             "Tags": "#New group",
             "VersionProcessor": {
               "$id": "5",
@@ -1579,6 +1579,158 @@
                                 "TensionForSLS": true,
                                 "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
                               }
+                            },
+                            {
+                              "$id": "165",
+                              "$type": "HeadMaterial",
+                              "Id": "a975c01f-2028-4aa7-93b1-0ef1cfc73580",
+                              "Name": "A240",
+                              "Color": "#FF6ACF46",
+                              "HelperMaterial": {
+                                "$id": "166",
+                                "$type": "ReinforcementLibMaterial",
+                                "Id": "6ec6f688-21ea-4d7a-83a0-66ec7d2ef268",
+                                "MaterialEntityId": "c47ebbd7-2e0c-4247-81b6-dc3fbd064bab",
+                                "SafetyFactors": {
+                                  "$id": "167",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                              }
+                            },
+                            {
+                              "$id": "168",
+                              "$type": "HeadMaterial",
+                              "Id": "257fe163-585d-4f7a-a96a-3634e9b6861e",
+                              "Name": "A400",
+                              "Color": "#FF61881E",
+                              "HelperMaterial": {
+                                "$id": "169",
+                                "$type": "ReinforcementLibMaterial",
+                                "Id": "a0547d68-4b5a-42c6-bf20-cc1f9caa8157",
+                                "MaterialEntityId": "ea422282-3465-433c-9b93-c5bbfba5a904",
+                                "SafetyFactors": {
+                                  "$id": "170",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                              }
+                            },
+                            {
+                              "$id": "171",
+                              "$type": "HeadMaterial",
+                              "Id": "d5dd42c1-372f-4217-a85f-e3eaaa753b6c",
+                              "Name": "A500",
+                              "Color": "#FFECAA46",
+                              "HelperMaterial": {
+                                "$id": "172",
+                                "$type": "ReinforcementLibMaterial",
+                                "Id": "ca7ce2f8-7bbc-4379-8166-8fc7a4adefc0",
+                                "MaterialEntityId": "045b54b1-0bbf-41fd-a27d-aeb20f600bb4",
+                                "SafetyFactors": {
+                                  "$id": "173",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                              }
+                            },
+                            {
+                              "$id": "174",
+                              "$type": "HeadMaterial",
+                              "Id": "e4245f23-f51a-4ed1-a4e5-5f7133028a27",
+                              "Name": "A600",
+                              "Color": "#FF3B68D7",
+                              "HelperMaterial": {
+                                "$id": "175",
+                                "$type": "ReinforcementLibMaterial",
+                                "Id": "4479ec6e-8cf6-48ec-94b7-8645f6aa7ac5",
+                                "MaterialEntityId": "e3cfc6fb-fbd0-47dd-ab4a-79c030704acf",
+                                "SafetyFactors": {
+                                  "$id": "176",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                              }
+                            },
+                            {
+                              "$id": "177",
+                              "$type": "HeadMaterial",
+                              "Id": "14b73c38-249d-4c0f-afcc-a1b2ef7268f3",
+                              "Name": "A800",
+                              "Color": "#FFCA9F48",
+                              "HelperMaterial": {
+                                "$id": "178",
+                                "$type": "ReinforcementLibMaterial",
+                                "Id": "b626d13f-f754-411e-8092-1e92e9a27161",
+                                "MaterialEntityId": "6f0882ef-53bf-464e-acf7-da421a43a825",
+                                "SafetyFactors": {
+                                  "$id": "179",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                              }
+                            },
+                            {
+                              "$id": "180",
+                              "$type": "HeadMaterial",
+                              "Id": "bab99d80-6773-492c-ad88-1ad8cb948d58",
+                              "Name": "A1000",
+                              "Color": "#FFF5812A",
+                              "HelperMaterial": {
+                                "$id": "181",
+                                "$type": "ReinforcementLibMaterial",
+                                "Id": "b05e32ce-38ae-44f2-bb2c-428d92876544",
+                                "MaterialEntityId": "509fbaae-a3de-43c2-aae6-33387908dc43",
+                                "SafetyFactors": {
+                                  "$id": "182",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                              }
+                            },
+                            {
+                              "$id": "183",
+                              "$type": "HeadMaterial",
+                              "Id": "31b4492a-bfe7-4fcf-8f1d-b2f3df11e837",
+                              "Name": "K1400",
+                              "Color": "#FFF150B3",
+                              "HelperMaterial": {
+                                "$id": "184",
+                                "$type": "ReinforcementLibMaterial",
+                                "Id": "0693f06e-f1c6-4e00-acfc-11047344052a",
+                                "MaterialEntityId": "1b44e9eb-d19d-4fd5-9755-33ae01683dc1",
+                                "SafetyFactors": {
+                                  "$id": "185",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                              }
+                            },
+                            {
+                              "$id": "186",
+                              "$type": "HeadMaterial",
+                              "Id": "1c1a7ca3-aae7-4ca8-b5bd-dea1b9753e12",
+                              "Name": "K1500",
+                              "Color": "#FFC98453",
+                              "HelperMaterial": {
+                                "$id": "187",
+                                "$type": "ReinforcementLibMaterial",
+                                "Id": "6a3ac6d5-7c5c-42d5-a49e-66e267e8cbd2",
+                                "MaterialEntityId": "93c48a27-ab37-4bd2-aeb8-2a7247e74a1b",
+                                "SafetyFactors": {
+                                  "$id": "188",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                              }
                             }
                           ]
                         },
@@ -1596,7 +1748,7 @@
                         }
                       },
                       "WorkPlaneProperty": {
-                        "$id": "165",
+                        "$id": "189",
                         "$type": "WorkPlanePropertyDTO",
                         "Id": "31ec91ea-d0bc-4426-9ca4-e22e17889457",
                         "GridSize": 0.05,

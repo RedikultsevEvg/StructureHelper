@@ -206,7 +206,7 @@ namespace StructureHelper.Windows.Graphs
                         for (double s = minValue; s < maxValue; s += step)
                         {
                             double strain = s * factor;
-                            double diagramValue = loaderMaterial.Diagram.Invoke(loaderMaterial.DiagramParameters, strain) * factor;
+                            double diagramValue = loaderMaterial.Diagram.Invoke(strain) * factor;
                             StressEntity stressEntity = new()
                             {
                                 LimitState = limitState,
@@ -255,11 +255,12 @@ namespace StructureHelper.Windows.Graphs
                             GraphService.SetVisualProps(lineSeries, VisualProps);
                         }
                         var chartValues = new ChartValues<double>();
-                        for (double s = minValue; s < maxValue; s += step)
+                        for (double strain = minValue; strain < maxValue; strain += step)
                         {
-                            double diagramValue = Math.Round(loaderMaterial.Diagram.Invoke(loaderMaterial.DiagramParameters, s * factor)) * factor * UnitConstants.Stress;
+                            double factoredStrain = strain * factor;
+                            double diagramValue = Math.Round(loaderMaterial.Diagram.Invoke(factoredStrain)) * factor * UnitConstants.Stress;
                             chartValues.Add(diagramValue);
-                            labels.Add(Convert.ToString(Math.Round(s, 4)));
+                            labels.Add(Convert.ToString(Math.Round(strain, 4)));
                         }
                         lineSeries.Values = chartValues;
                         SeriesCollection.Add(lineSeries);

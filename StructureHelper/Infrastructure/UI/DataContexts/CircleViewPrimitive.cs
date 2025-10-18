@@ -31,6 +31,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         public CircleViewPrimitive(IEllipseNdmPrimitive primitive) : base(primitive)
         {
+            this.primitive = primitive;
             DivisionViewModel = new HasDivisionViewModel(primitive.DivisionSize);
         }
 

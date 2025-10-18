@@ -4,6 +4,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 
@@ -35,6 +36,7 @@ namespace StructureHelperCommon.Models.Forces
 
         public IColumnedFileProperty ForceFileProperty { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
+        public bool SkipWrongRows { get; set; } = false;
 
         public List<IForceTuple> GetTuples()
         {
@@ -56,7 +58,7 @@ namespace StructureHelperCommon.Models.Forces
                 // Create an Excel reader
                 using (var reader = ExcelReaderFactory.CreateReader(stream))
                 {
-                    // Skip the first two header rows if necessary (adjust based on structure)
+                    // Skip the first header rows if necessary (adjust based on structure)
                     for (int i = 0; i < skipRows; i++)
                     {
                         reader.Read(); // Skip  row
@@ -65,7 +67,8 @@ namespace StructureHelperCommon.Models.Forces
                     excelReaderLogic ??= new GetTupleByExcelReaderLogic()
                     {
                         ForceFileProperty = ForceFileProperty,
-                        TraceLogger = TraceLogger
+                        TraceLogger = TraceLogger,
+                        SkipWrongRows = SkipWrongRows
                     };
 
                     // Loop through the rows
@@ -74,11 +77,13 @@ namespace StructureHelperCommon.Models.Forces
                         try
                         {
                             IForceTuple newTuple = excelReaderLogic.GetForceTuple(reader);
-                            result.Add(newTuple);
+                            if (! result.Any(x => x.Mx == newTuple.Mx && x.My == newTuple.My && x.Nz == newTuple.Nz))
+                            {
+                                result.Add(newTuple);
+                            }
                         }
                         catch (Exception ex)
                         {
-                            //to do implement case when file has a data in the row, but thus date is not correct
                             string errorString = ErrorStrings.DataIsInCorrect + $": incorrect data in file {ForceFileProperty.FilePath}, " + ex.Message;
                             TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
                             throw new StructureHelperException(errorString);

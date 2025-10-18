@@ -12,6 +12,9 @@ namespace StructureHelperLogics.MaterialBuilders
     internal class RestrictStrainDecorator : IMaterialBuilder
     {
         IMaterialBuilder builder;
+        private double maxTensileStrain;
+        private double maxCompressionStrain;
+
         public IMaterialOption MaterialOption { get; set; }
 
         public RestrictStrainDecorator(IMaterialBuilder builder)
@@ -25,11 +28,8 @@ namespace StructureHelperLogics.MaterialBuilders
             var option = (RestrictStrainOption)MaterialOption;
             var material = new Material();
             material.InitModulus = builder.GetMaterial().InitModulus;
-            material.DiagramParameters = new List<double>()
-            {
-                option.MaxTensileStrain,
-                option.MaxCompessionStrain
-            };
+            maxTensileStrain = option.MaxTensileStrain;
+            maxCompressionStrain = option.MaxCompessionStrain;
             material.Diagram = GetStressDiagram;
             return material;
         }
@@ -39,10 +39,9 @@ namespace StructureHelperLogics.MaterialBuilders
             CheckObject.CompareTypes(typeof(RestrictStrainOption), MaterialOption.GetType());
         }
 
-        private double GetStressDiagram(IEnumerable<double> parameters, double strain)
+        private double GetStressDiagram(double strain)
         {
-            var maxTensileStrain = parameters.ToList()[0];
-            var maxCompressionStrain = parameters.ToList()[1];
+
             if (strain > maxTensileStrain || strain < maxCompressionStrain)
             {
                 return 0d;
@@ -50,7 +49,7 @@ namespace StructureHelperLogics.MaterialBuilders
             else
             {
                 var material = builder.GetMaterial();
-                return material.Diagram.Invoke(parameters, strain);
+                return material.Diagram.Invoke(strain);
             }
         }
     }

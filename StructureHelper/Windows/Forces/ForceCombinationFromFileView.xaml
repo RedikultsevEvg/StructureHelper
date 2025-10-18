@@ -7,7 +7,7 @@
         xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance local:ForceCombinationFromFileVM}"
         mc:Ignorable="d"
-        Title="Force Combination By Files" Height="330" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Force Combination By Files" Height="380" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -18,6 +18,8 @@
                 <StackPanel>
                     <!--ForceTemplates.xaml-->
                     <ContentControl ContentTemplate="{StaticResource ResourceKey=ForceActionNameTemplate}" Content="{Binding}"/>
+                    <CheckBox Content="Skip wrong rows" Margin="4" IsChecked="{Binding SkipWrongRows}"/>
+                    <Button Content="Show combination" Margin="4" Command="{Binding ShowCombinationViewerCommand}"/>
                     <TextBlock Text="List of Files"/>
                     <Grid>
                         <uc:ListOfFileControl Height="130" DataContext="{Binding Files}"/>

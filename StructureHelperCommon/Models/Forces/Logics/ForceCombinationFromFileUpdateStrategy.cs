@@ -35,6 +35,7 @@ namespace StructureHelperCommon.Models.Forces
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeLogics();
             baseUpdateStrategy.Update(targetObject, sourceObject);
+            targetObject.SkipWrongRows = sourceObject.SkipWrongRows;
             CheckObject.IsNull(targetObject.CombinationProperty, "Target object combination property");
             CheckObject.IsNull(sourceObject.CombinationProperty, "Source object combination property");
             combinationPropertyUpdateStrategy.Update(targetObject.CombinationProperty, sourceObject.CombinationProperty);

@@ -19,7 +19,8 @@ namespace StructureHelper.Windows.Forces
         public ForceTupleVM ForceTupleVM => forceTupleVM;
         public FactoredCombinationPropertyVM CombinationProperty
         {
-            get => combinationProperty; set
+            get => combinationProperty;
+            set
             {
                 combinationProperty = value;
                 OnPropertyChanged(nameof(CombinationProperty));

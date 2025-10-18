@@ -15,5 +15,6 @@ namespace StructureHelperCommon.Models.Forces
         /// List of file properties for import combination
         /// </summary>
         List<IColumnedFileProperty> ForceFiles { get; set; }
+        bool SkipWrongRows { get; set; }
     }
 }

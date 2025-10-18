@@ -24,6 +24,7 @@ namespace StructureHelperCommon.Models.Forces
         public double GlobalFactor { get; set; } = 1d;
         /// <inheritdoc/>
         public List<IColumnFileProperty> ColumnProperties { get; } = new();
+        public bool SkipWrongRows { get; set; } = false;
 
         public ColumnedFileProperty(Guid id)
         {

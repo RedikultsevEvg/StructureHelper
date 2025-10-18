@@ -4,9 +4,37 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.Forces"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        d:DataContext="{d:DesignInstance local:ForceCombinationViewerVM}"
         mc:Ignorable="d"
-        Title="Force Combination Viewer" Height="250" Width="400" MinHeight="250" MinWidth="400" MaxHeight="600" MaxWidth="1000" ResizeMode="CanResize" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResourceKey=CombinationListTemplate}" Content="{Binding}"/>
-    </Grid>
+        Title="Force Combination Viewer" Height="450" Width="550" MinHeight="450" MinWidth="400" MaxHeight="800" MaxWidth="1000" ResizeMode="CanResize" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Style="{StaticResource ToolButton}" Command="{Binding RefreshCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Refresh combination"
+                                IconContent="{StaticResource Renew}"
+                                DescriptionText="Refreshes combination according to selected filters"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource Renew}"/>
+                    </Viewbox>
+                </Button>
+                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding LimitStateList}" SelectedItem="{Binding LimitState}" Width="100"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding CalcTermList}" SelectedItem="{Binding CalcTerm}" Width="100"/>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid>
+            <DataGrid x:Name="ForceGrid" Style="{StaticResource ItemsDataGrid}" ItemsSource="{Binding Combinations}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Limit state" Width="80" MinWidth="70" Binding="{Binding LimitState}"/>
+                    <DataGridTextColumn Header="Duration" Width="80" MinWidth="70" Binding="{Binding CalcTerm}"/>
+                    <DataGridTextColumn Header="Moment Mx" Width="100" Binding="{Binding ForceTuple.Mx, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                    <DataGridTextColumn Header="Moment My" Width="100" Binding="{Binding ForceTuple.My, Converter={StaticResource MomentConverter}, ValidatesOnExceptions=True}"/>
+                    <DataGridTextColumn Header="Force Nz" Width="100" Binding="{Binding ForceTuple.Nz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DockPanel>
 </Window>

@@ -24,6 +24,7 @@ namespace StructureHelperCommon.Models.Forces
 
         public IShiftTraceLogger? TraceLogger { get; set; }
         public IColumnedFileProperty ForceFileProperty { get; set; }
+        public bool SkipWrongRows { get; internal set; }
 
         public IForceTuple GetForceTuple(IExcelDataReader? reader)
         {
@@ -38,10 +39,24 @@ namespace StructureHelperCommon.Models.Forces
                     throw new StructureHelperException(ErrorStrings.NullReference + $": reader value for column {item.Name} in file {ForceFileProperty.FilePath}");
                 }
                 var readerValue = reader.GetValue(item.Index);
+                if (readerValue is null)
+                {
+                    if (SkipWrongRows == true)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        throw new StructureHelperException(ErrorStrings.NullReference + $": wrong row in file {ForceFileProperty.FilePath}, total row number n = {reader.RowCount}");
+                    }
+                }
                 var strValue = readerValue.ToString();
                 double factor = ForceFileProperty.GlobalFactor * item.Factor * 1000d;
                 var doubleValue = Convert.ToDouble(strValue) * factor;
-                fillArrayLogic ??= new FillTupleArrayByColumnNameLogic() { TraceLogger = TraceLogger };
+                fillArrayLogic ??= new FillTupleArrayByColumnNameLogic()
+                {
+                    TraceLogger = TraceLogger
+                };
                 fillArrayLogic.ProceeForceTupleArray(nDouble, doubleValue, item.Name, ForceFileProperty.FilePath);
             }
             TraceLogger?.AddMessage($"String values: Nz = {nDouble[0]}, Mx = {nDouble[1]}, My = {nDouble[2]} were gained", TraceLogStatuses.Debug);

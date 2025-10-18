@@ -18,7 +18,9 @@ namespace DataAccess.DTOs
         public bool SetInGravityCenter { get; set; }
         [JsonProperty("ForcePoint")]
         public IPoint2D ForcePoint { get; set; } = new Point2DDTO();
-        
+        [JsonProperty("SkipWrongRows")]
+        public bool SkipWrongRows { get; set; } = false;
+
         public ForceCombinationFromFileDTO(Guid id)
         {
             Id = id;

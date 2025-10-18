@@ -35,6 +35,7 @@ namespace StructureHelperCommon.Models.Forces
         public IPoint2D ForcePoint { get; set; } = new Point2D();
 
         public IFactoredCombinationProperty CombinationProperty { get; set; } = new FactoredCombinationProperty(Guid.NewGuid());
+        public bool SkipWrongRows { get; set; } = false;
 
         public object Clone()
         {
@@ -46,7 +47,11 @@ namespace StructureHelperCommon.Models.Forces
 
         public List<IForceCombinationList> GetCombinations()
         {
-            getTupleFromFileLogic ??= new GetTuplesFromFileLogic() { TraceLogger = new ShiftTraceLogger()};
+            getTupleFromFileLogic = new GetTuplesFromFileLogic()
+            {
+                TraceLogger = new ShiftTraceLogger(),
+                SkipWrongRows = SkipWrongRows,
+            };
             factoredCombination = new ForceFactoredList();
             factoredCombination.ForceTuples.Clear();
             propertyUpdateStrategy ??= new FactoredCombinationPropertyUpdateStrategy();
