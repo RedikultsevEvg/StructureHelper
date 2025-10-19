@@ -9,9 +9,9 @@ namespace StructureHelperCommon.Models.Shapes
 {
     public interface IPolygonCalculator
     {
-        double GetPerimeter(IPolygonShape polygon);
-        double GetArea(IPolygonShape polygon);
-        bool ContainsPoint(IPolygonShape polygon, IPoint2D point);
+        double GetPerimeter(ILinePolygonShape polygon);
+        double GetArea(ILinePolygonShape polygon);
+        bool ContainsPoint(ILinePolygonShape polygon, IPoint2D point);
     }
 
 }

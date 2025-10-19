@@ -32,7 +32,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
             TraceLogger = convertStrategy.TraceLogger;
         }
 
-        public ConvertStrategy()
+        protected ConvertStrategy()
         {
             
         }

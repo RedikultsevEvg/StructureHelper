@@ -70,7 +70,7 @@ namespace DataAccess.DTOs
 
         private EllipseNdmPrimitiveDTO GetNewPrimitive(IEllipseNdmPrimitive source)
         {
-            EllipseNdmPrimitiveDTO newItem = new() { Id = source.Id };
+            EllipseNdmPrimitiveDTO newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
             newItem.NdmElement = ndmElementConvertStrategy.Convert(source.NdmElement);
             newItem.RectangleShape = rectangleShapeConvertStrategy.Convert(source.Shape as IRectangleShape);

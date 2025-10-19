@@ -1,22 +1,19 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public class ShapeNDMPrimitiveUpdateStrategy : IUpdateStrategy<IShapeNDMPrimitive>
+    public class ShapeNdmPrimitiveUpdateStrategy : IParentUpdateStrategy<IShapeNdmPrimitive>
     {
-        private IUpdateStrategy<INdmPrimitive> basePrimitiveUpdateStrategy;
+        private IParentUpdateStrategy<INdmPrimitive> basePrimitiveUpdateStrategy;
         private IUpdateStrategy<IDivisionSize> divisionPropsUpdateStrategy;
         private IUpdateStrategy<IShape> shapeUpdateStrategy;
 
-        public ShapeNDMPrimitiveUpdateStrategy(
-            IUpdateStrategy<INdmPrimitive> basePrimitiveUpdateStrategy,
+        public bool UpdateChildren { get; set; } = true;
+
+        public ShapeNdmPrimitiveUpdateStrategy(
+            IParentUpdateStrategy<INdmPrimitive> basePrimitiveUpdateStrategy,
             IUpdateStrategy<IShape> shapeUpdateStrategy,
             IUpdateStrategy<IDivisionSize> divisionPropsUpdateStrategy)
         {
@@ -25,28 +22,31 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             this.divisionPropsUpdateStrategy = divisionPropsUpdateStrategy;
         }
 
-        public ShapeNDMPrimitiveUpdateStrategy() : this(
-            new BaseUpdateStrategy(),
+        public ShapeNdmPrimitiveUpdateStrategy() : this(
+            new NdmPrimitiveBaseUpdateStrategy(),
             new ShapeUpdateStrategy(),
             new DivisionSizeUpdateStrategy())
         {
 
         }
 
-        public void Update(IShapeNDMPrimitive targetObject, IShapeNDMPrimitive sourceObject)
+        public void Update(IShapeNdmPrimitive targetObject, IShapeNdmPrimitive sourceObject)
         {
-            CheckObject.IsNull(sourceObject, "source object");
-            CheckObject.IsNull(targetObject, "target object");
+            CheckObject.IsNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeStrategies();
             basePrimitiveUpdateStrategy.Update(targetObject, sourceObject);
-            divisionPropsUpdateStrategy.Update(targetObject.DivisionSize, sourceObject.DivisionSize);
-            shapeUpdateStrategy.Update(targetObject.Shape, sourceObject.Shape);
+            if (UpdateChildren == true)
+            {
+                divisionPropsUpdateStrategy.Update(targetObject.DivisionSize, sourceObject.DivisionSize);
+                shapeUpdateStrategy.Update(targetObject.Shape, sourceObject.Shape);
+            }
         }
 
         private void InitializeStrategies()
         {
-            basePrimitiveUpdateStrategy ??= new BaseUpdateStrategy();
+            basePrimitiveUpdateStrategy ??= new NdmPrimitiveBaseUpdateStrategy();
+            basePrimitiveUpdateStrategy.UpdateChildren = UpdateChildren;
             divisionPropsUpdateStrategy ??= new DivisionSizeUpdateStrategy();
             shapeUpdateStrategy ??= new ShapeUpdateStrategy();
         }

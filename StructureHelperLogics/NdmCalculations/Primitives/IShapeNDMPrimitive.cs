@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public interface IShapeNDMPrimitive : INdmPrimitive, IHasDivisionSize
+    public interface IShapeNdmPrimitive : INdmPrimitive, IHasDivisionSize
     {
         void SetShape(IShape shape);
     }

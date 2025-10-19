@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.Shapes.Logics
 {
-    public class PolygonShapeToGraphicPrimitveConvertStrategy : IObjectConvertStrategy<List<IGraphicalPrimitive>, IPolygonShape>
+    public class PolygonShapeToGraphicPrimitveConvertStrategy : IObjectConvertStrategy<List<IGraphicalPrimitive>, ILinePolygonShape>
     {
         private PolygonShapeViewModel polygonShapeViewModel;
 
@@ -18,7 +18,7 @@ namespace StructureHelper.Windows.Shapes.Logics
             this.polygonShapeViewModel = polygonShapeViewModel;
         }
 
-        public List<IGraphicalPrimitive> Convert(IPolygonShape source)
+        public List<IGraphicalPrimitive> Convert(ILinePolygonShape source)
         {
             List<IGraphicalPrimitive> primitives = new();
             var polygonPrimitive = new PolygonShapePrimitive(polygonShapeViewModel);

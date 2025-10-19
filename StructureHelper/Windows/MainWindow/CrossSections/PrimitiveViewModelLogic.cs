@@ -105,7 +105,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private ShapeNdmPrimitive GetNewPolygonPrimitive()
         {
-            PolygonShape polygon = new(Guid.NewGuid());
+            LinePolygonShape polygon = new(Guid.NewGuid());
             polygon.AddVertex(new Vertex(-0.2, 0.3));
             polygon.AddVertex(new Vertex(0.2, 0.3));
             polygon.AddVertex(new Vertex(0.1, 0));
@@ -296,7 +296,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             {
                 primitiveBase = new CircleViewPrimitive(ellipse);
             }
-            else if (newPrimitive is IShapeNDMPrimitive shapeNDMPrimitive)
+            else if (newPrimitive is IShapeNdmPrimitive shapeNDMPrimitive)
             {
                 primitiveBase = new ShapeViewPrimitive(shapeNDMPrimitive);
             }

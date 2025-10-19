@@ -4,46 +4,40 @@ using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
-    public class EllipseNdmPrimitiveDTO : IEllipseNdmPrimitive
+    public class ShapeNdmPrimitiveDTO : IShapeNdmPrimitive
     {
-        private IRectangleShape shape = new RectangleShapeDTO(Guid.Empty);
+        private IShape shape;
 
-        public EllipseNdmPrimitiveDTO(Guid id)
+        [JsonProperty("Id")]
+        public Guid Id { get; }
+        [JsonProperty("Name")]
+        public string? Name { get; set; }
+        [JsonProperty("Shape")]
+        public IShape Shape => shape;
+        [JsonProperty("NdmElement")]
+        public INdmElement NdmElement { get; set; }
+        [JsonProperty("Center")]
+        public IPoint2D Center { get; set; }
+        [JsonProperty("VisualProperty")]
+        public IVisualProperty VisualProperty { get; set; }
+        [JsonProperty("RotationAngle")]
+        public double RotationAngle { get; set; }
+        [JsonProperty("DivisionSize")]
+        public IDivisionSize DivisionSize { get; set; }
+        [JsonIgnore]
+        public ICrossSection? CrossSection { get; set; }
+        public ShapeNdmPrimitiveDTO(Guid id)
         {
             Id = id;
         }
-
-        [JsonProperty("Id")]
-        public Guid Id { get; set; }
-        [JsonProperty("Name")]
-        public string? Name { get; set; }
-        [JsonProperty("RectangleShape")]
-        public IRectangleShape RectangleShape
-        { 
-            get => shape;
-            set => shape = value;
-        }
-        [JsonIgnore]
-        public IShape Shape => shape;
-        [JsonProperty("NdmElement")]
-        public INdmElement NdmElement { get; set; } = new NdmElementDTO(Guid.Empty);
-        [JsonProperty("VisualProperty")]
-        public IVisualProperty VisualProperty { get; set; } = new VisualPropertyDTO();
-        [JsonProperty("Center")]
-        public IPoint2D Center { get; set; } = new Point2DDTO();
-        [JsonProperty("DivisionSize")]
-        public IDivisionSize DivisionSize { get; set; } = new DivisionSizeDTO();
-        [JsonProperty("RotationAngle")]
-        public double RotationAngle { get; set; }
-        [JsonIgnore]
-        public double Width { get; set; }
-        [JsonIgnore]
-        public double Height {get; set; }
-        [JsonIgnore]
-        public ICrossSection? CrossSection { get; set; }
 
         public object Clone()
         {
@@ -63,6 +57,11 @@ namespace DataAccess.DTOs
         public bool IsPointInside(IPoint2D point)
         {
             throw new NotImplementedException();
+        }
+
+        public void SetShape(IShape shape)
+        {
+            this.shape = shape;
         }
     }
 }

@@ -27,9 +27,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             {
                 new EllipsePrimitiveUpdateStrategy().Update(circle, (EllipseNdmPrimitive)sourceObject);
             }
-            else if (targetObject is IShapeNDMPrimitive shapePrimitive)
+            else if (targetObject is IShapeNdmPrimitive shapePrimitive)
             {
-                new ShapeNDMPrimitiveUpdateStrategy().Update(shapePrimitive, (IShapeNDMPrimitive)sourceObject);
+                new ShapeNdmPrimitiveUpdateStrategy().Update(shapePrimitive, (IShapeNdmPrimitive)sourceObject);
             }
             else
             {

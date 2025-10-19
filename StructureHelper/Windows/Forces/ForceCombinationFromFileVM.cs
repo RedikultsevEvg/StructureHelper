@@ -35,7 +35,6 @@ namespace StructureHelper.Windows.Forces
             {
                 return model.SkipWrongRows;
             }
-
             set
             {
                 model.SkipWrongRows = value;

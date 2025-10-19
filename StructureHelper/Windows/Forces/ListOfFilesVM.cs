@@ -24,12 +24,11 @@ namespace StructureHelper.Windows.Forces
         private IUpdateStrategy<IColumnedFileProperty> updateStrategy;
         private ICommand showDocumentCommand;
 
-        public ICommand FileOpen => openFileCommand ?? (
-                    openFileCommand = new RelayCommand(param =>
+        public ICommand FileOpen => openFileCommand ??= new RelayCommand(param =>
                     {
                         OpenFileMethod(param);
                     }
-                    ));
+                    );
 
         public ICommand ShowSettings => showSettingsCommand ?? (
             showSettingsCommand = new RelayCommand(param =>
@@ -44,6 +43,10 @@ namespace StructureHelper.Windows.Forces
                 SafetyProcessor.RunSafeProcess(ShowDocumentMethod, "Error of opening of settings");
                 }, o => SelectedItem is not null
             ));
+
+        public ListOfFilesVM(List<IColumnedFileProperty> collection) : base(collection)
+        {
+        }
 
         private void ShowDocumentMethod()
         {
@@ -66,6 +69,7 @@ namespace StructureHelper.Windows.Forces
                 updateStrategy ??= new ColumnedFilePropertyUpdateStrategy();
                 updateStrategy.Update(SelectedItem, clone);
             }
+            Refresh();
         }
 
         private void OpenFileMethod(object param)
@@ -81,9 +85,6 @@ namespace StructureHelper.Windows.Forces
             Refresh();
         }
 
-        public ListOfFilesVM(List<IColumnedFileProperty> collection) : base(collection)
-        {
-        }
 
         private OpenFileResult GetFilePath()
         {

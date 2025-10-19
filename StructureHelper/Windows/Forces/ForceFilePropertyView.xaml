@@ -47,7 +47,14 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="File name"/>
-                    <TextBox Grid.Column="1" Text="{Binding FilePath}" IsEnabled="False"/>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding FilePath}"/>
+                        <Button Grid.Column="1" Content="..." Command="{Binding OpenFileCommand}"/>
+                    </Grid>
                     <TextBlock Grid.Row="1" Text="Skip row(s) before header"/>
                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SkipRowBeforeHeaderCount, ValidatesOnDataErrors=True}"/>
                     <TextBlock Grid.Row="2" Text="Skip row(s) of header"/>

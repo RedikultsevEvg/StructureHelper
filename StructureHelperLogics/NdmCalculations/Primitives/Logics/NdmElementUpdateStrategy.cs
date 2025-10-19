@@ -5,9 +5,11 @@ using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
 {
-    public class NdmElementUpdateStrategy : IUpdateStrategy<INdmElement>
+    public class NdmElementUpdateStrategy : IParentUpdateStrategy<INdmElement>
     {
         private readonly IUpdateStrategy<IForceTuple> tupleUpdateStrategy;
+
+        public bool UpdateChildren { get; set; } = true;
 
         public NdmElementUpdateStrategy(IUpdateStrategy<IForceTuple> tupleUpdateStrategy)
         {
@@ -24,12 +26,15 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
         {
             CheckObject.IsNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            if (sourceObject.HeadMaterial != null)
-            {
-                targetObject.HeadMaterial = sourceObject.HeadMaterial;
-            }
             targetObject.Triangulate = sourceObject.Triangulate;
             tupleUpdateStrategy.Update(targetObject.UsersPrestrain, sourceObject.UsersPrestrain);
+            if (UpdateChildren == true)
+            {
+                if (sourceObject.HeadMaterial != null)
+                {
+                    targetObject.HeadMaterial = sourceObject.HeadMaterial;
+                }
+            }
         }
     }
 }

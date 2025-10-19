@@ -1,17 +1,16 @@
-﻿using StructureHelper.Windows.ViewModels;
+﻿using StructureHelper.Infrastructure;
+using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Models.Forces;
-using System;
-using System.Collections.Generic;
+using StructureHelperCommon.Services.FileServices;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace StructureHelper.Windows.Forces
 {
     public class ForceFilePropertyVM : OkCancelViewModelBase
     {
         private IColumnedFileProperty model;
+        private RelayCommand openFileCommand;
 
         public ForceFilePropertyVM(IColumnedFileProperty model)
         {
@@ -57,6 +56,31 @@ namespace StructureHelper.Windows.Forces
                 model.FilePath = value;
                 OnPropertyChanged(nameof(FilePath));
             }
+        }
+
+
+        public ICommand OpenFileCommand => openFileCommand ??= new RelayCommand(o => OpenFileMethod());
+
+        private void OpenFileMethod()
+        {
+            var result = GetFilePath();
+            if (result.IsValid == false)
+            {
+                return;
+            }
+            FilePath = result.FilePath;
+        }
+
+        private OpenFileResult GetFilePath()
+        {
+            var inputData = new OpenFileInputData()
+            {
+                FilterString = "MS Excel file (*.xlsx)|*.xlsx|All Files (*.*)|*.*",
+                TraceLogger = null
+            };
+            var fileDialog = new FileOpener(inputData);
+            var fileDialogResult = fileDialog.OpenFile();
+            return fileDialogResult;
         }
 
         public ObservableCollection<ColumnFilePropertyVM> ColumnProperties { get; set; } = new();

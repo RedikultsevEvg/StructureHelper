@@ -9,6 +9,7 @@ namespace DataAccess.DTOs
     {
         private IConvertStrategy<RectangleShapeDTO, IRectangleShape> rectangleConvertStrategy;
         private IConvertStrategy<CircleShapeDTO, ICircleShape> circleConvertStrategy;
+        private IConvertStrategy<LinePolygonShapeDTO, ILinePolygonShape> linePolygonToDTOConvertStrategy;
 
         public ShapeToDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
@@ -32,12 +33,23 @@ namespace DataAccess.DTOs
             {
                 ProcessCircle(circle);
             }
+            else if (source is ILinePolygonShape linePolygon)
+            {
+                ProcessLinePolygon(linePolygon);
+            }
             else
             {
                 string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source) + ": shape type";
                 throw new StructureHelperException(errorString);
             }
             TraceLogger?.AddMessage($"Shape converting Id = {NewItem.Id} has been has been finished successfully", TraceLogStatuses.Debug);
+        }
+
+        private void ProcessLinePolygon(ILinePolygonShape linePolygon)
+        {
+            TraceLogger?.AddMessage($"Shape is line polygon", TraceLogStatuses.Debug);
+            linePolygonToDTOConvertStrategy = new DictionaryConvertStrategy<LinePolygonShapeDTO, ILinePolygonShape>(this, new LinePolygonToDTOConvertStrategy(this));
+            NewItem = linePolygonToDTOConvertStrategy.Convert(linePolygon);
         }
 
         private void ProcessCircle(ICircleShape circle)

@@ -32,6 +32,10 @@ namespace StructureHelper.Windows.Forces
             }
         }
 
+        public int RowsNumber => Combinations.Count();
+        //public double MxMin => Combinations.Min( x => x.ForceTuple.Mx);
+        //public double MxMax => Combinations.Max( x => x.ForceTuple.Mx);
+
         private void Refresh()
         {
             Combinations.Clear();
@@ -41,6 +45,9 @@ namespace StructureHelper.Windows.Forces
                 var combinationList = combination.DesignForces.Where(x => x.LimitState == limitState && x.CalcTerm == calcTerm).ToList();
                 combinationList.ForEach(x => Combinations.Add(x));
             }
+            OnPropertyChanged(nameof(RowsNumber));
+            //OnPropertyChanged(nameof(MxMin));
+            //OnPropertyChanged(nameof(MxMax));
         }
 
         public CalcTerms CalcTerm

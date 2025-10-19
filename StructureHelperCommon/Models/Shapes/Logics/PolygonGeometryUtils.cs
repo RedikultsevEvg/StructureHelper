@@ -9,10 +9,10 @@ namespace StructureHelperCommon.Models.Shapes
 {
     public static class PolygonGeometryUtils
     {
-        public static IPolygonShape GetTratsfromedPolygon(IPolygonShape polygon, double dx, double dy)
+        public static ILinePolygonShape GetTratsfromedPolygon(ILinePolygonShape polygon, double dx, double dy)
         {
-            IPolygonShape newPolygon = new PolygonShape(Guid.Empty);
-            var updateLogic = new PolygonShapeUpdateStrategy();
+            ILinePolygonShape newPolygon = new LinePolygonShape(Guid.Empty);
+            var updateLogic = new LinePolygonShapeUpdateStrategy();
             updateLogic.Update(newPolygon, polygon);
             foreach (var item in newPolygon.Vertices)
             {
@@ -21,7 +21,7 @@ namespace StructureHelperCommon.Models.Shapes
             }
             return newPolygon;
         }
-        public static bool DoPolygonsEdgesIntersect(IPolygonShape polygon)
+        public static bool DoPolygonsEdgesIntersect(ILinePolygonShape polygon)
         {
             var vertices = polygon.Vertices;
             int n = vertices.Count;

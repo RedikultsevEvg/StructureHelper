@@ -10,7 +10,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public class PointNdmPrimitiveUpdateStrategy : IUpdateStrategy<IPointNdmPrimitive>
     {
-        static readonly BaseUpdateStrategy basePrimitiveUpdateStrategy = new();
+        static readonly NdmPrimitiveBaseUpdateStrategy basePrimitiveUpdateStrategy = new();
         public void Update(IPointNdmPrimitive targetObject, IPointNdmPrimitive sourceObject)
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }

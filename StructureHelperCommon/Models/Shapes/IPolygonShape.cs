@@ -1,23 +1,16 @@
-﻿using System;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Shapes
 {
-    public interface IPolygonShape : IShape
+    /// <summary>
+    /// Implements properties of polygon with diferent types of segment 
+    /// </summary>
+    public interface IPolygonShape : ISaveable
     {
-        IReadOnlyList<IVertex> Vertices { get; }
-        bool IsClosed { get; set; }
-
-        IVertex AddVertex(IVertex vertex);
-        IVertex InsertVertex(int index, IVertex vertex);
-        IVertex AddVertexBefore(IVertex existing, IVertex vertex);
-        IVertex AddVertexAfter(IVertex existing, IVertex vertex);
-
-        void RemoveVertex(IVertex vertex);
-        void Clear();
+        /// <summary>
+        /// Collection of sements of polygon
+        /// </summary>
+        List<IPolygonSegment> Segments { get; }
     }
-
 }

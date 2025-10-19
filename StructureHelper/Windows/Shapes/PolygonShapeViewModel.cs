@@ -19,16 +19,16 @@ namespace StructureHelper.Windows.Shapes
     {
         private const int minVertexCount = 3;
         private readonly IPoint2D center;
-        private readonly IPolygonShape polygonShape;
-        private IObjectConvertStrategy<List<IGraphicalPrimitive>, IPolygonShape> logic;
+        private readonly ILinePolygonShape polygonShape;
+        private IObjectConvertStrategy<List<IGraphicalPrimitive>, ILinePolygonShape> logic;
         public Point2DViewModel Center { get; }
 
-        public PolygonShapeViewModel(IPolygonShape polygonShape) : this(polygonShape, new Point2D() { X = 0, Y = 0 }) { }
+        public PolygonShapeViewModel(ILinePolygonShape polygonShape) : this(polygonShape, new Point2D() { X = 0, Y = 0 }) { }
         public VertexViewModel SelectedVertex { get; set; }
         public ObservableCollection<VertexViewModel> Vertices { get;} = new();
         public WorkPlaneRootViewModel WorkPlaneRoot { get;} = new();
 
-        public PolygonShapeViewModel(IPolygonShape polygonShape, IPoint2D center)
+        public PolygonShapeViewModel(ILinePolygonShape polygonShape, IPoint2D center)
         {
             this.polygonShape = polygonShape;
             this.center = center;
@@ -42,9 +42,9 @@ namespace StructureHelper.Windows.Shapes
 
         private RelayCommand addVertexCommand;
         public ICommand AddVertexCommand => addVertexCommand ??= new RelayCommand(AddVertex);
-        public IPolygonShape GetPolygonShape()
+        public ILinePolygonShape GetPolygonShape()
         {
-            IPolygonShape polygonShape = new PolygonShape(Guid.NewGuid());
+            ILinePolygonShape polygonShape = new LinePolygonShape(Guid.NewGuid());
             polygonShape.Clear();
             foreach (var item in Vertices)
             {

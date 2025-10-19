@@ -12,11 +12,11 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 {
     public class ShapeViewPrimitive : PrimitiveBase
     {
-        IShapeNDMPrimitive shapeNDMPrimitive;
+        IShapeNdmPrimitive shapeNDMPrimitive;
 
         public PathGeometry PathGeometry { get; set; }
 
-        public ShapeViewPrimitive(IShapeNDMPrimitive shapeNDMPrimitive) : base(shapeNDMPrimitive)
+        public ShapeViewPrimitive(IShapeNdmPrimitive shapeNDMPrimitive) : base(shapeNDMPrimitive)
         {
             this.shapeNDMPrimitive = shapeNDMPrimitive;
             DivisionViewModel = new HasDivisionViewModel(this.shapeNDMPrimitive.DivisionSize);
@@ -35,7 +35,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
         private void UpdatePath()
         {
             var shape = shapeNDMPrimitive.Shape;
-            if (shape is not IPolygonShape polygon)
+            if (shape is not ILinePolygonShape polygon)
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(shape));
             }

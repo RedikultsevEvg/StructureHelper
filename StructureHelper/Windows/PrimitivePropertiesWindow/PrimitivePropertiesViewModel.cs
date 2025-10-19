@@ -300,7 +300,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
 
         private void ShapeEdit(object obj)
         {
-            if (shape is IPolygonShape polygon)
+            if (shape is ILinePolygonShape polygon)
             {
                 var viewModel = new PolygonShapeViewModel(polygon, new Point2D() { X = CenterX, Y = CenterY});
                 var window = new PolygonView(viewModel);
@@ -308,7 +308,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
                 if (window.DialogResult == true)
                 {
                     var newPolygon = viewModel.GetPolygonShape();
-                    var updateStrategy = new PolygonShapeUpdateStrategy();
+                    var updateStrategy = new LinePolygonShapeUpdateStrategy();
                     updateStrategy.Update(polygon, newPolygon);
                     primitive.Refresh();
                 }

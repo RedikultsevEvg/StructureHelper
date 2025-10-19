@@ -2,13 +2,8 @@
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DataAccess.DTOs.Converters
+namespace DataAccess.DTOs
 {
     public class VisualPropertyToDTOConvertStrategy : IConvertStrategy<VisualPropertyDTO, IVisualProperty>
     {

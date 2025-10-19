@@ -26,6 +26,10 @@
             </ToolBar>
         </ToolBarTray>
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
             <DataGrid x:Name="ForceGrid" Style="{StaticResource ItemsDataGrid}" ItemsSource="{Binding Combinations}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Limit state" Width="80" MinWidth="70" Binding="{Binding LimitState}"/>
@@ -35,6 +39,14 @@
                     <DataGridTextColumn Header="Force Nz" Width="100" Binding="{Binding ForceTuple.Nz, Converter={StaticResource ForceConverter}, ValidatesOnExceptions=True}"/>
                 </DataGrid.Columns>
             </DataGrid>
+            <StatusBar Grid.Row="1">
+                <StatusBarItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Total number of combinations: "/>
+                        <TextBlock Text="{Binding RowsNumber}"/>
+                    </StackPanel>
+                </StatusBarItem>
+            </StatusBar>
         </Grid>
     </DockPanel>
 </Window>

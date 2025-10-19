@@ -33,7 +33,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             {
                 viewItem = new CircleViewPrimitive(circle);
             }
-            else if (primitive is IShapeNDMPrimitive shapeNDMPrimitive)
+            else if (primitive is IShapeNdmPrimitive shapeNDMPrimitive)
             {
                 viewItem = new ShapeViewPrimitive(shapeNDMPrimitive);
             }

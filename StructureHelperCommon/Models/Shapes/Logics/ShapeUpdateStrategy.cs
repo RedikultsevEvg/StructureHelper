@@ -24,7 +24,7 @@ namespace StructureHelperCommon.Models.Shapes
             {
                 ProcessCircles(targetObject, sourceCircle);
             }
-            else if (sourceObject is IPolygonShape sourcePolygon)
+            else if (sourceObject is ILinePolygonShape sourcePolygon)
             {
                 ProcessPolygon(targetObject, sourcePolygon);
             }
@@ -34,11 +34,11 @@ namespace StructureHelperCommon.Models.Shapes
             }
         }
 
-        private void ProcessPolygon(IShape targetObject, IPolygonShape sourcePolygon)
+        private void ProcessPolygon(IShape targetObject, ILinePolygonShape sourcePolygon)
         {
-            if (targetObject is IPolygonShape targetPolygon)
+            if (targetObject is ILinePolygonShape targetPolygon)
             {
-                var updateLogic = new PolygonShapeUpdateStrategy();
+                var updateLogic = new LinePolygonShapeUpdateStrategy();
                 updateLogic.Update(targetPolygon, sourcePolygon);
             }
             else

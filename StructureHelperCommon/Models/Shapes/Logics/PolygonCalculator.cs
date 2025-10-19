@@ -4,7 +4,7 @@ namespace StructureHelperCommon.Models.Shapes
 {
     public class PolygonCalculator : IPolygonCalculator
     {
-        public double GetPerimeter(IPolygonShape polygon)
+        public double GetPerimeter(ILinePolygonShape polygon)
         {
             if (polygon.Vertices.Count < 2)
                 return 0;
@@ -24,7 +24,7 @@ namespace StructureHelperCommon.Models.Shapes
             return perimeter;
         }
 
-        public double GetArea(IPolygonShape polygon)
+        public double GetArea(ILinePolygonShape polygon)
         {
             if (!polygon.IsClosed || polygon.Vertices.Count < 3)
                 return 0;
@@ -41,7 +41,7 @@ namespace StructureHelperCommon.Models.Shapes
             return Math.Abs(sum) / 2.0;
         }
 
-        public bool ContainsPoint(IPolygonShape polygon, IPoint2D point)
+        public bool ContainsPoint(ILinePolygonShape polygon, IPoint2D point)
         {
             if (!polygon.IsClosed || polygon.Vertices.Count < 3)
                 return false;

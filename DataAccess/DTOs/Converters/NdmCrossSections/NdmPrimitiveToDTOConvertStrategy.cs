@@ -11,6 +11,7 @@ namespace DataAccess.DTOs.Converters
         private readonly IConvertStrategy<PointNdmPrimitiveDTO, IPointNdmPrimitive> pointConvertStrategy;
         private readonly IConvertStrategy<EllipseNdmPrimitiveDTO, IEllipseNdmPrimitive> ellipseConvertStrategy;
         private readonly IConvertStrategy<RectangleNdmPrimitiveDTO, IRectangleNdmPrimitive> rectangleConvertStrategy;
+        private IConvertStrategy<ShapeNdmPrimitiveDTO, IShapeNdmPrimitive> shapeConvertStrategy;
 
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
@@ -55,8 +56,19 @@ namespace DataAccess.DTOs.Converters
             {
                 return ProcessRectangle(rectangle);
             }
+            if (source is IShapeNdmPrimitive shape)
+            {
+                return ProcessShape(shape);
+            }
             TraceLogger.AddMessage("Object type is unknown", TraceLogStatuses.Error);
             throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source));
+        }
+
+        private ShapeNdmPrimitiveDTO ProcessShape(IShapeNdmPrimitive shape)
+        {
+            shapeConvertStrategy = new DictionaryConvertStrategy<ShapeNdmPrimitiveDTO,IShapeNdmPrimitive>(this, new ShapeNdmPrimitiveToDTOConvertStrategy(this));
+            ShapeNdmPrimitiveDTO shapeNdmPrimitiveDTO = shapeConvertStrategy.Convert(shape);
+            return shapeNdmPrimitiveDTO;
         }
 
         private RebarNdmPrimitiveDTO ProcessRebar(IRebarNdmPrimitive rebar)

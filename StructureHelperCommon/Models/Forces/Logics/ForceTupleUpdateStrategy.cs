@@ -15,7 +15,6 @@ namespace StructureHelperCommon.Models.Forces
         {
             CheckObject.IsNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-
             targetObject.Mx = sourceObject.Mx;
             targetObject.My = sourceObject.My;
             targetObject.Nz = sourceObject.Nz;

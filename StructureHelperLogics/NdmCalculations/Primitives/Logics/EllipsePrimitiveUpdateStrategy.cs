@@ -20,7 +20,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             this.divisionPropsUpdateStrategy = divisionPropsUpdateStrategy;
         }
         public EllipsePrimitiveUpdateStrategy() : this(
-            new BaseUpdateStrategy(),
+            new NdmPrimitiveBaseUpdateStrategy(),
             new ShapeUpdateStrategy(),
             new DivisionSizeUpdateStrategy())
         {

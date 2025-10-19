@@ -4,18 +4,13 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Triangulations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public class ShapeNdmPrimitive : IShapeNDMPrimitive
+    public class ShapeNdmPrimitive : IShapeNdmPrimitive
     {
         private IShape shape;
-        private IUpdateStrategy<IShapeNDMPrimitive> updateStrategy;
+        private IUpdateStrategy<IShapeNdmPrimitive> updateStrategy;
 
         public Guid Id { get; }
         public string? Name { get; set; } = string.Empty;
@@ -34,9 +29,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public object Clone()
         {
             var primitive = new ShapeNdmPrimitive(Guid.NewGuid());
-            PolygonShape polygon = new(Guid.NewGuid());
+            LinePolygonShape polygon = new(Guid.NewGuid());
             primitive.SetShape(polygon);
-            updateStrategy ??= new ShapeNDMPrimitiveUpdateStrategy();
+            updateStrategy ??= new ShapeNdmPrimitiveUpdateStrategy();
             updateStrategy.Update(primitive, this);
             return primitive;
         }
@@ -57,7 +52,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                 Area = 0d
             };
             points.Add(newPoint);
-            if (shape is IPolygonShape polygon)
+            if (shape is ILinePolygonShape polygon)
             {
                 int i = 0;
                 foreach (var item in polygon.Vertices)
@@ -77,7 +72,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public bool IsPointInside(IPoint2D point)
         {
-            if (shape is IPolygonShape polygon)
+            if (shape is ILinePolygonShape polygon)
             {
                 var newShape = PolygonGeometryUtils.GetTratsfromedPolygon(polygon, Center.X, Center.Y);
                 var calculator = new PolygonCalculator();
