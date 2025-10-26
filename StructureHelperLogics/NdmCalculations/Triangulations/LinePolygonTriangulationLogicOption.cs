@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
+using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
@@ -12,25 +13,21 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
-    public class CircleTriangulationLogicOptions : IShapeTriangulationLogicOptions
+    public class LinePolygonTriangulationLogicOption : IShapeTriangulationLogicOptions
     {
-        public ICircleShape Circle { get;}
-
         public IPoint2D Center { get; set; }
-
-        public StrainTuple Prestrain { get; set; }
+        public IDivisionSize DivisionSize { get; set; }
         public ITriangulationOptions TriangulationOptions { get; set; }
+        public StrainTuple Prestrain { get; set; }
         public IHeadMaterial HeadMaterial { get; set; }
-        public double RotationAngle { get; set; }
-
-        public IDivisionSize DivisionSize { get; }
-
-        public CircleTriangulationLogicOptions(IEllipseNdmPrimitive primitive)
+        public double RotationAngle { get; set; } = 0;
+        public IShape Shape { get; set; }
+        public LinePolygonTriangulationLogicOption(IShapeNdmPrimitive primitive, ITriangulationOptions triangulationOptions)
         {
-            Center = primitive.Center.Clone() as Point2D;
-            //to do change to ellipse
-            Circle = new CircleShape() { Diameter = primitive.Width };
+            Center = primitive.Center;
             DivisionSize = primitive.DivisionSize;
+            TriangulationOptions = triangulationOptions;
+            Shape = primitive.Shape;
             HeadMaterial = primitive.NdmElement.HeadMaterial;
             Prestrain = ForceTupleService.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
         }

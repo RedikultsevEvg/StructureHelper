@@ -5,6 +5,7 @@ using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
@@ -34,70 +35,117 @@ namespace DataAccess.DTOs
             List<(Type type, string name)> newList = new List<(Type type, string name)>
             {
                 { (typeof(AccuracyDTO), "Accuracy") },
-                { (typeof(CircleShapeDTO), "CircleShape") },
-                { (typeof(ConcreteLibMaterialDTO), "ConcreteLibMaterial") },
                 { (typeof(ColumnFilePropertyDTO), "ColumnFileProperty") },
                 { (typeof(ColumnedFilePropertyDTO), "ColumnedFileProperty") },
                 { (typeof(CompressedMemberDTO), "CompressedMember") },
-                { (typeof(CrackCalculatorDTO), "CrackCalculator") },
-                { (typeof(CrackCalculatorInputDataDTO), "CrackCalculatorInputData") },
-                { (typeof(CrossSectionDTO), "CrossSection") },
-                { (typeof(CrossSectionNdmAnalysisDTO), "CrossSectionNdmAnalysis") },
-                { (typeof(CrossSectionRepositoryDTO), "CrossSectionRepository") },
-                { (typeof(DateVersionDTO), "DateVersion") },
-                { (typeof(DesignForceTupleDTO), "DesignForceTuple") },
                 { (typeof(DivisionSizeDTO), "DivisionSize") },
-                { (typeof(ElasticMaterialDTO), "ElasticMaterial") },
-                { (typeof(EllipseNdmPrimitiveDTO), "EllipseNdmPrimitive") },
-                { (typeof(FileVersionDTO), "FileVersion") },
-                { (typeof(ForceCalculatorDTO), "ForceCalculator") },
-                { (typeof(ForceCalculatorInputDataDTO), "ForceCalculatorInputData") },
-                { (typeof(FRMaterialDTO), "FRMaterial") },
-                { (typeof(HeadMaterialDTO), "HeadMaterial") },
-                { (typeof(MaterialSafetyFactorDTO), "MaterialSafetyFactor") },
-                { (typeof(NdmElementDTO), "NdmElement") },
-                { (typeof(IVisualAnalysis), "IVisualAnalysis") },
                 { (typeof(List<CalcTerms>), "ListOfCalcTerms") },
                 { (typeof(List<IColumnFileProperty>), "ColumnFileProperties") },
                 { (typeof(List<IColumnedFileProperty>), "ColumnedFileProperties") },
-                { (typeof(List<ICalculator>), "ListOfICalculator") },
-                { (typeof(List<IDateVersion>), "ListOfIDateVersion") },
-                { (typeof(List<IDesignForceTuple>), "ListOfIDesignForceTuple") },
-                { (typeof(List<IForceAction>), "ListOfIForceAction") },
-                { (typeof(List<IForceTuple>), "ListOfIForceTuple") },
-                { (typeof(List<IHeadMaterial>), "ListOfIHeadMaterial") },
                 { (typeof(List<LimitStates>), "ListOfLimitState") },
-                { (typeof(List<IMaterialSafetyFactor>), "ListOfMaterialSafetyFactor") },
-                { (typeof(List<IMaterialPartialFactor>), "ListOfMaterialPartialFactor") },
-                { (typeof(List<INdmPrimitive>), "ListOfINdmPrimitive") },
                 { (typeof(List<IPartialFactor>), "ListOfPartialFactor") },
-                { (typeof(List<IVisualAnalysis>), "ListOfIVisualAnalysis") },
-                { (typeof(Point2DDTO), "Point2D") },
-                { (typeof(PointNdmPrimitiveDTO), "PointNdmPrimitive") },
-                { (typeof(PrimitiveVisualPropertyDTO), "PrimitiveVisualProperty") },
-                { (typeof(ProjectDTO), "Project") },
-                { (typeof(RebarNdmPrimitiveDTO), "RebarNdmPrimitive") },
                 { (typeof(RebarSectionDTO), "RebarSection") },
-                { (typeof(RectangleNdmPrimitiveDTO), "RectangleNdmPrimitive") },
-                { (typeof(RectangleShapeDTO), "RectangleShape") },
-                { (typeof(ReinforcementLibMaterialDTO), "ReinforcementLibMaterial") },
-                { (typeof(RootObjectDTO), "RootObject") },
-                { (typeof(MaterialPartialFactorDTO), "MaterialPartialFactor") },
-                { (typeof(VersionProcessorDTO), "VersionProcessor") },
-                { (typeof(VisualAnalysisDTO), "VisualAnalysis") },
                 { (typeof(VisualPropertyDTO), "VisualProperty") },
-                { (typeof(UserCrackInputDataDTO), "UserCrackInputData") },
                 { (typeof(WorkPlanePropertyDTO), "WorkPlanePropertyDTO") },
             };
+            newList.AddRange(GetProjectList());
+            newList.AddRange(GetGeometryShapeList());
             newList.AddRange(GetForceList());
-            newList.AddRange(GetListForBeamShear());
+            newList.AddRange(GetMaterialList());
+            newList.AddRange(GetCalculatorList());
+            newList.AddRange(GetNdmPrimitiveList());
+            newList.AddRange(GetBeamShearList());
             return newList;
         }
 
+        private static List<(Type type, string name)> GetProjectList()
+        {
+            List<(Type type, string name)> newList = new()
+            {
+                { (typeof(List<IVisualAnalysis>), "ListOfIVisualAnalysis") },
+                { (typeof(List<IDateVersion>), "ListOfIDateVersion") },
+                { (typeof(RootObjectDTO), "RootObject") },
+                { (typeof(ProjectDTO), "Project") },
+                { (typeof(VersionProcessorDTO), "VersionProcessor") },
+                { (typeof(DateVersionDTO), "DateVersion") },
+                { (typeof(IVisualAnalysis), "IVisualAnalysis") },
+                { (typeof(VisualAnalysisDTO), "VisualAnalysis") },
+                { (typeof(FileVersionDTO), "FileVersion") },
+
+            };
+            return newList;
+        }
+        private static List<(Type type, string name)> GetMaterialList()
+        {
+            List<(Type type, string name)> newList = new()
+            {
+                { (typeof(List<IMaterialPartialFactor>), "ListOfMaterialPartialFactor") },
+                { (typeof(ConcreteLibMaterialDTO), "ConcreteLibMaterial") },
+                { (typeof(ElasticMaterialDTO), "ElasticMaterial") },
+                { (typeof(FRMaterialDTO), "FRMaterial") },
+                { (typeof(HeadMaterialDTO), "HeadMaterial") },
+                { (typeof(List<IHeadMaterial>), "ListOfIHeadMaterial") },
+                { (typeof(MaterialSafetyFactorDTO), "MaterialSafetyFactor") },
+                { (typeof(List<IMaterialSafetyFactor>), "ListOfMaterialSafetyFactor") },
+                { (typeof(MaterialPartialFactorDTO), "MaterialPartialFactor") },
+                { (typeof(ReinforcementLibMaterialDTO), "ReinforcementLibMaterial") },
+            };
+            return newList;
+        }
+        private static List<(Type type, string name)> GetCalculatorList()
+        {
+            List<(Type type, string name)> newList = new()
+            {
+                { (typeof(List<ICalculator>), "ListOfICalculator") },
+                { (typeof(ForceCalculatorDTO), "ForceCalculator") },
+                { (typeof(ForceCalculatorInputDataDTO), "ForceCalculatorInputData") },
+                { (typeof(CrackCalculatorDTO), "CrackCalculator") },
+                { (typeof(CrackCalculatorInputDataDTO), "CrackCalculatorInputData") },
+                { (typeof(UserCrackInputDataDTO), "UserCrackInputData") },
+
+            };
+            return newList;
+        }
+        private static List<(Type type, string name)> GetNdmPrimitiveList()
+        {
+            List<(Type type, string name)> newList = new()
+            {
+                { (typeof(List<INdmPrimitive>), "ListOfINdmPrimitive") },
+                { (typeof(CrossSectionNdmAnalysisDTO), "CrossSectionNdmAnalysis") },
+                { (typeof(CrossSectionDTO), "CrossSection") },
+                { (typeof(CrossSectionRepositoryDTO), "CrossSectionRepository") },
+                { (typeof(NdmElementDTO), "NdmElement") },
+                { (typeof(PointNdmPrimitiveDTO), "PointNdmPrimitive") },
+                { (typeof(RebarNdmPrimitiveDTO), "RebarNdmPrimitive") },
+                { (typeof(RectangleNdmPrimitiveDTO), "RectangleNdmPrimitive") },
+                { (typeof(EllipseNdmPrimitiveDTO), "EllipseNdmPrimitive") },
+                { (typeof(ShapeNdmPrimitiveDTO), "ShapeNdmPrimitive") },
+                { (typeof(PrimitiveVisualPropertyDTO), "PrimitiveVisualProperty") },
+
+            };
+            return newList;
+        }
+        private static List<(Type type, string name)> GetGeometryShapeList()
+        {
+            List<(Type type, string name)> newList = new()
+            {
+                { (typeof(List<IVertex>), "ListOfVertex2D") },
+                { (typeof(Point2DDTO), "Point2D") },
+                { (typeof(VertexDTO), "Vertex2D") },
+                { (typeof(RectangleShapeDTO), "RectangleShape") },
+                { (typeof(CircleShapeDTO), "CircleShape") },
+                { (typeof(LinePolygonShapeDTO), "LinePolygonShape") },
+            };
+            return newList;
+        }
         private static List<(Type type, string name)> GetForceList()
         {
             List<(Type type, string name)> newList = new()
             {
+                { (typeof(List<IForceAction>), "ListOfIForceAction") },
+                { (typeof(List<IDesignForceTuple>), "ListOfIDesignForceTuple") },
+                { (typeof(List<IForceTuple>), "ListOfIForceTuple") },
+                { (typeof(DesignForceTupleDTO), "DesignForceTuple") },
                 { (typeof(ConcentratedForceDTO), "ConcentratedForce") },
                 { (typeof(DistributedLoadDTO), "DistributedLoad") },
                 { (typeof(FactoredForceTupleDTO), "FactoredForceTuple") },
@@ -110,8 +158,7 @@ namespace DataAccess.DTOs
             };
             return newList;
         }
-
-        private static List<(Type type, string name)> GetListForBeamShear()
+        private static List<(Type type, string name)> GetBeamShearList()
         {
             List<(Type type, string name)> newList = new()
             {

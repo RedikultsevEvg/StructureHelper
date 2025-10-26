@@ -13,7 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     public class RebarTriangulationLogicOptions : ITriangulationLogicOptions
     {
-        public ITriangulationOptions triangulationOptions { get; set; }
+        public ITriangulationOptions TriangulationOptions { get; set; }
         /// <summary>
         /// 
         /// </summary>

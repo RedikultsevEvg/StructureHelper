@@ -1,6 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Models.Shapes.Logics;
 using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives

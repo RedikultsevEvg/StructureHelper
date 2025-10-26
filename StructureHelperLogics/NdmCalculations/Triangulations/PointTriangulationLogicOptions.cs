@@ -12,7 +12,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
     /// </summary>
     public class PointTriangulationLogicOptions : ITriangulationLogicOptions
     {
-        public ITriangulationOptions triangulationOptions { get; set; }
+        public ITriangulationOptions TriangulationOptions { get; set; }
         /// <summary>
         /// 
         /// </summary>

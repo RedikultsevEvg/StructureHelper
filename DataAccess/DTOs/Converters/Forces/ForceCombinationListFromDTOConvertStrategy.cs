@@ -72,7 +72,7 @@ namespace DataAccess.DTOs
         {
             baseUpdateStrategy ??= new ForceActionBaseUpdateStrategy();
             updateStrategy ??= new ForceCombinationListUpdateStrategy();
-            pointConvertStrategy ??= new Point2DFromDTOConvertStrategy() { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger};
+            pointConvertStrategy ??= new Point2DFromDTOConvertStrategy(this);
             designTupleConvertStrategy ??= new DesignForceTupleFromDTOConvertStrategy() { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
         }
     }

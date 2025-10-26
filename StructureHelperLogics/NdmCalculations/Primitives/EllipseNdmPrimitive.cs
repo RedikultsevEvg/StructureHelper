@@ -67,7 +67,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             var ndms = new List<INdm>();
             var options = new CircleTriangulationLogicOptions(this)
             {
-                triangulationOptions = triangulationOptions
+                TriangulationOptions = triangulationOptions
             };
             var logic = new CircleTriangulationLogic(options);
             ndms.AddRange(logic.GetNdmCollection());

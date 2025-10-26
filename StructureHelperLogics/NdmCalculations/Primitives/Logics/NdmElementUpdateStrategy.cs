@@ -28,6 +28,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Triangulate = sourceObject.Triangulate;
             tupleUpdateStrategy.Update(targetObject.UsersPrestrain, sourceObject.UsersPrestrain);
+            tupleUpdateStrategy.Update(targetObject.AutoPrestrain, sourceObject.AutoPrestrain);
             if (UpdateChildren == true)
             {
                 if (sourceObject.HeadMaterial != null)

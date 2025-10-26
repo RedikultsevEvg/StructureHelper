@@ -53,7 +53,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             var ndms = new List<INdm>();
             var options = new RectangleTriangulationLogicOptions(this)
             {
-                triangulationOptions = triangulationOptions
+                TriangulationOptions = triangulationOptions
             };
             var logic = new RectangleTriangulationLogic(options);
             ndms.AddRange(logic.GetNdmCollection());

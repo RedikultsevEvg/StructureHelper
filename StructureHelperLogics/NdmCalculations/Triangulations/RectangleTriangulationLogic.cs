@@ -16,13 +16,13 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         {
             double width = options.Rectangle.Width;
             double height = options.Rectangle.Height;
-            double ndmMaxSize = options.NdmMaxSize;
-            int ndmMinDivision = options.NdmMinDivision;
+            double ndmMaxSize = options.DivisionSize.NdmMaxSize;
+            int ndmMinDivision = options.DivisionSize.NdmMinDivision;
             LoaderCalculator.Triangulations.RectangleTriangulationLogicOptions logicOptions = new LoaderCalculator.Triangulations.RectangleTriangulationLogicOptions(width, height, ndmMaxSize, ndmMinDivision);
             var logic = LoaderCalculator.Triangulations.Triangulation.GetLogicInstance(logicOptions);
             var ndmCollection = logic.GetNdmCollection(new LoaderCalculator.Data.Planes.RectangularPlane
             {
-                Material = options.HeadMaterial.GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm)
+                Material = options.HeadMaterial.GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm)
             });
             TriangulationService.CommonTransform(ndmCollection, options);
             double angle = options.RotationAngle;

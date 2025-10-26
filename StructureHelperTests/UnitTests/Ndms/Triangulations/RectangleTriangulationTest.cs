@@ -44,7 +44,7 @@ namespace StructureHelperTests.UnitTests.Ndms.Triangulations
             IRectangleShape rectangle = new RectangleShape { Width = width, Height = height};
             var options = new RectangleTriangulationLogicOptions(center, rectangle, ndmMaxSize, ndmMinDivision)
             {
-                triangulationOptions = new TriangulationOptions() { LimiteState = LimitStates.ULS, CalcTerm = CalcTerms.ShortTerm },
+                TriangulationOptions = new TriangulationOptions() { LimiteState = LimitStates.ULS, CalcTerm = CalcTerms.ShortTerm },
                 HeadMaterial = materialMock.Object,
                 RotationAngle = angle
             };

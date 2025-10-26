@@ -21,7 +21,7 @@ namespace DataAccess.DTOs
         [JsonProperty("Name")]
         public string? Name { get; set; }
         [JsonProperty("Shape")]
-        public IShape Shape => shape;
+        public IShape Shape { get => shape; set => shape = value; }
         [JsonProperty("NdmElement")]
         public INdmElement NdmElement { get; set; }
         [JsonProperty("Center")]

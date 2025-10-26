@@ -15,7 +15,7 @@ namespace DataAccess.DTOs
         public bool Triangulate { get; set; }
         [JsonProperty("UsersPrestrain")]
         public IForceTuple UsersPrestrain { get; set; } = new ForceTupleDTO(Guid.NewGuid());
-        [JsonProperty("AutoPrestrain")]
+        [JsonIgnore]
         public IForceTuple AutoPrestrain { get; set; } = new ForceTupleDTO(Guid.NewGuid());
 
         public NdmElementDTO(Guid id)

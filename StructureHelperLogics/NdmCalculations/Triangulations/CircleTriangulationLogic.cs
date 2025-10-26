@@ -23,13 +23,13 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         {
 
             double diameter = options.Circle.Diameter;
-            double ndmMaxSize = options.NdmMaxSize;
-            int ndmMinDivision = options.NdmMinDivision;
+            double ndmMaxSize = options.DivisionSize.NdmMaxSize;
+            int ndmMinDivision = options.DivisionSize.NdmMinDivision;
             var logicOptions = new LoaderCalculator.Triangulations.CircleTriangulationLogicOptions(diameter, ndmMaxSize, ndmMinDivision);
             var logic = LoaderCalculator.Triangulations.Triangulation.GetLogicInstance(logicOptions);
             var ndmCollection = logic.GetNdmCollection(new LoaderCalculator.Data.Planes.CirclePlane
             {
-                Material = options.HeadMaterial.GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm)
+                Material = options.HeadMaterial.GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm)
             });
             TriangulationService.CommonTransform(ndmCollection, options);
             TriangulationService.SetPrestrain(ndmCollection, options.Prestrain);

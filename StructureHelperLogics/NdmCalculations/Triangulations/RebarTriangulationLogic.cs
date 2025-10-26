@@ -44,7 +44,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 CenterX = options.Center.X,
                 CenterY = options.Center.Y,
                 Area = options.Area,
-                Material = options.HeadMaterial.GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm)
+                Material = options.HeadMaterial.GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm)
             };
             ;
             NdmTransform.SetPrestrain(rebarNdm, TupleConverter.ConvertToLoaderStrainMatrix(options.Prestrain));
@@ -58,7 +58,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             var material = hostPrimitive
                 .NdmElement
                 .HeadMaterial
-                .GetLoaderMaterial(options.triangulationOptions.LimiteState, options.triangulationOptions.CalcTerm);
+                .GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm);
             
             var prestrain = ForceTupleService.SumTuples(hostPrimitive.NdmElement.UsersPrestrain,
                 hostPrimitive.NdmElement.AutoPrestrain)

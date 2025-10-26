@@ -9,7 +9,7 @@ namespace StructureHelperCommon.Models.Shapes
 {
     public static class PolygonGeometryUtils
     {
-        public static ILinePolygonShape GetTratsfromedPolygon(ILinePolygonShape polygon, double dx, double dy)
+        public static ILinePolygonShape GetTransfromedPolygon(ILinePolygonShape polygon, double dx, double dy)
         {
             ILinePolygonShape newPolygon = new LinePolygonShape(Guid.Empty);
             var updateLogic = new LinePolygonShapeUpdateStrategy();

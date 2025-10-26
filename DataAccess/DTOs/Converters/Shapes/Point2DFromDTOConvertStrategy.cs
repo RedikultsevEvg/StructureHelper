@@ -1,12 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Models.Loggers;
-using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
@@ -24,27 +17,16 @@ namespace DataAccess.DTOs
             
         }
 
-        public override Point2D GetNewItem(Point2DDTO source)
+        public Point2DFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
-            TraceLogger?.AddMessage("Point 2D converting has been started");
-            try
-            {
-                Point2D newItem = GetNewItemBySource(source);
-                TraceLogger?.AddMessage("Point 2D converting has been finished");
-                return newItem;
-            }
-            catch (Exception ex)
-            {
-                TraceLogger?.AddMessage($"Logic: {LoggerStrings.LogicType(this)} made error: {ex.Message}", TraceLogStatuses.Error);
-                throw;
-            }
+            updateStrategy = new Point2DUpdateStrategy();
         }
 
-        private Point2D GetNewItemBySource(Point2DDTO source)
+        public override Point2D GetNewItem(Point2DDTO source)
         {
-            Point2D newItem = new(source.Id);
-            updateStrategy.Update(newItem, source);
-            return newItem;
+            NewItem = new(source.Id);
+            updateStrategy.Update(NewItem, source);
+            return NewItem;
         }
     }
 }

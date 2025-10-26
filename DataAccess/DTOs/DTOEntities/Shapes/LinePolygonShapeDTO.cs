@@ -9,10 +9,11 @@ namespace DataAccess.DTOs
         [JsonProperty("Id")]
         public Guid Id { get; }
         [JsonProperty("Vertices")]
-        public IReadOnlyList<IVertex> Vertices => _vertices;
+        public List<IVertex> VerticesList {get => _vertices;}
         [JsonProperty("IsClosed")]
         public bool IsClosed { get; set; }
-
+        [JsonIgnore]
+        public IReadOnlyList<IVertex> Vertices => _vertices;
 
         public LinePolygonShapeDTO(Guid id)
         {

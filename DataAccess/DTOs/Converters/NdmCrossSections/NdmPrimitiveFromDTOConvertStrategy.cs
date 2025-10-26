@@ -45,9 +45,12 @@ namespace DataAccess.DTOs
 
         public override INdmPrimitive GetNewItem(INdmPrimitive source)
         {
-            GetMaterial(source.NdmElement.HeadMaterial);
             INdmPrimitive newItem = GetNewPrimitive(source);
-            newItem.NdmElement.HeadMaterial = headMaterial;
+            if (source.NdmElement.HeadMaterial != null)
+            {
+                GetMaterial(source.NdmElement.HeadMaterial);
+                newItem.NdmElement.HeadMaterial = headMaterial;
+            }
             return newItem;
         }
 
@@ -69,9 +72,21 @@ namespace DataAccess.DTOs
             {
                 return GetRectangle(rectangle);
             }
+            if (source is ShapeNdmPrimitiveDTO shape)
+            {
+                return GetShape(shape);
+            }
             string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source);
             TraceLogger.AddMessage(errorString, TraceLogStatuses.Error);
             throw new StructureHelperException(errorString);
+        }
+
+        private INdmPrimitive GetShape(ShapeNdmPrimitiveDTO shape)
+        {
+            TraceLogger?.AddMessage($"{PrimitiveIs} shape ndm primitive");
+            ShapeNdmPrimitiveFromDTOConvertStrategy convertStrategy = new(this);
+            IShapeNdmPrimitive shapeNdmPrimitive = convertStrategy.Convert(shape);
+            return shapeNdmPrimitive;
         }
 
         private void GetMaterial(IHeadMaterial source)

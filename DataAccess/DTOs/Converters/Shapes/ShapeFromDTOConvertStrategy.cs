@@ -28,6 +28,12 @@ namespace DataAccess.DTOs
                     (this, new CircleShapeFromDTOConvertStrategy(this));
                 NewItem = circleConvertStrategy.Convert(circleShapeDTO);
             }
+            else if (source is LinePolygonShapeDTO linePolygonDTO)
+            {
+                var polygonConvertStrategy = new DictionaryConvertStrategy<ILinePolygonShape, ILinePolygonShape>
+                    (this, new LinePolygonFromDTOConvertStrategy(this));
+                NewItem = polygonConvertStrategy.Convert(linePolygonDTO);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source) + ": shape is unknown");

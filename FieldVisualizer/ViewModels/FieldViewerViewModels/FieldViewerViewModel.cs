@@ -14,7 +14,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -50,20 +52,20 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             set
             {
                 primitiveSet = value;
-                OnPropertyChanged(nameof(PrimitiveSet));
                 AreaTotal = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Sum(x => x.Area);
-                OnPropertyChanged(nameof(AreaTotal));
                 AreaNeg = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value < 0d).Sum(x => x.Area);
-                OnPropertyChanged(nameof(AreaNeg));
                 AreaZero = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value == 0d).Sum(x => x.Area);
-                OnPropertyChanged(nameof(AreaZero));
                 AreaPos = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value > 0d).Sum(x => x.Area);
-                OnPropertyChanged(nameof(AreaPos));
                 SumTotal = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Sum(x => x.Value);
-                OnPropertyChanged(nameof(SumTotal));
                 SumNeg = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value < 0d).Sum(x => x.Value);
-                OnPropertyChanged(nameof(SumNeg));
                 SumPos = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value > 0d).Sum(x => x.Value);
+                OnPropertyChanged(nameof(PrimitiveSet));
+                OnPropertyChanged(nameof(AreaTotal));
+                OnPropertyChanged(nameof(AreaNeg));
+                OnPropertyChanged(nameof(AreaZero));
+                OnPropertyChanged(nameof(AreaPos));
+                OnPropertyChanged(nameof(SumTotal));
+                OnPropertyChanged(nameof(SumNeg));
                 OnPropertyChanged(nameof(SumPos));
 
             }
@@ -215,21 +217,56 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             WorkPlaneBox.Height = ScrolHeight - 50;
             foreach (var primitive in PrimitiveSet.ValuePrimitives)
             {
-                if (primitive is IRectanglePrimitive)
+                if (primitive is IRectanglePrimitive rectanglePrimitive)
                 {
-                    IRectanglePrimitive rectanglePrimitive = primitive as IRectanglePrimitive;
                     Rectangle rectangle = ProcessRectanglePrimitive(rectanglePrimitive);
                     WorkPlaneCanvas.Children.Add(rectangle);
                 }
-                else if (primitive is ICirclePrimitive)
+                else if (primitive is ICirclePrimitive circlePrimitive)
                 {
-                    ICirclePrimitive circlePrimitive = primitive as ICirclePrimitive;
                     Ellipse ellipse = ProcessCirclePrimitive(circlePrimitive);
                     WorkPlaneCanvas.Children.Add(ellipse);
+                }
+                else if (primitive is ITrianglePrimitive triangle)
+                {
+                    Path path = ProcessTrianglePrimitive(triangle);
+                    WorkPlaneCanvas.Children.Add(path);
                 }
                 else { throw new FieldVisulizerException(ErrorStrings.PrimitiveTypeIsUnknown); }
             }
         }
+
+        private Path ProcessTrianglePrimitive(ITrianglePrimitive triangle)
+        {
+            // Create the PathFigure using triangle vertices.
+            var figure = new PathFigure
+            {
+                StartPoint = new Point(triangle.Point1.X, triangle.Point1.Y),
+                IsClosed = true,
+                IsFilled = true
+            };
+
+            // Add the remaining vertices as LineSegments
+            var segments = new PathSegmentCollection
+        {
+            new LineSegment(new Point(triangle.Point2.X, triangle.Point2.Y), true),
+            new LineSegment(new Point(triangle.Point3.X, triangle.Point3.Y), true)
+            // Closing is handled by IsClosed = true, so we don't need to add a segment back to Point1
+        };
+            figure.Segments = segments;
+
+            // Create geometry and path
+            var geometry = new PathGeometry();
+            geometry.Figures.Add(figure);
+
+            var path = new Path
+            {
+                Data = geometry,
+            };
+            ProcessShape(path, triangle, 0, 0, false);
+            return path;
+        }
+
         private Rectangle ProcessRectanglePrimitive(IRectanglePrimitive rectanglePrimitive)
         {
             Rectangle rectangle = new Rectangle
@@ -239,7 +276,7 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             };
             double addX = rectanglePrimitive.Width / 2;
             double addY = rectanglePrimitive.Height / 2;
-            ProcessShape(rectangle, rectanglePrimitive, addX, addY);
+            ProcessShape(rectangle, rectanglePrimitive, addX, addY, true);
             return rectangle;
         }
         private Ellipse ProcessCirclePrimitive(ICirclePrimitive circlePrimitive)
@@ -252,10 +289,10 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             double addX = circlePrimitive.Diameter / 2;
             double addY = circlePrimitive.Diameter / 2;
 
-            ProcessShape(ellipse, circlePrimitive, addX, addY);
+            ProcessShape(ellipse, circlePrimitive, addX, addY, true);
             return ellipse;
         }
-        private void ProcessShape(Shape shape, IValuePrimitive valuePrimitive, double addX, double addY)
+        private void ProcessShape(Shape shape, IValuePrimitive valuePrimitive, double addX, double addY, bool addCenter)
         {
             SolidColorBrush brush = new SolidColorBrush();
             brush.Color = ColorOperations.GetColorByValue(valueRange, _ColorMap, valuePrimitive.Value);
@@ -269,8 +306,15 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             shape.ToolTip = roundLogic.RoundValue(valuePrimitive.Value);
             shape.Tag = valuePrimitive;
             shape.Fill = brush;
-            Canvas.SetLeft(shape, valuePrimitive.CenterX - addX - dX);
-            Canvas.SetTop(shape, -valuePrimitive.CenterY - addY + dY);
+            double addLeft =  - addX - dX;
+            double addTop = - addY + dY;
+            if (addCenter == true)
+            {
+                addLeft += valuePrimitive.CenterX;
+                addTop -= valuePrimitive.CenterY;
+            }
+            Canvas.SetLeft(shape, addLeft);
+            Canvas.SetTop(shape, addTop);
         }
         private void Zoom(double coefficient)
         {

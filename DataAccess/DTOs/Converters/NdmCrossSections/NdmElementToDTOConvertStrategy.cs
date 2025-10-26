@@ -54,16 +54,20 @@ namespace DataAccess.DTOs
             updateStrategy.Update(newItem, source);
             headMaterialConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             headMaterialConvertStrategy.TraceLogger = TraceLogger;
-            var convertLogic = new DictionaryConvertStrategy<HeadMaterialDTO, IHeadMaterial>(this, headMaterialConvertStrategy);
+            var headMaterialLogic = new DictionaryConvertStrategy<HeadMaterialDTO, IHeadMaterial>(this, headMaterialConvertStrategy);
             if (source.HeadMaterial != null)
             {
-                var headMaterial = convertLogic.Convert(source.HeadMaterial);
+                var headMaterial = headMaterialLogic.Convert(source.HeadMaterial);
                 newItem.HeadMaterial = headMaterial;
-            }       
+            }
+            else
+            {
+                newItem.HeadMaterial = null;
+            }
             forceUpdateStrategy.Update(newItem.UsersPrestrain, source.UsersPrestrain);
             (newItem.UsersPrestrain as ForceTupleDTO).Id = source.UsersPrestrain.Id;
-            forceUpdateStrategy.Update(newItem.AutoPrestrain, source.AutoPrestrain);
-            (newItem.AutoPrestrain as ForceTupleDTO).Id = source.AutoPrestrain.Id;
+            //forceUpdateStrategy.Update(newItem.AutoPrestrain, source.AutoPrestrain);
+            //(newItem.AutoPrestrain as ForceTupleDTO).Id = source.AutoPrestrain.Id;
             return newItem;
         }
 

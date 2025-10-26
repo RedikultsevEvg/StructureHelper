@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="ExcelDataReader" Version="3.8.0" />
-    <PackageReference Include="NLog" Version="6.0.4" />
+    <PackageReference Include="NLog" Version="6.0.5" />
   </ItemGroup>
 
   <ItemGroup>

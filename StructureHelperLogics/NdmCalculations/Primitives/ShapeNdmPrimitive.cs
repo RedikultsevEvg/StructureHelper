@@ -16,11 +16,11 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public string? Name { get; set; } = string.Empty;
         public IPoint2D Center { get; set; } = new Point2D();
         public IShape Shape => shape;
-        public INdmElement NdmElement { get; } = new NdmElement(Guid.NewGuid());
+        public INdmElement NdmElement { get; set; } = new NdmElement(Guid.NewGuid());
         public ICrossSection? CrossSection { get; set; }
-        public IVisualProperty VisualProperty { get; } = new VisualProperty { Opacity = 0.8d };
+        public IVisualProperty VisualProperty { get; set; } = new VisualProperty { Opacity = 0.8d };
         public double RotationAngle { get; set; }
-        public IDivisionSize DivisionSize { get; } = new DivisionSize(Guid.NewGuid());
+        public IDivisionSize DivisionSize { get; set; } = new DivisionSize(Guid.NewGuid());
         public ShapeNdmPrimitive(Guid id)
         {
             Id = id;
@@ -38,7 +38,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
         {
-            throw new NotImplementedException();
+            var triangulationLogicOption = new LinePolygonTriangulationLogicOption(this, triangulationOptions);
+            var logic = new LinePolygonTriangulationLogic(triangulationLogicOption);
+            return logic.GetNdmCollection();
         }
 
         public List<INamedAreaPoint> GetValuePoints()
@@ -74,7 +76,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         {
             if (shape is ILinePolygonShape polygon)
             {
-                var newShape = PolygonGeometryUtils.GetTratsfromedPolygon(polygon, Center.X, Center.Y);
+                var newShape = PolygonGeometryUtils.GetTransfromedPolygon(polygon, Center.X, Center.Y);
                 var calculator = new PolygonCalculator();
                 return calculator.ContainsPoint(newShape, point);
             }

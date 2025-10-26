@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
     public interface IShapeTriangulationLogicOptions : ITriangulationLogicOptions, IHasCenter2D
     {
         /// <summary>
-        /// Center of shape
+        /// Parameters of division
         /// </summary>
-        IPoint2D Center { get; }
-        /// <summary>
-        /// Maximum size (width or height) of ndm part after triangulation
-        /// </summary>
-        double NdmMaxSize { get; }
-        /// <summary>
-        /// Minimum quantity of division of side of rectangle after triangulation
-        /// </summary>
-        int NdmMinDivision { get; }
+        IDivisionSize DivisionSize { get; }
     }
 }

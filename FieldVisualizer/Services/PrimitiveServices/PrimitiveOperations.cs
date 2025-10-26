@@ -53,19 +53,23 @@ namespace FieldVisualizer.Services.PrimitiveServices
             List<double> coords = new List<double>();
             foreach (var primitive in valuePrimitives)
             {
-                if (primitive is IRectanglePrimitive)
+                if (primitive is IRectanglePrimitive rectanglePrimitive)
                 {
-                    IRectanglePrimitive rectanglePrimitive = primitive as IRectanglePrimitive;
                     coords.Add(rectanglePrimitive.CenterX + rectanglePrimitive.Width / 2);
                     coords.Add(rectanglePrimitive.CenterX - rectanglePrimitive.Width / 2);
                 }
-                else if (primitive is ICirclePrimitive)
+                else if (primitive is ICirclePrimitive circlePrimitive)
                 {
-                    ICirclePrimitive circlePrimitive = primitive as ICirclePrimitive;
                     coords.Add(circlePrimitive.CenterX + circlePrimitive.Diameter / 2);
                     coords.Add(circlePrimitive.CenterX - circlePrimitive.Diameter / 2);
                 }
-                else { throw new FieldVisulizerException(ErrorStrings.PrimitiveTypeIsUnknown);}
+                else if (primitive is ITrianglePrimitive triangle)
+                {
+                    coords.Add(triangle.Point1.X);
+                    coords.Add(triangle.Point2.X);
+                    coords.Add(triangle.Point3.X);
+                }
+                else { throw new FieldVisulizerException(ErrorStrings.PrimitiveTypeIsUnknown); }
             }
             return coords;
         }
@@ -86,6 +90,12 @@ namespace FieldVisualizer.Services.PrimitiveServices
                     ICirclePrimitive circlePrimitive = primitive as ICirclePrimitive;
                     coords.Add(circlePrimitive.CenterY + circlePrimitive.Diameter / 2);
                     coords.Add(circlePrimitive.CenterY - circlePrimitive.Diameter / 2);
+                }
+                else if (primitive is ITrianglePrimitive triangle)
+                {
+                    coords.Add(triangle.Point1.Y);
+                    coords.Add(triangle.Point2.Y);
+                    coords.Add(triangle.Point3.Y);
                 }
                 else { throw new FieldVisulizerException(ErrorStrings.PrimitiveTypeIsUnknown); }
             }

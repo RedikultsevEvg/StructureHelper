@@ -78,7 +78,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         {
             var options = new RebarTriangulationLogicOptions(this)
             {
-                triangulationOptions = triangulationOptions
+                TriangulationOptions = triangulationOptions
             };
             var logic = new RebarTriangulationLogic(options);
             var rebar = logic.GetRebarNdm();
@@ -89,7 +89,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         {
             var options = new RebarTriangulationLogicOptions(this)
             {
-                triangulationOptions = triangulationOptions
+                TriangulationOptions = triangulationOptions
             };
             var logic = new RebarTriangulationLogic(options);
             var concrete = logic.GetConcreteNdm();

@@ -46,7 +46,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
         {
-            var options = new PointTriangulationLogicOptions(this) { triangulationOptions = triangulationOptions};
+            var options = new PointTriangulationLogicOptions(this) { TriangulationOptions = triangulationOptions};
             var logic = new PointTriangulationLogic(options);
             return logic.GetNdmCollection();
         }

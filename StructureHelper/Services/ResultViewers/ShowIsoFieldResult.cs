@@ -5,6 +5,7 @@ using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.ResultData;
 using LoaderCalculator.Logics;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Triangulations;
@@ -85,11 +86,27 @@ namespace StructureHelper.Services.ResultViewers
             {
                 valuePrimitive = ProcessRectangle(shapeNdm, val);
             }
+            else if (ndm is ITriangleNdm triangle)
+            {
+                valuePrimitive = ProcessTriangle(triangle, val);
+            }
             else
             {
                 valuePrimitive = ProcessCircle(ndm, val);
             }
             return valuePrimitive;
+        }
+
+        private static IValuePrimitive ProcessTriangle(ITriangleNdm triangle, double val)
+        {
+            var primitive = new TrianglePrimitive()
+            {
+                Point1 = new Point2D() { X = triangle.Point1.X, Y = triangle.Point1.Y },
+                Point2 = new Point2D() { X = triangle.Point2.X, Y = triangle.Point2.Y },
+                Point3 = new Point2D() { X = triangle.Point3.X, Y = triangle.Point3.Y },
+                Value = val
+            };
+            return primitive;
         }
 
         private static IValuePrimitive ProcessRectangle(IRectangleNdm shapeNdm, double val)

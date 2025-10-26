@@ -12,24 +12,26 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<ILinePolygonShape> updateStrategy;
         private IConvertStrategy<VertexDTO, IVertex> vertexConvertStrategy;
+        private LinePolygonShapeDTO newItem;
 
         public LinePolygonToDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
+            updateStrategy = new LinePolygonShapeUpdateStrategy() { UpdateChildren = false };
+            vertexConvertStrategy = new VertexToDTOConvertStrategy(this);
         }
 
         public override LinePolygonShapeDTO GetNewItem(ILinePolygonShape source)
         {
             ChildClass = this;
-            NewItem = new(source.Id);
-            updateStrategy = new LinePolygonShapeUpdateStrategy() { UpdateChildren = false };
-            vertexConvertStrategy = new VertexToDTOConvertStrategy(this);
-            updateStrategy.Update(NewItem, source);
-            NewItem.Clear();
+            newItem = new(source.Id);
+            updateStrategy.Update(newItem, source);
+            newItem.Clear();
             foreach (var item in source.Vertices)
             {
                 VertexDTO newVertex = vertexConvertStrategy.Convert(item);
-                NewItem.AddVertex(newVertex);
+                newItem.AddVertex(newVertex);
             }
+            NewItem = newItem;
             return NewItem;
         }
     }

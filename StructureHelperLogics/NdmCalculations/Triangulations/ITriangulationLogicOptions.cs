@@ -6,7 +6,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     public interface ITriangulationLogicOptions
     {
-        ITriangulationOptions triangulationOptions { get; set; }
+        ITriangulationOptions TriangulationOptions { get; set; }
         StrainTuple Prestrain { get; set; }
         IHeadMaterial HeadMaterial { get; set; }
     }
