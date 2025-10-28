@@ -62,7 +62,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             var contour = new List<TriangleNet.Geometry.Vertex>();
             foreach (var vertex in vertices)
             {
-                contour.Add(new TriangleNet.Geometry.Vertex(vertex.Point.X, vertex.Point.Y));
+                contour.Add(new TriangleNet.Geometry.Vertex(vertex.Point.X + options.Center.X, vertex.Point.Y + options.Center.Y));
                 
             }
             // Add contour to polygon — this automatically defines the connecting segments

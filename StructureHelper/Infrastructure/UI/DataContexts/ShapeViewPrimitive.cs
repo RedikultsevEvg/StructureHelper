@@ -53,7 +53,8 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         private System.Windows.Point GetSystemPoint(IPoint2D helperPoint)
         {
-            return new(DeltaX + shapeNDMPrimitive.Center.X + helperPoint.X, DeltaY - shapeNDMPrimitive.Center.Y - helperPoint.Y);
+            //return new(DeltaX + shapeNDMPrimitive.Center.X + helperPoint.X, DeltaY - shapeNDMPrimitive.Center.Y - helperPoint.Y);
+            return new(DeltaX + helperPoint.X, DeltaY - helperPoint.Y);
         }
     }
 }

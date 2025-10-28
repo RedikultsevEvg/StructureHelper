@@ -337,6 +337,15 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+    <DataTemplate x:Key="ExportToDxf">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Rectangle Canvas.Left="2" Canvas.Top="2" Width="28" Height="12" Fill="White" Stroke="Black"/>
+                <TextBlock Text="DXF" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
+                <TextBlock Text="to" FontSize="12" FontWeight="Bold" FontStyle="Italic" Margin="2,14,0,2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="ExportToNewAnalysis">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -395,6 +404,24 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+    <DataTemplate x:Key="FlipVertical">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="16" Y1="2" X2="16" Y2="30" Stroke="Black" StrokeThickness="0.5"/>
+                <Path Margin="4" Data="M 15 4 l 9 20 l -9 0  z" Fill="White" Stroke="Black" StrokeThickness="1"/>
+                <Path Margin="4" Data="M 9 4 l -9 20 l 9 0  z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="FlipHorizontal">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Line X1="2" Y1="16" X2="30" Y2="16" Stroke="Black" StrokeThickness="0.5"/>
+                <Path Margin="4" Data="M 4 15 l 20 9 l 0 -9  z" Fill="White" Stroke="Black" StrokeThickness="1"/>
+                <Path Margin="4" Data="M 4 9 l 20 -9 l 0 9  z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="ForceTable">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -441,6 +468,15 @@
                 <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
                 <Path Data="M 4 16 l 8 -3 l 3 3 l 6 -3 l 7 3 v 12 h -24 z" Fill="DarkGray" Stroke="Black" StrokeThickness="1"/>
                 <Ellipse Canvas.Top="16" Canvas.Left="18" Height="6" Width="6" Fill="White"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="ImportFromDxf">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Rectangle Canvas.Left="2" Canvas.Top="2" Width="28" Height="12" Fill="White" Stroke="Black"/>
+                <TextBlock Text="DXF" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
+                <TextBlock Text="from" FontSize="12" FontWeight="Bold" FontStyle="Italic" Margin="2,14,0,2"/>
             </Canvas.Children>
         </Canvas>
     </DataTemplate>

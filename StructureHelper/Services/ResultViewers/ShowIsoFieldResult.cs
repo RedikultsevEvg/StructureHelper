@@ -2,8 +2,6 @@
 using FieldVisualizer.WindowsOperation;
 using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
-using LoaderCalculator.Data.ResultData;
-using LoaderCalculator.Logics;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services;
@@ -11,9 +9,6 @@ using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Services.ResultViewers
 {

@@ -241,7 +241,7 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             // Create the PathFigure using triangle vertices.
             var figure = new PathFigure
             {
-                StartPoint = new Point(triangle.Point1.X, triangle.Point1.Y),
+                StartPoint = new Point(triangle.Point1.X, - triangle.Point1.Y),
                 IsClosed = true,
                 IsFilled = true
             };
@@ -249,8 +249,8 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             // Add the remaining vertices as LineSegments
             var segments = new PathSegmentCollection
         {
-            new LineSegment(new Point(triangle.Point2.X, triangle.Point2.Y), true),
-            new LineSegment(new Point(triangle.Point3.X, triangle.Point3.Y), true)
+            new LineSegment(new Point(triangle.Point2.X, - triangle.Point2.Y), true),
+            new LineSegment(new Point(triangle.Point3.X, - triangle.Point3.Y), true)
             // Closing is handled by IsClosed = true, so we don't need to add a segment back to Point1
         };
             figure.Segments = segments;

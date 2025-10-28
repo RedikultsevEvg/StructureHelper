@@ -72,6 +72,50 @@
                         </Viewbox>
                     </Button>
                 </ToolBar>
+                <ToolBar Name="Flip">
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding FlipVerticalCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Flip vertical"
+                                        IconContent="{StaticResource FlipVertical}"
+                                        DescriptionText="Flips poligon vertical"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{StaticResource FlipVertical}"/>
+                        </Viewbox>
+                    </Button>
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding FlipHorizontalCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Flip horizontal"
+                                        IconContent="{StaticResource FlipHorizontal}"
+                                        DescriptionText="Flips poligon horizontal"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{StaticResource FlipHorizontal}"/>
+                        </Viewbox>
+                    </Button>
+                </ToolBar>
+                <ToolBar Name="DxfOperation">
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding ExportToDxfCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Export to *.dxf file"
+                                        IconContent="{StaticResource ExportToDxf}"
+                                        DescriptionText="Exports poligon to new *.dxf file"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{StaticResource ExportToDxf}"/>
+                        </Viewbox>
+                    </Button>
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding ImportFromDxfCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Import from *.dxf file"
+                                        IconContent="{StaticResource ImportFromDxf}"
+                                        DescriptionText="Imports poligon from *.dxf file"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{StaticResource ImportFromDxf}"/>
+                        </Viewbox>
+                    </Button>
+                </ToolBar>
             </ToolBarTray>
             <Grid>
                 <Grid.ColumnDefinitions>
