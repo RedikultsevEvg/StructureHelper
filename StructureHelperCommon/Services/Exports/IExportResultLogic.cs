@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StructureHelperLogics.NdmCalculations.Analyses
+namespace StructureHelperCommon.Services.Exports
 {
     public interface IExportResultLogic
     {

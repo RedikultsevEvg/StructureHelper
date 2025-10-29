@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="ExcelDataReader" Version="3.8.0" />
+    <PackageReference Include="netDxf" Version="2023.11.10" />
     <PackageReference Include="NLog" Version="6.0.5" />
   </ItemGroup>
 

@@ -1,14 +1,18 @@
 ﻿using netDxf;
 using netDxf.Entities;
 using netDxf.Header;
+using netDxf.Tables;
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.GraphicalPrimitives;
+using StructureHelper.Services.Exports;
+using StructureHelper.Windows.BeamShears;
 using StructureHelper.Windows.Shapes.Logics;
 using StructureHelper.Windows.UserControls.WorkPlanes;
 using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services.Exports;
 using StructureHelperLogics.Models.BeamShears;
 using System;
 using System.Collections.Generic;
@@ -21,6 +25,7 @@ namespace StructureHelper.Windows.Shapes
     public class PolygonShapeViewModel : OkCancelViewModelBase
     {
         private const int minVertexCount = 3;
+
         private readonly IPoint2D absoluteCenter;
         private readonly IPoint2D localCenter;
         private readonly ILinePolygonShape polygonShape;
@@ -76,24 +81,14 @@ namespace StructureHelper.Windows.Shapes
 
         private void ExportToDxf(object commandParameter)
         {
-            // your DXF file name
-            string file = "sample.dxf";
-
-            // create a new document, by default it will create an AutoCad2000 DXF version
-            DxfDocument doc = new DxfDocument();
-            // an entity
-            List<Polyline2DVertex> polylineVertices = [];
-            foreach (var item in vertices)
+            var inputData = new ExportToFileInputData
             {
-                Polyline2DVertex vertex = new Polyline2DVertex(item.Point.X, item.Point.Y);
-                polylineVertices.Add(vertex);
-            }
-            Polyline2D polyline2D = new Polyline2D(polylineVertices) { IsClosed = true};
-            //polyline2D.Layer = 
-            // add your entities here
-            doc.Entities.Add(polyline2D);
-            // save to file
-            doc.Save(file);
+                Filter = "dxf |*.dxf",
+                Title = "Save in *.dxf File"
+            };
+            var logic = new ShapesExportToDxfLogic(polygonShape, LayerNames.StructiralPrimitives);
+            var exportService = new ExportToFileService(inputData, logic);
+            exportService.Export();
         }
 
         private void FlipHorizontal(object obj)

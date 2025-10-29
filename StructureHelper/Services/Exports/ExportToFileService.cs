@@ -1,6 +1,7 @@
 ﻿using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Services.Exports;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using System;
