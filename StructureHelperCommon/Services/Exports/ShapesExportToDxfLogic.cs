@@ -3,11 +3,7 @@ using netDxf.Entities;
 using netDxf.Tables;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Shapes;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Services.Exports
 {
@@ -17,14 +13,12 @@ namespace StructureHelperCommon.Services.Exports
         StructuralOpenings,
         StructuralRebars
     }
-    public class ShapesExportToDxfLogic : IExportResultLogic
+    public class ShapesExportToDxfLogic : IExportToFileLogic
     {
-        private const string PrimitivesLayer = "STR-PRM";
-        private const string OpeningsLayer = "STR-OPN";
-        private const string RebarLayer = "STR-REB";
-        private const string LayerNameIsUnKnown = ": Layer name is unknown";
         private const string ShapeTypeIsUnknown = ": Shape is unknown";
+        private const double metresToMillimeters = 1000.0;
         private readonly List<(IShape shape, LayerNames layerName)> shapes = [];
+        private IGetDxfLayerLogic layerLogic = new GetDxfLayerLogic();
 
         public ShapesExportToDxfLogic(List<(IShape shape, LayerNames layerName)> shapes)
         {
@@ -45,19 +39,12 @@ namespace StructureHelperCommon.Services.Exports
             {
                 ProcessShape(dxf, shape);
             }
-            Layer primitiveLayer = new Layer(PrimitivesLayer)
-            {
-                Color = AciColor.Blue
-            };
-            dxf.Layers.Add(primitiveLayer);
-
-            // save to file
             dxf.Save(FileName);
         }
 
         private void ProcessShape(DxfDocument dxf, (IShape shape, LayerNames layerName) shape)
         {
-            Layer layer = GetOrCreateLayer(dxf, shape.layerName);
+            Layer layer = layerLogic.GetOrCreateLayer(dxf, shape.layerName);
             ProcessShape(dxf, shape.shape, layer);
         }
 
@@ -78,7 +65,7 @@ namespace StructureHelperCommon.Services.Exports
             List<Polyline2DVertex> polylineVertices = [];
             foreach (var item in linePolygon.Vertices)
             {
-                Polyline2DVertex vertex = new Polyline2DVertex(item.Point.X, item.Point.Y);
+                Polyline2DVertex vertex = new Polyline2DVertex(item.Point.X * metresToMillimeters, item.Point.Y * metresToMillimeters);
                 polylineVertices.Add(vertex);
             }
             Polyline2D polyline2D = new Polyline2D(polylineVertices)
@@ -87,43 +74,6 @@ namespace StructureHelperCommon.Services.Exports
                 IsClosed = linePolygon.IsClosed,
             };
             dxf.Entities.Add(polyline2D);
-        }
-
-        private Layer GetOrCreateLayer(DxfDocument dxf, LayerNames layerName)
-        {
-            string newLayerName = GetLayerName(layerName);
-            Layer newLayer = dxf.Layers.Contains("newLayerName")
-                ? dxf.Layers["newLayerName"]
-                : new Layer("newLayerName")
-                {
-                    Color = GetLayerColor(layerName)
-                };
-
-            if (!dxf.Layers.Contains(newLayerName))
-                dxf.Layers.Add(newLayer);
-            return newLayer;
-        }
-
-        private string GetLayerName(LayerNames layerName)
-        {
-            if (layerName == LayerNames.StructiralPrimitives) { return PrimitivesLayer; }
-            else if (layerName == LayerNames.StructuralOpenings) { return OpeningsLayer; }
-            else if (layerName == LayerNames.StructuralRebars) { return RebarLayer; }
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(layerName) + LayerNameIsUnKnown);
-            }
-        }
-
-        private AciColor GetLayerColor(LayerNames layerName)
-        {
-            if (layerName == LayerNames.StructiralPrimitives) { return AciColor.Blue; }
-            else if (layerName == LayerNames.StructuralOpenings) { return AciColor.DarkGray; }
-            else if (layerName == LayerNames.StructuralRebars) { return AciColor.Magenta; }
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(layerName) + LayerNameIsUnKnown);
-            }
         }
     }
 }

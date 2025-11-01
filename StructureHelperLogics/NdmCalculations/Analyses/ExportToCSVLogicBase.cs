@@ -3,7 +3,7 @@ using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses
 {
-    public abstract class ExportToCSVLogicBase : IExportResultLogic
+    public abstract class ExportToCSVLogicBase : IExportToFileLogic
     {
         public string separator => ";";
         public StringBuilder output { get; } = new();

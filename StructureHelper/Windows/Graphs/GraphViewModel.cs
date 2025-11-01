@@ -4,6 +4,8 @@ using StructureHelper.Infrastructure;
 using StructureHelper.Services.Exports;
 using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Models.Parameters;
+using StructureHelperCommon.Services.Exports;
+using StructureHelperCommon.Services.Exports.Factories;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using System;
@@ -87,11 +89,7 @@ namespace StructureHelper.Windows.Graphs
 
         private void ExportSeries()
         {
-            var inputData = new ExportToFileInputData
-            {
-                Filter = "csv |*.csv",
-                Title = "Save in *.csv File"
-            };
+            var inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Csv);
             var logic = new ExportChartToCSVLogic(Series);
             var exportService = new ExportToFileService(inputData, logic);
             exportService.Export();

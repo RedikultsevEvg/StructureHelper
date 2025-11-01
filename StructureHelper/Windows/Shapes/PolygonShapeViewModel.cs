@@ -9,10 +9,13 @@ using StructureHelper.Windows.BeamShears;
 using StructureHelper.Windows.Shapes.Logics;
 using StructureHelper.Windows.UserControls.WorkPlanes;
 using StructureHelper.Windows.ViewModels;
+using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Models.Shapes.Logics;
 using StructureHelperCommon.Services.Exports;
+using StructureHelperCommon.Services.Exports.Factories;
 using StructureHelperLogics.Models.BeamShears;
 using System;
 using System.Collections.Generic;
@@ -67,25 +70,35 @@ namespace StructureHelper.Windows.Shapes
 
         private void ImportFromDxf(object commandParameter)
         {
-            // your DXF file name
-            string file = "sample.dxf";
-            // this check is optional but recommended before loading a DXF file
-            DxfVersion dxfVersion = DxfDocument.CheckDxfFileVersion(file);
-            // netDxf is only compatible with AutoCad2000 and higher DXF versions
-            if (dxfVersion < DxfVersion.AutoCad2000) return;
-            // load file
-            DxfDocument loaded = DxfDocument.Load(file);
+            SafetyProcessor.RunSafeProcess(GetPolyline2D, "Error of obtaining of dxf polyline");
+            SafetyProcessor.RunSafeProcess(UpdatePolygon, "Error of updating of polygon");
+        }
+
+        private void UpdatePolygon()
+        {
+            var convertLogic = new Polyline2DToLinePoligonConvertLogic();
+            LinePolygonShape newPolygonShape = convertLogic.Convert(polyline);
+            newPolygonShape.IsClosed = true;
+            var updateLogic = new LinePolygonShapeUpdateStrategy();
+            updateLogic.Update(polygonShape, newPolygonShape);
+            ReloadVertices();
+            Redraw(null);
+        }
+
+        private static void GetPolyline2D()
+        {
+            FileIOInputData inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Dxf);
+            var logic = new SinglePolyline2DImportFromDxfLogic();
+            var importService = new ImportFromFileService(inputData, logic);
+            importService.Import();
+            polyline = logic.Polyline2D;
         }
 
         public ICommand ExportToDxfCommand => exportToDxfCommand ??= new RelayCommand(ExportToDxf);
 
         private void ExportToDxf(object commandParameter)
         {
-            var inputData = new ExportToFileInputData
-            {
-                Filter = "dxf |*.dxf",
-                Title = "Save in *.dxf File"
-            };
+            FileIOInputData inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Dxf);
             var logic = new ShapesExportToDxfLogic(polygonShape, LayerNames.StructiralPrimitives);
             var exportService = new ExportToFileService(inputData, logic);
             exportService.Export();
@@ -191,6 +204,7 @@ namespace StructureHelper.Windows.Shapes
         private RelayCommand deleteVertexCommand;
         private RelayCommand flipVerticalCommand;
         private RelayCommand flipHorizontalCommand;
+        private static Polyline2D polyline;
 
         public ICommand DeleteVertexCommand => deleteVertexCommand ??= new RelayCommand(DeleteVertex,
             o => SelectedVertex is not null && Vertices.Count >= minVertexCount);

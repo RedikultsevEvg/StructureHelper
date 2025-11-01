@@ -142,8 +142,8 @@
                                 CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Width="5" Foreground="DarkGray"/>
-                            <DataGridTextColumn Width="100" Header="X" Binding="{Binding Point.X}" CanUserSort="False"/>
-                            <DataGridTextColumn Width="100" Header="Y" Binding="{Binding Point.Y}" CanUserSort="False"/>
+                            <DataGridTextColumn Width="100" Header="X" Binding="{Binding Point.X, Converter={StaticResource LengthConverter}}" CanUserSort="False"/>
+                            <DataGridTextColumn Width="100" Header="Y" Binding="{Binding Point.Y, Converter={StaticResource LengthConverter}}" CanUserSort="False"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>

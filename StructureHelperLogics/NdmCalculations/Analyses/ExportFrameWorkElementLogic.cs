@@ -5,7 +5,7 @@ using System.Windows.Media.Imaging;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses
 {
-    public class ExportFrameWorkElementLogic : IExportResultLogic
+    public class ExportFrameWorkElementLogic : IExportToFileLogic
     {
         private FrameworkElement element;
         private double scaleFactor;

@@ -2,38 +2,33 @@
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Services.Exports;
-using StructureHelperLogics.NdmCalculations.Analyses;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace StructureHelper.Services.Exports
 {
-    internal class ExportToFileService : IExportService
+    public class ExportToFileService : IExportLogic
     {
-        IExportToFileInputData inputData;
-        IExportResultLogic logic;
+        private IFileIOnputData inputData;
+        private IExportToFileLogic exportLogic;
 
-        public ExportToFileService(IExportToFileInputData inputData, IExportResultLogic logic)
+        public ExportToFileService(IFileIOnputData inputData, IExportToFileLogic exportLogic)
         {
             this.inputData = inputData;
-            this.logic = logic;
+            this.exportLogic = exportLogic;
         }
         public void Export()
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = inputData.Filter;
-            saveFileDialog.Title = inputData.Title;
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            SaveFileDialog dialog = new()
             {
-                var filename = saveFileDialog.FileName;
-                // If the file name is not an empty string open it for saving.
+                Filter = inputData.Filter,
+                Title = inputData.Title
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var filename = dialog.FileName;
                 if (filename != "")
                 {
                     SaveFile(filename);
@@ -79,8 +74,8 @@ namespace StructureHelper.Services.Exports
         }
         private void ExportFile(string fileName)
         {
-            logic.FileName = fileName;
-            logic.Export();
+            exportLogic.FileName = fileName;
+            exportLogic.Export();
             try
             {
                 OpenFile(fileName);

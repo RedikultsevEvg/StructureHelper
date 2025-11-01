@@ -1,13 +1,9 @@
 ﻿using StructureHelper.Services.Exports;
+using StructureHelperCommon.Services.Exports.Factories;
 using StructureHelperLogics.NdmCalculations.Analyses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace StructureHelper.Windows.Graphs
 {
@@ -15,11 +11,7 @@ namespace StructureHelper.Windows.Graphs
     {
         public void SaveImageToFile(FrameworkElement element, double scaleFactor = 1)
         {
-            var inputData = new ExportToFileInputData
-            {
-                Filter = "png |*.png",
-                Title = "Save in *.png File"
-            };
+            var inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Png);
             var logic = new ExportFrameWorkElementLogic(element, scaleFactor);
             var exportService = new ExportToFileService(inputData, logic);
             exportService.Export();

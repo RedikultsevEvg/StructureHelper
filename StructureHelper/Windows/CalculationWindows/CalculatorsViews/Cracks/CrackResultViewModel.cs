@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Services.Exports;
+using StructureHelperCommon.Services.Exports.Factories;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using System.Collections.Generic;
@@ -53,11 +54,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
         public ICommand ExportToCSVCommand => exportToCSVCommand ??= new RelayCommand(o => { ExportToCSV(); });
         private void ExportToCSV()
         {
-            var inputData = new ExportToFileInputData
-            {
-                Filter = "csv |*.csv",
-                Title = "Save in *.csv File"
-            };
+            var inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Csv);
             var logic = new ExportCrackResultToCSVLogic(resultModel);
             var exportService = new ExportToFileService(inputData, logic);
             exportService.Export();

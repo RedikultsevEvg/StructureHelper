@@ -4,7 +4,7 @@ using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses
 {
-    public class ExportGeometryResultToCSVLogic : IExportResultLogic
+    public class ExportGeometryResultToCSVLogic : IExportToFileLogic
     {
         const string separator = ";";
         StringBuilder output;

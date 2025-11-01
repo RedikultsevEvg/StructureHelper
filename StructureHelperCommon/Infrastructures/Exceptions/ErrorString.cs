@@ -29,5 +29,7 @@
         public static string CalculationError => "#0019: Error of calculation";
         public static string SourceObject => "#0020: Source object";
         public static string TargetObject => "#0021: Target object";
+        public static string FileDoesNotExsist => "#0022: File does not exist";
+        public static string FileCantBeOpened => "#0023: File can not be opened";
     }
 }

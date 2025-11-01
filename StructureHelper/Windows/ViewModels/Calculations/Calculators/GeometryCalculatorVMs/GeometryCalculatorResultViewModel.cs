@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using StructureHelperCommon.Services.Exports;
+using StructureHelperCommon.Services.Exports.Factories;
 
 namespace StructureHelper.Windows.ViewModels.Calculations.Calculators.GeometryCalculatorVMs
 {
@@ -32,11 +34,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators.GeometryCa
         }
         private void ExportToCSV()
         {
-            var inputData = new ExportToFileInputData
-            {
-                Filter = "csv |*.csv",
-                Title = "Save in csv File"
-            };
+            var inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Csv);
             var logic = new ExportGeometryResultToCSVLogic(result);
             var exportService = new ExportToFileService(inputData, logic);
             exportService.Export();

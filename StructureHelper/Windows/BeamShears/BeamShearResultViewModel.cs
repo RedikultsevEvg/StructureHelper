@@ -1,6 +1,8 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Services.Exports;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
+using StructureHelperCommon.Services.Exports;
+using StructureHelperCommon.Services.Exports.Factories;
 using StructureHelperLogics.Models.BeamShears;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,13 +50,8 @@ namespace StructureHelper.Windows.BeamShears
         private void ExportToExcel(object obj)
         {
             if (SelectedResult is null) { return; }
-            var inputData = new ExportToFileInputData
-            {
-                Filter = "csv |*.csv",
-                Title = "Save in *.csv File"
-            };
             var logic = new ExportActionResultToCSVLogic(SelectedResult);
-            var exportService = new ExportToFileService(inputData, logic);
+            var exportService = new ExportToFileService(FileInputDataFactory.GetFileIOInputData(FileInputDataType.Csv), logic);
             exportService.Export();
         }
 

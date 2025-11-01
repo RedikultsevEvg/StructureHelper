@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Services.Exports
 {
-    public interface IExportResultLogic
+    public interface IImportLogic
     {
-        string FileName { get; set; }
-        void Export();
+        void Import();
     }
 }

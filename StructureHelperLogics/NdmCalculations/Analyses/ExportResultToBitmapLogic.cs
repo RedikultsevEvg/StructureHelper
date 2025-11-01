@@ -3,7 +3,7 @@ using System.Windows.Media.Imaging;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses
 {
-    public class ExportResultToBitmapLogic : IExportResultLogic
+    public class ExportResultToBitmapLogic : IExportToFileLogic
     {
         private BitmapImage bitmapImage;
 

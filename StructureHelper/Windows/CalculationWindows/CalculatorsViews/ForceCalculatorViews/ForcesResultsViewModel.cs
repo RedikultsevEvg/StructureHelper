@@ -18,6 +18,8 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services.Exports;
+using StructureHelperCommon.Services.Exports.Factories;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
@@ -134,13 +136,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public ICommand ExportToCSVCommand => exportToCSVCommand ??= new RelayCommand(o => { ExportToCSV();});
         private void ExportToCSV()
         {
-            var inputData = new ExportToFileInputData
-            {
-                Filter = "csv |*.csv",
-                Title = "Save in *.csv File"
-            };
             var logic = new ExportForcesResultToCSVLogic(resultModel);
-            var exportService = new ExportToFileService(inputData, logic);
+            var exportService = new ExportToFileService(FileInputDataFactory.GetFileIOInputData(FileInputDataType.Csv), logic);
             exportService.Export();
         }
         public ICommand ShowGraphsCommand
