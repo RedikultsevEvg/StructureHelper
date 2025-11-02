@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StructureHelper.Windows.UserControls"
              xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+             xmlns:behavior="clr-namespace:StructureHelper.Infrastructure.Behaviors"
              xmlns:enums="clr-namespace:StructureHelper.Infrastructure.Enums"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:infrastructure="clr-namespace:StructureHelper.Infrastructure"
@@ -42,12 +43,13 @@
                         VerticalScrollBarVisibility="Visible"
                         HorizontalScrollBarVisibility="Visible"
                         Background="White">
-            <Grid x:Name="WorkPlaneGrid" Background="White">
+            <Grid x:Name="WorkPlaneGrid" Background="White"
+                  behavior:FileDropBehavior.Command="{Binding ParentViewModel.FileDroppedCommand}">
                 <Canvas Name="WorkPlaneName"
                                 ClipToBounds="True"
                                 Width="{Binding Width}"
-                                Height="{Binding Height}"
-                                >
+                                Height="{Binding Height}"                      
+                        >
                     <Canvas.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Add" DataContext="{Binding ParentViewModel.PrimitiveLogic}">

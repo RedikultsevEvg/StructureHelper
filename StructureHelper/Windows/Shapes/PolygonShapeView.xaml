@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.Shapes"
         xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         xmlns:ucwp="clr-namespace:StructureHelper.Windows.UserControls.WorkPlanes"
+        xmlns:behavior="clr-namespace:StructureHelper.Infrastructure.Behaviors"
         d:DataContext="{d:DesignInstance local:PolygonShapeViewModel}"
         mc:Ignorable="d"
         Title="Polygon" Height="450" Width="800" MinHeight="250" MinWidth="400" MaxHeight="800" MaxWidth="1200" WindowStartupLocation="CenterScreen">
@@ -117,7 +118,7 @@
                     </Button>
                 </ToolBar>
             </ToolBarTray>
-            <Grid>
+            <Grid behavior:FileDropBehavior.Command="{Binding FileDroppedCommand}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="100" MaxWidth="250"/>
                     <ColumnDefinition/>

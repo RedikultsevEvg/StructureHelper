@@ -15,9 +15,9 @@ namespace StructureHelperCommon.Models.Shapes
         /// <inheritdoc />
         public Guid Id { get; }
         /// <inheritdoc />
-        public double X { get; set; }
+        public double X { get; set; } = 0;
         /// <inheritdoc />
-        public double Y { get; set; }
+        public double Y { get; set; } = 0;
 
         public Point2D(Guid id)
         {
@@ -25,6 +25,12 @@ namespace StructureHelperCommon.Models.Shapes
         }
 
         public Point2D() : this(Guid.NewGuid()) { }
+
+        public Point2D(double x, double y) : this()
+        {
+            X = x;
+            Y = y;
+        }
 
         public object Clone()
         {

@@ -1,11 +1,7 @@
-﻿using netDxf;
-using netDxf.Entities;
-using netDxf.Header;
-using netDxf.Tables;
+﻿using netDxf.Entities;
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.GraphicalPrimitives;
 using StructureHelper.Services.Exports;
-using StructureHelper.Windows.BeamShears;
 using StructureHelper.Windows.Shapes.Logics;
 using StructureHelper.Windows.UserControls.WorkPlanes;
 using StructureHelper.Windows.ViewModels;
@@ -13,14 +9,14 @@ using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Models.Shapes.Logics;
 using StructureHelperCommon.Services.Exports;
 using StructureHelperCommon.Services.Exports.Factories;
-using StructureHelperLogics.Models.BeamShears;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.Shapes
@@ -28,7 +24,8 @@ namespace StructureHelper.Windows.Shapes
     public class PolygonShapeViewModel : OkCancelViewModelBase
     {
         private const int minVertexCount = 3;
-
+        private const string ErrorOfUpdatingOfPolygon = "Error of updating of polygon";
+        private const string ErrorOfObtainigOfPolyline = "Error of obtaining of dxf polyline";
         private readonly IPoint2D absoluteCenter;
         private readonly IPoint2D localCenter;
         private readonly ILinePolygonShape polygonShape;
@@ -67,11 +64,61 @@ namespace StructureHelper.Windows.Shapes
         public ICommand FlipHorizontalCommand => flipHorizontalCommand ??= new RelayCommand(FlipHorizontal);
 
         public ICommand ImportFromDxfCommand => importFromDxfCommand ??= new RelayCommand(ImportFromDxf);
+        public ICommand FileDroppedCommand => fileDroppedCommand ??= new RelayCommand(OnFileDropped);
+
+        private void OnFileDropped(object obj)
+        {
+            if (obj is string[] files && files.Length > 0)
+            {
+                fileName = files.First();
+                string extension = Path.GetExtension(fileName).ToLowerInvariant();
+                if (extension == ".dxf")
+                {
+                    SafetyProcessor.RunSafeProcess(GetPolyline2DFromFile, ErrorOfObtainigOfPolyline);
+                    SafetyProcessor.RunSafeProcess(UpdatePolygon, ErrorOfUpdatingOfPolygon);
+                }
+                else
+                {
+                    MessageBox.Show($"Unsupported file type: {extension}");
+                }         
+            }
+            else
+            {
+                MessageBox.Show($"Error of file");
+            }
+        }
+
+        private void GetPolyline2DFromFile()
+        {
+            var logic = new SinglePolyline2DImportFromDxfLogic() { FileName = fileName };
+            logic.Import();
+            var polylines = logic.Polyline2Ds;
+            GetPolyline(polylines);
+        }
+
+        private void GetPolyline(List<Polyline2D> polylines)
+        {
+            if (polylines.Count > 0)
+            {
+                if (polylines.Count == 1)
+                {
+                    polyline = polylines[0];
+                }
+                else
+                {
+                    MessageBox.Show($"File: {fileName} has {polylines.Count} polylines, but one expected");
+                }
+            }
+            else
+            {
+                MessageBox.Show($"File: {fileName} does not has suitable polylines");
+            }
+        }
 
         private void ImportFromDxf(object commandParameter)
         {
-            SafetyProcessor.RunSafeProcess(GetPolyline2D, "Error of obtaining of dxf polyline");
-            SafetyProcessor.RunSafeProcess(UpdatePolygon, "Error of updating of polygon");
+            SafetyProcessor.RunSafeProcess(GetPolyline2D, ErrorOfObtainigOfPolyline);
+            SafetyProcessor.RunSafeProcess(UpdatePolygon, ErrorOfUpdatingOfPolygon);
         }
 
         private void UpdatePolygon()
@@ -85,13 +132,14 @@ namespace StructureHelper.Windows.Shapes
             Redraw(null);
         }
 
-        private static void GetPolyline2D()
+        private void GetPolyline2D()
         {
             FileIOInputData inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Dxf);
             var logic = new SinglePolyline2DImportFromDxfLogic();
             var importService = new ImportFromFileService(inputData, logic);
             importService.Import();
-            polyline = logic.Polyline2D;
+            var polylines = logic.Polyline2Ds;
+            GetPolyline(polylines);
         }
 
         public ICommand ExportToDxfCommand => exportToDxfCommand ??= new RelayCommand(ExportToDxf);
@@ -160,11 +208,9 @@ namespace StructureHelper.Windows.Shapes
             logic = new PolygonShapeToGraphicPrimitveConvertStrategy(this);
             WorkPlaneRoot.PrimitiveCollection.Primitives.Clear();
             var polygon = GetPolygonShape();
+            var updateStrategy = new LinePolygonShapeUpdateStrategy();
+            updateStrategy.Update(polygonShape, polygon);
             WorkPlaneRoot.PrimitiveCollection.Primitives.Add(logic.Convert(polygon)[0]);
-            //foreach (var item in Vertices)
-            //{
-            //    item.Refresh();
-            //}
         }
 
         private RelayCommand addVertexBeforeCommand;
@@ -205,16 +251,16 @@ namespace StructureHelper.Windows.Shapes
         private RelayCommand flipVerticalCommand;
         private RelayCommand flipHorizontalCommand;
         private static Polyline2D polyline;
+        private RelayCommand fileDroppedCommand;
+        private string fileName;
 
         public ICommand DeleteVertexCommand => deleteVertexCommand ??= new RelayCommand(DeleteVertex,
             o => SelectedVertex is not null && Vertices.Count >= minVertexCount);
 
         private void DeleteVertex(object commandParameter)
         {
-            if (SelectedVertex is not null)
-            {
-                Vertices.Remove(SelectedVertex);
-            }
+            if (SelectedVertex is null) { return; }
+            Vertices.Remove(SelectedVertex);
             Redraw(null);
         }
     }

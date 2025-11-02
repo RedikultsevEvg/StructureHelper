@@ -8,6 +8,6 @@ namespace StructureHelperCommon.Services.Exports
 {
     public interface IImportFromFileLogic : IImportLogic
     {
-        string FileName { get; set; }
+        string? FileName { get; set; }
     }
 }

@@ -1,19 +1,27 @@
 ﻿using netDxf;
 using netDxf.Entities;
 using netDxf.Header;
-using System;
+using StructureHelperCommon.Services.Exports.Factories;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace StructureHelperCommon.Services.Exports
 {
-    public class ShapesAllImportFromDxfLogic : IImportFromFileLogic
+    public class EntitiesImportFromDxfLogic : IImportFromFileLogic
     {
         public string FileName { get; set; }
         public List<EntityObject> Entities { get; set; } = [];
         public void Import()
+        {
+            string extension = Path.GetExtension(FileName).ToLowerInvariant();
+            if (extension == ".dxf")
+            {
+                GetEntities();
+            }
+
+        }
+
+        private void GetEntities()
         {
             // this check is optional but recommended before loading a DXF file
             DxfVersion dxfVersion = DxfDocument.CheckDxfFileVersion(FileName);

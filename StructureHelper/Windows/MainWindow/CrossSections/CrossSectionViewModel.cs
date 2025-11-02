@@ -5,6 +5,7 @@ using StructureHelper.Models.Materials;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.Beams;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
 using StructureHelper.Windows.ViewModels;
+using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelper.Windows.ViewModels.Forces;
 using StructureHelper.Windows.ViewModels.Materials;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
@@ -13,9 +14,12 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Templates.CrossSections.RCs;
 using StructureHelperLogics.Models.Templates.RCs;
+using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -123,6 +127,42 @@ namespace StructureHelper.Windows.MainWindow
 
         private RelayCommand showVisualProperty;
         private RelayCommand selectPrimitive;
+        private RelayCommand fileDroppedCommand;
+        private string fileName;
+
+        public ICommand FileDroppedCommand => fileDroppedCommand ??= new RelayCommand(OnFileDropped);
+
+        private void OnFileDropped(object obj)
+        {
+            if (obj is string[] files && files.Length > 0)
+            {
+                fileName = files.First();
+                string extension = Path.GetExtension(fileName).ToLowerInvariant();
+                if (extension == ".dxf")
+                {
+                    SafetyProcessor.RunSafeProcess(GetPrimitivesFromFile,"Error of obtaining of primitives, see detail information");
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show($"Unsupported file type: {extension}");
+                }
+            }
+            else
+            {
+                System.Windows.MessageBox.Show($"Error of file");
+            }
+        }
+
+        private void GetPrimitivesFromFile()
+        {
+            var importFromFileLogic = new GetPrimitivesByFile() { FileName = fileName };
+            importFromFileLogic.Import();
+            var ndmPrimitives = importFromFileLogic.Primitives;
+            var primitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(ndmPrimitives);
+            repository.Primitives.AddRange(ndmPrimitives);
+            PrimitiveLogic.AddItems(primitives);
+            PrimitiveLogic.Refresh();
+        }
 
         public CrossSectionViewModel(ICrossSection section)
         {
