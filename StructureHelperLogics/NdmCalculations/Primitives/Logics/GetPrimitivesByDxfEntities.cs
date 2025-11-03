@@ -4,6 +4,7 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Exports;
+using System.Runtime.CompilerServices;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
@@ -35,7 +36,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                 }
                 else
                 {
-                    throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(dxfEntity));
+                    // just skip all types of primitives
+                    // throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(dxfEntity));
                 }
             }
         }

@@ -44,6 +44,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             {
                 IsValid = true,
                 Description = string.Empty,
+                InputData = InputData,
             };
         }
 

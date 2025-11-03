@@ -74,7 +74,7 @@ namespace StructureHelperCommon.Models.Shapes
             // compute angle from each criterion
             double byAngle = options.AngleStepRadians;
             double byCount = arcAngle / options.SegmentCount;
-            double byLength = 2 * Math.Asin(options.MaxSegmentLength / (2 * radius));
+            double byLength = 2 * Math.Asin(options.MaxSegmentLength * metresToMillimeters / (2 * radius));
 
             return options.Mode switch
             {

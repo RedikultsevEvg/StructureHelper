@@ -6,6 +6,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public interface IForcesTupleResult : IResult
     {
+        IForceTupleInputData InputData { get; set; }
         IDesignForceTuple DesignForceTuple { get; set; }
         ILoaderResults LoaderResults { get; set; }
     }

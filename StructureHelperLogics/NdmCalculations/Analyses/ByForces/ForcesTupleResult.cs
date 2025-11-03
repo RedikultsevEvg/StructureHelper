@@ -22,6 +22,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         /// </summary>
         public ILoaderResults LoaderResults { get; set; }
 
+        public IForceTupleInputData InputData { get; set; }
+
         public ForcesTupleResult()
         {
             DesignForceTuple = new DesignForceTuple();
