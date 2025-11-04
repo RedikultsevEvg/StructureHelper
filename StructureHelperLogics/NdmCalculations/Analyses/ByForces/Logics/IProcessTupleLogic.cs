@@ -10,6 +10,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     public interface IProcessTupleLogic : ILogic
     {
         IForceTupleInputData InputData { get; set; }
-        IForcesTupleResult ProcessNdmResult();
+        IForceTupleCalculatorResult ProcessNdmResult();
     }
 }

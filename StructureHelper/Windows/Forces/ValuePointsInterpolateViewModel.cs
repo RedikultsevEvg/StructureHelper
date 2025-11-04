@@ -19,7 +19,7 @@ namespace StructureHelper.Windows.Forces
         public ValuePointsInterpolateViewModel(ValuePointsInterpolationInputData inputData)
         {
             this.inputData = inputData;
-            ForceInterpolationViewModel = new(this.inputData.FinishDesignForce, this.inputData.StartDesignForce, this.inputData.StepCount);
+            ForceInterpolationViewModel = new(this.inputData.StartForceTuple, this.inputData.FinishForceTuple, this.inputData.StepCount);
             PrimitiveLogic = new PointPrimitiveLogic(inputData.PrimitiveBases);
             ValueDelegatesLogic = new();
         }

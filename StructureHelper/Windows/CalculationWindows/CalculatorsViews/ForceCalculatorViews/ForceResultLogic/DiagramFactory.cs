@@ -21,14 +21,14 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
         /// <summary>
         /// Collection of force results
         /// </summary>
-        public List<IForcesTupleResult> TupleList { get; set; }
+        public List<IExtendedForceTupleCalculatorResult> TupleResultList { get; set; }
 
         //public Action<int> SetProgress { get; set; }
 
         public ArrayParameter<double> GetCommonArray()
         {
             var labels = LabelsFactory.GetCommonLabels();
-            arrayParameter = new ArrayParameter<double>(TupleList.Count(), labels);
+            arrayParameter = new ArrayParameter<double>(TupleResultList.Count(), labels);
             Calculate();
             return arrayParameter;
         }
@@ -36,7 +36,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
         private void Calculate()
         {
             var data = arrayParameter.Data;
-            for (int i = 0; i < TupleList.Count(); i++)
+            for (int i = 0; i < TupleResultList.Count(); i++)
             {
                 var valueList = ProcessResult(i);
                 for (int j = 0; j < valueList.Count; j++)
@@ -56,12 +56,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 
             return new List<double>
                 {
-                    TupleList[i].DesignForceTuple.ForceTuple.Mx * unitMoment.Multiplyer,
-                    TupleList[i].DesignForceTuple.ForceTuple.My * unitMoment.Multiplyer,
-                    TupleList[i].DesignForceTuple.ForceTuple.Nz * unitForce.Multiplyer,
-                    TupleList[i].LoaderResults.ForceStrainPair.StrainMatrix.Kx * unitCurvature.Multiplyer,
-                    TupleList[i].LoaderResults.ForceStrainPair.StrainMatrix.Ky * unitCurvature.Multiplyer,
-                    TupleList[i].LoaderResults.ForceStrainPair.StrainMatrix.EpsZ
+                    TupleResultList[i].ForcesTupleResult.ForceTuple.Mx * unitMoment.Multiplyer,
+                    TupleResultList[i].ForcesTupleResult.ForceTuple.My * unitMoment.Multiplyer,
+                    TupleResultList[i].ForcesTupleResult.ForceTuple.Nz * unitForce.Multiplyer,
+                    TupleResultList[i].ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix.Kx * unitCurvature.Multiplyer,
+                    TupleResultList[i].ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix.Ky * unitCurvature.Multiplyer,
+                    TupleResultList[i].ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix.EpsZ
                 };
         }
     }

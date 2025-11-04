@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public class ForcesTupleResult : IForcesTupleResult
+    public class ForceTupleCalculatorResult : IForceTupleCalculatorResult
     {
         public bool IsValid { get; set; }
-        public IDesignForceTuple DesignForceTuple { get; set; }
+        public IForceTuple ForceTuple { get; set; } = new ForceTuple(Guid.NewGuid());
         /// <summary>
         /// Text of result of calculations
         /// </summary>
@@ -23,10 +23,5 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public ILoaderResults LoaderResults { get; set; }
 
         public IForceTupleInputData InputData { get; set; }
-
-        public ForcesTupleResult()
-        {
-            DesignForceTuple = new DesignForceTuple();
-        }
     }
 }

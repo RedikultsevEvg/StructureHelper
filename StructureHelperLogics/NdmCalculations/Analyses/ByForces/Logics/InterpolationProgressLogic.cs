@@ -2,6 +2,7 @@
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.States;
 using StructureHelperLogics.Services.NdmCalculations;
 using System.ComponentModel;
 
@@ -9,12 +10,13 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
 {
     public class InterpolationProgressLogic : ILongProcessLogic
     {
-        private ForceCalculator forceCalculator;
+        private IForceCalculator forceCalculator;
+        private IStateCalcTermPair stateCalcTermPair;
         private InterpolateTuplesResult interpolateTuplesResult;
 
         public Action<int> SetProgress { get; set; }
 
-        public ForceCalculator InterpolateCalculator { get; private set; }
+        public IForceCalculator InterpolateCalculator { get; private set; }
         public bool Result { get; set; }
 
         public int StepCount => interpolateTuplesResult.StepCount + 1;
@@ -23,7 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
 
         public void WorkerDoWork(object sender, DoWorkEventArgs e)
         {
-            InterpolateCalculator = InterpolateService.InterpolateForceCalculator(forceCalculator, interpolateTuplesResult);
+            InterpolateCalculator = InterpolateService.InterpolateForceCalculator(forceCalculator, stateCalcTermPair, interpolateTuplesResult);
             InterpolateCalculator.ActionToOutputResults = ShowProgressResult;
             InterpolateCalculator.Run();
         }
@@ -38,17 +40,18 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
             //nothing to do
         }
 
-        public InterpolationProgressLogic(ForceCalculator forceCalculator, InterpolateTuplesResult interpolateTuplesResult)
+        public InterpolationProgressLogic(IForceCalculator forceCalculator, IStateCalcTermPair stateCalcTermPair, InterpolateTuplesResult interpolateTuplesResult)
         {
             this.forceCalculator = forceCalculator;
+            this.stateCalcTermPair = stateCalcTermPair;
             this.interpolateTuplesResult = interpolateTuplesResult;
         }
 
         private void ShowProgressResult(IResult result)
         {
-            if (result is ForcesResults)
+            if (result is ForceCalculatorResult)
             {
-                var forceResult = result as ForcesResults;
+                var forceResult = result as ForceCalculatorResult;
                 SetProgress?.Invoke(forceResult.ForcesResultList.Count());
                 Result = forceResult.IsValid;
             }

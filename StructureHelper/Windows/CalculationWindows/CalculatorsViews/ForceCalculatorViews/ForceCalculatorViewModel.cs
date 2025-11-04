@@ -1,10 +1,6 @@
-﻿using StructureHelper.Infrastructure.UI.DataContexts;
-using StructureHelper.Windows.ViewModels.NdmCrossSections;
-using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Models.Forces;
+﻿using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
 using System.Collections.Generic;
 
 

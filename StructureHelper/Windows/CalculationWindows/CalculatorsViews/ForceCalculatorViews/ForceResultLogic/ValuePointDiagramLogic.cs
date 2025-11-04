@@ -1,5 +1,4 @@
 ﻿using LoaderCalculator.Data.Ndms;
-using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Services.ResultViewers;
 using StructureHelper.Windows.Forces;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -10,9 +9,6 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic
 {
@@ -20,13 +16,13 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
     {
         private ArrayParameter<double> arrayParameter;
         private List<(INamedAreaPoint areaPoint, INdmPrimitive ndmPrimitive)> pointCollection;
-        private List<IForcesTupleResult> validTuplesList;
+        private List<IExtendedForceTupleCalculatorResult> validTuplesList;
         private ArrayParameter<double> arrayOfValuesByPoint;
         private IEnumerable<ForceResultFunc> selectedDelegates;
         private string exceptionMessage;
 
-        public IEnumerable<IForcesTupleResult> TupleList { get; set; }
-        public ForceCalculator Calculator { get; set; }
+        public IEnumerable<IExtendedForceTupleCalculatorResult> TupleList { get; set; }
+        public IForceCalculator Calculator { get; set; }
         public PointPrimitiveLogic PrimitiveLogic { get; set; }
         public ValueDelegatesLogic ValueDelegatesLogic { get; set; }
 
@@ -106,14 +102,14 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 }
             }
         }
-        private void ProcessPointByTuple(IForcesTupleResult tuple, int i)
+        private void ProcessPointByTuple(IExtendedForceTupleCalculatorResult tupleResult, int i)
         {
             var values = new List<double>();
-            var strainMatrix = tuple.LoaderResults.ForceStrainPair.StrainMatrix;
+            var strainMatrix = tupleResult.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix;
 
             foreach (var valuePoint in pointCollection)
             {
-                var ndm = GetMockNdm(valuePoint, tuple);
+                var ndm = GetMockNdm(valuePoint, tupleResult);
 
                 foreach (var valDelegate in selectedDelegates)
                 {
@@ -127,7 +123,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             var factory = new DiagramFactory()
             {
-                TupleList = validTuplesList,
+                TupleResultList = validTuplesList,
                 //SetProgress = SetProgress,
             };
             arrayParameter = factory.GetCommonArray();
@@ -135,10 +131,10 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             var labels = GetValueLabels(selectedDelegates);
             arrayOfValuesByPoint = new ArrayParameter<double>(validTuplesList.Count(), labels);
         }
-        private INdm GetMockNdm((INamedAreaPoint areaPoint, INdmPrimitive ndmPrimitive) valuePoint, IForcesTupleResult tuple)
+        private INdm GetMockNdm((INamedAreaPoint areaPoint, INdmPrimitive ndmPrimitive) valuePoint, IExtendedForceTupleCalculatorResult tupleResult)
         {
-            var limitState = tuple.DesignForceTuple.LimitState;
-            var calcTerm = tuple.DesignForceTuple.CalcTerm;
+            var limitState = tupleResult.StateCalcTermPair.LimitState;
+            var calcTerm = tupleResult.StateCalcTermPair.CalcTerm;
             var material = valuePoint.ndmPrimitive.NdmElement.HeadMaterial.GetLoaderMaterial(limitState, calcTerm);
             var userPrestrain = valuePoint.ndmPrimitive.NdmElement.UsersPrestrain;
             var autoPrestrain = valuePoint.ndmPrimitive.NdmElement.AutoPrestrain;

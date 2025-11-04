@@ -1,17 +1,14 @@
-﻿using StructureHelper.Windows.Forces;
+﻿using StructureHelper.Infrastructure.UI.DataContexts;
+using StructureHelper.Windows.Forces;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Models.Forces;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Forces;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
+using StructureHelperLogics.NdmCalculations.Primitives;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic
 {
@@ -21,9 +18,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private ValuePointsInterpolateViewModel viewModel;
         private IResult result;
         private ValuePointsInterpolationInputData inputData;
-        public IForcesTupleResult SelectedResult { get; set; }
+        public IExtendedForceTupleCalculatorResult SelectedResult { get; set; }
         public IEnumerable<INdmPrimitive> NdmPrimitives { get; set; }
-        public ForceCalculator ForceCalculator { get; set; }
+        public IForceCalculator ForceCalculator { get; set; }
 
 
         public ILongProcessLogic ProgressLogic { get; set; }
@@ -31,20 +28,20 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         public void InterpolateValuePoints()
         {
-            var tuple = SelectedResult.DesignForceTuple ?? throw new StructureHelperException(ErrorStrings.NullReference + ": Design force combination");
+            var tuple = SelectedResult.ForcesTupleResult.ForceTuple ?? throw new StructureHelperException(ErrorStrings.NullReference + ": Design force combination");
             PrepareInputData(tuple);
             viewModel = new ValuePointsInterpolateViewModel(inputData);
             if (ShowDialog() == false) { return; };
             ShowDiagram(result);
         }
 
-        private void PrepareInputData(IDesignForceTuple tuple)
+        private void PrepareInputData(IForceTuple endTuple)
         {
             inputData = new ValuePointsInterpolationInputData()
             {
-                FinishDesignForce = tuple.Clone() as IDesignForceTuple,
-                LimitState = tuple.LimitState,
-                CalcTerm = tuple.CalcTerm,
+                StartForceTuple = new ForceTuple(),
+                FinishForceTuple = endTuple.Clone() as IForceTuple,
+                StateCalcTermPair = SelectedResult.StateCalcTermPair,
             };
             inputData.PrimitiveBases.AddRange(PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(NdmPrimitives));
         }
@@ -54,7 +51,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             var wnd = new ValuePointsInterpolateView(viewModel);
             wnd.ShowDialog();
             if (wnd.DialogResult != true) { return false; }
-            interpolationLogic = new InterpolationProgressLogic(ForceCalculator, viewModel.ForceInterpolationViewModel.Result);
+            interpolationLogic = new InterpolationProgressLogic(ForceCalculator, SelectedResult.StateCalcTermPair, viewModel.ForceInterpolationViewModel.Result);
             ProgressLogic = interpolationLogic;
             ShowProgressLogic = new(interpolationLogic)
             {
@@ -68,17 +65,17 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private void ShowDiagram(IResult result)
         {
             if (result.IsValid == false) { return; }
-            if (result is not IForcesResults)
+            if (result is not IForceCalculatorResult)
             {
-                throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(IForcesResults), result));
+                throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(IForceCalculatorResult), result));
             }
-            var tupleResult = result as IForcesResults;
+            var tupleResult = result as IForceCalculatorResult;
             var pointGraphLogic = new ShowValuePointDiagramLogic()
             {
                 Calculator = interpolationLogic.InterpolateCalculator,
                 PrimitiveLogic = viewModel.PrimitiveLogic,
                 ValueDelegatesLogic = viewModel.ValueDelegatesLogic,
-                TupleList = tupleResult.ForcesResultList
+                TupleResultList = tupleResult.ForcesResultList
             };
             pointGraphLogic.ShowWindow();
         }

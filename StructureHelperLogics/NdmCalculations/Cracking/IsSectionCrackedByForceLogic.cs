@@ -49,7 +49,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 calculator.TraceLogger = TraceLogger.GetSimilarTraceLogger(50);
             }
             calculator.Run();
-            var calcResult = calculator.Result as ForcesTupleResult;
+            var calcResult = calculator.Result as ForceTupleCalculatorResult;
             if (calcResult.IsValid == false)
             {
                 TraceLogger?.AddMessage($"Result of calculation is not valid {calcResult.Description}", TraceLogStatuses.Error);

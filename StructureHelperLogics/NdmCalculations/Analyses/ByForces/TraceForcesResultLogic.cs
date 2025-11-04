@@ -14,11 +14,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     /// <summary>
     /// Provides trace logger inforvation for collection of force tuple results
     /// </summary>
-    public class TraceForcesResultLogic : ITraceCollectionLogic<IForcesTupleResult>
+    public class TraceForcesResultLogic : ITraceCollectionLogic<IExtendedForceTupleCalculatorResult>
     {
         const int rowSize = 4;
         private List<ITraceLoggerEntry> traceLoggerEntries;
-        public IEnumerable<IForcesTupleResult>? Collection { get; set; }
+        public IEnumerable<IExtendedForceTupleCalculatorResult>? Collection { get; set; }
         public int Priority { get; set; } = LoggerService.GetPriorityByStatus(TraceLogStatuses.Info);
 
         public List<ITraceLoggerEntry> GetTraceEntries()
@@ -51,7 +51,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             traceLoggerEntries.Add(table);
         }
 
-        private IEnumerable<IShTableRow<ITraceLoggerEntry>> ProcessForceTupleResult(IForcesTupleResult item)
+        private IEnumerable<IShTableRow<ITraceLoggerEntry>> ProcessForceTupleResult(IExtendedForceTupleCalculatorResult item)
         {
             List<IShTableRow<ITraceLoggerEntry>> rows = new();
             int priority = Priority;
@@ -63,19 +63,19 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             ndmRow = new(rowSize);
             ndmRow.Elements[0].Value = new StringLogEntry()
             {
-                Message = TraceStringService.GetLimitStateAndCalctTerm(item.DesignForceTuple),
+                Message = TraceStringService.GetLimitStateAndCalctTerm(item.StateCalcTermPair),
                 Priority = priority
             };
             ndmRow.Elements[1].Value = new StringLogEntry()
             {
-                Message = TraceStringService.GetForces(item.DesignForceTuple.ForceTuple),
+                Message = TraceStringService.GetForces(item.ForcesTupleResult.ForceTuple),
                 Priority = priority
             };
-            if (item.LoaderResults is not null)
+            if (item.ForcesTupleResult.LoaderResults is not null)
             {
                 ndmRow.Elements[2].Value = new StringLogEntry()
                 {
-                    Message = TraceStringService.GetCuvatures(item.LoaderResults.ForceStrainPair.StrainMatrix),
+                    Message = TraceStringService.GetCuvatures(item.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix),
                     Priority = priority
                 };
             }

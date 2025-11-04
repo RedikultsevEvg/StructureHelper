@@ -37,7 +37,7 @@
             <ToolBar Name="CrackResult">
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowCrackResultCommand}">
                     <Button.ToolTip>
-                        <uc:ButtonToolTipEh HeaderText="Show result step by step"
+                        <uc:ButtonToolTipEh HeaderText="Show crack result step by step"
                                                 IconContent="{StaticResource CrackForces}"
                                                 DescriptionText="Show proportional combination of forces where cracks are appeared"/>
                     </Button.ToolTip>
@@ -164,17 +164,17 @@
                 </DataGrid.RowStyle>
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Header="Valid" Binding="{Binding Path=IsValid}"/>
-                    <DataGridTextColumn Header="LimitState" Width="70" Binding="{Binding DesignForceTuple.LimitState}"/>
-                    <DataGridTextColumn Header="Duration" Width="70" Binding="{Binding DesignForceTuple.CalcTerm}"/>
-                    <DataGridTextColumn Header="Moment Mx" Width="90" Binding="{Binding DesignForceTuple.ForceTuple.Mx, Converter={StaticResource MomentConverter}}"/>
-                    <DataGridTextColumn Header="Moment My" Width="90" Binding="{Binding DesignForceTuple.ForceTuple.My, Converter={StaticResource MomentConverter}}"/>
-                    <DataGridTextColumn Header="Force Nz" Width="90" Binding="{Binding DesignForceTuple.ForceTuple.Nz, Converter={StaticResource ForceConverter}}"/>
-                    <DataGridTextColumn Header="Kx" Width="90" Binding="{Binding LoaderResults.ForceStrainPair.StrainMatrix.Kx}"/>
-                    <DataGridTextColumn Header="Ky" Width="90" Binding="{Binding LoaderResults.ForceStrainPair.StrainMatrix.Ky}"/>
-                    <DataGridTextColumn Header="EpsZ" Width="90" Binding="{Binding LoaderResults.ForceStrainPair.StrainMatrix.EpsZ}"/>
-                    <DataGridTextColumn Header="Accuracy" Width="90" Binding="{Binding LoaderResults.AccuracyRate}"/>
-                    <DataGridTextColumn Header="Max Iteration" Width="90" Binding="{Binding LoaderResults.IterationCounter}"/>
-                    <DataGridTextColumn Header="Description" Width="300" Binding="{Binding Description}"/>
+                    <DataGridTextColumn Header="LimitState" Width="70" Binding="{Binding  StateCalcTermPair.LimitState}"/>
+                    <DataGridTextColumn Header="Duration" Width="70" Binding="{Binding StateCalcTermPair.CalcTerm}"/>
+                    <DataGridTextColumn Header="Moment Mx" Width="90" Binding="{Binding ForcesTupleResult.InputData.ForceTuple.Mx, Converter={StaticResource MomentConverter}}"/>
+                    <DataGridTextColumn Header="Moment My" Width="90" Binding="{Binding ForcesTupleResult.InputData.ForceTuple.My, Converter={StaticResource MomentConverter}}"/>
+                    <DataGridTextColumn Header="Force Nz" Width="90" Binding="{Binding ForcesTupleResult.InputData.ForceTuple.Nz, Converter={StaticResource ForceConverter}}"/>
+                    <DataGridTextColumn Header="Kx" Width="90" Binding="{Binding ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix.Kx}"/>
+                    <DataGridTextColumn Header="Ky" Width="90" Binding="{Binding ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix.Ky}"/>
+                    <DataGridTextColumn Header="EpsZ" Width="90" Binding="{Binding ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix.EpsZ}"/>
+                    <DataGridTextColumn Header="Accuracy" Width="90" Binding="{Binding ForcesTupleResult.LoaderResults.AccuracyRate}"/>
+                    <DataGridTextColumn Header="Max Iteration" Width="90" Binding="{Binding ForcesTupleResult.LoaderResults.IterationCounter}"/>
+                    <DataGridTextColumn Header="Description" Width="300" Binding="{Binding ForcesTupleResult.Description}"/>
                 </DataGrid.Columns>
             </DataGrid>
             <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResultValidness}" Content="{Binding ValidResultCounter}"/>

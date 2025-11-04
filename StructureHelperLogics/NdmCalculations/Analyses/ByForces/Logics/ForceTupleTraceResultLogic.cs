@@ -24,11 +24,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public void TraceResult(IResult result)
         {
-            if (result is not IForcesTupleResult)
+            if (result is not IForceTupleCalculatorResult)
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(result));
             }
-            calcResult = ((IForcesTupleResult)result).LoaderResults;
+            calcResult = ((IForceTupleCalculatorResult)result).LoaderResults;
             TraceLogger?.AddMessage($"Analysis of internal forces is done succsesfully");
             TraceLogger?.AddMessage($"Current accuracy {calcResult.AccuracyRate} has achieved in {calcResult.IterationCounter} iteration", TraceLogStatuses.Debug);
             var strainMatrix = calcResult.ForceStrainPair.StrainMatrix;

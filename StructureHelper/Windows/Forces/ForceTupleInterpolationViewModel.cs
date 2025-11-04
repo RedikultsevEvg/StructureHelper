@@ -1,11 +1,5 @@
 ﻿using StructureHelper.Infrastructure;
-using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Forces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.Forces
@@ -16,21 +10,21 @@ namespace StructureHelper.Windows.Forces
         private RelayCommand copyToStartCommand;
         private RelayCommand copyToFinishCommand;
         private int stepCount;
-        private IDesignForceTuple startDesignForce;
-        private IDesignForceTuple finishDesignForce;
+        private IForceTuple startForceTuple;
+        private IForceTuple endForceTuple;
 
-        public IDesignForceTuple StartDesignForce
+        public IForceTuple StartDesignForce
         {
-            get => startDesignForce; set
+            get => startForceTuple; set
             {
-                startDesignForce = value;
+                startForceTuple = value;
             }
         }
-        public IDesignForceTuple FinishDesignForce
+        public IForceTuple FinishDesignForce
         {
-            get => finishDesignForce; set
+            get => endForceTuple; set
             {
-                finishDesignForce = value;
+                endForceTuple = value;
             }
         }
 
@@ -41,55 +35,55 @@ namespace StructureHelper.Windows.Forces
         public bool StepCountVisible { get; set; }
         public double StartMx
         {
-            get => StartDesignForce.ForceTuple.Mx;
+            get => StartDesignForce.Mx;
             set
             {
-                StartDesignForce.ForceTuple.Mx = value;
+                StartDesignForce.Mx = value;
                 OnPropertyChanged(nameof(StartMx));
             }
         }
         public double StartMy
         {
-            get => StartDesignForce.ForceTuple.My;
+            get => StartDesignForce.My;
             set
             {
-                StartDesignForce.ForceTuple.My = value;
+                StartDesignForce.My = value;
                 OnPropertyChanged(nameof(StartMy));
             }
         }
         public double StartNz
         {
-            get => StartDesignForce.ForceTuple.Nz;
+            get => StartDesignForce.Nz;
             set
             {
-                StartDesignForce.ForceTuple.Nz = value;
+                StartDesignForce.Nz = value;
                 OnPropertyChanged(nameof(StartNz));
             }
         }
         public double FinishMx
         {
-            get => FinishDesignForce.ForceTuple.Mx;
+            get => FinishDesignForce.Mx;
             set
             {
-                FinishDesignForce.ForceTuple.Mx = value;
+                FinishDesignForce.Mx = value;
                 OnPropertyChanged(nameof(FinishMx));
             }
         }
         public double FinishMy
         {
-            get => FinishDesignForce.ForceTuple.My;
+            get => FinishDesignForce.My;
             set
             {
-                FinishDesignForce.ForceTuple.My = value;
+                FinishDesignForce.My = value;
                 OnPropertyChanged(nameof(FinishMy));
             }
         }
         public double FinishNz
         {
-            get => FinishDesignForce.ForceTuple.Nz;
+            get => FinishDesignForce.Nz;
             set
             {
-                FinishDesignForce.ForceTuple.Nz = value;
+                FinishDesignForce.Nz = value;
                 OnPropertyChanged(nameof(FinishNz));
             }
         }
@@ -126,7 +120,7 @@ namespace StructureHelper.Windows.Forces
 
         private void InvertForces()
         {
-            var tmpForce = StartDesignForce.Clone() as IDesignForceTuple;
+            var tmpForce = StartDesignForce.Clone() as IForceTuple;
             StartDesignForce = FinishDesignForce;
             FinishDesignForce = tmpForce;
             StepCountVisible = true;
@@ -136,13 +130,13 @@ namespace StructureHelper.Windows.Forces
 
         private void CopyStartToFinish()
         {
-            FinishDesignForce = StartDesignForce.Clone() as IDesignForceTuple;
+            FinishDesignForce = StartDesignForce.Clone() as IForceTuple;
             RefreshFinishTuple();
         }
 
         private void CopyFinishToStart()
         {
-            StartDesignForce = FinishDesignForce.Clone() as IDesignForceTuple;
+            StartDesignForce = FinishDesignForce.Clone() as IForceTuple;
             RefreshStartTuple();
         }
 
@@ -162,51 +156,16 @@ namespace StructureHelper.Windows.Forces
             OnPropertyChanged(nameof(StartNz));
         }
 
-        public ForceTupleInterpolationViewModel(IDesignForceTuple finishDesignForce, IDesignForceTuple startDesignForce = null, int stepCount = 100)
+        public ForceTupleInterpolationViewModel(IForceTuple startForceTuple, IForceTuple endForceTuple, int stepCount = 100)
         {
-            if (startDesignForce != null)
-            {
-                CheckDesignForces(finishDesignForce, startDesignForce);
-                StartDesignForce = startDesignForce;
-            }
-            else
-            {
-                GetNewDesignForce(finishDesignForce);
-            }
-            FinishDesignForce = finishDesignForce;
+            this.startForceTuple = startForceTuple;
+            this.endForceTuple = endForceTuple;
             StepCount = stepCount;
             StepCountVisible = true;
         }
         public ForceTupleInterpolationViewModel()
         {
             
-        }
-
-        private static void CheckDesignForces(IDesignForceTuple finishDesignForce, IDesignForceTuple startDesignForce)
-        {
-            if (startDesignForce.LimitState != finishDesignForce.LimitState)
-            {
-                throw new StructureHelperException(ErrorStrings.LimitStatesIsNotValid);
-            }
-            if (startDesignForce.CalcTerm != finishDesignForce.CalcTerm)
-            {
-                throw new StructureHelperException(ErrorStrings.LoadTermIsNotValid);
-            }
-        }
-
-        private void GetNewDesignForce(IDesignForceTuple finishDesignForce)
-        {
-            StartDesignForce = new DesignForceTuple()
-            {
-                CalcTerm = finishDesignForce.CalcTerm,
-                LimitState = finishDesignForce.LimitState,
-                ForceTuple = new ForceTuple()
-                {
-                    Mx = 0,
-                    My = 0,
-                    Nz = 0
-                },
-            };
         }
     }
 }

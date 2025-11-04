@@ -41,16 +41,16 @@ namespace StructureHelper.Windows.Forces
         private void StartValueChanged(object sender, EventArgs e)
         {
             var obj = (MultiplyDouble)sender;
-            var tmpTuple = ForceTupleService.MultiplyTupleByFactor(Properties.StartDesignForce.ForceTuple, obj.DoubleFactor);
-            ForceTupleService.CopyProperties(tmpTuple, Properties.StartDesignForce.ForceTuple, 1d);
+            var tmpTuple = ForceTupleService.MultiplyTupleByFactor(Properties.StartDesignForce, obj.DoubleFactor);
+            ForceTupleService.CopyProperties(tmpTuple, Properties.StartDesignForce, 1d);
             Properties.RefreshStartTuple();
         }
 
         private void FinishValueChanged(object sender, EventArgs e)
         {
             var obj = (MultiplyDouble)sender;
-            var tmpTuple = ForceTupleService.MultiplyTupleByFactor(Properties.FinishDesignForce.ForceTuple, obj.DoubleFactor);
-            ForceTupleService.CopyProperties(tmpTuple, Properties.FinishDesignForce.ForceTuple, 1d);
+            var tmpTuple = ForceTupleService.MultiplyTupleByFactor(Properties.FinishDesignForce, obj.DoubleFactor);
+            ForceTupleService.CopyProperties(tmpTuple, Properties.FinishDesignForce, 1d);
             Properties.RefreshFinishTuple();
         }
 

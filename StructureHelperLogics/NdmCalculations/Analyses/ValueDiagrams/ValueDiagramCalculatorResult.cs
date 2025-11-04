@@ -9,7 +9,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 
         public List<IPoint2D> Points { get; set; } = [];
 
-        public List<IForcesTupleResult> ForceTupleResults { get; set; } = [];
+        public List<IForceTupleCalculatorResult> ForceTupleResults { get; set; } = [];
 
         public bool IsValid { get; set; } = true;
         public string? Description { get; set; } = string.Empty;

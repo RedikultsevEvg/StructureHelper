@@ -1,27 +1,12 @@
-﻿using LoaderCalculator.Data.Materials.MaterialBuilders;
-using LoaderCalculator.Data.Ndms;
-using StructureHelper.Infrastructure.UI.DataContexts;
-using StructureHelper.Services.ResultViewers;
-using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic;
+﻿using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultLogic;
 using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.ViewModels.Errors;
-using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Parameters;
-using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 //Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
@@ -33,8 +18,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
         private ArrayParameter<double> arrayParameter;
         private IValuePointDiagramLogic pointDiagramLogic;
 
-        public IEnumerable<IForcesTupleResult> TupleList { get; set; }
-        public ForceCalculator Calculator { get; set; }
+        public IEnumerable<IExtendedForceTupleCalculatorResult> TupleResultList { get; set; }
+        public IForceCalculator Calculator { get; set; }
         public PointPrimitiveLogic PrimitiveLogic { get; set; }
         public ValueDelegatesLogic ValueDelegatesLogic { get; set; }
 
@@ -77,7 +62,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 
         private GenericResult<ArrayParameter<double>> GetResult()
         {
-            pointDiagramLogic.TupleList = TupleList;
+            pointDiagramLogic.TupleList = TupleResultList;
             pointDiagramLogic.PrimitiveLogic = PrimitiveLogic;
             pointDiagramLogic.Calculator = Calculator;
             pointDiagramLogic.ValueDelegatesLogic = ValueDelegatesLogic;

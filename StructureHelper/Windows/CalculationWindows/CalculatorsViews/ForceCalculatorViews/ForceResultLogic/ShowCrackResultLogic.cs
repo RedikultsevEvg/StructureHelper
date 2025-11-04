@@ -25,15 +25,15 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public CalcTerms CalcTerm { get; set; }
         public IForceTuple ForceTuple { get; set; }
         public IEnumerable<INdmPrimitive> ndmPrimitives { get; set; }
-        public void Show(IDesignForceTuple finishDesignTuple)
+        public void Show(IForceTuple finishDesignTuple)
         {
-            var viewModel = new InterpolateTuplesViewModel(finishDesignTuple, null);
+            var viewModel = new InterpolateTuplesViewModel(new ForceTuple(), finishDesignTuple, 100);
             viewModel.ForceInterpolationViewModel.StepCountVisible = false;
             var wndTuples = new InterpolateTuplesView(viewModel);
             wndTuples.ShowDialog();
             if (wndTuples.DialogResult != true) return;
-            var startDesignTuple = viewModel.ForceInterpolationViewModel.StartDesignForce.ForceTuple;
-            var endDesignTuple = viewModel.ForceInterpolationViewModel.FinishDesignForce.ForceTuple;
+            var startDesignTuple = viewModel.ForceInterpolationViewModel.StartDesignForce;
+            var endDesignTuple = viewModel.ForceInterpolationViewModel.FinishDesignForce;
             FindCrackFactor(endDesignTuple, startDesignTuple);
         }
 

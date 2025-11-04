@@ -27,11 +27,11 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
             calculator.InputData.CompressedMember.Buckling = isBuckling;
             //Act
             calculator.Run();
-            var result = calculator.Result as IForcesResults;
+            var result = calculator.Result as IForceCalculatorResult;
             //Assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result.IsValid, Is.True);
-            var strainMatrix = result.ForcesResultList[0].LoaderResults.StrainMatrix;
+            var strainMatrix = result.ForcesResultList[0].ForcesTupleResult.LoaderResults.StrainMatrix;
             var kx = strainMatrix.Kx;
             var ky = strainMatrix.Ky;
             var epsz = strainMatrix.EpsZ;
@@ -52,7 +52,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
             calculator.InputData.CompressedMember.Buckling = isBuckling;
             //Act
             calculator.Run();
-            var result = calculator.Result as IForcesResults;
+            var result = calculator.Result as IForceCalculatorResult;
             //Assert
             Assert.That(result, Is.Not.Null);
             Assert.That(calcResult == result.IsValid, Is.True);
@@ -69,8 +69,8 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
             calculator.InputData.CompressedMember.Buckling = false;
             calculator.Run();
             var ndmPrimitives = newSection.SectionRepository.Primitives;
-            var result = calculator.Result as IForcesResults;
-            var strainMatrix = result.ForcesResultList[0].LoaderResults.StrainMatrix;
+            var result = calculator.Result as IForceCalculatorResult;
+            var strainMatrix = result.ForcesResultList[0].ForcesTupleResult.LoaderResults.StrainMatrix;
             var source = TupleConverter.ConvertToStrainTuple(strainMatrix);
             //Act
             foreach (var item in ndmPrimitives)
@@ -78,11 +78,11 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
                 ForceTupleService.CopyProperties(source, item.NdmElement.AutoPrestrain);
             }
             calculator.Run();
-            var result2 = calculator.Result as IForcesResults;
+            var result2 = calculator.Result as IForceCalculatorResult;
             //Assert
             Assert.That(result2, Is.Not.Null);
             Assert.That(result2.IsValid, Is.True);
-            var strainMatrix2 = result2.ForcesResultList[0].LoaderResults.StrainMatrix;
+            var strainMatrix2 = result2.ForcesResultList[0].ForcesTupleResult.LoaderResults.StrainMatrix;
             var kx = strainMatrix2.Kx;
             var ky = strainMatrix2.Ky;
             var epsz = strainMatrix2.EpsZ;

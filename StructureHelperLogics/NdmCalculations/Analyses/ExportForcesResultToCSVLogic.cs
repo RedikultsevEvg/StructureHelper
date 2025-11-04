@@ -6,9 +6,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses
     public class ExportForcesResultToCSVLogic : ExportToCSVLogicBase
     {
         private const string errorString = "-error-";
-        IForcesResults results;
+        IForceCalculatorResult results;
 
-        public ExportForcesResultToCSVLogic(IForcesResults results)
+        public ExportForcesResultToCSVLogic(IForceCalculatorResult results)
         {
             this.results = results;
         }
@@ -34,11 +34,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses
             {
                 //if (item.IsValid == true)
                 {
-                    var tuple = item.DesignForceTuple.ForceTuple;
+                    var tuple = item.ForcesTupleResult.ForceTuple;
                     LoaderCalculator.Data.Matrix.IStrainMatrix strainMatrix = null;
                     try
                     {
-                        strainMatrix = item.LoaderResults.StrainMatrix;
+                        strainMatrix = item.ForcesTupleResult.LoaderResults.StrainMatrix;
                     }
                     catch (Exception ex)
                     {
@@ -46,8 +46,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses
                     }
                     string[] newLine =
                         {
-                            item.DesignForceTuple.LimitState.ToString() ?? errorString,
-                            item.DesignForceTuple.CalcTerm.ToString() ?? errorString,
+                            item.StateCalcTermPair.LimitState.ToString() ?? errorString,
+                            item.StateCalcTermPair.CalcTerm.ToString() ?? errorString,
                             tuple.Mx.ToString() ?? errorString,
                             tuple.My.ToString() ?? errorString,
                             tuple.Nz.ToString() ?? errorString,

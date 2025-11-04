@@ -4,10 +4,10 @@ using StructureHelperCommon.Models.Forces;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public interface IForcesTupleResult : IResult
+    public interface IForceTupleCalculatorResult : IResult
     {
         IForceTupleInputData InputData { get; set; }
-        IDesignForceTuple DesignForceTuple { get; set; }
+        IForceTuple ForceTuple { get; set; }
         ILoaderResults LoaderResults { get; set; }
     }
 }

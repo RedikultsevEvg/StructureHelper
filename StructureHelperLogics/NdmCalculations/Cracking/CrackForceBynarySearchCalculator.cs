@@ -125,7 +125,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             }
             softeningLogic.ForceRatio = factorOfCrackAppearance;
             var psiS = softeningLogic.GetSofteningFactor();
-            var tupleOfCrackApeearence = ForceTupleService.InterpolateTuples(InputData.EndTuple, InputData.StartTuple, factorOfCrackAppearance);
+            var tupleOfCrackApeearence = ForceTupleService.InterpolateTuples(InputData.StartTuple, InputData.EndTuple, factorOfCrackAppearance);
             TraceLogger?.AddMessage($"Crack is appeared in force combination");
             TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(tupleOfCrackApeearence));
             var reducedStrainTuple = GetReducedStrainTuple(factorOfCrackAppearance, psiS);
@@ -158,7 +158,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private StrainTuple GetReducedStrainTuple(double factorOfCrackAppearance, double softeningFactor)
         {
             const double notCrackedForceFactor = 0.99d;
-            var notCrackedForceTuple = ForceTupleService.InterpolateTuples(InputData.EndTuple, InputData.StartTuple, factorOfCrackAppearance * notCrackedForceFactor) as ForceTuple;
+            var notCrackedForceTuple = ForceTupleService.InterpolateTuples(InputData.StartTuple, InputData.EndTuple, factorOfCrackAppearance * notCrackedForceFactor) as ForceTuple;
             var crackAppearanceStrainTuple = GetStrainTuple(notCrackedForceTuple);
             var actualStrainTuple = GetStrainTuple(InputData.EndTuple);
             crackStrainLogic.BeforeCrackingTuple = crackAppearanceStrainTuple;
@@ -197,7 +197,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             inputData.ForceTuple = forceTuple;
             forceTupleCalculator.InputData = inputData;
             forceTupleCalculator.Run();
-            var result = forceTupleCalculator.Result as IForcesTupleResult;
+            var result = forceTupleCalculator.Result as IForceTupleCalculatorResult;
             var loaderStrainMatrix = result.LoaderResults.ForceStrainPair.StrainMatrix;
             StrainTuple strainTuple = TupleConverter.ConvertToStrainTuple(loaderStrainMatrix);
             return strainTuple;

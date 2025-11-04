@@ -50,14 +50,27 @@ namespace StructureHelperCommon.Services.Forces
             CopyProperties(forceTuple, result, factor);
             return result;
         }
-        public static IForceTuple InterpolateTuples(IForceTuple endTuple, IForceTuple startTuple = null, double coefficient = 0.5d)
+        public static IForceTuple InterpolateTuples(IForceTuple startTuple, IForceTuple endTuple, double coefficient = 0.5d)
         {
             if (startTuple is null) startTuple = GetNewTupleSameType(endTuple);
             else { CheckTuples(startTuple, endTuple); }
             var deltaTuple = SumTuples(endTuple, startTuple, -1d);
             return SumTuples(startTuple, deltaTuple, coefficient);
         }
-        public static List<IDesignForceTuple> InterpolateDesignTuple(IDesignForceTuple finishDesignForce, IDesignForceTuple startDesignForce = null, int stepCount = 10)
+
+        public static List<IForceTuple> InterpolateTuples(IForceTuple startTuple, IForceTuple endTuple, int stepCount)
+        {
+            var tuples = new List<IForceTuple>();
+            double step = 1d / stepCount;
+            for (int i = 0; i <= stepCount; i++)
+            {
+                var interpolatedTuple = InterpolateTuples(startTuple, endTuple, i * step);
+                tuples.Add(interpolatedTuple);
+            }
+            return tuples;
+        }
+
+        public static List<IDesignForceTuple> InterpolateDesignTuple(IDesignForceTuple startDesignForce, IDesignForceTuple finishDesignForce, int stepCount = 10)
         {
             if (startDesignForce.LimitState != finishDesignForce.LimitState) throw new StructureHelperException(ErrorStrings.LimitStatesIsNotValid);
             if (startDesignForce.CalcTerm != finishDesignForce.CalcTerm) throw new StructureHelperException(ErrorStrings.LoadTermIsNotValid);
@@ -65,8 +78,12 @@ namespace StructureHelperCommon.Services.Forces
             double step = 1d / stepCount;
             for (int i = 0; i <= stepCount; i++)
             {
-                var currentTuple = InterpolateTuples(finishDesignForce.ForceTuple, startDesignForce.ForceTuple, i * step) as ForceTuple;
-                var currentDesignTuple = new DesignForceTuple() { LimitState = finishDesignForce.LimitState, CalcTerm = finishDesignForce.CalcTerm, ForceTuple = currentTuple };
+                var currentTuple = InterpolateTuples(startDesignForce.ForceTuple, finishDesignForce.ForceTuple, i * step);
+                var currentDesignTuple = new DesignForceTuple()
+                {
+                    LimitState = finishDesignForce.LimitState,
+                    CalcTerm = finishDesignForce.CalcTerm,
+                    ForceTuple = currentTuple };
                 tuples.Add(currentDesignTuple);
             }
             return tuples;

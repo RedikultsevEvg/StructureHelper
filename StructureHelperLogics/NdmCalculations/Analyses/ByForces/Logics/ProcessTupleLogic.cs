@@ -12,7 +12,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public IShiftTraceLogger? TraceLogger { get; set; }
         IForceTupleInputData IProcessTupleLogic.InputData { get; set; }
 
-        public IForcesTupleResult ProcessNdmResult()
+        public IForceTupleCalculatorResult ProcessNdmResult()
         {
             throw new NotImplementedException();
         }

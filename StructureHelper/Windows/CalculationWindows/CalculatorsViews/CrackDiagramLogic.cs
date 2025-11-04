@@ -26,9 +26,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
         static readonly CrackForceBynarySearchCalculator calculator = new();
         private ITriangulatePrimitiveLogic triangulateLogic;
 
-        private List<IForcesTupleResult> ValidTupleList { get; set; }
+        private List<IExtendedForceTupleCalculatorResult> ValidTupleList { get; set; }
         ArrayParameter<double> arrayParameter;
-        private IEnumerable<IForcesTupleResult> TupleList { get; set; }
+        private IEnumerable<IExtendedForceTupleCalculatorResult> TupleList { get; set; }
         private IEnumerable<INdmPrimitive> NdmPrimitives { get; set; }
 
         private static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
@@ -40,7 +40,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public CrackDiagramLogic(IEnumerable<IForcesTupleResult> tupleList, IEnumerable<INdmPrimitive> ndmPrimitives)
+        public CrackDiagramLogic(IEnumerable<IExtendedForceTupleCalculatorResult> tupleList, IEnumerable<INdmPrimitive> ndmPrimitives)
         {
             TupleList = tupleList;
             NdmPrimitives = ndmPrimitives;
@@ -92,20 +92,20 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
             "Errors appeared during showing a graph, see detailed information");
         }
 
-        private void CalculateWithCrack(List<IForcesTupleResult> validTupleList, IEnumerable<INdmPrimitive> ndmPrimitives, IUnit unitForce, IUnit unitMoment, IUnit unitCurvature)
+        private void CalculateWithCrack(List<IExtendedForceTupleCalculatorResult> validTupleList, IEnumerable<INdmPrimitive> ndmPrimitives, IUnit unitForce, IUnit unitMoment, IUnit unitCurvature)
         {
             var data = arrayParameter.Data;
             for (int i = 0; i < validTupleList.Count(); i++)
             {
                 var valueList = new List<double>
                 {
-                    validTupleList[i].DesignForceTuple.ForceTuple.Mx * unitMoment.Multiplyer,
-                    validTupleList[i].DesignForceTuple.ForceTuple.My * unitMoment.Multiplyer,
-                    validTupleList[i].DesignForceTuple.ForceTuple.Nz * unitForce.Multiplyer
+                    validTupleList[i].ForcesTupleResult.ForceTuple.Mx * unitMoment.Multiplyer,
+                    validTupleList[i].ForcesTupleResult.ForceTuple.My * unitMoment.Multiplyer,
+                    validTupleList[i].ForcesTupleResult.ForceTuple.Nz * unitForce.Multiplyer
                 };
-                calculator.InputData.EndTuple = validTupleList[i].DesignForceTuple.ForceTuple;
-                var limitState = validTupleList[i].DesignForceTuple.LimitState;
-                var calcTerm = validTupleList[i].DesignForceTuple.CalcTerm;
+                calculator.InputData.EndTuple = validTupleList[i].ForcesTupleResult.ForceTuple;
+                var limitState = validTupleList[i].StateCalcTermPair.LimitState;
+                var calcTerm = validTupleList[i].StateCalcTermPair.CalcTerm;
                 triangulateLogic = new TriangulatePrimitiveLogic()
                 {
                     Primitives = ndmPrimitives,

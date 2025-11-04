@@ -1,8 +1,5 @@
-﻿using StructureHelper.Infrastructure;
-using StructureHelper.Windows.ViewModels;
-using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Models.Forces;
-using System.Windows.Input;
 
 namespace StructureHelper.Windows.Forces
 {
@@ -10,9 +7,9 @@ namespace StructureHelper.Windows.Forces
     {
         public ForceTupleInterpolationViewModel ForceInterpolationViewModel { get; set; }
 
-        public InterpolateTuplesViewModel(IDesignForceTuple finishDesignForce, IDesignForceTuple startDesignForce=null, int stepCount = 100)
+        public InterpolateTuplesViewModel(IForceTuple startTuple, IForceTuple endTuple, int stepCount = 100)
         {
-            ForceInterpolationViewModel = new(finishDesignForce, startDesignForce, stepCount);
+            ForceInterpolationViewModel = new(startTuple, endTuple, stepCount);
         }
     }
 }

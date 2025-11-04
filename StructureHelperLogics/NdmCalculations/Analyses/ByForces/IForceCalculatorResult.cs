@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public interface IForcesResults : IResult
+    public interface IForceCalculatorResult : IResult
     {
-        string Description { get; set; }
-        List<IForcesTupleResult> ForcesResultList { get; }
         bool IsValid { get; set; }
+        string Description { get; set; }
+        List<IExtendedForceTupleCalculatorResult> ForcesResultList { get; }
     }
 }

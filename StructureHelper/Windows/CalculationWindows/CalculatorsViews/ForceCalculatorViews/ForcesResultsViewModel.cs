@@ -18,7 +18,6 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services.Exports;
 using StructureHelperCommon.Services.Exports.Factories;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses;
@@ -42,13 +41,13 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
     public class ForcesResultsViewModel : ViewModelBase
     {
         private ShowDiagramLogic showDiagramLogic;
-        private ForceCalculator forceCalculator;
+        private IForceCalculator forceCalculator;
         private ILongProcessLogic progressLogic;
         private ShowProgressLogic showProgressLogic;
         private InteractionDiagramLogic interactionDiagramLogic;
         private static readonly ShowCrackResultLogic showCrackResultLogic = new();
         //private static readonly ShowCrackWidthLogic showCrackWidthLogic = new();
-        private IForcesResults resultModel;
+        private IForceCalculatorResult resultModel;
         private IEnumerable<INdmPrimitive> ndmPrimitives;
         private IEnumerable<INdmPrimitive> selectedNdmPrimitives;
         private IEnumerable<INdm> ndms;
@@ -56,7 +55,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         public static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
 
-        public IForcesTupleResult? SelectedResult { get; set; }
+        public IExtendedForceTupleCalculatorResult? SelectedResult { get; set; }
         private ICommand? showIsoFieldCommand;
         private ICommand? exportToCSVCommand;
         private ICommand? interpolateCommand;
@@ -73,7 +72,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         public ValidResultCounterVM ValidResultCounter { get; }
 
-        public IForcesResults ForcesResults
+        public IForceCalculatorResult ForcesResults
         {
             get => resultModel;
         }
@@ -149,7 +148,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 ShowInterpolationWindow(out interpolateTuplesViewModel, out wndTuples);
                 if (wndTuples.DialogResult != true) return;
 
-                var interpolationLogic = new InterpolationProgressLogic(forceCalculator, interpolateTuplesViewModel.ForceInterpolationViewModel.Result);
+                var interpolationLogic = new InterpolationProgressLogic(forceCalculator, SelectedResult.StateCalcTermPair, interpolateTuplesViewModel.ForceInterpolationViewModel.Result);
                 showProgressLogic = new(interpolationLogic)
                 {
                     WindowTitle = "Interpolate forces"
@@ -157,9 +156,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 showProgressLogic.Show();
 
                 var result = interpolationLogic.InterpolateCalculator.Result;
-                if (result is IForcesResults)
+                if (result is IForceCalculatorResult)
                 {
-                    var tupleResult = result as IForcesResults;
+                    var tupleResult = result as IForceCalculatorResult;
                     var diagramLogic = new ShowDiagramLogic(tupleResult.ForcesResultList, ndmPrimitives);
                     showProgressLogic = new(diagramLogic)
                     {
@@ -179,7 +178,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 ShowInterpolationWindow(out interploateTuplesViewModel, out wndTuples);
                 if (wndTuples.DialogResult != true) return;
 
-                var interpolationLogic = new InterpolationProgressLogic(forceCalculator, interploateTuplesViewModel.ForceInterpolationViewModel.Result);
+                var interpolationLogic = new InterpolationProgressLogic(forceCalculator, SelectedResult.StateCalcTermPair, interploateTuplesViewModel.ForceInterpolationViewModel.Result);
                 showProgressLogic = new(interpolationLogic)
                 {
                     WindowTitle = "Interpolate forces"
@@ -187,9 +186,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 showProgressLogic.Show();
 
                 var result = interpolationLogic.InterpolateCalculator.Result;
-                if (result is IForcesResults)
+                if (result is IForceCalculatorResult)
                 {
-                    var tupleResult = result as IForcesResults;
+                    var tupleResult = result as IForceCalculatorResult;
                     var diagramLogic = new CrackDiagramLogic(tupleResult.ForcesResultList, ndmPrimitives);
                     showProgressLogic = new(diagramLogic)
                     {
@@ -209,11 +208,11 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         }
         private void ShowCrackResult()
         {
-            showCrackResultLogic.LimitState = SelectedResult.DesignForceTuple.LimitState;
-            showCrackResultLogic.CalcTerm = CalcTerms.ShortTerm; //= SelectedResult.DesignForceTuple.CalcTerm;
-            showCrackResultLogic.ForceTuple = SelectedResult.DesignForceTuple.ForceTuple;
+            showCrackResultLogic.LimitState = SelectedResult.StateCalcTermPair.LimitState;
+            showCrackResultLogic.CalcTerm = CalcTerms.ShortTerm;
+            showCrackResultLogic.ForceTuple = SelectedResult.ForcesTupleResult.InputData.ForceTuple;
             showCrackResultLogic.ndmPrimitives = ndmPrimitives;
-            showCrackResultLogic.Show(SelectedResult.DesignForceTuple.Clone() as IDesignForceTuple);
+            showCrackResultLogic.Show(SelectedResult.ForcesTupleResult.InputData.ForceTuple.Clone() as IForceTuple);
         }
 
         public ICommand InterpolateCommand
@@ -235,7 +234,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             ShowInterpolationWindow(out interploateTuplesViewModel, out wndTuples);
             if (wndTuples.DialogResult != true) return;
 
-            var interpolationLogic = new InterpolationProgressLogic(forceCalculator, interploateTuplesViewModel.ForceInterpolationViewModel.Result);
+            var interpolationLogic = new InterpolationProgressLogic(forceCalculator, SelectedResult.StateCalcTermPair, interploateTuplesViewModel.ForceInterpolationViewModel.Result);
             progressLogic = interpolationLogic;
             showProgressLogic = new(interpolationLogic)
             {
@@ -276,8 +275,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private void ShowInterpolationWindow(out InterpolateTuplesViewModel interploateTuplesViewModel, out InterpolateTuplesView wndTuples)
         {
-            IDesignForceTuple finishDesignTuple = SelectedResult.DesignForceTuple.Clone() as IDesignForceTuple;
-            interploateTuplesViewModel = new InterpolateTuplesViewModel(finishDesignTuple, null);
+            ForceTuple startTuple = new();
+            IForceTuple endTuple = SelectedResult.ForcesTupleResult.InputData.ForceTuple.Clone() as IForceTuple;
+            interploateTuplesViewModel = new InterpolateTuplesViewModel(startTuple, endTuple, 100);
             wndTuples = new InterpolateTuplesView(interploateTuplesViewModel);
             wndTuples.ShowDialog();
         }
@@ -308,7 +308,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         }
         private void SetPrestrain()
         {
-            var source = TupleConverter.ConvertToStrainTuple(SelectedResult.LoaderResults.StrainMatrix);
+            var source = TupleConverter.ConvertToStrainTuple(SelectedResult.ForcesTupleResult.LoaderResults.StrainMatrix);
             var vm = new SetPrestrainViewModel(source);
             var wnd = new SetPrestrainView(vm);
             wnd.ShowDialog();
@@ -336,9 +336,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             try
             {
-                var strainMatrix = SelectedResult.LoaderResults.ForceStrainPair.StrainMatrix;
-                var limitState = SelectedResult.DesignForceTuple.LimitState;
-                var calcTerm = SelectedResult.DesignForceTuple.CalcTerm;
+                var strainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix;
+                var limitState = SelectedResult.StateCalcTermPair.LimitState;
+                var calcTerm = SelectedResult.StateCalcTermPair.CalcTerm;
 
                 var primitiveSets = ShowAnchorageResult.GetPrimitiveSets(strainMatrix, limitState, calcTerm, ndmPrimitives);
                 isoFieldReport = new IsoFieldReport(primitiveSets);
@@ -363,7 +363,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             {
                 try
                 {
-                    var strainMatrix = SelectedResult.LoaderResults.ForceStrainPair.StrainMatrix;
+                    var strainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix;
                     var textParametrsLogic = new GeometryParametersLogic(ndms, strainMatrix);
                     var calculator = new GeometryCalculator(textParametrsLogic);
                     calculator.Run();
@@ -392,7 +392,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             {
                 try
                 {
-                    var strainMatrix = SelectedResult.LoaderResults.ForceStrainPair.StrainMatrix;
+                    var strainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix;
                     var textParametrsLogic = new ForcesParametersLogic(ndms, strainMatrix);
                     var calculator = new GeometryCalculator(textParametrsLogic);
                     calculator.Run();
@@ -412,10 +412,10 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             }
         }
 
-        public ForcesResultsViewModel(ForceCalculator forceCalculator)
+        public ForcesResultsViewModel(IForceCalculator forceCalculator)
         {
             this.forceCalculator = forceCalculator;
-            resultModel = forceCalculator.Result as IForcesResults;
+            resultModel = forceCalculator.Result as IForceCalculatorResult;
             ValidResultCounter = new(resultModel.ForcesResultList);
             ndmPrimitives = forceCalculator.InputData.Primitives;
         }
@@ -424,7 +424,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             try
             {
-                IStrainMatrix strainMatrix = SelectedResult.LoaderResults.ForceStrainPair.StrainMatrix;
+                IStrainMatrix strainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix;
                 var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, ForceResultFuncFactory.GetResultFuncs());
                 isoFieldReport = new IsoFieldReport(primitiveSets);
                 isoFieldReport.Show();
@@ -441,9 +441,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         }
         private void GetNdms()
         {
-            var limitState = SelectedResult.DesignForceTuple.LimitState;
-            var calcTerm = SelectedResult.DesignForceTuple.CalcTerm;
-            var triangulationOptions = new TriangulationOptions() { LimiteState = limitState, CalcTerm = calcTerm };
+            var limitState = SelectedResult.StateCalcTermPair.LimitState;
+            var calcTerm = SelectedResult.StateCalcTermPair.CalcTerm;
+            var triangulationOptions = new TriangulationOptions()
+            {
+                LimiteState = limitState,
+                CalcTerm = calcTerm };
             var orderedNdmPrimitives = ndmPrimitives.OrderBy(x => x.VisualProperty.ZIndex);
             var ndmRange = new List<INdm>();
             foreach (var item in orderedNdmPrimitives)

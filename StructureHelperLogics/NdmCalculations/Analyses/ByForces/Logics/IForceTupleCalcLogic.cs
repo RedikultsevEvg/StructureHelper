@@ -11,7 +11,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     public interface IForceTupleCalcLogic: ILogic, IHasActionByResult
     {
         IForceTupleInputData InputData { get; set; }
-        IForcesTupleResult Result { get; }
+        IForceTupleCalculatorResult Result { get; }
         void Calculate();
     }
 }

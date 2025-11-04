@@ -16,7 +16,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public StrainTuple GetCrackedStrainTuple()
         {
-            var strainTuple = ForceTupleService.InterpolateTuples(AfterCrackingTuple, BeforeCrackingTuple, SofteningFactor) as StrainTuple;
+            var strainTuple = ForceTupleService.InterpolateTuples(BeforeCrackingTuple, AfterCrackingTuple, SofteningFactor) as StrainTuple;
             return strainTuple;
         }
     }

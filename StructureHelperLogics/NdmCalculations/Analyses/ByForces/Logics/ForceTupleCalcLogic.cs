@@ -18,7 +18,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public class ForceTupleCalcLogic : IForceTupleCalcLogic
     {
-        private IForcesTupleResult result;
+        private IForceTupleCalculatorResult result;
         private ForceTupleTraceResultLogic forceTupleTraceResultLogic;
         private LoaderOptions loaderData;
         private Calculator calculator;
@@ -27,7 +27,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         public IForceTupleInputData InputData { get; set; }
 
-        public IForcesTupleResult Result => result;
+        public IForceTupleCalculatorResult Result => result;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
         public Action<IResult> ActionToOutputResults { get; set; }
@@ -40,7 +40,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private void PrepareNewResult()
         {
-            result = new ForcesTupleResult()
+            result = new ForceTupleCalculatorResult()
             {
                 IsValid = true,
                 Description = string.Empty,
@@ -117,6 +117,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private void ProcessCorrectLoaderResult()
         {
             result.IsValid = true;
+            result.ForceTuple = InputData.ForceTuple;
             result.Description = LoggerStrings.CalculationHasDone;
             result.LoaderResults = calcResult;
             forceTupleTraceResultLogic = new ForceTupleTraceResultLogic(InputData.NdmCollection)

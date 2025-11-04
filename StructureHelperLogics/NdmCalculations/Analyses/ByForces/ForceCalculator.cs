@@ -56,7 +56,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             checkInputDataLogic.TraceLogger = TraceLogger;
             if (checkInputDataLogic.Check() != true)
             {
-                Result = new ForcesResults()
+                Result = new ForceCalculatorResult()
                 {
                     IsValid = false,
                     Description = checkInputDataLogic.CheckResult
@@ -70,11 +70,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             }
             forceCalculatorLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
             Result = forceCalculatorLogic.GetForcesResults();
-        }
-
-        private void GetResult()
-        {
-            throw new NotImplementedException();
         }
 
         public object Clone()

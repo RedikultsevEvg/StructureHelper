@@ -167,7 +167,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 //TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
             };
             calculator.Run();
-            var forceResult = calculator.Result as IForcesTupleResult;
+            var forceResult = calculator.Result as IForceTupleCalculatorResult;
             if (forceResult.IsValid == false)
             {
                 result.IsValid = false;

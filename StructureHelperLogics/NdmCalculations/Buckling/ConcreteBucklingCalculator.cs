@@ -24,7 +24,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         private List<INdm> ndmCollection;
         private List<INdm> concreteNdms;
         private List<INdm> otherNdms;
-        IForcesTupleResult forcesResults;
+        IForceTupleCalculatorResult forcesResults;
         private ITriangulatePrimitiveLogic triangulateLogic;
 
         public IResult Result { get; private set; }
@@ -242,7 +242,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
             }
             IForceTupleCalculator calculator = GetForceCalculator();
             calculator.Run();
-            forcesResults = calculator.Result as IForcesTupleResult;
+            forcesResults = calculator.Result as IForceTupleCalculatorResult;
             if (forcesResults.IsValid != true)
             {
                 result += "Bearind capacity of cross-section is not enough for initial forces\n";

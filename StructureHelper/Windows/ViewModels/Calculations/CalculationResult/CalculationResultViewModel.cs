@@ -5,13 +5,8 @@ using StructureHelper.Services.Reports;
 using StructureHelper.Services.Reports.CalculationReports;
 using StructureHelper.Services.ResultViewers;
 using StructureHelperLogics.Models.Calculations.CalculationsResults;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace StructureHelper.Windows.ViewModels.Calculations.CalculationResult
 {

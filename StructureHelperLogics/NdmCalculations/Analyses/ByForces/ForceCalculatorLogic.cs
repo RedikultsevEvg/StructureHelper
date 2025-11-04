@@ -17,7 +17,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     /// <inheritdoc/>
     public class ForceCalculatorLogic : IForceCalculatorLogic
     {
-        private ForcesResults result;
+        private ForceCalculatorResult result;
         private IProcessorLogic<IForceTuple> eccentricityLogic;
         private ForceTupleBucklingLogic bucklingLogic;
         private ITriangulatePrimitiveLogic triangulateLogic;
@@ -28,7 +28,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public Action<IResult> ActionToOutputResults { get; set; }
 
 
-        public ForcesResults GetForcesResults()
+        public ForceCalculatorResult GetForcesResults()
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
             TraceInputData();
@@ -67,7 +67,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private void CalculateResult()
         {
-            result = new ForcesResults()
+            result = new ForceCalculatorResult()
             {
                 IsValid = true
             };
@@ -80,30 +80,30 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                     if (InputData.LimitStatesList.Contains(limitState) & InputData.CalcTermsList.Contains(calcTerm))
                     {
 
-                        IForcesTupleResult tupleResult;
+                        ExtendedForceTupleCalculatorResult extendedResult = new();
+                        extendedResult.StateCalcTermPair.LimitState = limitState;
+                        extendedResult.StateCalcTermPair.CalcTerm = calcTerm;
                         try
                         {
-                            tupleResult = ProcessNdmResult(combination, tuple);
+                            IForceTupleCalculatorResult tupleResult = ProcessNdmResult(combination, tuple);
+                            extendedResult.IsValid = tupleResult.IsValid;
+                            extendedResult.ForcesTupleResult = tupleResult;
                         }
                         catch (Exception ex)
                         {
-                            tupleResult = new ForcesTupleResult()
-                            {
-                                IsValid = false,
-                                Description = string.Empty + ex,
-                                DesignForceTuple = tuple
-                            };
+                            extendedResult.IsValid = false;
+                            extendedResult.Description += ex.Message;
                         }
-                        result.ForcesResultList.Add(tupleResult);
+                        result.ForcesResultList.Add(extendedResult);
                         ActionToOutputResults?.Invoke(result);
                     }
                 }
             }
         }
 
-        private IForcesTupleResult ProcessNdmResult(IForceCombinationList combination, IDesignForceTuple tuple)
+        private IForceTupleCalculatorResult ProcessNdmResult(IForceCombinationList combination, IDesignForceTuple tuple)
         {
-            IForcesTupleResult tupleResult;
+            IForceTupleCalculatorResult tupleResult;
             LimitStates limitState = tuple.LimitState;
             CalcTerms calcTerm = tuple.CalcTerm;
             triangulateLogic = new TriangulatePrimitiveLogic()
@@ -130,7 +130,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 if (newTuple.Nz >= 0d)
                 {
                     TraceLogger?.AddMessage(string.Format("Second order effect is not considered as Nz={0} >= 0", newTuple.Nz));
-                    tupleResult = GetForceResult(limitState, calcTerm, ndms, newTuple);
+                    tupleResult = GetForceResult(ndms, newTuple);
                 }
                 else
                 {
@@ -144,14 +144,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                     string message = string.Format("Second order effect is not considered, despite force Nz={0}", newTuple.Nz);
                     TraceLogger?.AddMessage(message, TraceLogStatuses.Warning);
                 }
-                tupleResult = GetForceResult(limitState, calcTerm, ndms, newTuple);
+                tupleResult = GetForceResult(ndms, newTuple);
             }
             return tupleResult;
         }
 
-        private IForcesTupleResult ProcessCompressedMember(IForceCombinationList combination, IDesignForceTuple tuple, List<INdm> ndms, IForceTuple newTuple)
+        private IForceTupleCalculatorResult ProcessCompressedMember(IForceCombinationList combination, IDesignForceTuple tuple, List<INdm> ndms, IForceTuple newTuple)
         {
-            IForcesTupleResult tupleResult;
+            IForceTupleCalculatorResult tupleResult;
             LimitStates limitState = tuple.LimitState;
             CalcTerms calcTerm = tuple.CalcTerm;
 
@@ -183,27 +183,24 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             }
             else
             {
-                return new ForcesTupleResult()
+                return new ForceTupleCalculatorResult()
                 {
                     IsValid = false,
-                    DesignForceTuple = tuple,
+                    ForceTuple = tuple.ForceTuple,
                     Description = buckResult.Description,
                 };
             }
 
             string message = string.Intern("Result of second order was obtained successfully, new force combination was obtained");
             TraceLogger?.AddMessage(message);
-            tupleResult = GetForceResult(limitState, calcTerm, ndms, newTuple);
+            tupleResult = GetForceResult(ndms, newTuple);
             return tupleResult;
         }
 
-        private IForcesTupleResult GetForceResult(LimitStates limitState, CalcTerms calcTerm, List<INdm> ndms, IForceTuple newTuple)
+        private IForceTupleCalculatorResult GetForceResult(List<INdm> ndms, IForceTuple newTuple)
         {
             TraceLogger?.AddMessage("Calculation of cross-section is started");
             var tupleResult = GetPrimitiveStrainMatrix(ndms, newTuple, InputData.Accuracy);
-            tupleResult.DesignForceTuple.LimitState = limitState;
-            tupleResult.DesignForceTuple.CalcTerm = calcTerm;
-            tupleResult.DesignForceTuple.ForceTuple = newTuple;
             return tupleResult;
         }
 
@@ -217,7 +214,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             }
         }
 
-        private IForcesTupleResult GetPrimitiveStrainMatrix(IEnumerable<INdm> ndmCollection, IForceTuple tuple, IAccuracy accuracy)
+        private IForceTupleCalculatorResult GetPrimitiveStrainMatrix(IEnumerable<INdm> ndmCollection, IForceTuple tuple, IAccuracy accuracy)
         {
             var inputData = new ForceTupleInputData()
             {
@@ -233,7 +230,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 calculator.TraceLogger = TraceLogger.GetSimilarTraceLogger();
             }
             calculator.Run();
-            return calculator.Result as IForcesTupleResult;
+            return calculator.Result as IForceTupleCalculatorResult;
         }
 
 

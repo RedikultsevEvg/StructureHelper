@@ -1,12 +1,9 @@
 ﻿using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.ViewModels.Errors;
-using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Parameters;
-using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
@@ -19,9 +16,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
     internal class ShowDiagramLogic : ILongProcessLogic
     {
         private ArrayParameter<double> arrayParameter;
-        private IEnumerable<IForcesTupleResult> tupleList;
+        private IEnumerable<IExtendedForceTupleCalculatorResult> tupleList;
         private IEnumerable<INdmPrimitive> ndmPrimitives;
-        private List<IForcesTupleResult> validTupleList;
+        private List<IExtendedForceTupleCalculatorResult> validTupleList;
 
         public int StepCount => validTupleList.Count();
 
@@ -60,13 +57,13 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
             var factory = new DiagramFactory()
             {
-                TupleList = validTupleList,
+                TupleResultList = validTupleList,
                 //SetProgress = SetProgress,
             };
             arrayParameter = factory.GetCommonArray();
         }
 
-        public ShowDiagramLogic(IEnumerable<IForcesTupleResult> tupleList, IEnumerable<INdmPrimitive> ndmPrimitives)
+        public ShowDiagramLogic(IEnumerable<IExtendedForceTupleCalculatorResult> tupleList, IEnumerable<INdmPrimitive> ndmPrimitives)
         {
             this.tupleList = tupleList;
             this.ndmPrimitives = ndmPrimitives;

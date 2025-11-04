@@ -8,9 +8,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 {
     public interface IValuePointDiagramLogic
     {
-        ForceCalculator Calculator { get; set; }
+        IForceCalculator Calculator { get; set; }
         PointPrimitiveLogic PrimitiveLogic { get; set; }
-        IEnumerable<IForcesTupleResult> TupleList { get; set; }
+        IEnumerable<IExtendedForceTupleCalculatorResult> TupleList { get; set; }
         ValueDelegatesLogic ValueDelegatesLogic { get; set; }
 
         GenericResult<ArrayParameter<double>> GetArrayParameter();

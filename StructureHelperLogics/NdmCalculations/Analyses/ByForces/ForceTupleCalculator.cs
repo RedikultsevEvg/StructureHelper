@@ -7,7 +7,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     /// <inheritdoc/>
     public class ForceTupleCalculator : IForceTupleCalculator
     {
-        IForcesTupleResult result;
+        IForceTupleCalculatorResult result;
         private ICheckInputDataLogic<IForceTupleInputData> checkInputDataLogic;
         private IForceTupleCalcLogic calcLogic;
 
@@ -56,7 +56,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private void PrepareNewResult()
         {
-            result = new ForcesTupleResult()
+            result = new ForceTupleCalculatorResult()
             {
                 IsValid = true,
                 Description = string.Empty,
