@@ -1,14 +1,11 @@
-﻿using netDxf;
-using netDxf.Entities;
-using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using netDxf.Entities;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Exports;
-using System.Runtime.CompilerServices;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public class GetPrimitivesByDxfEntities : IObjectConvertStrategy<List<INdmPrimitive>, IEnumerable<EntityObject>>
+    public class DxfEntitiesToNdmPrimitivesConvertStrategy : IObjectConvertStrategy<List<INdmPrimitive>, IEnumerable<EntityObject>>
     {
         private const double metresToMillimeters = 1000.0;
         private List<INdmPrimitive> primitives = [];
@@ -68,7 +65,6 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                 primitive = ellipse;
             }
             primitive.Center = new Point2D(circle.Center.X / metresToMillimeters, circle.Center.Y / metresToMillimeters);
-
             return primitive;
         }
 

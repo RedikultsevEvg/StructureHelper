@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StructureHelper.Infrastructure.Enums
+﻿namespace StructureHelper.Infrastructure.Enums
 {
     public enum CalculatorTypes
     {
@@ -12,6 +6,7 @@ namespace StructureHelper.Infrastructure.Enums
         LimitCurveCalculator,
         CrackCalculator,
         FireCalculator,
-        BeamShearCalculator
+        BeamShearCalculator,
+        ValueDiagram
     }
 }

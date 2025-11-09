@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Shapes
 {
-    public interface IPoint2DRange : ISaveable
+    public interface IPoint2DRange : ISaveable, ICloneable
     {
         IPoint2D StartPoint { get; set; }
         IPoint2D EndPoint { get; set; }

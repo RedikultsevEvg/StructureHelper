@@ -2,6 +2,7 @@
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Models.Materials;
+using StructureHelper.Services.Exports;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.Beams;
 using StructureHelper.Windows.PrimitiveTemplates.RCs.RectangleBeam;
 using StructureHelper.Windows.ViewModels;
@@ -11,6 +12,8 @@ using StructureHelper.Windows.ViewModels.Materials;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Services.Exports;
+using StructureHelperCommon.Services.Exports.Factories;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Templates.CrossSections.RCs;
 using StructureHelperLogics.Models.Templates.RCs;
@@ -125,10 +128,43 @@ namespace StructureHelper.Windows.MainWindow
             }
         }
 
+        public ICommand ExportToDxfCommand => exportToDxfCommand ??= new RelayCommand(ExportToDxf);
+        public ICommand ImportFromDxfCommand => importFromDxfCommand ??= new RelayCommand(ImportFromDxf);
+
+        private void ImportFromDxf(object obj)
+        {
+            SafetyProcessor.RunSafeProcess(ImportFromDxfFile, "Error of opening file");
+        }
+
+        private void ImportFromDxfFile()
+        {
+            FileIOInputData inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Dxf);
+            var logic = new GetPrimitivesByFile();
+            var importService = new ImportFromFileService(inputData, logic);
+            importService.Import();
+            var ndmPrimitives = logic.Primitives;
+            var primitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(ndmPrimitives);
+            repository.Primitives.AddRange(ndmPrimitives);
+            PrimitiveLogic.AddItems(primitives);
+            PrimitiveLogic.Refresh();
+        }
+
+        private void ExportToDxf(object commandParameter)
+        {
+            FileIOInputData inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Dxf);
+            var convertLogic = new NdmPrimitivesToDxfEntitiesConvertStrategy();
+            var entities = convertLogic.Convert(repository.Primitives);
+            var logic = new EntitiesToDxfExportLogic() { Entities = entities };
+            var exportService = new ExportToFileService(inputData, logic);
+            exportService.Export();
+        }
+
         private RelayCommand showVisualProperty;
         private RelayCommand selectPrimitive;
         private RelayCommand fileDroppedCommand;
         private string fileName;
+        private RelayCommand exportToDxfCommand;
+        private RelayCommand importFromDxfCommand;
 
         public ICommand FileDroppedCommand => fileDroppedCommand ??= new RelayCommand(OnFileDropped);
 
@@ -136,20 +172,28 @@ namespace StructureHelper.Windows.MainWindow
         {
             if (obj is string[] files && files.Length > 0)
             {
-                fileName = files.First();
-                string extension = Path.GetExtension(fileName).ToLowerInvariant();
-                if (extension == ".dxf")
+                foreach (var filenameString in files)
                 {
-                    SafetyProcessor.RunSafeProcess(GetPrimitivesFromFile,"Error of obtaining of primitives, see detail information");
-                }
-                else
-                {
-                    System.Windows.MessageBox.Show($"Unsupported file type: {extension}");
+                    fileName = filenameString;
+                    ProcessDxfFile();
                 }
             }
             else
             {
                 System.Windows.MessageBox.Show($"Error of file");
+            }
+        }
+
+        private void ProcessDxfFile()
+        {
+            string extension = Path.GetExtension(fileName).ToLowerInvariant();
+            if (extension == ".dxf")
+            {
+                SafetyProcessor.RunSafeProcess(GetPrimitivesFromFile, "Error of obtaining of primitives, see detail information");
+            }
+            else
+            {
+                System.Windows.MessageBox.Show($"Unsupported file type: {extension}");
             }
         }
 

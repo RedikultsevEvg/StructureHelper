@@ -8,6 +8,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
     {
         IValueDiagramCalculatorInputData? InputData { get; set; }
         List<IPoint2D> Points { get; set; }
-        List<IForceTupleCalculatorResult> ForceTupleResults { get; set; }
+        List<IExtendedForceTupleCalculatorResult> ForceTupleResults { get; set; }
     }
 }

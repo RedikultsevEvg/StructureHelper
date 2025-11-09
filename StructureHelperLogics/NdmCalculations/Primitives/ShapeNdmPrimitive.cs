@@ -77,6 +77,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             if (shape is ILinePolygonShape polygon)
             {
                 var newShape = PolygonGeometryUtils.GetTransfromedPolygon(polygon, Center.X, Center.Y);
+                newShape.IsClosed = true;
                 var calculator = new PolygonCalculator();
                 return calculator.ContainsPoint(newShape, point);
             }

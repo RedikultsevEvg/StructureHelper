@@ -46,7 +46,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private ShowProgressLogic showProgressLogic;
         private InteractionDiagramLogic interactionDiagramLogic;
         private static readonly ShowCrackResultLogic showCrackResultLogic = new();
-        //private static readonly ShowCrackWidthLogic showCrackWidthLogic = new();
         private IForceCalculatorResult resultModel;
         private IEnumerable<INdmPrimitive> ndmPrimitives;
         private IEnumerable<INdmPrimitive> selectedNdmPrimitives;

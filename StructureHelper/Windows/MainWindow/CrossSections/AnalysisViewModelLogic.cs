@@ -1,7 +1,9 @@
-﻿using StructureHelper.Infrastructure;
+﻿using LoaderCalculator;
+using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
+using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ValueDiagrams;
 using StructureHelper.Windows.CalculationWindows.ProgressViews;
 using StructureHelper.Windows.Errors;
 using StructureHelper.Windows.ViewModels.Calculations.Calculators;
@@ -12,7 +14,9 @@ using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Logics;
+using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
+using System;
 using System.Windows;
 using System.Windows.Forms;
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -49,10 +53,24 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             {
                 AddCrackCalculator();
             }
+            else if (parameterType == CalculatorTypes.ValueDiagram)
+            {
+                AddValueDiagramCalculator();
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(parameterType));
             }
+        }
+
+        private void AddValueDiagramCalculator()
+        {
+            var calculator = new ValueDiagramCalculator(Guid.NewGuid())
+            {
+                Name = "New value diagram calculator",
+                ShowTraceData = false,
+            };
+            NewItem = calculator;
         }
 
         private void AddCrackCalculator()
@@ -113,7 +131,19 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             if (SelectedItem is ForceCalculator forceCalculator) { EditForceCalculator(forceCalculator);}
             else if (SelectedItem is LimitCurvesCalculator limitCurvesCalculator) { EditLimitCurveCalculator(limitCurvesCalculator);            }
             else if (SelectedItem is CrackCalculator crackCalculator) { EditCrackCalculator(crackCalculator);}
+            else if (SelectedItem is IValueDiagramCalculator valueDiagramCalculator)
+            {
+                EditValueDiagramCalculator(valueDiagramCalculator);
+            }
             else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));}
+        }
+
+        private void EditValueDiagramCalculator(IValueDiagramCalculator sourceCalculator)
+        {
+            var calculatorClone = sourceCalculator.Clone() as IValueDiagramCalculator;
+            var vm = new ValueDiagramCalculatorViewModel(repository, sourceCalculator);
+            var wnd = new ValueDiagramCalculatorView(vm);
+            ShowWindow(sourceCalculator, calculatorClone, wnd);
         }
 
         private void EditCrackCalculator(CrackCalculator calculator)

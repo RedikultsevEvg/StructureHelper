@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
 
 namespace StructureHelperLogics.Models.Templates.CrossSections
@@ -10,12 +11,36 @@ namespace StructureHelperLogics.Models.Templates.CrossSections
         public IEnumerable<ICalculator> GetNdmCalculators()
         {
             var calculators = new List<ICalculator>();
-            var forceCalculator = new ForceCalculator()
+            ForceCalculator forceCalculator = GetForceCalculator();
+            calculators.Add(forceCalculator);
+            CrackCalculator crackCalculator = GetCrackCalculator();
+            calculators.Add(crackCalculator);
+            ValueDiagramCalculator diagramCalculator = GetDiagramCalculator();
+            calculators.Add(diagramCalculator);
+            return calculators;
+        }
+
+        private ValueDiagramCalculator GetDiagramCalculator()
+        {
+            ValueDiagramCalculator diagramCalculator = new(Guid.NewGuid()) { Name = "New value diagram calcualtor"};
+            ValueDiagramEntity diagramEntity = new(Guid.NewGuid()) { Name = "New diagram" };
+            diagramEntity.ValueDigram.Point2DRange.StartPoint.Y = 0.25;
+            diagramEntity.ValueDigram.Point2DRange.EndPoint.Y = - 0.25;
+            diagramCalculator.InputData.Digrams.Add(diagramEntity);
+            return diagramCalculator;
+        }
+
+        private static ForceCalculator GetForceCalculator()
+        {
+            return new ForceCalculator()
             {
                 Name = "New Force Calculator",
                 TraceLogger = new ShiftTraceLogger()
             };
-            calculators.Add(forceCalculator);
+        }
+
+        private static CrackCalculator GetCrackCalculator()
+        {
             var newInputData = new CrackCalculatorInputData();
             var checkLogic = new CheckCrackCalculatorInputDataLogic
             {
@@ -28,8 +53,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections
                 TraceLogger = new ShiftTraceLogger()
             };
             crackCalculator.InputData = newInputData;
-            calculators.Add(crackCalculator);
-            return calculators;
+            return crackCalculator;
         }
     }
 }

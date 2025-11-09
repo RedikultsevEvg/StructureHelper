@@ -888,6 +888,16 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+    <DataTemplate x:Key="ValueDiagramCalculator">
+        <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonCalculatorRectangle}"/>
+                <Path Data="M 12 6 h 12 v 6 l -12 6 z" Fill="{DynamicResource CalculatorFrame}"/>
+                <Path Data="M 12 26 h -6 v -4 l 6 -5 z" Fill="{DynamicResource CalculatorFrame}"/>
+                <Line X1="12" Y1="5" X2="12" Y2="26" Stroke="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="ValuePointDiagram">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>

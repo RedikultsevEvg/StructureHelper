@@ -19,6 +19,9 @@
     <Reference Include="LoaderCalculator">
       <HintPath>..\StructureHelper\Libraries\LoaderCalculator.dll</HintPath>
     </Reference>
+    <Reference Include="StructureMath">
+      <HintPath>..\StructureHelper\Libraries\StructureMath.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

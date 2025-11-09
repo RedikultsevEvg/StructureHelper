@@ -2,9 +2,11 @@
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelper.Windows.PrimitivePropertiesWindow;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
+using StructureHelperLogics.NdmCalculations.Primitives;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -46,7 +48,6 @@ namespace StructureHelper.Windows.ViewModels.Materials
             else if (parameterType == MaterialType.CarbonFiber) { AddCarbonFiber(); }
             else if (parameterType == MaterialType.GlassFiber) { AddGlassFiber(); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Expected: {typeof(MaterialType)}, Actual type: {nameof(parameterType)}");
-            //GlobalRepository.Materials.Create(NewItem);
             base.AddMethod(parameter);
         }
         public override void DeleteMethod(object parameter)
@@ -132,6 +133,26 @@ namespace StructureHelper.Windows.ViewModels.Materials
             var wnd = new HeadMaterialsView(repository);
             wnd.ShowDialog();
             Refresh();
+        }
+
+        private RelayCommand setMaterialToPrimititveCommand;
+        public ICommand SetMaterialToPrimititveCommand => setMaterialToPrimititveCommand ??= new RelayCommand(SetMaterialToPrimititve, o => SelectedItem != null);
+
+        private void SetMaterialToPrimititve(object commandParameter)
+        {
+            if (SelectedItem is null) {  return; }
+            var vm = new SelectPrimitivesViewModel(repository.Primitives);
+            var wnd = new SelectPrimitivesView(vm);
+            wnd.ShowDialog();
+            if (wnd.DialogResult == true)
+            {
+                var selectedNdmPrimitives = vm.Items.CollectionItems.Where(x => x.IsSelected == true).Select(x => x.Item.GetNdmPrimitive());
+                foreach (var item in selectedNdmPrimitives)
+                {
+                    item.NdmElement.HeadMaterial = SelectedItem;
+                }
+                Refresh();
+            }
         }
     }
 }

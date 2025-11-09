@@ -2,7 +2,7 @@
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public class GetPrimitivesByFile : IGetPrimitivesLogic
+    public class GetPrimitivesByFile : IImportFromFileLogic
     {
         private List<INdmPrimitive> primitives = [];
 
@@ -16,7 +16,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             importEntitiesLogic.Import();
             if (importEntitiesLogic.Entities.Count != 0)
             {
-                var primitivesLogic = new GetPrimitivesByDxfEntities();
+                var primitivesLogic = new DxfEntitiesToNdmPrimitivesConvertStrategy();
                 primitives = primitivesLogic.Convert(importEntitiesLogic.Entities);
             }
         }

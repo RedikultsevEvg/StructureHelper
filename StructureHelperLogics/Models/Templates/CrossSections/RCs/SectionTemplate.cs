@@ -5,6 +5,7 @@ using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Templates.RCs;
 using StructureHelperLogics.NdmCalculations.Analyses;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
@@ -67,6 +68,10 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                 {
                     crackCalculator.InputData.ForceActions.AddRange(combinations);
                 }
+                if (calculator is IValueDiagramCalculator diagramCalculator)
+                {
+                    diagramCalculator.InputData.ForceActions.AddRange(combinations);
+                }
             }
         }
         private void AddAllPrimitivesToCalculator()
@@ -80,6 +85,10 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
                 if (calculator is CrackCalculator crackCalculator)
                 {
                     crackCalculator.InputData.Primitives.AddRange(primitives);
+                }
+                if (calculator is IValueDiagramCalculator diagramCalculator)
+                {
+                    diagramCalculator.InputData.Primitives.AddRange(primitives);
                 }
             }
         }

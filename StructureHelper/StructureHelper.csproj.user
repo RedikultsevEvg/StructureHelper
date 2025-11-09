@@ -78,6 +78,12 @@
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\SelectResultsForExportView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ValueDiagrams\ValueDiagramCalculatorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ValueDiagrams\ValueDiagramEntityView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\CalculationWindows\ProgressViews\ShowProgressView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

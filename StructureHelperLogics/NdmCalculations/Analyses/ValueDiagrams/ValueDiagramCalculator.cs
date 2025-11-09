@@ -11,14 +11,17 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 {
     public class ValueDiagramCalculator : IValueDiagramCalculator
     {
+        private IValueDiagramCalculatorResult result;
+
+        public Guid Id { get; }
         public string Name { get; set; }
         public bool ShowTraceData { get; set; }
 
-        public IResult Result => throw new NotImplementedException();
+        public IResult Result => result;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public Guid Id { get; }
+        public IValueDiagramCalculatorInputData InputData { get; set; } = new ValueDiagramCalculatorInputData(Guid.NewGuid());
 
         public ValueDiagramCalculator(Guid id)
         {
@@ -27,7 +30,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            ValueDiagramCalculator newItem = new ValueDiagramCalculator(Guid.NewGuid());
+            var updateLogic = new ValueDiagramCalculatorUpdateStrategy();
+            updateLogic.Update(newItem, this);
+            return newItem;
         }
 
         public void Run()

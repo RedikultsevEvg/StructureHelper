@@ -9,6 +9,7 @@ using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
@@ -34,7 +35,9 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private ICommand setToFront;
         private ICommand setToBack;
         private ICommand copyToCommand;
-
+        private RelayCommand setAsHostCommand;
+        private RelayCommand setMaterialToPrimitivesCommand;
+        private RelayCommand setHostToPrimitivesCommand;
 
         public double Width { get; set; }
         public double Height { get; set; }
@@ -42,6 +45,72 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         public PrimitiveBase SelectedItem { get; set; }
 
         public ObservableCollection<PrimitiveBase> Items { get; private set; }
+
+        public ICommand SetAsHostCommand => setAsHostCommand ??= new RelayCommand(SetPrimititveAsHost,
+            o => SelectedItem != null
+            && SelectedItem.NdmPrimitive is IHasDivisionSize);
+
+        public ICommand SetHostToPrimitivesCommand => setHostToPrimitivesCommand ??= new RelayCommand(SetHostToPrimitives,
+    o => SelectedItem != null
+    && SelectedItem.NdmPrimitive is IHasHostPrimitive);
+
+        private void SetHostToPrimitives(object obj)
+        {
+            if (SelectedItem is null) { return; }
+            var newHost = (SelectedItem.NdmPrimitive as IHasHostPrimitive).HostPrimitive;
+            SetNewHost(newHost);
+        }
+
+        public ICommand SetMaterialToPrimitivesCommand => setMaterialToPrimitivesCommand ??= new RelayCommand(SetMaterialToPrimitives,
+    o => SelectedItem != null
+    && SelectedItem
+    .NdmPrimitive
+    .NdmElement
+    .HeadMaterial != null);
+
+        private void SetMaterialToPrimitives(object obj)
+        {
+            if (SelectedItem is null) { return; }
+            var material = SelectedItem.NdmPrimitive.NdmElement.HeadMaterial;
+            if (material == null) { return; };
+            var vm = new SelectPrimitivesViewModel(repository.Primitives);
+            var wnd = new SelectPrimitivesView(vm);
+            wnd.ShowDialog();
+            if (wnd.DialogResult == true)
+            {
+                var selectedNdmPrimitives = vm.Items.CollectionItems.Where(x => x.IsSelected == true).Select(x => x.Item.GetNdmPrimitive());
+                foreach (var item in selectedNdmPrimitives)
+                {
+                    item.NdmElement.HeadMaterial = material;
+                }
+                Refresh();
+            }
+        }
+
+        private void SetPrimititveAsHost(object obj)
+        {
+            if (SelectedItem is null) { return; }
+            var newHost = SelectedItem.NdmPrimitive;
+            SetNewHost(newHost);
+        }
+
+        private void SetNewHost(INdmPrimitive newHost)
+        {
+            var vm = new SelectPrimitivesViewModel(repository.Primitives.Where(x => x is IHasHostPrimitive));
+            var wnd = new SelectPrimitivesView(vm);
+            wnd.ShowDialog();
+            if (wnd.DialogResult == true)
+            {
+                var selectedNdmPrimitives = vm.Items.CollectionItems.Where(x => x.IsSelected == true).Select(x => x.Item.GetNdmPrimitive());
+                var hasHostPrimitives = selectedNdmPrimitives.Where(x => x is IHasHostPrimitive);
+                foreach (var item in hasHostPrimitives)
+                {
+                    IHasHostPrimitive hostPrimitive = item as IHasHostPrimitive;
+                    hostPrimitive.HostPrimitive = newHost;
+                }
+                Refresh();
+            }
+        }
 
         public ICommand Add
         {
@@ -189,6 +258,11 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                     else if (calc is ICrackCalculator crackCalculator)
                     {
                         var forceCalc = crackCalculator.InputData as IHasPrimitives;
+                        forceCalc.Primitives.Remove(ndmPrimitive);
+                    }
+                    else if (calc is IValueDiagramCalculator diagramCalculator)
+                    {
+                        var forceCalc = diagramCalculator.InputData as IHasPrimitives;
                         forceCalc.Primitives.Remove(ndmPrimitive);
                     }
                     else

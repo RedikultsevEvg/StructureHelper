@@ -16,5 +16,13 @@ namespace StructureHelperCommon.Models.Shapes
         {
             Id = id;
         }
+
+        public object Clone()
+        {
+            Point2DRange newItem = new(Guid.NewGuid());
+            var updateStrategy = new Point2DRangeUpdateStrategy();
+            updateStrategy.Update(newItem, this);
+            return newItem;
+        }
     }
 }

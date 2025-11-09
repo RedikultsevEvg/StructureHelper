@@ -17,7 +17,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
         public Guid Id { get; }
 
         /// <inheritdoc/>
-        public List<IValueDigram> Digrams { get; } = [];
+        public List<IValueDiagramEntity> Digrams { get; } = [];
         /// <inheritdoc/>
         public List<IForceAction> ForceActions { get; } = [];
         /// <inheritdoc/>

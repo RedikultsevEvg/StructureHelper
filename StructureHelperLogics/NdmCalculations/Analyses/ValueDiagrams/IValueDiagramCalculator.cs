@@ -9,6 +9,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 {
     public interface IValueDiagramCalculator : ICalculator
     {
-
+        IValueDiagramCalculatorInputData InputData { get; set; }
     }
 }
