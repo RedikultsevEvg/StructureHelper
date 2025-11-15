@@ -1,13 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
-using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Materials;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
 {
@@ -57,8 +50,16 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
             }
             else
             {
+                
                 foreach (var primitive in Entity.Primitives)
                 {
+                    if (primitive.NdmElement.HeadMaterial is null)
+                    {
+                        result = false;
+                        string message = $"Primitive {primitive.Name} does not have material\n";
+                        checkResult += message;
+                        TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
+                    }
                     if (primitive is IRebarNdmPrimitive rebar)
                     {
                         CheckRebar(rebar);

@@ -7,11 +7,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
     {
         public IValueDiagramCalculatorInputData? InputData { get; set; }
 
-        public List<IPoint2D> Points { get; set; } = [];
-
-        public List<IExtendedForceTupleCalculatorResult> ForceTupleResults { get; set; } = [];
+        public List<IForceTupleCalculatorResult> ForceTupleResults { get; set; } = [];
 
         public bool IsValid { get; set; } = true;
         public string? Description { get; set; } = string.Empty;
+        public List<IValueDiagramEntityResult> EntityResults { get; set; } = [];
     }
 }

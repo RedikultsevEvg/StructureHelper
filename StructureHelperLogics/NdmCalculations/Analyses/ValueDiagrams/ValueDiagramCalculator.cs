@@ -1,16 +1,13 @@
-﻿using StructureHelperCommon.Models;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 {
     public class ValueDiagramCalculator : IValueDiagramCalculator
     {
+        private readonly IValueDiagramCalculatorLogic valueDiagramCalculatorLogic = new ValueDiagramCalculatorLogic();
+        private readonly ICheckInputDataLogic<IValueDiagramCalculatorInputData> checkInputDataLogic;
         private IValueDiagramCalculatorResult result;
 
         public Guid Id { get; }
@@ -38,7 +35,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 
         public void Run()
         {
-            throw new NotImplementedException();
+            valueDiagramCalculatorLogic.InputData = InputData;
+            result = valueDiagramCalculatorLogic.GetResult();
         }
     }
 }

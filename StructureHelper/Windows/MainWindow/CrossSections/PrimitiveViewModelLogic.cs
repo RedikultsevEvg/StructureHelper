@@ -38,6 +38,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private RelayCommand setAsHostCommand;
         private RelayCommand setMaterialToPrimitivesCommand;
         private RelayCommand setHostToPrimitivesCommand;
+        private RelayCommand deletAllCommand;
 
         public double Width { get; set; }
         public double Height { get; set; }
@@ -67,6 +68,44 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
     .NdmPrimitive
     .NdmElement
     .HeadMaterial != null);
+
+        public ICommand DeleteAllCommand => deletAllCommand ??= new RelayCommand(DeleteAll, o => Items.Count > 0);
+
+        private void DeleteAll(object obj)
+        {
+            var dialogResult = MessageBox.Show("Delete all primitives?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                repository.Primitives.Clear();
+                Items.Clear();
+                Refresh();
+                OnPropertyChanged(nameof(Items));
+                OnPropertyChanged(nameof(PrimitivesCount));
+            }
+        }
+        public ICommand DeleteSelectedCommand => deleteSelectedCommand ??= new RelayCommand(DeleteSelected, o => Items.Count > 0);
+
+        private void DeleteSelected(object commandParameter)
+        {
+            var vm = new SelectPrimitivesViewModel(repository.Primitives);
+            var wnd = new SelectPrimitivesView(vm);
+            wnd.ShowDialog();
+            if (wnd.DialogResult == true)
+            {
+                var selectedNdmPrimitives = vm.Items.CollectionItems.Where(x => x.IsSelected == true).Select(x => x.Item.GetNdmPrimitive());
+                var deletePrimitivesList = Items
+                    .Where(x => selectedNdmPrimitives.Contains(x.NdmPrimitive))
+                    .ToList();
+                foreach (var item in deletePrimitivesList)
+                {
+                    repository.Primitives.Remove(item.NdmPrimitive);
+                    Items.Remove(item);
+                }
+                Refresh();
+                OnPropertyChanged(nameof(Items));
+                OnPropertyChanged(nameof(PrimitivesCount));
+            }
+        }
 
         private void SetMaterialToPrimitives(object obj)
         {
@@ -478,5 +517,6 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             AddItems(PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(this.repository.Primitives));
         }
 
+        private RelayCommand deleteSelectedCommand;
     }
 }

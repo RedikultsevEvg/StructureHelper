@@ -56,17 +56,18 @@ namespace StructureHelper.Services.ResultViewers
         }
         private static List<ForceResultFunc> GetStrainResultFuncs()
         {
-            List<ForceResultFunc> resultFuncs = new ();
+            List<ForceResultFunc> resultFuncs = [];
             resultFuncs.Add(new ForceResultFunc() { Name = "Section Strain", ResultFunction = stressLogic.GetSectionStrain });
             resultFuncs.Add(new ForceResultFunc() { Name = "Total Strain", ResultFunction = stressLogic.GetTotalStrain });
             resultFuncs.Add(new ForceResultFunc() { Name = "Prestrain", ResultFunction = stressLogic.GetPrestrain });
             resultFuncs.Add(new ForceResultFunc() { Name = "Elastic Strain", ResultFunction = stressLogic.GetElasticStrain });
             resultFuncs.Add(new ForceResultFunc() { Name = "Plastic Strain", ResultFunction = stressLogic.GetPlasticStrain });
+            resultFuncs.Add(new ForceResultFunc() { Name = "Limit Strain Ratio", ResultFunction = stressLogic.GetLimitStrainRatio });
             return resultFuncs;
         }
         private static List<ForceResultFunc> GetStressResultFuncs()
         {
-            List<ForceResultFunc> resultFuncs = new ();
+            List<ForceResultFunc> resultFuncs = [];
             resultFuncs.Add(new ForceResultFunc() { Name = "Stress", ResultFunction = stressLogic.GetStress, UnitFactor = unitStress.Multiplyer, UnitName = unitStress.Name });
             resultFuncs.Add(new ForceResultFunc() { Name = "Secant modulus", ResultFunction = stressLogic.GetSecantModulus, UnitFactor = unitStress.Multiplyer, UnitName = unitStress.Name });
             resultFuncs.Add(new ForceResultFunc() { Name = "Modulus degradation", ResultFunction = stressLogic.GetModulusDegradation });
@@ -74,7 +75,7 @@ namespace StructureHelper.Services.ResultViewers
         }
         private static List<ForceResultFunc> GetForcesResultFuncs()
         {
-            List<ForceResultFunc> resultFuncs = new ();
+            List<ForceResultFunc> resultFuncs = [];
             resultFuncs.Add(new ForceResultFunc() { Name = "Force", ResultFunction = stressLogic.GetForce, UnitFactor = unitForce.Multiplyer, UnitName = unitForce.Name });
             resultFuncs.Add(new ForceResultFunc() { Name = "Moment X", ResultFunction = stressLogic.GetMomentX, UnitFactor = unitMoment.Multiplyer, UnitName = unitMoment.Name });
             resultFuncs.Add(new ForceResultFunc() { Name = "Moment Y", ResultFunction = stressLogic.GetMomentY, UnitFactor = unitMoment.Multiplyer, UnitName = unitMoment.Name });

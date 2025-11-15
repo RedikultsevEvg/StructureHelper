@@ -20,7 +20,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections
             return calculators;
         }
 
-        private ValueDiagramCalculator GetDiagramCalculator()
+        private static ValueDiagramCalculator GetDiagramCalculator()
         {
             ValueDiagramCalculator diagramCalculator = new(Guid.NewGuid()) { Name = "New value diagram calcualtor"};
             ValueDiagramEntity diagramEntity = new(Guid.NewGuid()) { Name = "New diagram" };

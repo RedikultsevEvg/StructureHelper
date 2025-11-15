@@ -6,6 +6,7 @@ using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculato
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ValueDiagrams;
 using StructureHelper.Windows.CalculationWindows.ProgressViews;
 using StructureHelper.Windows.Errors;
+using StructureHelper.Windows.MainWindow.CrossSections;
 using StructureHelper.Windows.ViewModels.Calculations.Calculators;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -268,6 +269,12 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             {
                 var wnd = new CrackResultView(crackCalculator.Result as CrackResult);
                 wnd.ShowDialog();
+            }
+            else if (SelectedItem is IValueDiagramCalculator valueDiagramCalculator)
+            {
+                IValueDiagramCalculatorResult? diagramCalcualtorResult = valueDiagramCalculator.Result as IValueDiagramCalculatorResult;
+                ValueDiagramLogic valueDiagramLogic = new(diagramCalcualtorResult);
+                valueDiagramLogic.Show();
             }
             else
             {

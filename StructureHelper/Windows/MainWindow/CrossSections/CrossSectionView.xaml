@@ -156,7 +156,7 @@
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Export to *.dxf file"
                                         IconContent="{StaticResource ExportToDxf}"
-                                        DescriptionText="Exports poligon to new *.dxf file"/>
+                                        DescriptionText="Exports primitives to new *.dxf file"/>
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{StaticResource ExportToDxf}"/>
@@ -166,7 +166,7 @@
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Import from *.dxf file"
                                         IconContent="{StaticResource ImportFromDxf}"
-                                        DescriptionText="Imports poligon from *.dxf file"/>
+                                        DescriptionText="Imports primitives from *.dxf file"/>
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{StaticResource ImportFromDxf}"/>
@@ -304,6 +304,44 @@
                                         <MenuItem Header="Point" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Point32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </MenuItem>
+                                    <MenuItem Header="Templates">
+                                        <MenuItem Header="Add Rectangle RC Column" Command="{Binding AddColumnCase}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/RectangleColumn32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Add Circle RC Column" Command="{Binding AddRCCircleCase}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/CircleColumn32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Add RC Beam" Command="{Binding AddBeamCase}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Beam32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Add RC slab" Command="{Binding AddSlabCase}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/Slab32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </MenuItem>
+                                    <MenuItem Header="Delete" DataContext="{Binding PrimitiveLogic}">
+                                        <MenuItem Header="All" Command="{Binding DeleteAllCommand}">
+                                            <MenuItem.Icon>
+                                                <Viewbox Width="16" Height="16">
+                                                    <ContentControl ContentTemplate="{StaticResource DeleteEntity}"/>
+                                                </Viewbox>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Select" Command="{Binding DeleteSelectedCommand}">
+                                            <MenuItem.Icon>
+                                                <Viewbox Width="16" Height="16">
+                                                    <ContentControl ContentTemplate="{StaticResource DeleteEntity}"/>
+                                                </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </MenuItem>

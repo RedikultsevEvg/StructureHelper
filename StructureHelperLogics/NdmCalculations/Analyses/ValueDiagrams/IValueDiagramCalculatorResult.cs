@@ -7,7 +7,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
     public interface IValueDiagramCalculatorResult : IResult
     {
         IValueDiagramCalculatorInputData? InputData { get; set; }
-        List<IPoint2D> Points { get; set; }
-        List<IExtendedForceTupleCalculatorResult> ForceTupleResults { get; set; }
+        List<IValueDiagramEntityResult> EntityResults { get; set; }
+        List<IForceTupleCalculatorResult> ForceTupleResults { get; set; }
     }
 }
