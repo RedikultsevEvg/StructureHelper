@@ -7,6 +7,7 @@ using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.BeamShears;
+using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace DataAccess.DTOs
@@ -45,6 +46,7 @@ namespace DataAccess.DTOs
                 { (typeof(List<LimitStates>), "ListOfLimitState") },
                 { (typeof(List<IPartialFactor>), "ListOfPartialFactor") },
                 { (typeof(RebarSectionDTO), "RebarSection") },
+                { (typeof(StateCalcTermPairDTO), "StateCalcTermPair") },
                 { (typeof(VisualPropertyDTO), "VisualProperty") },
                 { (typeof(WorkPlanePropertyDTO), "WorkPlanePropertyDTO") },
             };
@@ -55,6 +57,20 @@ namespace DataAccess.DTOs
             newList.AddRange(GetCalculatorList());
             newList.AddRange(GetNdmPrimitiveList());
             newList.AddRange(GetBeamShearList());
+            newList.AddRange(GetValueDiagramList());
+            return newList;
+        }
+
+        private static IEnumerable<(Type type, string name)> GetValueDiagramList()
+        {
+            List<(Type type, string name)> newList = new()
+            {
+                { (typeof(List<IValueDiagramEntity>), "ListOfValueDiagramEntity") },
+                { (typeof(ValueDiagramCalculatorDTO), "ValueDiagramCalculator") },
+                { (typeof(ValueDiagramCalculatorInputDataDTO), "ValueDiagramCalculatorInputData") },
+                { (typeof(ValueDiagramEntityDTO), "ValueDiagramEntity") },
+                { (typeof(ValueDiagramDTO), "ValueDiagram") },
+            };
             return newList;
         }
 
@@ -131,6 +147,7 @@ namespace DataAccess.DTOs
             {
                 { (typeof(List<IVertex>), "ListOfVertex2D") },
                 { (typeof(Point2DDTO), "Point2D") },
+                { (typeof(Point2DRangeDTO), "Point2DRange") },
                 { (typeof(VertexDTO), "Vertex2D") },
                 { (typeof(RectangleShapeDTO), "RectangleShape") },
                 { (typeof(CircleShapeDTO), "CircleShape") },

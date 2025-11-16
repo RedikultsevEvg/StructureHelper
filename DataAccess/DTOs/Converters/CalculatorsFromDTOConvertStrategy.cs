@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using System;
 using System.Collections.Generic;
@@ -39,9 +40,24 @@ namespace DataAccess.DTOs
                 ICrackCalculator calculator = GetCrackCalculator(crackCalculator);
                 return calculator;
             }
+            if (source is ValueDiagramCalculatorDTO valueDiagramCalculator)
+            {
+                TraceLogger?.AddMessage($"{CalculatorIs} value digram calculator");
+                return GetValueDiagramCalculator(valueDiagramCalculator);
+            }
             string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source);
             TraceLogger.AddMessage(errorString, TraceLogStatuses.Error);
             throw new StructureHelperException(errorString);
+        }
+
+        private ValueDiagramCalculator GetValueDiagramCalculator(ValueDiagramCalculatorDTO valueDiagramCalculator)
+        {
+            var convertStrategy = new ValueDiagramCalcualtorFromDTOConvertStrategy()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger,
+            };
+            return convertStrategy.Convert(valueDiagramCalculator);
         }
 
         private ICrackCalculator GetCrackCalculator(ICrackCalculator crackCalculator)

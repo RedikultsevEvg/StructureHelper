@@ -4,12 +4,8 @@ using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
@@ -65,9 +61,24 @@ namespace DataAccess.DTOs
             {
                 TraceLogger?.AddMessage($"Current version of StructureHelper does not suppurt saving interaction diagram calculator, {limitCalculator.Name} was ignored");
             }
+            if (source is IValueDiagramCalculator valueDiagramCalculator)
+            {
+                return ProcessValueDiagramCalcualtor(valueDiagramCalculator);
+            }
             string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source);
             TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
             throw new StructureHelperException(errorString);
+        }
+
+        private ValueDiagramCalculatorDTO ProcessValueDiagramCalcualtor(IValueDiagramCalculator valueDiagramCalculator)
+        {
+            var convertStrategy = new ValueDiagramCalculatorToDTOConvertStrategy()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger
+            };
+            var dictionaryConvertStrategy = new DictionaryConvertStrategy<ValueDiagramCalculatorDTO, IValueDiagramCalculator>(this, convertStrategy);
+            return convertStrategy.Convert(valueDiagramCalculator);
         }
 
         private CrackCalculatorDTO ProcessCrackCalculator(ICrackCalculator crackCalculator)

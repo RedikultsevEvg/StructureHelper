@@ -23,12 +23,15 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="22"/>
                     <RowDefinition Height="22"/>
+                    <RowDefinition Height="22"/>
                     <RowDefinition Height="15"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Take"/>
                 <CheckBox Grid.Column="1" Margin="0,3" IsChecked="{Binding IsTaken}"/>
                 <TextBlock Grid.Row="1" Text="Name"/>
                 <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Name}"/>
+                <TextBlock Grid.Row="2" Text="Step number"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding ValueDiagram.StepNumber}"/>
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>

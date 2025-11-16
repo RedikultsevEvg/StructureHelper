@@ -1,6 +1,4 @@
 ﻿using LoaderCalculator.Data.Matrix;
-using LoaderCalculator.Data.Ndms;
-using LoaderCalculator.Logics;
 using StructureHelper.Services.ResultViewers;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.Graphs;
@@ -18,7 +16,6 @@ namespace StructureHelper.Windows.MainWindow.CrossSections
 {
     internal class ValueDiagramLogic
     {
-        private IStressLogic stressLogic = new StressLogic();
         private IValueDiagramCalculatorResult valueDiagramResult;
         private List<ForceResultFunc> resultFuncs = [];
         private List<string> labels;
@@ -49,6 +46,10 @@ namespace StructureHelper.Windows.MainWindow.CrossSections
                     var primitives = valueDiagramResult.InputData.Primitives
                     .Where(x => x is IHasDivisionSize);
                     Series series = GetSeries(forceTupleResult, valueDiagramResult.InputData.Primitives, entityResult.PointList);
+                    if (valueDiagramResult.EntityResults.Count > 1)
+                    {
+                        series.Name = $"${entityResult.ValueDiagramEntity.Name} ({series.Name})";
+                    }
                     seriesList.Add(series);
                 }                
             }
@@ -60,10 +61,15 @@ namespace StructureHelper.Windows.MainWindow.CrossSections
         private Series GetSeries(IForceTupleCalculatorResult tupleResult, List<INdmPrimitive> ndmPrimitives, List<IPoint2D> points)
         {
             List<(INdmPrimitive ndmPrimitive, IPoint2D point)> pointPrimitives = GetPrimitivePoints(ndmPrimitives, points);
+            if (pointPrimitives.Count == 0)
+            {
+                throw new StructureHelperException("There are not points for drawings");
+            }
             ArrayParameter<double> arrayParameter = new(pointPrimitives.Count + 3, labels);
             var data = arrayParameter.Data;
             IPoint2D startPoint = pointPrimitives[0].point;
             IPoint2D endPoint = pointPrimitives[^1].point;
+            IStrainMatrix strainMatrix = tupleResult.LoaderResults.StrainMatrix;
             for (int i = 0; i < pointPrimitives.Count; i++)
             {
                 IPoint2D currentPoint = pointPrimitives[i].point;
@@ -73,7 +79,7 @@ namespace StructureHelper.Windows.MainWindow.CrossSections
                 data[i, 2] = currentPoint.Y;
                 for (int j = 0; j < resultFuncs.Count; j++)
                 {
-                    data[i, j + 3] = GetValueByPoint(tupleResult.LoaderResults.StrainMatrix, pointPrimitives[i].ndmPrimitive, pointPrimitives[i].point, resultFuncs[j]);
+                    data[i, j + 3] = GetValueByPoint(strainMatrix, pointPrimitives[i].ndmPrimitive, pointPrimitives[i].point, resultFuncs[j]);
                 }
 
             }
@@ -92,7 +98,7 @@ namespace StructureHelper.Windows.MainWindow.CrossSections
             {
                 data[pointPrimitives.Count, j+3] = 0.0;
                 data[pointPrimitives.Count + 1, j+3] = 0.0;
-                data[pointPrimitives.Count + 2, j + 3] = GetValueByPoint(tupleResult.LoaderResults.StrainMatrix, pointPrimitives[0].ndmPrimitive, pointPrimitives[0].point, resultFuncs[j]);
+                data[pointPrimitives.Count + 2, j + 3] = GetValueByPoint(strainMatrix, pointPrimitives[0].ndmPrimitive, pointPrimitives[0].point, resultFuncs[j]);
             }
 
             StructureHelperCommon.Models.Forces.IForceTuple inputForceTuple = tupleResult.InputData.ForceTuple;

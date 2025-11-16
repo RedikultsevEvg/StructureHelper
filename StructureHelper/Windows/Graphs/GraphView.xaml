@@ -61,61 +61,69 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="170"/>
-                </Grid.RowDefinitions>
-                <ListBox ItemsSource="{Binding Series}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Expander Header="{Binding Name}" IsExpanded="True" Background="{Binding Color}">
-                                <Grid HorizontalAlignment="Stretch">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="70"/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <GroupBox Grid.Row="0" Margin="10,0,10,0" Header="X-axis values">
-                                        <StackPanel>
-                                            <ComboBox ItemsSource="{Binding XItems.Collection}" SelectedItem="{Binding XItems.SelectedItem}">
-                                                <ComboBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="20"/>
-                                                                <ColumnDefinition/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <Rectangle Grid.Column="0" Margin="3">
-                                                                <Rectangle.Fill>
-                                                                    <SolidColorBrush Color="{Binding Color}"/>
-                                                                </Rectangle.Fill>
-                                                            </Rectangle>
-                                                            <TextBlock Grid.Column="1" Text="{Binding Name}"/>
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ComboBox.ItemTemplate>
-                                            </ComboBox>
-                                            <CheckBox Margin="5" Content="Invert Values" IsChecked="{Binding InvertXValues}"/>
-                                        </StackPanel>
-
-                                    </GroupBox>
-                                    <GroupBox Grid.Row="1" Margin="10,0,10,0" Header="Y-axis values">
-                                        <Grid>
+            <TabControl>
+                <TabItem Header="Series">
+                    <ScrollViewer>
+                        <ListBox ItemsSource="{Binding Series}" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Expander Header="{Binding Name}" IsExpanded="True" Background="{Binding Color}">
+                                        <Grid HorizontalAlignment="Stretch">
                                             <Grid.RowDefinitions>
+                                                <RowDefinition Height="70"/>
                                                 <RowDefinition/>
-                                                <RowDefinition Height="30"/>
                                             </Grid.RowDefinitions>
-                                            <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding YItems}"/>
-                                            <CheckBox Grid.Row="1" Margin="5" Content="Invert Values" IsChecked="{Binding InvertYValues}"/>
+                                            <GroupBox Grid.Row="0" Margin="10,0,10,0" Header="X-axis values">
+                                                <StackPanel>
+                                                    <ComboBox ItemsSource="{Binding XItems.Collection}" SelectedItem="{Binding XItems.SelectedItem}">
+                                                        <ComboBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="20"/>
+                                                                        <ColumnDefinition/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Rectangle Grid.Column="0" Margin="3">
+                                                                        <Rectangle.Fill>
+                                                                            <SolidColorBrush Color="{Binding Color}"/>
+                                                                        </Rectangle.Fill>
+                                                                    </Rectangle>
+                                                                    <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ComboBox.ItemTemplate>
+                                                    </ComboBox>
+                                                    <CheckBox Margin="5" Content="Invert Values" IsChecked="{Binding InvertXValues}"/>
+                                                </StackPanel>
+
+                                            </GroupBox>
+                                            <GroupBox Grid.Row="1" Margin="10,0,10,0" Header="Y-axis values">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition/>
+                                                        <RowDefinition Height="30"/>
+                                                    </Grid.RowDefinitions>
+                                                    <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding YItems}"/>
+                                                    <CheckBox Grid.Row="1" Margin="5" Content="Invert Values" IsChecked="{Binding InvertYValues}"/>
+                                                </Grid>
+                                            </GroupBox>
                                         </Grid>
-                                    </GroupBox>
-                                </Grid>
-                            </Expander>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResourceKey=LineVisualProperties}" Content="{Binding VisualProps}"/>
-            </Grid>
+                                    </Expander>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="Settings">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="170"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <ContentControl ContentTemplate="{StaticResource ResourceKey=LineVisualProperties}" Content="{Binding VisualProps}"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
             <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" ShowsPreview="False"/>
             <Grid Grid.Column="2">
                 <lvc:CartesianChart Name="MainChart" Series="{Binding SeriesCollection}" LegendLocation="Bottom" Zoom="Xy" Background="White">

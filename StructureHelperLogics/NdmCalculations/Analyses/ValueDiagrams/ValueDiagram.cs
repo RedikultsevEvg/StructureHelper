@@ -6,7 +6,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
     {
         public Guid Id { get; }
         public int StepNumber { get; set; } = 50;
-        public IPoint2DRange Point2DRange { get; } = new Point2DRange(Guid.NewGuid());
+        public IPoint2DRange Point2DRange { get; set; } = new Point2DRange(Guid.NewGuid());
 
 
         public ValueDiagram(Guid id)

@@ -3,17 +3,24 @@ using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives.Logics;
 
-namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
+namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 {
-    /// <summary>
-    /// Creates deep copy of force calculator
-    /// </summary>
-    public class ForceCalculatorUpdateCloningStrategy : IUpdateStrategy<IForceCalculator>
+    public class ValueDiagramCalculatorUpdateCloningStrategy : IUpdateStrategy<IValueDiagramCalculator>
     {
         private readonly ICloningStrategy cloningStrategy;
         private readonly IUpdateStrategy<IHasForceActions> forcesUpdateStrategy;
         private readonly IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
-        public ForceCalculatorUpdateCloningStrategy(ICloningStrategy cloningStrategy,
+
+        public ValueDiagramCalculatorUpdateCloningStrategy(ICloningStrategy cloningStrategy) : this(
+            cloningStrategy,
+            new HasForceActionUpdateCloningStrategy(cloningStrategy),
+            new HasPrimitivesUpdateCloningStrategy(cloningStrategy))
+        {
+            this.cloningStrategy = cloningStrategy;
+        }
+
+
+        public ValueDiagramCalculatorUpdateCloningStrategy(ICloningStrategy cloningStrategy,
             IUpdateStrategy<IHasForceActions> forcesUpdateStrategy,
             IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy)
         {
@@ -22,14 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
             this.primitivesUpdateStrategy = primitivesUpdateStrategy;
         }
 
-        public ForceCalculatorUpdateCloningStrategy(ICloningStrategy cloningStrategy) : this (
-            cloningStrategy,
-            new HasForceActionUpdateCloningStrategy(cloningStrategy),
-            new HasPrimitivesUpdateCloningStrategy(cloningStrategy))
-        {
-        }
-
-        public void Update(IForceCalculator targetObject, IForceCalculator sourceObject)
+        public void Update(IValueDiagramCalculator targetObject, IValueDiagramCalculator sourceObject)
         {
             CheckObject.IsNull(cloningStrategy);
             CheckObject.IsNull(sourceObject);

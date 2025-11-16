@@ -4,7 +4,7 @@ using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 {
-    internal class ValueDiagramUpdateStrategy : IParentUpdateStrategy<IValueDiagram>
+    public class ValueDiagramUpdateStrategy : IParentUpdateStrategy<IValueDiagram>
     {
         private IUpdateStrategy<IPoint2DRange> rangeUpdateStrategy;
         public bool UpdateChildren { get; set; } = true;

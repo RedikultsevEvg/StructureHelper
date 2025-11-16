@@ -6,6 +6,7 @@ using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
+using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives.Logics;
@@ -18,28 +19,20 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     public class HasCalculatorsUpdateCloningStrategy : IUpdateStrategy<IHasCalculators>
     {
         private ICloningStrategy cloningStrategy;
-        private IUpdateStrategy<IForceCalculator> forceCalculatorUpdateStrategy;
-        private IUpdateStrategy<ICrackCalculator> crackCalculatorUpdateStrategy;
-        private IUpdateStrategy<ILimitCurvesCalculator> limitCurvesCalculatorUpdateStrategy;
+        private ICalculatorCloningStrategyContainer cloningStrategyContainer;
 
 
         public HasCalculatorsUpdateCloningStrategy(
             ICloningStrategy cloningStrategy,
-            IUpdateStrategy<IForceCalculator> forceCalculatorUpdateStrategy,
-            IUpdateStrategy<ICrackCalculator> crackCalculatorUpdateStrategy,
-            IUpdateStrategy<ILimitCurvesCalculator> limitCurvesCalculatorUpdateStrategy)
+            ICalculatorCloningStrategyContainer cloningStrategyContainer)
         {
             this.cloningStrategy = cloningStrategy;
-            this.forceCalculatorUpdateStrategy = forceCalculatorUpdateStrategy;
-            this.crackCalculatorUpdateStrategy = crackCalculatorUpdateStrategy;
-            this.limitCurvesCalculatorUpdateStrategy = limitCurvesCalculatorUpdateStrategy;
+            this.cloningStrategyContainer = cloningStrategyContainer;
         }
 
         public HasCalculatorsUpdateCloningStrategy(ICloningStrategy cloningStrategy) : this(
             cloningStrategy,
-            new ForceCalculatorUpdateCloningStrategy(cloningStrategy),
-            new CrackCalculatorUpdateCloningStrategy(cloningStrategy),
-            new LimitCurvesCalculatorUpdateCloningStrategy(cloningStrategy)
+            new CalculatorCloningStrategyContainer(cloningStrategy)
             )
         {
         }
@@ -58,15 +51,19 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 //var newCalculator = calculator.Clone() as ICalculator;
                 if (calculator is IForceCalculator forceCalculator)
                 {
-                    forceCalculatorUpdateStrategy.Update(newCalculator as IForceCalculator, forceCalculator);
+                    cloningStrategyContainer.ForceCalculatorStrategy.Update(newCalculator as IForceCalculator, forceCalculator);
                 }
                 else if (calculator is ICrackCalculator crackCalculator)
                 {
-                    crackCalculatorUpdateStrategy.Update(newCalculator as ICrackCalculator, crackCalculator);
+                    cloningStrategyContainer.CrackCalculatorStrategy.Update(newCalculator as ICrackCalculator, crackCalculator);
                 }
                 else if (calculator is ILimitCurvesCalculator limitCalculator)
                 {
-                    limitCurvesCalculatorUpdateStrategy.Update(newCalculator as ILimitCurvesCalculator, limitCalculator);
+                    cloningStrategyContainer.LimitCurvesCalculatorStrategy.Update(newCalculator as ILimitCurvesCalculator, limitCalculator);
+                }
+                else if (calculator is IValueDiagramCalculator valueDiagramCalculator)
+                {
+                    cloningStrategyContainer.ValueDiagramCalculatorStrategy.Update(newCalculator as IValueDiagramCalculator, valueDiagramCalculator);
                 }
                 else
                 {
