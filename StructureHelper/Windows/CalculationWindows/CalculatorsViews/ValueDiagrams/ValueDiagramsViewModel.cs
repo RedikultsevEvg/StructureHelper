@@ -19,9 +19,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ValueDiagr
                 IsTaken = true,
                 Name = "New Value Diagram"
             };
-            NewItem.ValueDigram.StepNumber = 50;
-            NewItem.ValueDigram.Point2DRange.StartPoint.Y = 0.25;
-            NewItem.ValueDigram.Point2DRange.EndPoint.Y = - 0.25;
+            NewItem.ValueDiagram.StepNumber = 50;
+            NewItem.ValueDiagram.Point2DRange.StartPoint.Y = 0.25;
+            NewItem.ValueDiagram.Point2DRange.EndPoint.Y = - 0.25;
             base.AddMethod(parameter);
         }
         public override void EditMethod(object parameter)

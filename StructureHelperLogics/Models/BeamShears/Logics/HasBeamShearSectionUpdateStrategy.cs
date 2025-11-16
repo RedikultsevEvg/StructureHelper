@@ -13,11 +13,11 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         public void Update(IHasBeamShearSections targetObject, IHasBeamShearSections sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
-            CheckObject.IsNull(sourceObject.Sections);
-            CheckObject.IsNull(targetObject.Sections);
+            CheckObject.ThrowIfNull(sourceObject.Sections);
+            CheckObject.ThrowIfNull(targetObject.Sections);
             targetObject.Sections.Clear();
             targetObject.Sections.AddRange(sourceObject.Sections);
         }

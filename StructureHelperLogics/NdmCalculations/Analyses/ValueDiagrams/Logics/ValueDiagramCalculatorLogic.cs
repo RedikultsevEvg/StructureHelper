@@ -90,7 +90,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 
         private void GetEntitiesResults()
         {
-            var entities = InputData.Digrams
+            var entities = InputData.Diagrams
                 .Where(x => x.IsTaken == true);
             foreach (var entity in entities)
             {

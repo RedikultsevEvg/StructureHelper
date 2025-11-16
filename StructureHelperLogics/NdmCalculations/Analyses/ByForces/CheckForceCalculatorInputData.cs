@@ -89,10 +89,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private void CheckActions()
         {
-            var checkLogic = new CheckForceActionsLogic()
+            var checkLogic = new CheckForceActionsLogic(TraceLogger)
             {
-                Entity = InputData.ForceActions,
-                TraceLogger = TraceLogger
+                Entity = InputData.ForceActions
             };
             if (checkLogic.Check() == false)
             {

@@ -8,11 +8,11 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         public void Update(IHasBeamShearActions targetObject, IHasBeamShearActions sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
-            CheckObject.IsNull(sourceObject.Actions);
-            CheckObject.IsNull(targetObject.Actions);
+            CheckObject.ThrowIfNull(sourceObject.Actions);
+            CheckObject.ThrowIfNull(targetObject.Actions);
             targetObject.Actions.Clear();
             targetObject.Actions.AddRange(sourceObject.Actions);
         }

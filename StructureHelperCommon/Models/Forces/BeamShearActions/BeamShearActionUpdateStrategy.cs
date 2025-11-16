@@ -8,14 +8,14 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
         private IUpdateStrategy<IBeamShearAxisAction> axisActionUpdateStrategy;
         public void Update(IBeamShearAction targetObject, IBeamShearAction sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.ExternalForce = sourceObject.ExternalForce.Clone() as IFactoredForceTuple;
             InitializeStrategies();
-            CheckObject.IsNull(sourceObject.SupportAction);
-            CheckObject.IsNull(targetObject.SupportAction);
+            CheckObject.ThrowIfNull(sourceObject.SupportAction);
+            CheckObject.ThrowIfNull(targetObject.SupportAction);
             axisActionUpdateStrategy.Update(targetObject.SupportAction, sourceObject.SupportAction);
         }
 

@@ -15,7 +15,7 @@ namespace DataAccess.DTOs.Converters
 
         public void Update(IHasPrimitives targetObject, IHasPrimitives sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.ThrowIfNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Primitives.Clear();
             foreach (var item in sourceObject.Primitives)

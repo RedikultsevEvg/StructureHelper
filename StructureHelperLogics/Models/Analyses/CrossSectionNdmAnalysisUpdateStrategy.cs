@@ -32,8 +32,8 @@ namespace StructureHelperLogics.Models.Analyses
 
         public void Update(ICrossSectionNdmAnalysis targetObject, ICrossSectionNdmAnalysis sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
             analysisUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.VersionProcessor.Versions.Clear();

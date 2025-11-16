@@ -21,7 +21,7 @@ namespace DataAccess.DTOs
 
         public void Update(IHasForceActions targetObject, IHasForceActions sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.ThrowIfNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.ForceActions.Clear();
             foreach (var item in sourceObject.ForceActions)

@@ -9,8 +9,8 @@ namespace StructureHelperLogics.Models.BeamShears
         private IUpdateStrategy<IBeamShearCalculatorInputData>? inputDataUpdateStrategy;
         public void Update(IBeamShearCalculator targetObject, IBeamShearCalculator sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
             targetObject.Name = sourceObject.Name;
             targetObject.ShowTraceData = sourceObject.ShowTraceData;

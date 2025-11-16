@@ -10,13 +10,13 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         public void Process(IBeamShearRepository entity)
         {
-            CheckObject.IsNull(entity.Calculators);
+            CheckObject.ThrowIfNull(entity.Calculators);
             entity.Calculators.Clear();
-            CheckObject.IsNull(entity.Actions);
+            CheckObject.ThrowIfNull(entity.Actions);
             entity.Actions.Clear();
-            CheckObject.IsNull(entity.Sections);
+            CheckObject.ThrowIfNull(entity.Sections);
             entity.Sections.Clear();
-            CheckObject.IsNull(entity.Stirrups);
+            CheckObject.ThrowIfNull(entity.Stirrups);
             entity.Stirrups.Clear();
         }
     }

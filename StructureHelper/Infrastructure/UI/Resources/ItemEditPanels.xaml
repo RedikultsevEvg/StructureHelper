@@ -37,10 +37,22 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackPanel Height="25" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding ShowButtons, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Button Content="Select All" Command="{Binding SelectAllCommand}"/>
-                <Button Content="Unselect All" Command="{Binding UnSelectAllCommand}"/>
-                <Button Content="Invert Selection" Command="{Binding InvertSelectionCommand}"/>
+            <StackPanel Height="27" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding ShowButtons, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Button Margin="0,0,2,0" Command="{Binding SelectAllCommand}" ToolTip="Select all">
+                    <Viewbox Width="24" Height="24">
+                        <ContentControl ContentTemplate="{StaticResource SelectAll}"/>
+                    </Viewbox>
+                </Button>
+                <Button Margin="0,0,2,0" Command="{Binding UnSelectAllCommand}" ToolTip="Unselect all">
+                    <Viewbox Width="24" Height="24">
+                        <ContentControl ContentTemplate="{StaticResource DeSelectAll}"/>
+                    </Viewbox>
+                </Button>
+                <Button Margin="0,0,2,0" Command="{Binding InvertSelectionCommand}"  ToolTip="Invert selection">
+                    <Viewbox Width="24" Height="24">
+                        <ContentControl ContentTemplate="{StaticResource InvertSelection}"/>
+                    </Viewbox>
+                </Button>
             </StackPanel>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
                 <ListBox ItemsSource="{Binding CollectionItems}" SelectedItem="SelectedItem" HorizontalAlignment="Stretch">

@@ -20,11 +20,11 @@ namespace DataAccess.DTOs
 
         public void Update(IHasCalculators targetObject, IHasCalculators sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            CheckObject.IsNull(sourceObject.Calculators);
-            CheckObject.IsNull(targetObject.Calculators);
+            CheckObject.ThrowIfNull(sourceObject.Calculators);
+            CheckObject.ThrowIfNull(targetObject.Calculators);
             targetObject.Calculators.Clear();
             List<ICalculator> calculators = GetCalculators(sourceObject.Calculators);
             targetObject.Calculators.AddRange(calculators);

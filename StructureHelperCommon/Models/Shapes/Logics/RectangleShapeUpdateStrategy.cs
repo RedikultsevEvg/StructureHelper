@@ -12,8 +12,8 @@ namespace StructureHelperCommon.Models.Shapes
     {
         public void Update(IRectangleShape targetObject, IRectangleShape sourceObject)
         {
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Width = sourceObject.Width;
             targetObject.Height = sourceObject.Height;

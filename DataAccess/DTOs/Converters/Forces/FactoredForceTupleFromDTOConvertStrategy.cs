@@ -43,9 +43,9 @@ namespace DataAccess.DTOs
 
         private static void CheckObjects(FactoredForceTupleDTO source)
         {
-            CheckObject.IsNull(source);
-            CheckObject.IsNull(source.ForceTuple);
-            CheckObject.IsNull(source.CombinationProperty);
+            CheckObject.ThrowIfNull(source);
+            CheckObject.ThrowIfNull(source.ForceTuple);
+            CheckObject.ThrowIfNull(source.CombinationProperty);
         }
 
         private void InitializeStrategies()

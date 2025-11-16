@@ -14,11 +14,11 @@ namespace StructureHelperLogics.Models.BeamShears
         IUpdateStrategy<IBeamShearRepository> repositoryUpdateStrategy;
         public void Update(IBeamShear targetObject, IBeamShear sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
-            CheckObject.IsNull(sourceObject.Repository);
-            CheckObject.IsNull(targetObject.Repository);
+            CheckObject.ThrowIfNull(sourceObject.Repository);
+            CheckObject.ThrowIfNull(targetObject.Repository);
             InitializeStrategies();
             clearStrategy.Process(targetObject.Repository);
             repositoryUpdateStrategy.Update(targetObject.Repository, sourceObject.Repository);

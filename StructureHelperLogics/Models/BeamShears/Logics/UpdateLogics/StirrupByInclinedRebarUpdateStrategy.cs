@@ -14,8 +14,8 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public void Update(IStirrupByInclinedRebar targetObject, IStirrupByInclinedRebar sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             baseUpdateStrategy ??= new StirrupBaseUpdateStrategy();
             baseUpdateStrategy.Update(targetObject, sourceObject);
@@ -25,7 +25,7 @@ namespace StructureHelperLogics.Models.BeamShears
             targetObject.LegCount = sourceObject.LegCount;
             if (UpdateChildren)
             {
-                CheckObject.IsNull(sourceObject.RebarSection, "Rebar section");
+                CheckObject.ThrowIfNull(sourceObject.RebarSection, "Rebar section");
                 targetObject.RebarSection = sourceObject.RebarSection.Clone() as IRebarSection;
             }
         }

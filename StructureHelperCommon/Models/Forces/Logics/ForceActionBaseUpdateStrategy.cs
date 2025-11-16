@@ -25,8 +25,8 @@ namespace StructureHelperCommon.Models.Forces
 
         public void Update(IForceAction targetObject, IForceAction sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.SetInGravityCenter = sourceObject.SetInGravityCenter;

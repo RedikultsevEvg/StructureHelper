@@ -14,8 +14,8 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public void Update(IColumnedFileProperty targetObject, IColumnedFileProperty sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             UpdateObjects(targetObject, sourceObject);
         }
@@ -26,8 +26,8 @@ namespace StructureHelperCommon.Models.Forces
             targetObject.GlobalFactor = sourceObject.GlobalFactor;
             targetObject.SkipRowBeforeHeaderCount = sourceObject.SkipRowBeforeHeaderCount;
             targetObject.SkipRowHeaderCount = sourceObject.SkipRowHeaderCount;
-            CheckObject.IsNull(targetObject.ColumnProperties);
-            CheckObject.IsNull(sourceObject.ColumnProperties);
+            CheckObject.ThrowIfNull(targetObject.ColumnProperties);
+            CheckObject.ThrowIfNull(sourceObject.ColumnProperties);
             targetObject.ColumnProperties.Clear();
             foreach (var item in sourceObject.ColumnProperties)
             {

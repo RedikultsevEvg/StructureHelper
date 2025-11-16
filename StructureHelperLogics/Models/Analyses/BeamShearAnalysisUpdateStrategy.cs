@@ -14,8 +14,8 @@ namespace StructureHelperLogics.Models.Analyses
 
         public void Update(IBeamShearAnalysis targetObject, IBeamShearAnalysis sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
             InitialzeStrategies();
             analysisUpdateStrategy.Update(targetObject, sourceObject);

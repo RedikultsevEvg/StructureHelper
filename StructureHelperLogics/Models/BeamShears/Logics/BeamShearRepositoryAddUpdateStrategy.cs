@@ -11,8 +11,8 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         public void Update(IBeamShearRepository targetObject, IBeamShearRepository sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
             targetObject.Actions.AddRange(sourceObject.Actions);
             targetObject.Sections.AddRange(sourceObject.Sections);

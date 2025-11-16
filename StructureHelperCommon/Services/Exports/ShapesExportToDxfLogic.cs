@@ -10,7 +10,8 @@ namespace StructureHelperCommon.Services.Exports
     {
         StructiralPrimitives,
         StructuralOpenings,
-        StructuralRebars
+        StructuralRebars,
+        StructuralPoints
     }
     public class ShapesExportToDxfLogic : IExportToFileLogic
     {

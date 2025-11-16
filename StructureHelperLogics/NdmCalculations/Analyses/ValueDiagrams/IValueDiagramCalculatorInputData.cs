@@ -14,7 +14,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
         /// <summary>
         /// Collection of diagram for calculation
         /// </summary>
-        List<IValueDiagramEntity> Digrams { get; }
+        List<IValueDiagramEntity> Diagrams { get; }
         bool CheckStrainLimit { get; set; }
     }
 }

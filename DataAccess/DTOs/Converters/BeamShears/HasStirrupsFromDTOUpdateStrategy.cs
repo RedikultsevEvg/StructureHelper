@@ -21,11 +21,11 @@ namespace DataAccess.DTOs
 
         public void Update(IHasStirrups targetObject, IHasStirrups sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            CheckObject.IsNull(sourceObject.Stirrups);
-            CheckObject.IsNull(targetObject.Stirrups);
+            CheckObject.ThrowIfNull(sourceObject.Stirrups);
+            CheckObject.ThrowIfNull(targetObject.Stirrups);
             targetObject.Stirrups.Clear();
             List<IStirrup> stirrups = GetStirrups(sourceObject.Stirrups);
             targetObject.Stirrups.AddRange(stirrups);

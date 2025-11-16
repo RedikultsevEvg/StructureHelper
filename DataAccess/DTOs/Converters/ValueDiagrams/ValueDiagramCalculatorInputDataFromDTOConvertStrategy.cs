@@ -27,14 +27,14 @@ namespace DataAccess.DTOs
             updateStrategy.Update(NewItem, source);
             ProcessPrimitives(source);
             ProcessActions(source);
-            NewItem.Digrams.Clear();
-            foreach (var diagram in source.Digrams)
+            NewItem.Diagrams.Clear();
+            foreach (var diagram in source.Diagrams)
             {
                 if (diagram is not ValueDiagramEntityDTO diagramDTO)
                 {
                     throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(diagram));
                 }
-                NewItem.Digrams.Add(diagramConvertStrategy.Convert(diagramDTO));
+                NewItem.Diagrams.Add(diagramConvertStrategy.Convert(diagramDTO));
             }
             return NewItem;
         }

@@ -23,9 +23,9 @@ namespace StructureHelperLogics.Models.Materials.Logics
         /// <inheritdoc/>
         public void Update(IHasHeadMaterials targetObject, IHasHeadMaterials sourceObject)
         {
-            CheckObject.IsNull(cloningStrategy);
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(cloningStrategy);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.HeadMaterials.Clear();
             foreach (var material in sourceObject.HeadMaterials)

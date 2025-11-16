@@ -29,9 +29,9 @@ namespace DataAccess.DTOs
 
         private void CheckObjects(BeamShearActionDTO source)
         {
-            CheckObject.IsNull(source);
-            CheckObject.IsNull(source.ExternalForce);
-            CheckObject.IsNull(source.SupportAction);
+            CheckObject.ThrowIfNull(source);
+            CheckObject.ThrowIfNull(source.ExternalForce);
+            CheckObject.ThrowIfNull(source.SupportAction);
         }
 
         private void GetNewAction(BeamShearActionDTO source)

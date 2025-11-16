@@ -24,8 +24,8 @@ namespace StructureHelperCommon.Models.Forces.Logics
 
         public void Update(IDesignForceTuple targetObject, IDesignForceTuple sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.LimitState = sourceObject.LimitState;
             targetObject.CalcTerm = sourceObject.CalcTerm;

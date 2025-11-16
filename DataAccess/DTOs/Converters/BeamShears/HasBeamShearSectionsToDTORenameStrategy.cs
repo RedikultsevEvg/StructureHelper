@@ -19,11 +19,11 @@ namespace DataAccess.DTOs
 
         public void Update(IHasBeamShearSections targetObject, IHasBeamShearSections sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            CheckObject.IsNull(sourceObject.Sections);
-            CheckObject.IsNull(targetObject.Sections);
+            CheckObject.ThrowIfNull(sourceObject.Sections);
+            CheckObject.ThrowIfNull(targetObject.Sections);
             InitializeStrategies();
             targetObject.Sections.Clear();
             foreach (var section in sourceObject.Sections)

@@ -40,8 +40,8 @@ namespace StructureHelperLogics.Models.Materials
 
         public void Update(IHelperMaterial targetObject, IHelperMaterial sourceObject)
         {
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             safetyFactorUpdateStrategy.Update(targetObject, sourceObject);
             if (sourceObject is ILibMaterial)

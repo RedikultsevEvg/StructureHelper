@@ -13,7 +13,7 @@ namespace DataAccess.DTOs
 
         public override IBeamSpanLoad GetNewItem(IBeamSpanLoad source)
         {
-            CheckObject.IsNull(source);
+            CheckObject.ThrowIfNull(source);
             if (source is DistributedLoadDTO distributed)
             {
                 ProcessDistributed(distributed);

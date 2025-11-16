@@ -10,7 +10,7 @@ namespace StructureHelperCommon.Models.Shapes
 
         public void Update(ILinePolygonShape targetObject, ILinePolygonShape sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.ThrowIfNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
 
             // Update simple properties

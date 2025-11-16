@@ -15,8 +15,8 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public void Update(IBeamShearCalculatorInputData targetObject, IBeamShearCalculatorInputData sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
             if (UpdateChildren)
             {
@@ -24,8 +24,8 @@ namespace StructureHelperLogics.Models.BeamShears
                 hasActionUpdateStrategy?.Update(targetObject, sourceObject);
                 hasSectionsUpdateStrategy?.Update(targetObject, sourceObject);
                 hasStirrupsUpdateStrategy?.Update(targetObject, sourceObject);
-                CheckObject.IsNull(sourceObject.DesignRangeProperty);
-                CheckObject.IsNull(targetObject.DesignRangeProperty);
+                CheckObject.ThrowIfNull(sourceObject.DesignRangeProperty);
+                CheckObject.ThrowIfNull(targetObject.DesignRangeProperty);
                 designRangeUpdateStrategy.Update(targetObject.DesignRangeProperty, sourceObject.DesignRangeProperty);
             }
             targetObject.CodeType = sourceObject.CodeType;

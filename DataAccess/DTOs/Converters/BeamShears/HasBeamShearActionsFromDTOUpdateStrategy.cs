@@ -21,11 +21,11 @@ namespace DataAccess.DTOs
 
         public void Update(IHasBeamShearActions targetObject, IHasBeamShearActions sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            CheckObject.IsNull(sourceObject.Actions);
-            CheckObject.IsNull(targetObject.Actions);
+            CheckObject.ThrowIfNull(sourceObject.Actions);
+            CheckObject.ThrowIfNull(targetObject.Actions);
             targetObject.Actions.Clear();
             foreach (var action in sourceObject.Actions)
             {

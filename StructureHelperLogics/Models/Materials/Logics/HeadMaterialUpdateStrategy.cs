@@ -26,8 +26,8 @@ namespace StructureHelperLogics.Models.Materials
 
         public void Update(IHeadMaterial targetObject, IHeadMaterial sourceObject)
         {
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             baseUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.HelperMaterial = sourceObject.HelperMaterial.Clone() as IHelperMaterial;

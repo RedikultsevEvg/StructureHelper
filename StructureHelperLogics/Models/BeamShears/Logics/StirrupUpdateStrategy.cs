@@ -18,8 +18,8 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
 
         public void Update(IStirrup targetObject, IStirrup sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             if (sourceObject is IStirrupGroup group)
             {

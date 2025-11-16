@@ -12,12 +12,12 @@ namespace StructureHelperCommon.Models.Forces
     {
         public void Update(IFactoredForceTuple targetObject, IFactoredForceTuple sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            CheckObject.IsNull(sourceObject.ForceTuple);
+            CheckObject.ThrowIfNull(sourceObject.ForceTuple);
             targetObject.ForceTuple = sourceObject.ForceTuple.Clone() as IForceTuple;
-            CheckObject.IsNull(sourceObject.CombinationProperty);
+            CheckObject.ThrowIfNull(sourceObject.CombinationProperty);
             targetObject.CombinationProperty = sourceObject.CombinationProperty.Clone() as IFactoredCombinationProperty;
         }
     }

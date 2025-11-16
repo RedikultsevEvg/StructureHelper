@@ -13,7 +13,7 @@ namespace StructureHelperCommon.Models.Forces
     {
         public void Update(IForceTuple targetObject, IForceTuple sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.ThrowIfNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Mx = sourceObject.Mx;
             targetObject.My = sourceObject.My;

@@ -12,7 +12,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
     {
         public void Update(IHasPrimitives targetObject, IHasPrimitives sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.ThrowIfNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Primitives.Clear();
             targetObject.Primitives.AddRange(sourceObject.Primitives);

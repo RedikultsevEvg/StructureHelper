@@ -16,8 +16,8 @@ namespace DataAccess.DTOs
         public override BeamShear GetNewItem(BeamShearDTO source)
         {
             ChildClass = this;
-            CheckObject.IsNull(source);
-            CheckObject.IsNull(source.Repository);
+            CheckObject.ThrowIfNull(source);
+            CheckObject.ThrowIfNull(source.Repository);
             GetNewBeamShear(source);
             return NewItem;
         }

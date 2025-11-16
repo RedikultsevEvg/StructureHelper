@@ -15,8 +15,8 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public IBeamShearCalculator GetClone(IBeamShearCalculator sourceObject)
         {
-            CheckObject.IsNull(cloningStrategy);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(cloningStrategy);
+            CheckObject.ThrowIfNull(sourceObject);
             InitializeStrategies();
             BeamShearCalculator calculator = new(Guid.NewGuid());
             updateStrategy.Update(calculator, sourceObject);

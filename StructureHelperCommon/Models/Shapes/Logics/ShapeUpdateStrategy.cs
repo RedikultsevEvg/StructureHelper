@@ -13,8 +13,8 @@ namespace StructureHelperCommon.Models.Shapes
     {
         public void Update(IShape targetObject, IShape sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             if (sourceObject is IRectangleShape sourceRectangle)
             {

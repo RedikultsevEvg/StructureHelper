@@ -24,7 +24,7 @@ namespace StructureHelperCommon.Models.Forces
 
         public IColumnFileProperty GetClone(IColumnFileProperty sourceObject)
         {
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (updateStrategy is null)
             {
                 updateStrategy = new ColumnFilePropertyUpdateStrategy();

@@ -10,8 +10,8 @@ namespace StructureHelperCommon.Models.Forces
         public void Update(IAction targetObject, IAction sourceObject)
         {
             forceUpdateStrategy ??= new ForceActionUpdateStrategy();
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             if (targetObject is IForceAction forceAction)

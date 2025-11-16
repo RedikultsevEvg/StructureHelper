@@ -31,7 +31,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ValueDiagr
         public ValueDiagramEntityViewModel(IValueDiagramEntity valueDiagramEntity)
         {
             this.valueDiagramEntity = valueDiagramEntity;
-            ValueDiagram = new(valueDiagramEntity.ValueDigram);
+            ValueDiagram = new(valueDiagramEntity.ValueDiagram);
         }
     }
 }

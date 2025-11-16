@@ -24,9 +24,9 @@ namespace StructureHelperLogics.Models.Templates.CrossSections
         {
             ValueDiagramCalculator diagramCalculator = new(Guid.NewGuid()) { Name = "New value diagram calcualtor"};
             ValueDiagramEntity diagramEntity = new(Guid.NewGuid()) { Name = "New diagram" };
-            diagramEntity.ValueDigram.Point2DRange.StartPoint.Y = 0.25;
-            diagramEntity.ValueDigram.Point2DRange.EndPoint.Y = - 0.25;
-            diagramCalculator.InputData.Digrams.Add(diagramEntity);
+            diagramEntity.ValueDiagram.Point2DRange.StartPoint.Y = 0.25;
+            diagramEntity.ValueDiagram.Point2DRange.EndPoint.Y = - 0.25;
+            diagramCalculator.InputData.Diagrams.Add(diagramEntity);
             return diagramCalculator;
         }
 

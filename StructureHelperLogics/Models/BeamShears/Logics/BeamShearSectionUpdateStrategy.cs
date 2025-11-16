@@ -16,8 +16,8 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public void Update(IBeamShearSection targetObject, IBeamShearSection sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             Check(targetObject, sourceObject);
             InitializeStrategies();
@@ -36,12 +36,12 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private static void Check(IBeamShearSection targetObject, IBeamShearSection sourceObject)
         {
-            CheckObject.IsNull(sourceObject.Shape, "Source object shape");
-            CheckObject.IsNull(targetObject.Shape, "Target object shape");
-            CheckObject.IsNull(sourceObject.ConcreteMaterial, "Source concrete material");
-            CheckObject.IsNull(targetObject.ConcreteMaterial, "Target concrete material");
-            CheckObject.IsNull(sourceObject.ReinforcementMaterial, "Source reinforcement material");
-            CheckObject.IsNull(targetObject.ReinforcementMaterial, "Target reinforcement material");
+            CheckObject.ThrowIfNull(sourceObject.Shape, "Source object shape");
+            CheckObject.ThrowIfNull(targetObject.Shape, "Target object shape");
+            CheckObject.ThrowIfNull(sourceObject.ConcreteMaterial, "Source concrete material");
+            CheckObject.ThrowIfNull(targetObject.ConcreteMaterial, "Target concrete material");
+            CheckObject.ThrowIfNull(sourceObject.ReinforcementMaterial, "Source reinforcement material");
+            CheckObject.ThrowIfNull(targetObject.ReinforcementMaterial, "Target reinforcement material");
         }
 
         private void InitializeStrategies()

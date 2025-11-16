@@ -69,10 +69,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 TraceLogger?.AddMessage(message, TraceLogStatuses.Error);
                 return;
             };
-            var checkLogic = new CheckForceActionsLogic()
+            var checkLogic = new CheckForceActionsLogic(TraceLogger)
             {
-                Entity = InputData.ForceActions,
-                TraceLogger = TraceLogger
+                Entity = InputData.ForceActions
             };
             if (checkLogic.Check() == false)
             {

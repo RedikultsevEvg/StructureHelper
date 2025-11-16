@@ -15,7 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
     {
         public void Update(ILimitCurvesCalculatorInputData targetObject, ILimitCurvesCalculatorInputData sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject, "Limit curve calculator input data");
+            CheckObject.ThrowIfNull(targetObject, sourceObject, "Limit curve calculator input data");
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.LimitStates.Clear();
             targetObject.CalcTerms.Clear();

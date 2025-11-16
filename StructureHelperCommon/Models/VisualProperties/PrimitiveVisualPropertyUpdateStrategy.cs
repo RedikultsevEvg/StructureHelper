@@ -8,8 +8,8 @@ namespace StructureHelperCommon.Models.VisualProperties
     {
         public void Update(IPrimitiveVisualProperty targetObject, IPrimitiveVisualProperty sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.IsVisible = sourceObject.IsVisible;
             targetObject.Color = sourceObject.Color;

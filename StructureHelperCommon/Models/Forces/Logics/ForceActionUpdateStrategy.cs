@@ -42,8 +42,8 @@ namespace StructureHelperCommon.Models.Forces
 
         public void Update(IForceAction targetObject, IForceAction sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             forceActionUpdateStrategy.Update(targetObject, sourceObject);
             UpdateChildProperties(targetObject, sourceObject);

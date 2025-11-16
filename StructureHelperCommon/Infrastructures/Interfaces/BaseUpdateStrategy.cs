@@ -12,7 +12,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public abstract void Update(T targetObject, T sourceObject);
         public void Check(T targetObject, T sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.ThrowIfNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
         }
     }

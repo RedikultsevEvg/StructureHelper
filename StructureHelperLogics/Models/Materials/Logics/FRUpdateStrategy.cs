@@ -15,8 +15,8 @@ namespace StructureHelperLogics.Models.Materials
         /// <inheritdoc/>
         public void Update(IFRMaterial targetObject, IFRMaterial sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Modulus = sourceObject.Modulus;
             targetObject.CompressiveStrength = sourceObject.CompressiveStrength;

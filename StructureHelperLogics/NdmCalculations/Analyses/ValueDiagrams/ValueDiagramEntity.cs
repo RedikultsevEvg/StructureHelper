@@ -6,7 +6,7 @@
         public string Name { get; set; } = string.Empty;
         public bool IsTaken { get; set; } = true;
 
-        public IValueDiagram ValueDigram { get; set; } = new ValueDiagram(Guid.NewGuid());
+        public IValueDiagram ValueDiagram { get; set; } = new ValueDiagram(Guid.NewGuid());
 
         public ValueDiagramEntity(Guid id)
         {

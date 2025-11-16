@@ -74,8 +74,8 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void Check()
         {
-            CheckObject.IsNull(BeamShearSection);
-            CheckObject.IsNull(DesignRangeProperty);
+            CheckObject.ThrowIfNull(BeamShearSection);
+            CheckObject.ThrowIfNull(DesignRangeProperty);
         }
 
         private void GetShapeParameters()

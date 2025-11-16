@@ -24,7 +24,7 @@ namespace StructureHelperCommon.Services
         /// <exception cref="StructureHelperException"></exception>
         public static void CompareTypes(object targetObject, object sourceObject)
         {
-            IsNull(targetObject, sourceObject);
+            ThrowIfNull(targetObject, sourceObject);
             if (targetObject.GetType() != sourceObject.GetType())
             {
                 throw new StructureHelperException
@@ -32,10 +32,10 @@ namespace StructureHelperCommon.Services
             }
         }
 
-        public static void IsNull(object targetObject, object sourceObject, string senderName = "")
+        public static void ThrowIfNull(object targetObject, object sourceObject, string senderName = "")
         {
-            IsNull(targetObject,$"{senderName} target object");
-            IsNull(sourceObject, $"{senderName} source object");
+            ThrowIfNull(targetObject,$"{senderName} target object");
+            ThrowIfNull(sourceObject, $"{senderName} source object");
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace StructureHelperCommon.Services
         /// <param name="item">Checked object</param>
         /// <param name="message">Message while error occur</param>
         /// <exception cref="StructureHelperException"></exception>
-        public static void IsNull(object item, string message = "")
+        public static void ThrowIfNull(object item, string message = "")
         {
             if (item is null)
             {

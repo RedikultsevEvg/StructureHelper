@@ -8,12 +8,12 @@ namespace StructureHelperCommon.Models.Shapes
         private IUpdateStrategy<IPoint2D> pointUpdateStrategy;
         public void Update(IPoint2DRange targetObject, IPoint2DRange sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.ThrowIfNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            CheckObject.IsNull(targetObject.StartPoint, ": range start point");
+            CheckObject.ThrowIfNull(targetObject.StartPoint, ": range start point");
             pointUpdateStrategy ??= new Point2DUpdateStrategy();
             pointUpdateStrategy.Update(targetObject.StartPoint, sourceObject.StartPoint);
-            CheckObject.IsNull(targetObject.EndPoint, ": range end point");
+            CheckObject.ThrowIfNull(targetObject.EndPoint, ": range end point");
             pointUpdateStrategy.Update(targetObject.EndPoint, sourceObject.EndPoint);
         }
     }

@@ -17,9 +17,9 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public void Update(IHasCalculators targetObject, IHasCalculators sourceObject)
         {
-            CheckObject.IsNull(cloningStrategy);
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(cloningStrategy);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Calculators.Clear();
             foreach (var calculator in sourceObject.Calculators)

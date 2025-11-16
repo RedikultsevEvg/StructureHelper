@@ -19,8 +19,8 @@ namespace StructureHelperCommon.Models.Shapes
         /// <inheritdoc />
         public void Update(IPoint2D targetObject, IPoint2D sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.X = sourceObject.X;
             targetObject.Y = sourceObject.Y;

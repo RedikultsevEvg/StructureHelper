@@ -13,7 +13,7 @@ namespace DataAccess.DTOs
         [JsonProperty("StateTermPair")]
         public IStateCalcTermPair StateTermPair { get; set; } = new StateCalcTermPairDTO();
         [JsonProperty("Diagrams")]
-        public List<IValueDiagramEntity> Digrams { get; } = [];
+        public List<IValueDiagramEntity> Diagrams { get; } = [];
         [JsonProperty("CheckStrainLimits")]
         public bool CheckStrainLimit { get; set; } = true;
         [JsonProperty("ForceActions")]

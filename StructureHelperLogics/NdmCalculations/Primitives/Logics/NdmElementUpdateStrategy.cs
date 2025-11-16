@@ -24,7 +24,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
         /// <inheritdoc/>
         public void Update(INdmElement targetObject, INdmElement sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.ThrowIfNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Triangulate = sourceObject.Triangulate;
             tupleUpdateStrategy.Update(targetObject.UsersPrestrain, sourceObject.UsersPrestrain);

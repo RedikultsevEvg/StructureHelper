@@ -13,6 +13,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
+        <!--ItemEditPanels-->
         <ContentControl ContentTemplate="{StaticResource ResourceKey=SelectItems}" Content="{Binding Items}"/>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>

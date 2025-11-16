@@ -12,8 +12,8 @@ namespace StructureHelperCommon.Models.States
     {
         public void Update(IStateCalcTermPair targetObject, IStateCalcTermPair sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.LimitState = sourceObject.LimitState;
             targetObject.CalcTerm = sourceObject.CalcTerm;

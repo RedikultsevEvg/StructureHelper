@@ -18,9 +18,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
 
         public void Update(IHasPrimitives targetObject, IHasPrimitives sourceObject)
         {
-            CheckObject.IsNull(cloningStrategy);
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(cloningStrategy);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Primitives.Clear();
             foreach (var primitive in sourceObject.Primitives)

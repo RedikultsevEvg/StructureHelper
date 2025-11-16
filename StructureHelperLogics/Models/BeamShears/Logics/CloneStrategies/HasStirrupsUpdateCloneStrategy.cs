@@ -15,9 +15,9 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public void Update(IHasStirrups targetObject, IHasStirrups sourceObject)
         {
-            CheckObject.IsNull(cloningStrategy);
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(cloningStrategy);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Stirrups.Clear();
             foreach (var item in sourceObject.Stirrups)

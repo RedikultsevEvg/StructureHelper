@@ -8,8 +8,8 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         public void Update(IBeamShearSectionLogicInputData targetObject, IBeamShearSectionLogicInputData sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.BeamShearAction = sourceObject.BeamShearAction;
             targetObject.InclinedSection = sourceObject.InclinedSection;

@@ -16,8 +16,8 @@ namespace StructureHelperLogics.Models.CrossSections
 
         public void Update(ICrossSectionRepository targetObject, ICrossSectionRepository sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }          
         }
     }

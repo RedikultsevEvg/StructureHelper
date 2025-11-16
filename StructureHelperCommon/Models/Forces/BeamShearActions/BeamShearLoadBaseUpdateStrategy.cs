@@ -9,14 +9,14 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
         private IUpdateStrategy<IFactoredCombinationProperty> combinationUpdateStrategy;
         public void Update(IBeamSpanLoad targetObject, IBeamSpanLoad sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.LoadRatio = sourceObject.LoadRatio;
             targetObject.RelativeLoadLevel = sourceObject.RelativeLoadLevel;
-            CheckObject.IsNull(sourceObject.CombinationProperty);
-            CheckObject.IsNull(targetObject.CombinationProperty);
+            CheckObject.ThrowIfNull(sourceObject.CombinationProperty);
+            CheckObject.ThrowIfNull(targetObject.CombinationProperty);
             combinationUpdateStrategy ??= new FactoredCombinationPropertyUpdateStrategy();
             combinationUpdateStrategy.Update(targetObject.CombinationProperty, sourceObject.CombinationProperty);
         }

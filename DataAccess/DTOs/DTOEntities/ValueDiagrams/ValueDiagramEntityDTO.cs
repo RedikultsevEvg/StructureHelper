@@ -12,7 +12,7 @@ namespace DataAccess.DTOs
         [JsonProperty("IsTaken")]
         public bool IsTaken { get; set; }
         [JsonProperty("ValueDiagram")]
-        public IValueDiagram ValueDigram { get; set; }
+        public IValueDiagram ValueDiagram { get; set; }
 
 
         public ValueDiagramEntityDTO(Guid id)

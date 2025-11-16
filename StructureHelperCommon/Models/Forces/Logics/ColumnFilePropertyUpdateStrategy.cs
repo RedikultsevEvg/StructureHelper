@@ -12,8 +12,8 @@ namespace StructureHelperCommon.Models.Forces
     {
         public void Update(IColumnFileProperty targetObject, IColumnFileProperty sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.SearchingName = sourceObject.SearchingName;

@@ -28,8 +28,8 @@ namespace DataAccess.DTOs
 
         public void Update(IHelperMaterial targetObject, IHelperMaterial sourceObject)
         {
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             if (sourceObject.SafetyFactors is not null)
             {

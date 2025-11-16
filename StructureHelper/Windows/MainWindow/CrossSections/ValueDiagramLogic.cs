@@ -83,7 +83,8 @@ namespace StructureHelper.Windows.MainWindow.CrossSections
                 }
 
             }
-            data[pointPrimitives.Count, 0] = GetDistance(startPoint, endPoint);
+            double fullLength = GetDistance(startPoint, endPoint);
+            data[pointPrimitives.Count, 0] = fullLength;
             data[pointPrimitives.Count, 1] = endPoint.X;
             data[pointPrimitives.Count, 2] = endPoint.Y;
 
@@ -91,7 +92,7 @@ namespace StructureHelper.Windows.MainWindow.CrossSections
             data[pointPrimitives.Count + 1, 1] = startPoint.X;
             data[pointPrimitives.Count + 1, 2] = startPoint.Y;
 
-            data[pointPrimitives.Count, 0] = 0.0;
+            data[pointPrimitives.Count + 2, 0] = 0.0;
             data[pointPrimitives.Count + 2, 1] = startPoint.X;
             data[pointPrimitives.Count + 2, 2] = startPoint.Y;
             for (int j = 0; j < resultFuncs.Count; j++)

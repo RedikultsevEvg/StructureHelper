@@ -47,7 +47,7 @@ namespace DataAccess.DTOs
 
         private void SetForceTuples(ForceFactoredListDTO source, ForceFactoredList newItem)
         {
-            CheckObject.IsNull(newItem.ForceTuples, nameof(newItem.ForceTuples));
+            CheckObject.ThrowIfNull(newItem.ForceTuples, nameof(newItem.ForceTuples));
             newItem.ForceTuples.Clear();
             foreach (var item in source.ForceTuples)
             {

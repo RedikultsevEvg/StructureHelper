@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Exports;
+using StructureHelperLogics.Models.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
@@ -31,12 +32,41 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                 {
                     primitives.Add(GetCirclePrimitive(circle));
                 }
+                else if (dxfEntity is Point point)
+                {
+                    primitives.Add(GetPointPrimitive(point));
+                }
                 else
                 {
                     // just skip all types of primitives
                     // throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(dxfEntity));
                 }
             }
+        }
+
+        private INdmPrimitive GetPointPrimitive(Point point)
+        {
+            INdmPrimitive primitive = null;
+            double area = 0.000314;
+            if (point.Layer.Name == layerLogic.GetLayerName(LayerNames.StructuralRebars))
+            {
+                RebarNdmPrimitive rebar = new(Guid.NewGuid())
+                {
+                    Name = "Imported rebar",
+                    Area = area
+                };
+                primitive = rebar;
+            }
+            else
+            {
+                PointNdmPrimitive pointPrimitive = new(Guid.NewGuid())
+                {
+                    Name = "Imported point",
+                    Area = area
+                };
+                primitive = pointPrimitive;
+            }
+                return primitive;
         }
 
         private INdmPrimitive GetCirclePrimitive(Circle circle)

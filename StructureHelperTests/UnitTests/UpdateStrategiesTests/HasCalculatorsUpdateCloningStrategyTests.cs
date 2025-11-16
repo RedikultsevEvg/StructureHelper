@@ -4,6 +4,7 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using System;
 using System.Collections.Generic;
@@ -15,26 +16,31 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
     [TestFixture]
     public class HasCalculatorsUpdateCloningStrategyTests
     {
+        private Mock<ICalculatorCloningStrategyContainer> _cloningStrategyContainerMoq;
         private Mock<ICloningStrategy> _cloningStrategyMock;
         private Mock<IUpdateStrategy<IForceCalculator>> _forceCalculatorUpdateStrategyMock;
         private Mock<IUpdateStrategy<ICrackCalculator>> _crackCalculatorUpdateStrategyMock;
         private Mock<IUpdateStrategy<ILimitCurvesCalculator>> _limitCurvesCalculatorUpdateStrategyMock;
+        private Mock<IUpdateStrategy<IValueDiagramCalculator>> _valueDiagramCalculatorUpdateStrategyMock;
         private HasCalculatorsUpdateCloningStrategy _strategy;
 
         [SetUp]
         public void SetUp()
         {
+            _cloningStrategyContainerMoq = new Mock<ICalculatorCloningStrategyContainer>();
             _cloningStrategyMock = new Mock<ICloningStrategy>();
             _forceCalculatorUpdateStrategyMock = new Mock<IUpdateStrategy<IForceCalculator>>();
             _crackCalculatorUpdateStrategyMock = new Mock<IUpdateStrategy<ICrackCalculator>>();
             _limitCurvesCalculatorUpdateStrategyMock = new Mock<IUpdateStrategy<ILimitCurvesCalculator>>();
+            _valueDiagramCalculatorUpdateStrategyMock = new Mock<IUpdateStrategy<IValueDiagramCalculator>>();
+            _cloningStrategyContainerMoq.Setup(m => m.ForceCalculatorStrategy).Returns(_forceCalculatorUpdateStrategyMock.Object);
+            _cloningStrategyContainerMoq.Setup(m => m.CrackCalculatorStrategy).Returns(_crackCalculatorUpdateStrategyMock.Object);
+            _cloningStrategyContainerMoq.Setup(m => m.LimitCurvesCalculatorStrategy).Returns(_limitCurvesCalculatorUpdateStrategyMock.Object);
+            _cloningStrategyContainerMoq.Setup(m => m.ValueDiagramCalculatorStrategy).Returns(_valueDiagramCalculatorUpdateStrategyMock.Object);
 
             _strategy = new HasCalculatorsUpdateCloningStrategy(
                 _cloningStrategyMock.Object,
-                _forceCalculatorUpdateStrategyMock.Object,
-                _crackCalculatorUpdateStrategyMock.Object,
-                _limitCurvesCalculatorUpdateStrategyMock.Object
-            );
+                _cloningStrategyContainerMoq.Object);
         }
 
         [Test]

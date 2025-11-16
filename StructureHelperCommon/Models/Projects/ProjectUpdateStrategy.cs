@@ -26,8 +26,8 @@ namespace StructureHelperCommon.Models.Projects
 
         public void Update(IProject targetObject, IProject sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.VisualAnalyses.Clear();
             foreach (var item in sourceObject.VisualAnalyses)

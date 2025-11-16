@@ -13,8 +13,8 @@ namespace StructureHelperCommon.Models.Materials.Libraries
         private IUpdateStrategy<IMaterialSafetyFactor> baseUpdateStrategy = new MaterialSafetyFactorBaseUpdateStrategy();
         public void Update(IMaterialSafetyFactor targetObject, IMaterialSafetyFactor sourceObject)
         {
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             baseUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.PartialFactors.Clear();

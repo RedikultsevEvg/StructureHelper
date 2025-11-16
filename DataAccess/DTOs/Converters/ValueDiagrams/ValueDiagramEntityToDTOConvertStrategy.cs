@@ -18,7 +18,7 @@ namespace DataAccess.DTOs
             NewItem = new(source.Id);
             InitializeStrategies();
             updateStrategy.Update(NewItem, source);
-            NewItem.ValueDigram = diagramConvertStrategy.Convert(source.ValueDigram);
+            NewItem.ValueDiagram = diagramConvertStrategy.Convert(source.ValueDiagram);
             return NewItem;
         }
 

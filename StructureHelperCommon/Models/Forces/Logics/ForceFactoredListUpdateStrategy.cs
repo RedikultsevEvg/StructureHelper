@@ -34,15 +34,15 @@ namespace StructureHelperCommon.Models.Forces
         }
         public void Update(IForceFactoredList targetObject, IForceFactoredList sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             forceActionUpdateStrategy.Update(targetObject, sourceObject);
-            CheckObject.IsNull(sourceObject.CombinationProperty);
-            CheckObject.IsNull(targetObject.CombinationProperty);
+            CheckObject.ThrowIfNull(sourceObject.CombinationProperty);
+            CheckObject.ThrowIfNull(targetObject.CombinationProperty);
             propertyUpdateStrategy.Update(targetObject.CombinationProperty, sourceObject.CombinationProperty);
-            CheckObject.IsNull(sourceObject.ForceTuples);
-            CheckObject.IsNull(targetObject.ForceTuples);
+            CheckObject.ThrowIfNull(sourceObject.ForceTuples);
+            CheckObject.ThrowIfNull(targetObject.ForceTuples);
             targetObject.ForceTuples.Clear();
             foreach (var item in sourceObject.ForceTuples)
             {

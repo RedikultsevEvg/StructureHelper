@@ -18,8 +18,8 @@ namespace DataAccess.DTOs
 
         public override BeamShearCalculator GetNewItem(BeamShearCalculatorDTO source)
         {
-            CheckObject.IsNull(source);
-            CheckObject.IsNull(source.InputData);
+            CheckObject.ThrowIfNull(source);
+            CheckObject.ThrowIfNull(source.InputData);
             GetNewCalculator(source);
             return NewItem;
         }

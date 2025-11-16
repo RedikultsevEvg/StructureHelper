@@ -6,6 +6,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
     {
         string Name { get; set; }
         bool IsTaken { get; set; }
-        IValueDiagram ValueDigram { get; set; }
+        IValueDiagram ValueDiagram { get; set; }
     }
 }

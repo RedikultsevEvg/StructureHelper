@@ -14,7 +14,7 @@ namespace StructureHelperCommon.Models.Shapes
 
         public void Update(IVertex targetObject, IVertex sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.ThrowIfNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             if (UpdateChildren == true)
             {

@@ -15,8 +15,8 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
         private IUpdateStrategy<IDistributedLoad> distributedLoadUpdateStrategy;
         public void Update(IBeamSpanLoad targetObject, IBeamSpanLoad sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeStrategies();
             UpdateObjects(targetObject, sourceObject);

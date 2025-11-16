@@ -31,9 +31,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
 
         public void Update(IForceCalculator targetObject, IForceCalculator sourceObject)
         {
-            CheckObject.IsNull(cloningStrategy);
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(cloningStrategy);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             var sourceData = sourceObject.InputData;
             var targetData = targetObject.InputData;

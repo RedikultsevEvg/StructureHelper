@@ -13,8 +13,8 @@ namespace StructureHelperLogics.Models.Materials
     {
         public void Update(IElasticMaterial targetObject, IElasticMaterial sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Modulus = sourceObject.Modulus;
             targetObject.CompressiveStrength = sourceObject.CompressiveStrength;

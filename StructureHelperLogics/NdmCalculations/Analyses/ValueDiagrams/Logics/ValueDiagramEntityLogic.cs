@@ -25,12 +25,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
         private List<IPoint2D> GetPoints()
         {
             TraceLogger?.AddMessage($"Getting point for diagram {ValueDiagramEntity.Name} has been started");
-            var startPoint = ValueDiagramEntity.ValueDigram.Point2DRange.StartPoint;
-            var endPoint = ValueDiagramEntity.ValueDigram.Point2DRange.EndPoint;
-            double dx = (endPoint.X - startPoint.X) / ValueDiagramEntity.ValueDigram.StepNumber;
-            double dy = (endPoint.Y - startPoint.Y) / ValueDiagramEntity.ValueDigram.StepNumber;
+            var startPoint = ValueDiagramEntity.ValueDiagram.Point2DRange.StartPoint;
+            var endPoint = ValueDiagramEntity.ValueDiagram.Point2DRange.EndPoint;
+            double dx = (endPoint.X - startPoint.X) / ValueDiagramEntity.ValueDiagram.StepNumber;
+            double dy = (endPoint.Y - startPoint.Y) / ValueDiagramEntity.ValueDiagram.StepNumber;
             List<IPoint2D> point2Ds = [];
-            for (int i = 0; i < ValueDiagramEntity.ValueDigram.StepNumber + 1; i++)
+            for (int i = 0; i < ValueDiagramEntity.ValueDiagram.StepNumber + 1; i++)
             {
                 double x = startPoint.X + dx * i;
                 double y = startPoint.Y + dy * i;

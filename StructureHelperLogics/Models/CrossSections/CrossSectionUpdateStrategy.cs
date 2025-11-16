@@ -27,8 +27,8 @@ namespace StructureHelperLogics.Models.CrossSections
 
         public void Update(ICrossSection targetObject, ICrossSection sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             UpdateRepository(targetObject, sourceObject);
             UpdateWorkPlane(targetObject, sourceObject);
@@ -48,8 +48,8 @@ namespace StructureHelperLogics.Models.CrossSections
 
         private void UpdateRepository(ICrossSection targetObject, ICrossSection sourceObject)
         {
-            CheckObject.IsNull(targetObject.SectionRepository);
-            CheckObject.IsNull(sourceObject.SectionRepository);
+            CheckObject.ThrowIfNull(targetObject.SectionRepository);
+            CheckObject.ThrowIfNull(sourceObject.SectionRepository);
             targetObject.SectionRepository.Calculators.Clear();
             targetObject.SectionRepository.Primitives.Clear();
             targetObject.SectionRepository.ForceActions.Clear();

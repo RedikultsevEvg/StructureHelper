@@ -21,7 +21,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 
         public void Update(IValueDiagramCalculatorInputData targetObject, IValueDiagramCalculatorInputData sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.ThrowIfNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.CheckStrainLimit = sourceObject.CheckStrainLimit;
             targetObject.StateTermPair.LimitState = sourceObject.StateTermPair.LimitState;
@@ -32,12 +32,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
                 targetObject.Primitives.AddRange(sourceObject.Primitives);
                 targetObject.ForceActions.Clear();
                 targetObject.ForceActions.AddRange(sourceObject.ForceActions);
-                targetObject.Digrams.Clear();
+                targetObject.Diagrams.Clear();
                 entityUpdateStrategy ??= new ValueDiagramEntityUpdateStrategy();
-                foreach (var entity in sourceObject.Digrams)
+                foreach (var entity in sourceObject.Diagrams)
                 {
                     var newItem = entity.Clone() as IValueDiagramEntity;
-                    targetObject.Digrams.Add(newItem);
+                    targetObject.Diagrams.Add(newItem);
                 }
             }
         }

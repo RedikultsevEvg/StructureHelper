@@ -8,8 +8,8 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
         private IUpdateStrategy<IBeamSpanLoad> baseUpdateStrategy;
         public void Update(IConcentratedForce targetObject, IConcentratedForce sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeStrategies();
             baseUpdateStrategy.Update(targetObject, sourceObject);

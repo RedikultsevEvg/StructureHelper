@@ -14,10 +14,10 @@ namespace StructureHelperTests.UnitTests.MaterialTests
         [TestCase(HeadmaterialType.Reinforcement500, CodeTypes.SP63_2018, LimitStates.ULS, CalcTerms.LongTerm, 434782608.69565225d, 434782608.69565225d)]
         [TestCase(HeadmaterialType.Reinforcement500, CodeTypes.SP63_2018, LimitStates.SLS, CalcTerms.ShortTerm, 5e8d, 5e8d)]
         [TestCase(HeadmaterialType.Reinforcement500, CodeTypes.SP63_2018, LimitStates.SLS, CalcTerms.ShortTerm, 5e8d, 5e8d)]
-        [TestCase(HeadmaterialType.Concrete40, CodeTypes.SP63_2018, LimitStates.ULS, CalcTerms.ShortTerm, 22461538.46153846d, 1395297.0017909051d)]
-        [TestCase(HeadmaterialType.Concrete40, CodeTypes.SP63_2018, LimitStates.ULS, CalcTerms.LongTerm, 20215384.615384616d, 1255767.3016118146d)]
-        [TestCase(HeadmaterialType.Concrete40, CodeTypes.SP63_2018, LimitStates.SLS, CalcTerms.ShortTerm, 29200000.0d, 2092945.5026863578d)]
-        [TestCase(HeadmaterialType.Concrete40, CodeTypes.SP63_2018, LimitStates.SLS, CalcTerms.LongTerm, 29200000.0d, 2092945.5026863578d)]
+        [TestCase(HeadmaterialType.Concrete40, CodeTypes.SP63_2018, LimitStates.ULS, CalcTerms.ShortTerm, 22199999.999999996d, 1395297.0017909051d)]
+        [TestCase(HeadmaterialType.Concrete40, CodeTypes.SP63_2018, LimitStates.ULS, CalcTerms.LongTerm, 19980000.0d, 1255767.3016118146d)]
+        [TestCase(HeadmaterialType.Concrete40, CodeTypes.SP63_2018, LimitStates.SLS, CalcTerms.ShortTerm, 28860000.0d, 2092945.5026863578d)]
+        [TestCase(HeadmaterialType.Concrete40, CodeTypes.SP63_2018, LimitStates.SLS, CalcTerms.LongTerm, 28860000.0d, 2092945.5026863578d)]
         public void Run_ShouldPass(HeadmaterialType headmaterialType, CodeTypes code, LimitStates limitState, CalcTerms calcTerm, double expectedCompressive, double expectedTensile)
         {
             //Arrange

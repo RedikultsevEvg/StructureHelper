@@ -6,6 +6,7 @@ using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives.Logics;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelper.Models.Materials;
 
 
 namespace StructureHelperTests.UnitTests.Ndms
@@ -53,9 +54,14 @@ namespace StructureHelperTests.UnitTests.Ndms
         {
             // Arrange
             var rebarMock = new Mock<IRebarNdmPrimitive>();
+            var ndmElementMoq = new Mock<INdmElement>();
+            var headMaterialMoq = new Mock<IHeadMaterial>();
+
             _mockHasPrimitives.Setup(x => x.Primitives).Returns(new List<INdmPrimitive> { rebarMock.Object });
             _mockCheckRebarPrimitiveLogic.Setup(x => x.Check()).Returns(false);
             _mockCheckRebarPrimitiveLogic.Setup(x => x.CheckResult).Returns("Rebar check failed\n");
+            rebarMock.Setup(x => x.NdmElement).Returns(ndmElementMoq.Object);
+            ndmElementMoq.Setup(x => x.HeadMaterial).Returns(headMaterialMoq.Object);
 
             // Act
             var result = _mockCheckPrimitiveCollectionLogic.Object.Check();
@@ -71,10 +77,14 @@ namespace StructureHelperTests.UnitTests.Ndms
             // Arrange
             var rebarMock = new Mock<IRebarNdmPrimitive>();
             var hostPrimitiveMock = new Mock<INdmPrimitive>();
+            var ndmElementMoq = new Mock<INdmElement>();
+            var headMaterialMoq = new Mock<IHeadMaterial>();
 
             rebarMock.Setup(x => x.HostPrimitive).Returns(hostPrimitiveMock.Object);
             rebarMock.Setup(x => x.Name).Returns("RebarName");
             hostPrimitiveMock.Setup(x => x.Name).Returns("HostPrimitiveName");
+            rebarMock.Setup(x => x.NdmElement).Returns(ndmElementMoq.Object);
+            ndmElementMoq.Setup(x => x.HeadMaterial).Returns(headMaterialMoq.Object);
 
             _mockHasPrimitives.Setup(x => x.Primitives).Returns(new List<INdmPrimitive> { rebarMock.Object });
             _mockCheckRebarPrimitiveLogic.Setup(x => x.Check()).Returns(true);  // Assume rebar check passes
@@ -93,10 +103,16 @@ namespace StructureHelperTests.UnitTests.Ndms
         {
             // Arrange
             var rebarMock = new Mock<IRebarNdmPrimitive>();
+            var ndmElementMoq = new Mock<INdmElement>();
+            var headMaterialMoq = new Mock<IHeadMaterial>();
             var hostPrimitiveMock = new Mock<INdmPrimitive>();
 
             rebarMock.Setup(x => x.HostPrimitive).Returns(hostPrimitiveMock.Object);
             rebarMock.Setup(x => x.Name).Returns("RebarName");
+            rebarMock.Setup(x => x.NdmElement).Returns(ndmElementMoq.Object);
+            ndmElementMoq.Setup(x => x.HeadMaterial).Returns(headMaterialMoq.Object);
+            hostPrimitiveMock.Setup(x => x.NdmElement).Returns(ndmElementMoq.Object);
+            
 
             _mockHasPrimitives.Setup(x => x.Primitives).Returns(new List<INdmPrimitive> { rebarMock.Object, hostPrimitiveMock.Object });
             _mockCheckRebarPrimitiveLogic.Setup(x => x.Check()).Returns(true);

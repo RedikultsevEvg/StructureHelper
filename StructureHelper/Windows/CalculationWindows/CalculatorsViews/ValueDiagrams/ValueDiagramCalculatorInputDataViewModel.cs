@@ -32,7 +32,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ValueDiagr
             this.inputData = inputData;
             this.repository = repository;
             StateCalcTermPairViewModel = new(inputData.StateTermPair);
-            ValueDiagramsViewModel = new(inputData.Digrams);
+            ValueDiagramsViewModel = new(inputData.Diagrams);
             CombinationViewModel = SourceTargetFactory.GetSourceTargetVM(repository.ForceActions, inputData.ForceActions);
             PrimitivesViewModel = SourceTargetFactory.GetSourceTargetVM(repository.Primitives, inputData.Primitives);
         }

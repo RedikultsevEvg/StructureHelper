@@ -12,8 +12,8 @@ namespace StructureHelperCommon.Models.Shapes
     {
         public void Update(ICircleShape targetObject, ICircleShape sourceObject)
         {
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Diameter = sourceObject.Diameter;
         }

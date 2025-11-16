@@ -14,12 +14,12 @@ namespace StructureHelperLogics.Models.BeamShears
         private IUpdateStrategy<IStirrup>? baseUpdateStrategy;
         public void Update(IStirrupByRebar targetObject, IStirrupByRebar sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             baseUpdateStrategy ??= new StirrupBaseUpdateStrategy();
             baseUpdateStrategy.Update(targetObject, sourceObject);
-            CheckObject.IsNull(sourceObject.Material);
+            CheckObject.ThrowIfNull(sourceObject.Material);
             targetObject.Material = sourceObject.Material.Clone() as IReinforcementLibMaterial;
             targetObject.Diameter = sourceObject.Diameter;
             targetObject.LegCount = sourceObject.LegCount;

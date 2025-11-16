@@ -25,7 +25,7 @@ namespace StructureHelperCommon.Models.Forces
 
         public void Update(IForceCombinationList targetObject, IForceCombinationList sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.ThrowIfNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.DesignForces.Clear();
             foreach (var item in sourceObject.DesignForces)

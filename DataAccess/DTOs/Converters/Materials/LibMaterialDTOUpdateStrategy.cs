@@ -16,8 +16,8 @@ namespace DataAccess.DTOs
         /// <inheritdoc/>
         public void Update(ILibMaterial targetObject, ILibMaterial sourceObject)
         {
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
         }
     }

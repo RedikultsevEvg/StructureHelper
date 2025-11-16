@@ -11,8 +11,8 @@ namespace StructureHelperLogics.Models.Materials
     {
         public void Update(ILibMaterial targetObject, ILibMaterial sourceObject)
         {
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.MaterialEntity = sourceObject.MaterialEntity;
             targetObject.MaterialLogic = sourceObject.MaterialLogic;

@@ -11,8 +11,8 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public void Update(IStirrup targetObject, IStirrup sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.CompressedGap = sourceObject.CompressedGap;
@@ -24,8 +24,8 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void UpdateTargetChildren(IStirrup targetObject, IStirrup sourceObject)
         {
-            CheckObject.IsNull(sourceObject.VisualProperty);
-            CheckObject.IsNull(targetObject.VisualProperty);
+            CheckObject.ThrowIfNull(sourceObject.VisualProperty);
+            CheckObject.ThrowIfNull(targetObject.VisualProperty);
             visualUpdateStrategy ??= new PrimitiveVisualPropertyUpdateStrategy();
             visualUpdateStrategy.Update(targetObject.VisualProperty, sourceObject.VisualProperty);
         }

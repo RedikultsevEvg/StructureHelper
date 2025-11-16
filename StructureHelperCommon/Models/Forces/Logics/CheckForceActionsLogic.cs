@@ -1,10 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces.Logics
 {
@@ -15,6 +11,17 @@ namespace StructureHelperCommon.Models.Forces.Logics
         public string CheckResult => checkResult;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
+
+        public CheckForceActionsLogic(IShiftTraceLogger? traceLogger)
+        {
+            TraceLogger = traceLogger;
+        }
+
+        public CheckForceActionsLogic()
+        {
+            
+        }
+
         public IEnumerable<IForceAction> Entity { get; set; }
 
         public bool Check()

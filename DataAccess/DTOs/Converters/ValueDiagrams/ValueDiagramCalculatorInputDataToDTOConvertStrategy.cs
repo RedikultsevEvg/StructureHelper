@@ -28,10 +28,10 @@ namespace DataAccess.DTOs
             updateStrategy.Update(NewItem, source);
             ProcessPrimitives(source);
             ProcessActions(source);
-            NewItem.Digrams.Clear();
-            foreach (var diagram in source.Digrams)
+            NewItem.Diagrams.Clear();
+            foreach (var diagram in source.Diagrams)
             {
-                NewItem.Digrams.Add(diagramConvertStrategy.Convert(diagram));
+                NewItem.Diagrams.Add(diagramConvertStrategy.Convert(diagram));
             }
             return NewItem;
         }

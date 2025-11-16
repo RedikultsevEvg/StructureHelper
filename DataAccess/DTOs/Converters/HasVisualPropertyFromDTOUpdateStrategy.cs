@@ -20,8 +20,8 @@ namespace DataAccess.DTOs
 
         public void Update(IHasVisualProperty targetObject, IHasVisualProperty sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             convertStrategy = new DictionaryConvertStrategy<PrimitiveVisualProperty, PrimitiveVisualPropertyDTO>(
                 referenceDictionary,

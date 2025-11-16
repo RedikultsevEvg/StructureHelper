@@ -13,8 +13,8 @@ namespace StructureHelperLogics.Models.BeamShears
 
         public void Update(IStirrupGroup targetObject, IStirrupGroup sourceObject)
         {
-            CheckObject.IsNull(sourceObject, ErrorStrings.SourceObject);
-            CheckObject.IsNull(targetObject, ErrorStrings.TargetObject);
+            CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
+            CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             baseUpdateStrategy ??= new StirrupBaseUpdateStrategy()
             {
@@ -29,8 +29,8 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private static void UpdateTargetChildren(IStirrupGroup targetObject, IStirrupGroup sourceObject)
         {
-            CheckObject.IsNull(sourceObject.Stirrups);
-            CheckObject.IsNull(targetObject.Stirrups);
+            CheckObject.ThrowIfNull(sourceObject.Stirrups);
+            CheckObject.ThrowIfNull(targetObject.Stirrups);
             targetObject.Stirrups.Clear();
             foreach (var item in sourceObject.Stirrups)
             {

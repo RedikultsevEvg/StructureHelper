@@ -18,9 +18,9 @@ namespace DataAccess.DTOs
 
         public override BeamShearAxisAction GetNewItem(BeamShearAxisActionDTO source)
         {
-            CheckObject.IsNull(source);
-            CheckObject.IsNull(source.SupportForce);
-            CheckObject.IsNull(source.ShearLoads);
+            CheckObject.ThrowIfNull(source);
+            CheckObject.ThrowIfNull(source.SupportForce);
+            CheckObject.ThrowIfNull(source.ShearLoads);
             InitializeStrategies();
             GetNewAction(source);
             return NewItem;

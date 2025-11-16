@@ -13,8 +13,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
         public ForceCalculatorUpdateStrategy() : this(new ForceCalculatorInputDataUpdateStrategy()) {        }
         public void Update(IForceCalculator targetObject, IForceCalculator sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.ShowTraceData = sourceObject.ShowTraceData;

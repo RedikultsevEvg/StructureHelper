@@ -32,7 +32,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public void Update(IShapeNdmPrimitive targetObject, IShapeNdmPrimitive sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.ThrowIfNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeStrategies();
             basePrimitiveUpdateStrategy.Update(targetObject, sourceObject);

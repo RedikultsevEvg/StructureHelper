@@ -41,7 +41,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         }
         public void Update(IForceCalculatorInputData targetObject, IForceCalculatorInputData sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject, "Force calculator input data");
+            CheckObject.ThrowIfNull(targetObject, sourceObject, "Force calculator input data");
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Accuracy ??= new Accuracy();
             targetObject.CheckStrainLimit = sourceObject.CheckStrainLimit;

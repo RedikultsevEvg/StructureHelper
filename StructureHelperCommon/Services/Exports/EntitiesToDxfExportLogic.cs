@@ -12,7 +12,6 @@ namespace StructureHelperCommon.Services.Exports
 {
     public class EntitiesToDxfExportLogic : IExportToFileLogic
     {
-        private const double metresToMillimeters = 1000.0;
         private IGetDxfLayerLogic layerLogic = new GetDxfLayerLogic();
         public List<(EntityObject entity, LayerNames layerName)> Entities { get; set; } = [];
 

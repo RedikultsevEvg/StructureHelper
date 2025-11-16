@@ -12,8 +12,8 @@ namespace StructureHelperCommon.Models.WorkPlanes
     {
         public void Update(IWorkPlaneProperty targetObject, IWorkPlaneProperty sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.AxisLineThickness = sourceObject.AxisLineThickness;
             targetObject.GridSize = sourceObject.GridSize;

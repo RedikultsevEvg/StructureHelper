@@ -12,7 +12,7 @@ namespace StructureHelperCommon.Models.Analyses
     {
         public void Update(IAnalysis targetObject, IAnalysis sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject, "Analysis Properties");
+            CheckObject.ThrowIfNull(targetObject, sourceObject, "Analysis Properties");
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.Tags = sourceObject.Tags;

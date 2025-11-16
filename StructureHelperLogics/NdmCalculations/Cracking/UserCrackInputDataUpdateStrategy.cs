@@ -12,8 +12,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     {
         public void Update(IUserCrackInputData targetObject, IUserCrackInputData sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.SetSofteningFactor = sourceObject.SetSofteningFactor;
             targetObject.SofteningFactor = sourceObject.SofteningFactor;

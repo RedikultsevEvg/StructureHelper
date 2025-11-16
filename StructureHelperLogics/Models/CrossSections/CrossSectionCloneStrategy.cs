@@ -27,8 +27,8 @@ namespace StructureHelperLogics.Models.CrossSections
             {
                 SectionRepository = newRepository
             };
-            CheckObject.IsNull(targetObject.WorkPlaneProperty);
-            CheckObject.IsNull(sourceObject.WorkPlaneProperty);
+            CheckObject.ThrowIfNull(targetObject.WorkPlaneProperty);
+            CheckObject.ThrowIfNull(sourceObject.WorkPlaneProperty);
             workPlaneUpdateStrategy ??= new WorkPlanePropertyUpdateStrategy();
             workPlaneUpdateStrategy.Update(targetObject.WorkPlaneProperty, sourceObject.WorkPlaneProperty);
             return targetObject;

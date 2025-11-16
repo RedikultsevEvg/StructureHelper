@@ -34,9 +34,9 @@ namespace DataAccess.DTOs
 
         private static void CheckSourceObject(Point2DRangeDTO source)
         {
-            CheckObject.IsNull(source, ": point range source object");
-            CheckObject.IsNull(source.StartPoint + ": point range start point");
-            CheckObject.IsNull(source.EndPoint + ": point range end point");
+            CheckObject.ThrowIfNull(source, ": point range source object");
+            CheckObject.ThrowIfNull(source.StartPoint + ": point range start point");
+            CheckObject.ThrowIfNull(source.EndPoint + ": point range end point");
         }
 
         private void InitializeStrategies()

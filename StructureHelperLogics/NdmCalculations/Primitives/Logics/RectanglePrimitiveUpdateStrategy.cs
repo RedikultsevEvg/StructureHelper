@@ -28,8 +28,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public void Update(IRectangleNdmPrimitive targetObject, IRectangleNdmPrimitive sourceObject)
         {
-            CheckObject.IsNull(sourceObject, "source object");
-            CheckObject.IsNull(targetObject, "target object");
+            CheckObject.ThrowIfNull(sourceObject, "source object");
+            CheckObject.ThrowIfNull(targetObject, "target object");
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             basePrimitiveUpdateStrategy.Update(targetObject, sourceObject);
             divisionPropsUpdateStrategy.Update(targetObject.DivisionSize, sourceObject.DivisionSize);

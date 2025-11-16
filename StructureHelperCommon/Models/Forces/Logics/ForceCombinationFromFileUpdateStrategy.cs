@@ -30,14 +30,14 @@ namespace StructureHelperCommon.Models.Forces
 
         public void Update(IForceCombinationFromFile targetObject, IForceCombinationFromFile sourceObject)
         {
-            CheckObject.IsNull(targetObject);
-            CheckObject.IsNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
+            CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeLogics();
             baseUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.SkipWrongRows = sourceObject.SkipWrongRows;
-            CheckObject.IsNull(targetObject.CombinationProperty, "Target object combination property");
-            CheckObject.IsNull(sourceObject.CombinationProperty, "Source object combination property");
+            CheckObject.ThrowIfNull(targetObject.CombinationProperty, "Target object combination property");
+            CheckObject.ThrowIfNull(sourceObject.CombinationProperty, "Source object combination property");
             combinationPropertyUpdateStrategy.Update(targetObject.CombinationProperty, sourceObject.CombinationProperty);
             targetObject.ForceFiles.Clear();
             foreach (var file in sourceObject.ForceFiles)

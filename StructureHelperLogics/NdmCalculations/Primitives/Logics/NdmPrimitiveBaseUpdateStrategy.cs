@@ -16,7 +16,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public void Update(INdmPrimitive targetObject, INdmPrimitive sourceObject)
         {
-            CheckObject.IsNull(targetObject, sourceObject);
+            CheckObject.ThrowIfNull(targetObject, sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeStrategies();
             targetObject.Name = sourceObject.Name;

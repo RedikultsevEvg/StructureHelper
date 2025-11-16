@@ -72,8 +72,8 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void Check()
         {
-            CheckObject.IsNull(stirrupByDensity);
-            CheckObject.IsNull(inclinedSection);
+            CheckObject.ThrowIfNull(stirrupByDensity);
+            CheckObject.ThrowIfNull(inclinedSection);
         }
     }
 }

@@ -21,9 +21,9 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
 
         public void Update(IHasForceActions targetObject, IHasForceActions sourceObject)
         {
-            CheckObject.IsNull(cloningStrategy);
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(cloningStrategy);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.ForceActions.Clear();
             foreach (var force in sourceObject.ForceActions)

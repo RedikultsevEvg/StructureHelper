@@ -19,11 +19,11 @@ namespace DataAccess.DTOs
             NewItem = new(source.Id);
             InitializeStrategies();
             updateStrategy.Update(NewItem, source);
-            if (source.ValueDigram is not ValueDiagramDTO diagramDTO)
+            if (source.ValueDiagram is not ValueDiagramDTO diagramDTO)
             {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source.ValueDigram));
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source.ValueDiagram));
             }
-            NewItem.ValueDigram = diagramConvertStrategy.Convert(diagramDTO);
+            NewItem.ValueDiagram = diagramConvertStrategy.Convert(diagramDTO);
             return NewItem;
         }
 

@@ -30,9 +30,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
 
         public void Update(ILimitCurvesCalculator targetObject, ILimitCurvesCalculator sourceObject)
         {
-            CheckObject.IsNull(cloningStrategy);
-            CheckObject.IsNull(sourceObject);
-            CheckObject.IsNull(targetObject);
+            CheckObject.ThrowIfNull(cloningStrategy);
+            CheckObject.ThrowIfNull(sourceObject);
+            CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             var targetData = targetObject.InputData;
             limitCurvesInputDataUpdateStrategy.Update(targetData, sourceObject.InputData);
