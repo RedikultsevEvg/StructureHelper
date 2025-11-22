@@ -5,6 +5,7 @@ using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
+using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -38,9 +39,13 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Logics
             {
                 new ValueDiagramCalculatorUpdateStrategy().Update(diagramCalculator, (IValueDiagramCalculator)sourceObject);
             }
+            else if (targetObject is ICurvatureCalculator curvatureCalculator)
+            {
+                new CurvatureCalculatorUpdateStrategy().Update(curvatureCalculator, (ICurvatureCalculator)sourceObject);
+            }
             else
             {
-                ErrorCommonProcessor.ObjectTypeIsUnknown(typeof(INdmPrimitive), sourceObject.GetType());
+                ErrorCommonProcessor.ObjectTypeIsUnknown(typeof(ICalculator), sourceObject.GetType());
             }
         }
     }

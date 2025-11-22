@@ -63,6 +63,9 @@
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\TupleCrackResultView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\Curvatures\CurvatureCalculatorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\LimitCurveDataView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

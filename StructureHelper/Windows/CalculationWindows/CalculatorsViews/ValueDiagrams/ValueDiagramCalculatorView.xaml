@@ -29,9 +29,9 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Name"/>
-                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding CalculatorViewModel.Name}"/>
                     <TextBlock Grid.Row="1" Text="Show trace data"/>
-                    <CheckBox Grid.Column="1" Grid.Row="1" Margin="0,3" IsChecked="{Binding ShowTraceData}"/>
+                    <CheckBox Grid.Column="1" Grid.Row="1" Margin="0,3" IsChecked="{Binding CalculatorViewModel.ShowTraceData}"/>
                     <TextBlock Grid.Row="2" Text="Limit state"/>
                     <ComboBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding InputDataViewModel.StateCalcTermPairViewModel.LimitStatesCollection}" SelectedItem="{Binding InputDataViewModel.StateCalcTermPairViewModel.LimitState}"/>
                     <TextBlock Grid.Row="3" Text="Calc term"/>

@@ -148,14 +148,14 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             TraceLogger?.AddMessage($"Valid result was obtained", TraceLogStatuses.Debug);
         }
 
-        private StrainTuple GetSofteningFactors(StrainTuple reducedStrainTuple)
+        private StrainTuple GetSofteningFactors(IForceTuple reducedStrainTuple)
         {
             softeningFactorLogic.NdmCollection = InputData.SectionNdmCollection;
             softeningFactorLogic.StrainTuple = reducedStrainTuple;
             return softeningFactorLogic.GetSofteningFactors();
         }
 
-        private StrainTuple GetReducedStrainTuple(double factorOfCrackAppearance, double softeningFactor)
+        private IForceTuple GetReducedStrainTuple(double factorOfCrackAppearance, double softeningFactor)
         {
             const double notCrackedForceFactor = 0.99d;
             var notCrackedForceTuple = ForceTupleService.InterpolateTuples(InputData.StartTuple, InputData.EndTuple, factorOfCrackAppearance * notCrackedForceFactor) as ForceTuple;

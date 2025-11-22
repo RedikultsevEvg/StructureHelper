@@ -7,31 +7,15 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ValueDiagr
     public class ValueDiagramCalculatorViewModel : OkCancelViewModelBase
     {
         private IValueDiagramCalculator valueDiagramCalculator;
-
-        public bool ShowTraceData
-        {
-            get => valueDiagramCalculator.ShowTraceData;
-            set
-            {
-                valueDiagramCalculator.ShowTraceData = value;
-                OnPropertyChanged(nameof(ShowTraceData));
-            }
-        }
-        public string Name
-        {
-            get => valueDiagramCalculator.Name;
-            set
-            {
-                valueDiagramCalculator.Name = value;
-                OnPropertyChanged(nameof(Name));
-            }
-        }
+        
+        public CalculatorViewModel CalculatorViewModel { get; private set; }
         public ValueDiagramCalculatorInputDataViewModel InputDataViewModel { get; set; }
 
         public ValueDiagramCalculatorViewModel(ICrossSectionRepository repository, IValueDiagramCalculator valueDiagramCalculator)
         {
             this.valueDiagramCalculator = valueDiagramCalculator;
-            InputDataViewModel = new(repository, valueDiagramCalculator.InputData);
+            CalculatorViewModel = new(valueDiagramCalculator);
+            InputDataViewModel = new(valueDiagramCalculator.InputData, repository);
         }
 
         public void Refresh()

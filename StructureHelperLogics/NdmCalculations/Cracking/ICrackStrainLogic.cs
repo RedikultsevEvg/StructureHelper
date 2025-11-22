@@ -9,9 +9,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     internal interface ICrackStrainLogic
     {
-        StrainTuple BeforeCrackingTuple { get; set; }
-        StrainTuple AfterCrackingTuple { get; set; }
+        IForceTuple BeforeCrackingTuple { get; set; }
+        IForceTuple AfterCrackingTuple { get; set; }
         double SofteningFactor { get; set; }
-        StrainTuple GetCrackedStrainTuple();
+        IForceTuple GetCrackedStrainTuple();
     }
 }

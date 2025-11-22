@@ -1,16 +1,15 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
-using StructureHelperCommon.Models.Materials;
-using StructureHelperCommon.Models.Shapes;
-using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 
 namespace StructureHelperLogics.Services.NdmPrimitives
 {
+    /// <summary>
+    /// Direct meshing logic
+    /// </summary>
     public class TriangulatePrimitiveLogic : ITriangulatePrimitiveLogic
     {
         private IMeshHasDivisionLogic divisionLogic;

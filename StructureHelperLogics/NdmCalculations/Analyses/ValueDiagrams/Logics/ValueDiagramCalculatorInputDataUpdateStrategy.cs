@@ -5,18 +5,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 {
     public class ValueDiagramCalculatorInputDataUpdateStrategy : IParentUpdateStrategy<IValueDiagramCalculatorInputData>
     {
-        private IUpdateStrategy<IValueDiagramEntity> entityUpdateStrategy;
-
-        public ValueDiagramCalculatorInputDataUpdateStrategy(IUpdateStrategy<IValueDiagramEntity> entityUpdateStrategy)
-        {
-            this.entityUpdateStrategy = entityUpdateStrategy;
-        }
-
-        public ValueDiagramCalculatorInputDataUpdateStrategy()
-        {
-            
-        }
-
         public bool UpdateChildren { get; set; } = true;
 
         public void Update(IValueDiagramCalculatorInputData targetObject, IValueDiagramCalculatorInputData sourceObject)
@@ -33,7 +21,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
                 targetObject.ForceActions.Clear();
                 targetObject.ForceActions.AddRange(sourceObject.ForceActions);
                 targetObject.Diagrams.Clear();
-                entityUpdateStrategy ??= new ValueDiagramEntityUpdateStrategy();
                 foreach (var entity in sourceObject.Diagrams)
                 {
                     var newItem = entity.Clone() as IValueDiagramEntity;

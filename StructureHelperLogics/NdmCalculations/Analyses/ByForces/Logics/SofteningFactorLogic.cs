@@ -18,7 +18,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
     {
         public static IStressLogic stressLogic = new StressLogic();
         public IEnumerable<INdm> NdmCollection { get; set; }
-        public StrainTuple StrainTuple { get; set; }
+        public IForceTuple StrainTuple { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
         public StrainTuple GetSofteningFactors()

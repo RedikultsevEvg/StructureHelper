@@ -267,7 +267,19 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-    
+    <DataTemplate x:Key="CurvatureCalculator">
+        <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonCalculatorRectangle}"/>
+                <Path Data="M 6 16 a 10 15 90 0 0 20 0  l 2 5 a 7 15 90 0 1 -24 0 z" Fill="{DynamicResource CalculatorFrame}"/>
+                <Path Data="M 4 18 a 8 15 90 0 0 24 0" Stroke="Black"  StrokeThickness="0.5"/>
+                <Line X1="16" Y1="5" X2="12" Y2="21" Stroke="Black"/>
+                <Line X1="11" Y1="15" X2="12" Y2="21" Stroke="Black"/>
+                <Line X1="16" Y1="16" X2="12" Y2="21" Stroke="Black"/>
+                <TextBlock FontSize="8" Text="R" FontWeight="Bold" Margin="17,3,0,0"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="DeSelectAll">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>

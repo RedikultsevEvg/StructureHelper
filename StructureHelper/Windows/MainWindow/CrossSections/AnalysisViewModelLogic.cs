@@ -2,6 +2,7 @@
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
+using StructureHelper.Windows.CalculationWindows.CalculatorsViews.Curvatures;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ValueDiagrams;
 using StructureHelper.Windows.CalculationWindows.ProgressViews;
@@ -14,6 +15,7 @@ using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.Logics;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
@@ -54,14 +56,28 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             {
                 AddCrackCalculator();
             }
-            else if (parameterType == CalculatorTypes.ValueDiagram)
+            else if (parameterType == CalculatorTypes.ValueDiagramCalculator)
             {
                 AddValueDiagramCalculator();
+            }
+            else if (parameterType == CalculatorTypes.CurvatureCalcualtor)
+            {
+                AddCurvatureCalculator();
             }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(parameterType));
             }
+        }
+
+        private void AddCurvatureCalculator()
+        {
+            var calculator = new CurvatureCalculator(Guid.NewGuid())
+            {
+                Name = "New Curvature calculator",
+                ShowTraceData = false,
+            };
+            NewItem = calculator;
         }
 
         private void AddValueDiagramCalculator()
@@ -130,13 +146,19 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private void EditCalculator()
         {
             if (SelectedItem is ForceCalculator forceCalculator) { EditForceCalculator(forceCalculator);}
-            else if (SelectedItem is LimitCurvesCalculator limitCurvesCalculator) { EditLimitCurveCalculator(limitCurvesCalculator);            }
+            else if (SelectedItem is LimitCurvesCalculator limitCurvesCalculator) { EditLimitCurveCalculator(limitCurvesCalculator);}
             else if (SelectedItem is CrackCalculator crackCalculator) { EditCrackCalculator(crackCalculator);}
-            else if (SelectedItem is IValueDiagramCalculator valueDiagramCalculator)
-            {
-                EditValueDiagramCalculator(valueDiagramCalculator);
-            }
-            else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));}
+            else if (SelectedItem is ValueDiagramCalculator valueDiagramCalculator) {EditValueDiagramCalculator(valueDiagramCalculator);}
+            else if (SelectedItem is CurvatureCalculator curvatureCalculator) {EditCurvatureCalculator(curvatureCalculator);}
+            else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem)); }
+        }
+
+        private void EditCurvatureCalculator(CurvatureCalculator sourceCalculator)
+        {
+            var clone = sourceCalculator.Clone() as ICurvatureCalculator;
+            var vm = new CurvatureCalculatorViewModel(sourceCalculator, repository);
+            var wnd = new CurvatureCalculatorView(vm);
+            ShowWindow(sourceCalculator, clone, wnd);
         }
 
         private void EditValueDiagramCalculator(IValueDiagramCalculator sourceCalculator)

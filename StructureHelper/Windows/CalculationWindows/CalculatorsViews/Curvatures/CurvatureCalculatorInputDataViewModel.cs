@@ -1,42 +1,51 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
-using StructureHelper.Windows.UserControls.States;
 using StructureHelper.Windows.ViewModels;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
-using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
+using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ValueDiagrams
+namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.Curvatures
 {
-    public class ValueDiagramCalculatorInputDataViewModel : ViewModelBase
+    public class CurvatureCalculatorInputDataViewModel : ViewModelBase
     {
-        private IValueDiagramCalculatorInputData inputData;
-        private ICrossSectionRepository repository;
+        private ICurvatureCalculatorInputData inputData;
+        private double deflectionFactor;
+        private double spanLength;
 
-        public bool CheckStrainLimit
+        public double DeflectionFactor
         {
-            get => inputData.CheckStrainLimit;
+            get => inputData.DeflectionFactor;
             set
             {
-                inputData.CheckStrainLimit = value;
-                OnPropertyChanged(nameof(CheckStrainLimit));
+                inputData.DeflectionFactor = Math.Max(value, 0.0);
+                OnPropertyChanged(nameof(DeflectionFactor));
             }
         }
+
+        public double SpanLength
+        {
+            get => inputData.SpanLength;
+            set
+            {
+                inputData.SpanLength = Math.Max(value, 0.0);
+                OnPropertyChanged(nameof(SpanLength));
+            }
+        }
+
         public SourceTargetVM<IForceAction> CombinationViewModel { get; }
         public SourceTargetVM<PrimitiveBase> PrimitivesViewModel { get; }
-        public StateCalcTermPairViewModel StateCalcTermPairViewModel { get; }
-        public ValueDiagramsViewModel ValueDiagramsViewModel { get; }
 
-        public ValueDiagramCalculatorInputDataViewModel(IValueDiagramCalculatorInputData inputData, ICrossSectionRepository repository)
+        public CurvatureCalculatorInputDataViewModel(ICurvatureCalculatorInputData inputData, ICrossSectionRepository repository)
         {
             this.inputData = inputData;
-            this.repository = repository;
-            StateCalcTermPairViewModel = new(inputData.StateTermPair);
-            ValueDiagramsViewModel = new(inputData.Diagrams);
             CombinationViewModel = SourceTargetFactory.GetSourceTargetVM(repository.ForceActions, inputData.ForceActions);
             PrimitivesViewModel = SourceTargetFactory.GetSourceTargetVM(repository.Primitives, inputData.Primitives);
         }
-
         public void Refresh()
         {
             var combinations = CombinationViewModel.GetTargetItems();

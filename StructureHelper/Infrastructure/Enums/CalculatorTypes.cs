@@ -7,6 +7,7 @@
         CrackCalculator,
         FireCalculator,
         BeamShearCalculator,
-        ValueDiagram
+        ValueDiagramCalculator,
+        CurvatureCalcualtor
     }
 }

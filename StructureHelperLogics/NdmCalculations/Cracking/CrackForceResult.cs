@@ -12,7 +12,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     /// <summary>
     /// Result of crack calculation
     /// </summary>
-    public class CrackForceResult : IResult
+    public class CrackForceResult : ICrackForceResult
     {
         /// <inheritdoc/>
         public bool IsValid { get; set; }
@@ -41,15 +41,15 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <summary>
         /// General curvature in cracked section
         /// </summary>
-        public StrainTuple CrackedStrainTuple { get; set; }
+        public IForceTuple CrackedStrainTuple { get; set; }
         /// <summary>
         /// Average general curvature with considering of cracking
         /// </summary>
-        public StrainTuple ReducedStrainTuple { get; set; }
+        public IForceTuple ReducedStrainTuple { get; set; }
         /// <summary>
         /// Factor of softening of stifness with considering of cracks
         /// </summary>
-        public StrainTuple SofteningFactors { get; set; }
+        public IForceTuple SofteningFactors { get; set; }
         /// <summary>
         /// Collection of ndms which crack properties looking for
         /// </summary>
@@ -58,6 +58,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// Common softening factor
         /// </summary>
         public double PsiS { get; set; }
-        
+
     }
 }

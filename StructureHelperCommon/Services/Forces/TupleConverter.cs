@@ -17,6 +17,12 @@ namespace StructureHelperCommon.Services.Forces
             return strainMatrix;
         }
 
+        public static StrainMatrix ConvertToLoaderStrainMatrix(IForceTuple strainTuple)
+        {
+            var strainMatrix = new StrainMatrix() { Kx = strainTuple.Mx, Ky = strainTuple.My, EpsZ = strainTuple.Nz };
+            return strainMatrix;
+        }
+
         public static StrainTuple ConvertToStrainTuple(IStrainMatrix strainMatrix)
         {
             StrainTuple strainTuple = new StrainTuple() { Mx = strainMatrix.Kx, My = strainMatrix.Ky, Nz = strainMatrix.EpsZ };

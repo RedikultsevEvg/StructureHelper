@@ -25,6 +25,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
         static IGetUnitLogic unitLogic = new GetUnitLogic();
         static readonly CrackForceBynarySearchCalculator calculator = new();
         private ITriangulatePrimitiveLogic triangulateLogic;
+        private IUnit unitForce = unitLogic.GetUnit(UnitTypes.Force);
+        private IUnit unitMoment = unitLogic.GetUnit(UnitTypes.Moment);
+        private IUnit unitCurvature = unitLogic.GetUnit(UnitTypes.Curvature);
 
         private List<IExtendedForceTupleCalculatorResult> ValidTupleList { get; set; }
         ArrayParameter<double> arrayParameter;
@@ -67,11 +70,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
         {
             List<string> labels = GetCrackLabels();
             arrayParameter = new ArrayParameter<double>(ValidTupleList.Count(), labels);
-            CalculateWithCrack(ValidTupleList,
-                NdmPrimitives,
-                unitLogic.GetUnit(UnitTypes.Force),
-                unitLogic.GetUnit(UnitTypes.Moment),
-                unitLogic.GetUnit(UnitTypes.Curvature));
+            CalculateWithCrack(ValidTupleList, NdmPrimitives);
         }
 
         public void ShowWindow()
@@ -92,31 +91,19 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
             "Errors appeared during showing a graph, see detailed information");
         }
 
-        private void CalculateWithCrack(List<IExtendedForceTupleCalculatorResult> validTupleList, IEnumerable<INdmPrimitive> ndmPrimitives, IUnit unitForce, IUnit unitMoment, IUnit unitCurvature)
+        private void CalculateWithCrack(List<IExtendedForceTupleCalculatorResult> validTupleList, IEnumerable<INdmPrimitive> ndmPrimitives)
         {
             var data = arrayParameter.Data;
             for (int i = 0; i < validTupleList.Count(); i++)
             {
-                var valueList = new List<double>
-                {
-                    validTupleList[i].ForcesTupleResult.ForceTuple.Mx * unitMoment.Multiplyer,
-                    validTupleList[i].ForcesTupleResult.ForceTuple.My * unitMoment.Multiplyer,
-                    validTupleList[i].ForcesTupleResult.ForceTuple.Nz * unitForce.Multiplyer
-                };
                 calculator.InputData.EndTuple = validTupleList[i].ForcesTupleResult.ForceTuple;
                 var limitState = validTupleList[i].StateCalcTermPair.LimitState;
                 var calcTerm = validTupleList[i].StateCalcTermPair.CalcTerm;
-                triangulateLogic = new TriangulatePrimitiveLogic()
-                {
-                    Primitives = ndmPrimitives,
-                    LimitState = limitState,
-                    CalcTerm = calcTerm,
-                    TraceLogger = TraceLogger
-                };
+                GetTriangulationLogic(ndmPrimitives, limitState, calcTerm);
                 var ndms = triangulateLogic.GetNdms();
                 calculator.InputData.CheckedNdmCollection = calculator.InputData.SectionNdmCollection = ndms;
                 calculator.Run();
-                var result = (CrackForceResult)calculator.Result;
+                var result = (ICrackForceResult)calculator.Result;
                 if (result.IsValid == false)
                 {
                     MessageBox.Show(
@@ -126,27 +113,49 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
                         MessageBoxIcon.Information);
                     return;
                 }
-                valueList.Add(result.CrackedStrainTuple.Mx);
-                valueList.Add(result.CrackedStrainTuple.My);
-                valueList.Add(result.CrackedStrainTuple.Nz);
-
-                valueList.Add(result.ReducedStrainTuple.Mx);
-                valueList.Add(result.ReducedStrainTuple.My);
-                valueList.Add(result.ReducedStrainTuple.Nz);
-
-                valueList.Add(result.SofteningFactors.Mx);
-                valueList.Add(result.SofteningFactors.My);
-                valueList.Add(result.SofteningFactors.Nz);
-
-                valueList.Add(result.PsiS);
-
+                IExtendedForceTupleCalculatorResult extendedForceTupleCalculatorResult = validTupleList[i];
+                List<double> valueList = GetValueList(result, extendedForceTupleCalculatorResult);
                 for (int j = 0; j < valueList.Count; j++)
                 {
                     data[i, j] = valueList[j];
                 }
-
                 SetProgress?.Invoke(i);
             }
+        }
+
+        private List<double> GetValueList(ICrackForceResult result, IExtendedForceTupleCalculatorResult extendedForceTupleCalculatorResult)
+        {
+            var valueList = new List<double>
+                {
+                    extendedForceTupleCalculatorResult.ForcesTupleResult.ForceTuple.Mx * unitMoment.Multiplyer,
+                    extendedForceTupleCalculatorResult.ForcesTupleResult.ForceTuple.My * unitMoment.Multiplyer,
+                    extendedForceTupleCalculatorResult.ForcesTupleResult.ForceTuple.Nz * unitForce.Multiplyer
+                };
+            valueList.Add(result.CrackedStrainTuple.Mx);
+            valueList.Add(result.CrackedStrainTuple.My);
+            valueList.Add(result.CrackedStrainTuple.Nz);
+
+            valueList.Add(result.ReducedStrainTuple.Mx);
+            valueList.Add(result.ReducedStrainTuple.My);
+            valueList.Add(result.ReducedStrainTuple.Nz);
+
+            valueList.Add(result.SofteningFactors.Mx);
+            valueList.Add(result.SofteningFactors.My);
+            valueList.Add(result.SofteningFactors.Nz);
+
+            valueList.Add(result.PsiS);
+            return valueList;
+        }
+
+        private void GetTriangulationLogic(IEnumerable<INdmPrimitive> ndmPrimitives, LimitStates limitState, CalcTerms calcTerm)
+        {
+            triangulateLogic = new TriangulatePrimitiveLogic()
+            {
+                Primitives = ndmPrimitives,
+                LimitState = limitState,
+                CalcTerm = calcTerm,
+                TraceLogger = TraceLogger
+            };
         }
 
         private static List<string> GetCrackLabels()

@@ -101,14 +101,24 @@
                         <ContentControl ContentTemplate="{DynamicResource CrackCalculator}"/>
                     </Viewbox>
                 </Button>
-                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:CalculatorTypes.ValueDiagram}" >
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:CalculatorTypes.ValueDiagramCalculator}" >
                     <Button.ToolTip>
-                        <uc:ButtonToolTipEh HeaderText="Add Value Diagram Calctulator"
+                        <uc:ButtonToolTipEh HeaderText="Add Value Diagram Calculator"
                                                 IconContent="{StaticResource ValueDiagramCalculator}"
                                                 DescriptionText="Adds new calculator for creating diagram of results on line of cross-section"/>
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{StaticResource ValueDiagramCalculator}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:CalculatorTypes.CurvatureCalcualtor}" >
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add Curvature Calculator"
+                                                IconContent="{StaticResource CurvatureCalculator}"
+                                                DescriptionText="Adds new calculator for calculating of curvature of cross-section"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource CurvatureCalculator}"/>
                     </Viewbox>
                 </Button>
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding Run}" ToolTip="Run Calculations">
@@ -381,10 +391,17 @@
                                                 </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Add Value Diagram Calculator" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.ValueDiagram}">
+                                        <MenuItem Header="Add Value Diagram Calculator" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.ValueDiagramCalculator}">
                                             <MenuItem.Icon>
                                                 <Viewbox Width="16" Height="16">
                                                     <ContentControl ContentTemplate="{DynamicResource ValueDiagramCalculator}"/>
+                                                </Viewbox>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Add Curvature Calculator" Command="{Binding Add}" CommandParameter="{x:Static enums:CalculatorTypes.CurvatureCalcualtor}">
+                                            <MenuItem.Icon>
+                                                <Viewbox Width="16" Height="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource CurvatureCalculator}"/>
                                                 </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>

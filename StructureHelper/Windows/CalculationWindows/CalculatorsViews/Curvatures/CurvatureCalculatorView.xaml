@@ -1,0 +1,49 @@
+﻿<Window x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.Curvatures.CurvatureCalculatorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.Curvatures"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        d:DataContext="{d:DesignInstance local:CurvatureCalculatorViewModel}"
+        mc:Ignorable="d"
+        Title="Curvature Calculator" Height="250" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header="Main">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Name"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding CalculatorViewModel.Name}"/>
+                    <TextBlock Grid.Row="1" Text="Show trace data"/>
+                    <CheckBox Grid.Column="1" Grid.Row="1" Margin="0,3" IsChecked="{Binding CalculatorViewModel.ShowTraceData}"/>
+                    <TextBlock Grid.Row="2" Text="Deflection factor"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding InputDataViewModel.DeflectionFactor, Converter={StaticResource PlainDouble}}"/>
+                    <TextBlock Grid.Row="3" Text="Span length"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding InputDataViewModel.SpanLength, Converter={StaticResource LengthConverter}}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Forces">
+                <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding InputDataViewModel.CombinationViewModel}"/>
+            </TabItem>
+            <TabItem Header="Primitives">
+                <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding InputDataViewModel.PrimitivesViewModel}"/>
+            </TabItem>
+        </TabControl>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>
