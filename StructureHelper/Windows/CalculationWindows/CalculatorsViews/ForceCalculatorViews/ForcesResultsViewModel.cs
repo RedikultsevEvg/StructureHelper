@@ -307,7 +307,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         }
         private void SetPrestrain()
         {
-            var source = TupleConverter.ConvertToStrainTuple(SelectedResult.ForcesTupleResult.LoaderResults.StrainMatrix);
+            var source = ForceTupleConverter.ConvertToStrainTuple(SelectedResult.ForcesTupleResult.LoaderResults.StrainMatrix);
             var vm = new SetPrestrainViewModel(source);
             var wnd = new SetPrestrainView(vm);
             wnd.ShowDialog();

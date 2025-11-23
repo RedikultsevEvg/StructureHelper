@@ -27,7 +27,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
             TraceLogger?.AddMessage($"Logic of analisys based on calculating sum of secant stifness of elementary parts EA,i = A,i * Esec,i");
             TraceLogger?.AddMessage($"Calculating geometry properties for strains");
             TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(StrainTuple));
-            var loaderStainMatrix = TupleConverter.ConvertToLoaderStrainMatrix(StrainTuple);
+            var loaderStainMatrix = ForceTupleConverter.ConvertToLoaderStrainMatrix(StrainTuple);
             var (MxFactor, MyFactor, NzFactor) = GeometryOperations.GetSofteningsFactors(NdmCollection, loaderStainMatrix);
             TraceLogger?.AddMessage($"Reducing of stiffness in {ProgramSetting.GeometryNames.SndAxisName}-plane: EIx_cracked / EIx_uncracked = {MxFactor}");
             TraceLogger?.AddMessage($"Reducing of stiffness in {ProgramSetting.GeometryNames.FstAxisName}-plane: EIy_cracked / EIy_uncracked = {MyFactor}");

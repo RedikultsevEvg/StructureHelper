@@ -9,8 +9,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
         public List<IForceAction> ForceActions { get; } = [];
 
         public List<INdmPrimitive> Primitives { get; } = [];
-        public double DeflectionFactor { get; set; } = 0.1042;
-        public double SpanLength { get; set; } = 6.0;
+        public IDeflectionFactor DeflectionFactor { get; set; } = new DeflectionFactor(Guid.NewGuid());
 
         public CurvatureCalculatorInputData(Guid id)
         {

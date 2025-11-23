@@ -15,5 +15,10 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.Curvatures
             this.viewModel = viewModel;
             this.DataContext = viewModel;
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            viewModel.Refresh();
+        }
     }
 }

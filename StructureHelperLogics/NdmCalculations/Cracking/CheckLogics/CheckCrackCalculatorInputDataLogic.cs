@@ -28,7 +28,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             this.checkPrimitiveCollectionLogic = checkPrimitiveCollectionLogic;
         }
 
-        public CheckCrackCalculatorInputDataLogic() : this (new CheckPrimitiveCollectionLogic())
+        public CheckCrackCalculatorInputDataLogic() : this (new HasPrimitivesCheckLogic())
         {
             
         }

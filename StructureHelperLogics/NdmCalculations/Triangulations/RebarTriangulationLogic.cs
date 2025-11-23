@@ -47,7 +47,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 Material = options.HeadMaterial.GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm)
             };
             ;
-            NdmTransform.SetPrestrain(rebarNdm, TupleConverter.ConvertToLoaderStrainMatrix(options.Prestrain));
+            NdmTransform.SetPrestrain(rebarNdm, ForceTupleConverter.ConvertToLoaderStrainMatrix(options.Prestrain));
             return rebarNdm;
         }
 
@@ -74,7 +74,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 //StressScale = -1d
                 StressScale = 1d//-1d
             };
-            NdmTransform.SetPrestrain(concreteNdm, TupleConverter.ConvertToLoaderStrainMatrix(prestrain));
+            NdmTransform.SetPrestrain(concreteNdm, ForceTupleConverter.ConvertToLoaderStrainMatrix(prestrain));
             return concreteNdm;
         }
 

@@ -12,12 +12,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         /// <inheritdoc/>
         public IForceTuple ForceTuple { get; set; }
         /// <inheritdoc/>
-        public IAccuracy Accuracy { get; set; }
-        public bool CheckStrainLimit { get; set; }
-
-        public ForceTupleInputData()
-        {
-            Accuracy ??= new Accuracy() { IterationAccuracy = 0.01d, MaxIterationCount = 1000 };
-        }
+        public IAccuracy Accuracy { get; set; } = new Accuracy() { IterationAccuracy = 0.01d, MaxIterationCount = 1000 };
+        public bool CheckStrainLimit { get; set; } = true;
     }
 }

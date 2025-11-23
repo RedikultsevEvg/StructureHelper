@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using System;
@@ -45,9 +46,24 @@ namespace DataAccess.DTOs
                 TraceLogger?.AddMessage($"{CalculatorIs} value digram calculator");
                 return GetValueDiagramCalculator(valueDiagramCalculator);
             }
+            if (source is CurvatureCalculatorDTO curvatureCalculator)
+            {
+                TraceLogger?.AddMessage($"{CalculatorIs} curvature calculator");
+                return GetCurvatureCalculator(curvatureCalculator);
+            }
             string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source);
             TraceLogger.AddMessage(errorString, TraceLogStatuses.Error);
             throw new StructureHelperException(errorString);
+        }
+
+        private CurvatureCalculator GetCurvatureCalculator(CurvatureCalculatorDTO calculator)
+        {
+            var convertStrategy = new CurvatureCalculatorFromDTOConvertStrategy()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger,
+            };
+            return convertStrategy.Convert(calculator);
         }
 
         private ValueDiagramCalculator GetValueDiagramCalculator(ValueDiagramCalculatorDTO valueDiagramCalculator)

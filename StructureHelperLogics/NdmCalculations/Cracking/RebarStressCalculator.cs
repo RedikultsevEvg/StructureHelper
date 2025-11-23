@@ -60,7 +60,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             var strainTuple = GetStrainTuple();
             result.StrainTuple = strainTuple;
-            var strainMatrix = TupleConverter.ConvertToLoaderStrainMatrix(strainTuple);
+            var strainMatrix = ForceTupleConverter.ConvertToLoaderStrainMatrix(strainTuple);
             result.RebarStrain = stressLogic.GetSectionStrain(strainMatrix, rebarNdm);
             result.RebarStress = stressLogic.GetStress(strainMatrix, rebarNdm);
             result.ConcreteStrain = -concreteNdm.PrestrainLogic.GetAll().Sum(x => x.PrestrainValue);
@@ -94,7 +94,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 //TraceLogger?.AddMessage(LoggerStrings.CalculationError + $": {forceResult.Description}", TraceLogStatuses.Error);
                 throw new StructureHelperException(ErrorStrings.CalculationError);
             }
-            var strain = TupleConverter.ConvertToStrainTuple(forceResult.LoaderResults.StrainMatrix);
+            var strain = ForceTupleConverter.ConvertToStrainTuple(forceResult.LoaderResults.StrainMatrix);
             return strain;
         }
 

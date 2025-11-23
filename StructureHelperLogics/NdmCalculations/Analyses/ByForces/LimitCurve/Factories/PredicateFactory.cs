@@ -91,7 +91,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 Mx = point3D.X,
                 My = point3D.Y
             };
-            logic.Tuple = tuple;
+            logic.ForceTuple = tuple;
             logic.SectionNdmCollection = Ndms;
             try
             {

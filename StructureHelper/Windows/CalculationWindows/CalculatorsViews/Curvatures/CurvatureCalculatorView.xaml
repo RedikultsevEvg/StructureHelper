@@ -7,7 +7,7 @@
         xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance local:CurvatureCalculatorViewModel}"
         mc:Ignorable="d"
-        Title="Curvature Calculator" Height="250" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Curvature Calculator" Height="250" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -23,18 +23,13 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="22"/>
                         <RowDefinition Height="22"/>
-                        <RowDefinition Height="22"/>
-                        <RowDefinition Height="22"/>
+
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Name"/>
                     <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding CalculatorViewModel.Name}"/>
                     <TextBlock Grid.Row="1" Text="Show trace data"/>
                     <CheckBox Grid.Column="1" Grid.Row="1" Margin="0,3" IsChecked="{Binding CalculatorViewModel.ShowTraceData}"/>
-                    <TextBlock Grid.Row="2" Text="Deflection factor"/>
-                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding InputDataViewModel.DeflectionFactor, Converter={StaticResource PlainDouble}}"/>
-                    <TextBlock Grid.Row="3" Text="Span length"/>
-                    <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding InputDataViewModel.SpanLength, Converter={StaticResource LengthConverter}}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Forces">
@@ -42,6 +37,62 @@
             </TabItem>
             <TabItem Header="Primitives">
                 <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding InputDataViewModel.PrimitivesViewModel}"/>
+            </TabItem>
+            <TabItem Header="Deflections">
+                <ScrollViewer>
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="22"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="Span length"/>
+                            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding InputDataViewModel.DeflectionFactor.SpanLength, Converter={StaticResource LengthConverter}}"/>
+                        </Grid>
+                        <Expander Header="Maximum deflections" IsExpanded="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="Along Y"/>
+                                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding InputDataViewModel.DeflectionFactor.MaxDeflections.Mx, Converter={StaticResource LengthConverter}}"/>
+                                <TextBlock Grid.Row="1" Text="Along X"/>
+                                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding InputDataViewModel.DeflectionFactor.MaxDeflections.My, Converter={StaticResource LengthConverter}}"/>
+                                <TextBlock Grid.Row="2" Text="Along Z"/>
+                                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding InputDataViewModel.DeflectionFactor.MaxDeflections.Nz, Converter={StaticResource LengthConverter}}"/>
+                            </Grid>
+                        </Expander>
+                        <Expander Header="Deflection factors">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="Along Y"/>
+                                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding InputDataViewModel.DeflectionFactor.DeflectionFactors.Mx, Converter={StaticResource PlainDouble}}"/>
+                                <TextBlock Grid.Row="1" Text="Along X"/>
+                                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding InputDataViewModel.DeflectionFactor.DeflectionFactors.My, Converter={StaticResource PlainDouble}}"/>
+                                <TextBlock Grid.Row="2" Text="Along Z"/>
+                                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding InputDataViewModel.DeflectionFactor.DeflectionFactors.Nz, Converter={StaticResource PlainDouble}}"/>
+                            </Grid>
+                        </Expander>
+                    </StackPanel>
+
+                </ScrollViewer>
             </TabItem>
         </TabControl>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>

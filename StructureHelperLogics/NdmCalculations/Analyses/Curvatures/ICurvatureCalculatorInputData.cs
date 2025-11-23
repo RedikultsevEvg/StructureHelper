@@ -1,15 +1,15 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {
+    /// <summary>
+    /// Input data for calculator of curvature of cross-section
+    /// </summary>
     public interface ICurvatureCalculatorInputData : IInputData, ISaveable, IHasForceActions, IHasPrimitives
     {
-        double DeflectionFactor { get; set; }
-        double SpanLength { get; set; }
+        IDeflectionFactor DeflectionFactor { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using LoaderCalculator;
-using StructureHelper.Infrastructure;
+﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.Curvatures;
@@ -297,6 +296,12 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 IValueDiagramCalculatorResult? diagramCalcualtorResult = valueDiagramCalculator.Result as IValueDiagramCalculatorResult;
                 ValueDiagramLogic valueDiagramLogic = new(diagramCalcualtorResult);
                 valueDiagramLogic.Show();
+            }
+            else if (SelectedItem is ICurvatureCalculator curvatureCalculator)
+            {
+                ICurvatureCalculatorResult curvatureResult = curvatureCalculator.Result as ICurvatureCalculatorResult;
+                var wnd = new CurvatureCalculatorResultView(curvatureResult);
+                wnd.ShowDialog();
             }
             else
             {

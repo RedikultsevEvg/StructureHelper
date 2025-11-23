@@ -199,7 +199,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             forceTupleCalculator.Run();
             var result = forceTupleCalculator.Result as IForceTupleCalculatorResult;
             var loaderStrainMatrix = result.LoaderResults.ForceStrainPair.StrainMatrix;
-            StrainTuple strainTuple = TupleConverter.ConvertToStrainTuple(loaderStrainMatrix);
+            StrainTuple strainTuple = ForceTupleConverter.ConvertToStrainTuple(loaderStrainMatrix);
             return strainTuple;
         }
         private bool CheckInputData()

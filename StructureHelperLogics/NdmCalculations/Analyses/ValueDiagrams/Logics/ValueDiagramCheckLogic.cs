@@ -6,11 +6,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams.Logics
     public class ValueDiagramCheckLogic : CheckEntityLogic<IValueDiagram>
     {
         private const double minDistance = 1e-3;
-        private bool result;
 
         public override bool Check()
         {
-            result = true;
+            bool result = true;
             if (Entity is null)
             {
                 string errorString = ErrorStrings.ParameterIsNull + ": value diagram";

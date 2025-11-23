@@ -15,7 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// <inheritdoc/>
         public INdm ConcreteNdm { get; set; }
         /// <inheritdoc/>
-        public IForceTuple Tuple { get; set; }
+        public IForceTuple ForceTuple { get; set; }
         /// <inheritdoc/>
         public IEnumerable<INdm> CheckedNdmCollection { get; set; }
         /// <inheritdoc/>

@@ -5,6 +5,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {
     public class CurvatureCalculatorInputDataUpdateStrategy : IParentUpdateStrategy<ICurvatureCalculatorInputData>
     {
+        private IUpdateStrategy<IDeflectionFactor> deflectionUpdateStrategy;
+        private IUpdateStrategy<IDeflectionFactor> DeflectionUpdateStrategy => deflectionUpdateStrategy ??= new DeflectionFactorUpdateStrategy();
+
         public bool UpdateChildren { get; set; } = true;
 
         public void Update(ICurvatureCalculatorInputData targetObject, ICurvatureCalculatorInputData sourceObject)
@@ -13,19 +16,23 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
             CheckObject.ThrowIfNull(targetObject, nameof(targetObject));
             if (ReferenceEquals(targetObject, sourceObject))
                 return;
-            targetObject.DeflectionFactor = sourceObject.DeflectionFactor;
-            targetObject.SpanLength = sourceObject.SpanLength;
+
             if (UpdateChildren == true)
             {
-                CheckObject.ThrowIfNull(sourceObject.Primitives);
-                CheckObject.ThrowIfNull(targetObject.Primitives);
+                CheckProperties(targetObject, sourceObject);
                 targetObject.Primitives.Clear();
                 targetObject.Primitives.AddRange(sourceObject.Primitives);
-                CheckObject.ThrowIfNull(sourceObject.ForceActions);
-                CheckObject.ThrowIfNull(targetObject.ForceActions);
                 targetObject.ForceActions.Clear();
                 targetObject.ForceActions.AddRange(sourceObject.ForceActions);
             }
+        }
+
+        private static void CheckProperties(ICurvatureCalculatorInputData targetObject, ICurvatureCalculatorInputData sourceObject)
+        {
+            CheckObject.ThrowIfNull(sourceObject.Primitives);
+            CheckObject.ThrowIfNull(targetObject.Primitives);
+            CheckObject.ThrowIfNull(sourceObject.ForceActions);
+            CheckObject.ThrowIfNull(targetObject.ForceActions);
         }
     }
 }

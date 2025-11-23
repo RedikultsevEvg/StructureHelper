@@ -69,7 +69,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 
         private void CheckPrimitives()
         {
-            checkPrimitiveCollectionLogic ??= new CheckPrimitiveCollectionLogic(
+            checkPrimitiveCollectionLogic ??= new HasPrimitivesCheckLogic(
                 TraceLogger,
                 new CheckRebarPrimitiveLogic()
                 {

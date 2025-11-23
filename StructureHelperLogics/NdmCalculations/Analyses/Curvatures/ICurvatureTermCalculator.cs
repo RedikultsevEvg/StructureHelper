@@ -5,8 +5,8 @@ using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {
-    public interface ICurvatureTermCalcualtor : ILogicCalculator
+    public interface ICurvatureTermCalculator : ILogicCalculator
     {
-        ICurvatureTermCalcualtorInputData InputData { get; set; }
+        ICurvatureTermCalculatorInputData InputData { get; set; }
     }
 }

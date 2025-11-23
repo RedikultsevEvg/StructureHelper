@@ -6,6 +6,7 @@ using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
+using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -64,6 +65,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 else if (calculator is IValueDiagramCalculator valueDiagramCalculator)
                 {
                     cloningStrategyContainer.ValueDiagramCalculatorStrategy.Update(newCalculator as IValueDiagramCalculator, valueDiagramCalculator);
+                }
+                else if (calculator is ICurvatureCalculator curvatureCalculator)
+                {
+                    cloningStrategyContainer.CurvatureCalculatorStrategy.Update(newCalculator as ICurvatureCalculator, curvatureCalculator);
                 }
                 else
                 {

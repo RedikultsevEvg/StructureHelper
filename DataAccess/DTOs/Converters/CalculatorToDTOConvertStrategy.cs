@@ -4,6 +4,7 @@ using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
 
@@ -65,9 +66,24 @@ namespace DataAccess.DTOs
             {
                 return ProcessValueDiagramCalcualtor(valueDiagramCalculator);
             }
+            if (source is CurvatureCalculator curvatureCalculator)
+            {
+                return ProcessCurvatureCalcualtor(curvatureCalculator);
+            }
             string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source);
             TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
             throw new StructureHelperException(errorString);
+        }
+
+        private ICalculator ProcessCurvatureCalcualtor(CurvatureCalculator calculator)
+        {
+            var convertStrategy = new CurvatureCalculatorToDTOConvertStrategy()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger,
+            };
+            var dictionaryConvertStrategy = new DictionaryConvertStrategy<CurvatureCalculatorDTO, ICurvatureCalculator>(this, convertStrategy);
+            return dictionaryConvertStrategy.Convert(calculator);
         }
 
         private ValueDiagramCalculatorDTO ProcessValueDiagramCalcualtor(IValueDiagramCalculator valueDiagramCalculator)
@@ -78,7 +94,7 @@ namespace DataAccess.DTOs
                 TraceLogger = TraceLogger
             };
             var dictionaryConvertStrategy = new DictionaryConvertStrategy<ValueDiagramCalculatorDTO, IValueDiagramCalculator>(this, convertStrategy);
-            return convertStrategy.Convert(valueDiagramCalculator);
+            return dictionaryConvertStrategy.Convert(valueDiagramCalculator);
         }
 
         private CrackCalculatorDTO ProcessCrackCalculator(ICrackCalculator crackCalculator)

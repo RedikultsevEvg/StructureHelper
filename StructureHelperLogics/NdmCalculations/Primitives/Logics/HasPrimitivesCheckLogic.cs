@@ -1,10 +1,11 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
+using StructureHelperLogics.NdmCalculations.Primitives.Logics;
 
-namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
+namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public class CheckPrimitiveCollectionLogic : ICheckEntityLogic<IHasPrimitives>
+    public class HasPrimitivesCheckLogic : ICheckEntityLogic<IHasPrimitives>
     {
         private const string collectionDoesntHaveAnyPrimitives = "Calculator does not contain any primitives\n";
         private const string checkRebarLogic = ": check rebar logic";
@@ -19,7 +20,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public CheckPrimitiveCollectionLogic(
+        public HasPrimitivesCheckLogic(
             IShiftTraceLogger shiftTraceLogger,
             ICheckEntityLogic<IRebarNdmPrimitive> checkRebarPrimitiveLogic)
         {
@@ -27,7 +28,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
             this.checkRebarPrimitiveLogic = checkRebarPrimitiveLogic;
         }
 
-        public CheckPrimitiveCollectionLogic() : this (new ShiftTraceLogger(), new CheckRebarPrimitiveLogic())
+        public HasPrimitivesCheckLogic() : this (new ShiftTraceLogger(), new CheckRebarPrimitiveLogic())
         {
             
         }

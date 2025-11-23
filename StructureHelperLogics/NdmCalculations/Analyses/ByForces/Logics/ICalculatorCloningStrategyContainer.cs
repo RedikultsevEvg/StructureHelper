@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
 
@@ -10,5 +11,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         IUpdateStrategy<ICrackCalculator> CrackCalculatorStrategy { get; }
         IUpdateStrategy<ILimitCurvesCalculator> LimitCurvesCalculatorStrategy { get; }
         IUpdateStrategy<IValueDiagramCalculator> ValueDiagramCalculatorStrategy { get; }
+        IUpdateStrategy<ICurvatureCalculator> CurvatureCalculatorStrategy { get; }
     }
 }

@@ -5,7 +5,8 @@ using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {
-    public interface ICurvatureForceCalcualtor : ILogicCalculator
+    public interface ICurvatureForceCalculator : ILogicCalculator
     {
+        ICurvatureForceCalculatorInputData InputData { get; set; }
     }
 }

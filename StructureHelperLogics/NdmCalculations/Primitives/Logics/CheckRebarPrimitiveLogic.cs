@@ -1,14 +1,8 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
-using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Materials;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StructureHelperLogics.NdmCalculations.Primitives.Logics
+namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public class CheckRebarPrimitiveLogic : ICheckEntityLogic<IRebarNdmPrimitive>
     {

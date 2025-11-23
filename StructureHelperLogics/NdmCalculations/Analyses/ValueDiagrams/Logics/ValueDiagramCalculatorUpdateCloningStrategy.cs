@@ -8,13 +8,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
     public class ValueDiagramCalculatorUpdateCloningStrategy : IUpdateStrategy<IValueDiagramCalculator>
     {
         private readonly ICloningStrategy cloningStrategy;
-        private readonly IUpdateStrategy<IHasForceActions> forcesUpdateStrategy;
-        private readonly IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
+        private IUpdateStrategy<IHasForceActions> forcesUpdateStrategy;
+        private IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
+        private IUpdateStrategy<IHasForceActions> ForcesUpdateStrategy => forcesUpdateStrategy ??= new HasForceActionUpdateCloningStrategy(cloningStrategy);
+        private IUpdateStrategy<IHasPrimitives> PrimitivesUpdateStrategy => primitivesUpdateStrategy ??= new HasPrimitivesUpdateCloningStrategy(cloningStrategy);
 
-        public ValueDiagramCalculatorUpdateCloningStrategy(ICloningStrategy cloningStrategy) : this(
-            cloningStrategy,
-            new HasForceActionUpdateCloningStrategy(cloningStrategy),
-            new HasPrimitivesUpdateCloningStrategy(cloningStrategy))
+        public ValueDiagramCalculatorUpdateCloningStrategy(ICloningStrategy cloningStrategy)
         {
             this.cloningStrategy = cloningStrategy;
         }
@@ -37,8 +36,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             var sourceData = sourceObject.InputData;
             var targetData = targetObject.InputData;
-            primitivesUpdateStrategy.Update(targetData, sourceData);
-            forcesUpdateStrategy.Update(targetData, sourceData);
+            PrimitivesUpdateStrategy.Update(targetData, sourceData);
+            ForcesUpdateStrategy.Update(targetData, sourceData);
         }
     }
 }

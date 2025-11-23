@@ -175,7 +175,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 TraceLogger?.AddMessage("Bearing capacity of cross-section is not enough for action", TraceLogStatuses.Error);
                 return null;
             }
-            var strain = TupleConverter.ConvertToStrainTuple(forceResult.LoaderResults.StrainMatrix);
+            var strain = ForceTupleConverter.ConvertToStrainTuple(forceResult.LoaderResults.StrainMatrix);
             return strain;
         }
 
@@ -183,7 +183,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             lengthLogic.NdmCollection = elasticNdms;
             lengthLogic.TraceLogger = TraceLogger;
-            lengthLogic.StrainMatrix = TupleConverter.ConvertToLoaderStrainMatrix(strainTuple);
+            lengthLogic.StrainMatrix = ForceTupleConverter.ConvertToLoaderStrainMatrix(strainTuple);
             return lengthLogic.GetLength();
         }
 

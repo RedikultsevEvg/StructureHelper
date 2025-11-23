@@ -58,6 +58,18 @@ namespace DataAccess.DTOs
             newList.AddRange(GetNdmPrimitiveList());
             newList.AddRange(GetBeamShearList());
             newList.AddRange(GetValueDiagramList());
+            newList.AddRange(GetCurvatureList());
+            return newList;
+        }
+
+        private static IEnumerable<(Type type, string name)> GetCurvatureList()
+        {
+            List<(Type type, string name)> newList = new()
+            {
+                { (typeof(CurvatureCalculatorDTO), "CurvatureCalculator") },
+                { (typeof(CurvatureCalculatorInputDataDTO), "CurvatureCalculatorInputData") },
+                { (typeof(DeflectionFactorDTO), "DeflectionFactor") },
+            };
             return newList;
         }
 

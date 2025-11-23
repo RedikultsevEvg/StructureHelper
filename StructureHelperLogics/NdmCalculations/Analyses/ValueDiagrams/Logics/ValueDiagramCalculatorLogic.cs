@@ -61,7 +61,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
                     var newTuple = forcelogic.GetValue();
                     GetForceTupleResult(forceAction, newTuple);
                 }
-
             }
         }
 

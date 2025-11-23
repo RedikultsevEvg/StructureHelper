@@ -14,33 +14,22 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     {
         static readonly IStressLogic stressLogic = new StressLogic();
         /// <inheritdoc/>
-        public IForceTuple Tuple { get; set; }
+        public IForceTuple ForceTuple { get; set; }
         public IEnumerable<INdm> CheckedNdmCollection { get; set; }
         public IEnumerable<INdm> SectionNdmCollection { get; set; }
-        public Accuracy Accuracy { get; set; }
+        public Accuracy Accuracy { get; set; } = new Accuracy() { IterationAccuracy = 0.001d, MaxIterationCount = 10000};
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public IsSectionCrackedByForceLogic()
-        {
-            if (Accuracy is null)
-            {
-                Accuracy = new Accuracy()
-                {
-                    IterationAccuracy = 0.001d,
-                    MaxIterationCount = 10000
-                };
-            }
-        }
         public bool IsSectionCracked()
         {
             TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLogStatuses.Service);
             TraceLogger?.AddMessage($"It is assumed, that cracks appearence if: cross-section has elementary parts of concrete and strain of concrete greater than limit value");
             TraceLogger?.AddMessage($"Force combination for cracking check");
-            TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(Tuple));
+            TraceLogger?.AddEntry(new TraceTablesFactory().GetByForceTuple(ForceTuple));
             var inputData = new ForceTupleInputData()
             {
                 Accuracy = Accuracy,
-                ForceTuple = Tuple,
+                ForceTuple = ForceTuple,
                 NdmCollection = SectionNdmCollection
             };
             var calculator = new ForceTupleCalculator() { InputData = inputData };

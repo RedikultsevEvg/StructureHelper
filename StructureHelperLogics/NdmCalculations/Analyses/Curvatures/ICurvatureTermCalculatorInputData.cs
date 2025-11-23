@@ -5,10 +5,11 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {
-    public interface ICurvatureTermCalcualtorInputData : IInputData, IHasPrimitives
+    public interface ICurvatureTermCalculatorInputData : IInputData, IHasPrimitives
     {
-        IForceTuple DesignForceTuple { get; set; }
+        IForceTuple ForceTuple { get; set; }
         CalcTerms LoadTerm { get; set; }
         CalcTerms CalculationTerm { get; set; }
+        IDeflectionFactor DeflectionFactor { get; set; }
     }
 }

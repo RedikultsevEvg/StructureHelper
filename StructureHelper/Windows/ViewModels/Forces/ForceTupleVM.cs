@@ -1,10 +1,6 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelperCommon.Models.Forces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.ViewModels.Forces
 {
@@ -16,7 +12,8 @@ namespace StructureHelper.Windows.ViewModels.Forces
             get => forceTuple.Mx;
             set
             {
-                forceTuple.Mx = value;
+                forceTuple.Mx = Math.Max(value, MinMx);
+                forceTuple.Mx = Math.Min(value, MaxMx);
                 OnPropertyChanged(nameof(Mx));
             }
         }
@@ -25,7 +22,8 @@ namespace StructureHelper.Windows.ViewModels.Forces
             get => forceTuple.My;
             set
             {
-                forceTuple.My = value;
+                forceTuple.My = Math.Max(value, MinMy);
+                forceTuple.My = Math.Min(value, MaxMy);
                 OnPropertyChanged(nameof(My));
             }
         }
@@ -34,7 +32,8 @@ namespace StructureHelper.Windows.ViewModels.Forces
             get => forceTuple.Nz;
             set
             {
-                forceTuple.Nz = value;
+                forceTuple.Nz = Math.Max(value, MinNz);
+                forceTuple.Nz = Math.Min(value, MaxNz);
                 OnPropertyChanged(nameof(Nz));
             }
         }
@@ -65,6 +64,20 @@ namespace StructureHelper.Windows.ViewModels.Forces
                 OnPropertyChanged(nameof(Mz));
             }
         }
+
+        public double MaxMx { get; set; } = double.PositiveInfinity;
+        public double MinMx { get; set; } = double.NegativeInfinity;
+        public double MaxMy { get; set; } = double.PositiveInfinity;
+        public double MinMy { get; set; } = double.NegativeInfinity;
+        public double MaxNz { get; set; } = double.PositiveInfinity;
+        public double MinNz { get; set; } = double.NegativeInfinity;
+        public double MaxMz { get; set; } = double.PositiveInfinity;
+        public double MinMz { get; set; } = double.NegativeInfinity;
+        public double MaxQx { get; set; } = double.PositiveInfinity;
+        public double MinQx { get; set; } = double.NegativeInfinity;
+        public double MaxQy { get; set; } = double.PositiveInfinity;
+        public double MinQy { get; set; } = double.NegativeInfinity;
+
         public ForceTupleVM(IForceTuple forceTuple)
         {
             this.forceTuple = forceTuple;

@@ -33,7 +33,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
                 CheckRebarHostMaterial = false,
                 CheckRebarPlacement = false
             };
-            primitivesCheckLogic = new CheckPrimitiveCollectionLogic(TraceLogger, checkRebarPrimitiveLogic);
+            primitivesCheckLogic = new HasPrimitivesCheckLogic(TraceLogger, checkRebarPrimitiveLogic);
             actionsCheckLogic = new CheckForceActionsLogic(TraceLogger);
         }
 

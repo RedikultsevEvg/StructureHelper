@@ -17,7 +17,7 @@ namespace StructureHelperTests.UnitTests.Ndms
         private Mock<IShiftTraceLogger> _mockTraceLogger;
         private Mock<ICheckEntityLogic<IRebarNdmPrimitive>> _mockCheckRebarPrimitiveLogic;
         private Mock<IHasPrimitives> _mockHasPrimitives;
-        private Mock<CheckPrimitiveCollectionLogic> _mockCheckPrimitiveCollectionLogic;
+        private Mock<HasPrimitivesCheckLogic> _mockCheckPrimitiveCollectionLogic;
 
         [SetUp]
         public void SetUp()
@@ -26,7 +26,7 @@ namespace StructureHelperTests.UnitTests.Ndms
             _mockCheckRebarPrimitiveLogic = new Mock<ICheckEntityLogic<IRebarNdmPrimitive>>();
             _mockHasPrimitives = new Mock<IHasPrimitives>();
 
-            _mockCheckPrimitiveCollectionLogic = new Mock<CheckPrimitiveCollectionLogic>(_mockTraceLogger.Object, _mockCheckRebarPrimitiveLogic.Object)
+            _mockCheckPrimitiveCollectionLogic = new Mock<HasPrimitivesCheckLogic>(_mockTraceLogger.Object, _mockCheckRebarPrimitiveLogic.Object)
             {
                 CallBase = true
             };

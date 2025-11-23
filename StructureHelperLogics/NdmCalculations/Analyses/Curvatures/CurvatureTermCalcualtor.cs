@@ -6,10 +6,10 @@ using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {
-    public class CurvatureTermCalcualtor : ICurvatureTermCalcualtor
+    public class CurvatureTermCalcualtor : ICurvatureTermCalculator
     {
-        private ICurvatureTermCalcualtorResult result;
-        public ICurvatureTermCalcualtorInputData InputData { get; set; }
+        private ICurvatureTermCalculatorResult result;
+        public ICurvatureTermCalculatorInputData InputData { get; set; }
 
         public IResult Result => result;
 

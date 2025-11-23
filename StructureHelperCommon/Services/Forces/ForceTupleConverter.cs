@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace StructureHelperCommon.Services.Forces
 {
-    public static class TupleConverter
+    public static class ForceTupleConverter
     {
         static readonly IStressLogic stressLogic = new StressLogic();
         public static StrainMatrix ConvertToLoaderStrainMatrix(StrainTuple strainTuple)
@@ -26,6 +26,17 @@ namespace StructureHelperCommon.Services.Forces
         public static StrainTuple ConvertToStrainTuple(IStrainMatrix strainMatrix)
         {
             StrainTuple strainTuple = new StrainTuple() { Mx = strainMatrix.Kx, My = strainMatrix.Ky, Nz = strainMatrix.EpsZ };
+            return strainTuple;
+        }
+
+        public static ForceTuple ConvertToForceTuple(IStrainMatrix strainMatrix)
+        {
+            ForceTuple strainTuple = new()
+            {
+                Mx = strainMatrix.Kx,
+                My = strainMatrix.Ky,
+                Nz = strainMatrix.EpsZ
+            };
             return strainTuple;
         }
 

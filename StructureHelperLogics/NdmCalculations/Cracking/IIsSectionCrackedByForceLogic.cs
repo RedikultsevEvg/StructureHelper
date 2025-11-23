@@ -1,23 +1,17 @@
 ﻿using LoaderCalculator.Data.Ndms;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     /// <summary>
     /// Logic for checking collection of ndms for appearance of crack
     /// </summary>
-    public interface IIsSectionCrackedByForceLogic : ILogic
+    public interface IIsSectionCrackedByForceLogic : IIsSectionCracked
     {
         /// <summary>
         /// Force tuple for checking of cracks appearence
         /// </summary>
-        IForceTuple Tuple { get; set; }
+        IForceTuple ForceTuple { get; set; }
         /// <summary>
         /// Collection of ndms which is checking for cracking
         /// </summary>
@@ -26,10 +20,5 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         /// Full ndms collection of cross-section
         /// </summary>
         IEnumerable<INdm> SectionNdmCollection { get; set; }
-        /// <summary>
-        /// Returns result of checking of cracks appearence
-        /// </summary>
-        /// <returns>True if Checked collectition contains cracked elements</returns>
-        bool IsSectionCracked();
     }
 }
