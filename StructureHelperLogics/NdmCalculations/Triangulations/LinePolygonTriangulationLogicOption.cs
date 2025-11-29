@@ -15,6 +15,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     public class LinePolygonTriangulationLogicOption : IShapeTriangulationLogicOptions
     {
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         public IPoint2D Center { get; set; }
         public IDivisionSize DivisionSize { get; set; }
         public ITriangulationOptions TriangulationOptions { get; set; }
@@ -29,7 +31,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             TriangulationOptions = triangulationOptions;
             Shape = primitive.Shape;
             HeadMaterial = primitive.NdmElement.HeadMaterial;
-            Prestrain = ForceTupleService.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
+            Prestrain = ForceTupleServiceLogic.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
         }
     }
 }

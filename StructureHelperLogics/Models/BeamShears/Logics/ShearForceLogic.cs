@@ -10,7 +10,9 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         private IGetLoadFactor getFactorLogic;
         private IGetDirectShearForceLogic getDirectShearForceLogic;
-        
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
+
         public IShearForceLogicInputData InputData { get;}
         public IShiftTraceLogger? TraceLogger { get; set; }
 
@@ -38,7 +40,7 @@ namespace StructureHelperLogics.Models.BeamShears
             InitializeStrategies();
             double factor = getFactorLogic.GetFactor();
             IForceTuple directShearForce = getDirectShearForceLogic.CalculateShearForceTuple();
-            IForceTuple shearForce = ForceTupleService.MultiplyTupleByFactor(directShearForce,factor);
+            IForceTuple shearForce = ForceTupleServiceLogic.MultiplyTupleByFactor(directShearForce,factor);
             return shearForce;
         }
 

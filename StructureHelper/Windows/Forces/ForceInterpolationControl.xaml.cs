@@ -1,20 +1,7 @@
 ﻿using StructureHelper.Windows.UserControls;
-using StructureHelper.Windows.ViewModels.Materials;
 using StructureHelperCommon.Services.Forces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace StructureHelper.Windows.Forces
 {
@@ -24,6 +11,8 @@ namespace StructureHelper.Windows.Forces
     public partial class ForceInterpolationControl : UserControl
     {
         private ForceTupleInterpolationViewModel? properties;
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
 
         public ForceTupleInterpolationViewModel? Properties
         {
@@ -41,16 +30,16 @@ namespace StructureHelper.Windows.Forces
         private void StartValueChanged(object sender, EventArgs e)
         {
             var obj = (MultiplyDouble)sender;
-            var tmpTuple = ForceTupleService.MultiplyTupleByFactor(Properties.StartDesignForce, obj.DoubleFactor);
-            ForceTupleService.CopyProperties(tmpTuple, Properties.StartDesignForce, 1d);
+            var tmpTuple = ForceTupleServiceLogic.MultiplyTupleByFactor(Properties.StartDesignForce, obj.DoubleFactor);
+            ForceTupleServiceLogic.CopyProperties(tmpTuple, Properties.StartDesignForce, 1d);
             Properties.RefreshStartTuple();
         }
 
         private void FinishValueChanged(object sender, EventArgs e)
         {
             var obj = (MultiplyDouble)sender;
-            var tmpTuple = ForceTupleService.MultiplyTupleByFactor(Properties.FinishDesignForce, obj.DoubleFactor);
-            ForceTupleService.CopyProperties(tmpTuple, Properties.FinishDesignForce, 1d);
+            var tmpTuple = ForceTupleServiceLogic.MultiplyTupleByFactor(Properties.FinishDesignForce, obj.DoubleFactor);
+            ForceTupleServiceLogic.CopyProperties(tmpTuple, Properties.FinishDesignForce, 1d);
             Properties.RefreshFinishTuple();
         }
 

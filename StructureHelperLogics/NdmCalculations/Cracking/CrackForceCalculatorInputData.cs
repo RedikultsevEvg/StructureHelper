@@ -1,24 +1,18 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Models.Forces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
+    /// <inheritdoc/>
     public class CrackForceCalculatorInputData : ICrackForceCalculatorInputData
     {
-        public IForceTuple StartTuple { get; set; }
-        public IForceTuple EndTuple { get; set; }
+        /// <inheritdoc/>
+        public IForceTuple StartTuple { get; set; } = new ForceTuple();
+        /// <inheritdoc/>
+        public IForceTuple EndTuple { get; set; } = new ForceTuple();
+        /// <inheritdoc/>
         public IEnumerable<INdm> CheckedNdmCollection { get; set; }
+        /// <inheritdoc/>
         public IEnumerable<INdm> SectionNdmCollection { get; set; }
-
-        public CrackForceCalculatorInputData()
-        {
-            StartTuple = new ForceTuple();
-            EndTuple = new ForceTuple();
-        }
     }
 }

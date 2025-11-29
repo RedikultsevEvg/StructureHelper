@@ -18,10 +18,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     {
         private const CalcTerms crackingTerm = CalcTerms.ShortTerm;
         private const LimitStates crackingLimitState = LimitStates.SLS;
-        private ILengthBetweenCracksLogic lengthLogic;
         private TupleCrackResult result;
         private ICrackedSectionTriangulationLogic triangulationLogic;
-        private ITupleRebarsCrackSolver solver;
         private List<IRebarNdmPrimitive>? rebarPrimitives;
         private IEnumerable<INdm> crackableNdms;
         private IEnumerable<INdm> crackedNdms;
@@ -32,6 +30,11 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private double longLength;
         private double shortLength;
         private ICheckInputDataLogic<TupleCrackInputData> checkInputDataLogic;
+        private ILengthBetweenCracksLogic lengthLogic;
+        private ITupleRebarsCrackSolver crackSolver;
+        private ICheckInputDataLogic<TupleCrackInputData> CheckInputDataLogic => checkInputDataLogic ??= new CheckTupleCalculatorInputDataLogic();
+        private ILengthBetweenCracksLogic LengthLogic => lengthLogic ??= new LengthBetweenCracksLogicSP63();
+        private ITupleRebarsCrackSolver CrackSolver => crackSolver ??= new TupleRebarsCrackSolver();
 
         public TupleCrackInputData InputData { get; set; }
         public IResult Result => result;
@@ -46,16 +49,10 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             this.checkInputDataLogic = checkInputDataLogic;
             this.lengthLogic = lengthLogic;
             this.triangulationLogic = triangulationLogic;
-            this.solver = solver;
+            this.crackSolver = solver;
         }
 
-        public TupleCrackCalculator() : this (new CheckTupleCalculatorInputDataLogic(),
-            new LengthBetweenCracksLogicSP63(),
-            new CrackedSectionTriangulationLogic(),
-            new TupleRebarsCrackSolver())
-        {
-            
-        }
+        public TupleCrackCalculator() { }
 
         public void Run()
         {
@@ -139,19 +136,19 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         private void SolveRebarResult()
         {
             result.RebarResults.Clear();
-            solver.Rebars = rebarPrimitives;
-            solver.InputData = InputData;
-            solver.LongLength = longLength;
-            solver.ShortLength = shortLength;
-            solver.TraceLogger = TraceLogger?.GetSimilarTraceLogger(0);
-            solver.Run();
-            if (solver.IsResultValid == false)
+            CrackSolver.Rebars = rebarPrimitives;
+            CrackSolver.InputData = InputData;
+            CrackSolver.LongLength = longLength;
+            CrackSolver.ShortLength = shortLength;
+            CrackSolver.TraceLogger = TraceLogger?.GetSimilarTraceLogger(0);
+            CrackSolver.Run();
+            if (CrackSolver.IsResultValid == false)
             {
                 result.IsValid = false;
-                result.Description += solver.Description;
+                result.Description += CrackSolver.Description;
                 return;
             }
-            result.RebarResults.AddRange(solver.Result);
+            result.RebarResults.AddRange(CrackSolver.Result);
         }
 
         private StrainTuple CalcStrainMatrix(ForceTuple forceTuple, IEnumerable<INdm> ndms)
@@ -181,15 +178,15 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private double GetLengthBetweenCracks(StrainTuple strainTuple)
         {
-            lengthLogic.NdmCollection = elasticNdms;
-            lengthLogic.TraceLogger = TraceLogger;
-            lengthLogic.StrainMatrix = ForceTupleConverter.ConvertToLoaderStrainMatrix(strainTuple);
-            return lengthLogic.GetLength();
+            LengthLogic.NdmCollection = elasticNdms;
+            LengthLogic.TraceLogger = TraceLogger;
+            LengthLogic.StrainMatrix = ForceTupleConverter.ConvertToLoaderStrainMatrix(strainTuple);
+            return LengthLogic.GetLength();
         }
 
         private void Triangulate()
         {
-            triangulationLogic = new CrackedSectionTriangulationLogic(InputData.Primitives)
+            triangulationLogic = new CrackedSectionTriangulationLogic(InputData.Primitives, crackingTerm)
             {
                 //TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
             };
@@ -201,12 +198,12 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         private bool CheckInputData()
         {
-            checkInputDataLogic.InputData = InputData;
-            if (checkInputDataLogic.Check() == false)
+            CheckInputDataLogic.InputData = InputData;
+            if (CheckInputDataLogic.Check() == false)
             {
                 result.IsValid = false;
-                result.Description += checkInputDataLogic.CheckResult;
-                TraceLogger?.AddMessage($"Input data is not correct: {checkInputDataLogic.CheckResult}", TraceLogStatuses.Error);
+                result.Description += CheckInputDataLogic.CheckResult;
+                TraceLogger?.AddMessage($"Input data is not correct: {CheckInputDataLogic.CheckResult}", TraceLogStatuses.Error);
                 return false;
             };
             return true;

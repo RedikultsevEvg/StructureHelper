@@ -1,13 +1,9 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Parameters;
-using StructureHelperCommon.Services.Units;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Documents;
 
 namespace StructureHelperCommon.Services.Units
 {

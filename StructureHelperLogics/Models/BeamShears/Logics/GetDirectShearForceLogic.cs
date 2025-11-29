@@ -20,6 +20,8 @@ namespace StructureHelperLogics.Models.BeamShears
         private IDirectShearForceLogicInputData inputData;
         private ISumForceByShearLoadLogic summaryForceLogic;
         private ICheckInputDataLogic<IDirectShearForceLogicInputData> checkInputDataLogic;
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
 
         /// <inheritdoc/>
         public IShiftTraceLogger? TraceLogger { get; set; }
@@ -38,7 +40,7 @@ namespace StructureHelperLogics.Models.BeamShears
             Check();
             IForceTuple externalTuple = CalculateExternalForceTuple();
             IForceTuple internalTuple = CalculateInternalForceTuple();
-            IForceTuple totalTuple = ForceTupleService.SumTuples(internalTuple, externalTuple);
+            IForceTuple totalTuple = ForceTupleServiceLogic.SumTuples(internalTuple, externalTuple);
             TraceLogger?.AddMessage($"Total longitudinal force = {totalTuple.Nz}(N)");
             TraceLogger?.AddMessage($"Total shear force = {totalTuple.Qy}(N)");
             return totalTuple;
@@ -83,7 +85,7 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger?.AddMessage($"End of inclined section a,end = {inputData.InclinedSection.EndCoord}(m)");
             ForceTuple summarySpanShearForce = GetSummarySpanShearForce(beamShearAxisAction.ShearLoads);
             TraceLogger?.AddMessage($"Summary span shear force deltaQ = {summarySpanShearForce.Qy}(N)");
-            IForceTuple shearForce = ForceTupleService.SumTuples(supportShearForce, summarySpanShearForce);
+            IForceTuple shearForce = ForceTupleServiceLogic.SumTuples(supportShearForce, summarySpanShearForce);
             TraceLogger?.AddMessage($"Summary shear force at the end of inclined section Q = {shearForce.Qy}(N)");
             return shearForce;
         }
@@ -94,7 +96,7 @@ namespace StructureHelperLogics.Models.BeamShears
             foreach (var spanLoad in spanLoads)
             {
                 IForceTuple summarySpanLoad = summaryForceLogic.GetSumShearForce(spanLoad, inputData.InclinedSection.StartCoord, inputData.InclinedSection.EndCoord);
-                ForceTupleService.SumTupleToTarget(summarySpanLoad, summarySpanShearForce);
+                ForceTupleServiceLogic.SumTupleToTarget(summarySpanLoad, summarySpanShearForce);
             }
             return summarySpanShearForce;
         }

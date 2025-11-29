@@ -7,6 +7,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {
     public interface ICurvatureTermCalculator : ILogicCalculator
     {
-        ICurvatureTermCalculatorInputData InputData { get; set; }
+        ICurvatureForceCalculatorInputData InputData { get; set; }
     }
 }

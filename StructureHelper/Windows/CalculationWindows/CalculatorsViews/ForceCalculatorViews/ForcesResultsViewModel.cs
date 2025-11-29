@@ -51,6 +51,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private IEnumerable<INdmPrimitive> selectedNdmPrimitives;
         private IEnumerable<INdm> ndms;
         private IReport isoFieldReport;
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
 
         public static GeometryNames GeometryNames => ProgramSetting.GeometryNames;
 
@@ -315,7 +317,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             {
                 foreach (var item in ndmPrimitives)
                 {
-                    ForceTupleService.CopyProperties(wnd.StrainTuple, item.NdmElement.AutoPrestrain);
+                    ForceTupleServiceLogic.CopyProperties(wnd.StrainTuple, item.NdmElement.AutoPrestrain);
                 }
             }
         }

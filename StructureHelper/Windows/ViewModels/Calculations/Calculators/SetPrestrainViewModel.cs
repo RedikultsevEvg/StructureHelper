@@ -13,6 +13,8 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
     {
         StrainTuple SourceTuple;
         private double coefficient;
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
 
         public double Coefficient
         {
@@ -35,7 +37,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
         public StrainTuple GetStrainTuple()
         {
             var result = new StrainTuple();
-            ForceTupleService.CopyProperties(SourceTuple, result, coefficient);
+            ForceTupleServiceLogic.CopyProperties(SourceTuple, result, coefficient);
             return result;
         }
     }

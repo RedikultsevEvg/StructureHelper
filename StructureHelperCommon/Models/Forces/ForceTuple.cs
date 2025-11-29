@@ -9,6 +9,8 @@ namespace StructureHelperCommon.Models.Forces
     public class ForceTuple : IForceTuple
     {
         private readonly IUpdateStrategy<IForceTuple> updateStrategy = new ForceTupleUpdateStrategy();
+        private static IForceTupleServiceLogic forceTupleServiceLogic;
+        private static IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         /// <inheritdoc/>
         public Guid Id { get; }
         /// <inheritdoc/>
@@ -54,7 +56,7 @@ namespace StructureHelperCommon.Models.Forces
         public static ForceTuple operator +(ForceTuple first) => first;
         public static ForceTuple operator +(ForceTuple first, ForceTuple second)
         {
-            return ForceTupleService.SumTuples(first, second) as ForceTuple;
+            return ForceTupleServiceLogic.SumTuples(first, second) as ForceTuple;
         }
     }
 }

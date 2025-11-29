@@ -21,6 +21,8 @@ namespace StructureHelperCommon.Models.Forces.Logics
         private IForceTuple? fullSLSTuple;
         private List<LimitStates> limitStates = new() { LimitStates.ULS, LimitStates.SLS };
         private List<CalcTerms> calcTerms = new() { CalcTerms.ShortTerm, CalcTerms.LongTerm };
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
 
         public IForceTuple? SourceForceTuple { get; set; }
         public IFactoredCombinationProperty? CombinationProperty { get; set; }
@@ -45,7 +47,7 @@ namespace StructureHelperCommon.Models.Forces.Logics
             {
                 factor /= CombinationProperty.ULSFactor;
             }
-            fullSLSTuple = ForceTupleService.MultiplyTupleByFactor(SourceForceTuple, factor);
+            fullSLSTuple = ForceTupleServiceLogic.MultiplyTupleByFactor(SourceForceTuple, factor);
         }
 
         private void Check()
@@ -84,7 +86,7 @@ namespace StructureHelperCommon.Models.Forces.Logics
         private void ProcessCalcTerm(LimitStates limitState, double stateFactor, CalcTerms calcTerm)
         {
             var factor = calcTerm is CalcTerms.ShortTerm ? 1d : CombinationProperty.LongTermFactor;
-            IForceTuple forceTuple = ForceTupleService.MultiplyTupleByFactor(fullSLSTuple, stateFactor * factor);
+            IForceTuple forceTuple = ForceTupleServiceLogic.MultiplyTupleByFactor(fullSLSTuple, stateFactor * factor);
             var designForceTuple = new DesignForceTuple
             {
                 LimitState = limitState,

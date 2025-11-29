@@ -6,8 +6,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {
     public interface ICurvatureForceCalculatorInputData : IInputData, IHasPrimitives
     {
-        IForceTuple LongTermTuple { get; set; }
-        IForceTuple ShortTermTuple { get; set; }
+        IDesignForcePair ForcePair {get;set;}
         IDeflectionFactor DeflectionFactor { get; set; }
     }
 }

@@ -17,6 +17,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     internal class RebarTriangulationLogic : ITriangulationLogic
     {
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         private readonly RebarTriangulationLogicOptions options;
         public RebarTriangulationLogic(ITriangulationLogicOptions options)
         {
@@ -60,7 +62,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 .HeadMaterial
                 .GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm);
             
-            var prestrain = ForceTupleService.SumTuples(hostPrimitive.NdmElement.UsersPrestrain,
+            var prestrain = ForceTupleServiceLogic.SumTuples(hostPrimitive.NdmElement.UsersPrestrain,
                 hostPrimitive.NdmElement.AutoPrestrain)
                 as StrainTuple;
 

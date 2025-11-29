@@ -9,11 +9,16 @@ namespace StructureHelperCommon.Models.Forces
 {
     public class ForceActionUpdateStrategy : IUpdateStrategy<IForceAction>
     {
-        private readonly IUpdateStrategy<IForceAction> forceActionUpdateStrategy;
-        private readonly IUpdateStrategy<IDesignForcePair> forcePairUpdateStrategy;
-        private readonly IUpdateStrategy<IForceFactoredList> factorUpdateStrategy;
-        private readonly IUpdateStrategy<IForceCombinationList> forceListUpdateStrategy;
-        private readonly IUpdateStrategy<IForceCombinationFromFile> fileCombinationUpdateStrategy;
+        private IUpdateStrategy<IForceAction> forceUpdateStrategy;
+        private IUpdateStrategy<IDesignForcePair> pairUpdateStrategy;
+        private IUpdateStrategy<IForceFactoredList> factorUpdateStrategy;
+        private IUpdateStrategy<IForceCombinationList> forceListUpdateStrategy;
+        private IUpdateStrategy<IForceCombinationFromFile> fileCombinationUpdateStrategy;
+        private IUpdateStrategy<IForceAction> ForceUpdateStrategy => forceUpdateStrategy ??= new ForceActionBaseUpdateStrategy();
+        private IUpdateStrategy<IDesignForcePair> PairUpdateStrategy => pairUpdateStrategy ??= new ForcePairUpdateStrategy();
+        private IUpdateStrategy<IForceFactoredList> FactorUpdateStrategy => factorUpdateStrategy ??= new ForceFactoredListUpdateStrategy();
+        private IUpdateStrategy<IForceCombinationList> ForceListUpdateStrategy => forceListUpdateStrategy ??= new ForceCombinationListUpdateStrategy();
+        private IUpdateStrategy<IForceCombinationFromFile> FileCombinationUpdateStrategy => fileCombinationUpdateStrategy ??= new ForceCombinationFromFileUpdateStrategy();
 
         public ForceActionUpdateStrategy(
             IUpdateStrategy<IForceAction> forceActionUpdateStrategy,
@@ -22,20 +27,14 @@ namespace StructureHelperCommon.Models.Forces
             IUpdateStrategy<IForceCombinationList> forceListUpdateStrategy,
             IUpdateStrategy<IForceCombinationFromFile> fileCombinationUpdateStrategy)
         {
-            this.forceActionUpdateStrategy = forceActionUpdateStrategy;
-            this.forcePairUpdateStrategy = forcePairUpdateStrategy;
+            this.forceUpdateStrategy = forceActionUpdateStrategy;
+            this.pairUpdateStrategy = forcePairUpdateStrategy;
             this.factorUpdateStrategy = factorUpdateStrategy;
             this.forceListUpdateStrategy = forceListUpdateStrategy;
             this.fileCombinationUpdateStrategy = fileCombinationUpdateStrategy;
         }
 
-        public ForceActionUpdateStrategy() : this(
-             new ForceActionBaseUpdateStrategy(),
-             new ForcePairUpdateStrategy(),
-             new ForceFactoredListUpdateStrategy(),
-             new ForceCombinationListUpdateStrategy(),
-             new ForceCombinationFromFileUpdateStrategy()
-             )
+        public ForceActionUpdateStrategy() 
         {
             
         }
@@ -45,27 +44,31 @@ namespace StructureHelperCommon.Models.Forces
             CheckObject.ThrowIfNull(targetObject);
             CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            forceActionUpdateStrategy.Update(targetObject, sourceObject);
+            ForceUpdateStrategy.Update(targetObject, sourceObject);
             UpdateChildProperties(targetObject, sourceObject);
         }
 
         private void UpdateChildProperties(IForceAction targetObject, IForceAction sourceObject)
         {
+            if (sourceObject.GetType() != targetObject.GetType())
+                {
+                    throw new StructureHelperException(ErrorStrings.ExpectedWas(targetObject.GetType(), sourceObject.GetType() + $": source object type is not {targetObject.GetType()}"));
+                }
             if (targetObject is IDesignForcePair pair)
             {
-                forcePairUpdateStrategy.Update(pair, (IDesignForcePair)sourceObject);
+                PairUpdateStrategy.Update(pair, (IDesignForcePair)sourceObject);
             }
             else if (targetObject is IForceFactoredList combination)
             {
-                factorUpdateStrategy.Update(combination, (IForceFactoredList)sourceObject);
+                FactorUpdateStrategy.Update(combination, (IForceFactoredList)sourceObject);
             }
             else if (targetObject is IForceCombinationList forceCombinationList)
             {
-                forceListUpdateStrategy.Update(forceCombinationList, (IForceCombinationList)sourceObject);
+                ForceListUpdateStrategy.Update(forceCombinationList, (IForceCombinationList)sourceObject);
             }
             else if (targetObject is IForceCombinationFromFile fileCombination)
             {
-                fileCombinationUpdateStrategy.Update(fileCombination, (IForceCombinationFromFile)sourceObject);
+                FileCombinationUpdateStrategy.Update(fileCombination, (IForceCombinationFromFile)sourceObject);
             }
             else
             {

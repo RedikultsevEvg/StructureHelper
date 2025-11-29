@@ -104,12 +104,12 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 TraceLogger?.AddMessage(errorMessage, TraceLogStatuses.Error);
                 throw new StructureHelperException(errorMessage);
             }
-            if (TriangulationOptions.CalcTerm is not CalcTerms.ShortTerm)
-            {
-                string errorMessage = string.Intern(ErrorStrings.DataIsInCorrect + $": Calc term for cracked concrete must correspondent short term");
-                TraceLogger?.AddMessage(errorMessage, TraceLogStatuses.Error);
-                throw new StructureHelperException(errorMessage);
-            }
+            //if (TriangulationOptions.CalcTerm is not CalcTerms.ShortTerm)
+            //{
+            //    string errorMessage = string.Intern(ErrorStrings.DataIsInCorrect + $": Calc term for cracked concrete must correspondent short term");
+            //    TraceLogger?.AddMessage(errorMessage, TraceLogStatuses.Error);
+            //    throw new StructureHelperException(errorMessage);
+            //}
             TraceLogger?.AddMessage($"Primitive check is ok");
         }
     }

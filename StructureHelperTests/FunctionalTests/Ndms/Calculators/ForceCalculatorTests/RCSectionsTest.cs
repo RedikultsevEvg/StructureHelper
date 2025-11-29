@@ -11,6 +11,8 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
 {
     public class RCSectionsTest
     {
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         [TestCase(0.4d, 0.6d, 0.012d, 0.025d, 2, 2, false, -0.00068593466107645337d, -0.0030411189808055242d, 0.00034289928716916179d)]
         public void Run_ShouldPass(double width, double height, double topDiametr, double bottomDiametr, int widthCount, int heightCount, bool isBuckling, double expectedKx, double expectedKy, double expectedEpsZ)
         {
@@ -75,7 +77,7 @@ namespace StructureHelperTests.FunctionalTests.Ndms.Calculators.ForceCalculatorT
             //Act
             foreach (var item in ndmPrimitives)
             {
-                ForceTupleService.CopyProperties(source, item.NdmElement.AutoPrestrain);
+                ForceTupleServiceLogic.CopyProperties(source, item.NdmElement.AutoPrestrain);
             }
             calculator.Run();
             var result2 = calculator.Result as IForceCalculatorResult;

@@ -6,6 +6,7 @@ using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Sections;
 using StructureHelperCommon.Models.Sections.Logics;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 
@@ -16,7 +17,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
         private const LimitStates limitState = LimitStates.SLS;
         private CurvatureCalculatorResult result;
         private ICurvatureForceCalculator forceCalculator;
-        private ICurvatureForceCalculator ForceCalculator => forceCalculator ??= new CurvatureForceCalculator();
+        private ICurvatureForceCalculator ForceCalculator => forceCalculator ??= new CurvatureForceCalculator(TraceLogger);
         private IPoint2D gravityCenter;
 
         public ICurvatureCalculatorInputData InputData { get; set; }
@@ -27,6 +28,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 
         public void Run()
         {
+            TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"Bending deflection is calculated by expression delta = S * k * L ^ 2");
+            TraceLogger?.AddMessage($"Longitudinal deflection is calculated by expression delta = S * k * L");
             PrepareNewResult();
             SetGravityCenter();
             try
@@ -44,30 +48,37 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
         {
             foreach (var action in InputData.ForceActions)
             {
+                TraceLogger?.AddMessage($"Calculation for action {action.Name} has been started");
                 var combinationList = action.GetCombinations();
                 foreach (var combination in combinationList)
                 {
-                    var longTuple = combination.DesignForces.Single(x => x.LimitState == limitState && x.CalcTerm == CalcTerms.LongTerm).ForceTuple;
-                    var shortTuple = combination.DesignForces.Single(x => x.LimitState == limitState && x.CalcTerm == CalcTerms.ShortTerm).ForceTuple;
-                    if (action.SetInGravityCenter == true)
+                    TraceLogger?.AddMessage($"Totally {combination.DesignForces.Count} combinations has been extracted successfully");
+                    var pairList = ForceActionService.ConvertCombinationToPairs(combination).Where(x => x.LimitState == limitState).ToList();
+                    foreach (var pair in pairList)
                     {
-                        IProcessorLogic<IForceTuple> forceLogic = new ForceTupleCopier(longTuple);
-                        forceLogic = new ForceTupleMoveToPointDecorator(forceLogic) { Point2D = gravityCenter };
-                        longTuple = forceLogic.GetValue();
-                        forceLogic = new ForceTupleCopier(shortTuple);
-                        forceLogic = new ForceTupleMoveToPointDecorator(forceLogic) { Point2D = gravityCenter };
-                        shortTuple = forceLogic.GetValue();
+                        pair.Name = action.Name;
+                        TraceLogger?.AddMessage($"Calculation for combination of force {pair.Name} has been started");
+                        if (action.SetInGravityCenter == true)
+                        {
+                            IProcessorLogic<IForceTuple> forceLogic = new ForceTupleCopier(pair.LongForceTuple);
+                            forceLogic = new ForceTupleMoveToPointDecorator(forceLogic) { Point2D = gravityCenter };
+                            pair.LongForceTuple = forceLogic.GetValue();
+                            forceLogic = new ForceTupleCopier(pair.FullForceTuple);
+                            forceLogic = new ForceTupleMoveToPointDecorator(forceLogic) { Point2D = gravityCenter };
+                            pair.FullForceTuple = forceLogic.GetValue();
+                        }
+                        CurvatureForceCalculatorInputData forceInputData = new()
+                        {
+                            ForcePair = pair,
+                            Primitives = InputData.Primitives,
+                            DeflectionFactor = InputData.DeflectionFactor
+                        };
+                        ForceCalculator.InputData = forceInputData;
+                        ForceCalculator.Run();
+                        ICurvatureForceCalculatorResult forceResult = (ICurvatureForceCalculatorResult)ForceCalculator.Result;
+                        result.ForceCalculatorResults.Add(forceResult);
                     }
-                    CurvatureForceCalculatorInputData forceInputData = new()
-                    {
-                        LongTermTuple = longTuple,
-                        ShortTermTuple = shortTuple,
-                        Primitives = InputData.Primitives,
-                        DeflectionFactor = InputData.DeflectionFactor
-                    };
-                    ForceCalculator.InputData = forceInputData;
-                    ForceCalculator.Run();
-                    result.ForceCalculatorResults.Add((ICurvatureForceCalculatorResult)ForceCalculator.Result);
+
                 }
             }
         }

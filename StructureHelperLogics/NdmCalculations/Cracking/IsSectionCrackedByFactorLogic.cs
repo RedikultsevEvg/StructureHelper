@@ -13,6 +13,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     public class IsSectionCrackedByFactorLogic : IIsSectionCrackedByFactorLogic
     {
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         public IIsSectionCrackedByForceLogic IsSectionCrackedByForceLogic { get; set; }
         public IForceTuple StartTuple { get; set; }
         public IForceTuple EndTuple { get; set; }
@@ -31,7 +33,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public bool IsSectionCracked(double factor)
         {
             IsSectionCrackedByForceLogic.TraceLogger ??= TraceLogger?.GetSimilarTraceLogger(50);
-            var actualTuple = ForceTupleService.InterpolateTuples(StartTuple, EndTuple, factor);
+            var actualTuple = ForceTupleServiceLogic.InterpolateTuples(StartTuple, EndTuple, factor);
             IsSectionCrackedByForceLogic.ForceTuple = actualTuple;
             return IsSectionCrackedByForceLogic.IsSectionCracked();
         }

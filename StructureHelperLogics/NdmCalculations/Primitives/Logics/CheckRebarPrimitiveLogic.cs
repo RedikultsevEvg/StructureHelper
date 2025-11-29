@@ -4,17 +4,28 @@ using StructureHelperCommon.Models.Materials;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
+    /// <summary>
+    /// Logic for checking of propertis of rebar
+    /// </summary>
     public class CheckRebarPrimitiveLogic : ICheckEntityLogic<IRebarNdmPrimitive>
     {
         private string checkResult;
         private bool result;
-
+        /// <summary>
+        /// True if checking of rebar placement inside its host is required
+        /// </summary>
         public bool CheckRebarPlacement { get; set; } = true;
+        /// <summary>
+        /// True if rebar must has its host
+        /// </summary>
         public bool CheckRebarHostMaterial { get; set; } = true;
+        /// <summary>
+        /// Rebar primitive
+        /// </summary>
         public IRebarNdmPrimitive Entity { get; set; }
 
         public string CheckResult => checkResult;
-
+        /// <inheritdoc/>
         public IShiftTraceLogger? TraceLogger { get; set; }
 
         public CheckRebarPrimitiveLogic(IShiftTraceLogger traceLogger)

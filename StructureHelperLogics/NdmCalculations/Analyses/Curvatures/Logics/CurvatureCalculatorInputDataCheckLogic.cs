@@ -24,8 +24,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
             TraceLogger = traceLogger;
             CheckRebarPrimitiveLogic checkRebarPrimitiveLogic = new()
             {
-                CheckRebarHostMaterial = false,
-                CheckRebarPlacement = false
+                CheckRebarHostMaterial = true,
+                CheckRebarPlacement = true
             };
             primitivesCheckLogic = new HasPrimitivesCheckLogic(TraceLogger, checkRebarPrimitiveLogic);
         }
@@ -39,12 +39,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
                 TraceMessage(errorString);
                 throw new StructureHelperException(errorString);
             }
-            if (Entity.Primitives is null || !Entity.Primitives.Any())
+            if (Entity.Primitives is null || Entity.Primitives.Count == 0)
             {
                 TraceMessage("Calculator does not contain any primitives");
                 result = false;
             }
-            if (Entity.ForceActions is null || !Entity.ForceActions.Any())
+            if (Entity.ForceActions is null || Entity.ForceActions.Count == 0)
             {
                 TraceMessage("Calculator does not contain any forces");
                 result = false;

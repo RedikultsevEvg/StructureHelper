@@ -1,9 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {

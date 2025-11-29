@@ -2,17 +2,15 @@
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace StructureHelperCommon.Services.Forces
 {
-    internal static class ForceActionService
+    public static class ForceActionService
     {
+        private static IForceTupleServiceLogic forceTupleServiceLogic;
+        private static IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         public static List<IDesignForcePair> ConvertCombinationToPairs(IForceCombinationList combinations)
         {
             var resultList = new List<IDesignForcePair>();
@@ -24,7 +22,7 @@ namespace StructureHelperCommon.Services.Forces
                 for (int i = 0; i < calcTerms.Count; i++)
                 {
                     var forceTupleList = combinations.DesignForces.Where(x => x.LimitState == limitState && x.CalcTerm == calcTerms[i]).Select(x => x.ForceTuple);
-                    var sumLongTuple = ForceTupleService.MergeTupleCollection(forceTupleList);
+                    var sumLongTuple = ForceTupleServiceLogic.MergeTupleCollection(forceTupleList);
                     tuples[i] = sumLongTuple;
                 }
                 var pair = new DesignForcePair()
@@ -52,7 +50,7 @@ namespace StructureHelperCommon.Services.Forces
                 {
                     var stateFactor = limitState is LimitStates.SLS ? 1d : combinations.CombinationProperty.ULSFactor;
                     var termFactor = calcTerms[i] == CalcTerms.ShortTerm ? 1d : combinations.CombinationProperty.LongTermFactor;
-                    var forceTupleList = ForceTupleService.MultiplyTupleByFactor(combinations.ForceTuples[0], stateFactor * termFactor);
+                    var forceTupleList = ForceTupleServiceLogic.MultiplyTupleByFactor(combinations.ForceTuples[0], stateFactor * termFactor);
                     tuples[i] = forceTupleList;
             }
                 var pair = new DesignForcePair()
@@ -72,15 +70,13 @@ namespace StructureHelperCommon.Services.Forces
         public static List<IDesignForcePair> ConvertCombinationToPairs(IForceAction forceAction)
         {
             var resultList = new List<IDesignForcePair>();
-            if (forceAction is IForceCombinationList)
+            if (forceAction is IForceCombinationList combinationList)
             {
-                var item = forceAction as IForceCombinationList;
-                resultList.AddRange(ConvertCombinationToPairs(item));
+                resultList.AddRange(ConvertCombinationToPairs(combinationList));
             }
-            else if (forceAction is IForceFactoredList)
+            else if (forceAction is IForceFactoredList forceFactoredList)
             {
-                var item = forceAction as IForceFactoredList;
-                resultList.AddRange(ConvertCombinationToPairs(item));
+                resultList.AddRange(ConvertCombinationToPairs(forceFactoredList));
             }
             else
             {

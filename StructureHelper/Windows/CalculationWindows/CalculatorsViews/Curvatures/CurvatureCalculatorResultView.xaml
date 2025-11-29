@@ -8,6 +8,13 @@
         d:DataContext="{d:DesignInstance local:CurvatureCalculatorResultViewModel}"
         mc:Ignorable="d"
         Title="Result of calculation of curvatures and deflections" Height="450" Width="800" MinHeight="300" MinWidth="600" MaxHeight="800" MaxWidth="1000" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Windows/CalculationWindows/CalculatorsViews/Curvatures/Curvature.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <DockPanel>
         <Grid>
             <Grid.RowDefinitions>
@@ -27,7 +34,7 @@
                 </DataGrid.RowStyle>
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Header="Valid" Binding="{Binding Path=IsValid}"/>
-                    <DataGridTextColumn Header="Action name" Binding="{Binding InputData.TupleName}" Width="120"/>
+                    <DataGridTextColumn Header="Action name" Binding="{Binding InputData.ForcePair.Name}" Width="120"/>
                     <DataGridTemplateColumn Header="Combination term" Width="120">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -50,8 +57,8 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.Mx, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right" />
-                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.Mx, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="0" Text="{Binding InputData.ForcePair.LongForceTuple.Mx, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ForcePair.FullForceTuple.Mx, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right" />
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -64,8 +71,8 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.My, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right"/>
-                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.My, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="0" Text="{Binding InputData.ForcePair.LongForceTuple.My, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right"/>
+                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ForcePair.FullForceTuple.My, Converter={StaticResource MomentConverter}}" HorizontalAlignment="Right" />
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -78,23 +85,100 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding InputData.LongTermTuple.Nz, Converter={StaticResource ForceConverter}}" HorizontalAlignment="Right" />
-                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ShortTermTuple.Nz, Converter={StaticResource ForceConverter}}" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="0" Text="{Binding InputData.ForcePair.LongForceTuple.Nz, Converter={StaticResource ForceConverter}}" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="1" Text="{Binding InputData.ForcePair.FullForceTuple.Nz, Converter={StaticResource ForceConverter}}" HorizontalAlignment="Right" />
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Crack width" Width="80">
+                    <DataGridTemplateColumn Header="delta X" Width="80">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <ContentControl ContentTemplate="{StaticResource CrackGrid}" Content="{Binding}"/>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <ContentControl ContentTemplate="{StaticResource DeflectionTextBox}" Content="{Binding ForceCalculatorResult.SectionResult.LongTermResult.DeflectionMy}"/>
+                                    <ContentControl Grid.Row="1" ContentTemplate="{StaticResource DeflectionTextBox}" Content="{Binding ForceCalculatorResult.SectionResult.ShortTermResult.DeflectionMy}"/>
+                                </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Description" Width="300" Binding="{Binding Description}"/>
+                    <DataGridTemplateColumn Header="delta Y" Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <ContentControl ContentTemplate="{StaticResource DeflectionTextBox}" Content="{Binding ForceCalculatorResult.SectionResult.LongTermResult.DeflectionMx}"/>
+                                    <ContentControl Grid.Row="1" ContentTemplate="{StaticResource DeflectionTextBox}" Content="{Binding ForceCalculatorResult.SectionResult.ShortTermResult.DeflectionMx}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="delta Z" Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <ContentControl ContentTemplate="{StaticResource DeflectionTextBox}" Content="{Binding ForceCalculatorResult.SectionResult.LongTermResult.DeflectionNz}"/>
+                                    <ContentControl Grid.Row="1" ContentTemplate="{StaticResource DeflectionTextBox}" Content="{Binding ForceCalculatorResult.SectionResult.ShortTermResult.DeflectionNz}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="kx" Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="{Binding ForceCalculatorResult.SectionResult.LongTermResult.DeflectionMx.Curvature, Converter={StaticResource Curvature}}"/>
+                                    <TextBlock Grid.Row="1" Text="{Binding ForceCalculatorResult.SectionResult.ShortTermResult.DeflectionMx.Curvature, Converter={StaticResource Curvature}}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="ky" Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="{Binding ForceCalculatorResult.SectionResult.LongTermResult.DeflectionMy.Curvature, Converter={StaticResource Curvature}}"/>
+                                    <TextBlock Grid.Row="1" Text="{Binding ForceCalculatorResult.SectionResult.ShortTermResult.DeflectionMy.Curvature, Converter={StaticResource Curvature}}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="epsz" Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="{Binding ForceCalculatorResult.SectionResult.LongTermResult.DeflectionNz.Curvature}"/>
+                                    <TextBlock Grid.Row="1" Text="{Binding ForceCalculatorResult.SectionResult.ShortTermResult.DeflectionNz.Curvature}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Description" Width="300" Binding="{Binding ForceCalculatorResult.Description}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <TextBlock Grid.Row="1" Text="{Binding CrackResult.Description}"/>
+            <TextBlock Grid.Row="1" Text="{Binding Result.Description}"/>
             <ContentControl Grid.Row="2" ContentTemplate="{StaticResource ResultValidness}" Content="{Binding ValidResultCounter}"/>
         </Grid>
     </DockPanel>

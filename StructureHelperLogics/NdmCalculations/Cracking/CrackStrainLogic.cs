@@ -10,13 +10,15 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 {
     internal class CrackStrainLogic : ICrackStrainLogic
     {
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         public IForceTuple BeforeCrackingTuple { get; set; }
         public IForceTuple AfterCrackingTuple { get; set; }
         public double SofteningFactor { get; set; }
 
         public IForceTuple GetCrackedStrainTuple()
         {
-            var strainTuple = ForceTupleService.InterpolateTuples(BeforeCrackingTuple, AfterCrackingTuple, SofteningFactor) as StrainTuple;
+            var strainTuple = ForceTupleServiceLogic.InterpolateTuples(BeforeCrackingTuple, AfterCrackingTuple, SofteningFactor) as StrainTuple;
             return strainTuple;
         }
     }

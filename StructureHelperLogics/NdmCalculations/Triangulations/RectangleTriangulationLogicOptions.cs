@@ -10,6 +10,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
     /// <inheritdoc />
     public class RectangleTriangulationLogicOptions : IShapeTriangulationLogicOptions
     {
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         /// <inheritdoc />
         public IPoint2D Center { get; set; }
         /// <inheritdoc />
@@ -41,7 +43,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             DivisionSize.NdmMaxSize = primitive.DivisionSize.NdmMaxSize;
             DivisionSize.NdmMinDivision = primitive.DivisionSize.NdmMinDivision;
             HeadMaterial = primitive.NdmElement.HeadMaterial;
-            Prestrain = ForceTupleService.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
+            Prestrain = ForceTupleServiceLogic.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
         }
     }
 }

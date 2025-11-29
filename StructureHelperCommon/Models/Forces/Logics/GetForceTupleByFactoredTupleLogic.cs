@@ -12,6 +12,8 @@ namespace StructureHelperCommon.Models.Forces.Logics
     public class GetForceTupleByFactoredTupleLogic : IGetForceTupleByFactoredTupleLogic
     {
         private IGetLoadFactor getFactorLogic;
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
 
         public GetForceTupleByFactoredTupleLogic(IGetLoadFactor getFactorLogic)
         {
@@ -36,7 +38,7 @@ namespace StructureHelperCommon.Models.Forces.Logics
                 CalcTerm = CalcTerm
             };
             double factor = getFactorLogic.GetFactor();
-            return ForceTupleService.MultiplyTupleByFactor(FactoredForceTuple.ForceTuple, factor);
+            return ForceTupleServiceLogic.MultiplyTupleByFactor(FactoredForceTuple.ForceTuple, factor);
         }
     }
 }

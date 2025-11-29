@@ -6,18 +6,23 @@ using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.Services.NdmPrimitives;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {
     public class CurvatureTermUncrackedCalculator : ICurvatureTermCalculator
     {
-        private CurvatureTermCalculatorResult result;
-        private List<INdm> ndms;
+        private CurvatureSectionResult result;
+        private IGetTermDeflectionLogic deflectionLogic;
+        private IGetTermDeflectionLogic DeflectionLogic => deflectionLogic ??= new GetTermDeflectionLogic(TraceLogger);
+        private List<INdm> longTermNdms;
+        private List<INdm> shortTermNdms;
 
-        public ICurvatureTermCalculatorInputData InputData { get; set; }
+        public CurvatureTermUncrackedCalculator(IShiftTraceLogger? traceLogger)
+        {
+            TraceLogger = traceLogger;
+        }
+
+        public ICurvatureForceCalculatorInputData InputData { get; set; }
 
         public IResult Result => result;
 
@@ -37,29 +42,30 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
             Calculate();
         }
 
+        private void TriangulatePrimitives()
+        {
+            longTermNdms = TriangulatePrimitives(CalcTerms.LongTerm);
+            shortTermNdms = TriangulatePrimitives(CalcTerms.ShortTerm);
+        }
+
         private void Calculate()
         {
             try
             {
-                var inputData = new ForceTupleInputData()
-                {
-                    NdmCollection = ndms,
-                    ForceTuple = InputData.ForceTuple
-                };
-                var calculator = new ForceTupleCalculator()
-                {
-                    InputData = inputData,
-                };
-                calculator.Run();
-                var calcResult = calculator.Result as IForceTupleCalculatorResult;
-                if (calcResult.IsValid != true)
-                {
-                    result.IsValid = false;
-                    result.Description += calcResult.Description;
-                    return;
-                }
-                result.CurvatureValues = ForceTupleConverter.ConvertToForceTuple(calcResult.LoaderResults.StrainMatrix);
-                ConvertCurvaturesToDeflections();
+                DeflectionLogic.DeflectionFactor = InputData.DeflectionFactor;
+                IForceTupleCalculatorResult? longCalcResult = GetCalculatorResult(longTermNdms, InputData.ForcePair.LongForceTuple);
+                if (CheckCalcResul(longCalcResult) == false) { return; }
+                DeflectionLogic.LongCurvature = ForceTupleConverter.ConvertToForceTuple(longCalcResult.LoaderResults.StrainMatrix);
+                result.LongTermResult = DeflectionLogic.GetLongResult();
+
+                IForceTupleCalculatorResult? shortFullCalcResult = GetCalculatorResult(shortTermNdms, InputData.ForcePair.FullForceTuple);
+                if (CheckCalcResul(shortFullCalcResult) == false) { return; }
+                DeflectionLogic.ShortFullCurvature = ForceTupleConverter.ConvertToForceTuple(shortFullCalcResult.LoaderResults.StrainMatrix);
+
+                IForceTupleCalculatorResult? shortLongCalcResult = GetCalculatorResult(shortTermNdms, InputData.ForcePair.LongForceTuple);
+                if (CheckCalcResul(shortLongCalcResult) == false) { return; }
+                DeflectionLogic.ShortLongCurvature = ForceTupleConverter.ConvertToForceTuple(shortLongCalcResult.LoaderResults.StrainMatrix);
+                result.ShortTermResult = DeflectionLogic.GetShortResult();
             }
             catch (Exception ex)
             {
@@ -68,26 +74,45 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
             }
         }
 
-        private void ConvertCurvaturesToDeflections()
+        private bool CheckCalcResul(IForceTupleCalculatorResult? calcResult)
         {
-            ForceTuple deflections = new();
-            double spanLength = InputData.DeflectionFactor.SpanLength;
-            deflections.Mx = InputData.DeflectionFactor.DeflectionFactors.Mx * result.CurvatureValues.Mx * spanLength * spanLength;
-            deflections.My = InputData.DeflectionFactor.DeflectionFactors.My * result.CurvatureValues.My * spanLength * spanLength;
-            deflections.Nz = InputData.DeflectionFactor.DeflectionFactors.Nz * result.CurvatureValues.Nz * spanLength;
-            result.Deflections = deflections;
+            if (calcResult.IsValid != true)
+            {
+                result.IsValid = false;
+                result.Description += calcResult.Description;
+                return false;
+            }
+            return true;
         }
 
-        private void TriangulatePrimitives()
+        private IForceTupleCalculatorResult? GetCalculatorResult(List<INdm> ndms, IForceTuple forceTuple)
         {
+            var inputData = new ForceTupleInputData()
+            {
+                NdmCollection = ndms,
+                ForceTuple = forceTuple
+            };
+            var calculator = new ForceTupleCalculator()
+            {
+                InputData = inputData,
+            };
+            calculator.Run();
+            var calcResult = calculator.Result as IForceTupleCalculatorResult;
+            return calcResult;
+        }
+
+
+        private List<INdm> TriangulatePrimitives(CalcTerms calcTerm)
+        {
+            
             var triangulateLogic = new TriangulatePrimitiveLogic()
             {
                 Primitives = InputData.Primitives,
                 LimitState = LimitStates.SLS,
-                CalcTerm = InputData.CalculationTerm,
+                CalcTerm = calcTerm,
                 TraceLogger = TraceLogger
             };
-            ndms = triangulateLogic.GetNdms();
+            return triangulateLogic.GetNdms();
         }
 
         private void PrepareNewResult()

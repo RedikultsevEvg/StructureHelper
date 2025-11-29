@@ -10,6 +10,13 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
     public class CurvatureForceCalculator : ICurvatureForceCalculator
     {
         private CurvatureForceCalculatorResult result;
+        private ICurvatureTermCalculator calculator;
+
+        public CurvatureForceCalculator(IShiftTraceLogger? traceLogger)
+        {
+            TraceLogger = traceLogger;
+        }
+
         public ICurvatureForceCalculatorInputData InputData { get; set; }
 
         public IResult Result => result;
@@ -25,39 +32,36 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 
         public void Run()
         {
+            TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLogStatuses.Service);
             PrepareResult();
-            if (CheckForCracks(InputData.ShortTermTuple, CalcTerms.ShortTerm) || CheckForCracks(InputData.ShortTermTuple, CalcTerms.ShortTerm))
+            try
             {
-                ProcessCrackedSection();
+                if (CheckForCracks(InputData.ForcePair.FullForceTuple, CalcTerms.ShortTerm) || CheckForCracks(InputData.ForcePair.LongForceTuple, CalcTerms.ShortTerm))
+                {
+                    TraceLogger?.AddMessage($"Section is cracked");
+                    calculator = new CurvatureTermCrackedCalculator(TraceLogger) { InputData = InputData };
+                }
+                else
+                {
+                    TraceLogger?.AddMessage($"Section is not cracked");
+                    calculator = new CurvatureTermUncrackedCalculator(TraceLogger) { InputData = InputData };
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ProcessUncrackedSection();
+                result.IsValid = false;
+                result.Description += ex.Message;
+                result.Description += $"\n Check bearing capacity for action {InputData.ForcePair.Name}, probably section has been collapsed";
+                return;
             }
-        }
 
-        private void ProcessCrackedSection()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void ProcessUncrackedSection()
-        {
-            CurvatureTermCalculatorInputData inputData = new()
-            {
-                Primitives = InputData.Primitives,
-                DeflectionFactor = InputData.DeflectionFactor
-            };
-            var calculator = new CurvatureTermUncrackedCalculator() { InputData = inputData };
-            inputData.ForceTuple = InputData.LongTermTuple;
-            inputData.CalculationTerm = CalcTerms.LongTerm;
             calculator.Run();
-            var calcResult = calculator.Result as CurvatureTermCalculatorResult;
+            var calcResult = calculator.Result as ICurvatureSectionResult;
             if (calcResult.IsValid == false)
             {
                 result.IsValid = false;
             }
-            result.LongTermResult = calcResult;
+            result.SectionResult = calcResult;
         }
 
         private bool CheckForCracks(IForceTuple forceTuple, CalcTerms calcTerm)
@@ -81,7 +85,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 
         private void PrepareResult()
         {
-            result = new();
+            result = new()
+            {
+                InputData = InputData,
+            };
         }
     }
 }

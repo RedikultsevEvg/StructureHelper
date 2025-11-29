@@ -1,14 +1,8 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
-using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
@@ -21,10 +15,10 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             this.triangulationLogicLoc = triangulationLogicLoc;
         }
 
-        public RebarCrackInputDataFactory(TupleCrackInputData inputData) : this (new CrackedSectionTriangulationLogic(inputData.Primitives))
-        {
+        //public RebarCrackInputDataFactory(TupleCrackInputData inputData) : this (new CrackedSectionTriangulationLogic(inputData.Primitives))
+        //{
             
-        }
+        //}
 
         public RebarCrackInputDataFactory()
         {
@@ -45,7 +39,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
             rebarCopy = Rebar.Clone() as RebarNdmPrimitive;
             rebarCopy.NdmElement.HeadMaterial = rebarCopy.NdmElement.HeadMaterial.Clone() as IHeadMaterial;
-            triangulationLogicLoc = new CrackedSectionTriangulationLogic(InputData.Primitives);
+            triangulationLogicLoc = new CrackedSectionTriangulationLogic(InputData.Primitives, CalcTerms.ShortTerm);
             crackableNdmsLoc = triangulationLogicLoc.GetNdmCollection();
             crackedNdmsLoc = triangulationLogicLoc.GetCrackedNdmCollection();
 

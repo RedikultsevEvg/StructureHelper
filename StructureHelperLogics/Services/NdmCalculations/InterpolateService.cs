@@ -9,6 +9,8 @@ namespace StructureHelperLogics.Services.NdmCalculations
     public static class InterpolateService
     {
         static readonly CompressedMemberUpdateStrategy compressedMemberUpdateStrategy = new();
+        private static IForceTupleServiceLogic forceTupleServiceLogic;
+        private static IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         public static ForceCalculator InterpolateForceCalculator(IForceCalculator source, IStateCalcTermPair stateCalcTermPair, InterpolateTuplesResult interpolateTuplesResult)
         {
             ForceCalculator calculator = new ForceCalculator();
@@ -21,7 +23,7 @@ namespace StructureHelperLogics.Services.NdmCalculations
             calculator.InputData.Primitives.AddRange(source.InputData.Primitives);
             calculator.InputData.ForceActions.Clear();
             calculator.InputData.CheckStrainLimit = source.InputData.CheckStrainLimit;
-            var forceTuples = ForceTupleService.InterpolateTuples(interpolateTuplesResult.StartTuple, interpolateTuplesResult.FinishTuple, interpolateTuplesResult.StepCount);
+            var forceTuples = ForceTupleServiceLogic.InterpolateTuples(interpolateTuplesResult.StartTuple, interpolateTuplesResult.FinishTuple, interpolateTuplesResult.StepCount);
             foreach (var forceTuple in forceTuples)
             {
                 var combination = new ForceCombinationList()

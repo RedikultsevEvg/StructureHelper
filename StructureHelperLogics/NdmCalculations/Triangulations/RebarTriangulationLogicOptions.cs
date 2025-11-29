@@ -13,6 +13,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     public class RebarTriangulationLogicOptions : ITriangulationLogicOptions
     {
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         public ITriangulationOptions TriangulationOptions { get; set; }
         /// <summary>
         /// 
@@ -32,7 +34,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Area = primitive.Area;
             HeadMaterial = primitive.NdmElement.HeadMaterial;
             HostPrimitive = primitive.HostPrimitive;
-            Prestrain = ForceTupleService.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
+            Prestrain = ForceTupleServiceLogic.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
         }
     }
 }

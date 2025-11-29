@@ -14,6 +14,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     public class CircleTriangulationLogicOptions : IShapeTriangulationLogicOptions
     {
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         public ICircleShape Circle { get;}
 
         public IPoint2D Center { get; set; }
@@ -32,7 +34,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Circle = new CircleShape() { Diameter = primitive.Width };
             DivisionSize = primitive.DivisionSize;
             HeadMaterial = primitive.NdmElement.HeadMaterial;
-            Prestrain = ForceTupleService.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
+            Prestrain = ForceTupleServiceLogic.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
         }
     }
 }

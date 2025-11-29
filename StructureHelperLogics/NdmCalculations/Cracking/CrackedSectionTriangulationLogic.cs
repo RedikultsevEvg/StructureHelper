@@ -2,14 +2,8 @@
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
@@ -17,29 +11,26 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     public class CrackedSectionTriangulationLogic : ICrackedSectionTriangulationLogic
     {
         const LimitStates limitState = LimitStates.SLS;
-        const CalcTerms shortTerm = CalcTerms.ShortTerm;
 
         private ITriangulatePrimitiveLogic triangulateLogic;
         private string ndmPrimitiveCountMessage;
-
+        public CalcTerms CalcTerm { get; set; }
         public IEnumerable<INdmPrimitive> NdmPrimitives { get; private set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
-        public CrackedSectionTriangulationLogic(IEnumerable<INdmPrimitive> ndmPrimitives)
+        public CrackedSectionTriangulationLogic(IEnumerable<INdmPrimitive> ndmPrimitives, CalcTerms calcTerm)
         {
             NdmPrimitives = ndmPrimitives;
+            CalcTerm = calcTerm;
             ndmPrimitiveCountMessage = $"Source collection containes {NdmPrimitives.Count()} primitives";
             triangulateLogic = new TriangulatePrimitiveLogic
             {
                 Primitives = NdmPrimitives,
                 LimitState = limitState,
-                CalcTerm = shortTerm,
+                CalcTerm = CalcTerm,
                 TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
             };
         }
-        public CrackedSectionTriangulationLogic()
-        {
-            
-        }
+
         /// <inheritdoc/>
         public List<INdm> GetNdmCollection()
         {
@@ -48,7 +39,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             triangulateLogic = new TriangulatePrimitiveLogic()
             {
                 LimitState = limitState,
-                CalcTerm = shortTerm,
+                CalcTerm = CalcTerm,
                 Primitives = NdmPrimitives,
                 TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
             };
@@ -62,7 +53,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             triangulateLogic = new TriangulatePrimitiveLogic(new MeshCrackedConcreteLogic())
             {
                 LimitState = limitState,
-                CalcTerm = shortTerm,
+                CalcTerm = CalcTerm,
                 Primitives = NdmPrimitives,
                 TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
             };
@@ -95,7 +86,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             triangulateLogic = new TriangulatePrimitiveLogic(new MeshElasticLogic())
             {
                 LimitState = limitState,
-                CalcTerm = shortTerm,
+                CalcTerm = CalcTerm,
                 Primitives = NdmPrimitives,
                 TraceLogger = TraceLogger?.GetSimilarTraceLogger(50)
             };

@@ -33,6 +33,11 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             
         }
 
+        public HasPrimitivesCheckLogic(IShiftTraceLogger? traceLogger)
+        {
+            TraceLogger = traceLogger;
+        }
+
         public bool Check()
         {
             result = true;

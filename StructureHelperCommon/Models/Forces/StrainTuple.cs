@@ -8,6 +8,8 @@ namespace StructureHelperCommon.Models.Forces
     public class StrainTuple : IForceTuple
     {
         private readonly IUpdateStrategy<IForceTuple> updateStrategy = new ForceTupleUpdateStrategy();
+        private static IForceTupleServiceLogic forceTupleServiceLogic;
+        private static IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         /// <inheritdoc/>
         public Guid Id { get; }
         /// <inheritdoc/>
@@ -53,7 +55,7 @@ namespace StructureHelperCommon.Models.Forces
         public static StrainTuple operator +(StrainTuple first) => first;
         public static StrainTuple operator +(StrainTuple first, ForceTuple second)
         {
-            return ForceTupleService.SumTuples(first, second) as StrainTuple;
+            return ForceTupleServiceLogic.SumTuples(first, second) as StrainTuple;
         }
     }
 }

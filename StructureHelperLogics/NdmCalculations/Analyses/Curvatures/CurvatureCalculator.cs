@@ -1,9 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {
@@ -41,6 +38,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 
         public void Run()
         {
+            TraceLogger?.AddMessage($"Calculator type: {GetType()}", TraceLogStatuses.Service);
             PrepareNewResult();
             if (CheckInputData() == false)  {return;}
             GetResultByLogic();

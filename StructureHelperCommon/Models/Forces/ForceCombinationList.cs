@@ -12,6 +12,8 @@ namespace StructureHelperCommon.Models.Forces
     public class ForceCombinationList : IForceCombinationList
     {
         readonly IUpdateStrategy<IAction> updateStrategy = new ActionUpdateStrategy();
+        private IForceTupleServiceLogic forceTupleServiceLogic;
+        private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         /// <inheritdoc/>
         public Guid Id { get; }
         /// <inheritdoc/>
@@ -80,7 +82,7 @@ namespace StructureHelperCommon.Models.Forces
                     var forceTupleList = DesignForces.Where(x => x.LimitState == limitState & x.CalcTerm == calcTerm);
                     foreach (var item in forceTupleList)
                     {
-                        designForceTuple.ForceTuple = ForceTupleService.SumTuples(designForceTuple.ForceTuple, item.ForceTuple) as ForceTuple;
+                        designForceTuple.ForceTuple = ForceTupleServiceLogic.SumTuples(designForceTuple.ForceTuple, item.ForceTuple) as ForceTuple;
                     }
                     result.DesignForces.Add(designForceTuple);
                 }
