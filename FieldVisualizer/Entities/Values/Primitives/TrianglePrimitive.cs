@@ -23,5 +23,9 @@ namespace FieldVisualizer.Entities.Values.Primitives
                 (Point2.X - Point1.X) * (Point3.Y - Point1.Y) -
                 (Point3.X - Point1.X) * (Point2.Y - Point1.Y)
             );
+
+        public double ValuePoint1 { get; set; }
+        public double ValuePoint2 { get; set; }
+        public double ValuePoint3 { get; set; }
     }
 }

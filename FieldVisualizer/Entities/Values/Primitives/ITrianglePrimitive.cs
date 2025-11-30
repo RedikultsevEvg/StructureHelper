@@ -12,5 +12,8 @@ namespace FieldVisualizer.Entities.Values.Primitives
         IPoint2D Point1 { get; set; }
         IPoint2D Point2 { get; set; }
         IPoint2D Point3 { get; set; }
+        double ValuePoint1 { get; set; }
+        double ValuePoint2 { get; set; }
+        double ValuePoint3 { get; set; }
     }
 }

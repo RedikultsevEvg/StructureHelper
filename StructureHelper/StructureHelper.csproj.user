@@ -72,6 +72,9 @@
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\LimitCurveDataView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\IsoField3DViewerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\UserControls\LimitCurveControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

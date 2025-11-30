@@ -9,6 +9,7 @@ using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Intrinsics.Arm;
 
 namespace StructureHelper.Services.ResultViewers
 {
@@ -83,7 +84,8 @@ namespace StructureHelper.Services.ResultViewers
             }
             else if (ndm is ITriangleNdm triangle)
             {
-                valuePrimitive = ProcessTriangle(triangle, val);
+                //valuePrimitive = ProcessTriangle(triangle, val);
+                valuePrimitive = ProcessTriangle(strainMatrix, valDelegate, triangle);
             }
             else
             {
@@ -92,17 +94,38 @@ namespace StructureHelper.Services.ResultViewers
             return valuePrimitive;
         }
 
-        private static IValuePrimitive ProcessTriangle(ITriangleNdm triangle, double val)
+        private static IValuePrimitive ProcessTriangle(IStrainMatrix strainMatrix, ForceResultFunc valDelegate, ITriangleNdm triangle)
         {
+            double delegateResult = valDelegate.ResultFunction.Invoke(strainMatrix, triangle);
+            double val = delegateResult * valDelegate.UnitFactor;
+            var moqNdm1 = new Ndm() { CenterX = triangle.Point1.X, CenterY = triangle.Point1.Y, Area = triangle.Area, Material = triangle.Material };
+            var moqNdm2 = new Ndm() { CenterX = triangle.Point2.X, CenterY = triangle.Point2.Y, Area = triangle.Area, Material = triangle.Material };
+            var moqNdm3 = new Ndm() { CenterX = triangle.Point3.X, CenterY = triangle.Point3.Y, Area = triangle.Area, Material = triangle.Material };
             var primitive = new TrianglePrimitive()
             {
                 Point1 = new Point2D() { X = triangle.Point1.X, Y = triangle.Point1.Y },
                 Point2 = new Point2D() { X = triangle.Point2.X, Y = triangle.Point2.Y },
                 Point3 = new Point2D() { X = triangle.Point3.X, Y = triangle.Point3.Y },
-                Value = val
+                Value = val,
+                ValuePoint1 = valDelegate.ResultFunction.Invoke(strainMatrix, moqNdm1) * valDelegate.UnitFactor,
+                ValuePoint2 = valDelegate.ResultFunction.Invoke(strainMatrix, moqNdm2) * valDelegate.UnitFactor,
+                ValuePoint3 = valDelegate.ResultFunction.Invoke(strainMatrix, moqNdm3) * valDelegate.UnitFactor,
             };
             return primitive;
         }
+
+
+        //private static IValuePrimitive ProcessTriangle(ITriangleNdm triangle, double val)
+        //{
+        //    var primitive = new TrianglePrimitive()
+        //    {
+        //        Point1 = new Point2D() { X = triangle.Point1.X, Y = triangle.Point1.Y },
+        //        Point2 = new Point2D() { X = triangle.Point2.X, Y = triangle.Point2.Y },
+        //        Point3 = new Point2D() { X = triangle.Point3.X, Y = triangle.Point3.Y },
+        //        Value = val
+        //    };
+        //    return primitive;
+        //}
 
         private static IValuePrimitive ProcessRectangle(IRectangleNdm shapeNdm, double val)
         {

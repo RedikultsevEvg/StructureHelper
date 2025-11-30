@@ -70,6 +70,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private ICommand? showInteractionDiagramCommand;
         private ICommand? graphValuepointsCommand;
         private ICommand showForceResultCommand;
+        private RelayCommand showIsoField3DCommand;
 
         public ValidResultCounterVM ValidResultCounter { get; }
 
@@ -133,6 +134,41 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 }, o => SelectedResult != null && SelectedResult.IsValid));
             }
         }
+
+        public ICommand ShowIsoField3DCommand
+        {
+            get
+            {
+                return showIsoField3DCommand ??= new RelayCommand(o =>
+                {
+                    if (SelectPrimitives() == true)
+                    {
+                        ShowIsoField3D();
+                    }
+                }, o => SelectedResult != null && SelectedResult.IsValid);
+            }
+        }
+
+        private void ShowIsoField3D()
+        {
+            try
+            {
+                IStrainMatrix strainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix;
+                var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, ForceResultFuncFactory.GetResultFuncs());
+                var report = new IsoField3DReport(primitiveSets);
+                report.Show();
+            }
+            catch (Exception ex)
+            {
+                var vm = new ErrorProcessor()
+                {
+                    ShortText = "Errors apearred during showing isofield, see detailed information",
+                    DetailText = $"{ex}"
+                };
+                new ErrorMessage(vm).ShowDialog();
+            }
+        }
+
         public ICommand ExportToCSVCommand => exportToCSVCommand ??= new RelayCommand(o => { ExportToCSV();});
         private void ExportToCSV()
         {

@@ -508,6 +508,17 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+    <DataTemplate x:Key="IsoField3DResult">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <Line X1="10" Y1="5" X2="10" Y2="18" Stroke="Black"/>
+                <Line X1="10" Y1="18" X2="5" Y2="27" Stroke="Black"/>
+                <Line X1="10" Y1="18" X2="27" Y2="18" Stroke="Black"/>
+                <Path Margin="4" Data="M 6 2 A 20 10 60 0 1 22 14 A 20 10 10 0 1 3 22 A 20 10 -50 0 1 6 2 z" Fill="Gray" Opacity="0.6"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="IsoFieldResult">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>

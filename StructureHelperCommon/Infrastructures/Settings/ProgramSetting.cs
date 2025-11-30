@@ -99,7 +99,8 @@ namespace StructureHelperCommon.Infrastructures.Settings
                 VersionNumber = 1,
                 //SubVersionNumber = 2 //Add Beam shear analysis
                 //SubVersionNumber = 3 //Add stirrup group and inclined rebar
-                SubVersionNumber = 4 //Add polygonshape primitive
+                //SubVersionNumber = 4 //Add polygonshape primitive
+                SubVersionNumber = 5 //Add curvature calculator
             };
         }
     }

@@ -111,6 +111,16 @@
                         <ContentControl ContentTemplate="{DynamicResource IsoFieldResult}"/>
                     </Viewbox>
                 </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowIsoField3DCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show isofield results"
+                                                IconContent="{StaticResource IsoField3DResult}"
+                                                DescriptionText="Show graphical results with color as function of result value"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource IsoField3DResult}"/>
+                    </Viewbox>
+                </Button>
             </ToolBar>
             <ToolBar>
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowGeometryResultCommand}">
