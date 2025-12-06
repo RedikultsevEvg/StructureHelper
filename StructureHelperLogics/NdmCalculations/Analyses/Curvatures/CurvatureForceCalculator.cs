@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+﻿using LoaderCalculator.Data.Materials;
+using LoaderCalculator.Logics;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
@@ -36,16 +38,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
             PrepareResult();
             try
             {
-                if (CheckForCracks(InputData.ForcePair.FullForceTuple, CalcTerms.ShortTerm) || CheckForCracks(InputData.ForcePair.LongForceTuple, CalcTerms.ShortTerm))
-                {
-                    TraceLogger?.AddMessage($"Section is cracked");
-                    calculator = new CurvatureTermCrackedCalculator(TraceLogger) { InputData = InputData };
-                }
-                else
-                {
-                    TraceLogger?.AddMessage($"Section is not cracked");
-                    calculator = new CurvatureTermUncrackedCalculator(TraceLogger) { InputData = InputData };
-                }
+                GetCaclculator();
             }
             catch (Exception ex)
             {
@@ -64,7 +57,26 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
             result.SectionResult = calcResult;
         }
 
-        private bool CheckForCracks(IForceTuple forceTuple, CalcTerms calcTerm)
+        private void GetCaclculator()
+        {
+            if (InputData.ConsiderSofteningFactor == false)
+            {
+                calculator = new CurvatureTermUncrackedCalculator(TraceLogger) { InputData = InputData };
+                return; 
+            }
+            if (IsSectionCracked(InputData.ForcePair.FullForceTuple, CalcTerms.ShortTerm) || IsSectionCracked(InputData.ForcePair.LongForceTuple, CalcTerms.ShortTerm))
+            {
+                TraceLogger?.AddMessage($"Section is cracked");
+                calculator = new CurvatureTermCrackedCalculator(TraceLogger) { InputData = InputData };
+            }
+            else
+            {
+                TraceLogger?.AddMessage($"Section is not cracked");
+                calculator = new CurvatureTermUncrackedCalculator(TraceLogger) { InputData = InputData };
+            }
+        }
+
+        private bool IsSectionCracked(IForceTuple forceTuple, CalcTerms calcTerm)
         {
             var triangulateLogic = new TriangulatePrimitiveLogic()
             {
@@ -74,6 +86,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
                 TraceLogger = TraceLogger
             };
             var ndms = triangulateLogic.GetNdms();
+            if (!ndms.Where(x => x.Material is ICrackMaterial).Any())
+            {
+                return false;
+            }
             var logic = new IsSectionCrackedByForceLogic()
             {
                 ForceTuple = forceTuple,

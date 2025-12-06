@@ -1,17 +1,7 @@
-﻿using LoaderCalculator.Data.Materials;
-using LoaderCalculator.Data.Matrix;
-using LoaderCalculator.Data.Ndms;
-using LoaderCalculator.Data.Ndms.Transformations;
+﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
-using StructureHelperLogics.Models.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {

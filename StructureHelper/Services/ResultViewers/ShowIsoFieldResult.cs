@@ -2,6 +2,7 @@
 using FieldVisualizer.WindowsOperation;
 using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
+using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services;
@@ -22,7 +23,7 @@ namespace StructureHelper.Services.ResultViewers
             FieldViewerOperation.ShowViewer(primitiveSets);
         }
 
-        public static List<IPrimitiveSet> GetPrimitiveSets(IStrainMatrix strainMatrix, IEnumerable<INdm> ndms, IEnumerable<ForceResultFunc> resultFuncs)
+        public static List<IPrimitiveSet> GetPrimitiveSets(IStrainMatrix strainMatrix, IEnumerable<INdm> ndms, IEnumerable<ForceResultFunc> resultFuncs, bool convertRectangles = false)
         {
             List<IPrimitiveSet> primitiveSets = new List<IPrimitiveSet>();
             foreach (var valDelegate in resultFuncs)
@@ -31,7 +32,7 @@ namespace StructureHelper.Services.ResultViewers
                 List<IValuePrimitive> primitives = new List<IValuePrimitive>();
                 foreach (INdm ndm in ndms)
                 {
-                    primitives.Add(ProcessNdm(strainMatrix, valDelegate, ndm));
+                    primitives.AddRange(ProcessNdm(strainMatrix, valDelegate, ndm, convertRectangles));
                 }
                 primitiveSet.ValuePrimitives = primitives;
                 primitiveSets.Add(primitiveSet);
@@ -72,35 +73,47 @@ namespace StructureHelper.Services.ResultViewers
             return valuePrimitive;
         }
 
-        private static IValuePrimitive ProcessNdm(IStrainMatrix strainMatrix, ForceResultFunc valDelegate, INdm ndm)
+        private static List<IValuePrimitive> ProcessNdm(IStrainMatrix strainMatrix, ForceResultFunc valDelegate, INdm ndm, bool convertRectangles)
         {
+            List<IValuePrimitive> valuePrimitives = [];
             double delegateResult = valDelegate.ResultFunction.Invoke(strainMatrix, ndm);
             double val = delegateResult * valDelegate.UnitFactor;
             //val = roundLogic.RoundValue(val);
             IValuePrimitive valuePrimitive;
             if (ndm is IRectangleNdm shapeNdm)
             {
-                valuePrimitive = ProcessRectangle(shapeNdm, val);
+                if (convertRectangles)
+                {
+                    valuePrimitives.AddRange(ProcessRectangleToTriangles(shapeNdm, strainMatrix, valDelegate));
+                }
+                else
+                {
+                    valuePrimitive = ProcessRectangle(shapeNdm, val);
+                    valuePrimitives.Add(valuePrimitive);
+                }
             }
             else if (ndm is ITriangleNdm triangle)
             {
                 //valuePrimitive = ProcessTriangle(triangle, val);
                 valuePrimitive = ProcessTriangle(strainMatrix, valDelegate, triangle);
+                valuePrimitives.Add(valuePrimitive);
             }
             else
             {
                 valuePrimitive = ProcessCircle(ndm, val);
+                valuePrimitives.Add(valuePrimitive);
             }
-            return valuePrimitive;
+            return valuePrimitives;
         }
 
         private static IValuePrimitive ProcessTriangle(IStrainMatrix strainMatrix, ForceResultFunc valDelegate, ITriangleNdm triangle)
         {
             double delegateResult = valDelegate.ResultFunction.Invoke(strainMatrix, triangle);
             double val = delegateResult * valDelegate.UnitFactor;
-            var moqNdm1 = new Ndm() { CenterX = triangle.Point1.X, CenterY = triangle.Point1.Y, Area = triangle.Area, Material = triangle.Material };
-            var moqNdm2 = new Ndm() { CenterX = triangle.Point2.X, CenterY = triangle.Point2.Y, Area = triangle.Area, Material = triangle.Material };
-            var moqNdm3 = new Ndm() { CenterX = triangle.Point3.X, CenterY = triangle.Point3.Y, Area = triangle.Area, Material = triangle.Material };
+            var moqLogic = new GetMoqNdmLogic();
+            var moqNdm1 = moqLogic.GetMockNdm(triangle, new Point2D(triangle.Point1.X, triangle.Point1.Y));
+            var moqNdm2 = moqLogic.GetMockNdm(triangle, new Point2D(triangle.Point2.X, triangle.Point2.Y));
+            var moqNdm3 = moqLogic.GetMockNdm(triangle, new Point2D(triangle.Point3.X, triangle.Point3.Y));
             var primitive = new TrianglePrimitive()
             {
                 Point1 = new Point2D() { X = triangle.Point1.X, Y = triangle.Point1.Y },
@@ -126,6 +139,19 @@ namespace StructureHelper.Services.ResultViewers
         //    };
         //    return primitive;
         //}
+
+        private static List<IValuePrimitive> ProcessRectangleToTriangles(IRectangleNdm shapeNdm, IStrainMatrix strainMatrix, ForceResultFunc valDelegate)
+        {
+            List<INdm> triangles = NdmTransform.ConvertRectangleToTriangleNdm(shapeNdm);
+            List<IValuePrimitive> valuePrimitives = [];
+            foreach (var item in triangles)
+            {
+                double delegateResult = valDelegate.ResultFunction.Invoke(strainMatrix, item);
+                double val = delegateResult * valDelegate.UnitFactor;
+                valuePrimitives.Add(ProcessTriangle(strainMatrix, valDelegate, (ITriangleNdm)item));
+            }
+            return valuePrimitives;
+        }
 
         private static IValuePrimitive ProcessRectangle(IRectangleNdm shapeNdm, double val)
         {

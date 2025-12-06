@@ -12,8 +12,18 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.Curvatures
     public class CurvatureCalculatorInputDataViewModel : ViewModelBase
     {
         private ICurvatureCalculatorInputData inputData;
+        private bool considerSofteningFactor;
 
         public DeflectionFactorViewModel DeflectionFactor { get; }
+        public bool ConsiderSofteningFactor
+        {
+            get => inputData.ConsiderSofteningFactor;
+            set
+            {
+                inputData.ConsiderSofteningFactor = value;
+                OnPropertyChanged(nameof(ConsiderSofteningFactor));
+            }
+        }
 
         public SourceTargetVM<IForceAction> CombinationViewModel { get; }
         public SourceTargetVM<PrimitiveBase> PrimitivesViewModel { get; }

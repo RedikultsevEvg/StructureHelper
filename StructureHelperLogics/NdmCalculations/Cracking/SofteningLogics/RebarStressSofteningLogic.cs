@@ -1,4 +1,5 @@
-﻿using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator;
+using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Logics;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -13,6 +14,7 @@ using StructureHelperLogics.NdmCalculations.Triangulations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -107,10 +109,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             rebarActualStrain = actualRebarResult.RebarStrain;
             rebarActualStress = actualRebarResult.RebarStress;
             TraceLogger?.AddMessage($"Actual strain of rebar EpsilonS = {rebarActualStrain}(dimensionless)");
-            concreteStrainActual = concreteNdm
-                .PrestrainLogic
-                .GetAll()
-                .Sum(x => x.PrestrainValue);
+            var prestrainLogic = new GetNdmPrestrainLogic();
+            concreteStrainActual = prestrainLogic.GetPrestrainValueAtCenter(concreteNdm);
             TraceLogger?.AddMessage($"Actual strain of concrete on the axis of rebar EpsilonC = {concreteStrainActual}(dimensionless)");
             if (crackResult.IsSectionCracked == false)
             {

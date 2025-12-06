@@ -48,11 +48,14 @@
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="22"/>
+                                <RowDefinition Height="22"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="Span length"/>
+                            <TextBlock Text="Span length"/>
                             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding InputDataViewModel.DeflectionFactor.SpanLength, Converter={StaticResource LengthConverter}}"/>
+                            <TextBlock Grid.Row="1" Text="Softening factor"/>
+                            <CheckBox Grid.Row="1" Grid.Column="1" Margin="0,3,0,0" IsChecked="{Binding InputDataViewModel.ConsiderSofteningFactor}"/>
                         </Grid>
-                        <Expander Header="Maximum deflections" IsExpanded="True">
+                        <Expander Header="Maximum deflections" IsExpanded="False">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="120"/>
@@ -71,7 +74,7 @@
                                 <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding InputDataViewModel.DeflectionFactor.MaxDeflections.Nz, Converter={StaticResource LengthConverter}}"/>
                             </Grid>
                         </Expander>
-                        <Expander Header="Deflection factors">
+                        <Expander Header="Deflection factors" IsExpanded="False">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="120"/>

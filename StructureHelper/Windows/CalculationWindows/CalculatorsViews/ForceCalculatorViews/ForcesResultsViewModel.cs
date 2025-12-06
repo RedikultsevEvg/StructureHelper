@@ -154,7 +154,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             try
             {
                 IStrainMatrix strainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix;
-                var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, ForceResultFuncFactory.GetResultFuncs());
+                var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, ForceResultFuncFactory.GetResultFuncs(), true);
                 var report = new IsoField3DReport(primitiveSets);
                 report.Show();
             }

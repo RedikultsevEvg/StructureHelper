@@ -18,6 +18,9 @@ namespace DataAccess.DTOs
         public List<IForceAction> ForceActions { get; } = [];
         [JsonProperty("Primitives")]
         public List<INdmPrimitive> Primitives { get; } = [];
+        [JsonProperty("ConsiderSofteningFactor")]
+        public bool ConsiderSofteningFactor { get; set; } = false;
+
         public CurvatureCalculatorInputDataDTO(Guid id)
         {
             Id = id;

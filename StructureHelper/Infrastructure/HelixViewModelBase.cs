@@ -112,7 +112,7 @@ namespace StructureHelper.Infrastructure
             // setup lighting            
             AmbientLightColor = Colors.DimGray;
             DirectionalLightColor = Colors.White;
-            DirectionalLightDirection = new Vector3D(-2, -5, -2);
+            DirectionalLightDirection = new Vector3D(-2, -5, 2);
 
             BackgroundTexture =
     BitmapExtensions.CreateLinearGradientBitmapStream(EffectsManager, 128, 128, Direct2DImageFormat.Bmp,

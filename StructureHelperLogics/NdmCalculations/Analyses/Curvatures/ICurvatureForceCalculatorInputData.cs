@@ -8,5 +8,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
     {
         IDesignForcePair ForcePair {get;set;}
         IDeflectionFactor DeflectionFactor { get; set; }
+        bool ConsiderSofteningFactor { get; set; }
     }
 }

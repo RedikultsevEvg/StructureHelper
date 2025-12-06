@@ -1,4 +1,5 @@
-﻿using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator;
+using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Logics;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -9,6 +10,7 @@ using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
+using System.Runtime.Intrinsics.Arm;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
@@ -63,7 +65,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             var strainMatrix = ForceTupleConverter.ConvertToLoaderStrainMatrix(strainTuple);
             result.RebarStrain = stressLogic.GetSectionStrain(strainMatrix, rebarNdm);
             result.RebarStress = stressLogic.GetStress(strainMatrix, rebarNdm);
-            result.ConcreteStrain = -concreteNdm.PrestrainLogic.GetAll().Sum(x => x.PrestrainValue);
+            var prestrainLogic = new GetNdmPrestrainLogic();
+            var prestrainValue = prestrainLogic.GetPrestrainValueAtCenter(concreteNdm);
+            result.ConcreteStrain = - prestrainValue;
         }
 
         private void PrepareNewResult()

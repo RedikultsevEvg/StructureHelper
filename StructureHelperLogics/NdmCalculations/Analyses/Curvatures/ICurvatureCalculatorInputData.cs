@@ -11,5 +11,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
     public interface ICurvatureCalculatorInputData : IInputData, ISaveable, IHasForceActions, IHasPrimitives
     {
         IDeflectionFactor DeflectionFactor { get; set; }
+        bool ConsiderSofteningFactor { get; set; }
     }
 }

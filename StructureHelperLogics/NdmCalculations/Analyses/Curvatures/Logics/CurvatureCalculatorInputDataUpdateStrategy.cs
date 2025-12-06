@@ -46,7 +46,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 
             if (ReferenceEquals(target, source))
                 return;
-
+            target.ConsiderSofteningFactor = source.ConsiderSofteningFactor;
             if (UpdateChildren)
             {
                 ValidateChildProperties(target, source);

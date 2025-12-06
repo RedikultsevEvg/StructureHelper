@@ -1,4 +1,5 @@
-﻿using LoaderCalculator.Data.Matrix;
+﻿using LoaderCalculator;
+using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Logics;
 using StructureHelperCommon.Infrastructures.Enums;
@@ -6,11 +7,6 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.RC
 {
@@ -42,7 +38,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.RC
             {
                 inputData.ReinforcementStress = inputData.ReinforcementStrength;
             }
-            inputData.IsPrestressed = ndm.PrestrainLogic.GetByType(PrestrainTypes.Prestrain).Sum(x => x.PrestrainValue) > 0.0005d ? true : false; 
+            var prestrainLogic = new GetNdmPrestrainLogic();
+            var prestrainValue = prestrainLogic.GetPrestrainValueAtCenter(ndm);
+            inputData.IsPrestressed = prestrainValue > 0.0005d ? true : false; 
             inputData.LappedCountRate = lappedCountRate;
             return inputData;
         }

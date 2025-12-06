@@ -1,13 +1,6 @@
 ﻿using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
-using LoaderCalculator.Data.Ndms.Transformations;
 using StructureHelperCommon.Models.Forces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.Design.AxImporter;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {

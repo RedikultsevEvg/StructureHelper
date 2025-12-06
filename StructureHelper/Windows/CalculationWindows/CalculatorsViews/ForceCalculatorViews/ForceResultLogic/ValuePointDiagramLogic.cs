@@ -1,4 +1,5 @@
-﻿using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator.Data.Matrix;
+using LoaderCalculator.Data.Ndms;
 using StructureHelper.Services.ResultViewers;
 using StructureHelper.Windows.Forces;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -145,10 +146,13 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 CenterY = valuePoint.areaPoint.Point.Y,
                 Material = material,
             };
-            var prestrain = (userPrestrain.Mx + autoPrestrain.Mx) * valuePoint.areaPoint.Point.Y
-                + (userPrestrain.My + autoPrestrain.My) * valuePoint.areaPoint.Point.X
-                + userPrestrain.Nz + autoPrestrain.Nz;
-            ndm.PrestrainLogic.Add(PrestrainTypes.Prestrain, prestrain);
+            StrainMatrix prestrainMatrix = new()
+            {
+                Kx = (userPrestrain.Mx + autoPrestrain.Mx),
+                Ky = (userPrestrain.My + autoPrestrain.My),
+                EpsZ = userPrestrain.Nz + autoPrestrain.Nz
+            };
+            ndm.PrestrainLogic.Add(PrestrainTypes.Prestrain, prestrainMatrix);
             return ndm;
         }
         private List<string> GetValueLabels(IEnumerable<ForceResultFunc> selectedDelegates)

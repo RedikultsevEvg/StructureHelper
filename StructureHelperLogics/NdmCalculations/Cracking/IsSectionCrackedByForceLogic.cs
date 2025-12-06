@@ -5,7 +5,6 @@ using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using System.Diagnostics.Eventing.Reader;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
@@ -46,7 +45,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             }
             var strainMatrix = calcResult.LoaderResults.ForceStrainPair.StrainMatrix;
             IEnumerable<INdm> checkedNdmCollection;
-            var isSectionCracked = stressLogic.IsSectionCracked(strainMatrix, CheckedNdmCollection);
+            var crackLogic = new CrackedSectionLogic();
+            var isSectionCracked = crackLogic.IsSectionCracked(strainMatrix, CheckedNdmCollection);
             if (isSectionCracked == true)
             {
                 TraceLogger?.AddMessage($"Cracks are appeared in cross-section for current force combination");

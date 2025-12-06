@@ -71,7 +71,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
                         {
                             ForcePair = pair,
                             Primitives = InputData.Primitives,
-                            DeflectionFactor = InputData.DeflectionFactor
+                            DeflectionFactor = InputData.DeflectionFactor,
+                            ConsiderSofteningFactor = InputData.ConsiderSofteningFactor,
                         };
                         ForceCalculator.InputData = forceInputData;
                         ForceCalculator.Run();

@@ -5,28 +5,24 @@ using FieldVisualizer.Entities.Values.Primitives;
 using FieldVisualizer.Services.ColorServices;
 using FieldVisualizer.Services.PrimitiveServices;
 using FieldVisualizer.Services.ValueRanges;
-using HelixToolkit;
 using HelixToolkit.Geometry;
 using HelixToolkit.Maths;
 using HelixToolkit.SharpDX;
 using HelixToolkit.Wpf.SharpDX;
 using StructureHelper.Infrastructure;
-using StructureHelper.Models.Materials;
+using StructureHelper.Windows.Graphs;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using Color = HelixToolkit.Maths.Color;
+using System.Windows.Input;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
     public class IsoField3DViewerViewModel : ViewModelBase
     {
         const int RangeNumber = 16;
-        private int userZoomFactor = 100;
+        private int userZoomFactor = 30;
         private IEnumerable<IPrimitiveSet> primitiveSets;
         private Element3D item0;
         private Element3D item1;
@@ -39,8 +35,10 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private IColorMap _ColorMap;
         private ColorMapsTypes _ColorMapType;
 
+
         public ContourViewportViewModel ViewportViewModel { get; } = new ContourViewportViewModel();
         public IEnumerable<IPrimitiveSet> PrimitiveSets { get => primitiveSets;}
+        public SaveCopyFWElementViewModel SaveCopyViewModel { get; private set; } = new();
 
         public IsoField3DViewerViewModel(IEnumerable<IPrimitiveSet> primitiveSets)
         {
@@ -54,6 +52,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             set
             {
                 selectedPrimitiveSet = value;
+                ViewportViewModel.Title = selectedPrimitiveSet.Name;
                 OnPropertyChanged(nameof(SelectedPrimitiveSet));
                 RebuildPrimitives();
             }
@@ -66,12 +65,32 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             {
                 userZoomFactor = value;
                 OnPropertyChanged(nameof(UserZoomFactor));
-                RebuildPrimitives ();
+            }
+        }
+
+        public bool ShowZeroPlane
+        {
+            get => showZeroPlane;
+            set
+            {
+                showZeroPlane = value;
+                OnPropertyChanged(nameof(ShowZeroPlane));
+            }
+        }
+
+        public bool InvertNormal
+        {
+            get => invertNormal;
+            set
+            {
+                invertNormal = value;
+                OnPropertyChanged(nameof(InvertNormal));
             }
         }
 
         private void RebuildPrimitives()
         {
+            if (SelectedPrimitiveSet is null) { return; }
             SetColor();
             item0 = ViewportViewModel.Viewport3D.Items[0];
             item1 = ViewportViewModel.Viewport3D.Items[1];
@@ -81,61 +100,16 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             ViewportViewModel.Viewport3D.Items.Add(item1);
             ViewportViewModel.Viewport3D.Items.Add(item2);
             double maxValue = SelectedPrimitiveSet.ValuePrimitives.Max(x => x.Value) - SelectedPrimitiveSet.ValuePrimitives.Min(x => x.Value);
-            zoomValue = UserZoomFactor / 100.0 / maxValue;
-            foreach (var primitive in SelectedPrimitiveSet.ValuePrimitives)
+            zoomValue = (Math.Pow(1.1, UserZoomFactor) - 1) / 100.0 / maxValue;
+            var logic = new GetModels3dByValuePrimivesLogic()
             {
-                if (primitive is ITrianglePrimitive triangle)
-                {
-                    var model = CreateTriangle(triangle);
-                    ViewportViewModel.Viewport3D.Items.Add(model);
-                }
-            }
-        }
-
-
-        private MeshGeometryModel3D CreateTriangle(ITrianglePrimitive triangle)
-        {
-            // Triangle vertices
-            Vector3 p0 = new Vector3((float)triangle.Point1.X, (float)triangle.Point1.Y, (float)(triangle.ValuePoint1 * zoomValue));
-            Vector3 p1 = new Vector3((float)triangle.Point2.X, (float)triangle.Point2.Y, (float)(triangle.ValuePoint2 * zoomValue));
-            Vector3 p2 = new Vector3((float)triangle.Point3.X, (float)triangle.Point3.Y, (float)(triangle.ValuePoint3 * zoomValue));
-
-            var builder = new MeshBuilder();
-            builder.AddTriangle(p0, p1, p2);
-
-            var mesh = builder.ToMeshGeometry3D();
-
-            var material = new PhongMaterial
-            {
-                DiffuseColor = ToColor4(ColorOperations.GetColorByValue(valueRange, _ColorMap, triangle.Value)),
-                SpecularShininess = 50f
+                ZoomValue = zoomValue,
+                ShowZeroPlane = ShowZeroPlane,
+                InvertNormal = InvertNormal,
+                ColorMap = _ColorMap,
+                ValueRange = valueRange,
             };
-
-
-            var model = new MeshGeometryModel3D
-            {
-                Geometry = mesh,
-                Material = material,
-                CullMode = SharpDX.Direct3D11.CullMode.None,
-                ToolTip = triangle.Value
-            };
-            return model;
-        }
-
-        public static Color4 ToColor4(System.Windows.Media.Color c)
-        {
-            return new Color4(
-                c.R / 255f,
-                c.G / 255f,
-                c.B / 255f,
-                c.A / 255f
-            );
-        }
-
-        internal void Refresh()
-        {
-            
-            
+            logic.GetModels3d(SelectedPrimitiveSet.ValuePrimitives, ViewportViewModel.Viewport3D);
         }
 
         private void SetColor()
@@ -143,6 +117,17 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             valueRange = PrimitiveOperations.GetValueRange(SelectedPrimitiveSet.ValuePrimitives);
             valueRanges = ValueRangeOperations.DivideValueRange(valueRange, RangeNumber);
             valueColorRanges = ColorOperations.GetValueColorRanges(valueRange, valueRanges, _ColorMap);
+        }
+
+        private RelayCommand rebuildCommand;
+        private bool showZeroPlane = true;
+        private bool invertNormal = false;
+
+        public ICommand RebuildCommand => rebuildCommand ??= new RelayCommand(Rebuild);
+
+        private void Rebuild(object commandParameter)
+        {
+            RebuildPrimitives();
         }
     }
 }

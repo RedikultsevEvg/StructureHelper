@@ -2,7 +2,6 @@
 using LoaderCalculator.Data.Materials.MaterialBuilders;
 using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
-using LoaderCalculator.Data.Ndms.Transformations;
 using LoaderCalculator.Data.Planes;
 using LoaderCalculator.Data.SourceData;
 using LoaderCalculator.Tests.Infrastructures.Logics;

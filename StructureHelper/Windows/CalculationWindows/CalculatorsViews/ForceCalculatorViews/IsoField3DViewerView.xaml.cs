@@ -25,7 +25,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             this.viewModel = viewModel;
             this.DataContext = viewModel;
             viewModel.ViewportViewModel.Viewport3D = View3D;
-            viewModel.Refresh();
+            viewModel.SaveCopyViewModel.FrameWorkElement = ViewportGrid;
         }
     }
 }

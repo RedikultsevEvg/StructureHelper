@@ -1,5 +1,4 @@
 ﻿using LoaderCalculator.Data.Ndms;
-using LoaderCalculator.Data.Ndms.Transformations;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Services.Forces;
 

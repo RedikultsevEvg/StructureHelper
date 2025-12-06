@@ -1,4 +1,6 @@
-﻿using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator.Data.Matrix;
+using LoaderCalculator.Data.Ndms;
+using LoaderCalculator.Infrastructure.Geometry;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Models.States;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -24,11 +26,20 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 CenterY = point.Y,
                 Material = material,
             };
-            var prestrain = (userPrestrain.Mx + autoPrestrain.Mx) * point.Y
-                + (userPrestrain.My + autoPrestrain.My) * point.X
-                + userPrestrain.Nz + autoPrestrain.Nz;
-            ndm.PrestrainLogic.Add(PrestrainTypes.Prestrain, prestrain);
+            StrainMatrix prestrainMatrix = new()
+            {
+                Kx = (userPrestrain.Mx + autoPrestrain.Mx),
+                Ky = (userPrestrain.My + autoPrestrain.My),
+                EpsZ = userPrestrain.Nz + autoPrestrain.Nz
+            };
+            ndm.PrestrainLogic.Add(PrestrainTypes.Prestrain, prestrainMatrix);
             return ndm;
+        }
+
+        public INdm GetMockNdm(INdm ndm, IPoint2D point)
+        {
+            INdm newNdm = NdmTransform.GetMoqNdmAtPoint(ndm, new PointLd2D(point.X, point.Y));
+            return newNdm;
         }
     }
 }

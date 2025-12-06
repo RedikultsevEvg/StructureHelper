@@ -1,4 +1,6 @@
-﻿using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator;
+using LoaderCalculator.Data.Matrix;
+using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
@@ -38,11 +40,12 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 var material = ndm.Material;
                 var materialFunc = material.Diagram;
                 var newMaterialFunc = (double strain) => strain * material.InitModulus;
-                var existingPrestrain = ndm.PrestrainLogic.GetAll().Sum(x => x.PrestrainValue);
+                var prestrainLogic = new GetNdmPrestrainLogic();
+                var existingPrestrain = prestrainLogic.GetPrestrainValueAtCenter(ndm);
                 var newPrestrain = materialFunc(existingPrestrain) / material.InitModulus;
                 ndm.Material.Diagram = newMaterialFunc;
                 ndm.PrestrainLogic.DeleteAll();
-                ndm.PrestrainLogic.Add(PrestrainTypes.Prestrain, newPrestrain);
+                ndm.PrestrainLogic.Add(PrestrainTypes.Prestrain, new StrainMatrix() { EpsZ = newPrestrain });
             }
             return ndms;
         }

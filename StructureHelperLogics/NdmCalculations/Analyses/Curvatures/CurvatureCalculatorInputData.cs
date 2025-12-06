@@ -10,6 +10,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 
         public List<INdmPrimitive> Primitives { get; } = [];
         public IDeflectionFactor DeflectionFactor { get; set; } = new DeflectionFactor(Guid.NewGuid());
+        public bool ConsiderSofteningFactor { get; set; } = false;
 
         public CurvatureCalculatorInputData(Guid id)
         {

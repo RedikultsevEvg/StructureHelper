@@ -67,7 +67,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             var exitMx = stiffness[0, 0] * strain.Kx + stiffness[0, 1] * strain.Ky + stiffness[0, 2] * strain.EpsZ;
             var exitMy = stiffness[1, 0] * strain.Kx + stiffness[1, 1] * strain.Ky + stiffness[1, 2] * strain.EpsZ;
             var exitNz = stiffness[2, 0] * strain.Kx + stiffness[2, 1] * strain.Ky + stiffness[2, 2] * strain.EpsZ;
-            var PrestressMatrix = new ForceLogic()
+            var PrestressMatrix = new CalculateForceMatrixLogic()
                 .GetPrestressMatrix(new StiffnessLogic(), ndmCollection, strain);
             double mx = exitMx + PrestressMatrix.Mx;
             double my = exitMy + PrestressMatrix.My;
