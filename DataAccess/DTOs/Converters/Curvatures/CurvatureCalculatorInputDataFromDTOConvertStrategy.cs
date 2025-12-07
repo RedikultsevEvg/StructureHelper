@@ -11,21 +11,18 @@ namespace DataAccess.DTOs
 {
     public class CurvatureCalculatorInputDataFromDTOConvertStrategy : ConvertStrategy<CurvatureCalculatorInputData, CurvatureCalculatorInputDataDTO>
     {
-        private IHasPrimitivesProcessLogic primitivesProcessLogic;
-        private IHasForceActionsProcessLogic actionsProcessLogic;
+        private IProcessLogic<IHasForcesAndPrimitives> forcesAndPrimitivesProcessLogic;
         private IUpdateStrategy<ICurvatureCalculatorInputData> updateStrategy;
         private IConvertStrategy<DeflectionFactor, DeflectionFactorDTO> deflectionConvertStrategy;
-
+        private IProcessLogic<IHasForcesAndPrimitives> ForcesAndPrimitivesProcessLogic => forcesAndPrimitivesProcessLogic ??= new HasForcesAndPrimitivesProcessLogic(ConvertDirection.FromDTO) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
+        private IUpdateStrategy<ICurvatureCalculatorInputData> UpdateStrategy => updateStrategy ??= new CurvatureCalculatorInputDataUpdateStrategy() { UpdateChildren = false };
+        private IConvertStrategy<DeflectionFactor, DeflectionFactorDTO> DeflectionConvertStrategy => deflectionConvertStrategy ??= new DeflectionFactorFromDTOConvertStrategy(this);
         public CurvatureCalculatorInputDataFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
         }
-
-        private IHasPrimitivesProcessLogic PrimitivesProcessLogic => primitivesProcessLogic ??= new HasPrimitivesProcessLogic(ConvertDirection.FromDTO) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
-        private IHasForceActionsProcessLogic ActionsProcessLogic => actionsProcessLogic ??= new HasForceActionsProcessLogic(ConvertDirection.FromDTO) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
-        private IUpdateStrategy<ICurvatureCalculatorInputData> UpdateStrategy => updateStrategy ??= new CurvatureCalculatorInputDataUpdateStrategy() { UpdateChildren = false };
-        private IConvertStrategy<DeflectionFactor, DeflectionFactorDTO> DeflectionConvertStrategy => deflectionConvertStrategy ??= new DeflectionFactorFromDTOConvertStrategy(this);
         public override CurvatureCalculatorInputData GetNewItem(CurvatureCalculatorInputDataDTO source)
         {
+            ChildClass = this;
             NewItem = new(source.Id);
             UpdateStrategy.Update(NewItem, source);
             if (source.DeflectionFactor is not DeflectionFactorDTO deflectionFactorDTO)
@@ -33,22 +30,16 @@ namespace DataAccess.DTOs
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source.DeflectionFactor) + ": deflection factor");
             }
             NewItem.DeflectionFactor = DeflectionConvertStrategy.Convert(deflectionFactorDTO);
-            ProcessPrimitives(source);
-            ProcessActions(source);
+            ProcessForcesAndPrimitives(source);
             return NewItem;
         }
 
-        private void ProcessPrimitives(IHasPrimitives source)
+
+        private void ProcessForcesAndPrimitives(IHasForcesAndPrimitives source)
         {
-            PrimitivesProcessLogic.Source = source;
-            PrimitivesProcessLogic.Target = NewItem;
-            PrimitivesProcessLogic.Process();
-        }
-        private void ProcessActions(IHasForceActions source)
-        {
-            ActionsProcessLogic.Source = source;
-            ActionsProcessLogic.Target = NewItem;
-            ActionsProcessLogic.Process();
+            ForcesAndPrimitivesProcessLogic.Source = source;
+            ForcesAndPrimitivesProcessLogic.Target = NewItem;
+            ForcesAndPrimitivesProcessLogic.Process();
         }
     }
 }

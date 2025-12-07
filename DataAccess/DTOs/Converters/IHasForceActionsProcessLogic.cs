@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using DataAccess.DTOs.Converters;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 
 namespace DataAccess.DTOs
@@ -6,12 +7,7 @@ namespace DataAccess.DTOs
     /// <summary>
     /// Logic for antities which have force actions
     /// </summary>
-    public interface IHasForceActionsProcessLogic
+    public interface IHasForceActionsProcessLogic : IProcessLogic<IHasForceActions>
     {
-        Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        IHasForceActions Source { get; set; }
-        IHasForceActions Target { get; set; }
-        IShiftTraceLogger TraceLogger { get; set; }
-        void Process();
     }
 }

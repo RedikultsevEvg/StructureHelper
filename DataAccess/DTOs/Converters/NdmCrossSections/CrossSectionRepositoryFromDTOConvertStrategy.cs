@@ -3,17 +3,9 @@ using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
-using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
@@ -22,9 +14,12 @@ namespace DataAccess.DTOs
         private const string convertStarted = " converting is started";
         private const string convertFinished = " converting has been finished successfully";
         private CrossSectionRepository newRepository;
+        private ICheckEntityLogic<ICrossSectionRepository> checkEntityLogic;
+        private ICheckEntityLogic<ICrossSectionRepository> CheckEntityLogic => checkEntityLogic ??= new CrossSectionRepositoryCheckLogic() {Entity = oldRepository};
 
-        private IHasPrimitivesProcessLogic primitivesProcessLogic = new HasPrimitivesProcessLogic(ConvertDirection.FromDTO);
-        private IHasForceActionsProcessLogic actionsProcessLogic = new HasForceActionsProcessLogic(ConvertDirection.FromDTO);
+        private IProcessLogic<IHasForcesAndPrimitives> forcesAndPrimitivesLogic;
+        private IProcessLogic<IHasForcesAndPrimitives> ForcesAndPrimitivesLogic => forcesAndPrimitivesLogic ??= new HasForcesAndPrimitivesProcessLogic(ConvertDirection.FromDTO) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger};
+        private ICrossSectionRepository oldRepository;
 
         public CrossSectionRepositoryFromDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger) : base(referenceDictionary, traceLogger)
         {
@@ -32,11 +27,17 @@ namespace DataAccess.DTOs
 
         public override CrossSectionRepository GetNewItem(ICrossSectionRepository source)
         {
+            oldRepository = source;
+            if (CheckEntityLogic.Check() == false)
+            {
+                TraceLogger.AddMessage(CheckEntityLogic.CheckResult, TraceLogStatuses.Error);
+                TraceLogger.AddMessage("All calculators will be removed", TraceLogStatuses.Error);
+                oldRepository.Calculators.Clear();
+            }
             TraceLogger?.AddMessage("Cross-Section repository" + convertStarted);
             newRepository = new(source.Id);
             ProcessMaterials(source);
-            ProcessActions(source);
-            ProcessPrimitives(source);
+            ProcessForcesAndPrimitives(source);
             ProcessCalculators(source);
             TraceLogger?.AddMessage("Cross-Section repository" + convertFinished);
             return newRepository;
@@ -56,22 +57,12 @@ namespace DataAccess.DTOs
             TraceLogger?.AddMessage("Calculators" + convertFinished);
         }
 
-        private void ProcessPrimitives(IHasPrimitives source)
-        {
-            primitivesProcessLogic.Source = source;
-            primitivesProcessLogic.Target = newRepository;
-            primitivesProcessLogic.ReferenceDictionary = ReferenceDictionary;
-            primitivesProcessLogic.TraceLogger = TraceLogger;
-            primitivesProcessLogic.Process();
-        }
 
-        private void ProcessActions(IHasForceActions source)
+        private void ProcessForcesAndPrimitives(IHasForcesAndPrimitives source)
         {
-            actionsProcessLogic.Source = source;
-            actionsProcessLogic.Target = newRepository;
-            actionsProcessLogic.ReferenceDictionary = ReferenceDictionary;
-            actionsProcessLogic.TraceLogger = TraceLogger;
-            actionsProcessLogic.Process();
+            ForcesAndPrimitivesLogic.Source = source;
+            ForcesAndPrimitivesLogic.Target = newRepository;
+            ForcesAndPrimitivesLogic.Process();
         }
 
         private void ProcessMaterials(IHasHeadMaterials source)

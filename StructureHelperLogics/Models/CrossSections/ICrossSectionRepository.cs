@@ -6,7 +6,7 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.Models.CrossSections
 {
-    public interface ICrossSectionRepository : ISaveable, IHasHeadMaterials, IHasPrimitives, IHasForceActions, IHasCalculators
+    public interface ICrossSectionRepository : ISaveable, IHasHeadMaterials, IHasForcesAndPrimitives, IHasCalculators
     {
        
     }

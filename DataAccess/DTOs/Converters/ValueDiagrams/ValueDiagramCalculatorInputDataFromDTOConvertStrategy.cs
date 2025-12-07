@@ -11,22 +11,35 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<IValueDiagramCalculatorInputData> updateStrategy;
         private IConvertStrategy<ValueDiagramEntity, ValueDiagramEntityDTO> diagramConvertStrategy;
-        private IHasPrimitivesProcessLogic primitivesProcessLogic;
-        private IHasForceActionsProcessLogic actionsProcessLogic;
+        private IProcessLogic<IHasForcesAndPrimitives> forcesAndPrimitivesLogic;
         private IConvertStrategy<Accuracy, AccuracyDTO> accuracyConvertStrategy;
+        private IUpdateStrategy<IValueDiagramCalculatorInputData> UpdateStrategy => updateStrategy ??= new ValueDiagramCalculatorInputDataUpdateStrategy() { UpdateChildren = false };
+        private IConvertStrategy<ValueDiagramEntity, ValueDiagramEntityDTO> DiagramConvertStrategy => diagramConvertStrategy ??= new ValueDiagramEntityFromDTOConvertStrategy(this);
+        private IProcessLogic<IHasForcesAndPrimitives> ForcesAndPrimitivesLogic => forcesAndPrimitivesLogic ??= new HasForcesAndPrimitivesProcessLogic(ConvertDirection.FromDTO) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
+        private IConvertStrategy<Accuracy, AccuracyDTO> AccuracyConvertStrategy => accuracyConvertStrategy ??= new AccuracyFromDTOConvertStrategy() { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
 
         public ValueDiagramCalculatorInputDataFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
+        }
+
+        public ValueDiagramCalculatorInputDataFromDTOConvertStrategy(
+            IUpdateStrategy<IValueDiagramCalculatorInputData> updateStrategy,
+            IConvertStrategy<ValueDiagramEntity, ValueDiagramEntityDTO> diagramConvertStrategy,
+            IProcessLogic<IHasForcesAndPrimitives> forcesAndPrimitivesLogic,
+            IConvertStrategy<Accuracy, AccuracyDTO> accuracyConvertStrategy)
+        {
+            this.updateStrategy = updateStrategy;
+            this.diagramConvertStrategy = diagramConvertStrategy;
+            this.forcesAndPrimitivesLogic = forcesAndPrimitivesLogic;
+            this.accuracyConvertStrategy = accuracyConvertStrategy;
         }
 
         public override ValueDiagramCalculatorInputData GetNewItem(ValueDiagramCalculatorInputDataDTO source)
         {
             ChildClass = this;
             NewItem = new(source.Id);
-            InitializeStrategies();
-            updateStrategy.Update(NewItem, source);
-            ProcessPrimitives(source);
-            ProcessActions(source);
+            UpdateStrategy.Update(NewItem, source);
+            ProcessForcesAndPrimitives(source);
             NewItem.Diagrams.Clear();
             foreach (var diagram in source.Diagrams)
             {
@@ -34,35 +47,16 @@ namespace DataAccess.DTOs
                 {
                     throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(diagram));
                 }
-                NewItem.Diagrams.Add(diagramConvertStrategy.Convert(diagramDTO));
+                NewItem.Diagrams.Add(DiagramConvertStrategy.Convert(diagramDTO));
             }
             return NewItem;
         }
 
-        private void ProcessPrimitives(IHasPrimitives source)
+        private void ProcessForcesAndPrimitives(IHasForcesAndPrimitives source)
         {
-            primitivesProcessLogic.Source = source;
-            primitivesProcessLogic.Target = NewItem;
-            primitivesProcessLogic.ReferenceDictionary = ReferenceDictionary;
-            primitivesProcessLogic.TraceLogger = TraceLogger;
-            primitivesProcessLogic.Process();
-        }
-        private void ProcessActions(IHasForceActions source)
-        {
-            actionsProcessLogic.Source = source;
-            actionsProcessLogic.Target = NewItem;
-            actionsProcessLogic.ReferenceDictionary = ReferenceDictionary;
-            actionsProcessLogic.TraceLogger = TraceLogger;
-            actionsProcessLogic.Process();
-        }
-
-        private void InitializeStrategies()
-        {
-            updateStrategy ??= new ValueDiagramCalculatorInputDataUpdateStrategy() { UpdateChildren = false };
-            diagramConvertStrategy ??= new ValueDiagramEntityFromDTOConvertStrategy(this);
-            primitivesProcessLogic ??= new HasPrimitivesProcessLogic(ConvertDirection.FromDTO) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
-            actionsProcessLogic ??= new HasForceActionsProcessLogic(ConvertDirection.FromDTO) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
-            accuracyConvertStrategy ??= new AccuracyFromDTOConvertStrategy() { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
+            ForcesAndPrimitivesLogic.Source = source;
+            ForcesAndPrimitivesLogic.Target = NewItem;
+            ForcesAndPrimitivesLogic.Process();
         }
     }
 }

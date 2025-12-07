@@ -9,8 +9,10 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<IValueDiagramCalculatorInputData> updateStrategy;
         private IConvertStrategy<ValueDiagramEntityDTO, IValueDiagramEntity> diagramConvertStrategy;
-        private IHasPrimitivesProcessLogic primitivesProcessLogic;
-        private IHasForceActionsProcessLogic actionsProcessLogic;
+        private IConvertStrategy<ValueDiagramEntityDTO, IValueDiagramEntity> DiagramConvertStrategy => diagramConvertStrategy ??= new ValueDiagramEntityToDTOConvertStrategy(this);
+        private IProcessLogic<IHasForcesAndPrimitives> actionsProcessLogic;
+        private IUpdateStrategy<IValueDiagramCalculatorInputData> UpdateStrategy => updateStrategy ??= new ValueDiagramCalculatorInputDataUpdateStrategy() { UpdateChildren = false };
+        private IProcessLogic<IHasForcesAndPrimitives> ActionsProcessLogic => actionsProcessLogic ??= new HasForcesAndPrimitivesProcessLogic(ConvertDirection.ToDTO) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
 
         public ValueDiagramCalculatorInputDataToDTOConvertStrategy() : base()
         {
@@ -24,41 +26,21 @@ namespace DataAccess.DTOs
         {
             ChildClass = this;
             NewItem = new(source.Id);
-            InitializeStrategies();
-            updateStrategy.Update(NewItem, source);
-            ProcessPrimitives(source);
+            UpdateStrategy.Update(NewItem, source);
             ProcessActions(source);
             NewItem.Diagrams.Clear();
             foreach (var diagram in source.Diagrams)
             {
-                NewItem.Diagrams.Add(diagramConvertStrategy.Convert(diagram));
+                NewItem.Diagrams.Add(DiagramConvertStrategy.Convert(diagram));
             }
             return NewItem;
         }
 
-        private void ProcessPrimitives(IHasPrimitives source)
+        private void ProcessActions(IHasForcesAndPrimitives source)
         {
-            primitivesProcessLogic.Source = source;
-            primitivesProcessLogic.Target = NewItem;
-            primitivesProcessLogic.ReferenceDictionary = ReferenceDictionary;
-            primitivesProcessLogic.TraceLogger = TraceLogger;
-            primitivesProcessLogic.Process();
-        }
-        private void ProcessActions(IHasForceActions source)
-        {
-            actionsProcessLogic.Source = source;
-            actionsProcessLogic.Target = NewItem;
-            actionsProcessLogic.ReferenceDictionary = ReferenceDictionary;
-            actionsProcessLogic.TraceLogger = TraceLogger;
-            actionsProcessLogic.Process();
-        }
-
-        private void InitializeStrategies()
-        {
-            updateStrategy ??= new ValueDiagramCalculatorInputDataUpdateStrategy() { UpdateChildren = false};
-            diagramConvertStrategy ??= new ValueDiagramEntityToDTOConvertStrategy(this);
-            primitivesProcessLogic ??= new HasPrimitivesProcessLogic(ConvertDirection.ToDTO) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
-            actionsProcessLogic ??= new HasForceActionsProcessLogic(ConvertDirection.ToDTO) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
+            ActionsProcessLogic.Source = source;
+            ActionsProcessLogic.Target = NewItem;
+            ActionsProcessLogic.Process();
         }
     }
 }

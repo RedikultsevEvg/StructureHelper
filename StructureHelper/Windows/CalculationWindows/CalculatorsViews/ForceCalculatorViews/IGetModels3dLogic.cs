@@ -14,8 +14,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         bool ShowZeroPlane { get; set; }
         IValueRange ValueRange { get; set; }
         double ZoomValue { get; set; }
-
-        static abstract Color4 ToColor4(System.Windows.Media.Color c);
         void GetModels3d(IEnumerable<IValuePrimitive> valuePrimitives, Viewport3DX viewport);
     }
 }

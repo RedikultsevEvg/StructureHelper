@@ -5,17 +5,16 @@ using FieldVisualizer.Services.ColorServices;
 using HelixToolkit.Geometry;
 using HelixToolkit.Maths;
 using HelixToolkit.SharpDX;
-using HelixToolkit.SharpDX.Core;
 using HelixToolkit.Wpf.SharpDX;
-using System;
+using StructureHelper.Services.Reports.Services;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
     public class GetModels3dByValuePrimivesLogic : IGetModels3dLogic
     {
+        private MaterialService materialService = new();
         public double ZoomValue { get; set; }
         public bool InvertNormal { get; set; }
         public IColorMap ColorMap { get; set; }
@@ -53,8 +52,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             var builder = new MeshBuilder();
 
             Vector3 p0 = new Vector3((float)circle.CenterX, (float)circle.CenterY, 0);    // bottom center
-            float cylinderHeight = (float)(circle.Value * ZoomValue);
-            Vector3 p1 = new Vector3((float)circle.CenterX, (float)circle.CenterY, cylinderHeight);   // top center
+            Vector3 p1 = new Vector3((float)circle.CenterX, (float)circle.CenterY, (float)(circle.Value * ZoomValue));   // top center
 
             builder.AddCylinder(p0, p1, (float)circle.Diameter, 8);
 
@@ -62,11 +60,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             var cylinderGeometry = builder.ToMeshGeometry3D();
 
             // Create material (constant grey)
-            var material = new PhongMaterial
-            {
-                DiffuseColor = ToColor4(ColorOperations.GetColorByValue(ValueRange, ColorMap, circle.Value)),
-                SpecularShininess = 50f
-            };
+            var material = materialService.CreateValueMaterial(circle.Value, ValueRange, ColorMap);
 
             // Create model
             var cylinderModel = new MeshGeometryModel3D
@@ -79,24 +73,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private MeshGeometryModel3D CreateZeroTriangle(ITrianglePrimitive triangle)
         {
-            // Triangle vertices
-            Vector3 p0 = new Vector3((float)triangle.Point1.X, (float)triangle.Point1.Y, 0);
-            Vector3 p1 = new Vector3((float)triangle.Point2.X, (float)triangle.Point2.Y, 0);
-            Vector3 p2 = new Vector3((float)triangle.Point3.X, (float)triangle.Point3.Y, 0);
-
-            var builder = new MeshBuilder();
-            builder.AddTriangle(p0, p1, p2);
-
-            var mesh = builder.ToMeshGeometry3D();
-
-            var material = new PBRMaterial
-            {
-                AlbedoColor = new Color4(0.5f, 0.5f, 0.5f, 0.4f), // 40% opacity
-                RoughnessFactor = 0.8f,
-                MetallicFactor = 0.0f
-            };
-
-
+            var mesh = CreateTriangleMesh(triangle, false);
+            var material = materialService.CreateTransparentPlaneMaterial(0.4f);
             var model = new MeshGeometryModel3D
             {
                 Geometry = mesh,
@@ -109,23 +87,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private MeshGeometryModel3D CreateTriangle(ITrianglePrimitive triangle)
         {
-            // Triangle vertices
-            Vector3 p0 = new Vector3((float)triangle.Point1.X, (float)triangle.Point1.Y, (float)(triangle.ValuePoint1 * ZoomValue));
-            Vector3 p1 = new Vector3((float)triangle.Point2.X, (float)triangle.Point2.Y, (float)(triangle.ValuePoint2 * ZoomValue));
-            Vector3 p2 = new Vector3((float)triangle.Point3.X, (float)triangle.Point3.Y, (float)(triangle.ValuePoint3 * ZoomValue));
-
-            var builder = new MeshBuilder();
-            builder.AddTriangle(p0, p1, p2);
-
-            var mesh = builder.ToMeshGeometry3D();
-
-            var material = new PhongMaterial
-            {
-                DiffuseColor = ToColor4(ColorOperations.GetColorByValue(ValueRange, ColorMap, triangle.Value)),
-                SpecularShininess = 50f
-            };
-
-
+            var mesh = CreateTriangleMesh(triangle, true);
+            var material = materialService.CreateValueMaterial(triangle.Value, ValueRange, ColorMap);
             var model = new MeshGeometryModel3D
             {
                 Geometry = mesh,
@@ -136,7 +99,24 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             return model;
         }
 
-        public static Color4 ToColor4(System.Windows.Media.Color c)
+        private HelixToolkit.SharpDX.MeshGeometry3D CreateTriangleMesh(ITrianglePrimitive triangle, bool scaleByValue)
+        {
+            float z1 = scaleByValue ? (float)(triangle.ValuePoint1 * ZoomValue) : 0;
+            float z2 = scaleByValue ? (float)(triangle.ValuePoint2 * ZoomValue) : 0;
+            float z3 = scaleByValue ? (float)(triangle.ValuePoint3 * ZoomValue) : 0;
+
+            Vector3 p0 = new((float)triangle.Point1.X, (float)triangle.Point1.Y, z1);
+            Vector3 p1 = new((float)triangle.Point2.X, (float)triangle.Point2.Y, z2);
+            Vector3 p2 = new((float)triangle.Point3.X, (float)triangle.Point3.Y, z3);
+
+            var builder = new MeshBuilder();
+            builder.AddTriangle(p0, p1, p2);
+
+            return builder.ToMeshGeometry3D();
+        }
+
+
+        private Color4 ToColor4(System.Windows.Media.Color c)
         {
             return new Color4(
                 c.R / 255f,

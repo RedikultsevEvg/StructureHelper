@@ -12,6 +12,10 @@ namespace DataAccess.DTOs
     public class CrossSectionRepositoryToDTOConvertStrategy : IConvertStrategy<CrossSectionRepositoryDTO, ICrossSectionRepository>
     {
         private IConvertStrategy<HeadMaterialDTO, IHeadMaterial> materialConvertStrategy;
+        private ICheckEntityLogic<ICrossSectionRepository> checkEntityLogic;
+        private ICrossSectionRepository oldRepository;
+
+        private ICheckEntityLogic<ICrossSectionRepository> CheckEntityLogic => checkEntityLogic ??= new CrossSectionRepositoryCheckLogic() { Entity = oldRepository };
 
 
         public CrossSectionRepositoryToDTOConvertStrategy(IConvertStrategy<HeadMaterialDTO, IHeadMaterial> materialConvertStrategy)
@@ -30,6 +34,13 @@ namespace DataAccess.DTOs
 
         public CrossSectionRepositoryDTO Convert(ICrossSectionRepository source)
         {
+            oldRepository = source;
+            if (CheckEntityLogic.Check() == false)
+            {
+                TraceLogger.AddMessage(CheckEntityLogic.CheckResult, TraceLogStatuses.Error);
+                TraceLogger.AddMessage("All calculators will be removed", TraceLogStatuses.Error);
+                oldRepository.Calculators.Clear();
+            }
             Check();
             InitializeStrategies();
             try

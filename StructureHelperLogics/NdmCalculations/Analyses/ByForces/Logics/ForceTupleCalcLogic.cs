@@ -24,6 +24,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private Calculator calculator;
         private ILoaderResults calcResult;
         private IStressLogic stressLogic = new StressLogic();
+        private IStressPointsLogic stressPointsLogic;
+        private IStressPointsLogic StressPointsLogic => stressPointsLogic ??= new StressPointsLogic();
 
         public IForceTupleInputData InputData { get; set; }
 
@@ -138,10 +140,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             List<INdm> overStrainedNdms = new();
             foreach (var ndm in InputData.NdmCollection)
             {
-                var strain = stressLogic.GetTotalStrain(calcResult.ForceStrainPair.StrainMatrix, ndm);
-                if (strain < ndm.Material.LimitNegativeStrain || strain > ndm.Material.LimitPositiveStrain)
+                IStrainMatrix strainMatrix = calcResult.ForceStrainPair.StrainMatrix;
+                var strains = StressPointsLogic.GetTotalStrains(strainMatrix, ndm);
+                if (strains.Min() < ndm.Material.LimitNegativeStrain || strains.Max() > ndm.Material.LimitPositiveStrain)
                 {
-                    TraceLogger?.AddMessage($"Elementary part x = {ndm.CenterX}, y = {ndm.CenterY} has strain epsilon = {strain}, positive limit strain epsilon+,max = {ndm.Material.LimitPositiveStrain}, negative limit strain epsilon-,min = {ndm.Material.LimitNegativeStrain}", TraceLogStatuses.Warning);
+                    TraceLogger?.AddMessage($"Elementary part x = {ndm.CenterX}, y = {ndm.CenterY} has max strain epsilon,max = {strains.Max()}, min strain epsilon,min = {strains.Min()}, positive limit strain epsilon+,max = {ndm.Material.LimitPositiveStrain}, negative limit strain epsilon-,min = {ndm.Material.LimitNegativeStrain}", TraceLogStatuses.Warning);
                     overStrainedNdms.Add(ndm);
                 }
             };

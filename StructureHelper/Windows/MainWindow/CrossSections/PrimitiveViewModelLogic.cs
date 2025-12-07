@@ -9,6 +9,7 @@ using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -76,13 +77,42 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             var dialogResult = MessageBox.Show("Delete all primitives?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                repository.Primitives.Clear();
-                Items.Clear();
+                ClearRepository();
                 Refresh();
                 OnPropertyChanged(nameof(Items));
                 OnPropertyChanged(nameof(PrimitivesCount));
             }
         }
+
+        private void ClearRepository()
+        {
+            repository.Primitives.Clear();
+            foreach (var calculator in repository.Calculators)
+            {
+                if (calculator is IForceCalculator forceCalculator)
+                {
+                    forceCalculator.InputData.Primitives.Clear();
+                }
+                else if (calculator is ICrackCalculator crackCalculator)
+                {
+                    crackCalculator.InputData.Primitives.Clear();
+                }
+                else if (calculator is IValueDiagramCalculator valueDiagramCalculator)
+                {
+                    valueDiagramCalculator.InputData.Primitives.Clear();
+                }
+                else if (calculator is ICurvatureCalculator curvatureCalculator)
+                {
+                    curvatureCalculator.InputData.Primitives.Clear();
+                }
+                else
+                {
+                    // skip
+                }
+            }
+            Items.Clear();
+        }
+
         public ICommand DeleteSelectedCommand => deleteSelectedCommand ??= new RelayCommand(DeleteSelected, o => Items.Count > 0);
 
         private void DeleteSelected(object commandParameter)
@@ -98,13 +128,41 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                     .ToList();
                 foreach (var item in deletePrimitivesList)
                 {
-                    repository.Primitives.Remove(item.NdmPrimitive);
-                    Items.Remove(item);
+                    RemoveFromRepository(item);
                 }
                 Refresh();
                 OnPropertyChanged(nameof(Items));
                 OnPropertyChanged(nameof(PrimitivesCount));
             }
+        }
+
+        private void RemoveFromRepository(PrimitiveBase item)
+        {
+            repository.Primitives.Remove(item.NdmPrimitive);
+            foreach (var calculator in repository.Calculators)
+            {
+                if (calculator is IForceCalculator forceCalculator)
+                {
+                    forceCalculator.InputData.Primitives.Remove(item.NdmPrimitive);
+                }
+                else if (calculator is ICrackCalculator crackCalculator)
+                {
+                    crackCalculator.InputData.Primitives.Remove(item.NdmPrimitive);
+                }
+                else if (calculator is IValueDiagramCalculator valueDiagramCalculator)
+                {
+                    valueDiagramCalculator.InputData.Primitives.Remove(item.NdmPrimitive);
+                }
+                else if (calculator is ICurvatureCalculator curvatureCalculator)
+                {
+                    curvatureCalculator.InputData.Primitives.Remove(item.NdmPrimitive);
+                }
+                else
+                {
+                    // skip
+                }
+            }
+            Items.Remove(item);
         }
 
         private void SetMaterialToPrimitives(object obj)

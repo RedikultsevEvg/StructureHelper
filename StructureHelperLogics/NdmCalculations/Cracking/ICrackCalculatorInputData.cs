@@ -11,7 +11,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     /// <summary>
     /// Input data for crack calculator
     /// </summary>
-    public interface ICrackCalculatorInputData : IInputData, IHasPrimitives, IHasForceActions, ISaveable
+    public interface ICrackCalculatorInputData : IInputData, IHasForcesAndPrimitives, ISaveable
     {
         /// <summary>
         /// Used difined data for crack width calculation

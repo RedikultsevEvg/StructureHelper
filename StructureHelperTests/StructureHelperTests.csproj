@@ -33,7 +33,6 @@
   <ItemGroup>
     <Folder Include="FunctionalTests\Ndms\SteelSections\" />
     <Folder Include="FunctionalTests\RCs\Anchorage\" />
-    <Folder Include="UnitTests\ConvertStrategiesTest\" />
     <Folder Include="UnitTests\WindowTests\Calculations\CalculationProperties\" />
   </ItemGroup>
 

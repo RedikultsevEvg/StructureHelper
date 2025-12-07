@@ -10,7 +10,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     /// <summary>
     /// Input data fo roce tuple calculator
     /// </summary>
-    public interface IForceCalculatorInputData : IInputData, ISaveable, IHasPrimitives, IHasForceActions
+    public interface IForceCalculatorInputData : IInputData, ISaveable, IHasForcesAndPrimitives
     {
         /// <summary>
         /// Accuracy of calculating

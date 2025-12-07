@@ -4,13 +4,7 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace DataAccess.DTOs.Converters
 {
-    public interface IHasPrimitivesProcessLogic
+    public interface IHasPrimitivesProcessLogic : IProcessLogic<IHasPrimitives>
     {
-        Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
-        IHasPrimitives Source { get; set; }
-        IHasPrimitives Target { get; set; }
-        IShiftTraceLogger TraceLogger { get; set; }
-
-        void Process();
     }
 }

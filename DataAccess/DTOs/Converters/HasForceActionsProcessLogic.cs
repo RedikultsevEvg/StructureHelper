@@ -1,12 +1,7 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Models.Forces;
+﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models.Forces;
 
 namespace DataAccess.DTOs
 {

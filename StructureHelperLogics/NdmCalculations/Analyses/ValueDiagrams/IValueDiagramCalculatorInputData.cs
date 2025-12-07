@@ -8,7 +8,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
     /// <summary>
     /// Implements input data for Value diagram calculator
     /// </summary>
-    public interface IValueDiagramCalculatorInputData : ISaveable, IInputData, IHasForceActions, IHasPrimitives
+    public interface IValueDiagramCalculatorInputData : ISaveable, IInputData, IHasForcesAndPrimitives
     {
         IStateCalcTermPair StateTermPair { get; set; }
         /// <summary>
