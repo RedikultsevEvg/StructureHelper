@@ -42,6 +42,8 @@ namespace StructureHelperCommon.Services.Units
             units.Add(new Unit() { UnitType = type, Name = "N/m", Multiplyer = 1d });
             units.Add(new Unit() { UnitType = type, Name = "kN/m", Multiplyer = 1e-3d });
             units.Add(new Unit() { UnitType = type, Name = "MN/m", Multiplyer = 1e-6d });
+            type = UnitTypes.Strain;
+            units.Add(new Unit() { UnitType = type, Name = "Dimensionless", Multiplyer = 1d });
             return units;
         }
     }

@@ -8,6 +8,7 @@
         Force,
         Moment,
         Curvature,
-        DistributedLoad
+        DistributedLoad,
+        Strain
     }
 }

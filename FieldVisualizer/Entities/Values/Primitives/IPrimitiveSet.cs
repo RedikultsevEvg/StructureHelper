@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FieldVisualizer.Entities.Values.Primitives
 {
     public interface IPrimitiveSet
     {
-        string Name { get; }
+        string Name { get; set; }
+        string SubTitle { get; set; }
         IEnumerable<IValuePrimitive> ValuePrimitives { get; }
 
     }

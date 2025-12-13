@@ -17,6 +17,7 @@ namespace StructureHelper.Services.ResultViewers
 
         static IUnit unitStress = UnitLogic.GetUnit(UnitTypes.Stress);
         static IUnit unitLength = UnitLogic.GetUnit(UnitTypes.Length, "mm");
+        static IUnit unitStrain = UnitLogic.GetUnit(UnitTypes.Strain);
 
         public static List<CrackResultFunc> GetResultFuncs()
         {
@@ -69,28 +70,28 @@ namespace StructureHelper.Services.ResultViewers
                     Name = "Long rebar strain",
                     ResultFunction = (IRebarCrackResult rebar) => rebar.LongTermResult.RebarStressResult.RebarStrain,
                     UnitFactor = 1d,
-                    UnitName = string.Empty
+                    UnitName = unitStrain.Name
                 },
                 new()
                 {
                     Name = "Short rebar strain",
                     ResultFunction = (IRebarCrackResult rebar) => rebar.ShortTermResult.RebarStressResult.RebarStrain,
                     UnitFactor = 1d,
-                    UnitName = string.Empty
+                    UnitName = unitStrain.Name
                 },
                 new()
                 {
                     Name = "Long concrete strain",
                     ResultFunction = (IRebarCrackResult rebar) => rebar.LongTermResult.RebarStressResult.ConcreteStrain,
                     UnitFactor = 1d,
-                    UnitName = string.Empty
+                    UnitName = unitStrain.Name
                 },
                 new()
                 {
                     Name = "Short concrete strain",
                     ResultFunction = (IRebarCrackResult rebar) => rebar.ShortTermResult.RebarStressResult.ConcreteStrain,
                     UnitFactor = 1d,
-                    UnitName = string.Empty
+                    UnitName = unitStrain.Name
                 }
             };
             return results;

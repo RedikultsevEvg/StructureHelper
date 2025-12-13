@@ -1,18 +1,13 @@
-﻿using LoaderCalculator.Data.Matrix;
-using LoaderCalculator;
+﻿using LoaderCalculator;
+using LoaderCalculator.Data.Matrix;
+using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Data.ResultData;
 using LoaderCalculator.Data.SourceData;
+using LoaderCalculator.Logics;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LoaderCalculator.Logics;
-using LoaderCalculator.Data.Ndms;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {

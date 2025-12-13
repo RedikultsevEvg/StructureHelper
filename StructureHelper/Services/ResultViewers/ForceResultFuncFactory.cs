@@ -1,13 +1,8 @@
 ﻿using LoaderCalculator.Logics;
-using StructureHelper.Infrastructure.UI.Converters.Units;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Services.Units;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Services.ResultViewers
 {
@@ -25,6 +20,7 @@ namespace StructureHelper.Services.ResultViewers
         static IUnit unitStress = unitLogic.GetUnit(UnitTypes.Stress);
         static IUnit unitMoment = unitLogic.GetUnit(UnitTypes.Moment);
         static IUnit unitCurvature = unitLogic.GetUnit(UnitTypes.Curvature);
+        static IUnit unitStrain = unitLogic.GetUnit(UnitTypes.Strain);
 
         static readonly IStressLogic stressLogic = new StressLogic();
         public static List<ForceResultFunc> GetResultFuncs(FuncsTypes funcsType = FuncsTypes.Full)
@@ -57,12 +53,12 @@ namespace StructureHelper.Services.ResultViewers
         private static List<ForceResultFunc> GetStrainResultFuncs()
         {
             List<ForceResultFunc> resultFuncs = [];
-            resultFuncs.Add(new ForceResultFunc() { Name = "Section Strain", ResultFunction = stressLogic.GetSectionStrain });
-            resultFuncs.Add(new ForceResultFunc() { Name = "Total Strain", ResultFunction = stressLogic.GetTotalStrain });
-            resultFuncs.Add(new ForceResultFunc() { Name = "Prestrain", ResultFunction = stressLogic.GetPrestrain });
-            resultFuncs.Add(new ForceResultFunc() { Name = "Elastic Strain", ResultFunction = stressLogic.GetElasticStrain });
-            resultFuncs.Add(new ForceResultFunc() { Name = "Plastic Strain", ResultFunction = stressLogic.GetPlasticStrain });
-            resultFuncs.Add(new ForceResultFunc() { Name = "Limit Strain Ratio", ResultFunction = stressLogic.GetLimitStrainRatio });
+            resultFuncs.Add(new ForceResultFunc() { Name = "Section Strain", UnitName = unitStrain.Name, ResultFunction = stressLogic.GetSectionStrain });
+            resultFuncs.Add(new ForceResultFunc() { Name = "Total Strain", UnitName = unitStrain.Name, ResultFunction = stressLogic.GetTotalStrain });
+            resultFuncs.Add(new ForceResultFunc() { Name = "Prestrain", UnitName = unitStrain.Name, ResultFunction = stressLogic.GetPrestrain });
+            resultFuncs.Add(new ForceResultFunc() { Name = "Elastic Strain", UnitName = unitStrain.Name, ResultFunction = stressLogic.GetElasticStrain });
+            resultFuncs.Add(new ForceResultFunc() { Name = "Plastic Strain", UnitName = unitStrain.Name, ResultFunction = stressLogic.GetPlasticStrain });
+            resultFuncs.Add(new ForceResultFunc() { Name = "Limit Strain Ratio", UnitName = unitStrain.Name, ResultFunction = stressLogic.GetLimitStrainRatio });
             return resultFuncs;
         }
         private static List<ForceResultFunc> GetStressResultFuncs()

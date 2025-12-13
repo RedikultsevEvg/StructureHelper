@@ -8,12 +8,13 @@ namespace FieldVisualizer.Entities.Values.Primitives
 {
     public class PrimitiveSet : IPrimitiveSet
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string SubTitle { get; set; } = string.Empty;
         public IEnumerable<IValuePrimitive> ValuePrimitives { get; set;}
 
         public PrimitiveSet()
         {
-            Name = "New set of primitives";
+            
             ValuePrimitives = new List<IValuePrimitive>();
         }
     }

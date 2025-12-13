@@ -14,8 +14,8 @@ namespace FieldVisualizer.Entities.Values.Primitives
         // --- Computed properties ---
 
         // Centroid (geometric center)
-        public double CenterX => (Point1.X + Point2.X + Point3.X) / 3.0;
-        public double CenterY => (Point1.Y + Point2.Y + Point3.Y) / 3.0;
+        public double CenterX => (Point1.X + Point2.X + Point3.X) / 3d;
+        public double CenterY => (Point1.Y + Point2.Y + Point3.Y) / 3d;
 
         // Triangle area using determinant formula
         public double Area =>

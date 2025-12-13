@@ -28,7 +28,11 @@ namespace StructureHelper.Services.ResultViewers
             List<IPrimitiveSet> primitiveSets = new List<IPrimitiveSet>();
             foreach (var valDelegate in resultFuncs)
             {
-                PrimitiveSet primitiveSet = new PrimitiveSet() { Name = valDelegate.Name };
+                PrimitiveSet primitiveSet = new PrimitiveSet()
+                {
+                    Name = valDelegate.Name,
+                    SubTitle = valDelegate.UnitName
+                };
                 List<IValuePrimitive> primitives = new List<IValuePrimitive>();
                 foreach (INdm ndm in ndms)
                 {
@@ -45,7 +49,11 @@ namespace StructureHelper.Services.ResultViewers
             List<IPrimitiveSet> primitiveSets = new List<IPrimitiveSet>();
             foreach (var valDelegate in resultFuncs)
             {
-                PrimitiveSet primitiveSet = new PrimitiveSet() { Name = valDelegate.Name };
+                PrimitiveSet primitiveSet = new PrimitiveSet()
+                {
+                    Name = valDelegate.Name,
+                    SubTitle = valDelegate.UnitName
+                };
                 List<IValuePrimitive> primitives = new List<IValuePrimitive>();
                 foreach (var rebarResult in rebarResults)
                 {

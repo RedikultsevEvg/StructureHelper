@@ -3,20 +3,16 @@ using FieldVisualizer.Entities.ColorMaps.Factories;
 using FieldVisualizer.Entities.Values;
 using FieldVisualizer.Entities.Values.Primitives;
 using FieldVisualizer.Infrastructure.Commands;
-using FieldVisualizer.InfraStructures.Exceptions;
-using FieldVisualizer.InfraStructures.Strings;
 using FieldVisualizer.Services.ColorServices;
 using FieldVisualizer.Services.PrimitiveServices;
 using FieldVisualizer.Services.ValueRanges;
 using FieldVisualizer.Windows.UserControls;
-using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -25,8 +21,26 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
 {
     public class FieldViewerViewModel : ViewModelBase, IDataErrorInfo
     {
-        private IMathRoundLogic roundLogic = new SmartRoundLogic() { DigitQuant = 3 };
-        public ICommand RebuildCommand { get; }
+        private ICommand setCrossLineCommand;
+        private IPrimitiveSet primitiveSet;
+        private double dX, dY;
+        private ColorMapsTypes _ColorMapType = ColorMapsTypes.LiraSpectrum;
+        private IColorMap _ColorMap;
+        private IValueRange valueRange;
+        private IEnumerable<IValueRange> valueRanges;
+        private IEnumerable<IValueColorRange> valueColorRanges;
+        private bool setMinValue;
+        private bool setMaxValue;
+        private double crossLineX;
+        private double crossLineY;
+        private double sumAboveLine;
+        private double sumUnderLine;
+        private Line previosLine;
+        const int RangeNumber = 16;
+        private const int zoomFactor = 1000;
+        private RelayCommand rebuildCommand;
+
+        public ICommand RebuildCommand => rebuildCommand ??= new RelayCommand(o => ProcessPrimitives(), o => PrimitiveValidation());
         public ICommand ZoomInCommand { get; }
         public ICommand ZoomOutCommand { get; }
         public ICommand ChangeColorMapCommand { get; }
@@ -148,6 +162,9 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
         public double SumUnderLine { get => sumUnderLine; set => SetProperty(ref sumUnderLine, value); }
 
         public string Error { get; }
+        public string Title { get; set; }
+        public string SubTitle { get; set; }
+
         public string this[string columnName]
         {
             get
@@ -157,27 +174,10 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             }
         }
 
-        private ICommand setCrossLineCommand;
-        private IPrimitiveSet primitiveSet;
-        private double dX, dY;
-        private ColorMapsTypes _ColorMapType;
-        private IColorMap _ColorMap;
-        private IValueRange valueRange;
-        private IEnumerable<IValueRange> valueRanges;
-        private IEnumerable<IValueColorRange> valueColorRanges;
-        private bool setMinValue;
-        private bool setMaxValue;
-        private double crossLineX;
-        private double crossLineY;
-        private double sumAboveLine;
-        private double sumUnderLine;
-        private Line previosLine;
-        const int RangeNumber = 16;
+
 
         public FieldViewerViewModel()
         {
-            _ColorMapType = ColorMapsTypes.LiraSpectrum;
-            RebuildCommand = new RelayCommand(o => ProcessPrimitives(), o => PrimitiveValidation());
             ZoomInCommand = new RelayCommand(o => Zoom(1.2), o => PrimitiveValidation());
             ZoomOutCommand = new RelayCommand(o => Zoom(0.8), o => PrimitiveValidation());
             ChangeColorMapCommand = new RelayCommand(o => ChangeColorMap(), o => PrimitiveValidation());
@@ -207,114 +207,29 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
         private void ProcessPrimitives()
         {
             WorkPlaneCanvas.Children.Clear();
-            double sizeX = PrimitiveOperations.GetSizeX(PrimitiveSet.ValuePrimitives);
-            double sizeY = PrimitiveOperations.GetSizeY(PrimitiveSet.ValuePrimitives);
+            Title = PrimitiveSet.Name;
+            OnPropertyChanged(nameof(Title));
+            SubTitle = PrimitiveSet.SubTitle;
+            OnPropertyChanged(nameof(SubTitle));
+            double sizeX = PrimitiveOperations.GetSizeX(PrimitiveSet.ValuePrimitives) * zoomFactor;
+            double sizeY = PrimitiveOperations.GetSizeY(PrimitiveSet.ValuePrimitives) * zoomFactor;
             dX = PrimitiveOperations.GetMinMaxX(PrimitiveSet.ValuePrimitives)[0];
             dY = PrimitiveOperations.GetMinMaxY(PrimitiveSet.ValuePrimitives)[1];
             WorkPlaneCanvas.Width = Math.Abs(sizeX);
             WorkPlaneCanvas.Height = Math.Abs(sizeY);
-            WorkPlaneBox.Width = ScrolWidth - 50;
-            WorkPlaneBox.Height = ScrolHeight - 50;
-            foreach (var primitive in PrimitiveSet.ValuePrimitives)
+            WorkPlaneBox.Width = (ScrolWidth - 50);
+            WorkPlaneBox.Height = (ScrolHeight - 50);
+            var logic = new AddPrimitivesToCanvasLogic()
             {
-                if (primitive is IRectanglePrimitive rectanglePrimitive)
-                {
-                    Rectangle rectangle = ProcessRectanglePrimitive(rectanglePrimitive);
-                    WorkPlaneCanvas.Children.Add(rectangle);
-                }
-                else if (primitive is ICirclePrimitive circlePrimitive)
-                {
-                    Ellipse ellipse = ProcessCirclePrimitive(circlePrimitive);
-                    WorkPlaneCanvas.Children.Add(ellipse);
-                }
-                else if (primitive is ITrianglePrimitive triangle)
-                {
-                    Path path = ProcessTrianglePrimitive(triangle);
-                    WorkPlaneCanvas.Children.Add(path);
-                }
-                else { throw new FieldVisulizerException(ErrorStrings.PrimitiveTypeIsUnknown); }
-            }
-        }
+                WorkPlaneCanvas = WorkPlaneCanvas,
+                DX = dX,
+                DY = dY,
+                ValueRange = valueRange,
+                ColorMap = _ColorMap,
+                ValueColorRanges = valueColorRanges,
+            };       
+            logic.ProcessPrimitives(PrimitiveSet.ValuePrimitives);
 
-        private Path ProcessTrianglePrimitive(ITrianglePrimitive triangle)
-        {
-            // Create the PathFigure using triangle vertices.
-            var figure = new PathFigure
-            {
-                StartPoint = new Point(triangle.Point1.X, - triangle.Point1.Y),
-                IsClosed = true,
-                IsFilled = true
-            };
-
-            // Add the remaining vertices as LineSegments
-            var segments = new PathSegmentCollection
-        {
-            new LineSegment(new Point(triangle.Point2.X, - triangle.Point2.Y), true),
-            new LineSegment(new Point(triangle.Point3.X, - triangle.Point3.Y), true)
-            // Closing is handled by IsClosed = true, so we don't need to add a segment back to Point1
-        };
-            figure.Segments = segments;
-
-            // Create geometry and path
-            var geometry = new PathGeometry();
-            geometry.Figures.Add(figure);
-
-            var path = new Path
-            {
-                Data = geometry,
-            };
-            ProcessShape(path, triangle, 0, 0, false);
-            return path;
-        }
-
-        private Rectangle ProcessRectanglePrimitive(IRectanglePrimitive rectanglePrimitive)
-        {
-            Rectangle rectangle = new Rectangle
-            {
-                Height = rectanglePrimitive.Height,
-                Width = rectanglePrimitive.Width
-            };
-            double addX = rectanglePrimitive.Width / 2;
-            double addY = rectanglePrimitive.Height / 2;
-            ProcessShape(rectangle, rectanglePrimitive, addX, addY, true);
-            return rectangle;
-        }
-        private Ellipse ProcessCirclePrimitive(ICirclePrimitive circlePrimitive)
-        {
-            Ellipse ellipse = new Ellipse
-            {
-                Height = circlePrimitive.Diameter,
-                Width = circlePrimitive.Diameter
-            };
-            double addX = circlePrimitive.Diameter / 2;
-            double addY = circlePrimitive.Diameter / 2;
-
-            ProcessShape(ellipse, circlePrimitive, addX, addY, true);
-            return ellipse;
-        }
-        private void ProcessShape(Shape shape, IValuePrimitive valuePrimitive, double addX, double addY, bool addCenter)
-        {
-            SolidColorBrush brush = new SolidColorBrush();
-            brush.Color = ColorOperations.GetColorByValue(valueRange, _ColorMap, valuePrimitive.Value);
-            foreach (var valueRange in valueColorRanges)
-            {
-                if (valuePrimitive.Value >= valueRange.ExactValues.BottomValue & valuePrimitive.Value <= valueRange.ExactValues.TopValue & (!valueRange.IsActive))
-                {
-                    brush.Color = Colors.Gray;
-                }
-            }
-            shape.ToolTip = roundLogic.RoundValue(valuePrimitive.Value);
-            shape.Tag = valuePrimitive;
-            shape.Fill = brush;
-            double addLeft =  - addX - dX;
-            double addTop = - addY + dY;
-            if (addCenter == true)
-            {
-                addLeft += valuePrimitive.CenterX;
-                addTop -= valuePrimitive.CenterY;
-            }
-            Canvas.SetLeft(shape, addLeft);
-            Canvas.SetTop(shape, addTop);
         }
         private void Zoom(double coefficient)
         {

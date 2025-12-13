@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="FieldVisualizer.Windows.UserControls.ValueLabelControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FieldVisualizer.Windows.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="100"
+             Name="ThisControl">
+    <Grid DataContext="{Binding ElementName=ThisControl}">
+        <Canvas>
+            <Canvas.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}"/>
+                    <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
+                </TransformGroup>
+            </Canvas.RenderTransform>
+            <Path Data="M 0 0 l 20 -25 v 16 z" Fill="AntiqueWhite"/>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <TranslateTransform X="20" Y="-25"/>
+                </Canvas.RenderTransform>
+                <TextBlock MinWidth="25" Text="{Binding Value}" Background="AntiqueWhite"/>
+            </Canvas>
+        </Canvas>
+    </Grid>
+</UserControl>

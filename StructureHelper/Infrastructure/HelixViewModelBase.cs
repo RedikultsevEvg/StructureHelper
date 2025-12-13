@@ -30,7 +30,7 @@ namespace StructureHelper.Infrastructure
                 OnPropertyChanged(nameof(Camera));
             }
         }
-        public System.Windows.Media.Color AmbientLightColor
+        public Color AmbientLightColor
         {
             get => ambientLightColor;
             set
@@ -39,7 +39,7 @@ namespace StructureHelper.Infrastructure
                 OnPropertyChanged(nameof(AmbientLightColor));
             }
         }
-        public System.Windows.Media.Color DirectionalLightColor { get; set; }
+        public Color DirectionalLightColor { get; set; }
         public Vector3D DirectionalLightDirection
         {
             get => directionalLightDirection;
@@ -87,6 +87,7 @@ namespace StructureHelper.Infrastructure
                 OnPropertyChanged(nameof(Title));
             }
         }
+
         public string SubTitle
         {
             get => subTitle;

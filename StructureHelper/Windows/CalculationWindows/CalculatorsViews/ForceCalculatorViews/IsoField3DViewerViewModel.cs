@@ -53,6 +53,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             {
                 selectedPrimitiveSet = value;
                 ViewportViewModel.Title = selectedPrimitiveSet.Name;
+                ViewportViewModel.SubTitle = selectedPrimitiveSet.SubTitle;
                 OnPropertyChanged(nameof(SelectedPrimitiveSet));
                 RebuildPrimitives();
             }

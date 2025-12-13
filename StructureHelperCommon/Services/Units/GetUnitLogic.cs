@@ -25,6 +25,7 @@ namespace StructureHelperCommon.Services.Units
                 { UnitTypes.Stress, "MPa"},
                 { UnitTypes.Curvature, "1/m"},
                 { UnitTypes.DistributedLoad, "kN/m" },
+                { UnitTypes.Strain, "Dimensionless" },
             };
         }
 

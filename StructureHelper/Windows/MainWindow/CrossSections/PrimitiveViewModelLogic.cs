@@ -3,11 +3,11 @@ using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
 using StructureHelper.Windows.Services;
+using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
@@ -77,7 +77,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             var dialogResult = MessageBox.Show("Delete all primitives?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                ClearRepository();
+                SafetyProcessor.RunSafeProcess(ClearRepository, "Error of deleting primitives");
                 Refresh();
                 OnPropertyChanged(nameof(Items));
                 OnPropertyChanged(nameof(PrimitivesCount));
@@ -86,30 +86,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void ClearRepository()
         {
-            repository.Primitives.Clear();
-            foreach (var calculator in repository.Calculators)
-            {
-                if (calculator is IForceCalculator forceCalculator)
-                {
-                    forceCalculator.InputData.Primitives.Clear();
-                }
-                else if (calculator is ICrackCalculator crackCalculator)
-                {
-                    crackCalculator.InputData.Primitives.Clear();
-                }
-                else if (calculator is IValueDiagramCalculator valueDiagramCalculator)
-                {
-                    valueDiagramCalculator.InputData.Primitives.Clear();
-                }
-                else if (calculator is ICurvatureCalculator curvatureCalculator)
-                {
-                    curvatureCalculator.InputData.Primitives.Clear();
-                }
-                else
-                {
-                    // skip
-                }
-            }
+            repository.Operations.Primitives.RemoveAll();
             Items.Clear();
         }
 
@@ -139,29 +116,6 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private void RemoveFromRepository(PrimitiveBase item)
         {
             repository.Primitives.Remove(item.NdmPrimitive);
-            foreach (var calculator in repository.Calculators)
-            {
-                if (calculator is IForceCalculator forceCalculator)
-                {
-                    forceCalculator.InputData.Primitives.Remove(item.NdmPrimitive);
-                }
-                else if (calculator is ICrackCalculator crackCalculator)
-                {
-                    crackCalculator.InputData.Primitives.Remove(item.NdmPrimitive);
-                }
-                else if (calculator is IValueDiagramCalculator valueDiagramCalculator)
-                {
-                    valueDiagramCalculator.InputData.Primitives.Remove(item.NdmPrimitive);
-                }
-                else if (calculator is ICurvatureCalculator curvatureCalculator)
-                {
-                    curvatureCalculator.InputData.Primitives.Remove(item.NdmPrimitive);
-                }
-                else
-                {
-                    // skip
-                }
-            }
             Items.Remove(item);
         }
 

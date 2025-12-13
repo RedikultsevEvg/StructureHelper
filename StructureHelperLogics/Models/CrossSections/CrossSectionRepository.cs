@@ -7,11 +7,15 @@ namespace StructureHelperLogics.Models.CrossSections
 {
     public class CrossSectionRepository : ICrossSectionRepository
     {
+        private RepositoryOperationsLogic operations;
+
         public Guid Id { get; }
         public List<IForceAction> ForceActions { get; private set; } = new();
         public List<IHeadMaterial> HeadMaterials { get; private set; } = new();
         public List<INdmPrimitive> Primitives { get; } = new();
         public List<ICalculator> Calculators { get; private set; } = new();
+
+        public IRepositoryOperationsLogic Operations => operations ??= new RepositoryOperationsLogic(this);
 
         public CrossSectionRepository(Guid id)
         {

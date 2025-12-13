@@ -4,26 +4,24 @@ using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
     public class CrossSectionRepositoryDTO : ICrossSectionRepository
     {
+        private IRepositoryOperationsLogic operations;
+
         [JsonProperty("Id")]        
         public Guid Id { get; set; }
         [JsonProperty("HeadMaterials")]        
-        public List<IHeadMaterial> HeadMaterials { get; } = new();
+        public List<IHeadMaterial> HeadMaterials { get; } = [];
         [JsonProperty("ForceActions")]        
-        public List<IForceAction> ForceActions { get; } = new();
+        public List<IForceAction> ForceActions { get; } = [];
         [JsonProperty("Primitives")]        
-        public List<INdmPrimitive> Primitives { get; } = new();
+        public List<INdmPrimitive> Primitives { get; } = [];
         [JsonProperty("Calculators")]        
-        public List<ICalculator> Calculators { get; } = new();
-
+        public List<ICalculator> Calculators { get; } = [];
+        [JsonIgnore]        
+        public IRepositoryOperationsLogic Operations => operations ??= new RepositoryOperationsLogic(this);
     }
 }

@@ -18,7 +18,6 @@ namespace StructureHelper.Services.ResultViewers
             primitiveSet = GetBaseDevelopmentLength(strainMatrix, limitState, calcTerm, ndmPrimitives);
             primitiveSets.Add(primitiveSet);
             primitiveSet = GetDevelopmentLength(strainMatrix, limitState, calcTerm, ndmPrimitives, true);
-            primitiveSet.Name = "Development length full strength";
             primitiveSets.Add(primitiveSet);
             primitiveSet = GetDevelopmentLength(strainMatrix, limitState, calcTerm, ndmPrimitives,false);
             primitiveSet.Name = "Development length actual stress";
@@ -69,7 +68,11 @@ namespace StructureHelper.Services.ResultViewers
 
         private static PrimitiveSet GetBaseDevelopmentLength(IStrainMatrix strainMatrix, LimitStates limitState, CalcTerms calcTerm, IEnumerable<INdmPrimitive> ndmPrimitives)
         {
-            PrimitiveSet primitiveSet = new PrimitiveSet() { Name = "Base Development Length"};
+            PrimitiveSet primitiveSet = new PrimitiveSet()
+            {
+                Name = "Base Development Length",
+                SubTitle = "mm"
+            };
             List<IValuePrimitive> primitives = new List<IValuePrimitive>();
             foreach (var item in ndmPrimitives)
             {
@@ -88,7 +91,11 @@ namespace StructureHelper.Services.ResultViewers
         }
         private static PrimitiveSet GetDevelopmentLength(IStrainMatrix strainMatrix, LimitStates limitState, CalcTerms calcTerm, IEnumerable<INdmPrimitive> ndmPrimitives, bool fullStrength)
         {
-            PrimitiveSet primitiveSet = new PrimitiveSet();
+            PrimitiveSet primitiveSet = new PrimitiveSet()
+            {
+                Name = "Development length full strength",
+                SubTitle = "mm"
+            };
             List<IValuePrimitive> primitives = new List<IValuePrimitive>();
             foreach (var item in ndmPrimitives)
             {

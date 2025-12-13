@@ -24,19 +24,29 @@
                 <Button x:Name="ZoomOutButton" Content="ZoomOut" Command="{Binding ZoomOutCommand}"/>
                 <Button x:Name="ChangeColorMapButton" Content="ColorMap" Command="{Binding ChangeColorMapCommand}"/>
             </StackPanel>
-            <ScrollViewer Name="WorkPlaneViewer" Grid.Row="1" HorizontalScrollBarVisibility="Visible" SizeChanged="WorkPlaneViewer_SizeChanged">
-                <ScrollViewer.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black"/>
-                        <GradientStop Color="White" Offset="1"/>
-                        <GradientStop Color="#FF00EDFF" Offset="0"/>
-                    </LinearGradientBrush>
-                </ScrollViewer.Background>
-                <Viewbox Name="WorkPlaneBox" Margin="10">
-                    <Canvas Name="WorkPlaneCanvas">
-                    </Canvas>
-                </Viewbox>
-            </ScrollViewer>
+            <Grid Grid.Row="1">
+                <StackPanel Panel.ZIndex="1">
+                    <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SubTitle}"/>
+                </StackPanel>
+                <ScrollViewer Name="WorkPlaneViewer" HorizontalScrollBarVisibility="Visible" SizeChanged="WorkPlaneViewer_SizeChanged">
+                    <ScrollViewer.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black"/>
+                            <GradientStop Color="White" Offset="1"/>
+                            <GradientStop Color="#FF00EDFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </ScrollViewer.Background>
+                    <Viewbox Name="WorkPlaneBox" Margin="10">
+                        <Grid>
+                            <Canvas x:Name="LabelCanvas"/>
+                            <Canvas x:Name="WorkPlaneCanvas">
+                            </Canvas>
+                        </Grid>
+                    </Viewbox>
+                </ScrollViewer>
+            </Grid>
+            
         </Grid>
         <ScrollViewer Grid.Column="2">
             <StackPanel>
