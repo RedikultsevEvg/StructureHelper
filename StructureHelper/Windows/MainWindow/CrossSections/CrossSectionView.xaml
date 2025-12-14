@@ -244,6 +244,11 @@
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/RFMaterial32.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
+                                        <MenuItem Header="Steel" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Steel}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/RFMaterial32.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
                                         <MenuItem Header="Elastic" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Elastic}">
                                             <MenuItem.Icon>
                                                 <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/ElasticMaterial32.png" />

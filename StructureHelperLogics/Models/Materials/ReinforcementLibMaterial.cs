@@ -1,16 +1,9 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Models.Materials.Libraries;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Loadermaterials = LoaderCalculator.Data.Materials;
-using LMBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
-using LoaderMaterialLogics = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
-using LoaderCalculator.Data.Materials;
-using StructureHelperCommon.Models.Materials;
+﻿using LoaderCalculator.Data.Materials;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Materials.Libraries;
+using LoaderMaterialLogics = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
 
 namespace StructureHelperLogics.Models.Materials
 {
@@ -24,7 +17,7 @@ namespace StructureHelperLogics.Models.Materials
 
         public Guid Id { get; }
         public ILibMaterialEntity MaterialEntity { get; set; }
-        public List<IMaterialSafetyFactor> SafetyFactors { get; set; } = new();
+        public List<IMaterialSafetyFactor> SafetyFactors { get; set; } = [];
         public IMaterialLogic MaterialLogic { get; set; }
         public List<IMaterialLogic> MaterialLogics => materialLogics;
 
@@ -36,14 +29,9 @@ namespace StructureHelperLogics.Models.Materials
             MaterialLogic = materialLogics.First();
         }
 
-        public ReinforcementLibMaterial() : this (Guid.NewGuid())
-        {
-            
-        }
-
         public object Clone()
         {
-            var newItem = new ReinforcementLibMaterial();
+            var newItem = new ReinforcementLibMaterial(Guid.NewGuid());
             var updateStrategy = new ReinforcementLibUpdateStrategy();
             updateStrategy.Update(newItem, this);
             return newItem;

@@ -17,6 +17,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
             {
                 libMaterials.AddRange(GetConcreteSP63());
                 libMaterials.AddRange(GetReinforcementSP63());
+                libMaterials.AddRange(GetSteelSP16());
             }
             else if (ProgramSetting.NatSystem == NatSystems.EU)
             {
@@ -28,6 +29,97 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $": {ProgramSetting.NatSystem}");
             }
             return libMaterials;
+        }
+
+        private static IEnumerable<ILibMaterialEntity> GetSteelSP16()
+        {
+            var codeType = CodeTypes.SP16_2017;
+            List<ILibMaterialEntity> libMaterials = new List<ILibMaterialEntity>();
+            libMaterials.AddRange(AddGOST2772(codeType));
+            return libMaterials;
+        }
+
+        private static IEnumerable<ILibMaterialEntity> AddGOST2772(CodeTypes codeType)
+        {
+            var code = ProgramSetting.CodesList
+    .Where(x => x.Name == "GOST 27772-2021")
+    .Single();
+            List<ILibMaterialEntity> range = new List<ILibMaterialEntity>()
+            {
+                new SteelMaterialEntity(new Guid("14F7EEA1-E924-42A1-928A-076BC8EE34A8"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "S245",
+                    PropertyType = SteelDiagramPropertyType.S245,
+                    InitialModulus = 2.06e11d,
+                    MainStrength = 245e6
+                },
+                new SteelMaterialEntity(new Guid("69142AEF-BCC4-409A-8BAD-90390143516E"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "S255",
+                    PropertyType = SteelDiagramPropertyType.S245,
+                    InitialModulus = 2.06e11d,
+                    MainStrength = 255e6
+                },
+                new SteelMaterialEntity(new Guid("BAD0A2B6-CF02-4554-891D-BB34FC3B2430"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "S345",
+                    PropertyType = SteelDiagramPropertyType.S345,
+                    InitialModulus = 2.0e11d,
+                    MainStrength = 345e6
+                },
+                new SteelMaterialEntity(new Guid("C97AE177-872B-4B77-BCF6-6519AAAE1D54"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "S355",
+                    PropertyType = SteelDiagramPropertyType.S345,
+                    InitialModulus = 2.0e11d,
+                    MainStrength = 355e6
+                },
+                new SteelMaterialEntity(new Guid("73700688-08BA-4A35-8BE0-26CD971FE73F"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "S390",
+                    PropertyType = SteelDiagramPropertyType.S390,
+                    InitialModulus = 2.0e11d,
+                    MainStrength = 390e6
+                },
+                new SteelMaterialEntity(new Guid("39C0A796-9031-444C-BD3A-FFB236C9C85C"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "S440",
+                    PropertyType = SteelDiagramPropertyType.S440,
+                    InitialModulus = 2.0e11d,
+                    MainStrength = 440e6
+                },
+                new SteelMaterialEntity(new Guid("7EF0525A-9965-4C8E-B15B-F7BE493382D0"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "S550",
+                    PropertyType = SteelDiagramPropertyType.S550,
+                    InitialModulus = 2.0e11d,
+                    MainStrength = 550e6
+                },
+                new SteelMaterialEntity(new Guid("C3BE4B92-DC61-43CF-A632-ADFC1AA57D8F"))
+                {
+                    CodeType = codeType,
+                    Code = code,
+                    Name = "S590",
+                    PropertyType = SteelDiagramPropertyType.S550,
+                    InitialModulus = 2.0e11d,
+                    MainStrength = 590e6
+                },
+            };
+            return range;
         }
 
         private static IEnumerable<ILibMaterialEntity> GetConcreteEurocode()
@@ -260,7 +352,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "A240",
-                    InitModulus = 2e11d,
+                    InitialModulus = 2e11d,
                     MainStrength = 240e6d
                 },
                 new ReinforcementMaterialEntity(new Guid("ea422282-3465-433c-9b93-c5bbfba5a904"))
@@ -268,7 +360,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "A400",
-                    InitModulus = 2e11d,
+                    InitialModulus = 2e11d,
                     MainStrength = 390e6d
                 },
                 new ReinforcementMaterialEntity(new Guid("045b54b1-0bbf-41fd-a27d-aeb20f600bb4"))
@@ -276,7 +368,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "A500",
-                    InitModulus = 2e11d,
+                    InitialModulus = 2e11d,
                     MainStrength = 500e6d
                 },
                 new ReinforcementMaterialEntity(new Guid("e3cfc6fb-fbd0-47dd-ab4a-79c030704acf"))
@@ -284,7 +376,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "A600",
-                    InitModulus = 2e11d,
+                    InitialModulus = 2e11d,
                     MainStrength = 600e6d
                 },
                 new ReinforcementMaterialEntity(new Guid("6f0882ef-53bf-464e-acf7-da421a43a825"))
@@ -292,7 +384,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "A800",
-                    InitModulus = 2e11d,
+                    InitialModulus = 2e11d,
                     MainStrength = 800e6d
                 },
                 new ReinforcementMaterialEntity(new Guid("509fbaae-a3de-43c2-aae6-33387908dc43"))
@@ -300,7 +392,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "A1000",
-                    InitModulus = 2e11d,
+                    InitialModulus = 2e11d,
                     MainStrength = 1000e6d
                 }
             };
@@ -318,7 +410,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "K1400/1670",
-                    InitModulus = 1.95e11d,
+                    InitialModulus = 1.95e11d,
                     MainStrength = 1400e6
                 },
                 new ReinforcementMaterialEntity(new Guid("93c48a27-ab37-4bd2-aeb8-2a7247e74a1b"))
@@ -326,7 +418,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "K1500/1770",
-                    InitModulus = 1.95e11d,
+                    InitialModulus = 1.95e11d,
                     MainStrength = 1500e6
                 },
                 new ReinforcementMaterialEntity(new Guid("6e0df35e-4839-4cf1-9182-c7ad7f81a548"))
@@ -334,7 +426,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "K1600/1860",
-                    InitModulus = 1.95e11d,
+                    InitialModulus = 1.95e11d,
                     MainStrength = 1600e6
                 },
                 new ReinforcementMaterialEntity(new Guid("29d7ef1b-bd30-471e-af0e-8b419eb9f043"))
@@ -342,7 +434,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "K1700/1960",
-                    InitModulus = 1.95e11d,
+                    InitialModulus = 1.95e11d,
                     MainStrength = 1700e6
                 },
                 new ReinforcementMaterialEntity(new Guid("494b959f-0194-4f02-9dcf-ff313c5e352b"))
@@ -350,7 +442,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "K1800/2060",
-                    InitModulus = 1.95e11d,
+                    InitialModulus = 1.95e11d,
                     MainStrength = 1800e6
                 },
                 new ReinforcementMaterialEntity(new Guid("02031332-fe1e-456d-b339-143eb9ca8293"))
@@ -358,7 +450,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                     CodeType = codeType,
                     Code = code,
                     Name = "K1900/2160",
-                    InitModulus = 1.95e11d,
+                    InitialModulus = 1.95e11d,
                     MainStrength = 1900e6
                 }
             };

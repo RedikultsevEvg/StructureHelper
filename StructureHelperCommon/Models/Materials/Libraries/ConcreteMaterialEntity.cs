@@ -11,16 +11,11 @@ namespace StructureHelperCommon.Models.Materials.Libraries
         public ICodeEntity Code { get; set; }
         public string Name { get; set; }
         public double MainStrength { get; set; }
-        public double InitModulus { get; set; }
+        public double InitialModulus { get; set; }
 
         public ConcreteMaterialEntity(Guid id)
         {
             Id = id;
-        }
-
-        public void Save()
-        {
-            throw new NotImplementedException();
         }
     }
 }

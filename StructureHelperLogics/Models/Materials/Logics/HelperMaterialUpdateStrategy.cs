@@ -14,10 +14,16 @@ namespace StructureHelperLogics.Models.Materials
 {
     public class HelperMaterialUpdateStrategy : IUpdateStrategy<IHelperMaterial>
     {
-        private IUpdateStrategy<IElasticMaterial> elasticStrategy;
-        private IUpdateStrategy<IFRMaterial> frStrategy;
-        private IUpdateStrategy<IConcreteLibMaterial> concreteStrategy;
-        private IUpdateStrategy<IReinforcementLibMaterial> reinforcementStrategy;
+        private IUpdateStrategy<IElasticMaterial> elasticUpdateStrategy;
+        private IUpdateStrategy<IFRMaterial> frUpdateStrategy;
+        private IUpdateStrategy<IConcreteLibMaterial> concreteUpdateStrategy;
+        private IUpdateStrategy<IReinforcementLibMaterial> reinforcementUpdateStrategy;
+        private IUpdateStrategy<ISteelLibMaterial> steelUpdateStrategy;
+        private IUpdateStrategy<IElasticMaterial> ElasticUpdateStrategy => elasticUpdateStrategy ??= new ElasticUpdateStrategy();
+        private IUpdateStrategy<IFRMaterial> FrUpdateStrategy => frUpdateStrategy ??= new FRUpdateStrategy();
+        private IUpdateStrategy<IConcreteLibMaterial> ConcreteUpdateStrategy => concreteUpdateStrategy ??= new ConcreteLibUpdateStrategy();
+        private IUpdateStrategy<IReinforcementLibMaterial> ReinforcementUpdateStrategy => reinforcementUpdateStrategy ??= new ReinforcementLibUpdateStrategy();
+        private IUpdateStrategy<ISteelLibMaterial> SteelUpdateStrategy => steelUpdateStrategy ??= new SteelLibMaterialUpdateStrategy();
         private IUpdateStrategy<IHelperMaterial> safetyFactorUpdateStrategy = new HelpermaterialSafetyFactorsUpdateStrategy();
         public HelperMaterialUpdateStrategy(IUpdateStrategy<IElasticMaterial> elasticStrategy,
             IUpdateStrategy<IFRMaterial> frStrategy,
@@ -25,17 +31,12 @@ namespace StructureHelperLogics.Models.Materials
             IUpdateStrategy<IReinforcementLibMaterial> reinforcementStrategy
             )
         {
-            this.elasticStrategy = elasticStrategy;
-            this.frStrategy = frStrategy;
-            this.concreteStrategy = concreteStrategy;
-            this.reinforcementStrategy = reinforcementStrategy;
+            this.elasticUpdateStrategy = elasticStrategy;
+            this.frUpdateStrategy = frStrategy;
+            this.concreteUpdateStrategy = concreteStrategy;
+            this.reinforcementUpdateStrategy = reinforcementStrategy;
         }
-        public HelperMaterialUpdateStrategy() : this(
-            new ElasticUpdateStrategy(),
-            new FRUpdateStrategy(),
-            new ConcreteLibUpdateStrategy(),
-            new ReinforcementLibUpdateStrategy()
-        )
+        public HelperMaterialUpdateStrategy()
         { }
 
         public void Update(IHelperMaterial targetObject, IHelperMaterial sourceObject)
@@ -50,11 +51,11 @@ namespace StructureHelperLogics.Models.Materials
             }
             else if (sourceObject is IElasticMaterial)
             {
-                elasticStrategy.Update(targetObject as IElasticMaterial, sourceObject as IElasticMaterial);
+                ElasticUpdateStrategy.Update(targetObject as IElasticMaterial, sourceObject as IElasticMaterial);
             }
             else if (sourceObject is IFRMaterial)
             {
-                frStrategy.Update(targetObject as IFRMaterial, sourceObject as IFRMaterial);
+                FrUpdateStrategy.Update(targetObject as IFRMaterial, sourceObject as IFRMaterial);
             }
             else
             {
@@ -66,11 +67,15 @@ namespace StructureHelperLogics.Models.Materials
         {
             if (sourceObject is IConcreteLibMaterial concreteLibMaterial)
             {
-                concreteStrategy.Update(targetObject as IConcreteLibMaterial, concreteLibMaterial);
+                concreteUpdateStrategy.Update(targetObject as IConcreteLibMaterial, concreteLibMaterial);
             }
             else if (sourceObject is IReinforcementLibMaterial reinforcementLibMaterial)
             {
-                reinforcementStrategy.Update(targetObject as IReinforcementLibMaterial, reinforcementLibMaterial);
+                ReinforcementUpdateStrategy.Update(targetObject as IReinforcementLibMaterial, reinforcementLibMaterial);
+            }
+            else if (sourceObject is ISteelLibMaterial steelLibMaterial)
+            {
+                SteelUpdateStrategy.Update(targetObject as ISteelLibMaterial, steelLibMaterial);
             }
             else
             {

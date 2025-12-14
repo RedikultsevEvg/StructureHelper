@@ -73,6 +73,10 @@ namespace StructureHelper.Windows.ViewModels.Materials
             {
                 helperMaterialViewModel = new LibMaterialViewModel<IReinforcementMaterialEntity>(reinforcementMaterial);
             }
+            else if (helperMaterial is ISteelLibMaterial steelMaterial)
+            {
+                helperMaterialViewModel = new LibMaterialViewModel<ISteelMaterialEntity>(steelMaterial);
+            }
             else if (helperMaterial is IElasticMaterial elasticMaterial)
             {
                 if (helperMaterial is IFRMaterial fRMaterial)

@@ -36,5 +36,15 @@ namespace StructureHelperCommon.Models.Materials.Libraries
                 .ToList();
             return repository;
         }
+
+        public static List<ILibMaterialEntity> GetSteelRepository()
+        {
+            var natCodes = ProgramSetting.CodesList;
+            var rep = GetRepository();
+            var repository = rep
+                .Where(x => natCodes.Contains(x.Code) & x is ISteelMaterialEntity)
+                .ToList();
+            return repository;
+        }
     }
 }

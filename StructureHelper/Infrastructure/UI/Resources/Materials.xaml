@@ -163,4 +163,12 @@
         </Grid>
     </DataTemplate>
 
+    <DataTemplate  x:Key="SteelMaterial">
+        <StackPanel>
+            <ContentControl ContentTemplate="{StaticResource LibraryMaterial}" Content="{Binding}"/>
+            <Button Content="Show Safety Factors" Command="{Binding ShowSafetyFactors}"/>
+            <ContentControl ContentTemplate="{StaticResource MaterialSafetyFactors}" Content="{Binding SafetyFactors}"/>
+        </StackPanel>
+    </DataTemplate>
+
 </ResourceDictionary>

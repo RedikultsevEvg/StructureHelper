@@ -5,17 +5,9 @@ using StructureHelperCommon.Models.Materials;
 using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace StructureHelper.Windows.MainWindow.Materials
 {
@@ -70,11 +62,25 @@ namespace StructureHelper.Windows.MainWindow.Materials
             {
                 SetElasticMaterial();
             }
+            else if (helperMaterial is ISteelLibMaterial)
+            {
+                SetSteelMaterial();
+            }
             else
             {
                 string errorString = ErrorStrings.ObjectTypeIsUnknown + $". Expected: {typeof(IHelperMaterial)}, but was: {helperMaterial.GetType()}";
                 throw new StructureHelperException(errorString);
             }
+        }
+
+        private void SetSteelMaterial()
+        {
+            templateName = "SteelMaterial";
+            var binding = new Binding
+            {
+                Source = viewModel.HelperMaterialViewModel
+            };
+            bindings.Add(templateName, binding);
         }
 
         private void SetContentControls()

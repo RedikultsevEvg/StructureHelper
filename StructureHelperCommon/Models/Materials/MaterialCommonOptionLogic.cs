@@ -19,7 +19,7 @@ namespace StructureHelperCommon.Models.Materials
 
         public void SetMaterialOptions(LCMB.IMaterialOptions materialOptions)
         {
-            materialOptions.InitModulus = options.MaterialEntity.InitModulus;
+            materialOptions.InitModulus = options.MaterialEntity.InitialModulus;
             materialOptions.Strength = options.MaterialEntity.MainStrength;
             ProcessCodeType(materialOptions);
             ProcessLimitState(materialOptions);

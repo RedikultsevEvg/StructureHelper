@@ -12,7 +12,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
         /// <summary>
         /// Initial Young's Modulus, Pa
         /// </summary>
-        double InitModulus { get; set; }
+        double InitialModulus { get; set; }
         /// <summary>
         /// Strength of material, Pa
         /// </summary>

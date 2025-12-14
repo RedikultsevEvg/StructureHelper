@@ -8,10 +8,11 @@ namespace StructureHelper.Infrastructure.Enums
 {
     internal enum MaterialType
     {
-        Concrete,
-        Reinforcement,
-        Elastic,
-        CarbonFiber,
-        GlassFiber
+        Concrete = 0,
+        Reinforcement = 1,
+        Elastic = 2,
+        CarbonFiber = 3,
+        GlassFiber = 4,
+        Steel = 5
     }
 }

@@ -7,6 +7,7 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -47,9 +48,18 @@ namespace StructureHelper.Windows.ViewModels.Materials
             else if (parameterType == MaterialType.Elastic) { AddElastic(); }
             else if (parameterType == MaterialType.CarbonFiber) { AddCarbonFiber(); }
             else if (parameterType == MaterialType.GlassFiber) { AddGlassFiber(); }
+            else if (parameterType == MaterialType.Steel) { AddSteel(); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Expected: {typeof(MaterialType)}, Actual type: {nameof(parameterType)}");
             base.AddMethod(parameter);
         }
+
+        private void AddSteel()
+        {
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.SteelS345);
+            material.Name = "New Steel";
+            NewItem = material;
+        }
+
         public override void DeleteMethod(object parameter)
         {
             var primitives = repository.Primitives;

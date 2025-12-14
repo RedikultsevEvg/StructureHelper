@@ -1,9 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Codes.Factories
 {
@@ -48,6 +45,12 @@ namespace StructureHelperCommon.Models.Codes.Factories
                 FullName = "Reinforced steel low-relaxation 7-wire strands. Specifications"
             };
             codeEntities.Add(codeEntity);
+            codeEntity = new CodeEntity(new Guid("2A43EDEC-8B1B-4B0B-B2E1-B7507518B8E7"), natSystem)
+            {
+                Name = "GOST 27772-2021",
+                FullName = "Rolled products for structural steel constructions.General specifications"
+            };
+            codeEntities.Add(codeEntity); 
             return (codeEntities, codeRevisions);
         }
 

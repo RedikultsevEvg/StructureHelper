@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Materials.MaterialBuilders;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Materials.Libraries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,12 @@ namespace StructureHelperCommon.Models.Materials
                     MaterialType = MaterialTypes.Concrete,
                     Name = "Curve",
                     DiagramType = DiagramType.Curve
+                },
+                new SteelMaterialBuilderLogic(new Guid("C3BE4B92-DC61-43CF-A632-ADFC1AA57D8F"))
+                {
+                    MaterialType = MaterialTypes.Steel,
+                    Name="Triplelinear",
+                    DiagramType = DiagramType.TripleLinear
                 },
             };
             return items;
