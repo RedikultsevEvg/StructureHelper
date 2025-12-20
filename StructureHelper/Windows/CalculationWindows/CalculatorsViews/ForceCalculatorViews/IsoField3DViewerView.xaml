@@ -24,6 +24,28 @@
                     </Viewbox>
                 </Button>
             </ToolBar>
+            <ToolBar DataContext="{Binding SaveCopyViewModel}">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding CopyToClipboardCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Copy to clipboard"
+                                IconContent="{StaticResource CopyToClipboard}"
+                                DescriptionText="Copy chart to clipboard as image"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource CopyToClipboard}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding SaveAsImageCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Export to *.png"
+                                IconContent="{StaticResource PngImage}"
+                                DescriptionText="Export chart to *.png file"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource PngImage}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
         </ToolBarTray>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -53,39 +75,13 @@
                     <CheckBox Content="Invert normals" IsChecked="{Binding InvertNormal}"/>
                 </StackPanel>
             </Grid>
-            
-            <DockPanel Grid.Column="1">
-                <ToolBarTray DockPanel.Dock="Top">
-                    <ToolBar DataContext="{Binding SaveCopyViewModel}">
-                        <Button Style="{DynamicResource ToolButton}" Command="{Binding CopyToClipboardCommand}">
-                            <Button.ToolTip>
-                                <uc:ButtonToolTipEh HeaderText="Copy to clipboard"
-                                                IconContent="{StaticResource CopyToClipboard}"
-                                                DescriptionText="Copy chart to clipboard as image"/>
-                            </Button.ToolTip>
-                            <Viewbox>
-                                <ContentControl ContentTemplate="{DynamicResource CopyToClipboard}"/>
-                            </Viewbox>
-                        </Button>
-                        <Button Style="{DynamicResource ToolButton}" Command="{Binding SaveAsImageCommand}">
-                            <Button.ToolTip>
-                                <uc:ButtonToolTipEh HeaderText="Export to *.png"
-                                                IconContent="{StaticResource PngImage}"
-                                                DescriptionText="Export chart to *.png file"/>
-                            </Button.ToolTip>
-                            <Viewbox>
-                                <ContentControl ContentTemplate="{DynamicResource PngImage}"/>
-                            </Viewbox>
-                        </Button>
-                    </ToolBar>
-                </ToolBarTray>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="40"/>
-                    </Grid.RowDefinitions>
-                    <Grid x:Name="ViewportGrid" Background="White">
-                        <hx:Viewport3DX x:Name="View3D" DataContext="{Binding ViewportViewModel}" Title="{Binding Title}"
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Grid x:Name="ViewportGrid" Background="White">
+                    <hx:Viewport3DX x:Name="View3D" DataContext="{Binding ViewportViewModel}" Title="{Binding Title}"
 Grid.Row="0"
 BackgroundColor="White"
 Camera="{Binding Camera}"
@@ -99,38 +95,36 @@ ShowCoordinateSystem="True"
 SubTitle="{Binding SubTitle}"
 TextBrush="Black"
 UseDefaultGestures="False">
-                            <hx:Viewport3DX.InputBindings>
-                                <KeyBinding Key="B"
+                        <hx:Viewport3DX.InputBindings>
+                            <KeyBinding Key="B"
                 Command="hx:ViewportCommands.BackView" />
-                                <KeyBinding Key="F"
+                            <KeyBinding Key="F"
                 Command="hx:ViewportCommands.FrontView" />
-                                <KeyBinding Key="U"
+                            <KeyBinding Key="U"
                 Command="hx:ViewportCommands.TopView" />
-                                <KeyBinding Key="D"
+                            <KeyBinding Key="D"
                 Command="hx:ViewportCommands.BottomView" />
-                                <KeyBinding Key="L"
+                            <KeyBinding Key="L"
                 Command="hx:ViewportCommands.LeftView" />
-                                <KeyBinding Key="R"
+                            <KeyBinding Key="R"
                 Command="hx:ViewportCommands.RightView" />
-                                <KeyBinding Command="hx:ViewportCommands.ZoomExtents"
+                            <KeyBinding Command="hx:ViewportCommands.ZoomExtents"
                 Gesture="Control+E" />
-                                <MouseBinding Command="hx:ViewportCommands.Rotate"
+                            <MouseBinding Command="hx:ViewportCommands.Rotate"
                   Gesture="RightClick" />
-                                <MouseBinding Command="hx:ViewportCommands.Zoom"
+                            <MouseBinding Command="hx:ViewportCommands.Zoom"
                   Gesture="MiddleClick" />
-                                <MouseBinding Command="hx:ViewportCommands.Pan"
+                            <MouseBinding Command="hx:ViewportCommands.Pan"
                   Gesture="LeftClick" />
-                            </hx:Viewport3DX.InputBindings>
-                            <hx:AmbientLight3D Color="{Binding AmbientLightColor}" />
-                            <hx:DirectionalLight3D Direction="{Binding Camera.LookDirection}"
+                        </hx:Viewport3DX.InputBindings>
+                        <hx:AmbientLight3D Color="{Binding AmbientLightColor}" />
+                        <hx:DirectionalLight3D Direction="{Binding Camera.LookDirection}"
                        Color="{Binding DirectionalLightColor}" />
-                            <hx:ScreenQuadModel3D Texture="{Binding BackgroundTexture}" />
-                        </hx:Viewport3DX>
-                    </Grid>
-                    <Slider Grid.Row="1" Minimum="0" Maximum="100" Value="{Binding UserZoomFactor}"/>
+                        <hx:ScreenQuadModel3D Texture="{Binding BackgroundTexture}" />
+                    </hx:Viewport3DX>
                 </Grid>
-            </DockPanel>
+                <Slider Grid.Row="1" Minimum="0" Maximum="100" Value="{Binding UserZoomFactor}"/>
+            </Grid>
         </Grid>
     </DockPanel>
-
 </Window>

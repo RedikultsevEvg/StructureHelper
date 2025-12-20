@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Models.Materials.Libraries.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,22 @@ namespace StructureHelperLogics.Models.Materials
             if (codeType == CodeTypes.SP63_2018) return GetConcreteFactorsSP63_2018();
             else if (codeType == CodeTypes.EuroCode_2_1990) return GetConcreteFactorsEC2_1990();
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + ": " + codeType);
+        }
+
+        public static List<IMaterialSafetyFactor> GetDefaultSteelSafetyFactors(CodeTypes codeType)
+        {
+            if (codeType == CodeTypes.SP16_2017) return GetSteelFactorsSP16_2017();
+            else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + ": " + codeType);
+        }
+
+        private static List<IMaterialSafetyFactor> GetSteelFactorsSP16_2017()
+        {
+            List<IMaterialSafetyFactor> factors = new List<IMaterialSafetyFactor>();
+            IMaterialSafetyFactor coefficient;
+            coefficient = SteelFactorsFactory.GetFactor(SteelFactorTypes.WorkCondition);
+            coefficient.Take = true;
+            factors.Add(coefficient);
+            return factors;
         }
 
         public static List<IMaterialSafetyFactor> GetDefaultFRSafetyFactors(CodeTypes codeType, MaterialTypes materialType)

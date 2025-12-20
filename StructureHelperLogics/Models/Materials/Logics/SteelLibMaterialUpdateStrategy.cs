@@ -29,6 +29,9 @@ namespace StructureHelperLogics.Models.Materials
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             LibUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.MaxPlasticStrainRatio = sourceObject.MaxPlasticStrainRatio;
+            targetObject.UlsFactor = sourceObject.UlsFactor;
+            targetObject.ThicknessFactor = sourceObject.ThicknessFactor;
+            targetObject.WorkConditionFactor = sourceObject.WorkConditionFactor;
         }
     }
 }

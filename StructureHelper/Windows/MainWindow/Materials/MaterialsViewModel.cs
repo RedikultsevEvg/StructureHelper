@@ -3,14 +3,17 @@ using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
+using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 
 //Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
@@ -81,7 +84,15 @@ namespace StructureHelper.Windows.ViewModels.Materials
         {
             //var copyObject = GlobalRepository.Materials.GetById(SelectedItem.Id).Clone() as IHeadMaterial;
             var copyObject = SelectedItem.Clone() as IHeadMaterial;
-            var wnd = new HeadMaterialView(SelectedItem);
+            Window wnd;
+            if (SelectedItem.HelperMaterial is ISteelLibMaterial steelHeadMaterial)
+            {
+                wnd = new SteelMaterialView(SelectedItem);
+            }
+            else
+            {
+                wnd = new HeadMaterialView(SelectedItem);
+            }
             wnd.ShowDialog();
             if (wnd.DialogResult == true)
             {
@@ -140,9 +151,12 @@ namespace StructureHelper.Windows.ViewModels.Materials
         }
         private void EditHeadMaterials()
         {
-            var wnd = new HeadMaterialsView(repository);
-            wnd.ShowDialog();
-            Refresh();
+            SafetyProcessor.RunSafeProcess(delegate()
+            {
+                var wnd = new HeadMaterialsView(repository);
+                wnd.ShowDialog();
+                Refresh();
+            }, "Error of material propertis exibition");
         }
 
         private RelayCommand setMaterialToPrimititveCommand;

@@ -5,7 +5,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
 {
     public class ConcreteViewModel : LibMaterialViewModel<IConcreteMaterialEntity>
     {
-        readonly IConcreteLibMaterial concreteMaterial;
+        private readonly IConcreteLibMaterial concreteMaterial;
         public bool TensionForULS
         {
             get => concreteMaterial.TensionForULS;

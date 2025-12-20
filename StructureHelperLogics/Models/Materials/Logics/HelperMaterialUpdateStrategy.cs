@@ -1,14 +1,8 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Materials;
-using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.Materials.Logics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Materials
 {
@@ -67,7 +61,7 @@ namespace StructureHelperLogics.Models.Materials
         {
             if (sourceObject is IConcreteLibMaterial concreteLibMaterial)
             {
-                concreteUpdateStrategy.Update(targetObject as IConcreteLibMaterial, concreteLibMaterial);
+                ConcreteUpdateStrategy.Update(targetObject as IConcreteLibMaterial, concreteLibMaterial);
             }
             else if (sourceObject is IReinforcementLibMaterial reinforcementLibMaterial)
             {

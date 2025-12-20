@@ -7,35 +7,20 @@ using StructureHelperLogics.Models.Materials;
 
 namespace DataAccess.DTOs
 {
-    internal class HelperMaterialToDTOConvertStrategy : IConvertStrategy<IHelperMaterial, IHelperMaterial>
+    public class HelperMaterialToDTOConvertStrategy : IConvertStrategy<IHelperMaterial, IHelperMaterial>
     {
-        private LibMaterialToDTOConvertStrategy<ConcreteLibMaterialDTO, IConcreteLibMaterial> concreteConvertStrategy;
-        private LibMaterialToDTOConvertStrategy<ReinforcementLibMaterialDTO, IReinforcementLibMaterial> reinforcementConvertStrategy;
-        private IConvertStrategy<ElasticMaterialDTO, IElasticMaterial> elasticConvertStrategy;
-        private IConvertStrategy<FRMaterialDTO, IFRMaterial> frMaterialConvertStrategy;
-        private IUpdateStrategy<IHelperMaterial> safetyFactorUpdateStrategy = new HelperMaterialDTOSafetyFactorUpdateStrategy(new MaterialSafetyFactorToDTOLogic());
+        private IHelperMaterialToDTOStrategyContainer strategyContainer;
+        private IHelperMaterialToDTOStrategyContainer StrategyContainer => strategyContainer ??= new HelperMaterialToDTOStrategyContainer();
 
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IShiftTraceLogger TraceLogger { get; set; }
 
-        public HelperMaterialToDTOConvertStrategy(
-            LibMaterialToDTOConvertStrategy<ConcreteLibMaterialDTO, IConcreteLibMaterial> concreteConvertStrategy,
-            LibMaterialToDTOConvertStrategy<ReinforcementLibMaterialDTO, IReinforcementLibMaterial> reinforcementConvertStrategy,
-            IConvertStrategy<ElasticMaterialDTO, IElasticMaterial> elasticConvertStrategy,
-            IConvertStrategy<FRMaterialDTO, IFRMaterial> frMaterialConvertStrategy)
+        public HelperMaterialToDTOConvertStrategy(IHelperMaterialToDTOStrategyContainer strategyContainer)
         {
-            this.concreteConvertStrategy = concreteConvertStrategy;
-            this.reinforcementConvertStrategy = reinforcementConvertStrategy;
-            this.elasticConvertStrategy = elasticConvertStrategy;
-            this.frMaterialConvertStrategy = frMaterialConvertStrategy;
+            this.strategyContainer = strategyContainer;
         }
 
-        public HelperMaterialToDTOConvertStrategy() : this (
-            new ConcreteLibMaterialToDTOConvertStrategy(),
-            new ReinforcementLibMaterialToDTOConvertStrategy(),
-            new ElasticMaterialToDTOConvertStrategy(),
-            new FRMaterialToDTOConvertStrategy()
-            )
+        public HelperMaterialToDTOConvertStrategy()
         {
             
         }
@@ -46,7 +31,7 @@ namespace DataAccess.DTOs
             try
             {
                 IHelperMaterial helperMaterial = GetMaterial(source);
-                safetyFactorUpdateStrategy.Update(helperMaterial, source);
+                StrategyContainer.SafetyFactorUpdateStrategy.Update(helperMaterial, source);
                 return helperMaterial;
             }
             catch (Exception ex)
@@ -75,14 +60,28 @@ namespace DataAccess.DTOs
             {
                 return ProcessElastic(elasticMaterial);
             }
+            else if (source is ISteelLibMaterial steelLibMaterial)
+            {
+                return ProcessSteel(steelLibMaterial);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source));
             }
         }
 
+        private IHelperMaterial ProcessSteel(ISteelLibMaterial steelLibMaterial)
+        {
+            var strategy = StrategyContainer.SteelConvertStrategy;
+            strategy.ReferenceDictionary = ReferenceDictionary;
+            strategy.TraceLogger = TraceLogger;
+            var convertLogic = new DictionaryConvertStrategy<SteelLibMaterialDTO, ISteelLibMaterial>(this, strategy);
+            return convertLogic.Convert(steelLibMaterial);
+        }
+
         private IHelperMaterial ProcessFRMaterial(IFRMaterial frMaterial)
         {
+            var frMaterialConvertStrategy = StrategyContainer.FrMaterialConvertStrategy;
             frMaterialConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             frMaterialConvertStrategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<FRMaterialDTO, IFRMaterial>(this, frMaterialConvertStrategy);
@@ -91,6 +90,7 @@ namespace DataAccess.DTOs
 
         private IHelperMaterial ProcessElastic(IElasticMaterial elasticMaterial)
         {
+            var elasticConvertStrategy = StrategyContainer.ElasticConvertStrategy;
             elasticConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             elasticConvertStrategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<ElasticMaterialDTO, IElasticMaterial>(this, elasticConvertStrategy);
@@ -99,6 +99,7 @@ namespace DataAccess.DTOs
 
         private IHelperMaterial ProcessReinforcement(IReinforcementLibMaterial reinforcementMaterial)
         {
+            var reinforcementConvertStrategy = StrategyContainer.ReinforcementConvertStrategy;
             reinforcementConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             reinforcementConvertStrategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<ReinforcementLibMaterialDTO, IReinforcementLibMaterial>(this, reinforcementConvertStrategy);
@@ -107,6 +108,7 @@ namespace DataAccess.DTOs
 
         private IHelperMaterial ProcessConcrete(IConcreteLibMaterial concreteLibMaterial)
         {
+            var concreteConvertStrategy = StrategyContainer.ConcreteConvertStrategy;
             concreteConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             concreteConvertStrategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<ConcreteLibMaterialDTO, IConcreteLibMaterial>(this, concreteConvertStrategy);

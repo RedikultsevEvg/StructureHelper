@@ -27,6 +27,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
             {
                 InitialYoungsModulus = initialYoungsModulus,
                 BaseStrength = baseStrength,
+                BaseStrain = absoluteYieldingStrain,
                 StressOfProportionality = baseStrength * source.StrainOfProportionality,
                 StrainOfProportionality = absoluteYieldingStrain * source.StrainOfProportionality,
                 StrainOfStartOfYielding = absoluteYieldingStrain * source.StrainOfStartOfYielding,

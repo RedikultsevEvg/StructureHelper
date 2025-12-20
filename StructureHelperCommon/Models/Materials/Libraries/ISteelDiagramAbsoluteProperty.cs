@@ -15,6 +15,10 @@ namespace StructureHelperCommon.Models.Materials.Libraries
         /// </summary>
         double BaseStrength { get; set; }
         /// <summary>
+        /// Strain of start of yielding under bilinear diagram
+        /// </summary>
+        double BaseStrain { get; set; }
+        /// <summary>
         /// Stress at point of limit of proportionality, Pa
         /// </summary>
         double StressOfProportionality { get; set; }

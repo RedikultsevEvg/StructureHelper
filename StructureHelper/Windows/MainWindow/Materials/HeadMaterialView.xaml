@@ -19,38 +19,15 @@
             <RowDefinition/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <ScrollViewer>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="46"/>
                 <RowDefinition/>
                 <RowDefinition Height="1"/>
             </Grid.RowDefinitions>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="22"/>
-                    <RowDefinition Height="22"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Text="Name"/>
-                <TextBlock Grid.Row="1" Text="Color"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Name}"/>
-                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-                    <Rectangle Width="100" Margin="1" Stroke="Black">
-                        <Rectangle.Fill>
-                            <SolidColorBrush Color="{Binding Color}"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Button Width="50" Margin="1" Content="..." Command="{Binding EditColorCommand}"/>
-                </StackPanel>
-            </Grid>
+            <ContentControl ContentTemplate="{StaticResource MainMaterialProperties}" Content="{Binding}"/>
             <StackPanel Grid.Row="1" x:Name="StpMaterialProperties"/>
         </Grid>
-    </ScrollViewer>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

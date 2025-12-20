@@ -37,6 +37,12 @@ namespace StructureHelperCommon.Models.Materials
                 new SteelMaterialBuilderLogic(new Guid("C3BE4B92-DC61-43CF-A632-ADFC1AA57D8F"))
                 {
                     MaterialType = MaterialTypes.Steel,
+                    Name="Bilinear",
+                    DiagramType = DiagramType.Bilinear
+                },
+                new SteelMaterialBuilderLogic(new Guid("7D6F9280-4DDF-43CE-8FBB-56FAE26BDA75"))
+                {
+                    MaterialType = MaterialTypes.Steel,
                     Name="Triplelinear",
                     DiagramType = DiagramType.TripleLinear
                 },

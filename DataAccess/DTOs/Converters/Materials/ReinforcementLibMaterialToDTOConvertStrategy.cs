@@ -14,10 +14,7 @@ namespace DataAccess.DTOs
 
         public override ReinforcementLibMaterialDTO GetMaterialDTO(IReinforcementLibMaterial source)
         {
-            ReinforcementLibMaterialDTO newItem = new()
-            {
-                Id = source.Id
-            };
+            ReinforcementLibMaterialDTO newItem = new(source.Id);
             return newItem;
         }
     }

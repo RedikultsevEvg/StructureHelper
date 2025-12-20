@@ -8,13 +8,25 @@ using StructureHelperLogics.Models.Materials;
 
 namespace DataAccess.DTOs
 {
-    public class ReinforcementLibMaterialDTO : IReinforcementLibMaterial
+    public class SteelLibMaterialDTO : ISteelLibMaterial
     {
-        const MaterialTypes materialType = MaterialTypes.Reinforcement;
+        const MaterialTypes materialType = MaterialTypes.Steel;
         [JsonProperty("Id")]
         public Guid Id { get; }
-
-
+        [JsonProperty("UlsFactor")]
+        public double UlsFactor { get; set; } = 1.025;
+        [JsonProperty("SlsFactor")]
+        public double SlsFactor { get; set; } = 1.0;
+        [JsonProperty("WorkConditionFactor")]
+        public double WorkConditionFactor { get; set; } = 1.0;
+        [JsonProperty("ThicknessFactor")]
+        public double ThicknessFactor { get; set; } = 1.0;
+        [JsonProperty("MaxPlasticStrainRatio")]
+        public double MaxPlasticStrainRatio { get; set; } = 3.0;
+        [JsonIgnore]
+        public ILibMaterialEntity MaterialEntity { get; set; }
+        [JsonProperty("SafetyFactors")]
+        public List<IMaterialSafetyFactor> SafetyFactors { get; set; } = [];
         [JsonProperty("MaterialEntityId")]
         public Guid MaterialEntityId
         {
@@ -24,10 +36,6 @@ namespace DataAccess.DTOs
                 MaterialEntity = ProgramSetting.MaterialRepository.Repository.Single(x => x.Id == value);
             }
         }
-        [JsonIgnore]
-        public ILibMaterialEntity MaterialEntity { get; set; }
-        [JsonProperty("SafetyFactors")]
-        public List<IMaterialSafetyFactor> SafetyFactors { get; set; } = new();
         [JsonProperty("MaterialLogicId")]
         public Guid MaterialLogicId
         {
@@ -43,14 +51,16 @@ namespace DataAccess.DTOs
         [JsonIgnore]
         public List<IMaterialLogic> MaterialLogics { get; } = ProgramSetting.MaterialLogics.Where(x => x.MaterialType == materialType).ToList();
 
-        public ReinforcementLibMaterialDTO(Guid id)
+
+
+        public SteelLibMaterialDTO(Guid id)
         {
             Id = id;
         }
 
         public object Clone()
         {
-            return this;
+            throw new NotImplementedException();
         }
 
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)

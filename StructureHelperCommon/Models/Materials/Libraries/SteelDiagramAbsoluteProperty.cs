@@ -27,5 +27,6 @@ namespace StructureHelperCommon.Models.Materials.Libraries
         public double StressOfUltimateStrength { get; set; }
         /// <inheritdoc/>
         public double StressOfFracture { get; set; }
+        public double BaseStrain { get; set; }
     }
 }

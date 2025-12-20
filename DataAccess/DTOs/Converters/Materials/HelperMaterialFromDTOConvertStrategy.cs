@@ -9,33 +9,20 @@ namespace DataAccess.DTOs
     public class HelperMaterialFromDTOConvertStrategy : ConvertStrategy<IHelperMaterial, IHelperMaterial>
     {
         const string MaterialIs = "Material type is: ";
-        private IConvertStrategy<ConcreteLibMaterial, ConcreteLibMaterialDTO> concreteConvertStrategy;
-        private IConvertStrategy<ReinforcementLibMaterial, ReinforcementLibMaterialDTO> reinforcementConvertStrategy;
-        private IConvertStrategy<ElasticMaterial, ElasticMaterialDTO> elasticConvertStrategy;
-        private IConvertStrategy<FRMaterial, FRMaterialDTO> frConvertStrategy;
-        private IUpdateStrategy<IHelperMaterial> safetyFactorUpdateStrategy = new HelperMaterialDTOSafetyFactorUpdateStrategy(new MaterialSafetyFactorsFromDTOLogic());
+        private IHelperMaterialFromDTOStrategyContainer strategyContainer;
 
-        public HelperMaterialFromDTOConvertStrategy() : this(
-            new ConcreteLibMaterialFromDTOConvertStrategy(),
-            new ReinforcementLibMaterialFromDTOConvertStrategy(),
-            new ElasticMaterialFromDTOConvertStrategy(),
-            new FRMaterialFromDTOConvertStrategy()
-            )
+
+        private IHelperMaterialFromDTOStrategyContainer StrategyContainer => strategyContainer ??= new HelperMaterialFromDTOStrategyContainer();
+        public HelperMaterialFromDTOConvertStrategy(IHelperMaterialFromDTOStrategyContainer strategyContainer)
+        {
+            this.strategyContainer = strategyContainer;
+        }
+
+        public HelperMaterialFromDTOConvertStrategy()
         {
             
         }
 
-        public HelperMaterialFromDTOConvertStrategy(
-            IConvertStrategy<ConcreteLibMaterial, ConcreteLibMaterialDTO> concreteConvertStrategy,
-            IConvertStrategy<ReinforcementLibMaterial, ReinforcementLibMaterialDTO> reinforcementConvertStrategy,
-            IConvertStrategy<ElasticMaterial, ElasticMaterialDTO> elasticConvertStrategy,
-            IConvertStrategy<FRMaterial, FRMaterialDTO> frConvertStrategy)
-        {
-            this.concreteConvertStrategy = concreteConvertStrategy;
-            this.reinforcementConvertStrategy = reinforcementConvertStrategy;
-            this.elasticConvertStrategy = elasticConvertStrategy;
-            this.frConvertStrategy = frConvertStrategy;
-        }
 
         public override IHelperMaterial GetNewItem(IHelperMaterial source)
         {
@@ -55,6 +42,10 @@ namespace DataAccess.DTOs
             {
                 return GetElasticMaterial(elastic);
             }
+            else if (source is SteelLibMaterialDTO steel)
+            {
+                return GetSteelMaterial(steel);
+            }
             else
             {
                 string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source) + ": helper material type";
@@ -63,43 +54,58 @@ namespace DataAccess.DTOs
             }
         }
 
+        private IHelperMaterial GetSteelMaterial(SteelLibMaterialDTO source)
+        {
+            var strategy = StrategyContainer.SteelConvertStrategy;
+            TraceLogger?.AddMessage(MaterialIs + "Elastic material", TraceLogStatuses.Service);
+            strategy.ReferenceDictionary = ReferenceDictionary;
+            strategy.TraceLogger = TraceLogger;
+            var newItem = strategy.Convert(source);
+            strategyContainer.SafetyFactorUpdateStrategy.Update(newItem, source);
+            return newItem;
+        }
+
         private IHelperMaterial GetElasticMaterial(ElasticMaterialDTO source)
         {
+            var strategy = StrategyContainer.ElasticConvertStrategy;
             TraceLogger?.AddMessage(MaterialIs + "Elastic material", TraceLogStatuses.Service);
-            elasticConvertStrategy.ReferenceDictionary = ReferenceDictionary;
-            elasticConvertStrategy.TraceLogger = TraceLogger;
-            var newItem = elasticConvertStrategy.Convert(source);
-            safetyFactorUpdateStrategy.Update(newItem, source);
+            strategy.ReferenceDictionary = ReferenceDictionary;
+            strategy.TraceLogger = TraceLogger;
+            var newItem = strategy.Convert(source);
+            strategyContainer.SafetyFactorUpdateStrategy.Update(newItem, source);
             return newItem;
         }
 
         private IHelperMaterial GetFRMaterial(FRMaterialDTO source)
         {
+            var strategy = StrategyContainer.FrConvertStrategy;
             TraceLogger?.AddMessage(MaterialIs + "Fiber reinforcement material", TraceLogStatuses.Service);
-            frConvertStrategy.ReferenceDictionary = ReferenceDictionary;
-            frConvertStrategy.TraceLogger = TraceLogger;
-            var newItem = frConvertStrategy.Convert(source);
-            safetyFactorUpdateStrategy.Update(newItem, source);
+            strategy.ReferenceDictionary = ReferenceDictionary;
+            strategy.TraceLogger = TraceLogger;
+            var newItem = strategy.Convert(source);
+            StrategyContainer.SafetyFactorUpdateStrategy.Update(newItem, source);
             return newItem;
         }
 
         private IHelperMaterial GetReinforcementMaterial(ReinforcementLibMaterialDTO source)
         {
+            var strategy = StrategyContainer.ReinforcementConvertStrategy;
             TraceLogger?.AddMessage(MaterialIs + "Reinforcement library material", TraceLogStatuses.Service);
-            reinforcementConvertStrategy.ReferenceDictionary = ReferenceDictionary;
-            reinforcementConvertStrategy.TraceLogger = TraceLogger;
-            var newItem = reinforcementConvertStrategy.Convert(source);
-            safetyFactorUpdateStrategy.Update(newItem, source);
+            strategy.ReferenceDictionary = ReferenceDictionary;
+            strategy.TraceLogger = TraceLogger;
+            var newItem = strategy.Convert(source);
+            StrategyContainer.SafetyFactorUpdateStrategy.Update(newItem, source);
             return newItem;
         }
 
         private IHelperMaterial GetConcreteMaterial(ConcreteLibMaterialDTO source)
         {
+            var strategy = StrategyContainer.ConcreteConvertStrategy;
             TraceLogger?.AddMessage(MaterialIs + "Concrete library material", TraceLogStatuses.Service);
-            concreteConvertStrategy.ReferenceDictionary = ReferenceDictionary;
-            concreteConvertStrategy.TraceLogger = TraceLogger;
-            var newItem = concreteConvertStrategy.Convert(source);
-            safetyFactorUpdateStrategy.Update(newItem, source);
+            strategy.ReferenceDictionary = ReferenceDictionary;
+            strategy.TraceLogger = TraceLogger;
+            var newItem = strategy.Convert(source);
+            StrategyContainer.SafetyFactorUpdateStrategy.Update(newItem, source);
             return newItem;
         }
     }

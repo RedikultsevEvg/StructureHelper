@@ -17,6 +17,12 @@
         d:DataContext="{d:DesignInstance local:CrossSectionViewModel}"
         Title="Cross-Section NDM Analysis" Height="700" Width="1000" MinHeight="400" MinWidth="600" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Infrastructure/UI/Resources/MaterialButtonStyles.xaml"/>
+                <ResourceDictionary Source="/Infrastructure/UI/Resources/CalculatorButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <DataTemplate DataType="{x:Type dataContexts:RectangleViewPrimitive}">
             <dataTemplates:RectangleTemplate/>
         </DataTemplate>
@@ -29,7 +35,7 @@
         <DataTemplate DataType="{x:Type dataContexts:ShapeViewPrimitive}">
             <dataTemplates:PolygonTemplate/>
         </DataTemplate>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ResourceDictionary>
     </Window.Resources>
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
@@ -48,23 +54,75 @@
                         Content="File" ToolTip="Add Combination From File"/>
             </ToolBar>
             <ToolBar DataContext="{Binding MaterialsLogic}" ToolTip="Materials">
-                <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Concrete}">
-                    <Image Source="/Windows/MainWindow/ConMaterial32.png"/>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:MaterialType.Concrete}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add concrete material"
+                                                IconContent="{StaticResource ConcreteMaterial}"
+                                                DescriptionText="Adds new material of concrete according to SP63.13330.2018"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource ConcreteMaterial}"/>
+                    </Viewbox>
                 </Button>
-                <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Reinforcement}" ToolTip="Add Reinforcement Material">
-                    <Image Source="/Windows/MainWindow/RFMaterial32.png"/>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:MaterialType.Reinforcement}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add Reinforcement material"
+                                                IconContent="{StaticResource ReinforcementMaterial}"
+                                                DescriptionText="Adds new material of reinforcement according to SP63.13330.2018"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource ReinforcementMaterial}"/>
+                    </Viewbox>
                 </Button>
-                <Button  Style="{StaticResource ToolButton}"  Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Elastic}" ToolTip="Add Elastic Material">
-                    <Image Source="/Windows/MainWindow/ElasticMaterial32.png"/>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:MaterialType.Steel}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add Steel material"
+                                                IconContent="{StaticResource SteelMaterial}"
+                                                DescriptionText="Adds new material of steel according to SP16.13330.2017"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource SteelMaterial}"/>
+                    </Viewbox>
                 </Button>
-                <Button Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.CarbonFiber}" ToolTip="Add Carbon Fiber Material">
-                    <Image Style="{StaticResource ButtonImage32}" Source="/Windows/MainWindow/СarbonMaterial32.png"/>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:MaterialType.Elastic}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add Carbon Fiber material"
+                                                IconContent="{StaticResource ElasticMaterial}"
+                                                DescriptionText="Adds new elastic material with linear stress-strain curve"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource ElasticMaterial}"/>
+                    </Viewbox>
                 </Button>
-                <Button Style="{StaticResource ToolButton}"  Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.GlassFiber}" ToolTip="Add Glass Fiber Material">
-                    <Image Source="/Windows/MainWindow/GlassMaterial32.png"/>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:MaterialType.CarbonFiber}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add Carbon Fiber material"
+                                                IconContent="{StaticResource CarbonFiberMaterial}"
+                                                DescriptionText="Adds new carbon fiber material according to SP164.1325800.2014"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource CarbonFiberMaterial}"/>
+                    </Viewbox>
                 </Button>
-                <Button Style="{StaticResource ToolButton}" Command="{Binding EditMaterialsCommand}" ToolTip="Show Materials">
-                    <Image Source="/Windows/MainWindow/Materials32.png"/>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.GlassFiber}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add Glass Fiber material"
+                                                IconContent="{StaticResource GlassFiberMaterial}"
+                                                DescriptionText="Adds new glass fiber material according to SP164.1325800.2014"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource GlassFiberMaterial}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}"  Command="{Binding EditMaterialsCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show materials"
+                                                IconContent="{StaticResource Materials}"
+                                                DescriptionText="Shows material properties like diagrams, etc."/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource Materials}"/>
+                    </Viewbox>
                 </Button>
             </ToolBar>
 
@@ -236,32 +294,44 @@
                                     <MenuItem Header="Add">
                                         <MenuItem Header="Concrete" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Concrete}">
                                             <MenuItem.Icon>
-                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/ConMaterial32.png" />
+                                                <Viewbox Width="16" Height="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource ConcreteMaterial}" />
+                                                </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <MenuItem Header="Reinforcement" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Reinforcement}">
                                             <MenuItem.Icon>
-                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/RFMaterial32.png" />
+                                                <Viewbox Width="16" Height="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource ReinforcementMaterial}"/>
+                                                </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <MenuItem Header="Steel" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Steel}">
                                             <MenuItem.Icon>
-                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/RFMaterial32.png" />
+                                                <Viewbox Width="16" Height="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource SteelMaterial}"/>
+                                                </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <MenuItem Header="Elastic" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.Elastic}">
                                             <MenuItem.Icon>
-                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/ElasticMaterial32.png" />
+                                                <Viewbox Width="16" Height="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource ElasticMaterial}"/>
+                                                </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <MenuItem Header="CarbonFiber" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.CarbonFiber}">
                                             <MenuItem.Icon>
-                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/СarbonMaterial32.png" />
+                                                <Viewbox Width="16" Height="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource CarbonFiberMaterial}"/>
+                                                </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <MenuItem Header="GlassFiber" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.GlassFiber}">
                                             <MenuItem.Icon>
-                                                <Image Style="{StaticResource ButtonImage16}" Source="/Windows/MainWindow/GlassMaterial32.png" />
+                                                <Viewbox Width="16" Height="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource GlassFiberMaterial}"/>
+                                                </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </MenuItem>

@@ -14,5 +14,9 @@ namespace StructureHelperCommon.Models.Materials.Libraries
         public bool WorkInCompression { get; set; } = true;
         public bool WorkInTension { get; set; } = true;
         public double MaxPlasticStrainRatio { get; set; }
+        public double UlsFactor { get; set; }
+        public double SlsFactor { get; set; }
+        public double ThicknessFactor { get; set; }
+        public double WorkConditionFactor { get; set; }
     }
 }

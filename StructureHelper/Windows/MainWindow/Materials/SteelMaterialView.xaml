@@ -1,0 +1,54 @@
+﻿<Window x:Class="StructureHelper.Windows.MainWindow.Materials.SteelMaterialView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow.Materials"
+        d:DataContext="{d:DesignInstance local:SteelMaterialViewModel}"
+        mc:Ignorable="d"
+        Title="Steel Material" Height="350" Width="300" MinHeight="350" MinWidth="300" MaxHeight="800" MaxWidth="500" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary Source="/Infrastructure/UI/Resources/Materials.xaml"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header="Main">
+                <ScrollViewer>
+                    <StackPanel>
+                        <ContentControl ContentTemplate="{StaticResource MainMaterialProperties}" Content="{Binding}"/>
+                        <ContentControl ContentTemplate="{StaticResource LibraryMaterial}" Content="{Binding HelperMaterialViewModel.LibMaterialViewModel}"/>
+                        <Button Content="Show Safety Factors" Command="{Binding HelperMaterialViewModel.LibMaterialViewModel.ShowSafetyFactors}"/>
+                        <ContentControl ContentTemplate="{StaticResource MaterialSafetyFactors}" Content="{Binding HelperMaterialViewModel.LibMaterialViewModel.SafetyFactors}"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Misc.">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="ULS Factor"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding HelperMaterialViewModel.UlsFactor, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
+                    <TextBlock Grid.Row="1" Text="Thickness Factor"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding HelperMaterialViewModel.ThicknessFactor, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
+                    <TextBlock Grid.Row="2" Text="Work condition factor"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding HelperMaterialViewModel.WorkConditionFactor, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
+                    <TextBlock Grid.Row="3" Text="Plastic strain ratio"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding HelperMaterialViewModel.MaxPlasticStrainRatio, Converter={StaticResource PlainDouble}, ValidatesOnExceptions=True}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>

@@ -144,6 +144,9 @@
     <Compile Update="Windows\Graphs\MaterialDiagramView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\MainWindow\Materials\SteelMaterialView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\PrimitiveTemplates\RCs\Beams\CircleView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

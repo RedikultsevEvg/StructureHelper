@@ -1,0 +1,88 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="CalculatorColor" A="255" B="149" G="149" R="211"/>
+    <Color x:Key="CalculatorFrameColor" A="255" B="109" G="109" R="166"/>
+
+    <SolidColorBrush x:Key="CalculatorCanvas" Color="{DynamicResource CalculatorColor}"/>
+    <SolidColorBrush x:Key="CalculatorFrame" Color="{DynamicResource CalculatorFrameColor}"/>
+
+    <Style x:Key="ButtonCalculatorCanvas" TargetType="Canvas" BasedOn="{StaticResource ButtonCanvas}">
+        <Setter Property="Background" Value="{DynamicResource CalculatorCanvas}"/>
+    </Style>
+
+    <DataTemplate x:Key="ButtonCalculatorRectangle">
+        <Rectangle Style="{DynamicResource ButtonRect}" Stroke="{DynamicResource CalculatorFrame}">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="{DynamicResource ButtonLight}" Offset="0.2"/>
+                    <GradientStop Color="{DynamicResource CalculatorColor}" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CalculatorRun">
+        <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonCalculatorRectangle}"/>
+                <Path Margin="4" Data="M 4 2 l 12 10 l -12 10 l 0 -20" Fill="{DynamicResource CalculatorFrame}"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CrackCalculator">
+        <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonCalculatorRectangle}"/>
+                <Path Margin="4" Data="M 0 0 l 25 0 l 0 20
+                      l -4 0
+                      l -1 -5 l 1 -5 l -2 5 l -2 5
+                      l -3 0
+                      l 0 -5 l 0 -10 l -2 10 l -2 5
+                      l -3 0
+                      l -1 -5 l 1 -5 l -2 5 l -2 5
+                      l -4 0" Fill="{DynamicResource CalculatorFrame}"/>
+                <TextBlock Margin="4,2,0,0" Text="Crc" Foreground="White" FontSize="10" HorizontalAlignment="Stretch" FontWeight="Bold" />
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CurvatureCalculator">
+        <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonCalculatorRectangle}"/>
+                <Path Data="M 6 16 a 10 15 90 0 0 20 0  l 2 5 a 7 15 90 0 1 -24 0 z" Fill="{DynamicResource CalculatorFrame}"/>
+                <Path Data="M 4 18 a 8 15 90 0 0 24 0" Stroke="Black"  StrokeThickness="0.5"/>
+                <Line X1="16" Y1="5" X2="12" Y2="21" Stroke="Black"/>
+                <Line X1="11" Y1="15" X2="12" Y2="21" Stroke="Black"/>
+                <Line X1="16" Y1="16" X2="12" Y2="21" Stroke="Black"/>
+                <TextBlock FontSize="8" Text="R" FontWeight="Bold" Margin="17,3,0,0"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="DiagramCalculator">
+        <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonCalculatorRectangle}"/>
+                <Line Margin="4" X1="0" Y1="20" X2="25" Y2="20" StrokeThickness="1.5" Stroke="{DynamicResource CalculatorFrame}"/>
+                <Line Margin="4" X1="4" Y1="0" X2="4" Y2="25" StrokeThickness="1.5" Stroke="{DynamicResource CalculatorFrame}"/>
+                <Path Margin="4" Data="M 0 5 l 4 -4 l 7 4 l 7 6 l 2 4 l -2 7 l -2 2 " Stroke="{DynamicResource CalculatorFrame}"/>
+                <TextBlock Margin="4,2,0,0" Text="M-N" Foreground="Black" FontSize="10" HorizontalAlignment="Stretch" FontWeight="Bold" />
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ValueDiagramCalculator">
+        <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonCalculatorRectangle}"/>
+                <Path Data="M 12 6 h 12 v 6 l -12 6 z" Fill="{DynamicResource CalculatorFrame}"/>
+                <Path Data="M 12 26 h -6 v -4 l 6 -5 z" Fill="{DynamicResource CalculatorFrame}"/>
+                <Line X1="12" Y1="5" X2="12" Y2="26" Stroke="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+</ResourceDictionary>

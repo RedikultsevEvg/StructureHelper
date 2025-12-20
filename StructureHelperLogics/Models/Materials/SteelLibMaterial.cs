@@ -11,8 +11,6 @@ namespace StructureHelperLogics.Models.Materials
     public class SteelLibMaterial : ISteelLibMaterial
     {
         const MaterialTypes materialType = MaterialTypes.Steel;
-        private const double safetyFactorForULS = 1.05;
-        private const double safetyFactorforSLS = 1.0;
 
         private IMaterialFactorLogic factorLogic => new MaterialFactorLogic(SafetyFactors);
         private readonly List<IMaterialLogic> materialLogics = ProgramSetting.MaterialLogics.Where(x => x.MaterialType == materialType).ToList();
@@ -25,6 +23,10 @@ namespace StructureHelperLogics.Models.Materials
 
         public List<IMaterialSafetyFactor> SafetyFactors { get; set; } = [];
         public double MaxPlasticStrainRatio { get; set; } = 3.0;
+        public double UlsFactor { get; set; } = 1.025;
+        public double SlsFactor { get; set; } = 1.0;
+        public double ThicknessFactor { get; set; } = 1.0;
+        public double WorkConditionFactor { get; set; } = 1.0;
 
         public SteelLibMaterial(Guid id)
         {
@@ -55,6 +57,10 @@ namespace StructureHelperLogics.Models.Materials
                 MaxPlasticStrainRatio = MaxPlasticStrainRatio,
                 LimitState = limitState,
                 CalcTerm = calcTerm,
+                UlsFactor = UlsFactor,
+                SlsFactor = SlsFactor,
+                ThicknessFactor = ThicknessFactor,
+                WorkConditionFactor = WorkConditionFactor,
             };
             MaterialLogic.Options = options;
             var material = MaterialLogic.GetLoaderMaterial();
@@ -72,17 +78,17 @@ namespace StructureHelperLogics.Models.Materials
             double factor;
             if (limitState == LimitStates.ULS)
             {
-                factor = safetyFactorForULS;
+                factor = UlsFactor;
             }
             else if (limitState == LimitStates.SLS)
             {
-                factor = safetyFactorforSLS;
+                factor = SlsFactor;
             }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(limitState));
             }
-            double strength = baseStength / factor;
+            double strength = baseStength * ThicknessFactor / factor;
             return (strength * compressionFactor, strength * tensionFactor);
         }
     }
