@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperLogics.NdmCalculations.Cracking.CheckLogics;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives.Logics;
 
@@ -11,57 +12,65 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
     /// <summary>
     /// Logic of checking of input data for crack calcultor 
     /// </summary>
-    public class CheckCrackCalculatorInputDataLogic : ICheckInputDataLogic<ICrackCalculatorInputData>
+    public class CheckCrackCalculatorInputDataLogic : CheckEntityLogic<ICrackCalculatorInputData>
     {
         private bool result;
         private ICheckEntityLogic<IHasPrimitives> checkPrimitiveCollectionLogic;
-
-        public ICrackCalculatorInputData InputData {  get; set; }
-
-
-        public string CheckResult { get; private set; }
-
-        public IShiftTraceLogger? TraceLogger { get; set; }
+        private ICheckEntityLogic<IEnumerable<INdmPrimitive>> checkMaterialsForCrackingLogic;
+        private ICheckEntityLogic<IEnumerable<INdmPrimitive>> CheckMaterialsForCrackingLogic => checkMaterialsForCrackingLogic ??= new PrimitivesForCrackMaterialCheckLogic();
+        private ICheckEntityLogic<IHasPrimitives> CheckPrimitiveCollectionLogic => checkPrimitiveCollectionLogic ??= new HasPrimitivesCheckLogic() ;
 
         public CheckCrackCalculatorInputDataLogic(ICheckEntityLogic<IHasPrimitives> checkPrimitiveCollectionLogic)
         {
             this.checkPrimitiveCollectionLogic = checkPrimitiveCollectionLogic;
         }
 
-        public CheckCrackCalculatorInputDataLogic() : this (new HasPrimitivesCheckLogic())
+        public CheckCrackCalculatorInputDataLogic()
         {
             
         }
 
-        public bool Check()
+        public override bool Check()
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Debug);
             result = true;
             CheckResult = string.Empty;
+            CheckCrackingMaterials();
             CheckPrimitives();
             CheckActions();
             return result;
         }
 
+        private void CheckCrackingMaterials()
+        {
+            CheckMaterialsForCrackingLogic.TraceLogger = TraceLogger;
+            CheckMaterialsForCrackingLogic.Entity = Entity.Primitives;
+            if (CheckMaterialsForCrackingLogic.Check() == false)
+            {
+                result = false;
+                CheckResult += CheckMaterialsForCrackingLogic.CheckResult;
+            }
+        }
+
         private void CheckPrimitives()
         {
-            if (checkPrimitiveCollectionLogic is null)
+            if (CheckPrimitiveCollectionLogic is null)
             {
                 throw new StructureHelperException(ErrorStrings.ParameterIsNull + ": check primitive logic");
             }
-            checkPrimitiveCollectionLogic.Entity = InputData;
-            checkPrimitiveCollectionLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger();
-            if (checkPrimitiveCollectionLogic.Check() == false)
+            CheckPrimitiveCollectionLogic.Entity = Entity;
+            CheckPrimitiveCollectionLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger();
+            if (CheckPrimitiveCollectionLogic.Check() == false)
             {
                 result = false;
-                CheckResult += checkPrimitiveCollectionLogic.CheckResult;
-                TraceLogger?.AddMessage(checkPrimitiveCollectionLogic.CheckResult, TraceLogStatuses.Error);
+                CheckResult += CheckPrimitiveCollectionLogic.CheckResult;
+                TraceLogger?.AddMessage(CheckPrimitiveCollectionLogic.CheckResult, TraceLogStatuses.Error);
             }
         }
 
         private void CheckActions()
         {
-            if (InputData.ForceActions is null || (!InputData.ForceActions.Any()))
+            if (Entity.ForceActions is null || (!Entity.ForceActions.Any()))
             {
                 result = false;
                 string message = "Calculator does not contain any actions\n";
@@ -71,7 +80,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             };
             var checkLogic = new CheckForceActionsLogic(TraceLogger)
             {
-                Entity = InputData.ForceActions
+                Entity = Entity.ForceActions
             };
             if (checkLogic.Check() == false)
             {
@@ -84,7 +93,5 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             CheckResult += errorString + "\n";
             TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
         }
-
-
     }
 }

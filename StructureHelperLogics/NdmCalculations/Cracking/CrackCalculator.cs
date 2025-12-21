@@ -1,18 +1,11 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking
 {
@@ -24,20 +17,24 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         const CalcTerms shortTerm = CalcTerms.ShortTerm;
         private const double maxSizeOfCrossSection = 1d;
         private CrackResult result;
+
         private IGetTupleInputDatasLogic datasLogic;
+
+        private ICheckEntityLogic<ICrackCalculatorInputData> checkInputDataLogic;
         private IUpdateStrategy<ICrackCalculator> updateStrategy;
-        private ICheckInputDataLogic<ICrackCalculatorInputData> checkInputDataLogic;
+        private ICheckEntityLogic<ICrackCalculatorInputData> CheckInputDataLogic => checkInputDataLogic ??= new CheckCrackCalculatorInputDataLogic();
+        private IUpdateStrategy<ICrackCalculator> UpdateStrategy => updateStrategy ??= new CrackCalculatorUpdateStrategy();
 
         public Guid Id { get; } = Guid.NewGuid();
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public ICrackCalculatorInputData InputData { get; set; }
         public IResult Result => result;
 
         public IShiftTraceLogger? TraceLogger { get; set; }
         public bool ShowTraceData { get; set; }
 
-        public CrackCalculator(ICheckInputDataLogic<ICrackCalculatorInputData> checkInputDataLogic,
+        public CrackCalculator(ICheckEntityLogic<ICrackCalculatorInputData> checkInputDataLogic,
             IUpdateStrategy<ICrackCalculator> updateStrategy,
             IShiftTraceLogger traceLogger
             )
@@ -45,18 +42,12 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             this.checkInputDataLogic = checkInputDataLogic;
             this.updateStrategy = updateStrategy;
             this.TraceLogger = traceLogger;
-            Name = string.Empty;
         }
 
-        public CrackCalculator()
-            : this(new CheckCrackCalculatorInputDataLogic(),
-                  new CrackCalculatorUpdateStrategy(),
-                  new ShiftTraceLogger())
-        { }
-
-        public CrackCalculator(Guid id) : this()
+        public CrackCalculator(Guid id, IShiftTraceLogger traceLogger)
         {
             Id = id;
+            TraceLogger = traceLogger;
         }
 
         public object Clone()
@@ -64,18 +55,21 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             CrackCalculatorInputData crackInputData = new CrackCalculatorInputData();
             var checkDataLogic = new CheckCrackCalculatorInputDataLogic()
             {
-                InputData = InputData
+                Entity = InputData
             };
             var newItem = new CrackCalculator(checkDataLogic, new CrackCalculatorUpdateStrategy(), new ShiftTraceLogger());
             newItem.InputData = crackInputData;
-            updateStrategy.Update(newItem, this);
+            UpdateStrategy.Update(newItem, this);
             return newItem;
         }
 
         public void Run()
         {
             PrepareNewResult();
-            CheckInputData();
+            if (CheckInputData() == false)
+            {
+                return;
+            }
             TraceInputData();
             try
             {
@@ -115,15 +109,17 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             traceLogic.AddEntriesToTraceLogger(TraceLogger);
         }
 
-        private void CheckInputData()
+        private bool CheckInputData()
         {
-            checkInputDataLogic.InputData = InputData;
-            checkInputDataLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
-            if (checkInputDataLogic.Check() == false)
+            CheckInputDataLogic.Entity = InputData;
+            CheckInputDataLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
+            if (CheckInputDataLogic.Check() == false)
             {
                 result.IsValid = false;
-                result.Description += checkInputDataLogic.CheckResult;
+                result.Description += CheckInputDataLogic.CheckResult;
+                return false;
             }
+            return true;
         }
 
         private void ProcessCalculations()

@@ -8,14 +8,17 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public class ForceCalculator : IForceCalculator
     {
-        private IUpdateStrategy<IForceCalculator> updateStrategy;
-        private ICheckInputDataLogic<IForceCalculatorInputData> checkInputDataLogic;
-        private IForceCalculatorLogic forceCalculatorLogic;
+        private ICheckInputDataLogic<IForceCalculatorInputData>? checkInputDataLogic;
+        private IForceCalculatorLogic? forceCalculatorLogic;
+        private IUpdateStrategy<IForceCalculator>? updateStrategy;
+        private ICheckInputDataLogic<IForceCalculatorInputData> CheckInputDataLogic => checkInputDataLogic ??= new CheckForceCalculatorInputData();
+        private IForceCalculatorLogic ForceCalculatorLogic => forceCalculatorLogic ??= new ForceCalculatorLogic();
+        private IUpdateStrategy<IForceCalculator> UpdateStrategy => updateStrategy ??= new ForceCalculatorUpdateStrategy();
 
         /// <inheritdoc/>
         public Guid Id { get; } = Guid.NewGuid();
         /// <inheritdoc/>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         /// <inheritdoc/>
         public IForceCalculatorInputData InputData { get; set; } = new ForceCalculatorInputData();
         /// <inheritdoc/>
@@ -37,14 +40,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             this.updateStrategy = updateStrategy;
         }
 
-        public ForceCalculator() :
-            this(new CheckForceCalculatorInputData(),
-                new ForceCalculatorLogic(),
-                new ForceCalculatorUpdateStrategy())
-        {
-        }
-
-        public ForceCalculator(Guid id) :  this()
+        public ForceCalculator(Guid id)
         {
             Id = id;
         }
@@ -52,30 +48,30 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public void Run()
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
-            checkInputDataLogic.InputData = InputData;
-            checkInputDataLogic.TraceLogger = TraceLogger;
-            if (checkInputDataLogic.Check() != true)
+            CheckInputDataLogic.InputData = InputData;
+            CheckInputDataLogic.TraceLogger = TraceLogger;
+            if (CheckInputDataLogic.Check() != true)
             {
                 Result = new ForceCalculatorResult()
                 {
                     IsValid = false,
-                    Description = checkInputDataLogic.CheckResult
+                    Description = CheckInputDataLogic.CheckResult
                 };
                 return;
             }
-            forceCalculatorLogic.InputData = InputData;
+            ForceCalculatorLogic.InputData = InputData;
             if (ActionToOutputResults is not null)
             {
-                forceCalculatorLogic.ActionToOutputResults = ActionToOutputResults;
+                ForceCalculatorLogic.ActionToOutputResults = ActionToOutputResults;
             }
-            forceCalculatorLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
-            Result = forceCalculatorLogic.GetForcesResults();
+            ForceCalculatorLogic.TraceLogger = TraceLogger?.GetSimilarTraceLogger(50);
+            Result = ForceCalculatorLogic.GetForcesResults();
         }
 
         public object Clone()
         {
-            var newCalculator = new ForceCalculator();
-            updateStrategy.Update(newCalculator, this);
+            var newCalculator = new ForceCalculator(Guid.NewGuid());
+            UpdateStrategy.Update(newCalculator, this);
             return newCalculator;
         }
     }

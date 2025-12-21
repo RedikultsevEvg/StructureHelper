@@ -92,7 +92,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private void AddCrackCalculator()
         {
             var inputData = new CrackCalculatorInputData();
-            var calculator = new CrackCalculator()
+            var calculator = new CrackCalculator(Guid.NewGuid(), new ShiftTraceLogger())
             {
                 Name = "New crack calculator",
                 TraceLogger = new ShiftTraceLogger(),
@@ -114,7 +114,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void AddForceCalculator()
         {
-            NewItem = new ForceCalculator()
+            NewItem = new ForceCalculator(Guid.NewGuid())
             {
                 Name = "New force calculator",
                 TraceLogger = new ShiftTraceLogger(),

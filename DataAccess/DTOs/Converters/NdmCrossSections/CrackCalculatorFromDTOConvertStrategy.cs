@@ -1,25 +1,21 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperCommon.Models;
 using StructureHelperLogics.NdmCalculations.Cracking;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
     public class CrackCalculatorFromDTOConvertStrategy : ConvertStrategy<CrackCalculator, CrackCalculatorDTO>
     {
-        private IConvertStrategy<CrackCalculatorInputData, CrackCalculatorInputDataDTO> convertStrategy = new CrackCalculatorInputDataFromDTOConvertStrategy();
+        private IConvertStrategy<CrackCalculatorInputData, CrackCalculatorInputDataDTO> convertStrategy;
+        private IConvertStrategy<CrackCalculatorInputData, CrackCalculatorInputDataDTO> ConvertStrategy => convertStrategy ??= new CrackCalculatorInputDataFromDTOConvertStrategy();
 
         public override CrackCalculator GetNewItem(CrackCalculatorDTO source)
         {
-            NewItem = new(source.Id);
+            NewItem = new(source.Id, new ShiftTraceLogger());
             NewItem.Name = source.Name;
-            convertStrategy.ReferenceDictionary = ReferenceDictionary;
-            convertStrategy.TraceLogger = TraceLogger;
-            NewItem.InputData = convertStrategy.Convert(source.InputData as CrackCalculatorInputDataDTO);
+            ConvertStrategy.ReferenceDictionary = ReferenceDictionary;
+            ConvertStrategy.TraceLogger = TraceLogger;
+            NewItem.InputData = ConvertStrategy.Convert(source.InputData as CrackCalculatorInputDataDTO);
             return NewItem;
         }
     }

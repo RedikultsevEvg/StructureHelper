@@ -13,7 +13,7 @@ namespace StructureHelperLogics.Services.NdmCalculations
         private static IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         public static ForceCalculator InterpolateForceCalculator(IForceCalculator source, IStateCalcTermPair stateCalcTermPair, InterpolateTuplesResult interpolateTuplesResult)
         {
-            ForceCalculator calculator = new ForceCalculator();
+            ForceCalculator calculator = new ForceCalculator(Guid.NewGuid());
             calculator.InputData.LimitStatesList.Clear();
             calculator.InputData.LimitStatesList.Add(stateCalcTermPair.LimitState);
             calculator.InputData.CalcTermsList.Clear();

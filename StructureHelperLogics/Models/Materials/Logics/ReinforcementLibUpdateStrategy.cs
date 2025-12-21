@@ -10,11 +10,12 @@ namespace StructureHelperLogics.Models.Materials
     public class ReinforcementLibUpdateStrategy : IUpdateStrategy<IReinforcementLibMaterial>
     {
         private IUpdateStrategy<ILibMaterial> libUpdateStrategy;
+        private IUpdateStrategy<ILibMaterial> LibUpdateStrategy => libUpdateStrategy ??= new LibMaterialUpdateStrategy();
         public ReinforcementLibUpdateStrategy(IUpdateStrategy<ILibMaterial> libUpdateStrategy)
         {
             this.libUpdateStrategy = libUpdateStrategy;
         }
-        public ReinforcementLibUpdateStrategy() : this(new LibMaterialUpdateStrategy())
+        public ReinforcementLibUpdateStrategy()
         {
             
         }
@@ -23,7 +24,7 @@ namespace StructureHelperLogics.Models.Materials
             CheckObject.ThrowIfNull(sourceObject);
             CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            libUpdateStrategy.Update(targetObject, sourceObject);
+            LibUpdateStrategy.Update(targetObject, sourceObject);
         }
     }
 }

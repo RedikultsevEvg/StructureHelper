@@ -32,7 +32,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections
 
         private static ForceCalculator GetForceCalculator()
         {
-            return new ForceCalculator()
+            return new ForceCalculator(Guid.NewGuid())
             {
                 Name = "New Force Calculator",
                 TraceLogger = new ShiftTraceLogger()
@@ -44,9 +44,9 @@ namespace StructureHelperLogics.Models.Templates.CrossSections
             var newInputData = new CrackCalculatorInputData();
             var checkLogic = new CheckCrackCalculatorInputDataLogic
             {
-                InputData = newInputData
+                Entity = newInputData
             };
-            checkLogic.InputData = newInputData;
+            checkLogic.Entity = newInputData;
             var crackCalculator = new CrackCalculator(checkLogic, new CrackCalculatorUpdateStrategy(), null)
             {
                 Name = "New Crack Calculator",
