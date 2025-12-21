@@ -2,9 +2,9 @@
   "$id": "1",
   "$type": "RootObject",
   "FileVersion": {
-    "Id": "f5247ddd-f79f-4943-9e09-764e2a47d0d3",
+    "Id": "8fcf17fe-b20f-48c4-9fd2-c0e2a45733e1",
     "VersionNumber": 1,
-    "SubVersionNumber": 4
+    "SubVersionNumber": 6
   },
   "Project": {
     "Id": "578b2131-eea9-4259-99dc-f55cc80bf7b9",
@@ -1731,6 +1731,198 @@
                                 },
                                 "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
                               }
+                            },
+                            {
+                              "$id": "189",
+                              "$type": "HeadMaterial",
+                              "Id": "8627eae0-2a73-40bf-8bbe-50f5375b9a1d",
+                              "Name": "C245",
+                              "Color": "#FF8D6F3E",
+                              "HelperMaterial": {
+                                "$id": "190",
+                                "$type": "SteelLibMaterial",
+                                "Id": "963d93af-dee9-49dd-9829-40f8479388f2",
+                                "UlsFactor": 1.025,
+                                "SlsFactor": 1.0,
+                                "WorkConditionFactor": 1.0,
+                                "ThicknessFactor": 1.0,
+                                "MaxPlasticStrainRatio": 3.0,
+                                "SafetyFactors": {
+                                  "$id": "191",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialEntityId": "14f7eea1-e924-42a1-928a-076bc8ee34a8",
+                                "MaterialLogicId": "c3be4b92-dc61-43cf-a632-adfc1aa57d8f"
+                              }
+                            },
+                            {
+                              "$id": "192",
+                              "$type": "HeadMaterial",
+                              "Id": "8b1a9308-2f0b-4e59-a51b-a265e801d825",
+                              "Name": "C255",
+                              "Color": "#FF66AD1F",
+                              "HelperMaterial": {
+                                "$id": "193",
+                                "$type": "SteelLibMaterial",
+                                "Id": "a5da3d40-9805-4210-9018-ddc82b3a07a3",
+                                "UlsFactor": 1.025,
+                                "SlsFactor": 1.0,
+                                "WorkConditionFactor": 1.0,
+                                "ThicknessFactor": 1.0,
+                                "MaxPlasticStrainRatio": 3.0,
+                                "SafetyFactors": {
+                                  "$id": "194",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialEntityId": "bad0a2b6-cf02-4554-891d-bb34fc3b2430",
+                                "MaterialLogicId": "c3be4b92-dc61-43cf-a632-adfc1aa57d8f"
+                              }
+                            },
+                            {
+                              "$id": "195",
+                              "$type": "HeadMaterial",
+                              "Id": "efd30b4f-da5c-487c-aa1a-81ff73bb79e8",
+                              "Name": "C345",
+                              "Color": "#FF1F54AD",
+                              "HelperMaterial": {
+                                "$id": "196",
+                                "$type": "SteelLibMaterial",
+                                "Id": "87e138f1-c4dd-4806-9e69-483874db3fa9",
+                                "UlsFactor": 1.025,
+                                "SlsFactor": 1.0,
+                                "WorkConditionFactor": 1.0,
+                                "ThicknessFactor": 1.0,
+                                "MaxPlasticStrainRatio": 3.0,
+                                "SafetyFactors": {
+                                  "$id": "197",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialEntityId": "bad0a2b6-cf02-4554-891d-bb34fc3b2430",
+                                "MaterialLogicId": "c3be4b92-dc61-43cf-a632-adfc1aa57d8f"
+                              }
+                            },
+                            {
+                              "$id": "198",
+                              "$type": "HeadMaterial",
+                              "Id": "7597002f-e734-4465-8310-b67c94c2cb68",
+                              "Name": "C355",
+                              "Color": "#FFC44509",
+                              "HelperMaterial": {
+                                "$id": "199",
+                                "$type": "SteelLibMaterial",
+                                "Id": "42ffb1a0-636b-4401-a350-7cce71f21788",
+                                "UlsFactor": 1.025,
+                                "SlsFactor": 1.0,
+                                "WorkConditionFactor": 1.0,
+                                "ThicknessFactor": 1.0,
+                                "MaxPlasticStrainRatio": 3.0,
+                                "SafetyFactors": {
+                                  "$id": "200",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialEntityId": "c97ae177-872b-4b77-bcf6-6519aaae1d54",
+                                "MaterialLogicId": "c3be4b92-dc61-43cf-a632-adfc1aa57d8f"
+                              }
+                            },
+                            {
+                              "$id": "201",
+                              "$type": "HeadMaterial",
+                              "Id": "bfdbbfd5-84e8-4740-b4cc-b294531714f9",
+                              "Name": "C390",
+                              "Color": "#FF953787",
+                              "HelperMaterial": {
+                                "$id": "202",
+                                "$type": "SteelLibMaterial",
+                                "Id": "f040e9d4-3ffe-435b-acea-dc32e8816e11",
+                                "UlsFactor": 1.025,
+                                "SlsFactor": 1.0,
+                                "WorkConditionFactor": 1.0,
+                                "ThicknessFactor": 1.0,
+                                "MaxPlasticStrainRatio": 3.0,
+                                "SafetyFactors": {
+                                  "$id": "203",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialEntityId": "73700688-08ba-4a35-8be0-26cd971fe73f",
+                                "MaterialLogicId": "c3be4b92-dc61-43cf-a632-adfc1aa57d8f"
+                              }
+                            },
+                            {
+                              "$id": "204",
+                              "$type": "HeadMaterial",
+                              "Id": "6663b70f-0645-4b76-a630-c8e926c383b2",
+                              "Name": "C440",
+                              "Color": "#FFC4095C",
+                              "HelperMaterial": {
+                                "$id": "205",
+                                "$type": "SteelLibMaterial",
+                                "Id": "9464ee23-3f04-4a5c-a795-6e2c0416b81e",
+                                "UlsFactor": 1.025,
+                                "SlsFactor": 1.0,
+                                "WorkConditionFactor": 1.0,
+                                "ThicknessFactor": 1.0,
+                                "MaxPlasticStrainRatio": 3.0,
+                                "SafetyFactors": {
+                                  "$id": "206",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialEntityId": "39c0a796-9031-444c-bd3a-ffb236c9c85c",
+                                "MaterialLogicId": "c3be4b92-dc61-43cf-a632-adfc1aa57d8f"
+                              }
+                            },
+                            {
+                              "$id": "207",
+                              "$type": "HeadMaterial",
+                              "Id": "1f1311c6-ded4-4145-8b3c-0e18f0066c40",
+                              "Name": "C550",
+                              "Color": "#FFC78AE3",
+                              "HelperMaterial": {
+                                "$id": "208",
+                                "$type": "SteelLibMaterial",
+                                "Id": "819708d4-0e70-4e02-9e8c-1140b7edab93",
+                                "UlsFactor": 1.025,
+                                "SlsFactor": 1.0,
+                                "WorkConditionFactor": 1.0,
+                                "ThicknessFactor": 1.0,
+                                "MaxPlasticStrainRatio": 3.0,
+                                "SafetyFactors": {
+                                  "$id": "209",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialEntityId": "7ef0525a-9965-4c8e-b15b-f7be493382d0",
+                                "MaterialLogicId": "c3be4b92-dc61-43cf-a632-adfc1aa57d8f"
+                              }
+                            },
+                            {
+                              "$id": "210",
+                              "$type": "HeadMaterial",
+                              "Id": "621ed324-8493-425f-b733-fdb9f536cd42",
+                              "Name": "C590",
+                              "Color": "#FF9DFE98",
+                              "HelperMaterial": {
+                                "$id": "211",
+                                "$type": "SteelLibMaterial",
+                                "Id": "2c169c59-446e-41bf-a398-7ce55f8a1aa1",
+                                "UlsFactor": 1.025,
+                                "SlsFactor": 1.0,
+                                "WorkConditionFactor": 1.0,
+                                "ThicknessFactor": 1.0,
+                                "MaxPlasticStrainRatio": 3.0,
+                                "SafetyFactors": {
+                                  "$id": "212",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialEntityId": "c3be4b92-dc61-43cf-a632-adfc1aa57d8f",
+                                "MaterialLogicId": "c3be4b92-dc61-43cf-a632-adfc1aa57d8f"
+                              }
                             }
                           ]
                         },
@@ -1748,7 +1940,7 @@
                         }
                       },
                       "WorkPlaneProperty": {
-                        "$id": "189",
+                        "$id": "213",
                         "$type": "WorkPlanePropertyDTO",
                         "Id": "31ec91ea-d0bc-4426-9ca4-e22e17889457",
                         "GridSize": 0.05,
