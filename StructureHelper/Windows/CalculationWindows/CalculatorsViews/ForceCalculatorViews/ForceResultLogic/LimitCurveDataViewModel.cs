@@ -1,21 +1,13 @@
-﻿using StructureHelper.Infrastructure.UI.Converters.Units;
-using StructureHelper.Infrastructure.UI.DataContexts;
+﻿using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Windows.ViewModels;
-using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
-using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Parameters;
-using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services.Units;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Data;
 
 //Copyright (c) 2023 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.

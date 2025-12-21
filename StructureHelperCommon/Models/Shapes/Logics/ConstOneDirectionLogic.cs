@@ -45,47 +45,65 @@ namespace StructureHelperCommon.Models.Shapes
             IPoint3D point;
             if (ConstDirections == Directions.X)
             {
-                point = new Point3D()
-                {
-                    X = ConstDirectionValue,
-                    Y = - point2D.X,
-                    Z = point2D.Y
-                };
-                TraceLogger?.AddMessage($"Constant direction is x-direction, so X = {point.X}");
-                TraceLogger?.AddMessage($"X = ConstantValue = {point.X}");
-                TraceLogger?.AddMessage($"Y = - point2D.X = {point.Y}");
-                TraceLogger?.AddMessage($"Z = point2D.Y = {point.Z}");
+                point = GetByX(point2D);
             }
             else if (ConstDirections == Directions.Y)
             {
-                point = new Point3D()
-                {
-                    X = point2D.X,
-                    Y = ConstDirectionValue,
-                    Z = point2D.Y
-                };
-                TraceLogger?.AddMessage($"Constant direction is Y-direction");
-                TraceLogger?.AddMessage($"X = point2D.X = {point.X}");
-                TraceLogger?.AddMessage($"Y = ConstantValue = {point.Y}");
-                TraceLogger?.AddMessage($"Z = point2D.Y = {point.Z}");
+                point = GetByY(point2D);
             }
             else if (ConstDirections == Directions.Z)
             {
-                point = new Point3D()
-                {
-                    X = point2D.Y,
-                    Y = point2D.X,
-                    Z = ConstDirectionValue
-                };
-                TraceLogger?.AddMessage($"Constant direction is Z-direction");
-                TraceLogger?.AddMessage($"X = point2D.Y = {point.X}");
-                TraceLogger?.AddMessage($"Y = point2D.X = {point.Y}");
-                TraceLogger?.AddMessage($"Z = ConstantValue = {point.Z}");
+                point = GetByZ(point2D);
             }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(ConstDirections));
             }
+            return point;
+        }
+
+        private IPoint3D GetByZ(IPoint2D point2D)
+        {
+            IPoint3D point = new Point3D()
+            {
+                X = -point2D.X,
+                Y = -point2D.Y,
+                Z = ConstDirectionValue
+            };
+            TraceLogger?.AddMessage($"Constant direction is Z-direction");
+            TraceLogger?.AddMessage($"X = point2D.Y = {point.X}");
+            TraceLogger?.AddMessage($"Y = point2D.X = {point.Y}");
+            TraceLogger?.AddMessage($"Z = ConstantValue = {point.Z}");
+            return point;
+        }
+
+        private IPoint3D GetByY(IPoint2D point2D)
+        {
+            IPoint3D point = new Point3D()
+            {
+                X = point2D.X,
+                Y = ConstDirectionValue,
+                Z = point2D.Y
+            };
+            TraceLogger?.AddMessage($"Constant direction is Y-direction");
+            TraceLogger?.AddMessage($"X = point2D.X = {point.X}");
+            TraceLogger?.AddMessage($"Y = ConstantValue = {point.Y}");
+            TraceLogger?.AddMessage($"Z = point2D.Y = {point.Z}");
+            return point;
+        }
+
+        private IPoint3D GetByX(IPoint2D point2D)
+        {
+            IPoint3D point = new Point3D()
+            {
+                X = ConstDirectionValue,
+                Y = -point2D.X,
+                Z = -point2D.Y
+            };
+            TraceLogger?.AddMessage($"Constant direction is x-direction, so X = {point.X}");
+            TraceLogger?.AddMessage($"X = ConstantValue = {point.X}");
+            TraceLogger?.AddMessage($"Y = - point2D.X = {point.Y}");
+            TraceLogger?.AddMessage($"Z = point2D.Y = {point.Z}");
             return point;
         }
     }

@@ -2,6 +2,7 @@
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
+using StructureHelper.Windows.PrimitiveTemplates.Factories;
 using StructureHelper.Windows.Services;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -115,7 +116,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void RemoveFromRepository(PrimitiveBase item)
         {
-            repository.Primitives.Remove(item.NdmPrimitive);
+            repository.Operations.Primitives.Remove(item.GetNdmPrimitive());
             Items.Remove(item);
         }
 
@@ -178,99 +179,14 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void AddPrimitive(PrimitiveType primitiveType)
         {
-            PrimitiveBase viewPrimitive;
-            INdmPrimitive ndmPrimitive;
-            if (primitiveType == PrimitiveType.Rectangle)
-            {
-                RectangleNdmPrimitive primitive = GetNewRectanglePrimitive();
-                ndmPrimitive = primitive;
-                viewPrimitive = new RectangleViewPrimitive(primitive);
-
-            }
-            else if (primitiveType == PrimitiveType.Reinforcement)
-            {
-                RebarNdmPrimitive primitive = GetNewReinforcementPrimitive();
-                ndmPrimitive = primitive;
-                viewPrimitive = new ReinforcementViewPrimitive(primitive);
-            }
-            else if (primitiveType == PrimitiveType.Point)
-            {
-                PointNdmPrimitive primitive = GetNewPointPrimitive();
-                ndmPrimitive = primitive;
-                viewPrimitive = new PointViewPrimitive(primitive);
-            }
-            else if (primitiveType == PrimitiveType.Circle)
-            {
-                EllipseNdmPrimitive primitive = GetNewCirclePrimitive();
-                ndmPrimitive = primitive;
-                viewPrimitive = new CircleViewPrimitive(primitive);
-            }
-            else if (primitiveType == PrimitiveType.Polygon)
-            {
-                ShapeNdmPrimitive primitive = GetNewPolygonPrimitive();
-                ndmPrimitive = primitive;
-                viewPrimitive = new ShapeViewPrimitive(primitive);
-            }
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType));
-            }
+            PrimitiveBase viewPrimitive = PrimitiveBaseFactory.GetPrimitive(primitiveType);
+            INdmPrimitive ndmPrimitive = viewPrimitive.GetNdmPrimitive();
             viewPrimitive.OnNext(this);
             repository.Primitives.Add(ndmPrimitive);
             ndmPrimitive.CrossSection = section;
             Items.Add(viewPrimitive);
             OnPropertyChanged(nameof(Items));
             OnPropertyChanged(nameof(PrimitivesCount));
-        }
-
-        private ShapeNdmPrimitive GetNewPolygonPrimitive()
-        {
-            LinePolygonShape polygon = new(Guid.NewGuid());
-            polygon.AddVertex(new Vertex(-0.2, 0.3));
-            polygon.AddVertex(new Vertex(0.2, 0.3));
-            polygon.AddVertex(new Vertex(0.1, 0));
-            polygon.AddVertex(new Vertex(0.2, -0.3));
-            polygon.AddVertex(new Vertex(-0.2, -0.3));
-            polygon.AddVertex(new Vertex(-0.1, 0));
-            ShapeNdmPrimitive shapeNdmPrimitive = new(Guid.NewGuid())
-            {
-                Name = "New polygon primitive"
-            };
-            shapeNdmPrimitive.SetShape(polygon);
-            return shapeNdmPrimitive;
-        }
-
-        private static EllipseNdmPrimitive GetNewCirclePrimitive()
-        {
-            return new EllipseNdmPrimitive
-            {
-                Width = 0.5d
-            };
-        }
-
-        private static PointNdmPrimitive GetNewPointPrimitive()
-        {
-            return new PointNdmPrimitive
-            {
-                Area = 0.0005d
-            };
-        }
-
-        private static RebarNdmPrimitive GetNewReinforcementPrimitive()
-        {
-            return new RebarNdmPrimitive
-            {
-                Area = 0.0005d
-            };
-        }
-
-        private static RectangleNdmPrimitive GetNewRectanglePrimitive()
-        {
-            return new RectangleNdmPrimitive
-            {
-                Width = 0.4d,
-                Height = 0.6d
-            };
         }
 
         public ICommand Delete
@@ -291,47 +207,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             var dialogResult = MessageBox.Show("Delete primitive?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                var ndmPrimitive = SelectedItem.GetNdmPrimitive();
-                repository.Primitives.Remove(ndmPrimitive);
-                foreach (var calc in repository.Calculators)
-                {
-                    if (calc is IForceCalculator forceCalculator)
-                    {
-                        var forceCalc = forceCalculator.InputData as IHasPrimitives;
-                        forceCalc.Primitives.Remove(ndmPrimitive);
-                    }
-                    else if (calc is ILimitCurvesCalculator calculator)
-                    {
-                        //to do
-                        //var forceCalc = calculator.InputData as IHasPrimitives;
-                        //forceCalc.Primitives.Remove(ndmPrimitive);
-                    }
-                    else if (calc is ICrackCalculator crackCalculator)
-                    {
-                        var forceCalc = crackCalculator.InputData as IHasPrimitives;
-                        forceCalc.Primitives.Remove(ndmPrimitive);
-                    }
-                    else if (calc is IValueDiagramCalculator diagramCalculator)
-                    {
-                        var forceCalc = diagramCalculator.InputData as IHasPrimitives;
-                        forceCalc.Primitives.Remove(ndmPrimitive);
-                    }
-                    else
-                    {
-                        throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(ICalculator), calc));
-                    }
-                }
-                foreach (var primitive in repository.Primitives)
-                {
-                    if (primitive is IHasHostPrimitive sPrimitive)
-                    {
-                        if (sPrimitive.HostPrimitive == ndmPrimitive)
-                        {
-                            sPrimitive.HostPrimitive = null;
-                        }
-                    }
-                }
-                Items.Remove(SelectedItem);
+                RemoveFromRepository(SelectedItem);               
             }
             OnPropertyChanged(nameof(Items));
             OnPropertyChanged(nameof(PrimitivesCount));
@@ -409,38 +285,9 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private PrimitiveBase CopySelectedItem(INdmPrimitive oldPrimitive)
         {
-            var newPrimitive = oldPrimitive.Clone() as INdmPrimitive;
-            newPrimitive.Name += " copy";
-            repository.Primitives.Add(newPrimitive);
-            PrimitiveBase primitiveBase;
-            if (newPrimitive is IRectangleNdmPrimitive rectangle)
-            {
-                primitiveBase = new RectangleViewPrimitive(rectangle);
-            }
-            else if (newPrimitive is IEllipseNdmPrimitive ellipse)
-            {
-                primitiveBase = new CircleViewPrimitive(ellipse);
-            }
-            else if (newPrimitive is IShapeNdmPrimitive shapeNDMPrimitive)
-            {
-                primitiveBase = new ShapeViewPrimitive(shapeNDMPrimitive);
-            }
-            else if (newPrimitive is IPointNdmPrimitive)
-            {
-                if (newPrimitive is RebarNdmPrimitive rebar)
-                {
-                    primitiveBase = new ReinforcementViewPrimitive(rebar);
-                }
-                else
-                {
-                    primitiveBase = new PointViewPrimitive(newPrimitive as IPointNdmPrimitive);
-                }
-
-            }
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
-            }
+            PrimitiveBase primitiveBase = PrimitiveBaseFactory.GetCloneByNdmPrimitive(oldPrimitive);
+            INdmPrimitive newNdmPrimitive = primitiveBase.GetNdmPrimitive();
+            repository.Primitives.Add(newNdmPrimitive);
             primitiveBase.OnNext(this);
             Items.Add(primitiveBase);
             OnPropertyChanged(nameof(Items));

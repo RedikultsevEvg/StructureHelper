@@ -59,6 +59,13 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public void Remove(INdmPrimitive entity)
         {
+            var childPrimitives = repository.Primitives
+                .Where(x => x is IHasHostPrimitive)
+                .Where(x => (x as IHasHostPrimitive).HostPrimitive == entity);
+            foreach (var child in childPrimitives)
+            {
+                (child as IHasHostPrimitive).HostPrimitive = null;
+            }
             foreach (var calculator in repository.Calculators)
             {
                 if (calculator is IForceCalculator forceCalculator)

@@ -4,15 +4,9 @@ using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Models;
-using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperLogics.Models.CrossSections;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
-using StructureHelperLogics.NdmCalculations.Cracking;
-using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -50,25 +44,24 @@ namespace StructureHelper.Windows.ViewModels.Forces
 
         public override void AddMethod(object parameter)
         {
-            if (parameter is not null)
+            if (parameter is null) { return; }
+
+            var paramType = (ActionType)parameter;
+            if (paramType == ActionType.ForceCombination)
             {
-                var paramType = (ActionType)parameter;
-                if (paramType == ActionType.ForceCombination)
-                {
-                    NewItem = new ForceCombinationList() { Name = "New Force Combination" };
-                }
-                else if (paramType == ActionType.ForceCombinationByFactor)
-                {
-                    NewItem = new ForceFactoredList() { Name = "New Factored Combination" };
-                }
-                else if (paramType == ActionType.ForceCombinationFromFile)
-                {
-                    NewItem = new ForceCombinationFromFile { Name = "New Combination from file" };
-                }
-                else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $": Actual type: {nameof(paramType)}");
-                //GlobalRepository.Actions.Create(NewItem);
-                base.AddMethod(parameter);
+                NewItem = new ForceCombinationList() { Name = "New Force Combination" };
             }
+            else if (paramType == ActionType.ForceCombinationByFactor)
+            {
+                NewItem = new ForceFactoredList() { Name = "New Factored Combination" };
+            }
+            else if (paramType == ActionType.ForceCombinationFromFile)
+            {
+                NewItem = new ForceCombinationFromFile { Name = "New Combination from file" };
+            }
+            else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $": Actual type: {nameof(paramType)}");
+            //GlobalRepository.Actions.Create(NewItem);
+            base.AddMethod(parameter);
         }
 
         public override void DeleteMethod(object parameter)
@@ -128,34 +121,10 @@ namespace StructureHelper.Windows.ViewModels.Forces
 
         private void DeleteAction()
         {
-            var calcRepository = repository.Calculators;
-            IHasForceActions forceCombinations;
-            foreach (var calc in calcRepository)
+            SafetyProcessor.RunSafeProcess(delegate ()
             {
-                if (calc is IForceCalculator forceCalculator)
-                {
-                    forceCombinations = forceCalculator.InputData;
-                    forceCombinations.ForceActions.Remove(SelectedItem);
-                }
-                else if (calc is ICrackCalculator crackCalculator)
-                {
-                    forceCombinations = crackCalculator.InputData;
-                    forceCombinations.ForceActions.Remove(SelectedItem);
-                }
-                else if (calc is ILimitCurvesCalculator)
-                {
-                    //nothing to do
-                }
-                else if (calc is IValueDiagramCalculator diagramCalculator)
-                {
-                    forceCombinations = diagramCalculator.InputData;
-                    forceCombinations.ForceActions.Remove(SelectedItem);
-                }
-                else
-                {
-                    throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(ICalculator), calc));
-                }
-            }
+                repository.Operations.Actions.Remove(SelectedItem);
+            },"Error of action deleting");
         }
     }
 }
