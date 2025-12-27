@@ -32,9 +32,8 @@
                 <ScrollViewer Name="WorkPlaneViewer" HorizontalScrollBarVisibility="Visible" SizeChanged="WorkPlaneViewer_SizeChanged">
                     <ScrollViewer.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="Black"/>
-                            <GradientStop Color="White" Offset="1"/>
                             <GradientStop Color="#FF00EDFF" Offset="0"/>
+                            <GradientStop Color="White" Offset="1"/>
                         </LinearGradientBrush>
                     </ScrollViewer.Background>
                     <Viewbox Name="WorkPlaneBox" Margin="10">
@@ -46,7 +45,7 @@
                     </Viewbox>
                 </ScrollViewer>
             </Grid>
-            
+         
         </Grid>
         <ScrollViewer Grid.Column="2">
             <StackPanel>
@@ -102,7 +101,6 @@
                     </StackPanel>
                 </Expander>
             </StackPanel>
-
         </ScrollViewer>
         
         

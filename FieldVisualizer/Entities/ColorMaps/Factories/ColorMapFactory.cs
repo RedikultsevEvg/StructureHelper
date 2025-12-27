@@ -32,7 +32,7 @@ namespace FieldVisualizer.Entities.ColorMaps.Factories
         {
             ColorMap colorMap = new()
             {
-                Name = "LiraSpectrumColorMap"
+                Name = "Lira Style Spectrum"
             };
             List<Color> colors = new();
             byte Alpha = 0xff;
@@ -55,7 +55,7 @@ namespace FieldVisualizer.Entities.ColorMaps.Factories
         {
             ColorMap colorMap = new()
             {
-                Name = "FullSpectrumColorMap"
+                Name = "Full Spectrum"
             };
             List<Color> colors = new List<Color>();
             byte Alpha = 0xff;
@@ -78,7 +78,7 @@ namespace FieldVisualizer.Entities.ColorMaps.Factories
         private static IColorMap GetRedToWhite()
         {
             ColorMap colorMap = new ColorMap();
-            colorMap.Name = "FullSpectrumColorMap";
+            colorMap.Name = "Red To White Spectrum";
             List<Color> colors = new List<Color>();
             byte Alpha = 0xff;
             colors.AddRange(new Color[]{
@@ -91,7 +91,7 @@ namespace FieldVisualizer.Entities.ColorMaps.Factories
         private static IColorMap GetRedToBlue()
         {
             ColorMap colorMap = new ColorMap();
-            colorMap.Name = "FullSpectrumColorMap";
+            colorMap.Name = "Red To Blue Spectrum";
             List<Color> colors = new List<Color>();
             byte Alpha = 0xff;
             colors.AddRange(new Color[]{
@@ -104,7 +104,7 @@ namespace FieldVisualizer.Entities.ColorMaps.Factories
         private static IColorMap GetBlueToWhite()
         {
             ColorMap colorMap = new ColorMap();
-            colorMap.Name = "FullSpectrumColorMap";
+            colorMap.Name = "Blue To White Spectrum";
             List<Color> colors = new List<Color>();
             byte Alpha = 0xff;
             colors.AddRange(new Color[]{

@@ -1,11 +1,7 @@
 ﻿using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Windows.ViewModels;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace StructureHelper.Windows.PrimitivePropertiesWindow
@@ -18,6 +14,12 @@ namespace StructureHelper.Windows.PrimitivePropertiesWindow
         {
             var primitiveViews = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(primitives);
             Items = new SelectItemsVM<PrimitiveBase>(primitiveViews) { ShowButtons = true };
+            Items.ItemDataTemplate = Application.Current.Resources["ColoredItemTemplate"] as DataTemplate;
+        }
+
+        public SelectPrimitivesViewModel(IEnumerable<PrimitiveBase> primitives)
+        {
+            Items = new SelectItemsVM<PrimitiveBase>(primitives) { ShowButtons = true };
             Items.ItemDataTemplate = Application.Current.Resources["ColoredItemTemplate"] as DataTemplate;
         }
     }

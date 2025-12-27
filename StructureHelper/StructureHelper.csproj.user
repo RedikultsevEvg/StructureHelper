@@ -72,6 +72,9 @@
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\ForceResultLogic\LimitCurveDataView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\IsoField2DViewerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\IsoField3DViewerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -160,6 +163,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\UserControls\Forces\FactoredCombination.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\UserControls\IsoFieldContours.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\UserControls\IsoFieldVerticalLegend.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\UserControls\ListOfFileControl.xaml.cs">

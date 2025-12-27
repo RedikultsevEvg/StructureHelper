@@ -9,7 +9,6 @@ using FieldVisualizer.Services.ValueRanges;
 using FieldVisualizer.Windows.UserControls;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
@@ -249,7 +248,10 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
         }
         private bool PrimitiveValidation()
         {
-            if (PrimitiveSet == null || PrimitiveSet.ValuePrimitives.Count() == 0) { return false; }
+            if (PrimitiveSet == null || PrimitiveSet.ValuePrimitives.Count() == 0)
+            {
+                return false;
+            }
             else return true;
         }
         private void SetColor()

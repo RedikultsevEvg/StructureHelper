@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Services.Exports;
 using StructureHelper.Services.Reports;
 using StructureHelper.Services.Reports.CalculationReports;
@@ -461,10 +462,20 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             try
             {
-                IStrainMatrix strainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix;
-                var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, ForceResultFuncFactory.GetResultFuncs());
-                isoFieldReport = new IsoFieldReport(primitiveSets);
-                isoFieldReport.Show();
+                SelectedPrimitiveSet selectedPrimitiveSet = new()
+                {
+                    AllPrimitives = ndmPrimitives.ToList(),
+                    SelectedPrimitives = selectedNdmPrimitives.ToList(),
+                    StateCalcTermPair = SelectedResult.StateCalcTermPair,
+                    Ndms = [.. ndms],
+                    StrainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.StrainMatrix
+                };
+                IsoField2DReport report = new(selectedPrimitiveSet);
+                report.Show();
+                //IStrainMatrix strainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix;
+                //var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, ForceResultFuncFactory.GetResultFuncs());
+                //isoFieldReport = new IsoFieldReport(primitiveSets);
+                //isoFieldReport.Show();
             }
             catch (Exception ex)
             {

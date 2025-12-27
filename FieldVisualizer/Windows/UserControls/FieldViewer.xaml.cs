@@ -23,7 +23,14 @@ namespace FieldVisualizer.Windows.UserControls
             viewModel.Legend = LegendViewer;
         }
 
-        public IPrimitiveSet PrimitiveSet { get => viewModel.PrimitiveSet; set { viewModel.PrimitiveSet = value; } }
+        public IPrimitiveSet PrimitiveSet
+        {
+            get => viewModel.PrimitiveSet;
+            set
+            {
+                viewModel.PrimitiveSet = value;
+            }
+        }
 
         internal void Refresh()
         {

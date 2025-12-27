@@ -9,5 +9,6 @@ namespace FieldVisualizer.Entities.ColorMaps
     {
         string Name { get;}
         List<Color> Colors { get; }
+        LinearGradientBrush GradientBrush { get; }
     }
 }

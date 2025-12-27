@@ -5,7 +5,7 @@ using System;
 namespace StructureHelperCommon.Models.Forces
 {
     /// <inheritdoc/>
-    public class StrainTuple : IForceTuple
+    public class StrainTuple : IStrainTuple
     {
         private readonly IUpdateStrategy<IForceTuple> updateStrategy = new ForceTupleUpdateStrategy();
         private static IForceTupleServiceLogic forceTupleServiceLogic;
@@ -30,9 +30,9 @@ namespace StructureHelperCommon.Models.Forces
             Id = id;
         }
 
-        public StrainTuple() : this (Guid.NewGuid())
+        public StrainTuple() : this(Guid.NewGuid())
         {
-            
+
         }
 
         public void Clear()

@@ -879,4 +879,32 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+
+    <DataTemplate x:Key="Zoom">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Ellipse Canvas.Top="5" Canvas.Left="5" Width="16" Height="16" Stroke="Black"/>
+                <Line X1="18" Y1="18" X2="28" Y2="28" Stroke="Black" StrokeThickness="2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ZoomIn">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{StaticResource Zoom}"/>
+                <Line X1="13" Y1="8" X2="13" Y2="18" Stroke="Black" StrokeThickness="2"/>
+                <Line X1="8" Y1="13" X2="18" Y2="13" Stroke="Black" StrokeThickness="2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ZoomOut">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{StaticResource Zoom}"/>
+                <Line X1="8" Y1="13" X2="18" Y2="13" Stroke="Black" StrokeThickness="2"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
 </ResourceDictionary>

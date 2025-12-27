@@ -1,15 +1,14 @@
-﻿<UserControl x:Class="FieldVisualizer.Windows.UserControls.VerticalLegend"
+﻿<UserControl x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.IsoFieldVerticalLegend"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:FieldVisualizer.Windows.UserControls"
+             xmlns:local="clr-namespace:StructureHelper.Windows.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid x:Name="grid">
+    <Grid>
         <StackPanel>
-            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF868686"></TextBlock>
-            <ListBox Name="LegendBox" ItemsSource="{Binding ColorRanges, RelativeSource={RelativeSource AncestorType=UserControl}}">
+            <ListBox Name="LegendBox" ItemsSource="{Binding}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Height="30" Width="190" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
