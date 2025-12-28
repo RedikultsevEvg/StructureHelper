@@ -12,5 +12,6 @@ namespace FieldVisualizer.Entities.ColorMaps
 
         public IValueColorArray RoundedValues { get; private set; } = new ValueColorArray();
 
+        public bool IsNotActive => ! IsActive;
     }
 }

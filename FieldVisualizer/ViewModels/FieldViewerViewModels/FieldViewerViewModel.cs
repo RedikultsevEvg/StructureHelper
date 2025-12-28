@@ -226,9 +226,10 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
                 ValueRange = valueRange,
                 ColorMap = _ColorMap,
                 ValueColorRanges = valueColorRanges,
+                YZoomFactor = -1,
+                ValueLabelZoomFactor = 0.0015,
             };       
             logic.ProcessPrimitives(PrimitiveSet.ValuePrimitives);
-
         }
         private void Zoom(double coefficient)
         {

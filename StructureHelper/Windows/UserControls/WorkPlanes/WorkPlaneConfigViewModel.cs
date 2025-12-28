@@ -104,7 +104,7 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
             ZoomCenterY *= zoomFactor;// position.Y / NegativeScaleValue;// - CenterOffsetY;
 
             // Update scale
-            ScaleValue = Math.Round(ScaleValue * zoomFactor);
+            ScaleValue = Math.Round(ScaleValue * zoomFactor, 2);
         }
 
         public double AxisFontSize

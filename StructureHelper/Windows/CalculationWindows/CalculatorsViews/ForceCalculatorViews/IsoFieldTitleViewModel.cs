@@ -3,7 +3,7 @@ using StructureHelper.Infrastructure;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
-    public class IsoFieldTitle : ViewModelBase
+    public class IsoFieldTitleViewModel : ViewModelBase
     {
         private IPrimitiveSet primitiveSet;
 
@@ -11,7 +11,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public string SubTitle { get; set; }
         
 
-        public IsoFieldTitle(IPrimitiveSet primitiveSet)
+        public IsoFieldTitleViewModel(IPrimitiveSet primitiveSet)
         {
             this.primitiveSet = primitiveSet;
             Title = primitiveSet.Name;

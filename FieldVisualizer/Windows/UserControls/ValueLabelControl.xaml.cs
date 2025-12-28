@@ -55,15 +55,25 @@ namespace FieldVisualizer.Windows.UserControls
 
 
 
-        public double Scale
+        public double ScaleX
         {
-            get { return (double)GetValue(ScaleProperty); }
-            set { SetValue(ScaleProperty, value); }
+            get { return (double)GetValue(ScaleXProperty); }
+            set { SetValue(ScaleXProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Scale.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ScaleProperty =
-            DependencyProperty.Register(nameof(Scale), typeof(double), typeof(ValueLabelControl), new PropertyMetadata(0.0));
+        public static readonly DependencyProperty ScaleXProperty =
+            DependencyProperty.Register(nameof(ScaleX), typeof(double), typeof(ValueLabelControl), new PropertyMetadata(1.0));
+
+        public double ScaleY
+        {
+            get { return (double)GetValue(ScaleYProperty); }
+            set { SetValue(ScaleYProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Scale.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ScaleYProperty =
+            DependencyProperty.Register(nameof(ScaleY), typeof(double), typeof(ValueLabelControl), new PropertyMetadata(1.0));
 
 
 

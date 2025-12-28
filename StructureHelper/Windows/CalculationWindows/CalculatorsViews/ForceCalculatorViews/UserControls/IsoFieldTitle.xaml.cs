@@ -3,11 +3,11 @@
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
     /// <summary>
-    /// Interaction logic for IsoFieldVerticalLegend.xaml
+    /// Interaction logic for IsoFieldTitle.xaml
     /// </summary>
-    public partial class IsoFieldVerticalLegend : UserControl
+    public partial class IsoFieldTitle : UserControl
     {
-        public IsoFieldVerticalLegend()
+        public IsoFieldTitle()
         {
             InitializeComponent();
         }

@@ -32,6 +32,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             ColorMaps.Add(ColorMapFactory.GetColorMap(ColorMapsTypes.RedToWhite));
             ColorMaps.Add(ColorMapFactory.GetColorMap(ColorMapsTypes.RedToBlue));
             ColorMaps.Add(ColorMapFactory.GetColorMap(ColorMapsTypes.BlueToWhite));
+            ColorMaps.Add(ColorMapFactory.GetColorMap(ColorMapsTypes.BlackToWhite));
             SelectedColorMap = ColorMaps[0];
         }
         private void Refresh()

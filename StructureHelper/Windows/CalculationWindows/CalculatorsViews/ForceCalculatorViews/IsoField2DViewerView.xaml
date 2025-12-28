@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
         xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        xmlns:ucwp="clr-namespace:StructureHelper.Windows.UserControls.WorkPlanes"
         d:DataContext="{d:DesignInstance local:IsoField2DViewerViewModel}"
         mc:Ignorable="d"
         Title="Iso Field Viewer" Height="800" Width="1200" MinHeight="450" MinWidth="800" WindowStartupLocation="CenterScreen">
@@ -23,7 +24,7 @@
                     </Viewbox>
                 </Button>
                 <Button Style="{StaticResource ToolButton}" 
-                        Command="{Binding RebuildCommand}">
+                        Command="{Binding ZoomInCommand}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Zoom In"
                                                 IconContent="{StaticResource ZoomIn}"
@@ -34,7 +35,7 @@
                     </Viewbox>
                 </Button>
                 <Button Style="{StaticResource ToolButton}" 
-                        Command="{Binding RebuildCommand}">
+                        Command="{Binding ZoomOutCommand}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Zoom Out"
                                                 IconContent="{StaticResource ZoomOut}"
@@ -58,6 +59,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+                <ComboBox DataContext="{Binding ContourRange}" Width="40" ItemsSource="{Binding RangeNumbers}" SelectedItem="{Binding RangeNumber}"/>
             </ToolBar>
             <ToolBar DataContext="{Binding SaveCopyViewModel}">
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding CopyToClipboardCommand}">
@@ -102,31 +104,18 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <Grid Grid.Column="1">
-                <StackPanel Panel.ZIndex="1" DataContext="{Binding Title}">
-                    <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding SubTitle}"/>
-                </StackPanel>
-                <ScrollViewer Name="WorkPlaneViewer" HorizontalScrollBarVisibility="Visible">
-                    <ScrollViewer.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="White" Offset="0"/>
-                            <GradientStop Color="LightGray" Offset="1"/>
-                        </LinearGradientBrush>
-                    </ScrollViewer.Background>
-                    <Viewbox Name="WorkPlaneBox" Margin="10">
-                        <Grid>
-                            <Canvas x:Name="WorkPlaneCanvas">
-                            </Canvas>
-                        </Grid>
-                    </Viewbox>
-                </ScrollViewer>
+                <Grid x:Name="IsoFieldGrid">
+                    <local:IsoFieldTitle DataContext="{Binding Title}" Panel.ZIndex="1"/>
+                    <local:IsoFieldHorizontalLegend DataContext="{Binding ContourRange.ContourLegend}" Panel.ZIndex="1"/>
+                    <ucwp:WorkPlaneRoot x:Name="WorkPlaneRoot" DataContext="{Binding WorkPlaneRoot}"/>
+                </Grid>
             </Grid>
             <TabControl Grid.Column="2">
                 <TabItem Header="Contours">
-                    <local:IsoFieldContours ContourRange="{Binding ContourRange}"/>
+                    <local:IsoFieldContours DataContext="{Binding ContourRange}"/>
                 </TabItem>
                 <TabItem Header="Summary">
-                    
+                    <local:IsoFieldSummaryInfo DataContext="{Binding Summary}"/>
                 </TabItem>
             </TabControl>
         </Grid>

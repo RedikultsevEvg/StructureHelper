@@ -12,6 +12,7 @@ namespace FieldVisualizer.Entities.ColorMaps.Factories
         RedToWhite = 2,
         RedToBlue = 3,
         BlueToWhite = 4,
+        BlackToWhite = 5,
     }
     /// <summary>
     /// Factory for creating of different color maps
@@ -24,6 +25,7 @@ namespace FieldVisualizer.Entities.ColorMaps.Factories
             if (mapsTypes == ColorMapsTypes.RedToWhite) { return GetRedToWhite(); }
             if (mapsTypes == ColorMapsTypes.RedToBlue) { return GetRedToBlue(); }
             if (mapsTypes == ColorMapsTypes.BlueToWhite) { return GetBlueToWhite(); }
+            if (mapsTypes == ColorMapsTypes.BlackToWhite) { return GetBlackToWhite(); }
             if (mapsTypes == ColorMapsTypes.LiraSpectrum) { return GetLiraSpectrum(); }
             else { throw new FieldVisulizerException(ErrorStrings.ColorMapTypeIsUnknown); }
         }
@@ -109,6 +111,20 @@ namespace FieldVisualizer.Entities.ColorMaps.Factories
             byte Alpha = 0xff;
             colors.AddRange(new Color[]{
                 Color.FromArgb(Alpha, 0, 0, 0xFF) ,//Blue
+                Color.FromArgb(Alpha, 0xFF, 0xFF, 0xFF) ,//White
+            });
+            colorMap.Colors = colors;
+            return colorMap;
+        }
+
+        private static IColorMap GetBlackToWhite()
+        {
+            ColorMap colorMap = new ColorMap();
+            colorMap.Name = "Black To White Spectrum";
+            List<Color> colors = new List<Color>();
+            byte Alpha = 0xff;
+            colors.AddRange(new Color[]{
+                Color.FromArgb(Alpha, 0, 0, 0) ,//Black
                 Color.FromArgb(Alpha, 0xFF, 0xFF, 0xFF) ,//White
             });
             colorMap.Colors = colors;

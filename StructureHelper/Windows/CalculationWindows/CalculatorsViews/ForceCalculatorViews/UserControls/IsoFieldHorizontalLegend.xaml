@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.IsoFieldHorizontalLegend"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
+             d:DataContext="{d:DesignInstance local:ContourLegendViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Panel.ZIndex="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Column="1" Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding MinValue}" FontSize="10" Margin="-10,0,0,0"/>
+                <ItemsControl Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding ValueColorRanges}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="15"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{Binding RoundedValues.TopValue}" FontSize="10" HorizontalAlignment="Right" Margin="0,0,-10,0"/>
+                                <Rectangle Grid.Row="1" Stroke="DarkGray" StrokeThickness="1">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush>
+                                            <GradientStop Color="{Binding ExactValues.BottomColor}"/>
+                                            <GradientStop Color="{Binding ExactValues.TopColor}" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Rectangle Grid.Row="1" Stroke="DarkGray" Fill="DarkGray" Opacity="0.7" Visibility="{Binding IsNotActive,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

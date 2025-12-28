@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:StructureHelper.Windows.UserControls"
+             xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
+             d:DataContext="{d:DesignInstance local:ContourLegendViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <StackPanel>
-            <ListBox Name="LegendBox" ItemsSource="{Binding}">
+            <ListBox Name="LegendBox" ItemsSource="{Binding ValueColorRanges}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Height="30" Width="190" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">

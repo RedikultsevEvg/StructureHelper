@@ -11,7 +11,7 @@
         <Canvas>
             <Canvas.RenderTransform>
                 <TransformGroup>
-                    <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}"/>
+                    <ScaleTransform ScaleX="{Binding ScaleX}" ScaleY="{Binding ScaleY}"/>
                     <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
                 </TransformGroup>
             </Canvas.RenderTransform>

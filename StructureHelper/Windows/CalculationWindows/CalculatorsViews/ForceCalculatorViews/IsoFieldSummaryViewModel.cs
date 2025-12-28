@@ -8,7 +8,7 @@ using System.Text;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
-    public class IsoFieldSummary : ViewModelBase
+    public class IsoFieldSummaryViewModel : ViewModelBase
     {
         private IPrimitiveSet primitiveSet;
         public double AreaTotal { get; private set; }
@@ -18,14 +18,16 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public double SumTotal { get; private set; }
         public double SumNeg { get; private set; }
         public double SumPos { get; private set; }
+        public double MaxValue { get; private set; }
+        public double MinValue { get; private set; }
 
-        public IsoFieldSummary(IPrimitiveSet primitiveSet)
+        public IsoFieldSummaryViewModel(IPrimitiveSet primitiveSet)
         {
             this.primitiveSet = primitiveSet;
             Refresh();
         }
 
-        private void Refresh()
+        public void Refresh()
         {
             AreaTotal = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Sum(x => x.Area);
             AreaNeg = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value < 0d).Sum(x => x.Area);
@@ -34,6 +36,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             SumTotal = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Sum(x => x.Value);
             SumNeg = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value < 0d).Sum(x => x.Value);
             SumPos = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Where(x => x.Value > 0d).Sum(x => x.Value);
+            MaxValue = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Max(x => x.Value);
+            MinValue = primitiveSet is null ? 0 : primitiveSet.ValuePrimitives.Min(x => x.Value);
             OnPropertyChanged(nameof(PrimitiveSet));
             OnPropertyChanged(nameof(AreaTotal));
             OnPropertyChanged(nameof(AreaNeg));
@@ -42,6 +46,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             OnPropertyChanged(nameof(SumTotal));
             OnPropertyChanged(nameof(SumNeg));
             OnPropertyChanged(nameof(SumPos));
+            OnPropertyChanged(nameof(MaxValue));
+            OnPropertyChanged(nameof(MinValue));
         }
     }
 }

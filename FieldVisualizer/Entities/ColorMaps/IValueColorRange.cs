@@ -11,6 +11,7 @@ namespace FieldVisualizer.Entities.ColorMaps
         /// Flag of activity
         /// </summary>
         bool IsActive { get; set; }
+        bool IsNotActive { get; }
         IValueColorArray ExactValues { get; }
         IValueColorArray RoundedValues { get; }
 

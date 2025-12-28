@@ -78,6 +78,15 @@
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\IsoField3DViewerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\UserControls\IsoFieldHorizontalLegend.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\UserControls\IsoFieldSummaryInfo.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\UserControls\IsoFieldTitle.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\ForceCalculatorViews\UserControls\LimitCurveControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

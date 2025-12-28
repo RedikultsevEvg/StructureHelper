@@ -9,7 +9,7 @@
              d:DataContext="{d:DesignInstance local:WorkPlaneRootViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel>
-        <ToolBarTray DockPanel.Dock="Top">
+        <ToolBarTray DockPanel.Dock="Top" Visibility="{Binding IsToolBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
             <ToolBar DataContext="{Binding SaveCopyViewModel, RelativeSource={RelativeSource AncestorType=local:WorkPlaneRoot}}">
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding CopyToClipboardCommand}">
                     <Button.ToolTip>
@@ -33,12 +33,12 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
-        <Grid>
+        <Grid Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
-                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Background="White">
+                <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" Background="White">
             <Grid x:Name="WorkPlaneGrid" Background="White">
                     <Canvas x:Name="RootCanvas" Width="{Binding WorkPlaneConfig.CanvasWidth}" Height="{Binding WorkPlaneConfig.CanvasHeight}">
                         <Canvas.RenderTransform>
@@ -105,7 +105,7 @@
                     </Canvas>
             </Grid>
                 </ScrollViewer>
-            <StatusBar Grid.Row="1">
+            <StatusBar Grid.Row="1" Visibility="{Binding IsStatusBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Scale = "/>

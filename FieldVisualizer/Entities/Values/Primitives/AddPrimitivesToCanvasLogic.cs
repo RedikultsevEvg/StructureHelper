@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 
 namespace FieldVisualizer.Entities.Values.Primitives
 {
-    internal class AddPrimitivesToCanvasLogic
+    public class AddPrimitivesToCanvasLogic
     {
         private const int zoomFactor = 1000;
         private IMathRoundLogic roundLogic = new SmartRoundLogic() { DigitQuant = 3 };
@@ -24,6 +24,8 @@ namespace FieldVisualizer.Entities.Values.Primitives
         public IEnumerable<IValueColorRange> ValueColorRanges { get; set; }
         public double DX { get; set; }
         public double DY { get; set; }
+        public double ValueLabelZoomFactor { get; set; } = 1;
+        public double YZoomFactor { get; set; } = 1;
 
         public void ProcessPrimitives(IEnumerable<IValuePrimitive> valuePrimitives)
         {
@@ -53,7 +55,7 @@ namespace FieldVisualizer.Entities.Values.Primitives
             // Create the PathFigure using triangle vertices.
             var figure = new PathFigure
             {
-                StartPoint = new Point(triangle.Point1.X * zoomFactor, -triangle.Point1.Y * zoomFactor),
+                StartPoint = new Point(triangle.Point1.X * zoomFactor, YZoomFactor * triangle.Point1.Y * zoomFactor),
                 IsClosed = true,
                 IsFilled = true
             };
@@ -61,8 +63,8 @@ namespace FieldVisualizer.Entities.Values.Primitives
             // Add the remaining vertices as LineSegments
             var segments = new PathSegmentCollection
         {
-            new LineSegment(new Point(triangle.Point2.X * zoomFactor, - triangle.Point2.Y * zoomFactor), true),
-            new LineSegment(new Point(triangle.Point3.X * zoomFactor, - triangle.Point3.Y * zoomFactor), true)
+            new LineSegment(new Point(triangle.Point2.X * zoomFactor,YZoomFactor * triangle.Point2.Y * zoomFactor), true),
+            new LineSegment(new Point(triangle.Point3.X * zoomFactor, YZoomFactor * triangle.Point3.Y * zoomFactor), true)
             // Closing is handled by IsClosed = true, so we don't need to add a segment back to Point1
         };
             figure.Segments = segments;
@@ -122,11 +124,11 @@ namespace FieldVisualizer.Entities.Values.Primitives
             shape.Fill = brush;
             shape.StrokeThickness = 0.0;
             double addLeft = -addX - DX * zoomFactor;
-            double addTop = -addY + DY * zoomFactor;
+            double addTop = -addY - YZoomFactor * DY * zoomFactor;
             if (addCenter == true)
             {
                 addLeft += valuePrimitive.CenterX * zoomFactor;
-                addTop -= valuePrimitive.CenterY * zoomFactor;
+                addTop += YZoomFactor * valuePrimitive.CenterY * zoomFactor;
             }
             Canvas.SetLeft(shape, addLeft);
             Canvas.SetTop(shape, addTop);
@@ -161,9 +163,10 @@ namespace FieldVisualizer.Entities.Values.Primitives
             var label = new ValueLabelControl()
             {
                 Value = Convert.ToString(value),
-                Scale = WorkPlaneCanvas.Height / 600,
+                ScaleX = WorkPlaneCanvas.Height * ValueLabelZoomFactor,
+                ScaleY = WorkPlaneCanvas.Height * ValueLabelZoomFactor * YZoomFactor * (-1),
                 X = (primitive.CenterX - DX) * zoomFactor,
-                Y = (- primitive.CenterY + DY) * zoomFactor,
+                Y = (YZoomFactor * primitive.CenterY + DY) * zoomFactor,
             };
 
             WorkPlaneCanvas.Children.Add(label);

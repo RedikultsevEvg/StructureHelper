@@ -6,18 +6,18 @@ namespace StructureHelper.Windows.Graphs
 {
     public class SaveCopyFWElementViewModel : ViewModelBase
     {
-        private IFrameWorkElementServiseLogic frameWorkElementServiseLogic = new FrameWorkElementServiseLogic();
         private RelayCommand saveImageCommand;
         private RelayCommand copyToClipboardCommand;
         
+        public IFrameWorkElementServiseLogic FrameWorkElementServiseLogic { get; set; } = new FrameWorkElementServiseLogic();
         public ICommand SaveAsImageCommand
         {
-            get => saveImageCommand ??= new RelayCommand(o => frameWorkElementServiseLogic.SaveImageToFile(FrameWorkElement));
+            get => saveImageCommand ??= new RelayCommand(o => FrameWorkElementServiseLogic.SaveImageToFile(FrameWorkElement));
         }
 
         public ICommand CopyToClipboardCommand
         {
-            get => copyToClipboardCommand ??= new RelayCommand(o => frameWorkElementServiseLogic.CopyImageToClipboard(FrameWorkElement));
+            get => copyToClipboardCommand ??= new RelayCommand(o => FrameWorkElementServiseLogic.CopyImageToClipboard(FrameWorkElement));
         }
         public FrameworkElement FrameWorkElement { get; set; }
     }

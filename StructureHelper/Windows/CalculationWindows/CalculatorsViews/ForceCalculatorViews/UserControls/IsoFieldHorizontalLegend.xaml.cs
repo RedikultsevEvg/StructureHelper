@@ -8,24 +8,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
     /// <summary>
-    /// Interaction logic for IsoField2DViewerView.xaml
+    /// Interaction logic for IsoFieldHorizontalLegend.xaml
     /// </summary>
-    public partial class IsoField2DViewerView : Window
+    public partial class IsoFieldHorizontalLegend : UserControl
     {
-        private IsoField2DViewerViewModel viewModel;
-
-        public IsoField2DViewerView(IsoField2DViewerViewModel viewModel)
+        public IsoFieldHorizontalLegend()
         {
             InitializeComponent();
-            this.viewModel = viewModel;
-            this.DataContext = viewModel;
-            this.viewModel.Window = this;
-            this.viewModel.SaveCopyViewModel.FrameWorkElement = IsoFieldGrid;
         }
     }
 }

@@ -4,17 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
+             d:DataContext="{d:DesignInstance local:ContoursRangeViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="220">
-    <Grid DataContext="{Binding ContourRange, RelativeSource={RelativeSource AncestorType=UserControl}}">
+    <Grid>
         <ScrollViewer Grid.Column="2">
             <StackPanel>
-                <CheckBox x:Name="cbMinValueEnabled" Margin="3" Content="Minimum Value" IsChecked="{Binding SetMinValue}"/>
-                <TextBox x:Name="tbMinValue" Margin="20,3,3,3" IsEnabled="{Binding IsChecked, ElementName=cbMinValueEnabled}" Text="{Binding Path=UserMinValue, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
-                <CheckBox x:Name="cbMaxValueEnabled" Margin="3" Content="Maximum Value" IsChecked="{Binding Path=SetMaxValue}"/>
-                <TextBox x:Name="tbMaxValue" Margin="20,3,3,3" IsEnabled="{Binding IsChecked, ElementName=cbMaxValueEnabled}" Text="{Binding Path=UserMaxValue, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
-                <Button Margin="3" Content="Set custom colors" Command="{Binding SetUserColorsCommand}"/>
-                <local:IsoFieldVerticalLegend />
+                <TextBlock Text="Minimum value"/>
+                <TextBox x:Name="tbMinValue" Margin="20,3,3,3" Text="{Binding Path=UserMinValue, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                <TextBlock Text="Maximum"/>
+                <TextBox x:Name="tbMaxValue" Margin="20,3,3,3" Text="{Binding Path=UserMaxValue, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                <!--<Button Margin="3" Content="Set custom colors" Command="{Binding SetUserColorsCommand}"/>-->
+                <local:IsoFieldVerticalLegend DataContext="{Binding ContourLegend}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

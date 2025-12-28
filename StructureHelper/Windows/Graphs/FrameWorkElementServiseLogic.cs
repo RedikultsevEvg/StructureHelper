@@ -9,6 +9,10 @@ namespace StructureHelper.Windows.Graphs
 {
     public class FrameWorkElementServiseLogic : IFrameWorkElementServiseLogic
     {
+        private const int defaultDpi = 96;
+
+        public int Dpi { get; set; } = 96;
+
         public void SaveImageToFile(FrameworkElement element, double scaleFactor = 1)
         {
             var inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Png);
@@ -27,10 +31,10 @@ namespace StructureHelper.Windows.Graphs
 
             // Render the element to a RenderTargetBitmap
             var renderTarget = new RenderTargetBitmap(
-            (int)(element.ActualWidth * scaleFactor),
-                (int)(element.ActualHeight * scaleFactor),
-                96, // DPI X
-                96, // DPI Y
+                (int)(element.ActualWidth * scaleFactor * Dpi / defaultDpi),
+                (int)(element.ActualHeight * scaleFactor * Dpi / defaultDpi),
+                Dpi, // DPI X
+                Dpi, // DPI Y
                 PixelFormats.Pbgra32);
 
             renderTarget.Render(element);

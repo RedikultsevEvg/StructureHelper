@@ -12,29 +12,30 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 {
     public class ContoursRangeViewModel : ViewModelBase
     {
-        const int RangeNumber = 16;
+        public List<int> RangeNumbers => [4, 6, 8, 12, 16];
+        public int RangeNumber { get; set; } = 8;
         private double userMinValue;
         private double userMaxValue;
 
         public IColorMap? ColorMap { get; set; }
         public IValueRange? ValueRange { get; set; } = new ValueRange();
-        public bool SetMinValue { get; set; } = false;
         public double UserMinValue
         {
             get => userMinValue;
             set
             {
                 userMinValue = value;
+                ValueRange.BottomValue = userMinValue;
                 Refresh();
             }
         }
-        public bool SetMaxValue { get; set; } = false;
         public double UserMaxValue
         {
             get => userMaxValue;
             set
             {
                 userMaxValue = value;
+                ValueRange.TopValue = userMaxValue;
                 Refresh();
             }
         }
@@ -56,6 +57,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             }
             OnPropertyChanged(nameof(UserMinValue));
             OnPropertyChanged(nameof(UserMaxValue));
+            ContourLegend.Refresh();
         }
     }
 }

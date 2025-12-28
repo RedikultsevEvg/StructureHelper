@@ -9,16 +9,16 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
     public partial class IsoFieldContours : UserControl
     {
 
-        public bool IsSelected { get; set; }
-        public ContoursRangeViewModel ContourRange
-        {
-            get { return (ContoursRangeViewModel)GetValue(ContourRangeProperty); }
-            set { SetValue(ContourRangeProperty, value); }
-        }
+        //public bool IsSelected { get; set; }
+        //public ContoursRangeViewModel ContourRange
+        //{
+        //    get { return (ContoursRangeViewModel)GetValue(ContourRangeProperty); }
+        //    set { SetValue(ContourRangeProperty, value); }
+        //}
 
-        // Using a DependencyProperty as the backing store for ContourRange.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ContourRangeProperty =
-            DependencyProperty.Register(nameof(ContourRange), typeof(ContoursRangeViewModel), typeof(IsoFieldContours), new PropertyMetadata(null));
+        //// Using a DependencyProperty as the backing store for ContourRange.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty ContourRangeProperty =
+        //    DependencyProperty.Register(nameof(ContourRange), typeof(ContoursRangeViewModel), typeof(IsoFieldContours), new PropertyMetadata(null));
 
 
         public IsoFieldContours()

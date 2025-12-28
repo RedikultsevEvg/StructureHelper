@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.IsoFieldSummaryInfo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews"
+             d:DataContext="{d:DesignInstance local:IsoFieldSummaryViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Maximum value:"/>
+            <TextBlock Text="{Binding MaxValue}"/>
+            <TextBlock Text="Minimum value:"/>
+            <TextBlock Text="{Binding MinValue}"/>
+            <TextBlock Text="Total area:"/>
+            <TextBlock Text="{Binding AreaTotal}"/>
+            <TextBlock Text="Negative value area:"/>
+            <TextBlock Text="{Binding AreaNeg}"/>
+            <TextBlock Text="Zero value area:"/>
+            <TextBlock Text="{Binding AreaZero}"/>
+            <TextBlock Text="Positive value area:"/>
+            <TextBlock Text="{Binding AreaPos}"/>
+            <TextBlock Text="Total sum: "/>
+            <TextBlock Text="{Binding SumTotal}"/>
+            <TextBlock Text="Sum negative: "/>
+            <TextBlock Text="{Binding SumNeg}"/>
+            <TextBlock Text="Sum positive: "/>
+            <TextBlock Text="{Binding SumPos}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
