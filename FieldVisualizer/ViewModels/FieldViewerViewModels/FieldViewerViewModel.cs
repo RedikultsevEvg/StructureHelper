@@ -229,7 +229,7 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
                 YZoomFactor = -1,
                 ValueLabelZoomFactor = 0.0015,
             };       
-            logic.ProcessPrimitives(PrimitiveSet.ValuePrimitives);
+            logic.ProcessValuePrimitives(PrimitiveSet.ValuePrimitives);
         }
         private void Zoom(double coefficient)
         {

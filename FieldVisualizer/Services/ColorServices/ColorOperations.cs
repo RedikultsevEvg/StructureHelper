@@ -4,7 +4,6 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Media;
 
 namespace FieldVisualizer.Services.ColorServices

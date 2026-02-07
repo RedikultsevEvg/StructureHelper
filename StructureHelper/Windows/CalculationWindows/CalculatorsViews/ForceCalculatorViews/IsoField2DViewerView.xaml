@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="Iso Field Viewer" Height="800" Width="1200" MinHeight="450" MinWidth="800" WindowStartupLocation="CenterScreen">
     <DockPanel>
-        <ToolBarTray DockPanel.Dock="Top">
+        <ToolBarTray DockPanel.Dock="Top" Focusable="True">
             <ToolBar>
                 <Button Style="{StaticResource ToolButton}" 
                         Command="{Binding RebuildCommand}">
@@ -45,21 +45,7 @@
                         <ContentControl ContentTemplate="{StaticResource ZoomOut}"/>
                     </Viewbox>
                 </Button>
-                <ComboBox DataContext="{Binding ColorMapViewModel}" Width="200" ItemsSource="{Binding ColorMaps}" SelectedItem="{Binding SelectedColorMap}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Height="32">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Rectangle Margin="2" Stroke="DarkGray" Fill="{Binding GradientBrush}"/>
-                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="2" Text="{Binding Name}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <ComboBox DataContext="{Binding ContourRange}" Width="40" ItemsSource="{Binding RangeNumbers}" SelectedItem="{Binding RangeNumber}"/>
+
             </ToolBar>
             <ToolBar DataContext="{Binding SaveCopyViewModel}">
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding CopyToClipboardCommand}">
@@ -82,6 +68,37 @@
                         <ContentControl ContentTemplate="{DynamicResource PngImage}"/>
                     </Viewbox>
                 </Button>
+            </ToolBar>
+            <ToolBar>
+                <ComboBox DataContext="{Binding ColorMapViewModel}" Width="200" ItemsSource="{Binding ColorMaps}" SelectedItem="{Binding SelectedColorMap}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="32">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Margin="2" Stroke="DarkGray" Fill="{Binding GradientBrush}"/>
+                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="2" Text="{Binding Name}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Border Margin="2" Width="140" CornerRadius="2" Background="#FFE2E2E2">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="7" Text="Range number"/>
+                        <ComboBox DataContext="{Binding ContourRange}" Margin="4" Width="40" ItemsSource="{Binding RangeNumbers}" SelectedItem="{Binding RangeNumber}" ToolTip="Number of color range"/>
+                    </StackPanel>
+                </Border>
+                <Border Margin="2" Width="115" CornerRadius="2" Background="#FFE2E2E2">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  Margin="7" Text="Label size"/>
+                        <TextBox Margin="4" Width="40"
+                                 DataContext="{Binding ValueLabel}"
+                                 Text="{Binding LabelSize, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True, NotifyOnValidationError=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 ToolTip="Size of new value labels"/>
+                    </StackPanel>
+                </Border>
             </ToolBar>
         </ToolBarTray>
         <Grid>

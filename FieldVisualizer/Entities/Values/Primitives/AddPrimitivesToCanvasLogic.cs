@@ -3,6 +3,7 @@ using FieldVisualizer.InfraStructures.Exceptions;
 using FieldVisualizer.InfraStructures.Strings;
 using FieldVisualizer.Services.ColorServices;
 using FieldVisualizer.Windows.UserControls;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
@@ -27,13 +28,91 @@ namespace FieldVisualizer.Entities.Values.Primitives
         public double ValueLabelZoomFactor { get; set; } = 1;
         public double YZoomFactor { get; set; } = 1;
 
-        public void ProcessPrimitives(IEnumerable<IValuePrimitive> valuePrimitives)
+        public void ProcessShadedPrimitives(IEnumerable<IShadedPrimitive> shadedPrimitives)
+        {
+            foreach (var item in shadedPrimitives)
+            {
+                if (item.Shape is IRectangleShape rectangleShape)
+                {
+                    Rectangle rectangle = ProcessShadedRectangle(rectangleShape, item.Center);
+                    WorkPlaneCanvas.Children.Add(rectangle);
+                }
+                if (item.Shape is IEllipseShape ellipseShape)
+                {
+                    Ellipse ellipse = ProcessShadedEllipse(ellipseShape, item.Center);
+                    WorkPlaneCanvas.Children.Add(ellipse);
+                }
+                if (item.Shape is ILinePolygonShape polygonShape)
+                {
+                    Path path = ProcessShadedPolygon(polygonShape, item.Center);
+                    WorkPlaneCanvas.Children.Add(path);
+                }
+            }
+        }
+
+        private Path ProcessShadedPolygon(ILinePolygonShape polygonShape, IPoint2D center)
+        {
+            var logic = new LinePolygonToPathGeometryConvertStrategy()
+            {
+                ScaleX = zoomFactor, 
+                ScaleY = zoomFactor
+            };
+            PathGeometry pathGeometry = logic.Convert(polygonShape);
+            var path = new Path
+            {
+                Data = pathGeometry,
+            };
+            ProcessShadedShape(path);
+            ProcessGeometry(path, center.X, center.Y, 0, 0, true);
+            return path;
+        }
+
+        private Ellipse ProcessShadedEllipse(IEllipseShape circleShape, IPoint2D center)
+        {
+            Ellipse ellipse = new()
+            {
+                Height = circleShape.Height * zoomFactor,
+                Width = circleShape.Width * zoomFactor,
+            };
+            ProcessShadedShape(ellipse);
+            double addX = circleShape.Width / 2 * zoomFactor;
+            double addY = circleShape.Height / 2 * zoomFactor;
+            ProcessGeometry(ellipse, center.X, center.Y, addX, addY, true);
+            return ellipse;
+        }
+
+        private Rectangle ProcessShadedRectangle(IRectangleShape rectangleShape, IPoint2D center)
+        {
+            Rectangle rectangle = new()
+            {
+                Height = rectangleShape.Height * zoomFactor,
+                Width = rectangleShape.Width * zoomFactor
+            };
+            ProcessShadedShape(rectangle);
+            double addX = rectangleShape.Width / 2 * zoomFactor;
+            double addY = rectangleShape.Height / 2 * zoomFactor;
+            ProcessGeometry(rectangle, center.X, center.Y, addX, addY, true);
+            return rectangle;
+        }
+
+        private static void ProcessShadedShape(Shape shape)
+        {
+            SolidColorBrush brush = new(Colors.Black);
+            shape.Stroke = brush;
+            shape.StrokeThickness = 0.001 * zoomFactor;
+            DoubleCollection dashes = new DoubleCollection();
+            dashes.Add(0.01 * zoomFactor);
+            dashes.Add(0.007 * zoomFactor);
+            shape.StrokeDashArray = dashes;
+        }
+
+        public void ProcessValuePrimitives(IEnumerable<IValuePrimitive> valuePrimitives)
         {
             foreach (var primitive in valuePrimitives)
             {
                 if (primitive is IRectanglePrimitive rectanglePrimitive)
                 {
-                    Rectangle rectangle = ProcessRectanglePrimitive(rectanglePrimitive);
+                    Rectangle rectangle = ProcessValueRectanglePrimitive(rectanglePrimitive);
                     WorkPlaneCanvas.Children.Add(rectangle);
                 }
                 else if (primitive is ICirclePrimitive circlePrimitive)
@@ -81,9 +160,9 @@ namespace FieldVisualizer.Entities.Values.Primitives
             path.MouseLeftButtonDown += OnPathClicked;
             return path;
         }
-        private Rectangle ProcessRectanglePrimitive(IRectanglePrimitive rectanglePrimitive)
+        private Rectangle ProcessValueRectanglePrimitive(IRectanglePrimitive rectanglePrimitive)
         {
-            Rectangle rectangle = new Rectangle
+            Rectangle rectangle = new()
             {
                 Height = rectanglePrimitive.Height * zoomFactor,
                 Width = rectanglePrimitive.Width * zoomFactor
@@ -123,12 +202,17 @@ namespace FieldVisualizer.Entities.Values.Primitives
             shape.Tag = valuePrimitive;
             shape.Fill = brush;
             shape.StrokeThickness = 0.0;
+            ProcessGeometry(shape, valuePrimitive.CenterX, valuePrimitive.CenterY, addX, addY, addCenter);
+        }
+
+        private void ProcessGeometry(Shape shape, double centerX, double centerY, double addX, double addY, bool addCenter)
+        {
             double addLeft = -addX - DX * zoomFactor;
             double addTop = -addY - YZoomFactor * DY * zoomFactor;
             if (addCenter == true)
             {
-                addLeft += valuePrimitive.CenterX * zoomFactor;
-                addTop += YZoomFactor * valuePrimitive.CenterY * zoomFactor;
+                addLeft += centerX * zoomFactor;
+                addTop += YZoomFactor * centerY * zoomFactor;
             }
             Canvas.SetLeft(shape, addLeft);
             Canvas.SetTop(shape, addTop);

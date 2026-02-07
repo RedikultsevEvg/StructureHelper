@@ -4,6 +4,8 @@ using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Services.ResultViewers;
 using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.UserControls.WorkPlanes;
+using StructureHelperCommon.Models.Shapes;
+using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 {
     public class IsoField2DViewerViewModel : ViewModelBase
     {
-        private SelectedPrimitiveSet ndmPrimitiveSet;
+        private ISelectedPrimitiveSet ndmPrimitiveSet;
+        private ISelectedPrimitiveSet shadedPrimitives;
         private RelayCommand zoomInCommand;
         private RelayCommand zoomOutCommand;
         private IPrimitiveSet selectedPrimitiveSet;
@@ -40,13 +43,14 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         }
         public ColorMapViewModel ColorMapViewModel { get; set; }
         public ContoursRangeViewModel ContourRange { get; set; } = new();
+        public ValueLabelViewModel ValueLabel { get; set; } = new() { LabelSize = 8 };
 
         public ICommand RebuildCommand => rebuildCommand ??= new RelayCommand(o => Rebuild());
         public ICommand ZoomInCommand => zoomInCommand ??= new RelayCommand(o => Zoom(1.2));
         public ICommand ZoomOutCommand => zoomOutCommand ??= new RelayCommand(o => Zoom(0.8));
 
 
-        public IsoField2DViewerViewModel(SelectedPrimitiveSet ndmPrimitiveSet)
+        public IsoField2DViewerViewModel(ISelectedPrimitiveSet ndmPrimitiveSet, ISelectedPrimitiveSet shadedPrimitives)
         {
             WorkPlaneRoot = new()
             {
@@ -56,16 +60,17 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             WorkPlaneRoot.WorkPlaneConfig.ScaleValue = 1;
             SaveCopyViewModel.FrameWorkElementServiseLogic.Dpi = 768;
             this.ndmPrimitiveSet = ndmPrimitiveSet;
+            this.shadedPrimitives = shadedPrimitives;
             SetValues(ndmPrimitiveSet);
             ColorMapViewModel = new ColorMapViewModel(this);
-            if (PrimitiveSets.Any())
+            if (PrimitiveSets.Count != 0)
             {
                 SelectedPrimitiveSet = PrimitiveSets[0];
             }
             Refresh();
         }
 
-        private void SetValues(SelectedPrimitiveSet ndmPrimitiveSet)
+        private void SetValues(ISelectedPrimitiveSet ndmPrimitiveSet)
         {
             PrimitiveSets = ShowIsoFieldResult.GetPrimitiveSets(ndmPrimitiveSet.StrainMatrix, ndmPrimitiveSet.Ndms, ForceResultFuncFactory.GetResultFuncs());
         }
@@ -115,9 +120,26 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 ValueRange = ContourRange.ValueRange,
                 ColorMap = ColorMapViewModel.SelectedColorMap,
                 ValueColorRanges = ContourRange.ContourLegend.ValueColorRanges,
-                ValueLabelZoomFactor = Math.Max(sizeX, sizeY) * 0.0007
+                ValueLabelZoomFactor = Math.Max(sizeX, sizeY) * ValueLabel.LabelSize * 0.0001
             };
-            logic.ProcessPrimitives(SelectedPrimitiveSet.ValuePrimitives);
+            List<IShadedPrimitive> shadedPrimitives1 = GetShadedPrimitives(shadedPrimitives);
+            logic.ProcessShadedPrimitives(shadedPrimitives1);
+            logic.ProcessValuePrimitives(SelectedPrimitiveSet.ValuePrimitives);
+        }
+
+        private List<IShadedPrimitive> GetShadedPrimitives(ISelectedPrimitiveSet shadedPrimitives)
+        {
+            List<IShadedPrimitive> shadePrimitives = [];
+            foreach (var item in shadedPrimitives.AllPrimitives)
+            {
+                try
+                {
+                    ShadedPrimitive shadePrimitive = new ShadedPrimitive(item.Shape) { Center = item.Center};
+                    shadePrimitives.Add(shadePrimitive);
+                }
+                catch { }
+            }
+            return shadePrimitives;
         }
 
         private void Zoom(double coefficient)

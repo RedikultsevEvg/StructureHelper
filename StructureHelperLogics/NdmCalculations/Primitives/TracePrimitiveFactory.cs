@@ -53,13 +53,18 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                 }
                 if (item is IEllipseNdmPrimitive ellipse)
                 {
-                    IRectangleShape? rectShape = ellipse.Shape as IRectangleShape;
-                    if (rectShape.Width == rectShape.Height)
+                    IEllipseShape? ellipseShape = ellipse.Shape as IEllipseShape;
+                    if (ellipseShape.Width == ellipseShape.Height)
                     {
-                        table.Table.AddRows(ProcessCircle(rectShape));
+                        table.Table.AddRows(ProcessCircle(ellipseShape));
                     }
                     else
                     {
+                        RectangleShape rectShape = new()
+                        {
+                            Height = ellipseShape.Height,
+                            Width = ellipseShape.Width
+                        };
                         table.Table.AddRows(ProcessRectangle(rectShape));
                     }
                 }
@@ -71,7 +76,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             }
         }
 
-        private IEnumerable<IShTableRow<ITraceLoggerEntry>> ProcessCircle(IRectangleShape rectShape)
+        private IEnumerable<IShTableRow<ITraceLoggerEntry>> ProcessCircle(IEllipseShape rectShape)
         {
             List<IShTableRow<ITraceLoggerEntry>> rows = new();
             ShTableRow<ITraceLoggerEntry> ndmRow;

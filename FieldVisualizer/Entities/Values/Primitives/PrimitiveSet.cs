@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FieldVisualizer.Entities.Values.Primitives
 {
@@ -10,12 +6,7 @@ namespace FieldVisualizer.Entities.Values.Primitives
     {
         public string Name { get; set; } = string.Empty;
         public string SubTitle { get; set; } = string.Empty;
-        public IEnumerable<IValuePrimitive> ValuePrimitives { get; set;}
-
-        public PrimitiveSet()
-        {
-            
-            ValuePrimitives = new List<IValuePrimitive>();
-        }
+        public List<IValuePrimitive> ValuePrimitives { get; set; } = new();
+        public List<IShadedPrimitive> ShadedPrimitives { get; set; } = new();
     }
 }

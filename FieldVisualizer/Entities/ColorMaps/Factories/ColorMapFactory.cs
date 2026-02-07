@@ -1,5 +1,6 @@
 ﻿using FieldVisualizer.InfraStructures.Exceptions;
 using FieldVisualizer.InfraStructures.Strings;
+using System;
 using System.Collections.Generic;
 using System.Windows.Media;
 
@@ -55,28 +56,35 @@ namespace FieldVisualizer.Entities.ColorMaps.Factories
         }
         private static IColorMap GetFullSpectrum()
         {
+            const int colorCount = 11;
+            const byte alpha = 0xFF;
+
             ColorMap colorMap = new()
             {
                 Name = "Full Spectrum"
             };
-            List<Color> colors = new List<Color>();
-            byte Alpha = 0xff;
-            colors.AddRange(new Color[]{
-                Color.FromArgb(Alpha, 0xFF, 0x80, 0x80) ,//
-                Color.FromArgb(Alpha, 0xFF, 0, 0x80) ,//
-                Color.FromArgb(Alpha, 0xFF, 0, 0) ,//Red
-                Color.FromArgb(Alpha, 0xFF, 0x45, 0) ,//Orange Red
-                Color.FromArgb(Alpha, 0xFF, 0xD7, 0) ,//Gold
-                Color.FromArgb(Alpha, 0xFF, 0xFF, 0) ,//Yellow
-                Color.FromArgb(Alpha, 0x9A, 0xCD, 0x32) ,//Yellow Green
-                Color.FromArgb(Alpha, 0, 0x80, 0) ,//Green
-                Color.FromArgb(Alpha, 0, 0x64, 0) ,//Dark Green
-                Color.FromArgb(Alpha, 0x2F, 0x4F, 0x4F) ,//Dark Slate Gray
-                Color.FromArgb(Alpha, 0, 0, 0xFF) ,//Blue
-            });
+
+            List<Color> colors = new();
+
+            double startHue = 270;     // Blue (avoid wrapping back to red)
+            double endHue = 0;     // Red
+
+            for (int i = 0; i < colorCount; i++)
+            {
+                double t = (double)i / (colorCount - 1);
+                double hue = startHue + t * (endHue - startHue);
+
+                colors.Add(ColorFromHSV(
+                    hue,
+                    saturation: 1.0,
+                    value: 1.0,
+                    alpha: alpha));
+            }
+
             colorMap.Colors = colors;
             return colorMap;
         }
+
         private static IColorMap GetRedToWhite()
         {
             ColorMap colorMap = new ColorMap();
@@ -130,5 +138,28 @@ namespace FieldVisualizer.Entities.ColorMaps.Factories
             colorMap.Colors = colors;
             return colorMap;
         }
+
+        private static Color ColorFromHSV(double hue, double saturation, double value, byte alpha = 0xFF)
+        {
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            double f = hue / 60 - Math.Floor(hue / 60);
+
+            value *= 255;
+            byte v = (byte)value;
+            byte p = (byte)(value * (1 - saturation));
+            byte q = (byte)(value * (1 - f * saturation));
+            byte t = (byte)(value * (1 - (1 - f) * saturation));
+
+            return hi switch
+            {
+                0 => Color.FromArgb(alpha, v, t, p),
+                1 => Color.FromArgb(alpha, q, v, p),
+                2 => Color.FromArgb(alpha, p, v, t),
+                3 => Color.FromArgb(alpha, p, q, v),
+                4 => Color.FromArgb(alpha, t, p, v),
+                _ => Color.FromArgb(alpha, v, p, q),
+            };
+        }
+
     }
 }

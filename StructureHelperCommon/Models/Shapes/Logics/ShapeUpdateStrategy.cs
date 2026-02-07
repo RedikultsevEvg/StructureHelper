@@ -24,6 +24,10 @@ namespace StructureHelperCommon.Models.Shapes
             {
                 ProcessCircles(targetObject, sourceCircle);
             }
+            else if (sourceObject is IEllipseShape ellipseShape)
+            {
+                ProcessEllipse(targetObject, ellipseShape);
+            }
             else if (sourceObject is ILinePolygonShape sourcePolygon)
             {
                 ProcessPolygon(targetObject, sourcePolygon);
@@ -31,6 +35,19 @@ namespace StructureHelperCommon.Models.Shapes
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
+            }
+        }
+
+        private void ProcessEllipse(IShape targetObject, IEllipseShape sourceEllipse)
+        {
+            if (targetObject is IEllipseShape targetEllipse)
+            {
+                var updateLogic = new EllipseShapeUpdateStrategy();
+                updateLogic.Update(targetEllipse, sourceEllipse);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": target object is not an ellipse");
             }
         }
 

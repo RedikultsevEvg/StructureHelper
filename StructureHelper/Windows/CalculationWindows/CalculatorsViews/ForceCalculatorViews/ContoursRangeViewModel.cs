@@ -3,10 +3,7 @@ using FieldVisualizer.Entities.Values;
 using FieldVisualizer.Services.ColorServices;
 using FieldVisualizer.Services.ValueRanges;
 using StructureHelper.Infrastructure;
-using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.Text;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {

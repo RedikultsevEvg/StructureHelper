@@ -159,12 +159,13 @@ namespace DataAccess.DTOs
             List<(Type type, string name)> newList = new()
             {
                 { (typeof(List<IVertex>), "ListOfVertex2D") },
+                { (typeof(CircleShapeDTO), "CircleShape") },
+                { (typeof(EllipseShapeDTO), "EllipseShape") },
+                { (typeof(LinePolygonShapeDTO), "LinePolygonShape") },
                 { (typeof(Point2DDTO), "Point2D") },
                 { (typeof(Point2DRangeDTO), "Point2DRange") },
-                { (typeof(VertexDTO), "Vertex2D") },
                 { (typeof(RectangleShapeDTO), "RectangleShape") },
-                { (typeof(CircleShapeDTO), "CircleShape") },
-                { (typeof(LinePolygonShapeDTO), "LinePolygonShape") },
+                { (typeof(VertexDTO), "Vertex2D") },
             };
             return newList;
         }

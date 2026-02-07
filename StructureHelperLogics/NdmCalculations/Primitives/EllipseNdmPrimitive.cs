@@ -12,7 +12,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     public class EllipseNdmPrimitive : IEllipseNdmPrimitive
     {
         private static readonly EllipsePrimitiveUpdateStrategy updateStrategy = new();
-        private readonly RectangleShape rectangleShape = new();
+        private readonly EllipseShape ellipseShape = new();
 
         /// <inheritdoc/>
         public Guid Id { get; set; }
@@ -27,16 +27,16 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         {
             get
             {
-                return rectangleShape.Width;
+                return ellipseShape.Width;
             }
             set
             {
-                rectangleShape.Width = value;
-                rectangleShape.Height = value;
+                ellipseShape.Width = value;
+                ellipseShape.Height = value;
             }
         }
         /// <inheritdoc/>
-        public double Height { get => rectangleShape.Height; set => rectangleShape.Height = value; }
+        public double Height { get => ellipseShape.Height; set => ellipseShape.Height = value; }
         /// <inheritdoc/>
         public ICrossSection? CrossSection { get; set; }
         /// <inheritdoc/>
@@ -44,7 +44,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// <inheritdoc/>
         public IDivisionSize DivisionSize { get; } = new DivisionSize(Guid.NewGuid());
         /// <inheritdoc/>
-        public IShape Shape => rectangleShape;
+        public IShape Shape => ellipseShape;
         /// <inheritdoc/>
         public double RotationAngle { get; set; }
 

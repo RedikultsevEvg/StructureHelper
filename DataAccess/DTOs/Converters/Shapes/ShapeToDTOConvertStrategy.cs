@@ -8,6 +8,7 @@ namespace DataAccess.DTOs
     public class ShapeToDTOConvertStrategy : ConvertStrategy<IShape, IShape>
     {
         private IConvertStrategy<RectangleShapeDTO, IRectangleShape> rectangleConvertStrategy;
+        private IConvertStrategy<EllipseShapeDTO, IEllipseShape> ellipseConvertStrategy;
         private IConvertStrategy<CircleShapeDTO, ICircleShape> circleConvertStrategy;
         private IConvertStrategy<LinePolygonShapeDTO, ILinePolygonShape> linePolygonToDTOConvertStrategy;
 
@@ -33,6 +34,10 @@ namespace DataAccess.DTOs
             {
                 ProcessCircle(circle);
             }
+            else if (source is IEllipseShape ellipse)
+            {
+                ProcessEllipse(ellipse);
+            }
             else if (source is ILinePolygonShape linePolygon)
             {
                 ProcessLinePolygon(linePolygon);
@@ -43,6 +48,14 @@ namespace DataAccess.DTOs
                 throw new StructureHelperException(errorString);
             }
             TraceLogger?.AddMessage($"Shape converting Id = {NewItem.Id} has been has been finished successfully", TraceLogStatuses.Debug);
+        }
+
+        private void ProcessEllipse(IEllipseShape ellipse)
+        {
+            TraceLogger?.AddMessage($"Shape is ellipse", TraceLogStatuses.Debug);
+            ellipseConvertStrategy = new DictionaryConvertStrategy<EllipseShapeDTO, IEllipseShape>
+                (this, new EllipseShapeToDTOConvertStrategy(this));
+            NewItem = ellipseConvertStrategy.Convert(ellipse);
         }
 
         private void ProcessLinePolygon(ILinePolygonShape linePolygon)

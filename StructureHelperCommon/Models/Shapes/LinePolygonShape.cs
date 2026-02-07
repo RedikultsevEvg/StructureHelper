@@ -12,6 +12,10 @@ namespace StructureHelperCommon.Models.Shapes
         public IReadOnlyList<IVertex> Vertices => _vertices;
         public bool IsClosed { get; set; } = true;
 
+        public LinePolygonShape() : this(Guid.NewGuid())
+        {
+            
+        }
         public LinePolygonShape(Guid id)
         {
             Id = id;

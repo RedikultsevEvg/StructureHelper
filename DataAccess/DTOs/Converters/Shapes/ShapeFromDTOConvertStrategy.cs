@@ -7,6 +7,10 @@ namespace DataAccess.DTOs
     internal class ShapeFromDTOConvertStrategy : ConvertStrategy<IShape, IShape>
     {
         private IConvertStrategy<RectangleShape, RectangleShapeDTO> rectangleConvertStrategy;
+        private IConvertStrategy<EllipseShape, EllipseShapeDTO> ellipseConvertStrategy;
+        private IConvertStrategy<EllipseShape, EllipseShapeDTO> EllipseConvertStrategy =>
+            ellipseConvertStrategy ??= 
+            new DictionaryConvertStrategy<EllipseShape, EllipseShapeDTO>(this, new EllipseShapeFromDTOConvertStrategy(this));
         private IConvertStrategy<CircleShape, CircleShapeDTO> circleConvertStrategy;
 
         public ShapeFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
@@ -27,6 +31,10 @@ namespace DataAccess.DTOs
                 circleConvertStrategy ??= new DictionaryConvertStrategy<CircleShape, CircleShapeDTO>
                     (this, new CircleShapeFromDTOConvertStrategy(this));
                 NewItem = circleConvertStrategy.Convert(circleShapeDTO);
+            }
+            else if (source is EllipseShapeDTO ellipseShapeDTO)
+            {
+                NewItem = EllipseConvertStrategy.Convert(ellipseShapeDTO);
             }
             else if (source is LinePolygonShapeDTO linePolygonDTO)
             {

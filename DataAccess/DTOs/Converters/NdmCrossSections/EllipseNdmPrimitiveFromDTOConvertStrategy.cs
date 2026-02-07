@@ -6,10 +6,11 @@ namespace DataAccess.DTOs
     public class EllipseNdmPrimitiveFromDTOConvertStrategy : ConvertStrategy<EllipseNdmPrimitive, EllipseNdmPrimitiveDTO>
     {
         private IUpdateStrategy<IEllipseNdmPrimitive> updateStrategy = new EllipsePrimitiveUpdateStrategy();
+        private IUpdateStrategy<IEllipseNdmPrimitive> UpdateStrategy => updateStrategy ??= new EllipsePrimitiveUpdateStrategy();
         public override EllipseNdmPrimitive GetNewItem(EllipseNdmPrimitiveDTO source)
         {
             EllipseNdmPrimitive newItem = new(source.Id);
-            updateStrategy.Update(newItem, source);
+            UpdateStrategy.Update(newItem, source);
             return newItem;
         }
     }

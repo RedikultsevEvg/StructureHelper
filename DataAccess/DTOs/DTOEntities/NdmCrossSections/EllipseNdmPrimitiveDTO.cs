@@ -9,7 +9,7 @@ namespace DataAccess.DTOs
 {
     public class EllipseNdmPrimitiveDTO : IEllipseNdmPrimitive
     {
-        private IRectangleShape shape = new RectangleShapeDTO(Guid.Empty);
+        private IEllipseShape shape = new EllipseShapeDTO(Guid.Empty);
 
         public EllipseNdmPrimitiveDTO(Guid id)
         {
@@ -21,7 +21,7 @@ namespace DataAccess.DTOs
         [JsonProperty("Name")]
         public string? Name { get; set; }
         [JsonProperty("RectangleShape")]
-        public IRectangleShape RectangleShape
+        public IEllipseShape EllipseShape
         { 
             get => shape;
             set => shape = value;

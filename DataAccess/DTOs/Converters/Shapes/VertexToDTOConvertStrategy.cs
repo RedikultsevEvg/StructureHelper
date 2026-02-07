@@ -6,6 +6,7 @@ namespace DataAccess.DTOs
     public class VertexToDTOConvertStrategy : ConvertStrategy<VertexDTO, IVertex>
     {
         private IUpdateStrategy<IVertex> updateStrategy;
+        private IUpdateStrategy<IVertex> UpdateStrategy => updateStrategy ??= new VertexUpdateStrategy() { UpdateChildren = false };
         private IConvertStrategy<Point2DDTO, IPoint2D> pointConvertStrategy;
 
         public VertexToDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
@@ -16,9 +17,12 @@ namespace DataAccess.DTOs
         {
             ChildClass = this;
             NewItem = new(source.Id);
-            updateStrategy = new VertexUpdateStrategy() { UpdateChildren = false };
-            pointConvertStrategy = new Point2DToDTOConvertStrategy() { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger};
-            updateStrategy.Update(NewItem, source);
+            pointConvertStrategy = new Point2DToDTOConvertStrategy()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger
+            };
+            UpdateStrategy.Update(NewItem, source);
             NewItem.Point = pointConvertStrategy.Convert(source.Point);
             return NewItem;
         }

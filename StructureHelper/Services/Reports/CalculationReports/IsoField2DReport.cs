@@ -16,7 +16,7 @@ namespace StructureHelper.Services.Reports.CalculationReports
 
         public void Prepare()
         {
-            viewModel = new(primitiveSet);
+            viewModel = new(primitiveSet, primitiveSet);
             view = new(viewModel);
         }
 

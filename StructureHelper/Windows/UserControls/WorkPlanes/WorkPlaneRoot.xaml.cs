@@ -41,8 +41,8 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
 
                 if (DataContext is WorkPlaneRootViewModel dc)
                 {
-                    dc.WorkPlaneConfig.ZoomCenterX -= dx / dc.WorkPlaneConfig.ScaleValue;
-                    dc.WorkPlaneConfig.ZoomCenterY -= dy / dc.WorkPlaneConfig.NegativeScaleValue;
+                    dc.WorkPlaneConfig.ZoomCenterX += dx;// / dc.WorkPlaneConfig.ScaleValue;
+                    dc.WorkPlaneConfig.ZoomCenterY += dy;// / dc.WorkPlaneConfig.NegativeScaleValue;
                 }
 
                 _lastPanPoint = current;

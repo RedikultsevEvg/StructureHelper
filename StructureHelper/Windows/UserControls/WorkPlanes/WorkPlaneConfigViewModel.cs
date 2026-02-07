@@ -77,10 +77,12 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
             OnPropertyChanged(nameof(ZoomCenterY));
             OnPropertyChanged(nameof(AxisFontSize));
             OnPropertyChanged(nameof(AxisLineThickness));
+            OnPropertyChanged(nameof(CenterOffsetX));
+            OnPropertyChanged(nameof(CenterOffsetY));
         }
 
-        public double CenterOffsetX => 0;// CanvasWidth / 2;
-        public double CenterOffsetY => 0;// CanvasHeight / 2 * (-1);
+        public double CenterOffsetX { get; set; }// => CanvasWidth / 2;
+        public double CenterOffsetY { get; set; }// => CanvasHeight / 2 * (-1);
 
         public double GridSize { get; set; } = 0.05;
         public Brush GridColorBrush { get; set; } = Brushes.LightGray;

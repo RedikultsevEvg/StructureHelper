@@ -6,7 +6,8 @@ namespace FieldVisualizer.Entities.Values.Primitives
     {
         string Name { get; set; }
         string SubTitle { get; set; }
-        IEnumerable<IValuePrimitive> ValuePrimitives { get; }
+        List<IValuePrimitive> ValuePrimitives { get; }
+        List<IShadedPrimitive> ShadedPrimitives { get; }
 
     }
 }

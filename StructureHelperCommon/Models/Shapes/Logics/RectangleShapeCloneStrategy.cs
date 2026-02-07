@@ -10,11 +10,11 @@ namespace StructureHelperCommon.Models.Shapes
     public class RectangleShapeCloneStrategy : ICloneStrategy<IRectangleShape>
     {
         IUpdateStrategy<IRectangleShape> updateStrategy;
+        IUpdateStrategy<IRectangleShape> UpdateStrategy => updateStrategy ??= new RectangleShapeUpdateStrategy();
         public IRectangleShape GetClone(IRectangleShape sourceObject)
         {
             RectangleShape clone = new RectangleShape(Guid.NewGuid());
-            updateStrategy ??= new RectangleShapeUpdateStrategy();
-            updateStrategy.Update(clone, sourceObject);
+            UpdateStrategy.Update(clone, sourceObject);
             return clone;
         }
     }
