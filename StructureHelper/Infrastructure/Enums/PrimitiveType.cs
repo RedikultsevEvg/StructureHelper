@@ -6,6 +6,7 @@
         Rectangle = 1,
         Circle = 2,
         Reinforcement = 3,
-        Polygon = 4
+        Polygon = 4,
+        TShape = 5
     }
 }

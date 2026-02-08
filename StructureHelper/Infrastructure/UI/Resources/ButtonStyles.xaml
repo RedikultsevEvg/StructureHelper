@@ -542,17 +542,6 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
-    <DataTemplate x:Key="Polygon">
-        <Canvas Style="{DynamicResource ButtonPrimitiveCanvas}">
-            <Canvas.Children>
-
-                <Path Margin="4" Data="M6,6 l2,2 l6,-6 l6,6 l1,6 l-4,8 l-16,-5
-                      z" Fill="DarkGray" Stroke="Black"/>
-                <Line X1="16" Y1="3" X2="16" Y2="29" Stroke="Black" StrokeThickness="0.5"/>
-                <Line X1="3" Y1="16" X2="29" Y2="16" Stroke="Black" StrokeThickness="0.5"/>
-            </Canvas.Children>
-        </Canvas>
-    </DataTemplate>
     <DataTemplate x:Key="Prestrain">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>

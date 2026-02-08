@@ -1,0 +1,38 @@
+﻿<Window x:Class="StructureHelper.Windows.Shapes.VerticalTShapeView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.Shapes"
+        d:DataContext="{d:DesignInstance local:VerticalTShapeViewModel}"
+        mc:Ignorable="d"
+        Title="T-Shape properties" Height="250" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Full height"/>
+            <TextBox Grid.Column="1" Text="{Binding FullHeight, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBlock Grid.Row="1" Text="Web width"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding WebWidth, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBlock Grid.Row="2" Text="Flange height"/>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding FlangeHeight, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBlock Grid.Row="3" Text="Flange width"/>
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding FlangeWidth, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+        </Grid>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>

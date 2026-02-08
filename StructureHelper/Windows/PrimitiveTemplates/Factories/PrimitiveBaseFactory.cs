@@ -46,11 +46,23 @@ namespace StructureHelper.Windows.PrimitiveTemplates.Factories
                 ndmPrimitive = primitive;
                 viewPrimitive = new ShapeViewPrimitive(primitive);
             }
+            else if (primitiveType == PrimitiveType.TShape)
+            {
+                ShapeNdmPrimitive primitive = GetNewTShapePrimitive();
+                ndmPrimitive = primitive;
+                viewPrimitive = new ShapeViewPrimitive(primitive);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType));
             }
             return viewPrimitive;
+        }
+
+        private static ShapeNdmPrimitive GetNewTShapePrimitive()
+        {
+#error
+            throw new NotImplementedException();
         }
 
         public static PrimitiveBase GetCloneByNdmPrimitive(INdmPrimitive ndmPrimitive)

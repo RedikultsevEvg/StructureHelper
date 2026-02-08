@@ -168,6 +168,9 @@
     <Compile Update="Windows\Shapes\PolygonShapeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\Shapes\VerticalTShapeView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\UserControls\ButtonToolTipEh.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

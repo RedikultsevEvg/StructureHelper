@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <DataTemplate x:Key="Polygon">
+        <Canvas Style="{DynamicResource ButtonPrimitiveCanvas}">
+            <Canvas.Children>
+                <Path Margin="4" Data="M6,6 l2,2 l6,-6 l6,6 l1,6 l-4,8 l-16,-5
+                      z" Fill="DarkGray" Stroke="Black"/>
+                <Line X1="16" Y1="3" X2="16" Y2="29" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="3" Y1="16" X2="29" Y2="16" Stroke="Black" StrokeThickness="0.5"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="TShape">
+        <Canvas Style="{DynamicResource ButtonPrimitiveCanvas}">
+            <Canvas.Children>
+                <Path Margin="4" Data="M4,4 h16 v6 h-5 v12 h-6 v-12 h-5
+                      z" Fill="DarkGray" Stroke="Black"/>
+                <Line X1="16" Y1="3" X2="16" Y2="29" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="3" Y1="16" X2="29" Y2="16" Stroke="Black" StrokeThickness="0.5"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+</ResourceDictionary>

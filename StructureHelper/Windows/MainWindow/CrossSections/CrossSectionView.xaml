@@ -21,6 +21,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Infrastructure/UI/Resources/MaterialButtonStyles.xaml"/>
                 <ResourceDictionary Source="/Infrastructure/UI/Resources/CalculatorButtonStyles.xaml"/>
+                <ResourceDictionary Source="/Infrastructure/UI/Resources/ShapeButtonStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <DataTemplate DataType="{x:Type dataContexts:RectangleViewPrimitive}">
@@ -217,6 +218,16 @@
                 </Button>
                 <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}" ToolTip="Add Point Primitive">
                     <Image Source="/Windows/MainWindow/Point32.png"/>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.TShape}" >
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add T-shape primitive"
+                                                IconContent="{StaticResource TShape}"
+                                                DescriptionText="Add T-Shape primitive with default properties into cross-section"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource TShape}"/>
+                    </Viewbox>
                 </Button>
             </ToolBar>
             <ToolBar Name="DxfOperation">
