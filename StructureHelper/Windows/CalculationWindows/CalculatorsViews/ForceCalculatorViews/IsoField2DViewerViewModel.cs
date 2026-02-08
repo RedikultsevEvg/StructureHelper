@@ -57,7 +57,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 IsToolBarVisible = false,
                 IsStatusBarVisible = false
             };
-            WorkPlaneRoot.WorkPlaneConfig.ScaleValue = 1;
+            WorkPlaneRoot.WorkPlaneConfig.ScaleValue = 1.00001;
             SaveCopyViewModel.FrameWorkElementServiseLogic.Dpi = 768;
             this.ndmPrimitiveSet = ndmPrimitiveSet;
             this.shadedPrimitives = shadedPrimitives;

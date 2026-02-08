@@ -39,21 +39,24 @@
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" Background="White">
-            <Grid x:Name="WorkPlaneGrid" Background="White">
+            <Grid x:Name="WorkPlaneGrid" Background="White" SizeChanged="WorkPlaneGrid_SizeChanged">
                     <Canvas x:Name="RootCanvas" Width="{Binding WorkPlaneConfig.CanvasWidth}" Height="{Binding WorkPlaneConfig.CanvasHeight}">
                         <Canvas.RenderTransform>
                             <TransformGroup>
                                 <!-- Shift origin to canvas center -->
-                                <TranslateTransform 
+                                <!--<TranslateTransform 
                         X="{Binding WorkPlaneConfig.CenterOffsetX}" 
-                        Y="{Binding WorkPlaneConfig.CenterOffsetY}" />
+                        Y="{Binding WorkPlaneConfig.CenterOffsetY}" />-->
 
                                 <!-- Apply zoom scale -->
                                 <ScaleTransform 
                         ScaleX="{Binding WorkPlaneConfig.ScaleValue}" 
-                        ScaleY="{Binding WorkPlaneConfig.NegativeScaleValue}" 
+                        ScaleY="{Binding WorkPlaneConfig.ScaleValue}" 
                         CenterX="{Binding WorkPlaneConfig.ZoomCenterX}" 
                         CenterY="{Binding WorkPlaneConfig.ZoomCenterY}" />
+                                <ScaleTransform 
+                        ScaleX="1" 
+                        ScaleY="-1" />
                             </TransformGroup>
                         </Canvas.RenderTransform>
 

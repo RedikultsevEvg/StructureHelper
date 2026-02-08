@@ -1,4 +1,5 @@
 ﻿using StructureHelper.Windows.Graphs;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -41,8 +42,14 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
 
                 if (DataContext is WorkPlaneRootViewModel dc)
                 {
-                    dc.WorkPlaneConfig.ZoomCenterX += dx;// / dc.WorkPlaneConfig.ScaleValue;
-                    dc.WorkPlaneConfig.ZoomCenterY += dy;// / dc.WorkPlaneConfig.NegativeScaleValue;
+                    if(dc.WorkPlaneConfig.ScaleValue != 1.0)
+                    {
+                        double factor = 1.0 - dc.WorkPlaneConfig.ScaleValue;
+                        dx /= factor;
+                        dy /= factor;
+                    }
+                    dc.WorkPlaneConfig.ZoomCenterX += dx;
+                    dc.WorkPlaneConfig.ZoomCenterY -= dy;
                 }
 
                 _lastPanPoint = current;
@@ -64,10 +71,17 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
                 if (DataContext is WorkPlaneRootViewModel dc)
                 {
                     double zoomFactor = e.Delta > 0 ? 1.1 : 0.9;
-                    dc.WorkPlaneConfig.ZoomAt(pos, zoomFactor);
+                    double actualHeight = WorkPlaneGrid.ActualHeight;
+                    double actualWidth = WorkPlaneGrid.ActualWidth;
+                    dc.WorkPlaneConfig.ZoomAt(actualHeight, actualWidth, pos, zoomFactor);
                     e.Handled = true;
                 }
             }
+        }
+
+        private void WorkPlaneGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
         }
     }
 }

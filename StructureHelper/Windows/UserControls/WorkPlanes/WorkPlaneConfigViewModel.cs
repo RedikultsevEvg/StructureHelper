@@ -43,11 +43,6 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
             }
         }
 
-        public double NegativeScaleValue
-        {
-            get => scaleValue * (-1);
-        }
-
         public double ZoomCenterX
         {
             get => zoomCenterX;
@@ -72,7 +67,6 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
             OnPropertyChanged(nameof(CanvasWidth));
             OnPropertyChanged(nameof(CanvasHeight));
             OnPropertyChanged(nameof(ScaleValue));
-            OnPropertyChanged(nameof(NegativeScaleValue));
             OnPropertyChanged(nameof(ZoomCenterX));
             OnPropertyChanged(nameof(ZoomCenterY));
             OnPropertyChanged(nameof(AxisFontSize));
@@ -81,8 +75,8 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
             OnPropertyChanged(nameof(CenterOffsetY));
         }
 
-        public double CenterOffsetX { get; set; }// => CanvasWidth / 2;
-        public double CenterOffsetY { get; set; }// => CanvasHeight / 2 * (-1);
+        public double CenterOffsetX => CanvasWidth / 2;
+        public double CenterOffsetY => CanvasHeight / 2 * (-1);
 
         public double GridSize { get; set; } = 0.05;
         public Brush GridColorBrush { get; set; } = Brushes.LightGray;
@@ -99,14 +93,20 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
                 return axisLineThickness / scaleValue;
             }
         }
-        public void ZoomAt(Point position, double zoomFactor)
+        public void ZoomAt(double actualHeight, double actualWidth, Point position, double zoomFactor)
         {
             // Optional: zoom to cursor
-            ZoomCenterX *= zoomFactor;// position.X / scaleValue ;// - CenterOffsetX;
-            ZoomCenterY *= zoomFactor;// position.Y / NegativeScaleValue;// - CenterOffsetY;
+            //ZoomCenterX *= zoomFactor;// position.X / scaleValue ;// - CenterOffsetX;
+            //ZoomCenterY *= zoomFactor;// position.Y / NegativeScaleValue;// - CenterOffsetY;
+            ScaleValue = Math.Round(ScaleValue * zoomFactor, 2);
+
+            var dx = (actualWidth / 2 - position.X) / ScaleValue * (zoomFactor - 1.0) * 2.0;
+            var dy = (actualHeight / 2 - position.Y) / ScaleValue * (zoomFactor - 1.0) * 2.0;
+
+            ZoomCenterX -= dx;
+            ZoomCenterY += dy;
 
             // Update scale
-            ScaleValue = Math.Round(ScaleValue * zoomFactor, 2);
         }
 
         public double AxisFontSize
