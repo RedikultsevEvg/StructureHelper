@@ -5,14 +5,8 @@ using StructureHelper.Windows.PrimitivePropertiesWindow;
 using StructureHelper.Windows.PrimitiveTemplates.Factories;
 using StructureHelper.Windows.Services;
 using StructureHelper.Windows.ViewModels.Errors;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
-using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
-using StructureHelperLogics.NdmCalculations.Cracking;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
@@ -29,6 +23,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
     public class PrimitiveViewModelLogic : ViewModelBase, ICRUDViewModel<PrimitiveBase>, IRectangleShape, IObservable<PrimitiveBase>
     {
         private ICrossSection section;
+        private IPrimitiveBaseFactory primitiveBaseFactory;
+        private IPrimitiveBaseCloneFactory primitiveBaseCloneFactory;
         private ICrossSectionRepository repository => section.SectionRepository;
         private ICommand addCommand;
         private ICommand deleteCommand;
@@ -41,6 +37,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private RelayCommand setMaterialToPrimitivesCommand;
         private RelayCommand setHostToPrimitivesCommand;
         private RelayCommand deletAllCommand;
+        private IPrimitiveBaseFactory PrimitiveBaseFactory => primitiveBaseFactory ??= new PrimitiveBaseFactory();
+        private IPrimitiveBaseCloneFactory PrimitiveBaseCloneFactory => primitiveBaseCloneFactory ??= new PrimitiveBaseCloneFactory();
 
         public double Width { get; set; }
         public double Height { get; set; }
@@ -285,7 +283,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private PrimitiveBase CopySelectedItem(INdmPrimitive oldPrimitive)
         {
-            PrimitiveBase primitiveBase = PrimitiveBaseFactory.GetCloneByNdmPrimitive(oldPrimitive);
+            PrimitiveBase primitiveBase = PrimitiveBaseCloneFactory.GetCloneByNdmPrimitive(oldPrimitive);
             INdmPrimitive newNdmPrimitive = primitiveBase.GetNdmPrimitive();
             repository.Primitives.Add(newNdmPrimitive);
             primitiveBase.OnNext(this);

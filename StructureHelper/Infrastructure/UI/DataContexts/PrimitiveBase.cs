@@ -5,6 +5,7 @@ using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -45,7 +46,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             set
             {
                 primitive.Center.X = value;
-                OnPropertyChanged(nameof(CenterX));
+                Refresh();
             }
         }
         public double CenterY
@@ -54,10 +55,13 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             set
             {
                 primitive.Center.Y = value;
-                OnPropertyChanged(nameof(CenterY));
-                OnPropertyChanged(nameof(InvertedCenterY));
+                Refresh();
             }
         }
+
+        public Point Center => new Point(CenterX, CenterY);
+        public Point InvertedCenter => new Point(CenterX, - CenterY);
+
         public bool Triangulate
         {
             get => primitive.NdmElement.Triangulate;
@@ -256,6 +260,8 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             OnPropertyChanged(nameof(CenterX));
             OnPropertyChanged(nameof(CenterY));
             OnPropertyChanged(nameof(InvertedCenterY));
+            OnPropertyChanged(nameof(Center));
+            OnPropertyChanged(nameof(InvertedCenter));
             OnPropertyChanged(nameof(SetMaterialColor));
             OnPropertyChanged(nameof(Triangulate));
             OnPropertyChanged(nameof(PrimitiveWidth));

@@ -13,6 +13,7 @@ namespace StructureHelper.Windows.Shapes
         {
             InitializeComponent();
             this.viewModel = viewModel;
+            this.viewModel.ParentWindow = this;
             DataContext = this.viewModel;
         }
 

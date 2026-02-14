@@ -34,6 +34,24 @@ namespace StructureHelper.Windows.ViewModels.Errors
                 new ErrorMessage(vm).ShowDialog();
             }
         }
+
+        public static void RunSafeProcess<T>(T parameter, Action<T> action, string shortText = "")
+        {
+            try
+            {
+                action.Invoke(parameter);
+            }
+            catch (Exception ex)
+            {
+                var vm = new ErrorProcessor()
+                {
+                    ShortText = shortText,
+                    DetailText = $"{ex}"
+                };
+                new ErrorMessage(vm).ShowDialog();
+            }
+        }
+
         public static void ShowMessage(string shortText, string detailText)
         {
             var vm = new ErrorProcessor()

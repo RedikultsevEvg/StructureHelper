@@ -29,9 +29,10 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public object Clone()
         {
             var primitive = new ShapeNdmPrimitive(Guid.NewGuid());
-            LinePolygonShape polygon = new(Guid.NewGuid());
+            var logic = new ShapeCloneStrategy();
+            IShape polygon = logic.GetClone(Shape);
             primitive.SetShape(polygon);
-            updateStrategy ??= new ShapeNdmPrimitiveUpdateStrategy();
+            updateStrategy ??= new ShapeNdmPrimitiveUpdateStrategy() { UpdateChildren = true};
             updateStrategy.Update(primitive, this);
             return primitive;
         }

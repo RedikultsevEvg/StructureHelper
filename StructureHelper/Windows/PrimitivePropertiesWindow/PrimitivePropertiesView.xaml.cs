@@ -30,7 +30,8 @@ namespace StructureHelper.Windows.PrimitivePropertiesWindow
             if (primitive.DivisionViewModel is not null) { templateNames.Add("TriangulationProperties");}
             if (primitive is RectangleViewPrimitive) { templateNames.Add("RectangleProperties"); }
             if (primitive is CircleViewPrimitive) { templateNames.Add("CircleProperties"); }
-            if (primitive is ShapeViewPrimitive) { templateNames.Add("PolygonProperties"); }
+            if (primitive is ShapeViewPrimitive) { templateNames.Add("ShapeProperties"); }
+            if (primitive is RingShapeViewPrimitive) { templateNames.Add("ShapeProperties"); }
             if (primitive is PointViewPrimitive) { templateNames.Add("PointProperties"); }
             if (primitive is ReinforcementViewPrimitive) { templateNames.Add("ReinforcementProperties"); }
             foreach (var name in templateNames)

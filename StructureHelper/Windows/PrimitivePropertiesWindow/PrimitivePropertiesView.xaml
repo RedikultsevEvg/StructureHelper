@@ -11,7 +11,12 @@
     <Window.Resources>
         <DataTemplate x:Key="RectangleProperties">
             <Expander Header="Rectangle" IsExpanded="True">
-                <ContentControl ContentTemplate="{StaticResource RectangleShapeEdit}" Content="{Binding}"/>
+                <ContentControl ContentTemplate="{StaticResource RectangleShapeProperties}" Content="{Binding}"/>
+            </Expander>
+        </DataTemplate>
+        <DataTemplate x:Key="RingProperties">
+            <Expander Header="Ring" IsExpanded="True">
+                <ContentControl ContentTemplate="{StaticResource RingShapeProperties}" Content="{Binding}"/>
             </Expander>
         </DataTemplate>
         <DataTemplate x:Key="CircleProperties">
@@ -29,14 +34,14 @@
                 </Grid>
             </Expander>
         </DataTemplate>
-        <DataTemplate x:Key="PolygonProperties">
+        <DataTemplate x:Key="ShapeProperties">
             <Grid Height="22">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Polygon properties"/>
-                <Button Grid.Column="1" Content="Edit polygon" Command="{Binding ShapeEditCommand}"/>
+                <TextBlock Text="Shape properties"/>
+                <Button Grid.Column="1" Content="Edit Shape" Command="{Binding ShapeEditCommand}"/>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="PointProperties">

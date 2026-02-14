@@ -10,8 +10,6 @@
              xmlns:dataContexts="clr-namespace:StructureHelper.Infrastructure.UI.DataContexts"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance dataContexts:RectangleViewPrimitive}">
-    <UserControl.Resources>
-    </UserControl.Resources>
     <StackPanel>
         <Grid>
             <Rectangle x:Name="Rect" Style="{StaticResource RectangleStyle}" Tag="{Binding}">
@@ -46,7 +44,6 @@
                 <Rectangle.RenderTransform>
                     <TransformGroup>
                         <TranslateTransform X="{Binding CenterX}" Y="{Binding InvertedCenterY}"/>
-                        <RotateTransform/>
                     </TransformGroup>
                 </Rectangle.RenderTransform>
             </Rectangle>

@@ -7,6 +7,7 @@
         Circle = 2,
         Reinforcement = 3,
         Polygon = 4,
-        TShape = 5
+        TShape = 5,
+        OShape = 6,
     }
 }

@@ -2,15 +2,15 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Shapes
 {
     public class ShapeUpdateStrategy : IUpdateStrategy<IShape>
     {
+        private const string targetIsNotSuitableType = ": target object is not";
+        private IUpdateStrategy<IRingShape> oShapeUpdateStrategy;
+        private IUpdateStrategy<IRingShape> OShapeUpdateStrategy => oShapeUpdateStrategy ??= new RingShapeUpdateStrategy();
+
         public void Update(IShape targetObject, IShape sourceObject)
         {
             CheckObject.ThrowIfNull(targetObject);
@@ -28,14 +28,39 @@ namespace StructureHelperCommon.Models.Shapes
             {
                 ProcessEllipse(targetObject, ellipseShape);
             }
+            else if (sourceObject is IRingShape sourceOShape)
+            {
+                ProcessOShape(targetObject, sourceOShape);
+            }
             else if (sourceObject is ILinePolygonShape sourcePolygon)
             {
                 ProcessPolygon(targetObject, sourcePolygon);
+            }
+            else if (sourceObject is IVerticalTShape sourceTShape)
+            {
+                ProcessTShape(targetObject, sourceTShape);
             }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
             }
+        }
+
+        private void ProcessTShape(IShape targetObject, IVerticalTShape sourceTShape)
+        {
+            if (targetObject is not IVerticalTShape targetTShape)
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"{targetIsNotSuitableType} an T-shape");
+            }
+        }
+
+        private void ProcessOShape(IShape targetObject, IRingShape sourceOShape)
+        {
+            if (targetObject is not IRingShape targetOShape)
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"{targetIsNotSuitableType} a O-shape");
+            };
+            OShapeUpdateStrategy.Update(targetOShape, sourceOShape);
         }
 
         private void ProcessEllipse(IShape targetObject, IEllipseShape sourceEllipse)

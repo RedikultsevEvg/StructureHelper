@@ -1,8 +1,4 @@
-﻿using LoaderCalculator.Data.Materials;
-using LoaderCalculator.Data.Ndms;
-using StructureHelper.Models.Materials;
-using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Models.Parameters;
+﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Triangulations;

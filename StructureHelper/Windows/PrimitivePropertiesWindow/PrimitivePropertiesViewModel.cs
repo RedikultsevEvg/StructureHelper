@@ -2,7 +2,9 @@
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelper.Windows.PrimitivePropertiesWindow;
 using StructureHelper.Windows.Shapes;
+using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Shapes;
@@ -27,7 +29,6 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
         private RelayCommand shapeEditCommand;
 
         private INdmPrimitive ndmPrimitive => primitive.GetNdmPrimitive();
-        private IShape shape => ndmPrimitive.Shape;
 
         public ICommand EditColorCommand { get; private set; }
         public ICommand EditMaterialCommand { get; private set; }
@@ -300,23 +301,13 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
 
         private void ShapeEdit(object obj)
         {
-            if (shape is ILinePolygonShape polygon)
+            var logic = new ShapeEditLogic()
             {
-                var viewModel = new PolygonShapeViewModel(polygon, new Point2D() { X = CenterX, Y = CenterY});
-                var window = new PolygonView(viewModel);
-                window.ShowDialog();
-                if (window.DialogResult == true)
-                {
-                    var newPolygon = viewModel.GetPolygonShape();
-                    var updateStrategy = new LinePolygonShapeUpdateStrategy();
-                    updateStrategy.Update(polygon, newPolygon);
-                    primitive.Refresh();
-                }
-            }
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(shape));
-            }
+                CenterX = CenterX,
+                CenterY = CenterY
+            };
+            SafetyProcessor.RunSafeProcess<IShape>(ndmPrimitive.Shape, logic.ShapeEdit, "Error of editing of shape");
+            primitive.Refresh();
         }
 
         public PrimitivePropertiesViewModel(PrimitiveBase primitive, ICrossSectionRepository sectionRepository)

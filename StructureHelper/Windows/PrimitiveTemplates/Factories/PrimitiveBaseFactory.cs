@@ -4,53 +4,49 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelper.Windows.PrimitiveTemplates.Factories
 {
-    public static class PrimitiveBaseFactory
+    public class PrimitiveBaseFactory : IPrimitiveBaseFactory
     {
-        public static PrimitiveBase GetPrimitive(PrimitiveType primitiveType)
+        public PrimitiveBase GetPrimitive(PrimitiveType primitiveType)
         {
             PrimitiveBase viewPrimitive;
-            INdmPrimitive ndmPrimitive;
             if (primitiveType == PrimitiveType.Rectangle)
             {
                 RectangleNdmPrimitive primitive = GetNewRectanglePrimitive();
-                ndmPrimitive = primitive;
                 viewPrimitive = new RectangleViewPrimitive(primitive);
 
             }
             else if (primitiveType == PrimitiveType.Reinforcement)
             {
                 RebarNdmPrimitive primitive = GetNewReinforcementPrimitive();
-                ndmPrimitive = primitive;
                 viewPrimitive = new ReinforcementViewPrimitive(primitive);
             }
             else if (primitiveType == PrimitiveType.Point)
             {
                 PointNdmPrimitive primitive = GetNewPointPrimitive();
-                ndmPrimitive = primitive;
                 viewPrimitive = new PointViewPrimitive(primitive);
             }
             else if (primitiveType == PrimitiveType.Circle)
             {
                 EllipseNdmPrimitive primitive = GetNewCirclePrimitive();
-                ndmPrimitive = primitive;
                 viewPrimitive = new CircleViewPrimitive(primitive);
             }
             else if (primitiveType == PrimitiveType.Polygon)
             {
                 ShapeNdmPrimitive primitive = GetNewPolygonPrimitive();
-                ndmPrimitive = primitive;
                 viewPrimitive = new ShapeViewPrimitive(primitive);
             }
             else if (primitiveType == PrimitiveType.TShape)
             {
                 ShapeNdmPrimitive primitive = GetNewTShapePrimitive();
-                ndmPrimitive = primitive;
                 viewPrimitive = new ShapeViewPrimitive(primitive);
+            }
+            else if (primitiveType == PrimitiveType.OShape)
+            {
+                ShapeNdmPrimitive primitive = GetNewOShapePrimitive();
+                viewPrimitive = new RingShapeViewPrimitive(primitive);
             }
             else
             {
@@ -59,48 +55,37 @@ namespace StructureHelper.Windows.PrimitiveTemplates.Factories
             return viewPrimitive;
         }
 
-        private static ShapeNdmPrimitive GetNewTShapePrimitive()
+        private ShapeNdmPrimitive GetNewOShapePrimitive()
         {
-#error
-            throw new NotImplementedException();
+            RingShape oShape = new()
+            {
+                OuterDiameter = 0.4,
+                InnerDiameter = 0.3
+            };
+            ShapeNdmPrimitive shapeNdmPrimitive = new(Guid.NewGuid())
+            {
+                Name = "New O-shape primitive"
+            };
+            shapeNdmPrimitive.SetShape(oShape);
+            return shapeNdmPrimitive;
         }
 
-        public static PrimitiveBase GetCloneByNdmPrimitive(INdmPrimitive ndmPrimitive)
+        private ShapeNdmPrimitive GetNewTShapePrimitive()
         {
-            var newPrimitive = ndmPrimitive.Clone() as INdmPrimitive;
-            newPrimitive.Name += " copy";
-            PrimitiveBase primitiveBase;
-            if (newPrimitive is IRectangleNdmPrimitive rectangle)
+            VerticalTShape verticalTShape = new()
             {
-                primitiveBase = new RectangleViewPrimitive(rectangle);
-            }
-            else if (newPrimitive is IEllipseNdmPrimitive ellipse)
+                FullHeight = 0.6,
+                FlangeHeight = 0.1,
+                WebWidth = 0.2,
+                FlangeWidth = 0.4,
+            };
+            ShapeNdmPrimitive shapeNdmPrimitive = new(Guid.NewGuid())
             {
-                primitiveBase = new CircleViewPrimitive(ellipse);
-            }
-            else if (newPrimitive is IShapeNdmPrimitive shapeNDMPrimitive)
-            {
-                primitiveBase = new ShapeViewPrimitive(shapeNDMPrimitive);
-            }
-            else if (newPrimitive is IPointNdmPrimitive)
-            {
-                if (newPrimitive is RebarNdmPrimitive rebar)
-                {
-                    primitiveBase = new ReinforcementViewPrimitive(rebar);
-                }
-                else
-                {
-                    primitiveBase = new PointViewPrimitive(newPrimitive as IPointNdmPrimitive);
-                }
-
-            }
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
-            }
-            return primitiveBase;
+                Name = "New T-shape primitive"
+            };
+            shapeNdmPrimitive.SetShape(verticalTShape);
+            return shapeNdmPrimitive;
         }
-
 
         private static ShapeNdmPrimitive GetNewPolygonPrimitive()
         {

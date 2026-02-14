@@ -1,11 +1,12 @@
 ﻿using StructureHelper.Infrastructure;
+using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.ComponentModel;
 
 namespace StructureHelper.Windows.Shapes
 {
-    public class VerticalTShapeViewModel : ViewModelBase, IDataErrorInfo
+    public class VerticalTShapeViewModel : OkCancelViewModelBase, IDataErrorInfo
     {
         private const double MinFullHeight = 0.05;
         private const double MinWebWidth = 0.005;
@@ -63,7 +64,7 @@ namespace StructureHelper.Windows.Shapes
         {
             get
             {
-                string error = null;
+                string error = string.Empty;
                 if (columnName == nameof(FullHeight))
                 {
                     if (FullHeight <= MinFullHeight)
@@ -95,6 +96,14 @@ namespace StructureHelper.Windows.Shapes
                     {
                         error = $"Width of flange must be greater than width of web {WebWidth}(m), but was {FlangeWidth}(m)";
                     }
+                }
+                if (error != string.Empty)
+                {
+                    IsOkAvailable = false;
+                }
+                else
+                {
+                    IsOkAvailable = true;
                 }
                 return error;
             }

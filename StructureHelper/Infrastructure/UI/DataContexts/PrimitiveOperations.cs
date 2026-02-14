@@ -1,12 +1,9 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperLogics.Models.Primitives;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
@@ -35,7 +32,14 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             }
             else if (primitive is IShapeNdmPrimitive shapeNDMPrimitive)
             {
-                viewItem = new ShapeViewPrimitive(shapeNDMPrimitive);
+                if (shapeNDMPrimitive.Shape is IRingShape oShape)
+                {
+                    viewItem = new RingShapeViewPrimitive(shapeNDMPrimitive);
+                }
+                else
+                {
+                    viewItem = new ShapeViewPrimitive(shapeNDMPrimitive);
+                }
             }
             else if (primitive is IPointNdmPrimitive & primitive is not RebarNdmPrimitive)
             {

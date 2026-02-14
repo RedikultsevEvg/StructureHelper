@@ -1,18 +1,14 @@
-﻿using StructureHelper.Infrastructure.UI.Converters.Units;
-using StructureHelper.Windows.ViewModels.NdmCrossSections;
-using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelper.Windows.ViewModels.NdmCrossSections;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Infrastructure.UI.DataContexts
 {
     public class CircleViewPrimitive : PrimitiveBase, IHasCenter
     {
-        IEllipseNdmPrimitive primitive;
+        private IEllipseNdmPrimitive primitive;
+        private IDigitRoundLogic digitRoundLogic = new SmartRoundLogic();
         public double Diameter
         {
             get
@@ -28,6 +24,8 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
 
         public double PrimitiveLeft => DeltaX - Diameter / 2d;
         public double PrimitiveTop => DeltaY - Diameter / 2d;
+
+        public double Area => digitRoundLogic.RoundValue(Math.PI * Diameter * Diameter / 4.0);
 
         public CircleViewPrimitive(IEllipseNdmPrimitive primitive) : base(primitive)
         {
@@ -47,6 +45,7 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
             OnPropertyChanged(nameof(CenterY));
             OnPropertyChanged(nameof(PrimitiveLeft));
             OnPropertyChanged(nameof(PrimitiveTop));
+            OnPropertyChanged(nameof(Area));
         }
         public override void Refresh()
         {

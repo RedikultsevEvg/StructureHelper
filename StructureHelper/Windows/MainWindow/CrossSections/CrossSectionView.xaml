@@ -36,6 +36,9 @@
         <DataTemplate DataType="{x:Type dataContexts:ShapeViewPrimitive}">
             <dataTemplates:PolygonTemplate/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type dataContexts:RingShapeViewPrimitive}">
+            <dataTemplates:RingShapeTemplate/>
+        </DataTemplate>
         </ResourceDictionary>
     </Window.Resources>
     <DockPanel>
@@ -223,10 +226,20 @@
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Add T-shape primitive"
                                                 IconContent="{StaticResource TShape}"
-                                                DescriptionText="Add T-Shape primitive with default properties into cross-section"/>
+                                                DescriptionText="Adds T-Shape primitive with default properties into cross-section"/>
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{StaticResource TShape}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.OShape}" >
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add O-shape primitive"
+                                                IconContent="{StaticResource OShape}"
+                                                DescriptionText="Adds O-Shape primitive with default properties into cross-section"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource OShape}"/>
                     </Viewbox>
                 </Button>
             </ToolBar>

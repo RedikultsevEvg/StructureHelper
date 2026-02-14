@@ -8,7 +8,8 @@ namespace StructureHelper.Windows.ViewModels
     public abstract class OkCancelViewModelBase : ViewModelBase
     {
         public Window ParentWindow { get; set; }
-        public ICommand OkCommand => new RelayCommand(o => OkAction());
+        public bool IsOkAvailable { get; set; } = true;
+        public ICommand OkCommand => new RelayCommand(o => OkAction(), x => IsOkAvailable);
         public ICommand CancelCommand => new RelayCommand(o => CancelAction());
         public virtual void CancelAction()
         {

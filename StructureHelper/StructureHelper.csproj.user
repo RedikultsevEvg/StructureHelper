@@ -9,6 +9,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Infrastructure\UI\DataTemplates\RingShapeTemplate.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Infrastructure\UI\DataTemplates\PolygonTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -166,6 +169,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\Shapes\PolygonShapeView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Shapes\RingShapeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\Shapes\VerticalTShapeView.xaml.cs">
