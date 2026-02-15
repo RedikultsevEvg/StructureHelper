@@ -22,6 +22,9 @@
     <Reference Include="StructureMath">
       <HintPath>..\StructureHelper\Libraries\StructureMath.dll</HintPath>
     </Reference>
+    <Reference Include="Triangle">
+      <HintPath>..\StructureHelper\Libraries\Triangle.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

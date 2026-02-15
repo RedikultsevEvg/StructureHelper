@@ -6,7 +6,7 @@ using System.Text;
 
 namespace StructureHelperCommon.Models.Shapes
 {
-    public class VerticalTShapeToPolygonConvertStrategy: IObjectConvertStrategy<ILinePolygonShape, IVerticalTShape>
+    public class VerticalTShapeToPolygonConvertStrategy : IObjectConvertStrategy<ILinePolygonShape, IVerticalTShape>
     {
         public ILinePolygonShape Convert(IVerticalTShape shape)
         {

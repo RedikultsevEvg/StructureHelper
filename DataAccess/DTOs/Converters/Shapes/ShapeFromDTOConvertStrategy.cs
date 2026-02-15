@@ -38,9 +38,21 @@ namespace DataAccess.DTOs
             }
             else if (source is LinePolygonShapeDTO linePolygonDTO)
             {
-                var polygonConvertStrategy = new DictionaryConvertStrategy<ILinePolygonShape, ILinePolygonShape>
-                    (this, new LinePolygonFromDTOConvertStrategy(this));
+                TraceLogger?.AddMessage("Shape is a line polygon shape");
+                var polygonConvertStrategy = new DictionaryConvertStrategy<ILinePolygonShape, ILinePolygonShape>(this, new LinePolygonFromDTOConvertStrategy(this));
                 NewItem = polygonConvertStrategy.Convert(linePolygonDTO);
+            }
+            else if (source is VerticalTShapeDTO tShapeDTO)
+            {
+                TraceLogger?.AddMessage("Shape is a vertical t-shape");
+                var strategy = new DictionaryConvertStrategy<VerticalTShape, VerticalTShapeDTO>(this, new VerticalTShapeFromDTOConvertStrategy(this));
+                NewItem = strategy.Convert(tShapeDTO);
+            }
+            else if (source is RingShapeDTO ringShapeDTO)
+            {
+                TraceLogger?.AddMessage("Shape is a ring shape");
+                var strategy = new DictionaryConvertStrategy<RingShape, RingShapeDTO>(this, new RingShapeFromDTOConvertStrategy(this));
+                NewItem = strategy.Convert(ringShapeDTO);
             }
             else
             {

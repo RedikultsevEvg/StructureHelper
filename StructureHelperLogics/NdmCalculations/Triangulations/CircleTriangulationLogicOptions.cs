@@ -1,14 +1,8 @@
 ﻿using StructureHelper.Models.Materials;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
@@ -26,6 +20,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public double RotationAngle { get; set; }
 
         public IDivisionSize DivisionSize { get; }
+        public IShape Shape { get; set; }
 
         public CircleTriangulationLogicOptions(IEllipseNdmPrimitive primitive)
         {

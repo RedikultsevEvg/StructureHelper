@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
-    public class LinePolygonTriangulationLogicOption : IShapeTriangulationLogicOptions
+    public class ShapeTriangulationLogicOption : IShapeTriangulationLogicOptions
     {
         private IForceTupleServiceLogic forceTupleServiceLogic;
         private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
@@ -24,7 +24,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public IHeadMaterial HeadMaterial { get; set; }
         public double RotationAngle { get; set; } = 0;
         public IShape Shape { get; set; }
-        public LinePolygonTriangulationLogicOption(IShapeNdmPrimitive primitive, ITriangulationOptions triangulationOptions)
+        public ShapeTriangulationLogicOption(IShapeNdmPrimitive primitive, ITriangulationOptions triangulationOptions)
         {
             Center = primitive.Center;
             DivisionSize = primitive.DivisionSize;

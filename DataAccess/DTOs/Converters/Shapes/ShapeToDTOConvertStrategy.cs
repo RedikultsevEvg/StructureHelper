@@ -42,6 +42,14 @@ namespace DataAccess.DTOs
             {
                 ProcessLinePolygon(linePolygon);
             }
+            else if (source is IVerticalTShape tShape)
+            {
+                ProcessTShape(tShape);
+            }
+            else if (source is IRingShape ringShape)
+            {
+                ProcessRingShape(ringShape);
+            }
             else
             {
                 string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source) + ": shape type";
@@ -50,32 +58,41 @@ namespace DataAccess.DTOs
             TraceLogger?.AddMessage($"Shape converting Id = {NewItem.Id} has been has been finished successfully", TraceLogStatuses.Debug);
         }
 
+        private void ProcessRingShape(IRingShape ringShape)
+        {
+            TraceLogger?.AddMessage($"Shape is a ring shape", TraceLogStatuses.Debug);
+            var convertStrategy = new DictionaryConvertStrategy<RingShapeDTO, IRingShape>(this, new RingShapeToDTOConvertStrategy(this));
+            NewItem = convertStrategy.Convert(ringShape);
+        }
+        private void ProcessTShape(IVerticalTShape tShape)
+        {
+            TraceLogger?.AddMessage($"Shape is a vertical T-shape", TraceLogStatuses.Debug);
+            var convertStrategy = new DictionaryConvertStrategy<VerticalTShapeDTO, IVerticalTShape>(this, new VerticalTShapeToDTOConvertStrategy(this));
+            NewItem = convertStrategy.Convert(tShape);
+        }
         private void ProcessEllipse(IEllipseShape ellipse)
         {
-            TraceLogger?.AddMessage($"Shape is ellipse", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage($"Shape is an ellipse", TraceLogStatuses.Debug);
             ellipseConvertStrategy = new DictionaryConvertStrategy<EllipseShapeDTO, IEllipseShape>
                 (this, new EllipseShapeToDTOConvertStrategy(this));
             NewItem = ellipseConvertStrategy.Convert(ellipse);
         }
-
         private void ProcessLinePolygon(ILinePolygonShape linePolygon)
         {
-            TraceLogger?.AddMessage($"Shape is line polygon", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage($"Shape is a line polygon", TraceLogStatuses.Debug);
             linePolygonToDTOConvertStrategy = new DictionaryConvertStrategy<LinePolygonShapeDTO, ILinePolygonShape>(this, new LinePolygonToDTOConvertStrategy(this));
             NewItem = linePolygonToDTOConvertStrategy.Convert(linePolygon);
         }
-
         private void ProcessCircle(ICircleShape circle)
         {
-            TraceLogger?.AddMessage($"Shape is circle", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage($"Shape is a circle", TraceLogStatuses.Debug);
             circleConvertStrategy = new DictionaryConvertStrategy<CircleShapeDTO, ICircleShape>
                 (this, new CircleShapeToDTOConvertStrategy(this));
             NewItem = circleConvertStrategy.Convert(circle);
         }
-
         private void ProcessRectangle(IRectangleShape rectangle)
         {
-            TraceLogger?.AddMessage($"Shape is rectangle", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage($"Shape is a rectangle", TraceLogStatuses.Debug);
             rectangleConvertStrategy = new DictionaryConvertStrategy<RectangleShapeDTO, IRectangleShape>
                 (this, new RectangleShapeToDTOConvertStrategy(this));
             NewItem = rectangleConvertStrategy.Convert(rectangle);

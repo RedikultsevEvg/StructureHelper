@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelper.Windows.PrimitiveTemplates.Factories
@@ -21,7 +22,14 @@ namespace StructureHelper.Windows.PrimitiveTemplates.Factories
             }
             else if (newPrimitive is IShapeNdmPrimitive shapeNDMPrimitive)
             {
-                primitiveBase = new ShapeViewPrimitive(shapeNDMPrimitive);
+                if (shapeNDMPrimitive.Shape is IRingShape ringShape)
+                {
+                    primitiveBase = new RingShapeViewPrimitive(shapeNDMPrimitive);
+                }
+                else
+                {
+                    primitiveBase = new ShapeViewPrimitive(shapeNDMPrimitive);
+                }
             }
             else if (newPrimitive is IPointNdmPrimitive)
             {

@@ -98,13 +98,14 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
             // Optional: zoom to cursor
             //ZoomCenterX *= zoomFactor;// position.X / scaleValue ;// - CenterOffsetX;
             //ZoomCenterY *= zoomFactor;// position.Y / NegativeScaleValue;// - CenterOffsetY;
+            double oldValue = ScaleValue;
             ScaleValue = Math.Round(ScaleValue * zoomFactor, 2);
 
             var dx = (actualWidth / 2 - position.X) / ScaleValue * (zoomFactor - 1.0) * 2.0;
             var dy = (actualHeight / 2 - position.Y) / ScaleValue * (zoomFactor - 1.0) * 2.0;
 
-            ZoomCenterX -= dx;
-            ZoomCenterY += dy;
+            ZoomCenterX = ZoomCenterX * (1.0 - oldValue) / (1.0 - ScaleValue);// -= dx;
+            ZoomCenterY = ZoomCenterY * (1.0 - oldValue) / (1.0 - ScaleValue);// += dy;
 
             // Update scale
         }

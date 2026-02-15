@@ -25,6 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public IHeadMaterial HeadMaterial { get; set; }
 
         public IDivisionSize DivisionSize { get; } = new DivisionSize(Guid.Empty);
+        public IShape Shape { get; set; }
 
         public RectangleTriangulationLogicOptions(IPoint2D center, IRectangleShape rectangle, double ndmMaxSize, int ndmMinDivision)
         {

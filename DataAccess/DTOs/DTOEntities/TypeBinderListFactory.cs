@@ -165,7 +165,9 @@ namespace DataAccess.DTOs
                 { (typeof(Point2DDTO), "Point2D") },
                 { (typeof(Point2DRangeDTO), "Point2DRange") },
                 { (typeof(RectangleShapeDTO), "RectangleShape") },
+                { (typeof(RingShapeDTO), "RingShape") },
                 { (typeof(VertexDTO), "Vertex2D") },
+                { (typeof(VerticalTShapeDTO), "VerticalTShape") },
             };
             return newList;
         }

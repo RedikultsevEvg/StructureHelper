@@ -101,7 +101,8 @@ namespace StructureHelperCommon.Infrastructures.Settings
                 //SubVersionNumber = 3 //Add stirrup group and inclined rebar
                 //SubVersionNumber = 4 //Add polygonshape primitive
                 //SubVersionNumber = 5 //Add curvature calculator
-                SubVersionNumber = 6 //Add steel material
+                //SubVersionNumber = 6 //Add steel material
+                SubVersionNumber = 7 //Add t-shape and o-shape
             };
         }
     }

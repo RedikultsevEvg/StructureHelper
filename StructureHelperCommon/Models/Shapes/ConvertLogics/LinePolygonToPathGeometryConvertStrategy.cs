@@ -31,7 +31,7 @@ namespace StructureHelperCommon.Models.Shapes
 
         private ILinePolygonShape GetScaledPolygon(ILinePolygonShape source)
         {
-            var scaleStrategy = new LinePolygonScalingStrategy()
+            var scaleStrategy = new LinePolygonScaleStrategy()
             {
                 CenterX = CenterX,
                 CenterY = CenterY,

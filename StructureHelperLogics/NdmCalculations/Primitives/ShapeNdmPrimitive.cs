@@ -39,8 +39,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
         {
-            var triangulationLogicOption = new LinePolygonTriangulationLogicOption(this, triangulationOptions);
-            var logic = new LinePolygonTriangulationLogic(triangulationLogicOption);
+            var triangulationLogicOption = new ShapeTriangulationLogicOption(this, triangulationOptions);
+            var logic = new ShapeTriangulationLogic(triangulationLogicOption);
             return logic.GetNdmCollection();
         }
 
@@ -75,17 +75,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public bool IsPointInside(IPoint2D point)
         {
-            if (shape is ILinePolygonShape polygon)
-            {
-                var newShape = PolygonGeometryUtils.GetTransfromedPolygon(polygon, Center.X, Center.Y);
-                newShape.IsClosed = true;
-                var calculator = new PolygonCalculator();
-                return calculator.ContainsPoint(newShape, point);
-            }
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(shape));
-            }
+            var logic = new IsPointInsideShapeLogic();
+            return logic.IsPontInside(point, new CenterShape(Center, Shape));
         }
 
         public void SetShape(IShape shape)

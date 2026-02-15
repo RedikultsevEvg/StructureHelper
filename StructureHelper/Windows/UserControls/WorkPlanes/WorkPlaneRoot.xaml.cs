@@ -45,9 +45,12 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
                     if(dc.WorkPlaneConfig.ScaleValue != 1.0)
                     {
                         double factor = 1.0 - dc.WorkPlaneConfig.ScaleValue;
+                        //factor = Math.Min(factor, 10);
+                        //factor = Math.Max(factor, 0.1);
                         dx /= factor;
                         dy /= factor;
                     }
+
                     dc.WorkPlaneConfig.ZoomCenterX += dx;
                     dc.WorkPlaneConfig.ZoomCenterY -= dy;
                 }
