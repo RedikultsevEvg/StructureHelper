@@ -32,8 +32,8 @@ namespace StructureHelper.Windows.BeamShears
         private void AddPrimitiveProperties(IShape shape, StackPanel stackPanel)
         {
             List<string> templateNames = new List<string>();
-            if (shape is IRectangleShape) { templateNames.Add("RectangleShapeEdit"); }
-            else if (shape is ICircleShape) { templateNames.Add("CircleShapeEdit"); }
+            if (shape is IRectangleShape) { templateNames.Add("RectangleShapeProperties"); }
+            else if (shape is ICircleShape) { templateNames.Add("CircleShapeProperties"); }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(shape));

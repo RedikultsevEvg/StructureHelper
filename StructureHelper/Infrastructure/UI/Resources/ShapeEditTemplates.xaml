@@ -16,7 +16,7 @@
             <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding Height, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
         </Grid>
     </DataTemplate>
-    <DataTemplate x:Key="CircleShapeEdit">
+    <DataTemplate x:Key="CircleShapeProperties">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="22"/>

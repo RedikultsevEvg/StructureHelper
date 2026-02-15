@@ -47,7 +47,43 @@ namespace FieldVisualizer.Entities.Values.Primitives
                     Path path = ProcessShadedPolygon(polygonShape, item.Center);
                     WorkPlaneCanvas.Children.Add(path);
                 }
+                if (item.Shape is IVerticalTShape verticalTShape)
+                {
+                    Path path = ProcessTShape(item, verticalTShape);
+                    WorkPlaneCanvas.Children.Add(path);
+                }
+                if (item.Shape is IRingShape ringShape)
+                {
+                    var ellipses = ProcessRingShape(ringShape, item.Center);
+                    WorkPlaneCanvas.Children.Add(ellipses.outerEllipse);
+                    WorkPlaneCanvas.Children.Add(ellipses.innerEllipse);
+                }
             }
+        }
+
+        private Path ProcessTShape(IShadedPrimitive item, IVerticalTShape verticalTShape)
+        {
+            var logic = new VerticalTShapeToPolygonConvertStrategy();
+            var polygon = logic.Convert(verticalTShape);
+            Path path = ProcessShadedPolygon(polygon, item.Center);
+            return path;
+        }
+
+        private (Ellipse outerEllipse, Ellipse innerEllipse) ProcessRingShape(IRingShape ringShape, IPoint2D center)
+        {
+            var outerEllipseShape = new EllipseShape()
+            {
+                Height = ringShape.OuterDiameter,
+                Width = ringShape.OuterDiameter,
+            };
+            Ellipse outerEllipse = ProcessShadedEllipse(outerEllipseShape, center);
+            var innerEllipseShape = new EllipseShape()
+            {
+                Height = ringShape.InnerDiameter,
+                Width = ringShape.InnerDiameter,
+            };
+            Ellipse innerEllipse = ProcessShadedEllipse(innerEllipseShape, center);
+            return (outerEllipse, innerEllipse);
         }
 
         private Path ProcessShadedPolygon(ILinePolygonShape polygonShape, IPoint2D center)

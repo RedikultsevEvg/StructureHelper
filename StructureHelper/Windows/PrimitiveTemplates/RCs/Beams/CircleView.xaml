@@ -12,7 +12,7 @@
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <StackPanel>
-            <ContentControl ContentTemplate="{StaticResource CircleShapeEdit}" Content="{Binding}"/>
+            <ContentControl ContentTemplate="{StaticResource CircleShapeProperties}" Content="{Binding}"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="22"/>
