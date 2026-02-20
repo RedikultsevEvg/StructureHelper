@@ -32,10 +32,25 @@ namespace StructureHelperCommon.Models.Shapes
             {
                 return ProcessRingShape();
             }
+            else if (CenterShape.Shape is ITrapezoidShape)
+            {
+                return ProcessTrapezoidShape();
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(CenterShape.Shape));
             }
+        }
+
+        private IMesh ProcessTrapezoidShape()
+        {
+            var logic = new TrapezoidMeshLogic()
+            {
+                CenterShape = CenterShape,
+                MaximumMeshSize = MaximumMeshSize,
+                MinimumAngleInDegree = MinimumAngleInDegree,
+            };
+            return logic.Triangulate();
         }
 
         private IMesh ProcessRingShape()

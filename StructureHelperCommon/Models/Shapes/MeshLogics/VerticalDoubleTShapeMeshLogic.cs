@@ -6,16 +6,13 @@ using TriangleNet.Meshing;
 
 namespace StructureHelperCommon.Models.Shapes
 {
-    /// <summary>
-    /// Logic of mesh for T-shape
-    /// </summary>
-    internal class VerticalTShapeMeshLogic : IMeshShapeLogic
+    public class VerticalDoubleTShapeMeshLogic : IMeshShapeLogic
     {
-        private IVerticalTShape tShape;
-        private IObjectConvertStrategy<ILinePolygonShape, IVerticalTShape> transformLogic;
+        private const double minThicknessDivision = 2.0;
+        private IObjectConvertStrategy<ILinePolygonShape, IVerticalDoubleTShape> transformLogic;
         private IMeshShapeLogic meshLogic;
         private IMeshShapeLogic MeshLogic => meshLogic ??= new LinePolygonMeshLogic();
-        private IObjectConvertStrategy<ILinePolygonShape, IVerticalTShape> TransformLogic => transformLogic ??= new VerticalTShapeToPolygonConvertStrategy();
+        private IObjectConvertStrategy<ILinePolygonShape, IVerticalDoubleTShape> TransformLogic => transformLogic ??= new VerticalDoubleTShapeToPolygonConvertStrategy();
         /// <inheritdoc/>
         public ICenterShape CenterShape { get; set; }
         /// <inheritdoc/>
@@ -23,15 +20,15 @@ namespace StructureHelperCommon.Models.Shapes
         /// <inheritdoc/>
         public double MinimumAngleInDegree { get; set; } = 25.0;
 
-        public VerticalTShapeMeshLogic(IObjectConvertStrategy<ILinePolygonShape, IVerticalTShape> transformLogic, IMeshShapeLogic meshLogic)
+        public VerticalDoubleTShapeMeshLogic(IObjectConvertStrategy<ILinePolygonShape, IVerticalDoubleTShape> transformLogic, IMeshShapeLogic meshLogic)
         {
             this.transformLogic = transformLogic;
             this.meshLogic = meshLogic;
         }
 
-        public VerticalTShapeMeshLogic()
+        public VerticalDoubleTShapeMeshLogic()
         {
-            
+
         }
 
         /// <inheritdoc/>
@@ -41,13 +38,12 @@ namespace StructureHelperCommon.Models.Shapes
             {
                 throw new StructureHelperNullReferenceException("Center shape");
             }
-            if (CenterShape.Shape is not VerticalTShape verticalTShape)
+            if (CenterShape.Shape is not VerticalDoubleTShape doubleTShape)
             {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(CenterShape.Shape) + ": Shape is not vertical T-shape");
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(CenterShape.Shape) + ": Shape is not vertical I-shape");
             }
-            tShape = verticalTShape;
-            var polygon = TransformLogic.Convert(tShape);
-            List<double> maxSizeList = [MaximumMeshSize, tShape.FlangeHeight / 2.0, tShape.WebWidth / 2.0];
+            var polygon = TransformLogic.Convert(doubleTShape);
+            List<double> maxSizeList = [MaximumMeshSize, doubleTShape.TopFlangeThickness / minThicknessDivision, doubleTShape.WebThickness / minThicknessDivision, doubleTShape.BottomFlangeThickness / minThicknessDivision];
             CenterShape centerShape = new(CenterShape.Center, polygon);
             MeshLogic.CenterShape = centerShape;
             MeshLogic.MaximumMeshSize = maxSizeList.Min();

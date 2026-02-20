@@ -4,12 +4,12 @@ using System;
 
 namespace StructureHelperCommon.Models.Shapes
 {
-    public class CircleShapeToLinePolygonConvertStrategy : IObjectConvertStrategy<ILinePolygonShape, ICircleShape>
+    public class CircleShapeToPolygonConvertStrategy : IObjectConvertStrategy<ILinePolygonShape, ICircleShape>
     {
         bool IsCounterClockWise { get; set; } = true;
         public int Segments { get; set; } = 16;
 
-        public CircleShapeToLinePolygonConvertStrategy(bool isCounterClockWise, int segments = 16)
+        public CircleShapeToPolygonConvertStrategy(bool isCounterClockWise, int segments = 16)
         {
             if (segments < 3)
                 throw new StructureHelperException("Segments must be >= 3.");

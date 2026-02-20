@@ -45,7 +45,7 @@ namespace StructureHelperCommon.Models.Shapes
             CircleShape circle = new() { Diameter = diameter };
             int segments = (int)Convert.ToInt64(Math.Ceiling(Math.PI * diameter / MaximumMeshSize));
             segments = Math.Max(segments, minSegmentNumber);
-            CircleShapeToLinePolygonConvertStrategy convertStrategy = new(isCounterClockwise, segments);
+            CircleShapeToPolygonConvertStrategy convertStrategy = new(isCounterClockwise, segments);
             var linePolygon = convertStrategy.Convert(circle);
             LinePolygonTranslateStrategy transformStrategy = new()
             {
