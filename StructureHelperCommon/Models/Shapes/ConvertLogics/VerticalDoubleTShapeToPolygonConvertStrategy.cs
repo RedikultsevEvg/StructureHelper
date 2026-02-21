@@ -11,7 +11,7 @@ namespace StructureHelperCommon.Models.Shapes
             if (source == null)
                 throw new StructureHelperException("I-shape is null.");
 
-            if (source.TotalHeight <= 0)
+            if (source.FullHeight <= 0)
                 throw new StructureHelperException("TotalHeight must be positive.");
 
             if (source.TopFlangeWidth <= 0 ||
@@ -25,7 +25,7 @@ namespace StructureHelperCommon.Models.Shapes
 
             var polygon = new LinePolygonShape();
 
-            double halfHeight = source.TotalHeight / 2.0;
+            double halfHeight = source.FullHeight / 2.0;
 
             double halfTopWidth = source.TopFlangeWidth / 2.0;
             double halfBottomWidth = source.BottomFlangeWidth / 2.0;

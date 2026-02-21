@@ -160,6 +160,7 @@ namespace DataAccess.DTOs
             {
                 { (typeof(List<IVertex>), "ListOfVertex2D") },
                 { (typeof(CircleShapeDTO), "CircleShape") },
+                { (typeof(VerticalDoubleTShapeDTO), "VerticalDoubleTShape") },
                 { (typeof(EllipseShapeDTO), "EllipseShape") },
                 { (typeof(LinePolygonShapeDTO), "LinePolygonShape") },
                 { (typeof(Point2DDTO), "Point2D") },
@@ -168,6 +169,7 @@ namespace DataAccess.DTOs
                 { (typeof(RingShapeDTO), "RingShape") },
                 { (typeof(VertexDTO), "Vertex2D") },
                 { (typeof(VerticalTShapeDTO), "VerticalTShape") },
+                { (typeof(TrapezoidShapeDTO), "TrapezoidShape") },
             };
             return newList;
         }

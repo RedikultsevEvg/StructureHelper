@@ -43,6 +43,18 @@ namespace StructureHelper.Infrastructure.UI.DataContexts
                 var newPolygon = strategy.Convert(tShape);
                 GetPathByPolygon(newPolygon);
             }
+            else if (shape is IVerticalDoubleTShape doubleTShape)
+            {
+                var strategy = new VerticalDoubleTShapeToPolygonConvertStrategy();
+                var newPolygon = strategy.Convert(doubleTShape);
+                GetPathByPolygon(newPolygon);
+            }
+            else if (shape is ITrapezoidShape trapezoid)
+            {
+                var strategy = new TrapezoidShapeToPolygonConvertStrategy();
+                var newPolygon = strategy.Convert(trapezoid);
+                GetPathByPolygon(newPolygon);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(shape));

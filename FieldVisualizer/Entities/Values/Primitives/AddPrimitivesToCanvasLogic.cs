@@ -47,9 +47,19 @@ namespace FieldVisualizer.Entities.Values.Primitives
                     Path path = ProcessShadedPolygon(polygonShape, item.Center);
                     WorkPlaneCanvas.Children.Add(path);
                 }
+                if (item.Shape is IVerticalDoubleTShape doubleTShape)
+                {
+                    Path path = ProcessDoubleTShape(item, doubleTShape);
+                    WorkPlaneCanvas.Children.Add(path);
+                }
                 if (item.Shape is IVerticalTShape verticalTShape)
                 {
                     Path path = ProcessTShape(item, verticalTShape);
+                    WorkPlaneCanvas.Children.Add(path);
+                }
+                if (item.Shape is ITrapezoidShape trapezoidShape)
+                {
+                    Path path = ProcessTrapezoidShape(item, trapezoidShape);
                     WorkPlaneCanvas.Children.Add(path);
                 }
                 if (item.Shape is IRingShape ringShape)
@@ -59,6 +69,22 @@ namespace FieldVisualizer.Entities.Values.Primitives
                     WorkPlaneCanvas.Children.Add(ellipses.innerEllipse);
                 }
             }
+        }
+
+        private Path ProcessTrapezoidShape(IShadedPrimitive item, ITrapezoidShape trapezoidShape)
+        {
+            var logic = new TrapezoidShapeToPolygonConvertStrategy();
+            var polygon = logic.Convert(trapezoidShape);
+            Path path = ProcessShadedPolygon(polygon, item.Center);
+            return path;
+        }
+
+        private Path ProcessDoubleTShape(IShadedPrimitive item, IVerticalDoubleTShape doubleTShape)
+        {
+            var logic = new VerticalDoubleTShapeToPolygonConvertStrategy();
+            var polygon = logic.Convert(doubleTShape);
+            Path path = ProcessShadedPolygon(polygon, item.Center);
+            return path;
         }
 
         private Path ProcessTShape(IShadedPrimitive item, IVerticalTShape verticalTShape)

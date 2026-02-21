@@ -222,6 +222,16 @@
                 <Button Style="{StaticResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Point}" ToolTip="Add Point Primitive">
                     <Image Source="/Windows/MainWindow/Point32.png"/>
                 </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.DoubleTShape}" >
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add I-shape primitive"
+                                                IconContent="{StaticResource DoubleTShape}"
+                                                DescriptionText="Adds I-Shape primitive with default properties into cross-section"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource DoubleTShape}"/>
+                    </Viewbox>
+                </Button>
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.TShape}" >
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Add T-shape primitive"
@@ -240,6 +250,16 @@
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{StaticResource OShape}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.Trapezoid}" >
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add Trapezoid primitive"
+                                                IconContent="{StaticResource TrapezoidShape}"
+                                                DescriptionText="Adds Trapezoid primitive with default properties into cross-section"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource TrapezoidShape}"/>
                     </Viewbox>
                 </Button>
             </ToolBar>

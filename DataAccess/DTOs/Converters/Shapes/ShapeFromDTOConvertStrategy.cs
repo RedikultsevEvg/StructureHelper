@@ -42,6 +42,12 @@ namespace DataAccess.DTOs
                 var polygonConvertStrategy = new DictionaryConvertStrategy<ILinePolygonShape, ILinePolygonShape>(this, new LinePolygonFromDTOConvertStrategy(this));
                 NewItem = polygonConvertStrategy.Convert(linePolygonDTO);
             }
+            else if (source is VerticalDoubleTShapeDTO doubleTShapeDTO)
+            {
+                TraceLogger?.AddMessage("Shape is a vertical double t-shape");
+                var strategy = new DictionaryConvertStrategy<VerticalDoubleTShape, VerticalDoubleTShapeDTO>(this, new VerticalDoubleTShapeFromDTOConvertStrategy(this));
+                NewItem = strategy.Convert(doubleTShapeDTO);
+            }
             else if (source is VerticalTShapeDTO tShapeDTO)
             {
                 TraceLogger?.AddMessage("Shape is a vertical t-shape");
@@ -53,6 +59,12 @@ namespace DataAccess.DTOs
                 TraceLogger?.AddMessage("Shape is a ring shape");
                 var strategy = new DictionaryConvertStrategy<RingShape, RingShapeDTO>(this, new RingShapeFromDTOConvertStrategy(this));
                 NewItem = strategy.Convert(ringShapeDTO);
+            }
+            else if (source is TrapezoidShapeDTO trapezoid)
+            {
+                TraceLogger?.AddMessage("Shape is a trapezoid shape");
+                var strategy = new DictionaryConvertStrategy<TrapezoidShape, TrapezoidShapeDTO>(this, new TrapezoidShapeFromDTOConvertStrategy(this));
+                NewItem = strategy.Convert(trapezoid);
             }
             else
             {

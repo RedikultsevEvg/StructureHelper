@@ -11,7 +11,7 @@ namespace StructureHelperCommon.Models.Shapes
         public IVerticalTShape GetClone(IVerticalTShape sourceObject)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            VerticalTShape clone = new VerticalTShape(Guid.NewGuid());
+            VerticalTShape clone = new(Guid.NewGuid());
             UpdateStrategy.Update(clone, sourceObject);
             return clone;
         }

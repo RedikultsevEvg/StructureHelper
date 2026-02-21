@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructureHelperCommon.Services;
+using System;
 
 namespace StructureHelperCommon.Models.Shapes
 {
@@ -13,6 +14,7 @@ namespace StructureHelperCommon.Models.Shapes
 
         public LinePolygonShape Convert(IRectangleShape source)
         {
+            CheckObject.ThrowIfNull(source);
             rectangle = source;
             LinePolygonShape polygon = new(Guid.NewGuid());
             polygon.AddVertex(GetVertex(-1.0, 1.0));

@@ -38,6 +38,11 @@ namespace StructureHelper.Windows.PrimitiveTemplates.Factories
                 ShapeNdmPrimitive primitive = GetNewPolygonPrimitive();
                 viewPrimitive = new ShapeViewPrimitive(primitive);
             }
+            else if (primitiveType == PrimitiveType.DoubleTShape)
+            {
+                ShapeNdmPrimitive primitive = GetNewDoubleTShapePrimitive();
+                viewPrimitive = new ShapeViewPrimitive(primitive);
+            }
             else if (primitiveType == PrimitiveType.TShape)
             {
                 ShapeNdmPrimitive primitive = GetNewTShapePrimitive();
@@ -48,11 +53,51 @@ namespace StructureHelper.Windows.PrimitiveTemplates.Factories
                 ShapeNdmPrimitive primitive = GetNewOShapePrimitive();
                 viewPrimitive = new RingShapeViewPrimitive(primitive);
             }
+            else if (primitiveType == PrimitiveType.Trapezoid)
+            {
+                ShapeNdmPrimitive primitive = GetNewTrapezoidPrimitive();
+                viewPrimitive = new ShapeViewPrimitive(primitive);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(primitiveType));
             }
             return viewPrimitive;
+        }
+
+        private ShapeNdmPrimitive GetNewTrapezoidPrimitive()
+        {
+            TrapezoidShape shape = new()
+            {
+                Height = 0.6,
+                TopBase = 0.4,
+                BottomBase = 0.2,
+            };
+            ShapeNdmPrimitive shapeNdmPrimitive = new(Guid.NewGuid())
+            {
+                Name = "New trapezoid primitive"
+            };
+            shapeNdmPrimitive.SetShape(shape);
+            return shapeNdmPrimitive;
+        }
+
+        private ShapeNdmPrimitive GetNewDoubleTShapePrimitive()
+        {
+            VerticalDoubleTShape shape = new()
+            {
+                FullHeight = 0.6,
+                WebThickness = 0.1,
+                TopFlangeThickness = 0.1,
+                TopFlangeWidth = 0.4,
+                BottomFlangeThickness = 0.1,
+                BottomFlangeWidth = 0.4,
+            };
+            ShapeNdmPrimitive shapeNdmPrimitive = new(Guid.NewGuid())
+            {
+                Name = "New I-shape primitive"
+            };
+            shapeNdmPrimitive.SetShape(shape);
+            return shapeNdmPrimitive;
         }
 
         private ShapeNdmPrimitive GetNewOShapePrimitive()

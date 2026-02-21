@@ -1,11 +1,6 @@
-﻿using FieldVisualizer.Entities.Values.Primitives;
-using StructureHelper.Windows.Shapes;
+﻿using StructureHelper.Windows.Shapes;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperLogics.Models.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelper.Windows.PrimitivePropertiesWindow
 {
@@ -38,6 +33,30 @@ namespace StructureHelper.Windows.PrimitivePropertiesWindow
                 {
                     var updateTShapeLogic = new VerticalTShapeUpdateStrategy();
                     updateTShapeLogic.Update(tShape, tShapeClone);
+                }
+            }
+            else if (shape is IVerticalDoubleTShape doubleTShape)
+            {
+                var logic = new VerticalDoubleTShapeCloneStrategy();
+                IVerticalDoubleTShape shapeClone = logic.GetClone(doubleTShape);
+                var window = new VerticalDoubleTShapeView(doubleTShape);
+                window.ShowDialog();
+                if (window.DialogResult != true)
+                {
+                    var updateLogic = new VerticalDoubleTShapeUpdateStrategy();
+                    updateLogic.Update(doubleTShape, shapeClone);
+                }
+            }
+            else if (shape is ITrapezoidShape trapezoidShape)
+            {
+                var logic = new TrapezoidShapeCloneStrategy();
+                ITrapezoidShape shapeClone = logic.GetClone(trapezoidShape);
+                var window = new TrapezoidShapeView(trapezoidShape);
+                window.ShowDialog();
+                if (window.DialogResult != true)
+                {
+                    var updateLogic = new TrapezoidShapeUpdateStrategy();
+                    updateLogic.Update(trapezoidShape, shapeClone);
                 }
             }
             else if (shape is IRingShape ringShape)

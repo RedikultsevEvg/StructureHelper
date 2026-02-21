@@ -21,11 +21,29 @@ namespace StructureHelperCommon.Models.Shapes
             else if (centerShape.Shape is ICircleShape) { return ProcessCircle(); }
             else if (centerShape.Shape is IRingShape) { return ProcessRing(); }
             else if (centerShape.Shape is ILinePolygonShape) { return ProcessLinePolygon((ILinePolygonShape)centerShape.Shape); }
+            else if (centerShape.Shape is IVerticalDoubleTShape) { return ProcessVerticalDoubleTShape(); }
             else if (centerShape.Shape is IVerticalTShape) { return ProcessVerticalTShape(); }
+            else if (centerShape.Shape is ITrapezoidShape) { return ProcessTrapezoidShape(); }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(centerShape) + ": shape for calculation if point inside is uknown");
             }
+        }
+
+        private bool ProcessTrapezoidShape()
+        {
+            var strategy = new TrapezoidShapeToPolygonConvertStrategy();
+            var shape = (ITrapezoidShape)centerShape.Shape;
+            var newPolygon = strategy.Convert(shape);
+            return ProcessLinePolygon(newPolygon);
+        }
+
+        private bool ProcessVerticalDoubleTShape()
+        {
+            var strategy = new VerticalDoubleTShapeToPolygonConvertStrategy();
+            var shape = (IVerticalDoubleTShape)centerShape.Shape;
+            var newPolygon = strategy.Convert(shape);
+            return ProcessLinePolygon(newPolygon);
         }
 
         private bool ProcessVerticalTShape()

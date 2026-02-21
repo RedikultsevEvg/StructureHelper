@@ -9,7 +9,7 @@ namespace StructureHelperCommon.Models.Shapes
         /// <summary>
         /// Total height of section (overall depth), m
         /// </summary>
-        double TotalHeight { get; set; }
+        double FullHeight { get; set; }
 
         /// <summary>
         /// Width of top flange, m

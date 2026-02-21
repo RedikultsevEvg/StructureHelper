@@ -9,5 +9,7 @@
         Polygon = 4,
         TShape = 5,
         OShape = 6,
+        DoubleTShape = 7,
+        Trapezoid = 8,
     }
 }

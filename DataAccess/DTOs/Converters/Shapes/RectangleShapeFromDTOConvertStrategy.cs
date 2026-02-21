@@ -6,6 +6,7 @@ namespace DataAccess.DTOs
     internal class RectangleShapeFromDTOConvertStrategy : ConvertStrategy<RectangleShape, RectangleShapeDTO>
     {
         private IUpdateStrategy<IRectangleShape> updateStrategy;
+        private IUpdateStrategy<IRectangleShape> UpdateStrategy => updateStrategy ??= new RectangleShapeUpdateStrategy();
 
         public RectangleShapeFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
@@ -13,15 +14,10 @@ namespace DataAccess.DTOs
 
         public override RectangleShape GetNewItem(RectangleShapeDTO source)
         {
-            InitializeStrategies();
+            ChildClass = this;
             NewItem = new(source.Id);
-            updateStrategy.Update(NewItem, source);
+            UpdateStrategy.Update(NewItem, source);
             return NewItem;
-        }
-
-        private void InitializeStrategies()
-        {
-            updateStrategy ??= new RectangleShapeUpdateStrategy();
         }
     }
 }

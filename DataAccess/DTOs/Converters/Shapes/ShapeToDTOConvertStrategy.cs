@@ -42,6 +42,10 @@ namespace DataAccess.DTOs
             {
                 ProcessLinePolygon(linePolygon);
             }
+            else if (source is IVerticalDoubleTShape doubleTShape)
+            {
+                ProcessDoubleTShape(doubleTShape);
+            }
             else if (source is IVerticalTShape tShape)
             {
                 ProcessTShape(tShape);
@@ -50,12 +54,30 @@ namespace DataAccess.DTOs
             {
                 ProcessRingShape(ringShape);
             }
+            else if (source is ITrapezoidShape trapezoid)
+            {
+                ProcessTrapezoidShape(trapezoid);
+            }
             else
             {
                 string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source) + ": shape type";
                 throw new StructureHelperException(errorString);
             }
             TraceLogger?.AddMessage($"Shape converting Id = {NewItem.Id} has been has been finished successfully", TraceLogStatuses.Debug);
+        }
+
+        private void ProcessTrapezoidShape(ITrapezoidShape trapezoid)
+        {
+            TraceLogger?.AddMessage($"Shape is a trapezoid shape", TraceLogStatuses.Debug);
+            var convertStrategy = new DictionaryConvertStrategy<TrapezoidShapeDTO, ITrapezoidShape>(this, new TrapezoidShapeToDTOConvertStrategy(this));
+            NewItem = convertStrategy.Convert(trapezoid);
+        }
+
+        private void ProcessDoubleTShape(IVerticalDoubleTShape doubleTShape)
+        {
+            TraceLogger?.AddMessage($"Shape is a vertical Double T-shape", TraceLogStatuses.Debug);
+            var convertStrategy = new DictionaryConvertStrategy<VerticalDoubleTShapeDTO, IVerticalDoubleTShape>(this, new VerticalDoubleTShapeToDTOConvertStrategy(this));
+            NewItem = convertStrategy.Convert(doubleTShape);
         }
 
         private void ProcessRingShape(IRingShape ringShape)

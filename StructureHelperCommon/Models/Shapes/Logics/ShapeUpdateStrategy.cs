@@ -9,7 +9,13 @@ namespace StructureHelperCommon.Models.Shapes
     {
         private const string targetIsNotSuitableType = ": target object is not";
         private IUpdateStrategy<IRingShape> oShapeUpdateStrategy;
+        private IUpdateStrategy<IVerticalTShape> tShapeUpdateStrategy;
+        private IUpdateStrategy<IVerticalDoubleTShape> doubleTShapeUpdateStrategy;
+        private IUpdateStrategy<ITrapezoidShape> trapezoidUpdateStrategy;
         private IUpdateStrategy<IRingShape> OShapeUpdateStrategy => oShapeUpdateStrategy ??= new RingShapeUpdateStrategy();
+        private IUpdateStrategy<IVerticalTShape> TShapeUpdateStrategy => tShapeUpdateStrategy ??= new VerticalTShapeUpdateStrategy();
+        private IUpdateStrategy<IVerticalDoubleTShape> DoubleTShapeUpdateStrategy => doubleTShapeUpdateStrategy ??= new VerticalDoubleTShapeUpdateStrategy();
+        private IUpdateStrategy<ITrapezoidShape> TrapezoidUpdateStrategy => trapezoidUpdateStrategy ??= new TrapezoidShapeUpdateStrategy();
 
         public void Update(IShape targetObject, IShape sourceObject)
         {
@@ -40,10 +46,36 @@ namespace StructureHelperCommon.Models.Shapes
             {
                 ProcessTShape(targetObject, sourceTShape);
             }
+            else if (sourceObject is IVerticalDoubleTShape sourceDoubleTShape)
+            {
+                ProcessDoubleTShape(targetObject, sourceDoubleTShape);
+            }
+            else if (sourceObject is ITrapezoidShape trapezoid)
+            {
+                ProcessTrapezoidShape(targetObject, trapezoid);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown);
             }
+        }
+
+        private void ProcessTrapezoidShape(IShape targetObject, ITrapezoidShape sourceTrapezoid)
+        {
+            if (targetObject is not ITrapezoidShape targetTrapezoidShape)
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"{targetIsNotSuitableType} a trapezoid shape");
+            }
+            TrapezoidUpdateStrategy.Update(targetTrapezoidShape, sourceTrapezoid);
+        }
+
+        private void ProcessDoubleTShape(IShape targetObject, IVerticalDoubleTShape sourceDoubleTShape)
+        {
+            if (targetObject is not IVerticalDoubleTShape targetTShape)
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"{targetIsNotSuitableType} a double T-shape");
+            }
+            DoubleTShapeUpdateStrategy.Update(targetTShape, sourceDoubleTShape);
         }
 
         private void ProcessTShape(IShape targetObject, IVerticalTShape sourceTShape)
@@ -52,6 +84,7 @@ namespace StructureHelperCommon.Models.Shapes
             {
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $"{targetIsNotSuitableType} an T-shape");
             }
+            TShapeUpdateStrategy.Update(targetTShape, sourceTShape);
         }
 
         private void ProcessOShape(IShape targetObject, IRingShape sourceOShape)

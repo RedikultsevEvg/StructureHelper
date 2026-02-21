@@ -10,13 +10,13 @@ namespace StructureHelperCommon.Models.Shapes
         /// <inheritdoc/>
         public Guid Id { get; }
         /// <inheritdoc/>
-        public double BottomBase { get; set; }
+        public double BottomBase { get; set; } = 0.3;
         /// <inheritdoc/>
-        public double TopBase { get; set; }
+        public double TopBase { get; set; } = 0.4;
         /// <inheritdoc/>
-        public double Height { get; set; }
+        public double Height { get; set; } = 0.6;
         /// <inheritdoc/>
-        public double TopBaseOffset { get; set; }
+        public double TopBaseOffset { get; set; } = 0.0;
 
 
         public TrapezoidShape() : this (Guid.NewGuid())

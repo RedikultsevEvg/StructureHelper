@@ -8,7 +8,7 @@ namespace StructureHelperCommon.Models.Shapes
         /// <inheritdoc/>
         public Guid Id { get; }
         /// <inheritdoc/>
-        public double TotalHeight { get; set; }
+        public double FullHeight { get; set; }
         /// <inheritdoc/>
         public double TopFlangeWidth { get; set; }
         /// <inheritdoc/>

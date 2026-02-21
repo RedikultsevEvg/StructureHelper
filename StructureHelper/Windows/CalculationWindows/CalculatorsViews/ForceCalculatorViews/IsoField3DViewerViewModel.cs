@@ -5,16 +5,13 @@ using FieldVisualizer.Entities.Values.Primitives;
 using FieldVisualizer.Services.ColorServices;
 using FieldVisualizer.Services.PrimitiveServices;
 using FieldVisualizer.Services.ValueRanges;
-using HelixToolkit.Geometry;
 using HelixToolkit.Maths;
-using HelixToolkit.SharpDX;
 using HelixToolkit.Wpf.SharpDX;
 using StructureHelper.Infrastructure;
 using StructureHelper.Windows.Graphs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews

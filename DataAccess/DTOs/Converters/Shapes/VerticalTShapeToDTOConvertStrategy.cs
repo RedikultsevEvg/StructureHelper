@@ -6,13 +6,11 @@ namespace DataAccess.DTOs
     public class VerticalTShapeToDTOConvertStrategy : ConvertStrategy<VerticalTShapeDTO, IVerticalTShape>
     {
         private IUpdateStrategy<IVerticalTShape> updateStrategy;
+        private IUpdateStrategy<IVerticalTShape> UpdateStrategy => updateStrategy ??= new VerticalTShapeUpdateStrategy();
 
         public VerticalTShapeToDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
         }
-
-        private IUpdateStrategy<IVerticalTShape> UpdateStrategy => updateStrategy ??= new VerticalTShapeUpdateStrategy();
-
         public override VerticalTShapeDTO GetNewItem(IVerticalTShape source)
         {
             ChildClass = this;
@@ -20,5 +18,7 @@ namespace DataAccess.DTOs
             UpdateStrategy.Update(NewItem, source);
             return NewItem;
         }
+
+
     }
 }

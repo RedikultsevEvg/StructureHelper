@@ -24,6 +24,10 @@ namespace StructureHelperCommon.Models.Shapes
             {
                 return ProcessLinePolygon();
             }
+            else if (CenterShape.Shape is IVerticalDoubleTShape)
+            {
+                return ProcessDoubleTShape();
+            }
             else if (CenterShape.Shape is IVerticalTShape)
             {
                 return ProcessTShape();
@@ -40,6 +44,17 @@ namespace StructureHelperCommon.Models.Shapes
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(CenterShape.Shape));
             }
+        }
+
+        private IMesh ProcessDoubleTShape()
+        {
+            var logic = new VerticalDoubleTShapeMeshLogic()
+            {
+                CenterShape = CenterShape,
+                MaximumMeshSize = MaximumMeshSize,
+                MinimumAngleInDegree = MinimumAngleInDegree,
+            };
+            return logic.Triangulate();
         }
 
         private IMesh ProcessTrapezoidShape()

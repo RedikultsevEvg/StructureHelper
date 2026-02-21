@@ -70,16 +70,16 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
             // halfHeight = 2
 
             Assert.That(result.Vertices[0].Point.X, Is.EqualTo(-5));
-            Assert.That(result.Vertices[0].Point.Y, Is.EqualTo(-2));
+            Assert.That(result.Vertices[0].Point.Y, Is.EqualTo(2));
 
             Assert.That(result.Vertices[1].Point.X, Is.EqualTo(5));
-            Assert.That(result.Vertices[1].Point.Y, Is.EqualTo(-2));
+            Assert.That(result.Vertices[1].Point.Y, Is.EqualTo(2));
 
             Assert.That(result.Vertices[2].Point.X, Is.EqualTo(5));
-            Assert.That(result.Vertices[2].Point.Y, Is.EqualTo(2));
+            Assert.That(result.Vertices[2].Point.Y, Is.EqualTo(-2));
 
             Assert.That(result.Vertices[3].Point.X, Is.EqualTo(-5));
-            Assert.That(result.Vertices[3].Point.Y, Is.EqualTo(2));
+            Assert.That(result.Vertices[3].Point.Y, Is.EqualTo(-2));
         }
 
         [Test]
@@ -96,11 +96,11 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
             // halfWidth = 4
             // halfHeight = 3
 
-            Assert.That(result.Vertices[0].Point.X, Is.EqualTo(-4));
-            Assert.That(result.Vertices[0].Point.Y, Is.EqualTo(-3));
+            Assert.That(result.Vertices[0].Point.X, Is.EqualTo(-4.0));
+            Assert.That(result.Vertices[0].Point.Y, Is.EqualTo(3.0));
 
-            Assert.That(result.Vertices[2].Point.X, Is.EqualTo(4));
-            Assert.That(result.Vertices[2].Point.Y, Is.EqualTo(3));
+            Assert.That(result.Vertices[2].Point.X, Is.EqualTo(4.0));
+            Assert.That(result.Vertices[2].Point.Y, Is.EqualTo(-3.0));
         }
     }
 }
