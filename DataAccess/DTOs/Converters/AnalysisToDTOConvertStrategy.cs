@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Models.FeaMaterials;
 using StructureHelperLogic.Models.Analyses;
 using StructureHelperLogics.Models.Analyses;
 
@@ -29,6 +30,10 @@ namespace DataAccess.DTOs
             {
                 analysis = GetBeamShearAnalysis(beamShearAnalysis);
             }
+            else if (source is FeaMaterialAnalysis feaMaterialAnalysis)
+            {
+                analysis = GetFeaMaterialAnalysis(feaMaterialAnalysis);
+            }
             else
             {
                 string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source);
@@ -41,6 +46,15 @@ namespace DataAccess.DTOs
             }
             return analysis;
         }
+
+        private FeaMaterialAnalysisDTO GetFeaMaterialAnalysis(FeaMaterialAnalysis feaMaterialAnalysis)
+        {
+            TraceLogger?.AddMessage(Message + " FEA Material Analysis", TraceLogStatuses.Debug);
+            var convertLogic = new FeaMaterialAnalysisToDTOConvertStrategy(this);
+            var newItem = convertLogic.Convert(feaMaterialAnalysis);
+            return newItem;
+        }
+
         private BeamShearAnalysisDTO GetBeamShearAnalysis(IBeamShearAnalysis beamShearAnalysis)
         {
             TraceLogger?.AddMessage(Message + " Beam Shear Analysis", TraceLogStatuses.Debug);

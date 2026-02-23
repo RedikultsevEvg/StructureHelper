@@ -8,6 +8,16 @@ namespace StructureHelperCommon.Models.Shapes
     {
         private IUpdateStrategy<IVerticalTShape> updateStrategy;
         private IUpdateStrategy<IVerticalTShape> UpdateStrategy => updateStrategy ??= new VerticalTShapeUpdateStrategy();
+
+        public VerticalTShapeCloneStrategy(IUpdateStrategy<IVerticalTShape> updateStrategy)
+        {
+            this.updateStrategy = updateStrategy;
+        }
+        public VerticalTShapeCloneStrategy()
+        {
+            
+        }
+
         public IVerticalTShape GetClone(IVerticalTShape sourceObject)
         {
             CheckObject.ThrowIfNull(sourceObject);

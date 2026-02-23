@@ -1,11 +1,14 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.BeamShears;
+using StructureHelper.Windows.FeaMaterials;
 using StructureHelper.Windows.MainWindow.Analyses;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Models.FeaMaterials;
+using StructureHelperCommon.Services;
 using StructureHelperLogic.Models.Analyses;
 using StructureHelperLogics.Models.Analyses;
 using StructureHelperLogics.Models.BeamShears;
@@ -44,10 +47,20 @@ namespace StructureHelper.Windows.MainWindow
                     {
                         AddBeamShearAnalysis();
                     }
+                    else if (obj is AnalysisTypes.FeaMaterial)
+                    {
+                        AddFeaMaterialGenerator();
+                    }
+                    else
+                    {
+                        throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(obj));
+                    }
                     Refresh();
                 });
             }
         }
+
+
         public RelayCommand RunCommand
         {
             get
@@ -206,26 +219,44 @@ namespace StructureHelper.Windows.MainWindow
             ProgramSetting.SetCurrentProjectToNotActual();
         }
 
+        private void AddFeaMaterialGenerator()
+        {
+            FeaMaterialAnalysis analysis = new(Guid.NewGuid());
+            analysis.Name = "New FEA material generator";
+            analysis.Tags = "#New group";
+            var visualAnalysis = new VisualAnalysis(analysis);
+            ProgramSetting.CurrentProject.VisualAnalyses.Add(visualAnalysis);
+            ProgramSetting.SetCurrentProjectToNotActual();
+        }
         private void ActionToRun()
         {
             if (SelectedAnalysis is null) { return; }
             var version = SelectedAnalysis.Analysis.VersionProcessor.GetCurrentVersion();
-            if (version is null)
-            {
-                throw new StructureHelperException(ErrorStrings.NullReference);
-            }
-            if (version.AnalysisVersion is ICrossSection crossSection)
+            CheckObject.ThrowIfNull(version);
+            CheckObject.ThrowIfNull(version.AnalysisVersion);
+            var analysisVersion = version.AnalysisVersion;
+            if (analysisVersion is ICrossSection crossSection)
             {
                 ProcessCrossSection(crossSection);
             }
-            else if (version.AnalysisVersion is IBeamShear beamShear)
+            else if (analysisVersion is IBeamShear beamShear)
             {
                 ProcessBeamShear(beamShear);
+            }
+            else if (analysisVersion is IFeaMaterialRepository feaMaterialRepository)
+            {
+                ProcessFeaMaterial(feaMaterialRepository);
             }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(version));
             }
+        }
+
+        private void ProcessFeaMaterial(IFeaMaterialRepository feaMaterialRepository)
+        {
+            FeaMaterialsView window = new(feaMaterialRepository);
+            window.ShowDialog();
         }
 
         private void ProcessBeamShear(IBeamShear beamShear)

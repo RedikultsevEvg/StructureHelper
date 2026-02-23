@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.FeaMaterials;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Models.Shapes;
@@ -57,8 +58,21 @@ namespace DataAccess.DTOs
             newList.AddRange(GetCalculatorList());
             newList.AddRange(GetNdmPrimitiveList());
             newList.AddRange(GetBeamShearList());
+            newList.AddRange(GetFeaMaterialList());
             newList.AddRange(GetValueDiagramList());
             newList.AddRange(GetCurvatureList());
+            return newList;
+        }
+
+        private static IEnumerable<(Type type, string name)> GetFeaMaterialList()
+        {
+            List<(Type type, string name)> newList = new()
+            {
+                { (typeof(List<IFeaMaterial>), "FeaMaterials") },
+                { (typeof(FeaMaterialAnalysisDTO), "FeaMaterialAnalysis") },
+                { (typeof(FeaMaterialRepositoryDTO), "FeaMaterialRepository") },
+                { (typeof(ElasticFeaMaterialDTO), "ElasticFeaMaterial") },
+            };
             return newList;
         }
 

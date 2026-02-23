@@ -2,14 +2,14 @@
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogics.Models.Analyses;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 
 namespace DataAccess.DTOs
 {
     public class BeamShearAnalysisToDTOConvertStrategy : ConvertStrategy<BeamShearAnalysisDTO, IBeamShearAnalysis>
     {
         private IUpdateStrategy<IBeamShearAnalysis> updateStrategy;
-        private IConvertStrategy<VersionProcessorDTO, IVersionProcessor> convertStrategy;
+        private IConvertStrategy<VersionProcessorDTO, IVersionProcessor> versionProcessorConvertStrategy;
+        private IUpdateStrategy<IBeamShearAnalysis> UpdateStrategy => updateStrategy ??= new BeamShearAnalysisUpdateStrategy();
 
         public BeamShearAnalysisToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger) : base(referenceDictionary, traceLogger)
         {
@@ -17,7 +17,6 @@ namespace DataAccess.DTOs
 
         public override BeamShearAnalysisDTO GetNewItem(IBeamShearAnalysis source)
         {
-            updateStrategy ??= new BeamShearAnalysisUpdateStrategy();
             try
             {
                 GetNewAnalysis(source);
@@ -35,15 +34,14 @@ namespace DataAccess.DTOs
             TraceLogger?.AddMessage($"Converting beam shear analysis id = {source.Id} has been started");
             InitializeStrategies();
             NewItem = new(source.Id);
-            updateStrategy.Update(NewItem, source);
-            NewItem.VersionProcessor = convertStrategy.Convert(source.VersionProcessor);
+            UpdateStrategy.Update(NewItem, source);
+            NewItem.VersionProcessor = versionProcessorConvertStrategy.Convert(source.VersionProcessor);
             TraceLogger?.AddMessage($"Converting beam shear analysis id = {NewItem.Id} has done successfully");
         }
 
         private void InitializeStrategies()
         {
-            updateStrategy ??= new BeamShearAnalysisUpdateStrategy();
-            convertStrategy = new DictionaryConvertStrategy<VersionProcessorDTO, IVersionProcessor>()
+            versionProcessorConvertStrategy = new DictionaryConvertStrategy<VersionProcessorDTO, IVersionProcessor>()
             {
                 ReferenceDictionary = ReferenceDictionary,
                 ConvertStrategy = new VersionProcessorToDTOConvertStrategy(ReferenceDictionary, TraceLogger),

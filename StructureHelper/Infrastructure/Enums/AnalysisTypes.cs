@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StructureHelper.Infrastructure.Enums
+﻿namespace StructureHelper.Infrastructure.Enums
 {
     public enum AnalysisTypes
     {
-        CrossSection,
-        BeamShear
+        CrossSection = 0,
+        BeamShear = 1,
+        FeaMaterial = 2,
     }
 }

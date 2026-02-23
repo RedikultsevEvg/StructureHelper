@@ -1,0 +1,64 @@
+﻿<Window x:Class="StructureHelper.Windows.FeaMaterials.FeaMaterialsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.FeaMaterials"
+        xmlns:enums="clr-namespace:StructureHelper.Infrastructure.Enums"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        d:DataContext="{d:DesignInstance local:FeaMaterialsViewModel}"
+        mc:Ignorable="d"
+        Title="FEA Materials" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Infrastructure/UI/Resources/MaterialButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar DataContext="{Binding MaterialList}">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:MaterialType.Concrete}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add concrete material"
+                                                IconContent="{StaticResource ConcreteMaterial}"
+                                                DescriptionText="Adds new material of concrete according to SP63.13330.2018"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource ConcreteMaterial}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}"  CommandParameter="{x:Static enums:MaterialType.Elastic}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add Carbon Fiber material"
+                                                IconContent="{StaticResource ElasticMaterial}"
+                                                DescriptionText="Adds new elastic material with linear stress-strain curve"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource ElasticMaterial}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+            <ToolBar>
+                
+            </ToolBar>
+        </ToolBarTray>
+        <Grid DataContext="{Binding MaterialList}">
+            <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </DockPanel>
+</Window>

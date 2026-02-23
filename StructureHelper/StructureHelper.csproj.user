@@ -117,6 +117,9 @@
     <Compile Update="Windows\Errors\ErrorMessage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\FeaMaterials\FeaMaterialsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\Forces\ForceCombinationByFactorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

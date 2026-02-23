@@ -11,14 +11,16 @@ namespace StructureHelperLogics.Models.Analyses
         private IUpdateStrategy<IAnalysis> analysisUpdateStrategy;
         private IUpdateStrategy<IBeamShear> beamShearUpdateStrategy;
         private IUpdateStrategy<IDateVersion> dateUpdateStrategy;
+        private IUpdateStrategy<IAnalysis> AnalysisUpdateStrategy => analysisUpdateStrategy ??= new AnalysisUpdateStrategy();
+        private IUpdateStrategy<IBeamShear> BeamShearUpdateStrategy => beamShearUpdateStrategy ??= new BeamShearUpdateStrategy();
+        private IUpdateStrategy<IDateVersion> DateUpdateStrategy => dateUpdateStrategy ??= new DateVersionUpdateStrategy();
 
         public void Update(IBeamShearAnalysis targetObject, IBeamShearAnalysis sourceObject)
         {
             CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
             CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
-            InitialzeStrategies();
-            analysisUpdateStrategy.Update(targetObject, sourceObject);
+            AnalysisUpdateStrategy.Update(targetObject, sourceObject);
             targetObject.VersionProcessor.Versions.Clear();
             foreach (var version in sourceObject.VersionProcessor.Versions)
             {
@@ -36,18 +38,11 @@ namespace StructureHelperLogics.Models.Analyses
         private void updateVersion(IBeamShearAnalysis targetObject, IDateVersion version, IBeamShear beamShear)
         {
             DateVersion newVersion = new();
-            dateUpdateStrategy.Update(newVersion, version);
+            DateUpdateStrategy.Update(newVersion, version);
             BeamShear newBeamShear = new(Guid.NewGuid());
-            beamShearUpdateStrategy.Update(newBeamShear, beamShear);
+            BeamShearUpdateStrategy.Update(newBeamShear, beamShear);
             newVersion.AnalysisVersion = newBeamShear;
             targetObject.VersionProcessor.Versions.Add(newVersion);
-        }
-
-        private void InitialzeStrategies()
-        {
-            analysisUpdateStrategy ??= new AnalysisUpdateStrategy();
-            beamShearUpdateStrategy ??= new BeamShearUpdateStrategy();
-            dateUpdateStrategy ??= new DateVersionUpdateStrategy();
         }
     }
 }

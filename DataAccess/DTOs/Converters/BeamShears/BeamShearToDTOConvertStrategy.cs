@@ -11,8 +11,8 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<IBeamShear> updateStrategy;
         private IConvertStrategy<BeamShearRepositoryDTO, IBeamShearRepository> repositoryConvertStrategy;
-        public BeamShearToDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger)
-            : base(referenceDictionary, traceLogger)
+
+        public BeamShearToDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
         }
 

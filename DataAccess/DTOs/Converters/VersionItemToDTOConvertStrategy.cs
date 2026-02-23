@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.FeaMaterials;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.Models.CrossSections;
@@ -27,6 +28,10 @@ namespace DataAccess.DTOs
             {
                 newItem = ProcessBeamShear(beamShear);
             }
+            else if (source is IFeaMaterialRepository materialRepository)
+            {
+                newItem = ProcessFeaMaterialRepository(materialRepository);
+            }
             else
             {
                 string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source);
@@ -36,6 +41,18 @@ namespace DataAccess.DTOs
             return newItem;
         }
 
+        private ISaveable ProcessFeaMaterialRepository(IFeaMaterialRepository materialRepository)
+        {
+            TraceLogger?.AddMessage(AnalysisIs + " Fea material repository", TraceLogStatuses.Debug);
+            var convertLogic = new DictionaryConvertStrategy<FeaMaterialRepositoryDTO, IFeaMaterialRepository>()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger,
+                ConvertStrategy = new FeaMaterialRepositoryToDTOConvertStrategy(this)
+            };
+            return convertLogic.Convert(materialRepository);
+        }
+
         private BeamShearDTO ProcessBeamShear(IBeamShear beamShear)
         {
             TraceLogger?.AddMessage(AnalysisIs + " Beam Shear Analysis", TraceLogStatuses.Debug);
@@ -43,7 +60,7 @@ namespace DataAccess.DTOs
             {
                 ReferenceDictionary = ReferenceDictionary,
                 TraceLogger = TraceLogger,
-                ConvertStrategy = new BeamShearToDTOConvertStrategy(ReferenceDictionary, TraceLogger)
+                ConvertStrategy = new BeamShearToDTOConvertStrategy(this)
             };
             return convertLogic.Convert(beamShear);
         }

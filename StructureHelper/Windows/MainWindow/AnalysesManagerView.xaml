@@ -9,6 +9,13 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:AnalysesManagerViewModel}"
         Title="Analyses Manager" Height="450" Width="800" MinHeight="400" MinWidth="600" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Infrastructure/UI/Resources/AnalysisButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
@@ -70,6 +77,16 @@
                         </Button.ToolTip>
                         <Viewbox>
                             <ContentControl ContentTemplate="{StaticResource BeamShear}"/>
+                        </Viewbox>
+                    </Button>
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding AnalysesLogic.AddAnalysisCommand}" CommandParameter="{x:Static enums:AnalysisTypes.FeaMaterial}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="FEA Material Generator"
+                                                IconContent="{StaticResource FeaMaterial}"
+                                                DescriptionText="Generator of materials for FEA CAE"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{StaticResource FeaMaterial}"/>
                         </Viewbox>
                     </Button>
                 </ToolBar>
