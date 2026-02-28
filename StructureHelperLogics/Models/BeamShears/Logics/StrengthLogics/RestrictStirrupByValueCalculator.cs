@@ -1,10 +1,5 @@
 ﻿using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -21,6 +16,8 @@ namespace StructureHelperLogics.Models.BeamShears
         public IShiftTraceLogger? TraceLogger { get; set; }
         public double SourceStirrupStrength { get; set; }
         public IInclinedSection SourceSection { get; set; }
+        public double ConcreteFactor { get; set; }
+        public double StirrupFactor { get; set; } = 1.0;
 
         public object Clone()
         {

@@ -15,6 +15,8 @@ namespace StructureHelperLogics.Models.BeamShears
         public ISectionEffectiveness SectionEffectiveness { get; set; }
         public double SourceStirrupStrength { get; set; }
         public IInclinedSection SourceSection { get; set; }
+        public double ConcreteFactor { get; set; } = 1.0;
+        public double StirrupFactor { get; set; } = 1.0;
 
         public object Clone()
         {
@@ -29,7 +31,9 @@ namespace StructureHelperLogics.Models.BeamShears
                 var logic = new StirrupBySearchLogic(TraceLogger?.GetSimilarTraceLogger(100))
                 {
                     InputData = InputData,
-                    SectionEffectiveness = SectionEffectiveness
+                    SectionEffectiveness = SectionEffectiveness,
+                    ConcreteFactor = ConcreteFactor,
+                    StirrupFactor = StirrupFactor
                 };
                 double stirrupStrength = logic.CalculateShearStrength();
                 TraceLogger?.AddMessage($"Stirrup strength was restricted as Qsw,restricted = {stirrupStrength}(N)");

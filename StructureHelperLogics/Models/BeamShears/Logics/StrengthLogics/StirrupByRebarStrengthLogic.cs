@@ -15,6 +15,7 @@ namespace StructureHelperLogics.Models.BeamShears
         private readonly IForceTuple forceTuple;
         private StirrupByDensityStrengthLogic stirrupDensityStrengthLogic;
         private IObjectConvertStrategy<IStirrupByDensity, IStirrupByRebar> convertStrategy;
+        private IObjectConvertStrategy<IStirrupByDensity, IStirrupByRebar> ConvertStrategy => convertStrategy ??= new StirrupByRebarToDensityConvertStrategy(TraceLogger, inclinedSection);
         public IShiftTraceLogger? TraceLogger { get; set; }
 
         public StirrupByRebarStrengthLogic(
@@ -82,9 +83,8 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void InitializeStrategies()
         {
-            convertStrategy ??= new StirrupByRebarToDensityConvertStrategy(TraceLogger, inclinedSection);
-            IStirrupByDensity stirrupByDensity = convertStrategy.Convert(stirrupByRebar);
-            stirrupDensityStrengthLogic ??= new(stirrupEffectiveness, stirrupByDensity, inclinedSection, TraceLogger);
+            IStirrupByDensity stirrupByDensity = ConvertStrategy.Convert(stirrupByRebar);
+            stirrupDensityStrengthLogic = new(stirrupEffectiveness, stirrupByDensity, inclinedSection, TraceLogger);
         }
     }
 }

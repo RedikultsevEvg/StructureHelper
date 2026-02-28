@@ -14,6 +14,9 @@ namespace StructureHelperLogics.Models.BeamShears
         public IInclinedSection InclinedCrack { get; private set; }
         public IBeamShearSectionLogicInputData InputData { get; internal set; }
         public ISectionEffectiveness SectionEffectiveness { get; internal set; }
+        public double ConcreteFactor { get; set; } = 1.0;
+        public double StirrupFactor { get; set; } = 1.0;
+
         public StirrupBySearchLogic(IShiftTraceLogger? traceLogger)
         {
             TraceLogger = traceLogger;
@@ -69,8 +72,8 @@ namespace StructureHelperLogics.Models.BeamShears
             BeamShearSectionLogicInputData newInputData = GetNewInputDataByCrackLengthRatio(crackLengthRatio);
             concreteLogic = new(SectionEffectiveness, newInputData.InclinedCrack, null);
             stirrupLogic = new(newInputData, null);
-            double concreteStrength = concreteLogic.CalculateShearStrength();
-            double stirrupStrength = stirrupLogic.CalculateShearStrength();
+            double concreteStrength = concreteLogic.CalculateShearStrength() * ConcreteFactor;
+            double stirrupStrength = stirrupLogic.CalculateShearStrength() * StirrupFactor;
             bool predicateResult = stirrupStrength > concreteStrength;
             if (crackLengthRatio == 1 & predicateResult == false)
             {

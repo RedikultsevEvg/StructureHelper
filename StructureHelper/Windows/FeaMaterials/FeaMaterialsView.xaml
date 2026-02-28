@@ -40,12 +40,21 @@
                     </Viewbox>
                 </Button>
             </ToolBar>
-            <ToolBar>
-                
+            <ToolBar DataContext="{Binding MaterialList}">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowDiagram}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show moment-curvature diagram"
+                                                IconContent="{StaticResource MomentCurvatureDiagram}"
+                                                DescriptionText="Show moment-curvature diagram as result of stepped solution"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource MomentCurvatureDiagram}"/>
+                    </Viewbox>
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <Grid DataContext="{Binding MaterialList}">
-            <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+            <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ContextMenu="{StaticResource EditCopyDelete}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>

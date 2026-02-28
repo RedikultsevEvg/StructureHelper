@@ -1,0 +1,35 @@
+﻿<Window x:Class="StructureHelper.Windows.FeaMaterials.ElasticFeaMaterialView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.FeaMaterials"
+        d:DataContext="{d:DesignInstance local:ElasticFeaMaterialViewModel}"
+        mc:Ignorable="d"
+        Title="Elastic Material Properties" Height="200" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="125"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Name"/>
+            <TextBox Grid.Column="1" Text="{Binding Name}"/>
+            <TextBlock Grid.Row="1" Text="Young's modulus"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding YoungsModulus, Converter={StaticResource StressConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBlock Grid.Row="2" Text="Poisson's ratio"/>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding PoissonsRatio, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+        </Grid>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>

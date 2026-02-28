@@ -9,5 +9,7 @@ namespace StructureHelperLogics.Models.BeamShears
         ISectionEffectiveness SectionEffectiveness { get; set; }
         double SourceStirrupStrength { get; set; }
         IInclinedSection SourceSection { get; set; }
+        double ConcreteFactor { get; set; }
+        double StirrupFactor { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace StructureHelperLogics.Models.BeamShears
             double area = Math.PI * source.Diameter * source.Diameter / 4d;
             TraceLogger?.AddMessage($"Area of rebar = {Math.PI} * ({source.Diameter})^2 / 4 = {area}(m^2)");
             double minimizedStrength = GetRebarStrength(source);
-            double spiralEffectiveness = 1;
+            double spiralEffectiveness = 1.0;
             if (source.IsSpiral == true)
             {
                 spiralEffectiveness = GetSpiralEffectiveness(source);

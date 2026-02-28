@@ -13,9 +13,9 @@ namespace DataAccess.DTOs
         [JsonProperty("Name")]
         public string Name { get; set; }
         [JsonProperty("YoungModulus")]
-        public double YoungModulus { get; set; }
+        public double YoungsModulus { get; set; }
         [JsonProperty("PoissonRatio")]
-        public double PoissonRatio { get; set; }
+        public double PoissonsRatio { get; set; }
 
 
         public ElasticFeaMaterialDTO(Guid id)

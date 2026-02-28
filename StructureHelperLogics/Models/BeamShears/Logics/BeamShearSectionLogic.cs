@@ -19,6 +19,7 @@ namespace StructureHelperLogics.Models.BeamShears
         private ICheckInputDataLogic<IBeamShearSectionLogicInputData> checkInputDataLogic;
         private double concreteStrength;
         private double stirrupStrength;
+        private double factorOfLongitudinalForce;
 
         private ShiftTraceLogger? localTraceLogger { get; set; }
         public ShearCodeTypes ShearCodeType { get; set; }
@@ -91,24 +92,22 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void CalculateResult()
         {
-            SetLongitudinalForce();
-            double factorOfLongitudinalForce = getLongitudinalForceFactorLogic.GetFactor();
-            localTraceLogger?.AddMessage($"Factor of  longitudinal force = {factorOfLongitudinalForce}, (dimensionless)");
+            SetLongitudinalForce();       
             concreteStrength = concreteLogic.CalculateShearStrength();
             stirrupStrength = stirrupLogic.CalculateShearStrength();
-            if (stirrupStrength > concreteStrength)
+            double factoredConcreteStrength = concreteStrength * factorOfLongitudinalForce;
+            localTraceLogger?.AddMessage($"Concrete strength Qb = {concreteStrength} * {factorOfLongitudinalForce} = {factoredConcreteStrength}(N)");
+            result.ConcreteStrength = factoredConcreteStrength;
+            if (stirrupStrength > factoredConcreteStrength)
             {      
-                localTraceLogger?.AddMessage($"Shear reinforcement strength Qsw = {stirrupStrength} is greater than concrete strength for shear Qb = {concreteStrength}, shear reinforcement strength has to be restricted.");
+                localTraceLogger?.AddMessage($"Shear reinforcement strength Qsw = {stirrupStrength} is greater than concrete strength for shear Qb = {factoredConcreteStrength}, shear reinforcement strength has to be restricted.");
                 stirrupStrength = RestrictStirrupStrength();
             }
-            concreteStrength *= factorOfLongitudinalForce;
-            localTraceLogger?.AddMessage($"Concrete strength Qb = {concreteStrength}(N)");
-            result.ConcreteStrength = concreteStrength;
-            stirrupStrength *= factorOfLongitudinalForce;
+            //stirrupStrength *= factorOfLongitudinalForce;
             localTraceLogger?.AddMessage($"Stirrup strength Qsw = {stirrupStrength}(N)");
             result.StirrupStrength = stirrupStrength;
-            double totalStrength = concreteStrength + stirrupStrength;
-            localTraceLogger?.AddMessage($"Total strength = {concreteStrength} + {stirrupStrength} = {totalStrength}(N)");
+            double totalStrength = factoredConcreteStrength + stirrupStrength;
+            localTraceLogger?.AddMessage($"Total strength Qlim = Qb + Qsw = {factoredConcreteStrength} + {stirrupStrength} = {totalStrength}(N)");
             result.TotalStrength = totalStrength;
             double actualShearForce = result.ResultInputData.ForceTuple.Qy;
             if (actualShearForce > totalStrength)
@@ -125,6 +124,7 @@ namespace StructureHelperLogics.Models.BeamShears
                 localTraceLogger?.AddMessage(message);
                 TraceLogger?.AddMessage(sectionMessage + message);
             }
+            TraceLogger?.AddMessage($"Using factor Uf = Qa / Qlim = {actualShearForce} / {totalStrength} = {actualShearForce / totalStrength}");
         }
 
         private double RestrictStirrupStrength()
@@ -133,6 +133,8 @@ namespace StructureHelperLogics.Models.BeamShears
             RestrictStirrupCalculator.InputData = result.ResultInputData;
             RestrictStirrupCalculator.SectionEffectiveness = sectionEffectiveness;
             RestrictStirrupCalculator.SourceStirrupStrength = stirrupStrength;
+            RestrictStirrupCalculator.ConcreteFactor = factorOfLongitudinalForce;
+            RestrictStirrupCalculator.StirrupFactor = 1.0;
             RestrictStirrupCalculator.SourceSection = result.ResultInputData.InclinedCrack;
             RestrictStirrupCalculator.Run();
             var calculatorResult = RestrictStirrupCalculator.Result as RestrictCalculatorResult;
@@ -162,6 +164,8 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             getLongitudinalForceFactorLogic.LongitudinalForce = result.ResultInputData.ForceTuple.Nz;
             getLongitudinalForceFactorLogic.InclinedSection = result.ResultInputData.InclinedSection;
+            factorOfLongitudinalForce = getLongitudinalForceFactorLogic.GetFactor();
+            localTraceLogger?.AddMessage($"Factor of  longitudinal force = {factorOfLongitudinalForce}, (dimensionless)");
         }
 
         private void PrepareNewResult()

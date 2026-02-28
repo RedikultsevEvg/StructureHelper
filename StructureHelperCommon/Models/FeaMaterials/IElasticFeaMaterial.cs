@@ -6,7 +6,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
 {
     public interface IElasticFeaMaterial : IFeaMaterial
     {
-        double YoungModulus { get; set; }
-        double PoissonRatio { get; set; }
+        double YoungsModulus { get; set; }
+        double PoissonsRatio { get; set; }
     }
 }
