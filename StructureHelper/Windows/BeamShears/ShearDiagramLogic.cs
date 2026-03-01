@@ -49,11 +49,11 @@ namespace StructureHelper.Windows.BeamShears
                     {
                     results[i].InputData.InclinedSection.EndCoord,
                     results[i].InputData.InclinedSection.EndCoord / results[i].InputData.InclinedSection.EffectiveDepth,
-                    results[i].InputData.ForceTuple.Nz * unitForce.Multiplyer,
-                    results[i].InputData.ForceTuple.Qy * unitForce.Multiplyer,
-                    results[i].TotalStrength * unitForce.Multiplyer,
-                    results[i].ConcreteStrength * unitForce.Multiplyer,
-                    results[i].StirrupStrength * unitForce.Multiplyer,
+                    results[i].InputData.ForceTuple.Nz * unitForce.Multiplayer,
+                    results[i].InputData.ForceTuple.Qy * unitForce.Multiplayer,
+                    results[i].TotalStrength * unitForce.Multiplayer,
+                    results[i].ConcreteStrength * unitForce.Multiplayer,
+                    results[i].StirrupStrength * unitForce.Multiplayer,
                     results[i].FactorOfUsing,
                     };
                 for (int j = 0; j < valueList.Count; j++)

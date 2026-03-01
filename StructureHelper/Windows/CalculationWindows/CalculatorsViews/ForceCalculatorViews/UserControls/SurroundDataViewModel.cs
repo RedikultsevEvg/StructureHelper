@@ -197,11 +197,11 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             if (forceType == ForceTypes.Force)
             {
-                return unitForce.Multiplyer;
+                return unitForce.Multiplayer;
             }
             else if (forceType == ForceTypes.MomentMx || forceType == ForceTypes.MomentMy)
             {
-                return unitMoment.Multiplyer;
+                return unitMoment.Multiplayer;
             }
             else
             {

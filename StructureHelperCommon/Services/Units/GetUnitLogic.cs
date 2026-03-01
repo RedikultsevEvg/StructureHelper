@@ -26,6 +26,7 @@ namespace StructureHelperCommon.Services.Units
                 { UnitTypes.Curvature, "1/m"},
                 { UnitTypes.DistributedLoad, "kN/m" },
                 { UnitTypes.Strain, "Dimensionless" },
+                { UnitTypes.FractureEnergy, "N/mm" },
             };
         }
 

@@ -9,12 +9,11 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<IFeaMaterialAnalysis> updateStrategy;
         private IConvertStrategy<VersionProcessorDTO, IVersionProcessor> versionProcessorConvertStrategy;
+        private IUpdateStrategy<IFeaMaterialAnalysis> UpdateStrategy => updateStrategy ??= new FeaMaterialAnalysisUpdateStrategy() { UpdateChildren = false};
 
         public FeaMaterialAnalysisToDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
         }
-
-        private IUpdateStrategy<IFeaMaterialAnalysis> UpdateStrategy => updateStrategy ??= new FeaMaterialAnalysisUpdateStrategy() { UpdateChildren = false};
 
         public override FeaMaterialAnalysisDTO GetNewItem(IFeaMaterialAnalysis source)
         {

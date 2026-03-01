@@ -1,14 +1,15 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelperCommon.Models.FeaMaterials
 {
     public class ConcreteFeaMaterialUpdateStrategy : IParentUpdateStrategy<IConcreteFeaMaterial>
     {
+        private IUpdateStrategy<IConcreteFeaCompression> compressionUpdateStrategy;
+        private IUpdateStrategy<IConcreteFeaTension> tensionUpdateStrategy;
+        private IUpdateStrategy<IConcreteFeaCompression> CompressionUpdateStrategy => compressionUpdateStrategy ??= new ConcreteFeaCompressionUpdateStrategy();
+        private IUpdateStrategy<IConcreteFeaTension> TensionUpdateStrategy => tensionUpdateStrategy ??= new ConcreteFeaTensionUpdateStrategy();
         public bool UpdateChildren { get; set; } = true;
 
         public void Update(IConcreteFeaMaterial targetObject, IConcreteFeaMaterial sourceObject)
@@ -25,6 +26,8 @@ namespace StructureHelperCommon.Models.FeaMaterials
                 CheckObject.ThrowIfNull(sourceObject.TensionProperties);
                 CheckObject.ThrowIfNull(targetObject.CompressionProperties);
                 CheckObject.ThrowIfNull(targetObject.TensionProperties);
+                CompressionUpdateStrategy.Update(targetObject.CompressionProperties, sourceObject.CompressionProperties);
+                TensionUpdateStrategy.Update(targetObject.TensionProperties, sourceObject.TensionProperties);
             }
         }
     }

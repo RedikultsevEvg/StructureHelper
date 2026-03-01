@@ -9,7 +9,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
     public class ConcreteToCDPCompressionConvertStrategy : IObjectConvertStrategy<CDPInelasticStrain, IConcreteFeaMaterial>
     {
         const int incentStepNumber = 15;
-        const int descentStepNumber = 20;
+        const int descentStepNumber = 75;
         private IConcreteFeaMaterial concreteMaterial;
         private double initialModulus;
         private double compressionStrength;
@@ -57,7 +57,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
                 double damage = 0.0;
                 if (totalStrain > peakStrain)
                 {
-                    damage = 1.0 - stress / (initialModulus * totalStrain);
+                    damage = 1.0 - stress / compressionStrength;
                     damage = Math.Max(0.0, Math.Min(0.999, damage));
                 }
                 damageList.Add(damage);

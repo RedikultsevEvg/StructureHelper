@@ -127,9 +127,9 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
         {
             var valueList = new List<double>
                 {
-                    extendedForceTupleCalculatorResult.ForcesTupleResult.ForceTuple.Mx * unitMoment.Multiplyer,
-                    extendedForceTupleCalculatorResult.ForcesTupleResult.ForceTuple.My * unitMoment.Multiplyer,
-                    extendedForceTupleCalculatorResult.ForcesTupleResult.ForceTuple.Nz * unitForce.Multiplyer
+                    extendedForceTupleCalculatorResult.ForcesTupleResult.ForceTuple.Mx * unitMoment.Multiplayer,
+                    extendedForceTupleCalculatorResult.ForcesTupleResult.ForceTuple.My * unitMoment.Multiplayer,
+                    extendedForceTupleCalculatorResult.ForcesTupleResult.ForceTuple.Nz * unitForce.Multiplayer
                 };
             valueList.Add(result.CrackedStrainTuple.Mx);
             valueList.Add(result.CrackedStrainTuple.My);

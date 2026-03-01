@@ -49,7 +49,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             var unitType = UnitTypes.Force;
             var unit = unitLogic.GetUnit(unitType, "kN");
             var unitName = unit.Name;
-            var unitMultiPlayer = unit.Multiplyer;
+            var unitMultiPlayer = unit.Multiplayer;
             var forceSum = new ValueParameter<string>()
             {
                 IsValid = true,
@@ -105,7 +105,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             var unitType = UnitTypes.Moment;
             var unit = unitLogic.GetUnit(unitType, "kNm");
             var unitName = unit.Name;
-            var unitMultiPlayer = unit.Multiplyer;
+            var unitMultiPlayer = unit.Multiplayer;
             var momentSumValue = GeometryOperations.GetSummaryMoment(locNdms, locStrainMatrix, PosNegFlag.Both);
             var momentSumX = new ValueParameter<string>()
             {
@@ -193,7 +193,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             var unitType = UnitTypes.Length;
             var unit = unitLogic.GetUnit(unitType, "mm");
             var unitName = unit.Name;
-            var unitMultiPlayer = unit.Multiplyer;
+            var unitMultiPlayer = unit.Multiplayer;
             var sumEccenticityX = new ValueParameter<string>()
             {
                 IsValid = true,
@@ -262,7 +262,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             var unitType = UnitTypes.Length;
             var unit = unitLogic.GetUnit(unitType, "mm");
             var unitName = unit.Name;
-            var unitMultiPlayer = unit.Multiplyer;
+            var unitMultiPlayer = unit.Multiplayer;
             var sumLiverArmX = new ValueParameter<string>()
             {
                 IsValid = true,

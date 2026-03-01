@@ -33,11 +33,45 @@
                     <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding PoissonsRatio, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Compression">
-                
+            <TabItem Header="Compression" DataContext="{Binding Compression}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="125"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Name"/>
+                    <TextBox Grid.Column="1" Text="{Binding Strength, Converter={StaticResource StressConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="1" Text="Peak strain"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding PeakStrain, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="2" Text="Fc,el/Fcu ratio"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding ElasticStressRatio, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                </Grid>
             </TabItem>
-            <TabItem Header="Tension">
-                
+            <TabItem Header="Tension" DataContext="{Binding Tension}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="125"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Strength"/>
+                    <TextBox Grid.Column="1" Text="{Binding Strength, Converter={StaticResource StressConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="1" Text="Fracture energy"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding FractureEnergy, Converter={StaticResource FractureEnergy}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="2" Text="FE size"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding FeSize, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                </Grid>
             </TabItem>
         </TabControl>
 

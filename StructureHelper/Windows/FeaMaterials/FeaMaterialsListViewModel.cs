@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
+using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.ViewModels;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -23,6 +24,11 @@ namespace StructureHelper.Windows.FeaMaterials
             {
                 var logic = new ConcreteToCDPConvertStrategy();
                 var cdp = logic.Convert(concrete);
+                var convertLogic = new CdpToChartSeriesConvertStrategy();
+                var series = convertLogic.Convert(cdp);
+                var vm = new GraphViewModel(series);
+                var wnd = new GraphView(vm);
+                wnd.ShowDialog();
             }
         }
 
@@ -60,7 +66,15 @@ namespace StructureHelper.Windows.FeaMaterials
             }
             else if (SelectedItem is IConcreteFeaMaterial concrete)
             {
-
+                var cloneLogic = new ConcreteFeaMaterialCloneStrategy();
+                var clone = cloneLogic.GetClone(concrete);
+                var window = new ConcreteFeaMaterialView(concrete);
+                window.ShowDialog();
+                if (window.DialogResult != true)
+                {
+                    var updateLogic = new ConcreteFeaMaterialUpdateStrategy() { UpdateChildren = true};
+                    updateLogic.Update(concrete, clone);
+                }
             }
             else
             {

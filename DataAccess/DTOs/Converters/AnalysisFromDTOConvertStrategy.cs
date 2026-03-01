@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Models.FeaMaterials;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogic.Models.Analyses;
 using StructureHelperLogics.Models.Analyses;
@@ -48,6 +49,10 @@ namespace DataAccess.DTOs
             {
                 GetBeamShearAnalysis(beamShearAnalysis);
             }
+            else if (source is FeaMaterialAnalysisDTO feaMaterialAnalysis)
+            {
+                GetFeaMaterialAnalysis(feaMaterialAnalysis);
+            }
             else
             {
                 string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source);
@@ -55,6 +60,16 @@ namespace DataAccess.DTOs
             }
             NewItem.VersionProcessor = GetVersionProcessor(source.VersionProcessor);
             return NewItem;
+        }
+
+        private void GetFeaMaterialAnalysis(FeaMaterialAnalysisDTO feaMaterialAnalysis)
+        {
+            TraceLogger?.AddMessage(AnalysisIs + " FEA material Analysis", TraceLogStatuses.Debug);
+            TraceLogger?.AddMessage("FEA material analysis converting has been started", TraceLogStatuses.Debug);
+            var convertStrategy = new DictionaryConvertStrategy<FeaMaterialAnalysis, FeaMaterialAnalysisDTO>
+                (this, new FeaMaterialAnalysisFromDTOConvertStrategy(this));
+            NewItem = convertStrategy.Convert(feaMaterialAnalysis);
+            TraceLogger?.AddMessage("FEA material analysis converting has been finished succesfully", TraceLogStatuses.Debug);
         }
 
         private void GetBeamShearAnalysis(IBeamShearAnalysis beamShearAnalysis)
@@ -80,7 +95,7 @@ namespace DataAccess.DTOs
         private IVersionProcessor GetVersionProcessor(IVersionProcessor source)
         {
             TraceLogger?.AddMessage("Version processor converting is started", TraceLogStatuses.Service);
-            versionProcessorConvertStrategy ??= new VersionProcessorFromDTOConvertStrategy();
+            versionProcessorConvertStrategy ??= new VersionProcessorFromDTOConvertStrategy(this);
             versionProcessorConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             versionProcessorConvertStrategy.TraceLogger = TraceLogger;
             IVersionProcessor versionProcessor = versionProcessorConvertStrategy.Convert(source);

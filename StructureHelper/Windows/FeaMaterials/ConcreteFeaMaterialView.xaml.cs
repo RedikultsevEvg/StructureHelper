@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using StructureHelperCommon.Models.FeaMaterials;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace StructureHelper.Windows.FeaMaterials
 {
@@ -17,9 +8,18 @@ namespace StructureHelper.Windows.FeaMaterials
     /// </summary>
     public partial class ConcreteFeaMaterialView : Window
     {
-        public ConcreteFeaMaterialView()
+        private ConcreteFeaMaterialViewModel viewModel;
+
+        public ConcreteFeaMaterialView(IConcreteFeaMaterial concrete) : this (new  ConcreteFeaMaterialViewModel(concrete))
+        {
+            
+        }
+        public ConcreteFeaMaterialView(ConcreteFeaMaterialViewModel viewModel)
         {
             InitializeComponent();
+            this.viewModel = viewModel;
+            this.DataContext = viewModel;
+            viewModel.ParentWindow = this;
         }
     }
 }

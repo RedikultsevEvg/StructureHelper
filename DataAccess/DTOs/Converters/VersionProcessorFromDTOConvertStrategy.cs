@@ -14,6 +14,14 @@ namespace DataAccess.DTOs
     {
         private IConvertStrategy<IDateVersion, IDateVersion> dateVersionConvertStrategy;
 
+        public VersionProcessorFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
+        {
+        }
+
+        public VersionProcessorFromDTOConvertStrategy(Dictionary<(Guid id, Type type), ISaveable> referenceDictionary, IShiftTraceLogger traceLogger) : base(referenceDictionary, traceLogger)
+        {
+        }
+
         public override IVersionProcessor GetNewItem(IVersionProcessor source)
         {
             ChildClass = this;

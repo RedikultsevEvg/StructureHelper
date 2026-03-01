@@ -6,6 +6,6 @@ namespace StructureHelperCommon.Services.Units
     {
         public UnitTypes UnitType { get; set; }
         public string Name { get; set; }
-        public double Multiplyer { get; set; }
+        public double Multiplayer { get; set; }
     }
 }

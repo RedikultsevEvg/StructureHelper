@@ -10,7 +10,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
     {
         private double strength = 3.5e6;
         private double fractureEnergy = 72.6;
-        private double feSize = 0.001;
+        private double feSize = 0.01;
 
         /// <inheritdoc/>
         public Guid Id { get; }
@@ -20,10 +20,10 @@ namespace StructureHelperCommon.Models.FeaMaterials
             get => strength;
             set
             {
-                if (value <= 0)
-                {
-                    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Strength of concrete must be positive, but was {value}");
-                }
+                //if (value <= 0)
+                //{
+                //    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Strength of concrete must be positive, but was {value}");
+                //}
                 strength = value;
             }
         }
@@ -33,10 +33,10 @@ namespace StructureHelperCommon.Models.FeaMaterials
             get => fractureEnergy;
             set
             {
-                if (value <= 0)
-                {
-                    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Fracture energy must be positive, but was {value}");
-                }
+                //if (value <= 0)
+                //{
+                //    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Fracture energy must be positive, but was {value}");
+                //}
                 fractureEnergy = value;
             }
         }
@@ -46,10 +46,10 @@ namespace StructureHelperCommon.Models.FeaMaterials
             get => feSize;
             set
             {
-                if (value <= 0)
-                {
-                    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Size of finished element must be positive, but was {value}");
-                }
+                //if (value <= 0)
+                //{
+                //    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Size of finished element must be positive, but was {value}");
+                //}
                 feSize = value;
             }
         }

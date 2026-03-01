@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DataAccess.DTOs
 {
-    public class ElasticFeaMaterialDTO : IElasticFeaMaterial
+    public class ConcreteFeaMaterialDTO : IConcreteFeaMaterial
     {
         [JsonProperty("Id")]
         public Guid Id { get; }
@@ -16,9 +16,14 @@ namespace DataAccess.DTOs
         public double YoungsModulus { get; set; }
         [JsonProperty("PoissonsRatio")]
         public double PoissonsRatio { get; set; }
+        [JsonProperty("Compression")]
+        public IConcreteFeaCompression CompressionProperties { get; set; }
+        [JsonProperty("Tension")]
+        public IConcreteFeaTension TensionProperties { get; set; }
 
 
-        public ElasticFeaMaterialDTO(Guid id)
+
+        public ConcreteFeaMaterialDTO(Guid id)
         {
             Id = id;
         }

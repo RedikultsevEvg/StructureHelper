@@ -52,7 +52,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
                 double stress = GetTensionStress(strength, ultimateCrackWidth, crackWidth);
                 stressList.Add(stress);
                 double totalStrain = ultimateElasticStrain + inelasticStrain;
-                double damage = 1.0 - stress / (initialModulus * totalStrain);
+                double damage = 1.0 - stress / strength;
                 damage = Math.Max(0.0, Math.Min(0.999, damage));
                 damageList.Add(damage);
             }

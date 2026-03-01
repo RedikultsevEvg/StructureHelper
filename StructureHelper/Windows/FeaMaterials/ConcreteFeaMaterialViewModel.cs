@@ -10,9 +10,6 @@ namespace StructureHelper.Windows.FeaMaterials
     public class ConcreteFeaMaterialViewModel : OkCancelViewModelBase, IDataErrorInfo
     {
         IConcreteFeaMaterial material;
-        private string name;
-        private double youngsModulus;
-        private double poissonsRatio;
 
         public string Name
         {
@@ -39,11 +36,18 @@ namespace StructureHelper.Windows.FeaMaterials
             set
             {
                 material.PoissonsRatio = value;
+                Refresh();
             }
         }
+
+        public ConcreteFeaCompressionViewModel Compression { get; }
+        public ConcreteFeaTensionViewModel Tension { get; }
+
         public ConcreteFeaMaterialViewModel(IConcreteFeaMaterial material)
         {
             this.material = material;
+            Compression = new(this, material.CompressionProperties);
+            Tension = new(this, material.TensionProperties);
         }
 
         public string Error => null;
@@ -57,14 +61,14 @@ namespace StructureHelper.Windows.FeaMaterials
                 {
                     if (YoungsModulus <= 0)
                     {
-                        error = $"Young's modulus must be positive, but was {YoungsModulus}(m)";
+                        error = $"Young's modulus must be positive, but was {YoungsModulus}(Pa)";
                     }
                 }
                 if (columnName == nameof(PoissonsRatio))
                 {
                     if (PoissonsRatio <= 0)
                     {
-                        error = $"Poisson ratio must be positive, but was {PoissonsRatio}(m)";
+                        error = $"Poisson ratio must be positive, but was {PoissonsRatio}(dimensionless)";
                     }
                 }
 
@@ -83,6 +87,8 @@ namespace StructureHelper.Windows.FeaMaterials
         private void Refresh()
         {
             OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(YoungsModulus));
+            OnPropertyChanged(nameof(PoissonsRatio));
         }
 
     }

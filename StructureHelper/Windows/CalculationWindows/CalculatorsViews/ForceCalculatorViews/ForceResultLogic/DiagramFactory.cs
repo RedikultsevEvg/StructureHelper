@@ -56,11 +56,11 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 
             return new List<double>
                 {
-                    TupleResultList[i].ForcesTupleResult.ForceTuple.Mx * unitMoment.Multiplyer,
-                    TupleResultList[i].ForcesTupleResult.ForceTuple.My * unitMoment.Multiplyer,
-                    TupleResultList[i].ForcesTupleResult.ForceTuple.Nz * unitForce.Multiplyer,
-                    TupleResultList[i].ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix.Kx * unitCurvature.Multiplyer,
-                    TupleResultList[i].ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix.Ky * unitCurvature.Multiplyer,
+                    TupleResultList[i].ForcesTupleResult.ForceTuple.Mx * unitMoment.Multiplayer,
+                    TupleResultList[i].ForcesTupleResult.ForceTuple.My * unitMoment.Multiplayer,
+                    TupleResultList[i].ForcesTupleResult.ForceTuple.Nz * unitForce.Multiplayer,
+                    TupleResultList[i].ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix.Kx * unitCurvature.Multiplayer,
+                    TupleResultList[i].ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix.Ky * unitCurvature.Multiplayer,
                     TupleResultList[i].ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix.EpsZ
                 };
         }

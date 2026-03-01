@@ -27,14 +27,14 @@ namespace StructureHelper.Services.ResultViewers
                 {
                     Name = "Long crack width",
                     ResultFunction = (IRebarCrackResult rebar) => rebar.LongTermResult.CrackWidth,
-                    UnitFactor = unitLength.Multiplyer,
+                    UnitFactor = unitLength.Multiplayer,
                     UnitName = unitLength.Name
                 },
                 new()
                 {
                     Name = "Short crack width",
                     ResultFunction = (IRebarCrackResult rebar) => rebar.ShortTermResult.CrackWidth,
-                    UnitFactor = unitLength.Multiplyer,
+                    UnitFactor = unitLength.Multiplayer,
                     UnitName = unitLength.Name
                 },
                 new()
@@ -55,14 +55,14 @@ namespace StructureHelper.Services.ResultViewers
                 {
                     Name = "Long rebar stress",
                     ResultFunction = (IRebarCrackResult rebar) => rebar.LongTermResult.RebarStressResult.RebarStress,
-                    UnitFactor = unitStress.Multiplyer,
+                    UnitFactor = unitStress.Multiplayer,
                     UnitName = unitStress.Name
                 },
                 new()
                 {
                     Name = "Short rebar stress",
                     ResultFunction = (IRebarCrackResult rebar) => rebar.ShortTermResult.RebarStressResult.RebarStress,
-                    UnitFactor = unitStress.Multiplyer,
+                    UnitFactor = unitStress.Multiplayer,
                     UnitName = unitStress.Name
                 },
                 new()

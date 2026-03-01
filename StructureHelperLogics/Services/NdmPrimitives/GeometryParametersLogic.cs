@@ -48,7 +48,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             var parameters = new List<IValueParameter<string>>();
             var unitArea = unitLogic.GetUnit(UnitTypes.Area, "mm2");
             var unitName = $"{unitArea.Name}";
-            var unitMultiPlayer = unitArea.Multiplyer;
+            var unitMultiPlayer = unitArea.Multiplayer;
             var firstParameter = new ValueParameter<string>()
             {
                 IsValid = true,
@@ -78,7 +78,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             var unitArea = unitLogic.GetUnit(UnitTypes.Area, "mm2");
             var unitStress = unitLogic.GetUnit(UnitTypes.Stress, "MPa");
             var unitName = $"{unitStress.Name} * {unitArea.Name} * {unitArea.Name}";
-            var unitMultiPlayer = unitArea.Multiplyer * unitArea.Multiplyer * unitStress.Multiplyer;
+            var unitMultiPlayer = unitArea.Multiplayer * unitArea.Multiplayer * unitStress.Multiplayer;
             var firstParameter = new ValueParameter<string>()
             {
                 IsValid = true,
@@ -162,7 +162,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             var unitArea = unitLogic.GetUnit(UnitTypes.Area, "mm2");
             var unitStress = unitLogic.GetUnit(UnitTypes.Stress, "MPa");
             var unitName = $"{unitStress.Name} * {unitArea.Name}";
-            var unitMultiPlayer = unitArea.Multiplyer * unitStress.Multiplyer;
+            var unitMultiPlayer = unitArea.Multiplayer * unitStress.Multiplayer;
             var firstParameter = new ValueParameter<string>()
             {
                 IsValid = true,
@@ -222,7 +222,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
             var unitType = UnitTypes.Length;
             var unit = unitLogic.GetUnit(unitType, "mm");
             var unitName = unit.Name;
-            var unitMultiPlayer = unit.Multiplyer;
+            var unitMultiPlayer = unit.Multiplayer;
             var firstParameter = new ValueParameter<string>()
             {
                 IsValid = true,

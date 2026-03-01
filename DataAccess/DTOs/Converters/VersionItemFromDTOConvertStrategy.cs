@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
+using StructureHelperCommon.Models.FeaMaterials;
 using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.Models.CrossSections;
 
@@ -28,10 +29,12 @@ namespace DataAccess.DTOs
             {
                 newItem = ProcessCrossSection(crossSection);
             }
-            else if (source is IBeamShear beamShear)
+            else if (source is BeamShearDTO beamShear)
             {
                 newItem = ProcessBeamShear(beamShear);
             }
+            else if (source is FeaMaterialRepositoryDTO feaMaterial)
+                newItem = ProcessFeaMaterialsRepository(feaMaterial);
             else
             {
                 string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source);
@@ -42,18 +45,26 @@ namespace DataAccess.DTOs
             return newItem;
         }
 
-        private IBeamShear ProcessBeamShear(IBeamShear source)
+        private ISaveable ProcessFeaMaterialsRepository(FeaMaterialRepositoryDTO source)
         {
-            if (source is not BeamShearDTO beamShearDTO)
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source));
-            }
+            TraceLogger?.AddMessage(AnalysisIs + " FEA material analysis", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage($"FEA material analysis Id = {source.Id} converting has been started", TraceLogStatuses.Service);
+            var convertLogic = new DictionaryConvertStrategy<FeaMaterialRepository, FeaMaterialRepositoryDTO>
+                (this,
+                new FeaMaterialRepositoryFromDTOConvertStrategy(this));
+            FeaMaterialRepository newItem = convertLogic.Convert(source);
+            TraceLogger?.AddMessage($"Fea material analysis Id = {newItem.Id} converting has been finished successfully", TraceLogStatuses.Service);
+            return newItem;
+        }
+
+        private IBeamShear ProcessBeamShear(BeamShearDTO source)
+        {
             TraceLogger?.AddMessage(AnalysisIs + " Beam shear", TraceLogStatuses.Service);
             TraceLogger?.AddMessage($"Beam shear analysis Id = {source.Id} converting has been started", TraceLogStatuses.Service);
             var convertLogic = new DictionaryConvertStrategy<BeamShear, BeamShearDTO>
                 (this,
                 new BeamShearFromDTOConvertStrategy(this));
-            IBeamShear newItem = convertLogic.Convert(beamShearDTO);
+            IBeamShear newItem = convertLogic.Convert(source);
             TraceLogger?.AddMessage($"Beam shear analysis Id = {newItem.Id} converting has been finished successfully", TraceLogStatuses.Service);
             return newItem;
         }

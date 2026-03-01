@@ -9,6 +9,7 @@
     <convertersUnits:Length x:Key="LengthConverter"/>
     <convertersUnits:Area x:Key="AreaConverter"/>
     <convertersUnits:Force x:Key="ForceConverter"/>
+    <convertersUnits:FractureEnergy x:Key="FractureEnergy"/>
     <convertersUnits:Moment x:Key="MomentConverter"/>
     <convertersUnits:Stress x:Key="StressConverter"/>
     <convertersUnits:Curvature x:Key="Curvature"/>

@@ -64,17 +64,17 @@ namespace StructureHelper.Services.ResultViewers
         private static List<ForceResultFunc> GetStressResultFuncs()
         {
             List<ForceResultFunc> resultFuncs = [];
-            resultFuncs.Add(new ForceResultFunc() { Name = "Stress", ResultFunction = stressLogic.GetStress, UnitFactor = unitStress.Multiplyer, UnitName = unitStress.Name });
-            resultFuncs.Add(new ForceResultFunc() { Name = "Secant modulus", ResultFunction = stressLogic.GetSecantModulus, UnitFactor = unitStress.Multiplyer, UnitName = unitStress.Name });
+            resultFuncs.Add(new ForceResultFunc() { Name = "Stress", ResultFunction = stressLogic.GetStress, UnitFactor = unitStress.Multiplayer, UnitName = unitStress.Name });
+            resultFuncs.Add(new ForceResultFunc() { Name = "Secant modulus", ResultFunction = stressLogic.GetSecantModulus, UnitFactor = unitStress.Multiplayer, UnitName = unitStress.Name });
             resultFuncs.Add(new ForceResultFunc() { Name = "Modulus degradation", ResultFunction = stressLogic.GetModulusDegradation });
             return resultFuncs;
         }
         private static List<ForceResultFunc> GetForcesResultFuncs()
         {
             List<ForceResultFunc> resultFuncs = [];
-            resultFuncs.Add(new ForceResultFunc() { Name = "Force", ResultFunction = stressLogic.GetForce, UnitFactor = unitForce.Multiplyer, UnitName = unitForce.Name });
-            resultFuncs.Add(new ForceResultFunc() { Name = "Moment X", ResultFunction = stressLogic.GetMomentX, UnitFactor = unitMoment.Multiplyer, UnitName = unitMoment.Name });
-            resultFuncs.Add(new ForceResultFunc() { Name = "Moment Y", ResultFunction = stressLogic.GetMomentY, UnitFactor = unitMoment.Multiplyer, UnitName = unitMoment.Name });
+            resultFuncs.Add(new ForceResultFunc() { Name = "Force", ResultFunction = stressLogic.GetForce, UnitFactor = unitForce.Multiplayer, UnitName = unitForce.Name });
+            resultFuncs.Add(new ForceResultFunc() { Name = "Moment X", ResultFunction = stressLogic.GetMomentX, UnitFactor = unitMoment.Multiplayer, UnitName = unitMoment.Name });
+            resultFuncs.Add(new ForceResultFunc() { Name = "Moment Y", ResultFunction = stressLogic.GetMomentY, UnitFactor = unitMoment.Multiplayer, UnitName = unitMoment.Name });
             return resultFuncs;
         }
     }

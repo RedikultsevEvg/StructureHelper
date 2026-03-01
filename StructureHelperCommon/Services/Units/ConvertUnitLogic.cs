@@ -32,7 +32,7 @@ namespace StructureHelperCommon.Services.Units
             {
                 throw new StructureHelperException($"{ErrorStrings.ParameterIsNull}: {unitName}");
             }
-            val *= unit.Multiplyer;
+            val *= unit.Multiplayer;
             var pair = new ValuePair<double>
             {
                 Text = unit.Name,
@@ -45,7 +45,7 @@ namespace StructureHelperCommon.Services.Units
         {
             double val;
             double multy;
-            double factor = unit.Multiplyer;
+            double factor = unit.Multiplayer;
             var strVal = value as string;
             var pair = pairLogic.GetValuePairByString(strVal);
             try
@@ -70,7 +70,7 @@ namespace StructureHelperCommon.Services.Units
                     &
                     u.Name == unitName)
                     .Single()
-                    .Multiplyer;
+                    .Multiplayer;
             }
             catch (Exception ex)
             {

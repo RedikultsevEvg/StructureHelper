@@ -19,10 +19,10 @@ namespace StructureHelperCommon.Models.FeaMaterials
             get => strength;
             set
             {
-                if (value <= 0)
-                {
-                    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Strength of concrete must be positive, but was {value}");
-                }
+                //if (value <= 0)
+                //{
+                //    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Strength of concrete must be positive, but was {value}");
+                //}
                 strength = value;
             }
         }
@@ -32,10 +32,10 @@ namespace StructureHelperCommon.Models.FeaMaterials
             get => strainOfUltimateStress;
             set
             {
-                if (value <= 0)
-                {
-                    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Strain of concrete must be positive, but was {value}");
-                }
+                //if (value <= 0)
+                //{
+                //    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Strain of concrete must be positive, but was {value}");
+                //}
                 strainOfUltimateStress = value;
             }
         }
@@ -45,10 +45,10 @@ namespace StructureHelperCommon.Models.FeaMaterials
             get => elasticStressRatio;
             set
             {
-                if (value <= mimimumElasticRatio)
-                {
-                    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Ratio of elastic stress to ultimate stress must be greater than minimum value {mimimumElasticRatio}, but was {value}");
-                }
+                //if (value <= mimimumElasticRatio)
+                //{
+                //    throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": Ratio of elastic stress to ultimate stress must be greater than minimum value {mimimumElasticRatio}, but was {value}");
+                //}
                 elasticStressRatio = value;
             }
         }

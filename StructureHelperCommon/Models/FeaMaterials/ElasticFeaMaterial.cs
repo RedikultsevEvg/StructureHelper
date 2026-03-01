@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelperCommon.Models.FeaMaterials
 {
     /// <inheritdoc/>
-    public class ElasticFeaMaterial : IElasticFeaMaterial
+    public class ElasticFeaMaterial : IElasticFeaMaterial, ICloneable
     {
         /// <inheritdoc/>
         public Guid Id { get; }
@@ -20,6 +18,12 @@ namespace StructureHelperCommon.Models.FeaMaterials
         public ElasticFeaMaterial(Guid id)
         {
             Id = id;
+        }
+
+        public object Clone()
+        {
+            var cloneStrategy = new ElasticFeaMaterialCloneStrategy();
+            return cloneStrategy.GetClone(this);
         }
     }
 }

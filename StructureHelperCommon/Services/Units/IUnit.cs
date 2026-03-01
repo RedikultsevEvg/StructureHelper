@@ -10,6 +10,6 @@ namespace StructureHelperCommon.Services.Units
 
         UnitTypes UnitType { get; }
         string Name { get; }
-        double Multiplyer { get; }
+        double Multiplayer { get; }
     }
 }
