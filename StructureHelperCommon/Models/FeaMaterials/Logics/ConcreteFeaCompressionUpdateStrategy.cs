@@ -14,6 +14,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
             targetObject.Strength = sourceObject.Strength;
             targetObject.PeakStrain = sourceObject.PeakStrain;
             targetObject.ElasticStressRatio = sourceObject.ElasticStressRatio;
+            targetObject.DescendingScaleFactor = sourceObject.DescendingScaleFactor;
         }
     }
 }

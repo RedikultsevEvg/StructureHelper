@@ -89,7 +89,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": initial modulus of elasticity of concrete must be greater than secant modulus at peak point, but was initial modulus E0 = {initialModulus}, secant modulus Esec = {secantModulus}");
             }
             var modulusRatio = initialModulus / secantModulus;
-            diagram = new ConcreteEC2Diagram(1.0 * modulusRatio, peakStrain, compressionStrength);
+            diagram = new ConcreteEC2Diagram(1.0 * modulusRatio, peakStrain, compressionStrength, 1.0 / concreteMaterial.CompressionProperties.DescendingScaleFactor);
         }
 
         private void SetFields()

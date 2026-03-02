@@ -43,14 +43,17 @@
                         <RowDefinition Height="22"/>
                         <RowDefinition Height="22"/>
                         <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Name"/>
+                    <TextBlock Text="Strength"/>
                     <TextBox Grid.Column="1" Text="{Binding Strength, Converter={StaticResource StressConverter}, ValidatesOnDataErrors=True}"/>
                     <TextBlock Grid.Row="1" Text="Peak strain"/>
                     <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding PeakStrain, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
                     <TextBlock Grid.Row="2" Text="Fc,el/Fcu ratio"/>
                     <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding ElasticStressRatio, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="3" Text="Descending factor"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding DescendingScaleFactor, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Tension" DataContext="{Binding Tension}">

@@ -52,7 +52,9 @@ namespace StructureHelperCommon.Models.FeaMaterials
                 elasticStressRatio = value;
             }
         }
-        
+
+        public double DescendingScaleFactor { get; set; } = 1.0;
+
         public ConcreteFeaCompression() : this (Guid.NewGuid())
         {
             

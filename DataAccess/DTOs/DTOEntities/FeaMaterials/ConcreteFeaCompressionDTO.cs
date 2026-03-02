@@ -16,7 +16,8 @@ namespace DataAccess.DTOs
         public double PeakStrain { get; set; }
         [JsonProperty("ElasticStressRatio")]
         public double ElasticStressRatio { get; set; }
-
+        [JsonProperty("DescendingScaleFactor")]
+        public double DescendingScaleFactor { get; set; } = 1.0;
 
         public ConcreteFeaCompressionDTO(Guid id)
         {

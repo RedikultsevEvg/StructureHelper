@@ -8,6 +8,7 @@ namespace StructureHelper.Windows.FeaMaterials
     {
         private const double maxRatio = 0.9;
         private IConcreteFeaCompression material;
+        private double descendingScaleFactor;
 
         public ConcreteFeaMaterialViewModel ParentViewModel {  get; set; }
 
@@ -38,6 +39,15 @@ namespace StructureHelper.Windows.FeaMaterials
             {
                 material.ElasticStressRatio = value;
                 OnPropertyChanged(nameof(ElasticStressRatio));
+            }
+        }
+
+        public double DescendingScaleFactor
+        {
+            get => material.DescendingScaleFactor;
+            set
+            {
+                material.DescendingScaleFactor = value;
             }
         }
 
@@ -76,6 +86,14 @@ namespace StructureHelper.Windows.FeaMaterials
                     if (ElasticStressRatio >= maxRatio)
                     {
                         error = $"Ratio of elastic stress to peak stress must be less than {maxRatio}, but was {ElasticStressRatio}";
+                    }
+                }
+
+                if (columnName == nameof(DescendingScaleFactor))
+                {
+                    if (DescendingScaleFactor <= 0.01)
+                    {
+                        error = $"Factor for descending branch must be positive, but was {DescendingScaleFactor}";
                     }
                 }
 
