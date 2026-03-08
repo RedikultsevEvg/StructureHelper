@@ -23,29 +23,31 @@ namespace StructureHelper.Windows.FeaMaterials
 
         public double YoungsModulus
         {
-            get => material.YoungsModulus;
+            get => material.YoungModulus;
             set
             {
-                material.YoungsModulus = value;
+                material.YoungModulus = value;
                 Refresh();
             }
         }
         public double PoissonsRatio
         {
-            get => material.PoissonsRatio;
+            get => material.PoissonRatio;
             set
             {
-                material.PoissonsRatio = value;
+                material.PoissonRatio = value;
                 Refresh();
             }
         }
 
+        public CdpPropertyViewModel CdpProperty { get; }
         public ConcreteFeaCompressionViewModel Compression { get; }
         public ConcreteFeaTensionViewModel Tension { get; }
 
         public ConcreteFeaMaterialViewModel(IConcreteFeaMaterial material)
         {
             this.material = material;
+            CdpProperty = new(this, material.CdpProperty);
             Compression = new(this, material.CompressionProperties);
             Tension = new(this, material.TensionProperties);
         }

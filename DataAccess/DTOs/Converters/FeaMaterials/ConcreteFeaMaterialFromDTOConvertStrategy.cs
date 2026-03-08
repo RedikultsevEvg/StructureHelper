@@ -7,22 +7,32 @@ namespace DataAccess.DTOs
     public class ConcreteFeaMaterialFromDTOConvertStrategy : ConvertStrategy<ConcreteFeaMaterial, ConcreteFeaMaterialDTO>
     {
         private IUpdateStrategy<IConcreteFeaMaterial> updateStrategy;
+        private IConvertStrategy<CdpProperty, CdpPropertyDTO> cdpConvertStrategy;
         private IConvertStrategy<ConcreteFeaCompression, ConcreteFeaCompressionDTO> compressionConvertStrategy;
         private IConvertStrategy<ConcreteFeaTension, ConcreteFeaTensionDTO> tensionConvertStrategy;
 
+        private IUpdateStrategy<IConcreteFeaMaterial> UpdateStrategy => updateStrategy ??= new ConcreteFeaMaterialUpdateStrategy() { UpdateChildren = false };
+        private IConvertStrategy<CdpProperty, CdpPropertyDTO> CdpConvertStrategy => cdpConvertStrategy ??= new CdpPropertyFromDTOConvertStrategy(this);
+        private IConvertStrategy<ConcreteFeaCompression, ConcreteFeaCompressionDTO> CompressionConvertStrategy => compressionConvertStrategy ??= new ConcreteFeaCompressionFromDTOConvertStrategy(this);
+        private IConvertStrategy<ConcreteFeaTension, ConcreteFeaTensionDTO> TensionConvertStrategy => tensionConvertStrategy ??= new ConcreteFeaTensionFromDTOConvertStrategy(this);
+        
         public ConcreteFeaMaterialFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
         }
-
-        private IUpdateStrategy<IConcreteFeaMaterial> UpdateStrategy => updateStrategy ??= new ConcreteFeaMaterialUpdateStrategy() { UpdateChildren = false };
-        private IConvertStrategy<ConcreteFeaCompression, ConcreteFeaCompressionDTO> CompressionConvertStrategy => compressionConvertStrategy ??= new ConcreteFeaCompressionFromDTOConvertStrategy(this);
-        private IConvertStrategy<ConcreteFeaTension, ConcreteFeaTensionDTO> TensionConvertStrategy => tensionConvertStrategy ??= new ConcreteFeaTensionFromDTOConvertStrategy(this);
 
         public override ConcreteFeaMaterial GetNewItem(ConcreteFeaMaterialDTO source)
         {
             ChildClass = this;
             NewItem = new(source.Id);
             UpdateStrategy.Update(NewItem, source);
+            if (source.CdpProperty is CdpPropertyDTO cdpPropertyDTO)
+            {
+                NewItem.CdpProperty = CdpConvertStrategy.Convert(cdpPropertyDTO);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source.CdpProperty));
+            }
             if (source.CompressionProperties is ConcreteFeaCompressionDTO compressionDTO)
             {
                 NewItem.CompressionProperties = CompressionConvertStrategy.Convert(compressionDTO);

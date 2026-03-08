@@ -11,13 +11,18 @@ namespace StructureHelperCommon.Models.FeaMaterials
     {
         string Name { get; set; }
         /// <summary>
-        /// Young's moduus (modulus of elasticity) of concrete, Pa
+        /// Young's modulus (modulus of elasticity) of concrete, Pa
         /// </summary>
-        double YoungsModulus { get; set; }
+        double YoungModulus { get; set; }
         /// <summary>
-        /// Angle of dilatancy, degree
+        /// Poisson's ratio, dimensionless
         /// </summary>
-        double DilationAngle { get; set; }
+        double PoissonRatio { get; set; }
+        /// <summary>
+        /// Density of concrete
+        /// </summary>
+        double Density { get; set; }
+        ICdpProperty CdpProperty { get;}
         /// <summary>
         /// Properties of concrete in compression
         /// </summary>

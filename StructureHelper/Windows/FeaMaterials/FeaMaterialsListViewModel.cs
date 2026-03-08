@@ -1,21 +1,77 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
+using StructureHelper.Services.Exports;
 using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.ViewModels;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.FeaMaterials;
+using StructureHelperCommon.Models.FeaMaterials.ExportLogics;
 using StructureHelperCommon.Services;
+using StructureHelperCommon.Services.Exports;
+using StructureHelperCommon.Services.Exports.Factories;
+using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace StructureHelper.Windows.FeaMaterials
 {
     public class FeaMaterialsListViewModel : SelectItemVM<IFeaMaterial>
     {
         private RelayCommand showDiagram;
+        private RelayCommand exportMaterialToPyCommand;
+        private RelayCommand prismTestCommand;
 
         public RelayCommand ShowDiagram => showDiagram ??= new RelayCommand(o => ShowDigramMethod(), o => SelectedItem != null);
+        public RelayCommand ExportMaterialToPyCommand => exportMaterialToPyCommand ??= new RelayCommand(o => ExportMaterialToPy(), o => SelectedItem != null);
+        public RelayCommand PrismTestCommand => prismTestCommand ??= new RelayCommand(o => PrismTest(), o => SelectedItem != null);
+
+        private void PrismTest()
+        {
+            if (SelectedItem is null) { return; }
+            try
+            {
+                var builder = new AbaqusPrismTestBuilder();
+                var script = builder.Build(SelectedItem);
+                FileIOInputData inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Py);
+                var logic = new ExportTextToFileLogic()
+                {
+                    FileName = SelectedItem.Name,
+                    Text = script
+                };
+                var exportService = new ExportToFileService(inputData, logic);
+                exportService.Export();
+            }
+            catch (Exception ex)
+            {
+                SafetyProcessor.ShowMessage("Some errors occured during export, see detailed information", ex.Message);
+            }
+        }
+
+        private void ExportMaterialToPy()
+        {
+            if (SelectedItem is null) { return; }
+            try
+            {
+                var builder = new FeaMaterialPyBuilder();
+                var script = builder.Build(SelectedItem);
+                FileIOInputData inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Py);
+                var logic = new ExportTextToFileLogic()
+                {
+                    FileName = SelectedItem.Name,
+                    Text = script
+                };
+                var exportService = new ExportToFileService(inputData, logic);
+                exportService.Export();
+            }
+            catch (Exception ex)
+            {
+                SafetyProcessor.ShowMessage("Some errors occured during export, see detailed information", ex.Message);
+            }
+        }
 
         private void ShowDigramMethod()
         {

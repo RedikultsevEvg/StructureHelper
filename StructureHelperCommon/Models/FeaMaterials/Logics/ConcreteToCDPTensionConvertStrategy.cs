@@ -60,7 +60,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
 
         private void SetFields()
         {
-            initialModulus = concreteMaterial.YoungsModulus;
+            initialModulus = concreteMaterial.YoungModulus;
             fractureEnergy = concreteMaterial.TensionProperties.FractureEnergy;
             strength = concreteMaterial.TensionProperties.Strength;
             ultimateCrackWidth = exponentialFactor * fractureEnergy / strength;

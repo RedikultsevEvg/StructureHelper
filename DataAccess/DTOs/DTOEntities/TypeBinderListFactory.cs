@@ -72,6 +72,7 @@ namespace DataAccess.DTOs
                 { (typeof(FeaMaterialAnalysisDTO), "FeaMaterialAnalysis") },
                 { (typeof(FeaMaterialRepositoryDTO), "FeaMaterialRepository") },
                 { (typeof(ElasticFeaMaterialDTO), "ElasticFeaMaterial") },
+                { (typeof(CdpPropertyDTO), "CdpProperty") },
                 { (typeof(ConcreteFeaMaterialDTO), "ConcreteFeaMaterial") },
                 { (typeof(ConcreteFeaCompressionDTO), "ConcreteFeaCompression") },
                 { (typeof(ConcreteFeaTensionDTO), "ConcreteFeaTension") },

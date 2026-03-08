@@ -311,6 +311,17 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+    <DataTemplate x:Key="ExportToPy">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Rectangle Canvas.Left="2" Canvas.Top="2" Width="28" Height="12" Fill="White" Stroke="Black"/>
+                <TextBlock Text="Py" FontSize="8" FontWeight="Bold" Margin="4,2,0,2"/>
+                <Path Margin="4" Data="M 0 12 l4,4 l4,-4 l4,4 l4,-4 l4,4 l4,-4" Stroke="Black"/>
+                <Path Margin="4" Data="M 8 17 l4,4 l4,-4 l4,4 l4,-4" Stroke="Black"/>
+                <Path Margin="4" Data="M 0 22 l4,4 l4,-4 l4,4 l4,-4 l4,4 l4,-4" Stroke="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
     <DataTemplate x:Key="ExportToNewAnalysis">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>

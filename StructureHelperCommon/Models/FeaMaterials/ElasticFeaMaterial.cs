@@ -10,9 +10,9 @@ namespace StructureHelperCommon.Models.FeaMaterials
         /// <inheritdoc/>
         public string Name { get; set; }
         /// <inheritdoc/>
-        public double YoungsModulus { get; set; } = 2.0e11;
+        public double YoungModulus { get; set; } = 2.0e11;
         /// <inheritdoc/>
-        public double PoissonsRatio { get; set; } = 0.3;
+        public double PoissonRatio { get; set; } = 0.3;
 
 
         public ElasticFeaMaterial(Guid id)

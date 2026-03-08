@@ -9,9 +9,10 @@ namespace StructureHelperCommon.Services.Exports.Factories
 {
     public enum FileInputDataType
     {
-        Csv,
-        Png,
-        Dxf
+        Csv = 0,
+        Png = 1,
+        Dxf = 2,
+        Py = 3
     }
     public static class FileInputDataFactory
     {
@@ -39,6 +40,14 @@ namespace StructureHelperCommon.Services.Exports.Factories
                 {
                     Filter = "dxf |*.dxf",
                     Title = "Save in *.dxf File"
+                };
+            }
+            else if (dataType == FileInputDataType.Py)
+            {
+                return new FileIOInputData
+                {
+                    Filter = "py |*.py",
+                    Title = "Save in *.py File"
                 };
             }
             else

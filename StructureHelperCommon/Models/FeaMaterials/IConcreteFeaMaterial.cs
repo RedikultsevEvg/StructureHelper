@@ -12,11 +12,12 @@ namespace StructureHelperCommon.Models.FeaMaterials
         /// <summary>
         /// Young's moduus (modulus of elasticity) of concrete, Pa
         /// </summary>
-        double YoungsModulus {  get; set; }
+        double YoungModulus {  get; set; }
         /// <summary>
         /// Poison's ration, dimensionless
         /// </summary>
-        double PoissonsRatio { get; set; }
+        double PoissonRatio { get; set; }
+        ICdpProperty CdpProperty { get; }
         /// <summary>
         /// Propertis of concrete on compression
         /// </summary>

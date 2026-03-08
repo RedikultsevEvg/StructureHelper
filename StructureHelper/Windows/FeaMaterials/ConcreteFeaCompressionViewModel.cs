@@ -8,7 +8,6 @@ namespace StructureHelper.Windows.FeaMaterials
     {
         private const double maxRatio = 0.9;
         private IConcreteFeaCompression material;
-        private double descendingScaleFactor;
 
         public ConcreteFeaMaterialViewModel ParentViewModel {  get; set; }
 

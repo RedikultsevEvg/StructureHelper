@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Infrastructure/UI/Resources/MaterialButtonStyles.xaml"/>
+                <ResourceDictionary Source="/Infrastructure/UI/Resources/FeaMaterialButtonStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -41,6 +42,16 @@
                 </Button>
             </ToolBar>
             <ToolBar DataContext="{Binding MaterialList}">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ExportMaterialToPyCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Export material to *.py"
+                                                IconContent="{StaticResource ExportToPy}"
+                                                DescriptionText="Exports material to *.py file of Abaqus"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource ExportToPy}"/>
+                    </Viewbox>
+                </Button>
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowDiagram}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Show moment-curvature diagram"
@@ -49,6 +60,18 @@
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource MomentCurvatureDiagram}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+            <ToolBar DataContext="{Binding MaterialList}">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding PrismTestCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Create prism test"
+                                                IconContent="{StaticResource PrismTest}"
+                                                DescriptionText="Create Abaqus prism test Python-script"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource PrismTest}"/>
                     </Viewbox>
                 </Button>
             </ToolBar>

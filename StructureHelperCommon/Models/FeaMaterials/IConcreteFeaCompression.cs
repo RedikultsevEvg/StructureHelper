@@ -22,6 +22,9 @@ namespace StructureHelperCommon.Models.FeaMaterials
         /// Ratio of elastic stress to ultimate stress 
         /// </summary>
         double ElasticStressRatio { get; set; }
+        /// <summary>
+        /// Value of scaling of descending branch of concrete's stress-strain curve
+        /// </summary>
         double DescendingScaleFactor { get; set; }
     }
 }

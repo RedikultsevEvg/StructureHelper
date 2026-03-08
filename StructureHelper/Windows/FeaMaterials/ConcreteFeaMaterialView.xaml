@@ -33,6 +33,32 @@
                     <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding PoissonsRatio, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="CDP Properties" DataContext="{Binding CdpProperty}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="125"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Dilation angle"/>
+                    <TextBox Grid.Column="1" Text="{Binding DilationAngle, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="1" Text="Eccentricity"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Eccentricity, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="2" Text="Fb0/Fc0 ratio"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Fb0Ratio, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="3" Text="K"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding KRatio, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="4" Text="Viscosity"/>
+                    <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Viscosity, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                </Grid>
+            </TabItem>
             <TabItem Header="Compression" DataContext="{Binding Compression}">
                 <Grid>
                     <Grid.ColumnDefinitions>

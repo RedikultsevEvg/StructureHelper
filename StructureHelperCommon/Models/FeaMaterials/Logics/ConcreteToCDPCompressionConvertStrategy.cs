@@ -31,6 +31,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
             SetCompressionStrain();
             SetCompressionStress();
             CDPInelasticStrain cdp = new();
+            inelasticStrainList[0] = 0.0;
             for (int i = 0; i < inelasticStrainList.Count; i++)
             {
                 cdp.InelasticStrainList.Add(inelasticStrainList[i]);
@@ -94,7 +95,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
 
         private void SetFields()
         {
-            initialModulus = concreteMaterial.YoungsModulus;
+            initialModulus = concreteMaterial.YoungModulus;
             compressionStrength = concreteMaterial.CompressionProperties.Strength;
             minStrain = concreteMaterial.CompressionProperties.ElasticStressRatio / initialModulus;
             peakStrain = concreteMaterial.CompressionProperties.PeakStrain;

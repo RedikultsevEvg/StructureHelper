@@ -14,7 +14,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
         /// <inheritdoc/>
         public string Name { get; set; } = string.Empty;
         /// <inheritdoc/>
-        public double YoungsModulus
+        public double YoungModulus
         {
             get => youngsModulus;
             set
@@ -27,7 +27,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
             }
         }
         /// <inheritdoc/>
-        public double PoissonsRatio
+        public double PoissonRatio
         {
             get => poissonsRatio;
             set
@@ -40,13 +40,17 @@ namespace StructureHelperCommon.Models.FeaMaterials
             }
         }
         /// <inheritdoc/>
+        public ICdpProperty CdpProperty { get; set; }
+        /// <inheritdoc/>
         public IConcreteFeaCompression CompressionProperties { get; set; }
         /// <inheritdoc/>
         public IConcreteFeaTension TensionProperties { get; set; }
 
+
         public ConcreteFeaMaterial(Guid id)
         {
             Id = id;
+            CdpProperty = new CdpProperty(Guid.NewGuid());
             CompressionProperties = new ConcreteFeaCompression();
             TensionProperties = new ConcreteFeaTension();
         }

@@ -16,8 +16,8 @@ namespace StructureHelper.Windows.FeaMaterials
                 var newItem = new ElasticFeaMaterial(Guid.NewGuid())
                 {
                     Name = "New elastic material",
-                    YoungsModulus = 2e11,
-                    PoissonsRatio = 0.3,
+                    YoungModulus = 2e11,
+                    PoissonRatio = 0.3,
                 };
                 return newItem;
             }
@@ -26,8 +26,8 @@ namespace StructureHelper.Windows.FeaMaterials
                 var newItem = new ConcreteFeaMaterial(Guid.NewGuid())
                 {
                     Name = "New concrete material",
-                    YoungsModulus = 3e10,
-                    PoissonsRatio = 0.2
+                    YoungModulus = 3e10,
+                    PoissonRatio = 0.2
                 };
                 return newItem;
             }

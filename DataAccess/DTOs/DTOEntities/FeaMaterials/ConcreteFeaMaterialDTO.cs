@@ -12,15 +12,16 @@ namespace DataAccess.DTOs
         public Guid Id { get; }
         [JsonProperty("Name")]
         public string Name { get; set; }
-        [JsonProperty("YoungsModulus")]
-        public double YoungsModulus { get; set; }
-        [JsonProperty("PoissonsRatio")]
-        public double PoissonsRatio { get; set; }
+        [JsonProperty("YoungModulus")]
+        public double YoungModulus { get; set; }
+        [JsonProperty("PoissonRatio")]
+        public double PoissonRatio { get; set; }
+        [JsonProperty("CdpProperty")]
+        public ICdpProperty CdpProperty { get; set; }
         [JsonProperty("Compression")]
         public IConcreteFeaCompression CompressionProperties { get; set; }
         [JsonProperty("Tension")]
         public IConcreteFeaTension TensionProperties { get; set; }
-
 
 
         public ConcreteFeaMaterialDTO(Guid id)

@@ -19,19 +19,19 @@ namespace StructureHelper.Windows.FeaMaterials
         }
         public double YoungsModulus
         {
-            get => _material.YoungsModulus;
+            get => _material.YoungModulus;
             set
             {
-                _material.YoungsModulus = value;
+                _material.YoungModulus = value;
                 OnPropertyChanged(nameof(YoungsModulus));
             }
         }
         public double PoissonsRatio
         {
-            get => _material.PoissonsRatio;
+            get => _material.PoissonRatio;
             set
             {
-                _material.PoissonsRatio = value;
+                _material.PoissonRatio = value;
                 OnPropertyChanged(nameof(PoissonsRatio));
             }
         }
