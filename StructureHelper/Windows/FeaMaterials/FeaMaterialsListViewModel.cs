@@ -24,10 +24,39 @@ namespace StructureHelper.Windows.FeaMaterials
         private RelayCommand showDiagram;
         private RelayCommand exportMaterialToPyCommand;
         private RelayCommand prismTestCommand;
+        private RelayCommand cubeTestCommand;
 
         public RelayCommand ShowDiagram => showDiagram ??= new RelayCommand(o => ShowDigramMethod(), o => SelectedItem != null);
         public RelayCommand ExportMaterialToPyCommand => exportMaterialToPyCommand ??= new RelayCommand(o => ExportMaterialToPy(), o => SelectedItem != null);
         public RelayCommand PrismTestCommand => prismTestCommand ??= new RelayCommand(o => PrismTest(), o => SelectedItem != null);
+        public RelayCommand CubeTestCommand => cubeTestCommand ??= new RelayCommand(o => CubeTest(), o => SelectedItem != null);
+
+        private void CubeTest()
+        {
+            SafetyProcessor.RunSafeProcess(ProcessCube, "Error of creating of script of cube");
+        }
+
+        private void ProcessCube()
+        {
+            var builder = new AbaqusPrismTestBuilder()
+            {
+                Width = 0.15,
+                Depth = 0.15,
+                Height = 0.15,
+                DisplacementX = 0.0,
+                DisplacementY = 0.0,
+                DisplacementZ = -0.001,
+            };
+            var script = builder.Build(SelectedItem);
+            FileIOInputData inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Py);
+            var logic = new ExportTextToFileLogic()
+            {
+                FileName = SelectedItem.Name,
+                Text = script
+            };
+            var exportService = new ExportToFileService(inputData, logic);
+            exportService.Export();
+        }
 
         private void PrismTest()
         {

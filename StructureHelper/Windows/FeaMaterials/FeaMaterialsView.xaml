@@ -64,11 +64,21 @@
                 </Button>
             </ToolBar>
             <ToolBar DataContext="{Binding MaterialList}">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding CubeTestCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Create cube test"
+                                                IconContent="{StaticResource CubeTest}"
+                                                DescriptionText="Creates Abaqus cube test Python-script"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource CubeTest}"/>
+                    </Viewbox>
+                </Button>
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding PrismTestCommand}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Create prism test"
                                                 IconContent="{StaticResource PrismTest}"
-                                                DescriptionText="Create Abaqus prism test Python-script"/>
+                                                DescriptionText="Creates Abaqus prism test Python-script"/>
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource PrismTest}"/>

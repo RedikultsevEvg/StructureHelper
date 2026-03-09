@@ -21,6 +21,10 @@ namespace StructureHelperCommon.Models.FeaMaterials.ExportLogics
         public double Width { get; set; } = 0.1;
         public double Depth { get; set; } = 0.1;
 
+        public double DisplacementX { get; set; } = 0.0;
+        public double DisplacementY { get; set; } = 0.0;
+        public double DisplacementZ { get; set; } = -0.001;
+
         public string Build(IFeaMaterial material)
         {
             AddHeader();
@@ -42,14 +46,20 @@ namespace StructureHelperCommon.Models.FeaMaterials.ExportLogics
         private void AddJob()
         {
             Builder.AddCommentedHeader("Job");
-            Builder.AddKeyword($"mdb.Job(name='ConcreteCompression',\r\n        model=modelName,\r\n        numCpus=1)");
+            Builder.AddComment("Change numCpus to your number of CPUs, i.e. 8, if you have 8 CPUs");
+            Builder.AddKeyword($"mdb.Job(name='ConcreteCompression', model=modelName, numCpus=1)");
             
         }
 
         private void AddField()
         {
             Builder.AddCommentedHeader("Field Output");
-            Builder.AddKeyword($"model.fieldOutputRequests['F-Output-1'].setValues(variables=('S', 'U', 'E', 'PE', 'PEEQ','DAMAGET', 'DAMAGEC', 'STATUS'))");
+            Builder.AddKeyword($"model.fieldOutputRequests['F-Output-1'].setValues(variables=(");
+            Builder.AddKeyword($"'S', 'U', 'E', 'PE', 'PEEQ','DAMAGET', 'DAMAGEC', 'STATUS'))");
+            Builder.AddCommentedHeader("History Output");
+            Builder.AddKeyword($"model.historyOutputRequests['H-Output-1'].setValues(variables=(");
+            Builder.AddKeyword($"'U1', 'U2', 'U3', 'RF1', 'RF2', 'RF3', 'TF1', 'TF2', 'TF3'),");
+            Builder.AddKeyword($"frequency=10, region=rpRegion, sectionPoints=DEFAULT, rebar=EXCLUDE)");
         }
 
         private void AddMesh(IFeaMaterial material)
@@ -70,33 +80,52 @@ namespace StructureHelperCommon.Models.FeaMaterials.ExportLogics
         {
             Builder.AddCommentedHeader("Boundary Conditions");
             Builder.AddComment("Bottom fixed");
-            Builder.AddKeyword($"bottomFace = instance.faces.findAt(((width/2.0, depth/2.0, 0.0),))");
+            Builder.AddKeyword($"bottomFace = instance.faces.findAt(((0, 0, 0.0),))");
             Builder.AddKeyword($"region = regionToolset.Region(faces=bottomFace)");
             Builder.AddKeyword($"model.DisplacementBC(name='FixBottom',");
             Builder.AddKeyword($"   createStepName='{initialStepName}',");
             Builder.AddKeyword($"   region=region,");
             Builder.AddKeyword($"   u1=0.0, u2=0.0, u3=0.0,");
             Builder.AddKeyword($"   ur1=0.0, ur2=0.0, ur3=0.0)");
-            Builder.AddComment("Top displacement (compression)");
-            Builder.AddKeyword($"topFace = instance.faces.findAt(((width/2.0, depth/2.0, height),))");
+            Builder.AddComment(string.Empty);
+            Builder.AddComment("Top displacement");
+            Builder.AddKeyword($"topFace = instance.faces.findAt(((0, 0, height),))");
             Builder.AddKeyword($"region = regionToolset.Region(faces=topFace)");
-            Builder.AddKeyword($"model.DisplacementBC(name='TopLoad',");
-            Builder.AddKeyword($"   createStepName='{secondStepName}',");
-            Builder.AddKeyword($"   region=region,");
-            Builder.AddKeyword($"   u1=0.0, u2=0.05, u3=-1.0,   # 1 mm compression");
-            Builder.AddKeyword($"   amplitude=UNSET)");
+            Builder.AddKeyword($"assembly.Surface(name='TopSurface', side1Faces=topFace)");
+            Builder.AddComment("Coupling top face to reference point");
+            Builder.AddKeyword($"model.Coupling(name='TopCoupling', controlPoint=assembly.sets['LoadRP'], surface=assembly.surfaces['TopSurface'],");
+            Builder.AddKeyword($"influenceRadius=WHOLE_SURFACE, couplingType=KINEMATIC,");
+            Builder.AddKeyword($"u1=ON, u2=ON, u3=ON, ur1=ON, ur2=ON, ur3=ON)");
+            //Builder.AddKeyword($"model.DisplacementBC(name='TopLoad',");
+            //Builder.AddKeyword($"   createStepName='{secondStepName}',");
+            //Builder.AddKeyword($"   region=region,");
+            //Builder.AddKeyword($"   u1={FormatDouble(DisplacementX * lengthFactor)},");
+            //Builder.AddKeyword($"   u2={FormatDouble(DisplacementY * lengthFactor)},");
+            //Builder.AddKeyword($"   u3={FormatDouble(DisplacementZ * lengthFactor)},");
+            //Builder.AddKeyword($"   amplitude=UNSET)");
+            Builder.AddKeyword($"model.DisplacementBC(name='TopLoad', createStepName='Compression', region=assembly.sets['LoadRP'],");
+            Builder.AddKeyword($"   u1={FormatDouble(DisplacementX * lengthFactor)},");
+            Builder.AddKeyword($"   u2={FormatDouble(DisplacementY * lengthFactor)},");
+            Builder.AddKeyword($"   u3={FormatDouble(DisplacementZ * lengthFactor)},");
+            Builder.AddKeyword($"   ur1=0,");
+            Builder.AddKeyword($"   ur2=0,");
+            Builder.AddKeyword($"   ur3=0)");
         }
 
         private void AddStep()
         {
             Builder.AddCommentedHeader("Step");
             Builder.AddKeyword($"model.StaticStep(name='{secondStepName}',previous='{initialStepName}', nlgeom=ON)");
+            Builder.AddKeyword($"mdb.models['{modelName}'].steps['{secondStepName}'].setValues(maxNumInc=100, initialInc=0.05, maxInc=0.05)");
         }
 
         private void AddAssembly()
         {
             Builder.AddCommentedHeader("Assembly");
             Builder.AddKeyword($"assembly = model.rootAssembly");
+            Builder.AddKeyword($"rp = assembly.ReferencePoint(point=(0, 0, height))");
+            Builder.AddKeyword($"rpRegion = regionToolset.Region(referencePoints=(assembly.referencePoints[rp.id],))");
+            Builder.AddKeyword($"assembly.Set(name='LoadRP',referencePoints=(assembly.referencePoints[rp.id],))");
             Builder.AddKeyword($"instance = assembly.Instance(name='PrismInstance',part=part, dependent=ON)");
         }
 
@@ -138,6 +167,8 @@ namespace StructureHelperCommon.Models.FeaMaterials.ExportLogics
         {
             Builder.AddCommentedHeader("Model");
             Builder.AddKeyword($"modelName = '{modelName}'");
+            Builder.AddKeyword($"if modelName in mdb.models:");
+            Builder.AddKeyword($"   del mdb.models[modelName]");
             Builder.AddKeyword($"mdb.Model(name = modelName)");
             Builder.AddKeyword($"model = mdb.models[modelName]");
         }
