@@ -22,6 +22,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
         private List<double> inelasticStrainList;
         private List<double> stressList;
         private List<double> damageList;
+        private List<double> plasticStrainList;
 
         public CDPInelasticStrain Convert(IConcreteFeaMaterial source)
         {
@@ -31,12 +32,18 @@ namespace StructureHelperCommon.Models.FeaMaterials
             SetCompressionStrain();
             SetCompressionStress();
             CDPInelasticStrain cdp = new();
-            inelasticStrainList[0] = 0.0;
+            double deltaStrain = inelasticStrainList[0];
+            for (int i = 0; i < incentStepNumber; i++)
+            {
+                inelasticStrainList[i] -= deltaStrain / incentStepNumber * (incentStepNumber - i);
+            }
             for (int i = 0; i < inelasticStrainList.Count; i++)
             {
+                cdp.ElasticStrainList.Add(elasticStrainList[i]);
                 cdp.InelasticStrainList.Add(inelasticStrainList[i]);
                 cdp.StressList.Add(stressList[i]);
                 cdp.DamageList.Add(damageList[i]);
+                cdp.PlasticStrainList.Add(plasticStrainList[i]);
             }
             return cdp;
         }
@@ -47,6 +54,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
             elasticStrainList = new();
             inelasticStrainList = new();
             damageList = new();
+            plasticStrainList = new();
             foreach (var totalStrain in totalStrainList)
             {
                 double stress = diagram.GetStressByStrain(totalStrain);
@@ -62,6 +70,8 @@ namespace StructureHelperCommon.Models.FeaMaterials
                     damage = Math.Max(0.0, Math.Min(0.999, damage));
                 }
                 damageList.Add(damage);
+                double plasticStrain = inelasticStrain - damage * stress / (1.0 - damage) / initialModulus;
+                plasticStrainList.Add(plasticStrain);
             }
         }
 
@@ -97,7 +107,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
         {
             initialModulus = concreteMaterial.YoungModulus;
             compressionStrength = concreteMaterial.CompressionProperties.Strength;
-            minStrain = concreteMaterial.CompressionProperties.ElasticStressRatio / initialModulus;
+            minStrain = concreteMaterial.CompressionProperties.ElasticStressRatio * compressionStrength / initialModulus;
             peakStrain = concreteMaterial.CompressionProperties.PeakStrain;
             maxStrain = peakStrain * 4.0;
         }

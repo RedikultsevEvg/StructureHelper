@@ -13,5 +13,9 @@ namespace StructureHelperCommon.Models.FeaMaterials
         public List<double> StressList { get; } = [];
         /// <inheritdoc/>
         public List<double> DamageList { get; } = [];
+        /// <inheritdoc/>
+        public List<double> PlasticStrainList { get; } = [];
+
+        public List<double> ElasticStrainList { get; } = [];
     }
 }

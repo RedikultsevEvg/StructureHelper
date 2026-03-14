@@ -35,7 +35,7 @@ namespace StructureHelper.Windows.FeaMaterials
         private ArrayParameter<double> GetParameter(ICDPInelasticStrain source)
         {
             int rowCount = source.InelasticStrainList.Count;
-            List<string> labels = ["inelastic strain", "stress", "damage"];
+            List<string> labels = ["inelastic strain", "stress", "damage", "plastic strain", "elastic strain"];
             ArrayParameter<double> compressionParameter = new(rowCount, labels.Count, labels);
             var data = compressionParameter.Data;
             for (int i = 0; i < rowCount; i++)
@@ -43,6 +43,8 @@ namespace StructureHelper.Windows.FeaMaterials
                 data[i, 0] = source.InelasticStrainList[i];
                 data[i, 1] = source.StressList[i] * unitStress.Multiplayer;
                 data[i, 2] = source.DamageList[i];
+                data[i, 3] = source.PlasticStrainList[i];
+                data[i, 4] = source.ElasticStrainList[i];
             }
             return compressionParameter;
         }

@@ -18,7 +18,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
         private List<double> inelasticStrainList;
         private List<double> stressList;
         private List<double> damageList;
-
+        private List<double> plasticStrainList;
 
         public CDPInelasticStrain Convert(IConcreteFeaMaterial source)
         {
@@ -26,11 +26,14 @@ namespace StructureHelperCommon.Models.FeaMaterials
             SetFields();
             GetStress();
             CDPInelasticStrain cdp = new();
+            double elasticStrain = strength / initialModulus;
             for (int i = 0; i < inelasticStrainList.Count; i++)
             {
+                cdp.ElasticStrainList.Add(elasticStrain);
                 cdp.InelasticStrainList.Add(inelasticStrainList[i]);
                 cdp.StressList.Add(stressList[i]);
                 cdp.DamageList.Add(damageList[i]);
+                cdp.PlasticStrainList.Add(plasticStrainList[i]);
             }
             return cdp;
         }
@@ -40,10 +43,12 @@ namespace StructureHelperCommon.Models.FeaMaterials
             inelasticStrainList = [];
             stressList = [];
             damageList = [];
+            plasticStrainList = [];
             double step = ultimateCrackWidth / stepNumber;
             inelasticStrainList.Add(0.0);
             stressList.Add(strength);
             damageList.Add(0.0);
+            plasticStrainList.Add(0.0);
             for (int i = 1; i <= stepNumber; i++)
             {
                 double crackWidth = step * i;
@@ -55,6 +60,8 @@ namespace StructureHelperCommon.Models.FeaMaterials
                 double damage = 1.0 - stress / strength;
                 damage = Math.Max(0.0, Math.Min(0.999, damage));
                 damageList.Add(damage);
+                double plasticStrain = inelasticStrain - damage * stress / (1.0 - damage) / initialModulus;
+                plasticStrainList.Add(plasticStrain);
             }
         }
 
