@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.FeaMaterials.ExportLogics;
 using StructureHelperCommon.Models.ScriptExports;
+using System.Threading.Tasks.Dataflow;
 
 namespace StructureHelperCommon.Models.FeaMaterials
 {
@@ -14,8 +15,13 @@ namespace StructureHelperCommon.Models.FeaMaterials
 
             if (material is IElasticFeaMaterial elasticFeaMaterial)
             {
-                var builder = new ElasticMaterialAbaqusPyBuilder();
-                return builder.Build(elasticFeaMaterial);
+                var script = new AbaqusScript()
+                    .Add(new ElasticMaterialBlock(material))
+                    .Add(new ModelBlock("ConcreteCDP"))
+                    .Add(new SectionBlock())
+                    .Build();
+                //var builder = new ElasticMaterialAbaqusPyBuilder();
+                //return builder.Build(elasticFeaMaterial);
             }
             else if (material is IConcreteFeaMaterial concreteMaterial)
             {
