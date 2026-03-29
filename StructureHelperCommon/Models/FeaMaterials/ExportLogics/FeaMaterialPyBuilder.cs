@@ -16,10 +16,11 @@ namespace StructureHelperCommon.Models.FeaMaterials
             if (material is IElasticFeaMaterial elasticFeaMaterial)
             {
                 var script = new AbaqusScript()
-                    .Add(new ElasticMaterialBlock(material))
+                    .Add(new ElasticMaterialBlock(elasticFeaMaterial))
                     .Add(new ModelBlock("ConcreteCDP"))
-                    .Add(new SectionBlock())
                     .Build();
+
+                return script.ToString();
                 //var builder = new ElasticMaterialAbaqusPyBuilder();
                 //return builder.Build(elasticFeaMaterial);
             }

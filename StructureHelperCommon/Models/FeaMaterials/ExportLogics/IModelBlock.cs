@@ -7,5 +7,6 @@ namespace StructureHelperCommon.Models.FeaMaterials
 {
     public interface IModelBlock : IAbaqusScriptBlock, IProvides<IModelContext>
     {
+        string ModelNameVar { get; set; }
     }
 }

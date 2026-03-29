@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Models.FeaMaterials.ExportLogics;
+using StructureHelperCommon.Models.ScriptExports;
 using System;
 using System.Security.Cryptography;
 using System.Xml.Linq;
@@ -8,6 +9,10 @@ namespace StructureHelperCommon.Models.FeaMaterials
     public class ElasticMaterialBlock : IMaterialBlock
     {
         private IElasticFeaMaterial material;
+        private IKeywordBuilder builder;
+
+        public string MaterialNameVar { get; set; } = "elasticMaterialName";
+        public string MaterialVar { get; set; } = "elasticMaterial";
 
         public ElasticMaterialBlock(IElasticFeaMaterial elasticFeaMaterial)
         {
@@ -17,16 +22,20 @@ namespace StructureHelperCommon.Models.FeaMaterials
         public void Build(IAbaqusContext context)
         {
             var model = context.Get<ModelContext>();
-            var b = context.Builder;
+            builder = context.Builder;
 
-            string modelName = model.ModelName;
+            string modelNameVar = model.ModelNameVar;
             string materialName = material.Name;
-            string youngModulus = $"{FormatConverter.FormatDouble(material.YoungModulus)} * stressFactor";
+            string stressFactor = model.StressFactorName;
+            string youngModulus = $"{FormatConverter.FormatDouble(material.YoungModulus)} * {stressFactor}";
             string poissonRatio = FormatConverter.FormatDouble(material.PoissonRatio);
-
-            b.AddComment($"Elastic material {materialName}");
-            b.AddKeyword($"mdb.models['{modelName}'].Material(name = '{materialName}')");
-            b.AddKeyword($"mdb.models['{modelName}'].material.Elastic(table=(({youngModulus},{poissonRatio}),))");
+            
+            builder.AddRaw("");
+            builder.AddComment($"Elastic material {materialName}");
+            builder.AddKeyword($"{MaterialNameVar} = '{materialName}'");
+            builder.AddKeyword($"mdb.models[{modelNameVar}].Material(name = {MaterialNameVar})");
+            builder.AddKeyword($"mdb.models[{modelNameVar}].materials[{MaterialNameVar}].Elastic(table=(({youngModulus},{poissonRatio}),))");
+            builder.AddKeyword($"{MaterialVar} = mdb.models[{modelNameVar}].materials[{MaterialNameVar}]");
         }
     }
 }
