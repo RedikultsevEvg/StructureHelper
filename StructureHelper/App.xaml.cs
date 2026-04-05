@@ -6,6 +6,7 @@ using System.Windows;
 using Autofac;
 using System;
 using System.IO;
+using StructureHelperCommon.Infrastructures.Settings;
 
 namespace StructureHelper
 {
@@ -47,6 +48,7 @@ namespace StructureHelper
                 var window = new AnalysesManagerView();
                 window.Show();
             }
+            SettingsSerializer.LoadSettings();
         }
 
         private static void OpenSpecifiedFile(string[] args)
@@ -71,6 +73,14 @@ namespace StructureHelper
 
         protected override void OnExit(ExitEventArgs e)
         {
+            try
+            {
+                SettingsSerializer.SaveSettings();
+            }
+            catch (Exception ex)
+            {
+
+            }
             Scope.Dispose();
             base.OnExit(e);
         }

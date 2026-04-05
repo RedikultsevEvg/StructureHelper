@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models;
+﻿using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Projects;
 using StructureHelperCommon.Services.FileServices;
 
@@ -22,6 +23,7 @@ namespace DataAccess.Infrastructures
                 }
                 project.FullFileName = selectResult.FileName;
             }
+            RecentFilesProcessor.AddFileToList(project.FullFileName);
             result.FileName = project.FullFileName;
             try
             {

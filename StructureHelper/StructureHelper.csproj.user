@@ -159,6 +159,9 @@
     <Compile Update="Windows\MainWindow\Analyses\AnalysisView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\MainWindow\Analyses\OpenRecentFileView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\MainWindow\Analyses\VersionsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -34,14 +34,14 @@ namespace DataAccess.DTOs
         public override ForceFactoredList GetNewItem(ForceFactoredListDTO source)
         {
             InitializeStrategies();
-            TraceLogger.AddMessage($"Force combination by factor name = {source.Name} converting is starting");
+            TraceLogger?.AddMessage($"Force combination by factor name = {source.Name} converting is starting");
             ForceFactoredList newItem = new(source.Id);
             baseUpdateStrategy.Update(newItem, source);
             updateStrategy.Update(newItem, source);
             SetPoint(source, newItem);
             SetCombinationProperty(source, newItem);
             SetForceTuples(source, newItem);
-            TraceLogger.AddMessage($"Force combination by factor name = {newItem.Name} converting has been finished");
+            TraceLogger?.AddMessage($"Force combination by factor name = {newItem.Name} converting has been finished");
             return newItem;
         }
 

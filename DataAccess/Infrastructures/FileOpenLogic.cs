@@ -45,9 +45,14 @@ namespace DataAccess.Infrastructures
                 TraceLogger?.AddMessage($"File {fileName} does not exists", TraceLogStatuses.Error);
                 return result;
             }
-            getProjectLogic = new GetProjectLogic(TraceLogger);
-            getProjectLogic.TraceLogger = TraceLogger;
-            getProjectLogic.FileName = fileName;
+            getProjectLogic = new GetProjectLogic(TraceLogger)
+            {
+                TraceLogger = TraceLogger,
+                FileName = fileName
+            };
+
+            RecentFilesProcessor.AddFileToList(fileName);
+
             return getProjectLogic.GetProject();
         }
 

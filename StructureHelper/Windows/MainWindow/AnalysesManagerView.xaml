@@ -23,7 +23,8 @@
                     <MenuItem Header="New" Command="{Binding FileNew}"/>
                     <MenuItem Header="Open" Command="{Binding FileOpen}"/>
                     <MenuItem Header="Save" Command="{Binding FileSave}"/>
-                    <MenuItem Header="SaveAs" Command="{Binding FileSaveAs}"/>
+                    <MenuItem Header="Save As" Command="{Binding FileSaveAs}"/>
+                    <MenuItem Header="Open Recent file..." Command="{Binding OpenRecentFileCommand}"/>
                 </MenuItem>
             </Menu>
             <ToolBarTray DockPanel.Dock="Top">

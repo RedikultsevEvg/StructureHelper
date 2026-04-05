@@ -41,6 +41,8 @@ namespace StructureHelperCommon.Infrastructures.Settings
             }
         }
 
+        public static AppSettings AppSettings { get; set; } = new();
+
         private static void SetCodeList()
         {
             if (codesList is null)

@@ -1,6 +1,7 @@
 ﻿using DataAccess.Infrastructures;
 using StructureHelper.Infrastructure;
 using StructureHelper.Windows.CalculationWindows.ProgressViews;
+using StructureHelper.Windows.MainWindow.Analyses;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models;
@@ -25,6 +26,7 @@ namespace StructureHelper.Windows.MainWindow
         private RelayCommand fileClose;
         private IProjectAccessLogic projectAccessLogic;
         private RelayCommand fileSaveAs;
+        private RelayCommand openRecentFileCommand;
 
         public AnalysesManagerViewModel ParentVM { get; set; }
 
@@ -44,6 +46,14 @@ namespace StructureHelper.Windows.MainWindow
         public ICommand FileClose => fileClose ??= new RelayCommand(obj => CloseFile());
         public ICommand FileSave => fileSave ??= new RelayCommand(obj => SaveFile());
         public ICommand FileSaveAs => fileSaveAs ??= new RelayCommand(obj => SaveAsFile());
+        public ICommand OpenRecentFileCommand => openRecentFileCommand ??= new RelayCommand(obj => OpenRecentFile());
+
+        private void OpenRecentFile()
+        {
+            var vm = new OpenRecentFileViewModel(this);
+            var wnd = new OpenRecentFileView(vm);
+            wnd.ShowDialog();
+        }
 
         public void NewFile()
         {
@@ -70,7 +80,7 @@ namespace StructureHelper.Windows.MainWindow
             traceLogger = new ShiftTraceLogger();
             projectAccessLogic.TraceLogger = traceLogger;
             var result = projectAccessLogic.SaveProjectAs(project);
-            ShowEntries();
+            ShowTraceLoggerEntries();
             return result;
         }
         public bool ExitProgram()
@@ -141,7 +151,7 @@ namespace StructureHelper.Windows.MainWindow
             traceLogger = new ShiftTraceLogger();
             projectAccessLogic.TraceLogger = traceLogger;
             var result = projectAccessLogic.SaveProject(project);
-            ShowEntries();
+            ShowTraceLoggerEntries();
             return result;
         }
         private void OpenFile()
@@ -170,7 +180,7 @@ namespace StructureHelper.Windows.MainWindow
             {
                 ProgramSetting.Projects.Add(currentProject);
             }
-            ShowEntries();
+            ShowTraceLoggerEntries();
             ParentVM.AnalysesLogic.Refresh();
         }
 
@@ -189,13 +199,14 @@ namespace StructureHelper.Windows.MainWindow
             {
                 ProgramSetting.Projects.Add(new Project());
             }
-            ShowEntries();
+            ShowTraceLoggerEntries();
             ParentVM.AnalysesLogic.Refresh();
         }
 
-        private void ShowEntries()
+        public void ShowTraceLoggerEntries()
         {
-            var filteredEntries = traceLogger.TraceLoggerEntries.Where(x => x.Priority < 300);
+            if (traceLogger is null) { return; }
+            var filteredEntries = traceLogger?.TraceLoggerEntries.Where(x => x.Priority < 300);
             if (filteredEntries.Any())
             {
                 var wnd = new TraceDocumentView(traceLogger);

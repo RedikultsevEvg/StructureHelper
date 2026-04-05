@@ -1,0 +1,44 @@
+﻿<Window x:Class="StructureHelper.Windows.MainWindow.Analyses.OpenRecentFileView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.MainWindow.Analyses"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        d:DataContext="{d:DesignInstance local:OpenRecentFileViewModel}"
+        mc:Ignorable="d"
+        Title="Open Recent File" Height="350" Width="500" MinHeight="350" MaxHeight="600" MinWidth="300" MaxWidth="600" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding FileOpenCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Open file"
+                                                IconContent="{StaticResource FileOpen}"
+                                                DescriptionText="Open exsisting project from file"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource FileOpen}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid>
+            <ListBox DataContext="{Binding Files}" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding FileName}"/>
+                            <TextBlock Grid.Column="1" Text="{Binding RecentOpeningTime}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </DockPanel>
+</Window>

@@ -16,10 +16,10 @@ namespace DataAccess.DTOs
         public override FactoredCombinationProperty GetNewItem(FactoredCombinationPropertyDTO source)
         {
             InitializeStrategies();
-            TraceLogger.AddMessage($"Force factored combination property Id={source.Id} converting has been started");
+            TraceLogger?.AddMessage($"Force factored combination property Id={source.Id} converting has been started");
             FactoredCombinationProperty newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
-            TraceLogger.AddMessage($"Force factored combination property Id={newItem.Id} converting has been finished");
+            TraceLogger?.AddMessage($"Force factored combination property Id={newItem.Id} converting has been finished");
             return newItem;
         }
         private void InitializeStrategies()
