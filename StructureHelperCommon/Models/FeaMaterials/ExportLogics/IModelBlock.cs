@@ -7,6 +7,8 @@ namespace StructureHelperCommon.Models.FeaMaterials
 {
     public interface IModelBlock : IAbaqusScriptBlock, IProvides<IModelContext>
     {
-        string ModelNameVar { get; set; }
+        string ModelName { get; set; }
+        string ModelVariableName { get; set; }
+        bool AddImport { get; set; }
     }
 }

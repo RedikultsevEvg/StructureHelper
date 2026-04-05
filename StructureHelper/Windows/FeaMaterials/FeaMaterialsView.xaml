@@ -84,6 +84,16 @@
                         <ContentControl ContentTemplate="{DynamicResource PrismTest}"/>
                     </Viewbox>
                 </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding CylinderTestCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Create cylinder test"
+                                                IconContent="{StaticResource CylinderTest}"
+                                                DescriptionText="Creates Abaqus cylinder test Python-script"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource CylinderTest}"/>
+                    </Viewbox>
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <Grid DataContext="{Binding MaterialList}">

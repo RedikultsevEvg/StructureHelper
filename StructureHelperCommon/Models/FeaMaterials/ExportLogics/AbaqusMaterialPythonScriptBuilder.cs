@@ -13,7 +13,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
         public abstract string Build(IFeaMaterial material);
         public string ModelName { get; set; } = "model";
         public string ShortMaterialName { get; set; }
-        public string ScriptMaterialName { get; set; }
+        public string MaterialVariableName { get; set; }
         public string MaterialName { get; set; }
 
         public bool AddCommentForAbaqusModel { get; set; } = true;

@@ -28,4 +28,18 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+
+    <DataTemplate x:Key="CylinderTest">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Ellipse Canvas.Top="6" Canvas.Left="9" Height="7" Width="16" Stroke="Black" Fill="DarkGray" StrokeThickness="1"/>
+                <Ellipse Canvas.Top="20" Canvas.Left="9" Height="7" Width="16" Stroke="Black" Fill="DarkGray" StrokeThickness="1"/>
+                <Line X1="9.5" Y1="10" X2="9.5" Y2="24" Stroke="Black"/>
+                <Line X1="24.5" Y1="10" X2="24.5" Y2="24" Stroke="Black"/>
+                <Line X1="17" Y1="10" X2="17" Y2="2" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="17" Y1="10" X2="15" Y2="6" Stroke="Black" StrokeThickness="0.5"/>
+                <Line X1="17" Y1="10" X2="19" Y2="6" Stroke="Black" StrokeThickness="0.5"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
 </ResourceDictionary>

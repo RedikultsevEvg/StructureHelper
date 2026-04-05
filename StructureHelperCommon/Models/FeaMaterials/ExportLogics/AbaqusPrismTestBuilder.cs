@@ -144,7 +144,7 @@ namespace StructureHelperCommon.Models.FeaMaterials.ExportLogics
             Builder.AddCommentedHeader("Material");
             var builder = new FeaMaterialPyBuilder();
             var script = builder.Build(material);
-            scriptMaterialName = builder.ScriptMaterialName;
+            scriptMaterialName = builder.MaterialVariableName;
             materialName = builder.MaterialName;
             Builder.AddRaw(script);
         }

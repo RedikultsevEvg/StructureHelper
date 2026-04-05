@@ -1,7 +1,4 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Models.FeaMaterials.ExportLogics;
-using StructureHelperCommon.Models.ScriptExports;
-using System.Threading.Tasks.Dataflow;
 
 namespace StructureHelperCommon.Models.FeaMaterials
 {
@@ -10,29 +7,22 @@ namespace StructureHelperCommon.Models.FeaMaterials
         public override string Build(IFeaMaterial material)
         {
             ShortMaterialName = (material.Name).Replace(" ", string.Empty);
-            ScriptMaterialName = "mat" + ShortMaterialName;
+            MaterialVariableName = ShortMaterialName;
+
             MaterialName = material.Name;
+            var modelVariableName = "model";
+            ModelBlock modelBlockBuilder = new("ConcreteCDP")
+            {
+                ModelVariableName = modelVariableName,
+            };
+            var materialBlockBuilder = MaterialBlockFactory.GetMaterialBlock(material, modelVariableName , MaterialVariableName);
 
-            if (material is IElasticFeaMaterial elasticFeaMaterial)
-            {
-                var script = new AbaqusScript()
-                    .Add(new ElasticMaterialBlock(elasticFeaMaterial))
-                    .Add(new ModelBlock("ConcreteCDP"))
-                    .Build();
+            var script = new AbaqusScript()
+                .Add(modelBlockBuilder)
+                .Add(materialBlockBuilder)
+                .Build();
 
-                return script.ToString();
-                //var builder = new ElasticMaterialAbaqusPyBuilder();
-                //return builder.Build(elasticFeaMaterial);
-            }
-            else if (material is IConcreteFeaMaterial concreteMaterial)
-            {
-                var builder = new CdpMaterialAbaqusPyBuilder();
-                return builder.Build(concreteMaterial);
-            }
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(material));
-            }
+            return script.ToString();
         }
     }
 }

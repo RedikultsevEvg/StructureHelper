@@ -58,5 +58,10 @@ namespace StructureHelperCommon.Models.ScriptExports
         {
             return _sb.ToString();
         }
+
+        public void AddRaw()
+        {
+            AddRaw("");
+        }
     }
 }

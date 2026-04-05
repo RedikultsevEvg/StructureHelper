@@ -5,17 +5,13 @@ using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.ViewModels;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.FeaMaterials;
 using StructureHelperCommon.Models.FeaMaterials.ExportLogics;
 using StructureHelperCommon.Services;
 using StructureHelperCommon.Services.Exports;
 using StructureHelperCommon.Services.Exports.Factories;
-using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace StructureHelper.Windows.FeaMaterials
 {
@@ -25,11 +21,24 @@ namespace StructureHelper.Windows.FeaMaterials
         private RelayCommand exportMaterialToPyCommand;
         private RelayCommand prismTestCommand;
         private RelayCommand cubeTestCommand;
+        private RelayCommand cylinderTestCommand;
 
         public RelayCommand ShowDiagram => showDiagram ??= new RelayCommand(o => ShowDigramMethod(), o => SelectedItem != null);
         public RelayCommand ExportMaterialToPyCommand => exportMaterialToPyCommand ??= new RelayCommand(o => ExportMaterialToPy(), o => SelectedItem != null);
         public RelayCommand PrismTestCommand => prismTestCommand ??= new RelayCommand(o => PrismTest(), o => SelectedItem != null);
         public RelayCommand CubeTestCommand => cubeTestCommand ??= new RelayCommand(o => CubeTest(), o => SelectedItem != null);
+        public RelayCommand CylinderTestCommand => cylinderTestCommand ??= new RelayCommand(o => CylinderTest(), o => SelectedItem != null);
+
+        private void CylinderTest()
+        {
+            SafetyProcessor.RunSafeProcess(ProcessCylinder, "Error of creating of script of cube");
+        }
+
+        private void ProcessCylinder()
+        {
+            if (SelectedItem is null) { return; }
+            ProcessModel(ModelType.Cylinder);
+        }
 
         private void CubeTest()
         {
@@ -38,16 +47,14 @@ namespace StructureHelper.Windows.FeaMaterials
 
         private void ProcessCube()
         {
-            var builder = new AbaqusPrismTestBuilder()
-            {
-                Width = 0.15,
-                Depth = 0.15,
-                Height = 0.15,
-                DisplacementX = 0.0,
-                DisplacementY = 0.0,
-                DisplacementZ = -0.001,
-            };
-            var script = builder.Build(SelectedItem);
+            if (SelectedItem is null) { return; }
+            ProcessModel(ModelType.Cube);
+        }
+
+        private void ProcessModel(ModelType cube)
+        {
+            string script = AbaqusModelFactory.GetScript(SelectedItem, cube);
+
             FileIOInputData inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Py);
             var logic = new ExportTextToFileLogic()
             {
@@ -60,24 +67,13 @@ namespace StructureHelper.Windows.FeaMaterials
 
         private void PrismTest()
         {
+            SafetyProcessor.RunSafeProcess(ProcessPrism, "Error of creating of script of cube");
+        }
+
+        private void ProcessPrism()
+        {
             if (SelectedItem is null) { return; }
-            try
-            {
-                var builder = new AbaqusPrismTestBuilder();
-                var script = builder.Build(SelectedItem);
-                FileIOInputData inputData = FileInputDataFactory.GetFileIOInputData(FileInputDataType.Py);
-                var logic = new ExportTextToFileLogic()
-                {
-                    FileName = SelectedItem.Name,
-                    Text = script
-                };
-                var exportService = new ExportToFileService(inputData, logic);
-                exportService.Export();
-            }
-            catch (Exception ex)
-            {
-                SafetyProcessor.ShowMessage("Some errors occured during export, see detailed information", ex.Message);
-            }
+            ProcessModel(ModelType.Prism);
         }
 
         private void ExportMaterialToPy()

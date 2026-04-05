@@ -1,7 +1,4 @@
-﻿using LoaderCalculator.Data.Materials;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Models.ScriptExports;
-using System;
+﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using System.Collections.Generic;
 
 namespace StructureHelperCommon.Models.FeaMaterials
@@ -21,14 +18,14 @@ namespace StructureHelperCommon.Models.FeaMaterials
             GetCdp(concreteMaterial);
 
             ShortMaterialName = (material.Name).Replace(" ", string.Empty);
-            ScriptMaterialName = "mat" + ShortMaterialName;
+            MaterialVariableName = ShortMaterialName;
             MaterialName = material.Name;
 
             AddReferenceToModel();
             Builder.AddComment($"Concrete damage plasticity material {concreteMaterial.Name}");
-            Builder.AddKeyword($"{ScriptMaterialName}={ModelName}.Material(name='{concreteMaterial.Name}')");
-            Builder.AddKeyword($"{ScriptMaterialName}.Elastic(table=(({FormatDouble(cdp.YoungModulus * stressFactor)},{FormatDouble(cdp.PoissonRatio)}),))");
-            Builder.AddKeyword($"{ScriptMaterialName}.Density(table=(({FormatDouble(cdp.Density * densityFactor)},),))");
+            Builder.AddKeyword($"{MaterialVariableName}={ModelName}.Material(name='{concreteMaterial.Name}')");
+            Builder.AddKeyword($"{MaterialVariableName}.Elastic(table=(({FormatDouble(cdp.YoungModulus * stressFactor)},{FormatDouble(cdp.PoissonRatio)}),))");
+            Builder.AddKeyword($"{MaterialVariableName}.Density(table=(({FormatDouble(cdp.Density * densityFactor)},),))");
 
             AddCdpProperties();
             AddCdpCompression();
@@ -41,7 +38,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
         private void AddCdpTensionDamage()
         {
             Builder.AddComment("Tension damage (damage, inelastic strain)");
-            Builder.AddKeyword($"{ScriptMaterialName}.concreteDamagedPlasticity.ConcreteTensionDamage(");
+            Builder.AddKeyword($"{MaterialVariableName}.concreteDamagedPlasticity.ConcreteTensionDamage(");
             Builder.AddKeyword("    table=(");
             List<double> valueList = cdp.TensionStrain.DamageList;
             List<double> strainList = cdp.TensionStrain.InelasticStrainList;
@@ -51,7 +48,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
         private void AddCdpCompressionDamage()
         {
             Builder.AddComment("Compression damage (damage, inelastic strain)");
-            Builder.AddKeyword($"{ScriptMaterialName}.concreteDamagedPlasticity.ConcreteCompressionDamage(");
+            Builder.AddKeyword($"{MaterialVariableName}.concreteDamagedPlasticity.ConcreteCompressionDamage(");
             Builder.AddKeyword("    table=(");
             List<double> valueList = cdp.CompressionStrain.DamageList;
             List<double> strainList = cdp.CompressionStrain.InelasticStrainList;
@@ -61,7 +58,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
         private void AddCdpTension()
         {
             Builder.AddComment("Tension stiffening (stress, cracking strain))");
-            Builder.AddKeyword($"{ScriptMaterialName}.concreteDamagedPlasticity.ConcreteTensionStiffening(");
+            Builder.AddKeyword($"{MaterialVariableName}.concreteDamagedPlasticity.ConcreteTensionStiffening(");
             Builder.AddKeyword("    table=(");
             List<double> valueList = cdp.TensionStrain.StressList;
             List<double> strainList = cdp.TensionStrain.InelasticStrainList;
@@ -71,7 +68,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
         private void AddCdpCompression()
         {
             Builder.AddComment("Compression hardening (stress, inelastic strain)");
-            Builder.AddKeyword($"{ScriptMaterialName}.concreteDamagedPlasticity.ConcreteCompressionHardening(");
+            Builder.AddKeyword($"{MaterialVariableName}.concreteDamagedPlasticity.ConcreteCompressionHardening(");
             Builder.AddKeyword("    table=(");
             List<double> valueList = cdp.CompressionStrain.StressList;
             List<double> strainList = cdp.CompressionStrain.InelasticStrainList;
@@ -96,7 +93,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
         private void AddCdpProperties()
         {
             Builder.AddComment("Concrete Damaged Plasticity");
-            Builder.AddKeyword($"{ScriptMaterialName}.ConcreteDamagedPlasticity(");
+            Builder.AddKeyword($"{MaterialVariableName}.ConcreteDamagedPlasticity(");
             Builder.AddKeyword("    table=(");
             Builder.AddKeyword($"          ({FormatDouble(cdp.CdpProperty.DilationAngle)}, #Dilation angle");
             Builder.AddKeyword($"          {FormatDouble(cdp.CdpProperty.Eccentricity)}, #Eccentricity");

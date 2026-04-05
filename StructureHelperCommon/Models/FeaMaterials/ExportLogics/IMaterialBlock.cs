@@ -1,7 +1,4 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelperCommon.Models.FeaMaterials
 {
@@ -10,5 +7,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
         IRequires<IModelContext>,
         IProvides<IMaterialContext>
     {
+        string ModelVariableName { get; set; }
+        string MaterialVariableName { get; set; }
     }
 }

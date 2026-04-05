@@ -11,6 +11,7 @@ namespace StructureHelperCommon.Models.ScriptExports
         void AddKeyword(string keyword, string parameterName, string parameterValue);
         public void AddParenthesisData(params object[] values);
         public void AddRaw(string text);
+        public void AddRaw();
         string ToString();
     }
 }
