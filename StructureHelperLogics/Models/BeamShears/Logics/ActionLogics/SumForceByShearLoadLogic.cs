@@ -5,6 +5,7 @@ using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Services.Forces;
+using StructureHelperLogics.Models.BeamShears.Logics.ActionLogics;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -45,10 +46,23 @@ namespace StructureHelperLogics.Models.BeamShears
                 TraceLogger?.AddMessage($"Load is concentrated force");
                 return GetConcentratedForceSum(concenratedForce, startCoord, endCoord);
             }
+            else if (beamShearLoad is ITrapezoidDistributedLoad trapezoid)
+            {
+                TraceLogger?.AddMessage($"Load is concentrated force");
+                return GetTrapezoidSum(trapezoid, startCoord, endCoord);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(beamShearLoad));
             }
+        }
+
+        private IForceTuple GetTrapezoidSum(ITrapezoidDistributedLoad trapezoid, double startCoord, double endCoord)
+        {
+            SumTrapezoidDistributedLoadLogic logic = new(TraceLogger);
+            IForceTuple sumForce = logic.GetSumShearForce(trapezoid, startCoord, endCoord);
+            TraceLogger?.AddMessage($"Sum of trapezoid distributed load Qud = {sumForce.Qy}(N)");
+            return sumForce;
         }
 
         private IForceTuple GetConcentratedForceSum(IConcentratedForce concentratedForce, double startCoord, double endCoord)

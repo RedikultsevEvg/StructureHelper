@@ -36,11 +36,23 @@ namespace DataAccess.DTOs
             {
                 ProcessConcentratedForce(concentratedForce);
             }
+            else if (source is ITrapezoidDistributedLoad trapezoid)
+            {
+                ProcessTrapezoid(trapezoid);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source) + ": type of span load");
             }
             TraceLogger?.AddMessage($"Converting of beam shear action Id = {source.Id} has been finished", TraceLogStatuses.Debug);
+        }
+
+        private void ProcessTrapezoid(ITrapezoidDistributedLoad trapezoid)
+        {
+            var convertStrategy = new DictionaryConvertStrategy<TrapezoidDistributedLoadDTO, ITrapezoidDistributedLoad>
+                (this, new TrapezoidDistributedLoadToDTOConvertStrategy(this));
+            TrapezoidDistributedLoadDTO trapezoidDTO = convertStrategy.Convert(trapezoid);
+            NewItem = trapezoidDTO;
         }
 
         private void ProcessConcentratedForce(IConcentratedForce concentratedForce)

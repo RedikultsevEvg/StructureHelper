@@ -444,5 +444,56 @@
         </Canvas>
     </DataTemplate>
 
-
+    <DataTemplate x:Key="TrapezoidDistributedLoadPrimitiveTemplate"
+    DataType="primitives:TrapezoidDistributedLoadPrimitive">
+        <Canvas Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"  Opacity="{Binding VisualProperty.Opacity}">
+            <Canvas.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform
+                    ScaleX="1"
+                    ScaleY="{Binding ScaleFactor}"/>
+                    <TranslateTransform
+                    X="{Binding TranslateX}"
+                    Y="{Binding TranslateY}"
+                    />
+                </TransformGroup>
+            </Canvas.RenderTransform>
+            <Path StrokeThickness="0.01" Data="{Binding PathGeometry}">
+                <Path.Stroke>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}"/>
+                </Path.Stroke>
+                <Path.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="{Binding VisualProperty.Color}" Offset="1"/>
+                        <GradientStop Color="White" Offset="0"/>
+                    </LinearGradientBrush>
+                </Path.Fill>
+                <Path.ToolTip>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Margin="0,0,0,2" Text="Trapezoid load: "/>
+                        <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                        <TextBlock Grid.Row="1" Text="Start load value: "/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding TrapezoidLoad.StartLoadValue.Qy, Converter={StaticResource DistributedLoadConverter}}"/>
+                        <TextBlock Grid.Row="2" Text="Start load value: "/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding TrapezoidLoad.EndLoadValue.Qy, Converter={StaticResource DistributedLoadConverter}}"/>
+                        <TextBlock Grid.Row="3" Text="Start point: "/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding TrapezoidLoad.StartCoordinate, Converter={StaticResource LengthConverter}}"/>
+                        <TextBlock Grid.Row="4" Text="End point: "/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding TrapezoidLoad.EndCoordinate, Converter={StaticResource LengthConverter}}"/>
+                    </Grid>
+                </Path.ToolTip>
+            </Path>
+        </Canvas>
+    </DataTemplate>
 </ResourceDictionary>

@@ -1,12 +1,7 @@
-﻿using NLog;
-using StructureHelperCommon.Infrastructures.Enums;
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces.BeamShearActions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
@@ -18,7 +13,6 @@ namespace StructureHelperCommon.Models.Forces
 
         /// <inheritdoc/>
         public Guid Id { get;}
-
 
         /// <inheritdoc/>
         public string Name { get; set; }

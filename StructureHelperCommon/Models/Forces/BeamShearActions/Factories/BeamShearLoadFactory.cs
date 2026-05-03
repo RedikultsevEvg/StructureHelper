@@ -9,7 +9,8 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
     public enum ShearLoadTypes
     {
         DistributedLoad,
-        ConcentratedForce
+        ConcentratedForce,
+        TrapezoidDistributedLoad
     }
     public static class BeamShearLoadFactory
     {
@@ -23,10 +24,29 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             {
                 return GetConcentratedForce();
             }
+            else if (loadType == ShearLoadTypes.TrapezoidDistributedLoad)
+            {
+                return GetTrapezoidLoad();
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(loadType));
             }
+        }
+
+        private static IBeamSpanLoad GetTrapezoidLoad()
+        {
+            TrapezoidDistributedLoad trapezoid = new(Guid.NewGuid())
+            {
+                Name = "Trapezoid load",
+                LoadRatio = 1.0,
+                RelativeLoadLevel = 0.5,
+                StartCoordinate = 0.0,
+                EndCoordinate = 1.0
+            };
+            trapezoid.StartLoadValue.Qy = 0.0;
+            trapezoid.EndLoadValue.Qy = -5.0e3; // - 5kN/m
+            return trapezoid;
         }
 
         private static ConcentratedForce GetConcentratedForce()
@@ -52,7 +72,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
                 StartCoordinate = 0,
                 EndCoordinate = 100
             };
-            distributedLoad.LoadValue.Qy = -5e3;
+            distributedLoad.LoadValue.Qy = -5e3; // - 5kN/m
             return distributedLoad;
         }
     }

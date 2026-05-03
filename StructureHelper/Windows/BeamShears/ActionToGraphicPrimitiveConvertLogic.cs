@@ -5,8 +5,6 @@ using StructureHelperLogics.Models.BeamShears;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.BeamShears
 {
@@ -39,8 +37,18 @@ namespace StructureHelper.Windows.BeamShears
                 {
                     graphicalPrimitives.Add(GetConcentratedForcePrimitive(concentratedForce));
                 }
+                else if (item is ITrapezoidDistributedLoad trapezoid)
+                {
+                    graphicalPrimitives.Add(GetTrapezoidPrimitive(trapezoid));
+                }
             }
             return graphicalPrimitives;
+        }
+
+        private IGraphicalPrimitive GetTrapezoidPrimitive(ITrapezoidDistributedLoad trapezoid)
+        {
+            TrapezoidDistributedLoadPrimitive trapezoidPrimitive = new(trapezoid, inclinedSection) { MaxForce = maxDistributedLoadValue};
+            return trapezoidPrimitive;
         }
 
         private void SetMaxDistributedForce(IBeamShearAction source)
@@ -49,6 +57,14 @@ namespace StructureHelper.Windows.BeamShears
                 .Where(x => x is IDistributedLoad)
                 .Select(x => Math.Abs((x as IDistributedLoad).LoadValue.Qy))
                 .ToList();
+
+            forceList.AddRange(source.SupportAction.ShearLoads
+                .Where(x => x is ITrapezoidDistributedLoad)
+                .Select(x => Math.Abs((x as ITrapezoidDistributedLoad).StartLoadValue.Qy)));
+
+            forceList.AddRange(source.SupportAction.ShearLoads
+                .Where(x => x is ITrapezoidDistributedLoad)
+                .Select(x => Math.Abs((x as ITrapezoidDistributedLoad).EndLoadValue.Qy)));
             if (! forceList.Any()) { return; }
             maxDistributedLoadValue = forceList.Max();
         }

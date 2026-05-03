@@ -1,31 +1,27 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Models.Forces.BeamShearActions;
-
-//Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
-//All rights reserved.
 
 namespace DataAccess.DTOs
 {
-    public class DistributedLoadToDTOConvertStrategy : ConvertStrategy<DistributedLoadDTO, IDistributedLoad>
+    internal class TrapezoidDistributedLoadToDTOConvertStrategy : ConvertStrategy<TrapezoidDistributedLoadDTO, ITrapezoidDistributedLoad>
     {
-        private IUpdateStrategy<IDistributedLoad> updateStrategy;
-        private IUpdateStrategy<IDistributedLoad> UpdateStrategy => updateStrategy ??= new DistributedLoadUpdateStrategy() { UpdateChildren = false};
+        private IUpdateStrategy<ITrapezoidDistributedLoad> updateStrategy;
+        private IUpdateStrategy<ITrapezoidDistributedLoad> UpdateStrategy => updateStrategy ??= new TrapezoidDistributedLoadUpdateStrategy() { UpdateChildren = false};
         private IConvertStrategy<ForceTupleDTO, IForceTuple> tupleConvertStrategy;
         private IConvertStrategy<FactoredCombinationPropertyDTO, IFactoredCombinationProperty> combinationConvertStrategy;
 
-        public DistributedLoadToDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
+        public TrapezoidDistributedLoadToDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
         }
 
-        public override DistributedLoadDTO GetNewItem(IDistributedLoad source)
+        public override TrapezoidDistributedLoadDTO GetNewItem(ITrapezoidDistributedLoad source)
         {
             ChildClass = this;
             NewItem = new(source.Id);
             InitializeStrategies();
             UpdateStrategy.Update(NewItem, source);
-            NewItem.LoadValue = tupleConvertStrategy.Convert(source.LoadValue);
+            NewItem.StartLoadValue = tupleConvertStrategy.Convert(source.StartLoadValue);
+            NewItem.EndLoadValue = tupleConvertStrategy.Convert(source.EndLoadValue);
             NewItem.CombinationProperty = combinationConvertStrategy.Convert(source.CombinationProperty);
             return NewItem;
         }

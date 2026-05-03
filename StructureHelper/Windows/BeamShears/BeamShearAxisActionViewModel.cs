@@ -12,7 +12,13 @@ namespace StructureHelper.Windows.BeamShears
     {
         private readonly IBeamShearAxisAction beamShearAxisAction;
 
+        /// <summary>
+        /// Factored tuple of force at support of beam ander shear
+        /// </summary>
         public FactoredForceTupleViewModel SupportForces { get; private set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public BeamShearLoadsViewModel ShearLoads { get; }
 
         public BeamShearAxisActionViewModel(IBeamShearAxisAction beamShearAxisAction)

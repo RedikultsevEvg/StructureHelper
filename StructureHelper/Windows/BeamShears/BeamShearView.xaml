@@ -9,6 +9,13 @@
         d:DataContext="{d:DesignInstance local:BeamShearViewModel}"
         mc:Ignorable="d"
         Title="Beam Shear Analysis" Height="450" Width="800" MinHeight="250" MinWidth="400" MaxHeight="1000" MaxWidth="1500" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Infrastructure/UI/Resources/LoadButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar ToolTip="Actions" DataContext="{Binding Actions}">

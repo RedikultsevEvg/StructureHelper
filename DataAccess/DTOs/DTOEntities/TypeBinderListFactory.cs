@@ -208,6 +208,7 @@ namespace DataAccess.DTOs
                 { (typeof(ForceCombinationListDTO), "ForceCombinationList") },
                 { (typeof(FactoredCombinationPropertyDTO), "ForceFactoredCombinationProperty") },
                 { (typeof(ForceTupleDTO), "ForceTuple") },
+                { (typeof(TrapezoidDistributedLoadDTO), "TrapezoidDistributedLoad") },
             };
             return newList;
         }

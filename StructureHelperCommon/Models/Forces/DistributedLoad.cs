@@ -31,7 +31,7 @@ namespace StructureHelperCommon.Models.Forces
         public double StartCoordinate { get; set; } = double.NegativeInfinity;
         public double EndCoordinate { get; set; } = double.PositiveInfinity;
         /// <inheritdoc/>
-        public double LoadRatio { get; set; } = 1;
+        public double LoadRatio { get; set; } = 1.0;
         /// <inheritdoc/>
         public IFactoredCombinationProperty CombinationProperty { get; set; } = new FactoredCombinationProperty(Guid.NewGuid()) { LimitState = LimitStates.ULS, CalcTerm = CalcTerms.ShortTerm};
 

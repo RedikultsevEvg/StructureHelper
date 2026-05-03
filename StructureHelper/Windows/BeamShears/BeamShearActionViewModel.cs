@@ -1,12 +1,6 @@
 ﻿using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.ViewModels;
-using StructureHelper.Windows.ViewModels.Forces;
 using StructureHelperCommon.Models.Forces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.BeamShears
 {

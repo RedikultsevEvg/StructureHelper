@@ -1,4 +1,5 @@
-﻿using StructureHelper.Windows.UserControls;
+﻿using StructureHelper.Windows.Shapes;
+using StructureHelper.Windows.UserControls;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
@@ -24,7 +25,7 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         }
 
         public double TranslateX => concentratedForce.ForceCoordinate;
-        public double TranslateY => GetAbsoluteLevel();
+        public double TranslateY => BeamShearService.GetAbsoluteLevel(concentratedForce, inclinedSection);
 
 
         public PrimitiveVisualPropertyViewModel VisualProperty { get; } = new(new PrimitiveVisualProperty(Guid.Empty));
@@ -41,18 +42,6 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
             VisualProperty.Color = (Color)ColorConverter.ConvertFromString("Black");
         }
 
-        private double GetAbsoluteLevel()
-        {
-            double height;
-            IShape shape = inclinedSection.BeamShearSection.Shape;
-            if (shape is IRectangleShape rectangle) { height = rectangle.Height; }
-            else if (shape is ICircleShape circle) { height = circle.Diameter; }
-            else
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(shape) + $": concentrated force {concentratedForce.Name} shape");
-            }
-            double level = (concentratedForce.RelativeLoadLevel + 0.5) * height;
-            return level;
-        }
+
     }
 }

@@ -57,6 +57,9 @@
     <Compile Update="Windows\BeamShears\StirrupGroupView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\BeamShears\TrapezoidLoadView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\CalculationWindows\CalculatorsViews\Cracks\CrackCalculatorInputDataView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

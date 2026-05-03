@@ -11,6 +11,7 @@ namespace StructureHelperLogics.Models.BeamShears
     public class SumDistributedLoadLogic : ISumForceByShearLoadLogic
     {
         private ICoordinateByLevelLogic coordinateByLevelLogic;
+        private ICoordinateByLevelLogic CoordinateByLevelLogic => coordinateByLevelLogic ??= new CoordinateByLevelLogic(TraceLogger);
         private IForceTupleServiceLogic forceTupleServiceLogic;
         private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         public IShiftTraceLogger? TraceLogger { get; set; }
@@ -31,22 +32,14 @@ namespace StructureHelperLogics.Models.BeamShears
         public IForceTuple GetSumShearForce(IBeamSpanLoad beamShearLoad, double startCoord, double endCoord)
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
-            if (beamShearLoad is IDistributedLoad distributedLoad)
-            {
-                InitializeStrategies();
-                IForceTuple sumForce = GetDistributedLoadSum(distributedLoad, startCoord, endCoord);
-                return sumForce;
-            }
-            else
+            if (beamShearLoad is not IDistributedLoad distributedLoad)
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(beamShearLoad) + ": beam shear load is not distributed load");
             }
+            IForceTuple sumForce = GetDistributedLoadSum(distributedLoad, startCoord, endCoord);
+            return sumForce;
         }
 
-        private void InitializeStrategies()
-        {
-            coordinateByLevelLogic ??= new CoordinateByLevelLogic(TraceLogger);
-        }
 
         private IForceTuple GetDistributedLoadSum(IDistributedLoad distributedLoad, double startCoord, double endCoord)
         {
@@ -57,7 +50,7 @@ namespace StructureHelperLogics.Models.BeamShears
                 TraceLogger?.AddMessage($"Load start coordinate {loadStartCoord}(m) is bigger than section end {endCoord}(m), so total load is zero");
                 return new ForceTuple(Guid.NewGuid());
             }
-            double endCoordByLevel = coordinateByLevelLogic.GetCoordinate(startCoord, endCoord, distributedLoad.RelativeLoadLevel);
+            double endCoordByLevel = CoordinateByLevelLogic.GetCoordinate(startCoord, endCoord, distributedLoad.RelativeLoadLevel);
             double loadEndCoord = Math.Min(distributedLoad.EndCoordinate, endCoordByLevel);
             double loadLength = loadEndCoord - loadStartCoord;
             TraceLogger?.AddMessage($"Total length L,tot = {loadEndCoord}(m) - {loadStartCoord}(m) = {loadLength}(m)");

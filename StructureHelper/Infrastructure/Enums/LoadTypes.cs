@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StructureHelper.Infrastructure.Enums
+﻿namespace StructureHelper.Infrastructure.Enums
 {
     public enum LoadTypes
     {
-        ConcentratedForce,
-        DistributetLoad,
-        ConcentratedMoment
+        ConcentratedForce = 0,
+        DistributetLoad = 1,
+        ConcentratedMoment = 2,
+        TrapezoidDistributedLoad = 3,
     }
 }

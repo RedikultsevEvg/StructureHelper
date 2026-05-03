@@ -22,11 +22,22 @@ namespace DataAccess.DTOs
             {
                 ProcessConcentrated(concentrated);
             }
+            else if (source is TrapezoidDistributedLoadDTO trapezoid)
+            {
+                ProcessTrapezoid(trapezoid);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source));
             }
             return NewItem;
+        }
+
+        private void ProcessTrapezoid(TrapezoidDistributedLoadDTO trapezoid)
+        {
+            var convertLogic = new DictionaryConvertStrategy<TrapezoidDistributedLoad, TrapezoidDistributedLoadDTO>
+                (this, new TrapezoidDistributedLoadFromDTOConvertStrategy(this));
+            NewItem = convertLogic.Convert(trapezoid);
         }
 
         private void ProcessConcentrated(ConcentratedForceDTO concentrated)

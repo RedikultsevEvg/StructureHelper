@@ -27,6 +27,10 @@ namespace StructureHelper.Windows.BeamShears
             {
                 NewItem = BeamShearLoadFactory.GetBeamShearLoad(ShearLoadTypes.ConcentratedForce);
             }
+            else if (typedParameter == LoadTypes.TrapezoidDistributedLoad)
+            {
+                NewItem = BeamShearLoadFactory.GetBeamShearLoad(ShearLoadTypes.TrapezoidDistributedLoad);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(parameter));
@@ -45,6 +49,10 @@ namespace StructureHelper.Windows.BeamShears
             else if (SelectedItem is IConcentratedForce concentrated)
             {
                 window = new ConcentratedForceView(concentrated);
+            }
+            else if (SelectedItem is ITrapezoidDistributedLoad trapezoid)
+            {
+                window = new TrapezoidLoadView(trapezoid);
             }
             else
             {

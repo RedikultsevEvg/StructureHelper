@@ -13,6 +13,7 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
         public DataTemplate StirrupByInclinedRebarTemplate { get; set; }
         public DataTemplate ConcentratedForceTemplate { get; set; }
         public DataTemplate DistributedLoadTemplate { get; set; }
+        public DataTemplate TrapezoidDistributedLoadTemplate { get; set; }
         public DataTemplate PolygonShapeTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
@@ -26,6 +27,7 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
                 StirrupByInclinedRebarPrimitive => StirrupByInclinedRebarTemplate,
                 ConcentratedForcePrimitive => ConcentratedForceTemplate,
                 DistributedLoadPrimitive => DistributedLoadTemplate,
+                TrapezoidDistributedLoadPrimitive => TrapezoidDistributedLoadTemplate,
                 PolygonShapePrimitive => PolygonShapeTemplate,
                 _ => base.SelectTemplate(item, container)
             };

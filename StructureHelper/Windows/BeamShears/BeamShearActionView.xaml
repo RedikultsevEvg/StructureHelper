@@ -9,6 +9,13 @@
         d:DataContext="{d:DesignInstance local:BeamShearActionViewModel}"
         mc:Ignorable="d"
         Title="Shear Action" Height="300" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Infrastructure/UI/Resources/LoadButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -87,6 +94,17 @@
                                     </Button.ToolTip>
                                     <Viewbox Height="24" Width="24">
                                         <ContentControl ContentTemplate="{DynamicResource DistributedLoad}"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button Style="{StaticResource ToolButton24}" 
+                                    Command="{Binding Add}" CommandParameter="{x:Static enums:LoadTypes.TrapezoidDistributedLoad}">
+                                    <Button.ToolTip>
+                                        <uc:ButtonToolTipEh HeaderText="Add trapezoid distributed load"
+                                                IconContent="{StaticResource TrapezoidLoad}"
+                                                DescriptionText="Adds new trapezoid distributed load as span load"/>
+                                    </Button.ToolTip>
+                                    <Viewbox Height="24" Width="24">
+                                        <ContentControl ContentTemplate="{DynamicResource TrapezoidLoad}"/>
                                     </Viewbox>
                                 </Button>
                                 <Button Style="{StaticResource ToolButton24}" 
