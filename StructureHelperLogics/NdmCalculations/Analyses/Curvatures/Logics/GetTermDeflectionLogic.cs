@@ -49,8 +49,15 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 
         public ICurvatureTermResult GetShortResult()
         {
+            TraceLogger?.AddMessage($"Curvature from full short load with short-term stiffness");
+            TraceCurvature(ShortFullCurvature);
+            TraceLogger?.AddMessage($"Curvature from long-term load with short-term stiffness");
+            TraceCurvature(ShortLongCurvature);
             var deltaShortCurvature = ForceTupleServiceLogic.SumTuples(ShortFullCurvature, ShortLongCurvature, -1);
+            TraceLogger?.AddMessage($"Extra curvature with short-term stiffness");
+            TraceCurvature(deltaShortCurvature);
             var shortCurvature = ForceTupleServiceLogic.SumTuples(LongCurvature, deltaShortCurvature);
+            TraceLogger?.AddMessage($"Full short-term curvature");
             TraceCurvature(shortCurvature);
             ICurvatureTermResult shortTermDeflection = DeflectionLogic.GetDeflection(shortCurvature, DeflectionFactor);
             return shortTermDeflection;
