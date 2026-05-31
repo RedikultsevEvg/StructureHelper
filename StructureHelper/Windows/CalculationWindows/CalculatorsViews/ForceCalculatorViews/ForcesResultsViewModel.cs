@@ -534,5 +534,15 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             }
             return false;
         }
+
+        private RelayCommand showDeformedShapeCommand;
+        public ICommand ShowDeformedShapeCommand => showDeformedShapeCommand ??= new RelayCommand(ShowDeformedShape);
+
+        private void ShowDeformedShape(object commandParameter)
+        {
+            var viewModel = new DeformedShapeViewerViewModel(ndmPrimitives);
+            var wnd = new DeformedShapeViewerView(viewModel);
+            wnd.ShowDialog();
+        }
     }
 }

@@ -231,6 +231,20 @@
         </Canvas>
     </DataTemplate>
 
+    <DataTemplate x:Key="DeformedBeam">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <Rectangle Canvas.Top="16" Canvas.Left="6" Height="10" Width="6" Stroke="Black"/>
+                <Rectangle Canvas.Top="6" Canvas.Left="18" Height="10" Width="6" Stroke="Black"/>
+                <Path Data="M 6,16.5 a 30 20 40 0 0 12.5 -10" Stroke="Black"/>
+                <Path Data="M 11,16.5 a 30 20 40 0 0 12.5 -10" Stroke="Black"/>
+                <Path Data="M 6,25.5 a 30 20 40 0 0 12.5 -10" Stroke="Black" StrokeThickness="0.5" StrokeDashArray="2 2"/>
+                <Path Data="M 11,25.5 a 30 20 40 0 0 12.5 -10" Stroke="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
     <DataTemplate x:Key="DeSelectAll">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>

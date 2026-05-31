@@ -121,6 +121,16 @@
                         <ContentControl ContentTemplate="{DynamicResource IsoField3DResult}"/>
                     </Viewbox>
                 </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowDeformedShapeCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show deformed shape"
+                                                IconContent="{StaticResource DeformedBeam}"
+                                                DescriptionText="Show deformed shape as result of extrusion of cross-section along curved axis"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource DeformedBeam}"/>
+                    </Viewbox>
+                </Button>
             </ToolBar>
             <ToolBar>
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowGeometryResultCommand}">

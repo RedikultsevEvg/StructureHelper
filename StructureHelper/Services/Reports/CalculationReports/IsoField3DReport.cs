@@ -1,9 +1,6 @@
 ﻿using FieldVisualizer.Entities.Values.Primitives;
-using FieldVisualizer.WindowsOperation;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelper.Services.Reports.CalculationReports
 {
