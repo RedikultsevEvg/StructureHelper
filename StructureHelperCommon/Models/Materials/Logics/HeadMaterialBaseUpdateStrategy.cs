@@ -2,7 +2,7 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 
-namespace StructureHelperLogics.Models.Materials
+namespace StructureHelperCommon.Models.Materials
 {
     public class HeadMaterialBaseUpdateStrategy : IUpdateStrategy<IHeadMaterial>
     {

@@ -12,5 +12,6 @@ namespace DataAccess.DTOs
         IConvertStrategy<ReinforcementLibMaterial, ReinforcementLibMaterialDTO> ReinforcementConvertStrategy { get; }
         IUpdateStrategy<IHelperMaterial> SafetyFactorUpdateStrategy { get; }
         IConvertStrategy<SteelLibMaterial, SteelLibMaterialDTO> SteelConvertStrategy { get; }
+        IConvertStrategy<UserMaterial, UserMaterialDTO> UserMaterialConvertStrategy { get; }
     }
 }

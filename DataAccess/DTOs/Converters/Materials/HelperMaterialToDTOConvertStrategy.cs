@@ -64,19 +64,32 @@ namespace DataAccess.DTOs
             {
                 return ProcessSteel(steelLibMaterial);
             }
+            else if (source is IUserMaterial userMaterial)
+            {
+                return GetUserMaterial(userMaterial);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source));
             }
         }
 
-        private IHelperMaterial ProcessSteel(ISteelLibMaterial steelLibMaterial)
+        private IHelperMaterial GetUserMaterial(IUserMaterial source)
+        {
+            var strategy = StrategyContainer.UserMaterialConvertStrategy;
+            strategy.ReferenceDictionary = ReferenceDictionary;
+            strategy.TraceLogger = TraceLogger;
+            var convertLogic = new DictionaryConvertStrategy<UserMaterialDTO, IUserMaterial>(this, strategy);
+            return convertLogic.Convert(source);
+        }
+
+        private IHelperMaterial ProcessSteel(ISteelLibMaterial source)
         {
             var strategy = StrategyContainer.SteelConvertStrategy;
             strategy.ReferenceDictionary = ReferenceDictionary;
             strategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<SteelLibMaterialDTO, ISteelLibMaterial>(this, strategy);
-            return convertLogic.Convert(steelLibMaterial);
+            return convertLogic.Convert(source);
         }
 
         private IHelperMaterial ProcessFRMaterial(IFRMaterial frMaterial)

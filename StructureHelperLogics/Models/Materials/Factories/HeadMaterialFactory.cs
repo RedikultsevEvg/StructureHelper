@@ -1,6 +1,7 @@
 ﻿using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 
 namespace StructureHelperLogics.Models.Materials
@@ -15,6 +16,7 @@ namespace StructureHelperLogics.Models.Materials
         Glass1200 = 5,
         SteelS245 = 6,
         SteelS345 = 7,
+        UserMaterial = 8,
     }     
 
     public static class HeadMaterialFactory
@@ -34,7 +36,16 @@ namespace StructureHelperLogics.Models.Materials
             else if (type == HeadmaterialType.Glass1200) { return GetGlass1200(); }
             else if (type == HeadmaterialType.SteelS245) { return GetSteelS245(); }
             else if (type == HeadmaterialType.SteelS345) { return GetSteelS345(); }
+            else if (type == HeadmaterialType.UserMaterial) { return UserMaterial(); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(type));
+        }
+
+        private static IHeadMaterial UserMaterial()
+        {
+            var material = new HeadMaterial() { Name = "User Material" };
+            UserMaterial userHelperMaterial = new(Guid.NewGuid());
+            material.HelperMaterial = userHelperMaterial;
+            return material;
         }
 
         private static IHeadMaterial GetSteelS245()

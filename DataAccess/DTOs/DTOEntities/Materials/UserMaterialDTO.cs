@@ -1,28 +1,30 @@
 ﻿using LoaderCalculator.Data.Materials;
 using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
-using StructureHelperLogics.Models.Materials;
 
 namespace DataAccess.DTOs
 {
-    public class ElasticMaterialDTO : IElasticMaterial
+    public class UserMaterialDTO : IUserMaterial
     {
         [JsonProperty("Id")]
-        public Guid Id { get; set; }
-        [JsonProperty("Modulus")]
-        public double Modulus { get; set; }
-        [JsonProperty("CompressiveStrength")]
-        public double CompressiveStrength { get; set; }
-        [JsonProperty("TensileStrength")]
-        public double TensileStrength { get; set; }
+        public Guid Id { get; }
+        [JsonProperty("FilePath")]
+        public string? FilePath { get; set; }
         [JsonProperty("SafetyFactors")]
         public List<IMaterialSafetyFactor> SafetyFactors { get; set; } = [];
 
 
+        public UserMaterialDTO(Guid id)
+        {
+            Id = id;
+        }
+
+
         public object Clone()
         {
-            throw new NotImplementedException();
+            return this;
         }
 
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)

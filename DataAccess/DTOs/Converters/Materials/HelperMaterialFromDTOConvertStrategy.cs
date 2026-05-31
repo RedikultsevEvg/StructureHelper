@@ -2,7 +2,6 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Materials;
-using StructureHelperLogics.Models.Materials;
 
 namespace DataAccess.DTOs
 {
@@ -46,6 +45,10 @@ namespace DataAccess.DTOs
             {
                 return GetSteelMaterial(steel);
             }
+            else if (source is UserMaterialDTO userMaterial)
+            {
+                return GetUserMaterial(userMaterial);
+            }
             else
             {
                 string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source) + ": helper material type";
@@ -54,10 +57,21 @@ namespace DataAccess.DTOs
             }
         }
 
+        private IHelperMaterial GetUserMaterial(UserMaterialDTO source)
+        {
+            var strategy = StrategyContainer.UserMaterialConvertStrategy;
+            TraceLogger?.AddMessage(MaterialIs + "User material", TraceLogStatuses.Service);
+            strategy.ReferenceDictionary = ReferenceDictionary;
+            strategy.TraceLogger = TraceLogger;
+            var newItem = strategy.Convert(source);
+            strategyContainer.SafetyFactorUpdateStrategy.Update(newItem, source);
+            return newItem;
+        }
+
         private IHelperMaterial GetSteelMaterial(SteelLibMaterialDTO source)
         {
             var strategy = StrategyContainer.SteelConvertStrategy;
-            TraceLogger?.AddMessage(MaterialIs + "Elastic material", TraceLogStatuses.Service);
+            TraceLogger?.AddMessage(MaterialIs + "Steel material", TraceLogStatuses.Service);
             strategy.ReferenceDictionary = ReferenceDictionary;
             strategy.TraceLogger = TraceLogger;
             var newItem = strategy.Convert(source);

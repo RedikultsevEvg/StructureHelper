@@ -5,10 +5,12 @@ using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.Materials
 {
-    public class HeadMaterialUpdateStrategy : IUpdateStrategy<IHeadMaterial>
+    public class HeadMaterialUpdateStrategy : IParentUpdateStrategy<IHeadMaterial>
     {
         private IUpdateStrategy<IHeadMaterial> baseUpdateStrategy;
         private IUpdateStrategy<IHelperMaterial> helperMaterialUpdateStrategy;
+
+        public bool UpdateChildren { get; set; } = true;
 
         public HeadMaterialUpdateStrategy(
             IUpdateStrategy<IHeadMaterial> baseUpdateStrategy,
@@ -30,8 +32,11 @@ namespace StructureHelperLogics.Models.Materials
             CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             baseUpdateStrategy.Update(targetObject, sourceObject);
-            targetObject.HelperMaterial = sourceObject.HelperMaterial.Clone() as IHelperMaterial;
-            helperMaterialUpdateStrategy.Update(targetObject.HelperMaterial, sourceObject.HelperMaterial);
+            if (UpdateChildren == true)
+            {
+                targetObject.HelperMaterial = sourceObject.HelperMaterial.Clone() as IHelperMaterial;
+                helperMaterialUpdateStrategy.Update(targetObject.HelperMaterial, sourceObject.HelperMaterial);
+            }
         }
 
 

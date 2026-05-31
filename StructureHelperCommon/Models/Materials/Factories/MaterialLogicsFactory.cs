@@ -34,6 +34,18 @@ namespace StructureHelperCommon.Models.Materials
                     Name = "Curve",
                     DiagramType = DiagramType.Curve
                 },
+                //new ConcreteBilinearLogic(Guid.Parse("59fcb6da-dea1-430e-9e80-3307e87cf3c8"))
+                //{
+                //    MaterialType = MaterialTypes.Concrete,
+                //    Name = "Bilinear",
+                //    DiagramType = DiagramType.Bilinear
+                //},
+                //new ConcreteTripleLinearLogic(Guid.Parse("80291523-28d0-4c71-b852-28cbdb3a90b3"))
+                //{
+                //    MaterialType = MaterialTypes.Concrete,
+                //    Name = "Triplelinear",
+                //    DiagramType = DiagramType.TripleLinear
+                //},
                 new SteelMaterialBuilderLogic(new Guid("C3BE4B92-DC61-43CF-A632-ADFC1AA57D8F"))
                 {
                     MaterialType = MaterialTypes.Steel,

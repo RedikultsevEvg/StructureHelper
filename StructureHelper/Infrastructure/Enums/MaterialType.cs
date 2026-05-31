@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StructureHelper.Infrastructure.Enums
+﻿namespace StructureHelper.Infrastructure.Enums
 {
     internal enum MaterialType
     {
@@ -13,6 +7,7 @@ namespace StructureHelper.Infrastructure.Enums
         Elastic = 2,
         CarbonFiber = 3,
         GlassFiber = 4,
-        Steel = 5
+        Steel = 5,
+        UserMaterial = 6,
     }
 }

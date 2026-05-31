@@ -5,9 +5,9 @@ using StructureHelper.Windows.MainWindow.Materials;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
-using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Linq;
 using System.Windows;
@@ -52,8 +52,16 @@ namespace StructureHelper.Windows.ViewModels.Materials
             else if (parameterType == MaterialType.CarbonFiber) { AddCarbonFiber(); }
             else if (parameterType == MaterialType.GlassFiber) { AddGlassFiber(); }
             else if (parameterType == MaterialType.Steel) { AddSteel(); }
+            else if (parameterType == MaterialType.UserMaterial) { AddUserMaterial(); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Expected: {typeof(MaterialType)}, Actual type: {nameof(parameterType)}");
             base.AddMethod(parameter);
+        }
+
+        private void AddUserMaterial()
+        {
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.UserMaterial);
+            material.Name = "New User Material";
+            NewItem = material;
         }
 
         private void AddSteel()
@@ -88,6 +96,11 @@ namespace StructureHelper.Windows.ViewModels.Materials
             if (SelectedItem.HelperMaterial is ISteelLibMaterial steelHeadMaterial)
             {
                 wnd = new SteelMaterialView(SelectedItem);
+            }
+            else if (SelectedItem.HelperMaterial is IUserMaterial)
+            {
+                UserMaterialViewModel viewModel = new(SelectedItem);
+                wnd = new UserMaterialView(viewModel);
             }
             else
             {

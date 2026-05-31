@@ -18,5 +18,8 @@ namespace DataAccess.DTOs
         public LibMaterialToDTOConvertStrategy<ReinforcementLibMaterialDTO, IReinforcementLibMaterial> ReinforcementConvertStrategy => reinforcementConvertStrategy ??= new ReinforcementLibMaterialToDTOConvertStrategy();
         public IUpdateStrategy<IHelperMaterial> SafetyFactorUpdateStrategy => safetyFactorUpdateStrategy ??= new HelperMaterialDTOSafetyFactorUpdateStrategy(new MaterialSafetyFactorToDTOLogic());
         public LibMaterialToDTOConvertStrategy<SteelLibMaterialDTO, ISteelLibMaterial> SteelConvertStrategy => steelConvertStrategy ??= new SteelLibMaterialToDTOConvertStrategy();
+
+        public IConvertStrategy<UserMaterialDTO, IUserMaterial> userMaterialConvertStrategy;
+        public IConvertStrategy<UserMaterialDTO, IUserMaterial> UserMaterialConvertStrategy => userMaterialConvertStrategy ??= new UserMaterialToDTOConvertStrategy();
     }
 }

@@ -1,7 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
-using StructureHelperLogics.NdmCalculations.Primitives.Logics;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {

@@ -177,6 +177,9 @@
     <Compile Update="Windows\MainWindow\Materials\SteelMaterialView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\MainWindow\Materials\UserMaterialView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\PrimitiveTemplates\RCs\Beams\CircleView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

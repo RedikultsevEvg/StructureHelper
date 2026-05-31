@@ -1,14 +1,8 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StructureHelperLogics.Models.Materials.Logics
+namespace StructureHelperCommon.Models.Materials
 {
     public class HelpermaterialSafetyFactorsUpdateStrategy : IUpdateStrategy<IHelperMaterial>
     {

@@ -148,4 +148,17 @@
         </Canvas>
     </DataTemplate>
 
+    <DataTemplate x:Key="UserMaterial">
+        <Canvas Style="{DynamicResource ButtonMaterialCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonMaterialRectangle}"/>
+                <Canvas>
+                    <Path Margin="4" Data="M 2 6 l 8 0 l 3 3 l 6 0 l 0 12 l -17 0 z" Stroke="{StaticResource MaterialFrame}" StrokeThickness="1"/>
+                    <Path Margin="4" Data="M 6 12 l 20 0 l -5 10 l -19 0 z" Stroke="{StaticResource MaterialFrame}" StrokeThickness="1"/>
+                </Canvas>
+                <TextBlock FontSize="10" Text="Umat" FontWeight="Bold" Margin="3,2,0,0" Foreground="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
 </ResourceDictionary>

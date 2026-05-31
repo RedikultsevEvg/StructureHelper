@@ -136,6 +136,7 @@ namespace DataAccess.DTOs
                 { (typeof(MaterialPartialFactorDTO), "MaterialPartialFactor") },
                 { (typeof(ReinforcementLibMaterialDTO), "ReinforcementLibMaterial") },
                 { (typeof(SteelLibMaterialDTO), "SteelLibMaterial") },
+                { (typeof(UserMaterialDTO), "UserMaterial") },
             };
             return newList;
         }

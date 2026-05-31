@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Materials;
+﻿using LDMaterials = LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Materials.DiagramTemplates;
 using LoaderCalculator.Data.Materials.MaterialBuilders;
 using StructureHelperCommon.Infrastructures.Enums;
@@ -32,12 +32,12 @@ namespace StructureHelperCommon.Models.Materials.Libraries
             Id = id;
         }
 
-        public IMaterial GetLoaderMaterial()
+        public LDMaterials.IMaterial GetLoaderMaterial()
         {
             CheckOptions();
             factorLogic = new MaterialFactorLogic(Options.SafetyFactors);
             GetStrength();
-            Material material = new()
+            LDMaterials.Material material = new()
             {
                 InitModulus = option.MaterialEntity.InitialModulus,
                 Diagram = GetDiagram(),
@@ -91,7 +91,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
             convertStrategy = new SteelRelativeToAbsoluteDiagramConvertLogic(Options.MaterialEntity.InitialModulus, strength);
             var diagramProperty = SteelDiagramPropertyFactory.GetProperty(((ISteelMaterialEntity)Options.MaterialEntity).PropertyType);
             var absoluteProperty = convertStrategy.Convert(diagramProperty);
-            List<IStressStrainPair> stressStrainPairs;
+            List<LDMaterials.IStressStrainPair> stressStrainPairs;
             if (DiagramType == DiagramType.Bilinear)
             {
                 stressStrainPairs = GetBiLinearStressStrainPairs(absoluteProperty);
@@ -108,29 +108,29 @@ namespace StructureHelperCommon.Models.Materials.Libraries
             return multiDiagram;
         }
 
-        private static List<IStressStrainPair> GetBiLinearStressStrainPairs(ISteelDiagramAbsoluteProperty absoluteProperty)
+        private static List<LDMaterials.IStressStrainPair> GetBiLinearStressStrainPairs(ISteelDiagramAbsoluteProperty absoluteProperty)
         {
             return new()
             {
-                new StressStrainPair() { Stress = 0, Strain = 0},
-                new StressStrainPair() { Stress = absoluteProperty.BaseStrength, Strain = absoluteProperty.BaseStrain},
-                new StressStrainPair() { Stress = absoluteProperty.BaseStrength, Strain = absoluteProperty.StrainOfEndOfYielding},
-                new StressStrainPair() { Stress = absoluteProperty.StressOfUltimateStrength, Strain = absoluteProperty.StrainOfUltimateStrength},
-                new StressStrainPair() { Stress = absoluteProperty.StressOfFracture, Strain = absoluteProperty.StrainOfFracture},
+                new LDMaterials.StressStrainPair() { Stress = 0, Strain = 0},
+                new LDMaterials.StressStrainPair() { Stress = absoluteProperty.BaseStrength, Strain = absoluteProperty.BaseStrain},
+                new LDMaterials.StressStrainPair() { Stress = absoluteProperty.BaseStrength, Strain = absoluteProperty.StrainOfEndOfYielding},
+                new LDMaterials.StressStrainPair() { Stress = absoluteProperty.StressOfUltimateStrength, Strain = absoluteProperty.StrainOfUltimateStrength},
+                new LDMaterials.StressStrainPair() { Stress = absoluteProperty.StressOfFracture, Strain = absoluteProperty.StrainOfFracture},
 
             };
         }
 
-        private static List<IStressStrainPair> GetTripleLinearStressStrainPairs(ISteelDiagramAbsoluteProperty absoluteProperty)
+        private static List<LDMaterials.IStressStrainPair> GetTripleLinearStressStrainPairs(ISteelDiagramAbsoluteProperty absoluteProperty)
         {
             return new()
             {
-                new StressStrainPair() { Stress = 0, Strain = 0},
-                new StressStrainPair() { Stress = absoluteProperty.StressOfProportionality, Strain = absoluteProperty.StrainOfProportionality},
-                new StressStrainPair() { Stress = absoluteProperty.BaseStrength, Strain = absoluteProperty.StrainOfStartOfYielding},
-                new StressStrainPair() { Stress = absoluteProperty.BaseStrength, Strain = absoluteProperty.StrainOfEndOfYielding},
-                new StressStrainPair() { Stress = absoluteProperty.StressOfUltimateStrength, Strain = absoluteProperty.StrainOfUltimateStrength},
-                new StressStrainPair() { Stress = absoluteProperty.StressOfFracture, Strain = absoluteProperty.StrainOfFracture},
+                new LDMaterials.StressStrainPair() { Stress = 0, Strain = 0},
+                new LDMaterials.StressStrainPair() { Stress = absoluteProperty.StressOfProportionality, Strain = absoluteProperty.StrainOfProportionality},
+                new LDMaterials.StressStrainPair() { Stress = absoluteProperty.BaseStrength, Strain = absoluteProperty.StrainOfStartOfYielding},
+                new LDMaterials.StressStrainPair() { Stress = absoluteProperty.BaseStrength, Strain = absoluteProperty.StrainOfEndOfYielding},
+                new LDMaterials.StressStrainPair() { Stress = absoluteProperty.StressOfUltimateStrength, Strain = absoluteProperty.StrainOfUltimateStrength},
+                new LDMaterials.StressStrainPair() { Stress = absoluteProperty.StressOfFracture, Strain = absoluteProperty.StrainOfFracture},
 
             };
         }

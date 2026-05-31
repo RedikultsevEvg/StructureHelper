@@ -62,9 +62,29 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 result = false;
             }
             CheckPrimitives();
+            CheckMaterials();
             CheckAccuracy();
             CheckActions();
             return result;
+        }
+
+        private void CheckMaterials()
+        {
+            var materials = InputData.Primitives
+                .Select(x => x.NdmElement.HeadMaterial)
+                .Distinct()
+                .ToList();
+
+            var checkLogic = new HeadMaterialsCheckLogic(InputData.LimitStatesList, InputData.CalcTermsList)
+            {
+                Entity = materials,
+                TraceLogger = TraceLogger,
+            };
+            if (checkLogic.Check() == false)
+            {
+                result = false;
+                checkResult += checkLogic.CheckResult;
+            }
         }
 
         private void CheckPrimitives()

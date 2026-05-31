@@ -118,6 +118,16 @@
                         <ContentControl ContentTemplate="{StaticResource GlassFiberMaterial}"/>
                     </Viewbox>
                 </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.UserMaterial}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add user material"
+                                                IconContent="{StaticResource UserMaterial}"
+                                                DescriptionText="Adds material defined by user from file"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource UserMaterial}"/>
+                    </Viewbox>
+                </Button>
                 <Button Style="{DynamicResource ToolButton}"  Command="{Binding EditMaterialsCommand}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Show materials"
@@ -375,6 +385,13 @@
                                             <MenuItem.Icon>
                                                 <Viewbox Width="16" Height="16">
                                                     <ContentControl ContentTemplate="{DynamicResource GlassFiberMaterial}"/>
+                                                </Viewbox>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="GlassFiber" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.UserMaterial}">
+                                            <MenuItem.Icon>
+                                                <Viewbox Width="16" Height="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource UserMaterial}"/>
                                                 </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>

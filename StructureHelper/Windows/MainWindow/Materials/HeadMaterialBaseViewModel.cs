@@ -4,11 +4,10 @@ using StructureHelper.Windows.AddMaterialWindow;
 using StructureHelper.Windows.ViewModels;
 using StructureHelper.Windows.ViewModels.Materials;
 using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.Materials;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -20,9 +19,12 @@ namespace StructureHelper.Windows.MainWindow.Materials
         private ICommand showSafetyFactors;
         private ICommand editColorCommand;
 
+        public SafetyFactorsViewModel SafetyFactors { get; }
+
         public HeadMaterialBaseViewModel(IHeadMaterial headMaterial)
         {
             this.headMaterial = headMaterial;
+            SafetyFactors = new SafetyFactorsViewModel(headMaterial.HelperMaterial.SafetyFactors);
         }
 
         public string Name
