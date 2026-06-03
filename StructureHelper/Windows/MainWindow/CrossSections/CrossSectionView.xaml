@@ -388,7 +388,7 @@
                                                 </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="GlassFiber" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.UserMaterial}">
+                                        <MenuItem Header="User material" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.UserMaterial}">
                                             <MenuItem.Icon>
                                                 <Viewbox Width="16" Height="16">
                                                     <ContentControl ContentTemplate="{DynamicResource UserMaterial}"/>

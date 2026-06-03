@@ -8,15 +8,52 @@
         xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         d:DataContext="{d:DesignInstance local:DeformedShapeViewerViewModel}"
         mc:Ignorable="d"
-        Title="Deformed Shape Viewer" Height="450" Width="800" MaxHeight="700" MaxWidth="1000" MinHeight="100" MinWidth="100" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-        </Grid.RowDefinitions>
-        <Grid x:Name="ViewportGrid" Background="White">
-            <hx:Viewport3DX x:Name="View3D" DataContext="{Binding ViewportViewModel}" Title="{Binding Title}"
+        Title="Deformed Shape Viewer" Height="450" Width="800" MaxHeight="900" MaxWidth="1200" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding RebuildCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Rebuild image"
+                                                IconContent="{StaticResource Renew}"
+                                                DescriptionText="Rebuild current image"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource Renew}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+            <ToolBar DataContext="{Binding SaveCopyViewModel}">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding CopyToClipboardCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Copy to clipboard"
+                                IconContent="{StaticResource CopyToClipboard}"
+                                DescriptionText="Copy chart to clipboard as image"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource CopyToClipboard}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding SaveAsImageCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Export to *.png"
+                                IconContent="{StaticResource PngImage}"
+                                DescriptionText="Export chart to *.png file"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource PngImage}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="ViewportGrid" Background="White">
+                <hx:Viewport3DX x:Name="View3D" DataContext="{Binding ViewportViewModel}" Title="{Binding Title}"
 Grid.Row="0"
 BackgroundColor="White"
 Camera="{Binding Camera}"
@@ -30,43 +67,55 @@ ShowCoordinateSystem="True"
 SubTitle="{Binding SubTitle}"
 TextBrush="Black"
 UseDefaultGestures="False">
-                <hx:Viewport3DX.InputBindings>
-                    <KeyBinding Key="B"
+                    <hx:Viewport3DX.InputBindings>
+                        <KeyBinding Key="B"
                 Command="hx:ViewportCommands.BackView" />
-                    <KeyBinding Key="F"
+                        <KeyBinding Key="F"
                 Command="hx:ViewportCommands.FrontView" />
-                    <KeyBinding Key="U"
+                        <KeyBinding Key="U"
                 Command="hx:ViewportCommands.TopView" />
-                    <KeyBinding Key="D"
+                        <KeyBinding Key="D"
                 Command="hx:ViewportCommands.BottomView" />
-                    <KeyBinding Key="L"
+                        <KeyBinding Key="L"
                 Command="hx:ViewportCommands.LeftView" />
-                    <KeyBinding Key="R"
+                        <KeyBinding Key="R"
                 Command="hx:ViewportCommands.RightView" />
-                    <KeyBinding Command="hx:ViewportCommands.ZoomExtents"
+                        <KeyBinding Command="hx:ViewportCommands.ZoomExtents"
                 Gesture="Control+E" />
-                    <MouseBinding Command="hx:ViewportCommands.Rotate"
+                        <MouseBinding Command="hx:ViewportCommands.Rotate"
                   Gesture="RightClick" />
-                    <MouseBinding Command="hx:ViewportCommands.Zoom"
+                        <MouseBinding Command="hx:ViewportCommands.Zoom"
                   Gesture="MiddleClick" />
-                    <MouseBinding Command="hx:ViewportCommands.Pan"
+                        <MouseBinding Command="hx:ViewportCommands.Pan"
                   Gesture="LeftClick" />
-                </hx:Viewport3DX.InputBindings>
-                <hx:AmbientLight3D Color="{Binding AmbientLightColor}" />
-                <hx:DirectionalLight3D Direction="{Binding Camera.LookDirection}"
+                    </hx:Viewport3DX.InputBindings>
+                    <hx:AmbientLight3D Color="{Binding AmbientLightColor}" />
+                    <hx:DirectionalLight3D Direction="{Binding Camera.LookDirection}"
                        Color="{Binding DirectionalLightColor}" />
-                <hx:ScreenQuadModel3D Texture="{Binding BackgroundTexture}" />
-            </hx:Viewport3DX>
+                    <hx:ScreenQuadModel3D Texture="{Binding BackgroundTexture}" />
+                </hx:Viewport3DX>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="60"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Deformation scale factor"/>
+                <TextBox Grid.Column="1" Text="{Binding ScaleFactor, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                <TextBlock Grid.Row="1" Text="Division number"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding DivisionNumber, ValidatesOnDataErrors=True}"/>
+                <TextBlock Grid.Row="2" Text="Length"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Length, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+                <TextBlock Grid.Row="3" Text="Show caps"/>
+                <CheckBox Grid.Column="1" Grid.Row="3" Margin="4" IsChecked="{Binding IsCapsShown}"/>
+            </Grid>
         </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="70"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Deformation scale"/>
-            <Slider Grid.Column="1" x:Name="slider" Minimum="0" Maximum="{Binding MaxLineSmoothness}" Value="{Binding LineSmoothness}"/>
-            <TextBox Grid.Column="2" Width="40" Text="{Binding LineSmoothness,Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
-        </Grid>
-    </Grid>
+    </DockPanel>
 </Window>

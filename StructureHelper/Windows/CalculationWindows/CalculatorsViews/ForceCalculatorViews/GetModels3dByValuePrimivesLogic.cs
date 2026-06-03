@@ -6,13 +6,8 @@ using HelixToolkit.Maths;
 using HelixToolkit.SharpDX;
 using HelixToolkit.Wpf.SharpDX;
 using StructureHelper.Services.Reports.Services;
-using StructureHelperCommon.Models.Shapes;
-using StructureHelperCommon.Services.ColorServices;
-using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Windows.Shapes;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
@@ -75,63 +70,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             return cylinderModel;
         }
 
-        private MeshGeometryModel3D CreatePrismByPolygon(ILinePolygonShape polygonShape, float height, int divisions = 30)
-        {
-            // Create mesh along Z-axis
-            var builder = new MeshBuilder();
-
-            int verticesCount = polygonShape.Vertices.Count;
-
-            List<Vector2> section = [];
-            foreach (var vertex in polygonShape.Vertices)
-            {
-                section.Add(new Vector2((float)vertex.Point.X, (float)vertex.Point.Y));
-            }
-
-            float dz = height / divisions;
-
-            //for (int i = 0; i <= divisions - 1; i++)
-            //{
-            //    float z0 = i * dz;
-            //    float z1 = (i + 1) * dz;
-            //    builder.AddExtrudedGeometry(section, Vector3.UnitX,
-            //    new Vector3(0, 0, z0),
-            //    new Vector3(0, 0, z1));
-            //}
-
-            List<Vector3> path = [];
-
-            for (int i = 0; i <= divisions; i++)
-            {
-                path.Add(new Vector3(0, 0, - height / 2 + i * dz));
-            }
-
-            builder.AddTube(path, null, null, section, null, true, true);
-
-            //builder.AddSphere(new Vector3(0, 0, 0), 0.5f);
-            //builder.AddBox(new Vector3(0, 0, 0), 1, 0.25f, 2, BoxFaces.All);
-
-            var mesh = builder.ToMeshGeometry3D();
-
-            System.Windows.Media.Color c = ColorProcessor.GetRandomColor();
-
-            // Create model
-            var prismModel = new MeshGeometryModel3D
-            {
-                Geometry = mesh,
-                Material = new DiffuseMaterial()
-                {
-                    DiffuseColor = new Color4(c.R / 255f, c.G / 255f, c.B / 255f, c.A / 255f),
-                    //SpecularShininess = 50f
-                },
-                CullMode = SharpDX.Direct3D11.CullMode.None,
-                InvertNormal = InvertNormal,
-            };
-
-
-            return prismModel;
-        }
-
         private MeshGeometryModel3D CreateZeroTriangle(ITrianglePrimitive triangle)
         {
             var mesh = CreateTriangleMesh(triangle, false);
@@ -187,31 +125,5 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             );
         }
 
-        public void GetModels3d(IEnumerable<INdmPrimitive> ndmPrimitives, Viewport3DX viewport)
-        {
-            foreach (var primitive in ndmPrimitives)
-            {
-                try
-                {
-                    if (primitive.Shape is IRectangleShape rectangleShape)
-                    {
-                        var logic = new RectangleShapeToPolygonConvertStrategy();
-                        var polygon = logic.Convert(rectangleShape);
-                        var model = CreatePrismByPolygon(polygon, 2f);
-                        viewport.Items.Add(model);
-                    }
-                    else if (primitive.Shape is ILinePolygonShape linePolygonShape)
-                    {
-                        var model = CreatePrismByPolygon(linePolygonShape, 3f);
-                        viewport.Items.Add(model);
-                    }
-
-                }
-                catch (Exception ex)
-                {
-
-                }
-            }
-        }
     }
 }

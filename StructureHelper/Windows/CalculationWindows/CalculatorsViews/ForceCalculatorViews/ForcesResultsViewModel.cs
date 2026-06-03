@@ -540,7 +540,14 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private void ShowDeformedShape(object commandParameter)
         {
-            var viewModel = new DeformedShapeViewerViewModel(ndmPrimitives);
+            var loaderCurvature = SelectedResult.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix;
+            ForceTuple curvature = new()
+            {
+                Nz = loaderCurvature.EpsZ,
+                Mx = loaderCurvature.Kx,
+                My = loaderCurvature.Ky
+            };
+            var viewModel = new DeformedShapeViewerViewModel(ndmPrimitives) { Curvature = curvature};
             var wnd = new DeformedShapeViewerView(viewModel);
             wnd.ShowDialog();
         }
