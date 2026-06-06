@@ -1,62 +1,99 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Models.Shapes.ConvertLogics;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.DeformedShapes
 {
     public class GetSectionByPrimitiveLogic : IGetSectionByPrimitiveLogic
     {
-        public List<Vector2> GetSection(INdmPrimitive primitive)
+        public List<IDeformedSection> GetSection(INdmPrimitive primitive)
         {
             CheckObject.ThrowIfNull(primitive);
-            ILinePolygonShape linePolygon = GetPolygonByPrimitiveShape(primitive);
-            List<Vector2> result = GetSectionByLinePolygon(linePolygon);
+            List<ILinePolygonShape> linePolygons = GetPolygonsByPrimitiveShape(primitive);
+            List<IDeformedSection> result = [];
+            foreach (var linePolygon in linePolygons)
+            {
+                result.Add(GetSectionByLinePolygon(linePolygon));
+            }
             return result;
         }
 
-        private List<Vector2> GetSectionByLinePolygon(ILinePolygonShape polygonShape)
+        private IDeformedSection GetSectionByLinePolygon(ILinePolygonShape polygonShape)
         {
-            List<Vector2> section = [];
+            List<Vector2> vertices = [];
             foreach (var vertex in polygonShape.Vertices)
             {
-                section.Add(new Vector2((float)vertex.Point.X, (float)vertex.Point.Y));
+                vertices.Add(new Vector2((float)vertex.Point.X, (float)vertex.Point.Y));
             }
-            return section;
+            DeformedSection result = new DeformedSection() { Vertices = vertices};
+            return result;
+
         }
 
-        private ILinePolygonShape GetPolygonByPrimitiveShape(INdmPrimitive primitive)
+        private List<ILinePolygonShape> GetPolygonsByPrimitiveShape(INdmPrimitive primitive)
         {
-            if (primitive is IRebarNdmPrimitive rebarPrimitive)
+            List<ILinePolygonShape> result = [];
+            if (primitive is IPointNdmPrimitive rebarPrimitive)
             {
                 CircleShape circleShape = new() { Diameter = Math.Sqrt(rebarPrimitive.Area) * 0.785};
                 var logic = new CircleShapeToPolygonConvertStrategy(true, 8);
-                return logic.Convert(circleShape);
+                result.Add(logic.Convert(circleShape));
+                return result;
             }
-            if (primitive.Shape is IRectangleShape rectangleShape)
+            var primitiveShape = primitive.Shape;
+            if (primitiveShape is IRectangleShape rectangleShape)
             {
                 var logic = new RectangleShapeToPolygonConvertStrategy();
                 var polygon = logic.Convert(rectangleShape);
-                return polygon;
+                result.Add(polygon);
             }
-            if (primitive.Shape is IEllipseShape ellipseShape && Math.Abs(ellipseShape.Width - ellipseShape.Height) < 1.0e-6)
+            if (primitiveShape is IEllipseShape ellipseShape && Math.Abs(ellipseShape.Width - ellipseShape.Height) < 1.0e-6)
             {
                 CircleShape circleShape = new() { Diameter = ellipseShape.Width };
                 var logic = new CircleShapeToPolygonConvertStrategy(true, 64);
-                return logic.Convert(circleShape);
+                result.Add(logic.Convert(circleShape));
             }
-            else if (primitive.Shape is ILinePolygonShape linePolygonShape)
+            else if (primitiveShape is ILinePolygonShape linePolygonShape)
             {
-                return linePolygonShape;
+                result.Add(linePolygonShape);
+            }
+            else if (primitiveShape is ITrapezoidShape trapezoidShape)
+            {
+                var logic = new TrapezoidShapeToPolygonConvertStrategy();
+                var polygon = logic.Convert(trapezoidShape);
+                result.Add(polygon);
+            }
+            else if (primitiveShape is IVerticalTShape tShape)
+            {
+                var logic = new VerticalTShapeToPolygonConvertStrategy();
+                var polygon = logic.Convert(tShape);
+                result.Add(polygon);
+            }
+            else if (primitiveShape is IVerticalDoubleTShape doubleTShape)
+            {
+                var logic = new VerticalDoubleTShapeToPolygonConvertStrategy();
+                var polygon = logic.Convert(doubleTShape);
+                result.Add(polygon);
+            }
+            else if (primitiveShape is IRingShape ringShape)
+            {
+                var logic = new RingShapeToPolygonsConvertStrategy()
+                {
+                    PartsCount = 64,
+                    ArcSegmentsPerPart = 2
+                };
+                result.AddRange(logic.Convert(ringShape));
             }
             else
             {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(primitive.Shape));
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(primitiveShape));
             }
+            return result;
         }
     }
 }

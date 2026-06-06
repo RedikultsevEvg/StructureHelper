@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Models.Forces;
+﻿using SharpDX.Direct2D1.Effects;
+using StructureHelper.Infrastructure.UI.Converters.Units;
+using StructureHelperCommon.Models.Forces;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -32,7 +34,21 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
                 resultPath.Vectors.Add(new Vector3(x, y, z));
             }
-            //resultPath.Vectors.Add(new Vector3(resultPath.Vectors[^1].X, resultPath.Vectors[^1].Y, resultPath.Vectors[^1].Z + 1f));
+
+            return resultPath;
+        }
+
+        public IDeformedPath ProcessPath(IDeformedPath path, float dx, float dy, float dz)
+        {
+            DeformedPath resultPath = new();
+
+            foreach (var vector in path.Vectors)
+            {
+                float x = vector.X + dx;
+                float y = vector.Y + dy;
+                float z = vector.Z + dz;
+                resultPath.Vectors.Add(new Vector3(x, y, z));
+            }
 
             return resultPath;
         }

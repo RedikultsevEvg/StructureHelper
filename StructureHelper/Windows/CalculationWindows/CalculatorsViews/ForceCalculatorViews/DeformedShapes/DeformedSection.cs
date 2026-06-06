@@ -1,13 +1,12 @@
-﻿using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.DeformedShapes
 {
-    public interface IGetSectionByPrimitiveLogic
+    public class DeformedSection : IDeformedSection
     {
-        List<IDeformedSection> GetSection(INdmPrimitive primitive);
+        public List<Vector2> Vertices { get; set; } = [];
     }
 }

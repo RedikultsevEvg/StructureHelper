@@ -72,6 +72,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private ICommand? graphValuepointsCommand;
         private ICommand showForceResultCommand;
         private RelayCommand showIsoField3DCommand;
+        private RelayCommand showDeformedShapeCommand;
 
         public ValidResultCounterVM ValidResultCounter { get; }
 
@@ -90,6 +91,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                     }));
             }
         }
+
+        public ICommand ShowDeformedShapeCommand => showDeformedShapeCommand ??=
+            new RelayCommand(o => ShowDeformedShape(),
+                o => SelectedResult != null
+                &&
+                SelectedResult.IsValid);
 
         private void ShowInteractionDiagram()
         {
@@ -535,11 +542,11 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             return false;
         }
 
-        private RelayCommand showDeformedShapeCommand;
-        public ICommand ShowDeformedShapeCommand => showDeformedShapeCommand ??= new RelayCommand(ShowDeformedShape);
 
-        private void ShowDeformedShape(object commandParameter)
+
+        private void ShowDeformedShape(object commandParameter = null)
         {
+            if (SelectedResult is null) { return; }
             var loaderCurvature = SelectedResult.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix;
             ForceTuple curvature = new()
             {

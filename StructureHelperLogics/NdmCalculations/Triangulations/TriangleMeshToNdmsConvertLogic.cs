@@ -5,10 +5,12 @@ using TriangleNet.Meshing;
 
 namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
+    /// <inheritdoc>
     public class TriangleMeshToNdmsConvertLogic : ITriangleMeshToNdmsConvertLogic
     {
         public IShapeTriangulationLogicOptions Options { get; set; }
 
+        /// <inheritdoc>
         public List<INdm> GetNdmsByMesh(IMesh mesh, IMaterial material)
         {
             List<INdm> ndmCollection = [];

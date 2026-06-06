@@ -111,17 +111,17 @@ namespace StructureHelper.Infrastructure
             };
 
             // setup lighting            
-            AmbientLightColor = Colors.DimGray;
+            AmbientLightColor = Colors.LightGray;
             DirectionalLightColor = Colors.White;
             DirectionalLightDirection = new Vector3D(-2, -5, 2);
 
             BackgroundTexture =
     BitmapExtensions.CreateLinearGradientBitmapStream(EffectsManager, 128, 128, Direct2DImageFormat.Bmp,
-    new Vector2(0, 0), new Vector2(0, 128), new SharpDX.Direct2D1.GradientStop[]
-    {
+    new Vector2(0, 0), new Vector2(0, 128),
+    [
                     new(){ Color = Colors.White.ToRawColor4(), Position = 0f },
                     new(){ Color = Colors.DarkGray.ToRawColor4(), Position = 1f }
-    });
+    ]);
         }
     }
 }

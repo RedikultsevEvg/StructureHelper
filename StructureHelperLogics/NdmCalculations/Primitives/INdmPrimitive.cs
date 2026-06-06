@@ -1,16 +1,8 @@
-﻿using StructureHelperLogics.Models.Materials;
-using StructureHelperCommon.Models.Shapes;
-using StructureHelper.Models.Materials;
-using System.Collections;
-using LoaderCalculator.Data.Ndms;
-using LoaderCalculator.Data.Materials;
-using System.Collections.Generic;
+﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Interfaces;
-using System;
-using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Triangulations;
-using StructureHelperCommon.Models.Parameters;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {

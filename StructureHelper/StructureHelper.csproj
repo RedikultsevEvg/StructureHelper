@@ -88,6 +88,9 @@
     <Reference Include="StructureMath">
       <HintPath>..\..\srgpt\LoaderAssistant\LoaderCalculator\LoaderCalculator\Libraries\StructureMath.dll</HintPath>
     </Reference>
+    <Reference Include="Triangle">
+      <HintPath>..\..\Triangle.NET\src\Triangle\bin\Release\netstandard2.0\Triangle.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

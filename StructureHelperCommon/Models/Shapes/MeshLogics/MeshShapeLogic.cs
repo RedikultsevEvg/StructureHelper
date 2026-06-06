@@ -1,7 +1,4 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TriangleNet.Meshing;
 
 namespace StructureHelperCommon.Models.Shapes
