@@ -18,6 +18,8 @@ namespace DataAccess.DTOs
         public List<IStirrup> Stirrups { get; } = new();
         [JsonProperty("VisualProperty")]
         public IPrimitiveVisualProperty VisualProperty { get; set; }
+        [JsonProperty("CheckMinimumIntensity")]
+        public bool CheckMinimumIntensity { get; set; }
 
         public StirrupGroupDTO(Guid id)
         {

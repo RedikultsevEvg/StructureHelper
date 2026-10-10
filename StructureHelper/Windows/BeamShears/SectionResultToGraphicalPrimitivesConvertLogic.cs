@@ -18,7 +18,7 @@ namespace StructureHelper.Windows.BeamShears
             inclinedSection = source.InputData.InclinedSection;
             InitializeStrategies();
             List<IGraphicalPrimitive> graphicalPrimitives = new();
-            BeamShearSectionPrimitive beamShearSectionPrimitive = new(source.ResultInputData.InclinedSection.BeamShearSection, inclinedSection);
+            BeamShearSectionPrimitive beamShearSectionPrimitive = new(inclinedSection.BeamShearSection, inclinedSection);
             graphicalPrimitives.Add(beamShearSectionPrimitive);
             graphicalPrimitives.AddRange(actionLogic.Convert(source.ResultInputData.BeamShearAction));
             graphicalPrimitives.AddRange(stirrupLogic.Convert(source.ResultInputData.Stirrup));

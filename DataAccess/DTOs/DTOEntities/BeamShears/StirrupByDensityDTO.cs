@@ -21,6 +21,8 @@ namespace DataAccess.DTOs
         public double EndCoordinate { get; set; } = 100;
         [JsonProperty("VisualProperty")]
         public IPrimitiveVisualProperty VisualProperty { get; set; }
+        [JsonProperty("CheckMinimumIntensity")]
+        public bool CheckMinimumIntensity { get; set; } = true;
 
         public StirrupByDensityDTO(Guid id)
         {

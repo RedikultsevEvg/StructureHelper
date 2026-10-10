@@ -7,7 +7,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 {
     public interface IModifyPathByCurvatureLogic
     {
-        IDeformedPath ProcessPath(IDeformedPath path, IForceTuple curvature, double scale = 1.0);
+        IDeformedPath ProcessPath(IDeformedPath path, IForceTuple curvature, float scale = 1.0f);
         IDeformedPath ProcessPath(IDeformedPath path, float dx, float dy, float dz);
     }
 }

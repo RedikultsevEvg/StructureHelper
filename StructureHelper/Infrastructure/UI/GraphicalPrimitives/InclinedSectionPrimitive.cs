@@ -12,6 +12,8 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         private IInclinedSection inclinedSection => source.ResultInputData.InclinedSection;
         private IInclinedSection inclinedCrack => source.ResultInputData.InclinedCrack;
 
+        public bool InclinedSectionVisibility { get; set; } = true;
+        public bool InclinedSectionLineVisibility => VisualProperty.IsVisible && InclinedSectionVisibility;
         public double SectionStartX => inclinedSection.StartCoord;
         public double SectionEndX => inclinedSection.EndCoord;
         public double SectionStartY => inclinedSection.FullDepth - inclinedSection.EffectiveDepth;
@@ -19,6 +21,8 @@ namespace StructureHelper.Infrastructure.UI.GraphicalPrimitives
         public double CrackStartX => inclinedCrack.StartCoord;
         public double FactorOfUsing => Math.Round(source.FactorOfUsing, 4);
         public double EffectiveDepth => Math.Round(inclinedSection.EffectiveDepth, 3);
+        public bool InclinedCrackVisibility { get; set; } = true;
+        public bool InclinedCrackLineVisibility => VisualProperty.IsVisible && InclinedCrackVisibility;
         public double SpanRatio => (inclinedSection.EndCoord - inclinedSection.StartCoord) / inclinedSection.EffectiveDepth;
         public double CrackSpanRatio => (inclinedCrack.EndCoord - inclinedCrack.StartCoord) / inclinedSection.EffectiveDepth;
         public double ActualShearForce => Math.Round(source.InputData.ForceTuple.Qy);

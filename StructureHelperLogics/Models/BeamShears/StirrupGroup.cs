@@ -10,6 +10,7 @@ namespace StructureHelperLogics.Models.BeamShears
         public List<IStirrup> Stirrups { get; } = new();
         public double CompressedGap { get; set; }
         public IPrimitiveVisualProperty VisualProperty { get; set; }
+        public bool CheckMinimumIntensity { get; set; } = true;
 
         public StirrupGroup(Guid id)
         {

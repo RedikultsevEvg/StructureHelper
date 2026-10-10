@@ -58,14 +58,22 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private void GetStirrupEffectiveness()
         {
-            if (inclinedSection.BeamShearSection.Shape is IRectangleShape)
+            IShape shape = inclinedSection.BeamShearSection.Shape;
+            if (shape is IRectangleShape)
             {
                 stirrupEffectiveness = StirrupEffectivenessFactory.GetEffectiveness(BeamShearSectionType.Rectangle);
             }
-            else if (inclinedSection.BeamShearSection.Shape is ICircleShape)
+            else if (shape is ICircleShape)
             {
                 stirrupEffectiveness = StirrupEffectivenessFactory.GetEffectiveness(BeamShearSectionType.Circle);
-
+            }
+            else if (shape is IVerticalTShape)
+            {
+                stirrupEffectiveness = StirrupEffectivenessFactory.GetEffectiveness(BeamShearSectionType.TShape);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(shape));
             }
         }
     }

@@ -21,6 +21,7 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
             CheckObject.ThrowIfNull(targetObject);
             CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
+            targetObject.CheckMinimumIntensity = sourceObject.CheckMinimumIntensity;
             if (sourceObject is IStirrupGroup group)
             {
                 UpdateGroup(targetObject, group);

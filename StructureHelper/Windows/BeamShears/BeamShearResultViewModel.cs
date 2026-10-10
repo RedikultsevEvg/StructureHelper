@@ -4,6 +4,7 @@ using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
 using StructureHelperCommon.Services.Exports;
 using StructureHelperCommon.Services.Exports.Factories;
 using StructureHelperLogics.Models.BeamShears;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -18,6 +19,7 @@ namespace StructureHelper.Windows.BeamShears
         private RelayCommand showDiagramCommand;
         private RelayCommand exportToExcelCommand;
         private RelayCommand showGraphResultsCommand;
+        private RelayCommand showRancInclinedSectioCommand;
 
         public IBeamShearActionResult SelectedResult { get; set; }
         public List<IBeamShearActionResult> ActionResults => result.ActionResults;
@@ -35,6 +37,13 @@ namespace StructureHelper.Windows.BeamShears
         public ICommand ShowDiagramCommand => showDiagramCommand ??= new RelayCommand(Show2DDiagram, o=>SelectedResult != null);
         public ICommand ExportToExcelCommand => exportToExcelCommand ??= new RelayCommand(ExportToExcel, o=>SelectedResult != null);
         public ICommand ShowGraphResultsCommand => showGraphResultsCommand ??= new RelayCommand(ShowGraphResults, o => SelectedResult != null);
+        public ICommand ShowRankInclinedSectionCommand => showRancInclinedSectioCommand ??= new RelayCommand(ShowRankInclinedSectionResults, o=>SelectedResult != null);
+
+        private void ShowRankInclinedSectionResults(object obj)
+        {
+            Window wnd = new BeamShearRankInclinedSectionView(SelectedResult);
+            wnd.ShowDialog();
+        }
 
         private void ShowGraphResults(object obj)
         {

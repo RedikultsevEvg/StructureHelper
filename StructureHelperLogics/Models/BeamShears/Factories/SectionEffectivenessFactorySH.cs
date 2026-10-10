@@ -14,6 +14,10 @@ namespace StructureHelperLogics.Models.BeamShears
             {
                 return GetCircleEffectiveness();
             }
+            else if (sectionType == BeamShearSectionType.TShape)
+            {
+                return GetRectangleEffectiveness();
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(sectionType));

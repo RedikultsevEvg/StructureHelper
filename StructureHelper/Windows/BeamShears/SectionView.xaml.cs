@@ -34,6 +34,7 @@ namespace StructureHelper.Windows.BeamShears
             List<string> templateNames = new List<string>();
             if (shape is IRectangleShape) { templateNames.Add("RectangleShapeProperties"); }
             else if (shape is ICircleShape) { templateNames.Add("CircleShapeProperties"); }
+            else if (shape is IVerticalTShape) { templateNames.Add("VerticalTShapeProperties"); }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(shape));

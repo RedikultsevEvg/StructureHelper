@@ -16,6 +16,10 @@ namespace StructureHelperLogics.Models.BeamShears
         /// Distance from axis of comressed rebar to edge of comressed zone, m 
         /// </summary>
         double CompressedGap { get; set; }
+        /// <summary>
+        /// Flag of checking of minimum intensity of stirrups
+        /// </summary>
+        bool CheckMinimumIntensity { get; set; }
 
     }
 }

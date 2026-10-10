@@ -51,6 +51,16 @@
                         <ContentControl ContentTemplate="{StaticResource BeamShearInclinedSection}"/>
                     </Viewbox>
                 </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowRankInclinedSectionCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show inclined section rank"
+                                                IconContent="{StaticResource BeamShearRankInclinedSection}"
+                                                DescriptionText="Shows rank of inclined section by utilizing degree"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource BeamShearRankInclinedSection}"/>
+                    </Viewbox>
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <Grid>

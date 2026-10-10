@@ -70,11 +70,11 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger?.AddMessage($"Maximum spacing ratio due to strength beetwen hoops Sr,max = {maxSpacingRatio}(dimensionless)");
             maxSpacingRatio = Math.Min(maxSpacingRatio, 0.5);
             TraceLogger?.AddMessage($"Maximum spacing ratio Sr,max = {maxSpacingRatio}(dimensionless)");
-            double maxStirrupSpacingByEffectibeDepth = maxSpacingRatio * inclinedSection.EffectiveDepth;
-            TraceLogger?.AddMessage($"Maximum spacing S,max = {maxStirrupSpacingByEffectibeDepth}(m)");
-            if (stirrupByRebar.Spacing > maxStirrupSpacingByEffectibeDepth)
+            double maxStirrupSpacingByEffectiveDepth = maxSpacingRatio * inclinedSection.EffectiveDepth;
+            TraceLogger?.AddMessage($"Maximum spacing S,max = {maxStirrupSpacingByEffectiveDepth}(m)");
+            if (stirrupByRebar.Spacing > maxStirrupSpacingByEffectiveDepth)
             {
-                TraceLogger?.AddMessage($"Stirrup spacing S = {stirrupByRebar.Spacing}(m) is greater than max stirrup spacing Smax = {maxStirrupSpacingByEffectibeDepth}(m), stirrups are ignored", TraceLogStatuses.Warning);
+                TraceLogger?.AddMessage($"Stirrup spacing S = {stirrupByRebar.Spacing}(m) is greater than max stirrup spacing Smax = {maxStirrupSpacingByEffectiveDepth}(m), stirrups are ignored", TraceLogStatuses.Warning);
                 return 0;
             }
             double shearStrength = stirrupDensityStrengthLogic.CalculateShearStrength();

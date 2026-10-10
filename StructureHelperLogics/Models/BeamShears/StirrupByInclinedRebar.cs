@@ -67,6 +67,7 @@ namespace StructureHelperLogics.Models.BeamShears
         /// <inheritdoc>
         public double LegCount { get; set; } = 2;
         public IPrimitiveVisualProperty VisualProperty { get; set; }
+        public bool CheckMinimumIntensity { get; set; } = true;
 
         public StirrupByInclinedRebar(Guid id)
         {

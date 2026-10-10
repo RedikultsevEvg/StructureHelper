@@ -23,12 +23,14 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Name"/>
                     <TextBox Grid.Column="1" Text="{Binding Name}"/>
                     <TextBlock Grid.Row="1" Text="Density"/>
                     <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ValidatedError}" Text="{Binding Density, Converter={StaticResource DistributedLoadConverter}, ValidatesOnDataErrors=True}"/>
+                    <CheckBox Grid.Row="2" Grid.ColumnSpan="2" Margin="0,2,0,0" Content="Check minimum intensity" IsChecked="{Binding CheckMinimumIntensity}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Misc.">

@@ -33,6 +33,7 @@ namespace StructureHelperLogics.Models.BeamShears
             stirrupByDensity.StirrupDensity = GetStirrupDensity(source);
             stirrupByDensity.StartCoordinate = source.StartCoordinate;
             stirrupByDensity.EndCoordinate = source.EndCoordinate;
+            stirrupByDensity.CheckMinimumIntensity = source.CheckMinimumIntensity;
             return stirrupByDensity;
         }
 

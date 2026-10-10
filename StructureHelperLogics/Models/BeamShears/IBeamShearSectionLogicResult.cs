@@ -29,7 +29,7 @@ namespace StructureHelperLogics.Models.BeamShears
         /// </summary>
         public double TotalStrength { get; set; }
         /// <summary>
-        /// Ration of load to total strength
+        /// Ratio of load to total strength
         /// </summary>
         public double FactorOfUsing { get; }
         /// <summary>

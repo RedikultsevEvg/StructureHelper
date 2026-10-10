@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -70,7 +71,16 @@ namespace StructureHelperLogics.Models.BeamShears
         private bool GetPredicate(double crackLengthRatio)
         {
             BeamShearSectionLogicInputData newInputData = GetNewInputDataByCrackLengthRatio(crackLengthRatio);
-            concreteLogic = new(SectionEffectiveness, newInputData.InclinedCrack, null);
+            IGetShapeFactorLogic getShapeFactorLogic;
+            if (newInputData.InclinedCrack.BeamShearSection.Shape is IVerticalTShape verticalTShape)
+            {
+                getShapeFactorLogic = new GetVerticalTShapeFactorSHLogic(newInputData.InclinedCrack, verticalTShape, TraceLogger);
+            }
+            else
+            {
+                getShapeFactorLogic = new ConstantShapeFactorLogic(1d, TraceLogger);
+            }
+            concreteLogic = new(SectionEffectiveness, newInputData.InclinedCrack,getShapeFactorLogic, null);
             stirrupLogic = new(newInputData, null);
             double concreteStrength = concreteLogic.CalculateShearStrength() * ConcreteFactor;
             double stirrupStrength = stirrupLogic.CalculateShearStrength() * StirrupFactor;

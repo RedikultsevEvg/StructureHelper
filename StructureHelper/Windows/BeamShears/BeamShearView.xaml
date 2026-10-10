@@ -46,6 +46,18 @@
                 </Button>
                 <Button Style="{StaticResource ToolButton}" 
                         Command="{Binding Add}"
+                        CommandParameter="{x:Static enums:PrimitiveType.TShape}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="T-Shape section"
+                                                IconContent="{StaticResource ShearTShapeSection}"
+                                                DescriptionText="Add T-Shape shear section (height, width of web, width of flangt, strength)"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource ShearTShapeSection}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding Add}"
                         CommandParameter="{x:Static enums:PrimitiveType.Circle}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Circle section"
@@ -133,6 +145,18 @@
                 </Button>
                 <Button Style="{StaticResource ToolButton}" 
                         Command="{Binding AddTemplate}"
+                        CommandParameter="{x:Static enums:PrimitiveType.TShape}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Create rectangle template"
+                                                IconContent="{StaticResource ShearSectionTShapeTemplate}"
+                                                DescriptionText="Create t-shape section by template"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource ShearSectionTShapeTemplate}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding AddTemplate}"
                         CommandParameter="{x:Static enums:PrimitiveType.Circle}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Create circle template"
@@ -197,6 +221,13 @@
                                             <MenuItem.Icon>
                                                 <Viewbox Height="16" Width="16">
                                                     <ContentControl ContentTemplate="{DynamicResource ShearRectangleSection}"/>
+                                                </Viewbox>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="T-Shape section" Command="{Binding Add}" CommandParameter="{x:Static enums:PrimitiveType.TShape}">
+                                            <MenuItem.Icon>
+                                                <Viewbox Height="16" Width="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource ShearTShapeSection}"/>
                                                 </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>

@@ -26,6 +26,8 @@ namespace DataAccess.DTOs
         public IRebarSection RebarSection { get; set; }
         [JsonProperty("VisualProperty")]
         public IPrimitiveVisualProperty VisualProperty { get; set; }
+        [JsonProperty("CheckMinimumIntensity")]
+        public bool CheckMinimumIntensity { get; set; } = true;
 
         public StirrupByInclinedRebarDTO(Guid id)
         {

@@ -9,18 +9,23 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         private readonly ISectionEffectiveness sectionEffectiveness;
         private readonly IInclinedSection inclinedSection;
+        private IGetCrackLengthLogic restrictCrackLengthLogic;
+        private readonly IGetShapeFactorLogic getShapeFactorLogic;
+        private IGetCrackLengthLogic RestrictCrackLengthLogic => restrictCrackLengthLogic ??= new RestrictInclinedCrackSP63Logic(sectionEffectiveness, inclinedSection, TraceLogger);
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
         public ConcreteShearStrengthLogic(
             ISectionEffectiveness sectionEffectiveness,
             IInclinedSection inclinedSection,
+            IGetShapeFactorLogic getShapeFactorLogic,
             IShiftTraceLogger? traceLogger = null)
         {
             this.sectionEffectiveness = sectionEffectiveness
                 ?? throw new StructureHelperException("Section effectiveness cannot be null.");
             this.inclinedSection = inclinedSection
                 ?? throw new StructureHelperException("Inclined section cannot be null.");
+            this.getShapeFactorLogic = getShapeFactorLogic;
             TraceLogger = traceLogger;
         }
 
@@ -33,45 +38,28 @@ namespace StructureHelperLogics.Models.BeamShears
             TraceLogger?.AddMessage($"Concrete tension strength Rbt = {inclinedSection.ConcreteTensionStrength}{UnitsOfSI.Pa}");
             TraceLogger?.AddMessage($"Design width of cross-section b = {inclinedSection.WebWidth}{UnitsOfSI.Meters}");
             TraceLogger?.AddMessage($"Effective depth of cross-section ho = {inclinedSection.EffectiveDepth}{UnitsOfSI.Meters}");
-            double rawCrackLength = inclinedSection.EndCoord - inclinedSection.StartCoord;
-            TraceLogger?.AddMessage($"Inclination section length c = {inclinedSection.EndCoord} - {inclinedSection.StartCoord} = {rawCrackLength}{UnitsOfSI.Meters}");
-            double crackLength = RestrictCrackLength(rawCrackLength);
+            double inclinedCrackLength = inclinedSection.EndCoord - inclinedSection.StartCoord;
+            TraceLogger?.AddMessage($"Inclination section length c = {inclinedSection.EndCoord} - {inclinedSection.StartCoord} = {inclinedCrackLength}{UnitsOfSI.Meters}");
+            inclinedCrackLength = RestrictCrackLengthLogic.GetCrackLength(inclinedCrackLength);
             double concreteMoment = CalculateConcreteMoment();
-            double shearStrength = concreteMoment / crackLength;
+            double shearStrength = concreteMoment / inclinedCrackLength;
 
-            TraceLogger?.AddMessage($"Shear strength = Mb / c = {concreteMoment}{UnitsOfSI.NewtonMeters} / {crackLength}{UnitsOfSI.Meters} = {shearStrength}{UnitsOfSI.Newtons}");
+            TraceLogger?.AddMessage($"Shear strength = Mb / c = {concreteMoment}{UnitsOfSI.NewtonMeters} / {inclinedCrackLength}{UnitsOfSI.Meters} = {shearStrength}{UnitsOfSI.Newtons}");
             return shearStrength;
         }
 
         private double CalculateConcreteMoment()
         {
+            double shapeFactor = getShapeFactorLogic.GetShapeFactor();
             double concreteMoment = sectionEffectiveness.BaseShapeFactor
                         * sectionEffectiveness.ShapeFactor
+                        * shapeFactor
                         * inclinedSection.ConcreteTensionStrength
                         * inclinedSection.WebWidth
                         * inclinedSection.EffectiveDepth
                         * inclinedSection.EffectiveDepth;
-            TraceLogger?.AddMessage($"Concrete moment Mb = {sectionEffectiveness.BaseShapeFactor} * {sectionEffectiveness.ShapeFactor} * {inclinedSection.ConcreteTensionStrength}{UnitsOfSI.Pa} * {inclinedSection.WebWidth}{UnitsOfSI.Meters} * ({inclinedSection.EffectiveDepth}{UnitsOfSI.Meters})^2 = {concreteMoment}{UnitsOfSI.NewtonMeters}");
+            TraceLogger?.AddMessage($"Concrete moment Mb = {sectionEffectiveness.BaseShapeFactor} * {sectionEffectiveness.ShapeFactor} * {shapeFactor} * {inclinedSection.ConcreteTensionStrength}{UnitsOfSI.Pa} * {inclinedSection.WebWidth}{UnitsOfSI.Meters} * ({inclinedSection.EffectiveDepth}{UnitsOfSI.Meters})^2 = {concreteMoment}{UnitsOfSI.NewtonMeters}");
             return concreteMoment;
-        }
-
-        private double RestrictCrackLength(double sourceLength)
-        {
-            double length = sourceLength;
-            double maxLength = sectionEffectiveness.MaxCrackLengthRatio * inclinedSection.EffectiveDepth;
-            double minLength = sectionEffectiveness.MinCrackLengthRatio * inclinedSection.EffectiveDepth;
-
-            if (length > maxLength)
-            {
-                TraceLogger?.AddMessage($"Max design crack length cmax = {sectionEffectiveness.MaxCrackLengthRatio} * {inclinedSection.EffectiveDepth}{UnitsOfSI.Meters} = {maxLength}{UnitsOfSI.Meters}. Crack length has been reduced from {length}{UnitsOfSI.Meters} to {maxLength}{UnitsOfSI.Meters}");
-                return maxLength;
-            }
-            if (length < minLength)
-            {
-                TraceLogger?.AddMessage($"Min design crack length cmin = {sectionEffectiveness.MinCrackLengthRatio} * {inclinedSection.EffectiveDepth}{UnitsOfSI.Meters} = {minLength}{UnitsOfSI.Meters}. Crack length has been increased from {length}{UnitsOfSI.Meters} to {minLength}{UnitsOfSI.Meters}");
-                return minLength;
-            }
-            return length;
         }
 
         private void ValidateInput()

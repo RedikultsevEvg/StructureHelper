@@ -88,6 +88,10 @@ namespace StructureHelperLogics.Models.BeamShears
             {
                 depth = circle.Diameter;
             }
+            else if (BeamShearSection.Shape is IVerticalTShape verticalTShape)
+            {
+                depth = verticalTShape.FullHeight;
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(BeamShearSection.Shape));

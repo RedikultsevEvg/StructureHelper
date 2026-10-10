@@ -97,6 +97,16 @@ namespace StructureHelper.Windows.BeamShears
             }
         }
 
+        public bool CheckMinimumIntensity
+        {
+            get => stirrupByRebar.CheckMinimumIntensity;
+            set
+            {
+                stirrupByRebar.CheckMinimumIntensity = value;
+                OnPropertyChanged(nameof(CheckMinimumIntensity));
+            }
+        }
+
         public PrimitiveVisualPropertyViewModel VisualProperty
         {
             get => visual;

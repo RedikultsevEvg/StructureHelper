@@ -29,6 +29,7 @@
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Name"/>
@@ -39,7 +40,8 @@
                     <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource ValidatedError}" Text="{Binding LegCount, Converter={StaticResource PlainDouble},ValidatesOnDataErrors=True}"/>
                     <TextBlock Grid.Row="3" Text="Spacing"/>
                     <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource ValidatedError}" Text="{Binding Spacing, Converter={StaticResource LengthConverter},ValidatesOnDataErrors=True}"/>
-                    <CheckBox Grid.Row="4" Margin="0,2,0,0" Content="Spiral" IsChecked="{Binding IsSpiral}"/>
+                    <CheckBox Grid.Row="4" Grid.ColumnSpan="2" Margin="0,2,0,0" Content="Check minimum intensity" IsChecked="{Binding CheckMinimumIntensity}"/>
+                    <CheckBox Grid.Row="5" Grid.ColumnSpan="2" Margin="0,2,0,0" Content="Spiral" IsChecked="{Binding IsSpiral}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Material" DataContext="{Binding Material}">

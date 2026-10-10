@@ -38,25 +38,32 @@ namespace StructureHelper.Windows.BeamShears
             }
         }
 
-        private void AddTemplateMethod(object param)
+        private void AddTemplateMethod(object parameter)
         {
-            if (param is PrimitiveType.Rectangle)
+            if (parameter is PrimitiveType.Rectangle)
             {
                 var templateRepository = BeamShearTemplatesFactory.GetTemplateRepository(ShearSectionTemplateTypes.Rectangle);
                 var updateStrategy = new BeamShearRepositoryAddUpdateStrategy();
                 updateStrategy.Update(repository, templateRepository);
                 Refresh();
             }
-            else if (param is PrimitiveType.Circle)
+            else if (parameter is PrimitiveType.Circle)
             {
                 var templateRepository = BeamShearTemplatesFactory.GetTemplateRepository(ShearSectionTemplateTypes.Circle);
                 var updateStrategy = new BeamShearRepositoryAddUpdateStrategy();
                 updateStrategy.Update(repository, templateRepository);
                 Refresh();
             }
+            else if (parameter is PrimitiveType.TShape)
+            {
+                var templateRepository = BeamShearTemplatesFactory.GetTemplateRepository(ShearSectionTemplateTypes.TShape);
+                var updateStrategy = new BeamShearRepositoryAddUpdateStrategy();
+                updateStrategy.Update(repository, templateRepository);
+                Refresh();
+            }
             else
             {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(param));
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(parameter));
             }
         }
 

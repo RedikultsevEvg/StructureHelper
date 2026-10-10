@@ -64,9 +64,14 @@ namespace StructureHelperLogics.Models.BeamShears
         public double CompressedGap { get; set; } = 0;
         /// <inheritdoc/>
         public bool IsSpiral { get; set; } = false;
+        /// <inheritdoc/>
         public double StartCoordinate { get; set; } = 0;
+        /// <inheritdoc/>
         public double EndCoordinate { get; set; } = 100;
+        /// <inheritdoc/>
         public IPrimitiveVisualProperty VisualProperty { get; set; }
+
+        public bool CheckMinimumIntensity { get; set; } = true;
 
         public StirrupByRebar(Guid id)
         {

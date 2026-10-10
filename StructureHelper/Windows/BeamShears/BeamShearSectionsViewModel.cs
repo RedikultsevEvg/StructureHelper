@@ -59,6 +59,14 @@ namespace StructureHelper.Windows.BeamShears
                     Shape = new CircleShape(Guid.NewGuid()) { Diameter = 0.6 }
                 };
             }
+            else if (sectionType is PrimitiveType.TShape)
+            {
+                NewItem = new BeamShearSection(Guid.NewGuid())
+                {
+                    Name = "New T-Shape section",
+                    Shape = new VerticalTShape(Guid.NewGuid())
+                };
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(sectionType));

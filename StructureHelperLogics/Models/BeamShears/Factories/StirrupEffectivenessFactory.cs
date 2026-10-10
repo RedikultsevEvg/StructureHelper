@@ -1,9 +1,4 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -24,6 +19,10 @@ namespace StructureHelperLogics.Models.BeamShears
             else if (sectionType == BeamShearSectionType.Circle)
             {
                 return GetCircleEffectiveness();
+            }
+            else if (sectionType == BeamShearSectionType.TShape)
+            {
+                return GetRectangleEffectiveness();
             }
             else
             {

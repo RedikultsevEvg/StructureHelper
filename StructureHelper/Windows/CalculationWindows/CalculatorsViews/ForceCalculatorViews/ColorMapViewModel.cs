@@ -23,6 +23,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 Refresh();
             }
         }
+
         public ColorMapViewModel(IsoField2DViewerViewModel isoField2DViewerViewModel)
         {
             this.isoField2DViewerViewModel = isoField2DViewerViewModel;

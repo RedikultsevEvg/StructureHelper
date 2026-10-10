@@ -24,7 +24,6 @@ namespace StructureHelper.Windows.BeamShears
             {
                 WorkPlaneRoot.PrimitiveCollection.Primitives.Add(primitive);
             });
-
         }
     }
 }

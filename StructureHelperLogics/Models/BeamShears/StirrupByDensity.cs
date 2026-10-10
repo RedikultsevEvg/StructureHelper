@@ -8,13 +8,22 @@ namespace StructureHelperLogics.Models.BeamShears
     public class StirrupByDensity : IStirrupByDensity
     {
         private IUpdateStrategy<IStirrupByDensity> updateStrategy;
+        /// <inheritdoc/>
         public Guid Id { get; }
+        /// <inheritdoc/>
         public string Name { get; set; } = string.Empty;
+        /// <inheritdoc/>
         public double StirrupDensity { get; set; }
+        /// <inheritdoc/>
         public double CompressedGap { get; set; }
+        /// <inheritdoc/>
         public IPrimitiveVisualProperty VisualProperty { get; set; }
-        public double StartCoordinate { get; set; } = 0;
-        public double EndCoordinate { get; set; } = 100;
+        /// <inheritdoc/>
+        public double StartCoordinate { get; set; } = 0d;
+        /// <inheritdoc/>
+        public double EndCoordinate { get; set; } = 100d;
+        /// <inheritdoc/>
+        public bool CheckMinimumIntensity { get; set; } = true;
 
         public StirrupByDensity(Guid id)
         {

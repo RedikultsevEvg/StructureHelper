@@ -2,19 +2,14 @@
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.BeamShearActions;
 using StructureHelperCommon.Models.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
     public enum ShearSectionTemplateTypes
     {
         Rectangle,
-        Circle
+        Circle,
+        TShape
     }
     public static class BeamShearTemplatesFactory
     {
@@ -28,10 +23,24 @@ namespace StructureHelperLogics.Models.BeamShears
             {
                 return GetCircleSection();
             }
+            if (templateType is ShearSectionTemplateTypes.TShape)
+            {
+                return GetTShapeSection();
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(templateType));
             }
+        }
+
+        private static IBeamShearRepository GetTShapeSection()
+        {
+            BeamShearSection section = new(Guid.NewGuid())
+            {
+                Name = "New T-Shape section",
+                Shape = new VerticalTShape(Guid.NewGuid()),
+            };
+            return BuildRepository(section);
         }
 
         private static IBeamShearRepository GetCircleSection()

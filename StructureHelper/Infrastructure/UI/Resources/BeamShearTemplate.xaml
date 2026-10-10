@@ -178,6 +178,19 @@
                     </Grid>
                 </Line.ToolTip>
             </Line>
+            <!--InclinedCrack-->
+            <Line
+    X1="{Binding CrackStartX}"
+    X2="{Binding SectionEndX}"
+    Y1="{Binding SectionStartY}"
+    Y2="{Binding SectionEndY}"
+    StrokeThickness="0.005"
+    Visibility="{Binding InclinedCrackVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"
+    >
+                <Line.Stroke>
+                    <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
+                </Line.Stroke>
+            </Line>
         </Canvas>
     </DataTemplate>
 

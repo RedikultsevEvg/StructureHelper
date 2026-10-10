@@ -155,7 +155,16 @@ namespace StructureHelperLogics.Models.BeamShears
         {
             IShape shape = result.ResultInputData.InclinedSection.BeamShearSection.Shape;
             sectionEffectiveness = GetSectionEffectivenessLogic.GetSectionEffectiveness(ShearCodeType, shape);
-            concreteLogic = new(sectionEffectiveness, result.ResultInputData.InclinedSection, localTraceLogger);
+            IGetShapeFactorLogic getShapeFactorLogic;
+            if (ShearCodeType == ShearCodeTypes.StructureHelper_0 && result.ResultInputData.InclinedSection.BeamShearSection.Shape is IVerticalTShape verticalTShape)
+            {
+                getShapeFactorLogic = new GetVerticalTShapeFactorSHLogic(result.ResultInputData.InclinedSection, verticalTShape, localTraceLogger);
+            }
+            else
+            {
+                getShapeFactorLogic = new ConstantShapeFactorLogic(1d, localTraceLogger);
+            }
+            concreteLogic = new(sectionEffectiveness, result.ResultInputData.InclinedSection,getShapeFactorLogic, localTraceLogger);
             stirrupLogic = new(result.ResultInputData, localTraceLogger);
             getLongitudinalForceFactorLogic = new GetLongitudinalForceFactorLogic(localTraceLogger?.GetSimilarTraceLogger(100));
         }

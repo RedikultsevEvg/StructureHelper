@@ -27,6 +27,9 @@
     <Compile Update="Windows\BeamShears\BeamShearCalculatorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\BeamShears\BeamShearRankInclinedSectionView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\BeamShears\BeamShearResultView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

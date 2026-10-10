@@ -45,4 +45,27 @@
             <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Style="{StaticResource ValidatedError}" Text="{Binding InnerDiameter, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
         </Grid>
     </DataTemplate>
+    <DataTemplate x:Key="VerticalTShapeProperties">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Full height"/>
+            <TextBox Grid.Column="1" Text="{Binding FullHeight, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBlock Grid.Row="1" Text="Web width"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding WebWidth, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBlock Grid.Row="2" Text="Flange height"/>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding FlangeHeight, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+            <TextBlock Grid.Row="3" Text="Flange width"/>
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding FlangeWidth, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True}"/>
+        </Grid>
+    </DataTemplate>
 </ResourceDictionary>

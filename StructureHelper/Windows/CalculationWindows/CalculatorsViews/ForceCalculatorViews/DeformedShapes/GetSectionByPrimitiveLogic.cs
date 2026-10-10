@@ -52,7 +52,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 var polygon = logic.Convert(rectangleShape);
                 result.Add(polygon);
             }
-            if (primitiveShape is IEllipseShape ellipseShape && Math.Abs(ellipseShape.Width - ellipseShape.Height) < 1.0e-6)
+            else if (primitiveShape is IEllipseShape ellipseShape && Math.Abs(ellipseShape.Width - ellipseShape.Height) < 1.0e-6)
             {
                 CircleShape circleShape = new() { Diameter = ellipseShape.Width };
                 var logic = new CircleShapeToPolygonConvertStrategy(true, 64);

@@ -80,12 +80,25 @@ namespace StructureHelperLogics.Models.BeamShears.Logics
                 {
                     CheckCircleShape(circle);
                 }
+                else if (Entity.Shape is IVerticalTShape verticalTShape)
+                {
+                    RectangleShape rectangleShape = new RectangleShape() { Width = verticalTShape.WebWidth, Height = verticalTShape.FullHeight};
+                    CheckRectangleShape(rectangleShape);
+                    rectangleShape = new RectangleShape() { Width = verticalTShape.FlangeWidth, Height = verticalTShape.FlangeHeight};
+                    CheckRectangleShape(rectangleShape);
+                    CheckTShape(verticalTShape);
+                }
                 else
                 {
                     result = false;
                     TraceMessage($"\nType of shape of cross-section is unknown");
                 }
             }
+        }
+
+        private void CheckTShape(IVerticalTShape verticalTShape)
+        {
+            //
         }
 
         private void CheckCircleShape(ICircleShape circle)

@@ -1,13 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
-using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.BeamShears.Logics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -33,6 +27,10 @@ namespace StructureHelperLogics.Models.BeamShears
             else if (shape is ICircleShape)
             {
                 sectionEffectiveness = sectionEffectivenessFactory.GetShearEffectiveness(BeamShearSectionType.Circle);
+            }
+            else if (shape is IVerticalTShape)
+            {
+                sectionEffectiveness = sectionEffectivenessFactory.GetShearEffectiveness(BeamShearSectionType.TShape);
             }
             else
             {

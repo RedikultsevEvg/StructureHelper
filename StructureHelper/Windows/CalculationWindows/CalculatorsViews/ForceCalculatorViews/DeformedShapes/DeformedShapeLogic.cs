@@ -74,7 +74,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
             IForceTuple fullCurvature = GetFullCurvature(ndmPrimitive);
 
-            path = modifyPathByCurvatureLogic.ProcessPath(path, fullCurvature, ScaleFactor);
+            path = modifyPathByCurvatureLogic.ProcessPath(path, fullCurvature, (float)ScaleFactor);
 
             Vector3 sectionXAxis = new(1, 0, 0);
             foreach (var section in sections)
