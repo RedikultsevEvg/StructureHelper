@@ -11,6 +11,7 @@
                 Height="{Binding FullDepth}"        
                 StrokeThickness="0.01"
                 Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Panel.ZIndex="{Binding VisualProperty.ZIndex}"
                 >
                 <Rectangle.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}"/>
@@ -50,6 +51,7 @@
                 StrokeThickness="0.012"
                 StrokeDashArray="0.1 0.05"
                 Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Panel.ZIndex="{Binding VisualProperty.ZIndex}"
                 >
                 <Line.ToolTip>
                     <Grid>
@@ -85,7 +87,8 @@
         </Canvas>
     </DataTemplate>
     
-    <DataTemplate x:Key="InclinedSectionPrimitiveTemplate"
+    <DataTemplate 
+        x:Key="InclinedSectionPrimitiveTemplate"
               DataType="primitives:InclinedSectionPrimitive">
         <Canvas>
             <!--InclinedSection-->
@@ -97,6 +100,7 @@
                 StrokeThickness="0.01"
                 StrokeDashArray="0.05 0.02"
                 Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Panel.ZIndex="{Binding VisualProperty.ZIndex}"
                 >
                 <Line.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
@@ -143,6 +147,7 @@
                 Y2="{Binding SectionEndY}"
                 StrokeThickness="0.02"
                 Visibility="{Binding VisualProperty.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Panel.ZIndex="{Binding VisualProperty.ZIndex}"
                 >
                 <Line.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
@@ -178,15 +183,22 @@
                     </Grid>
                 </Line.ToolTip>
             </Line>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="InclinedCrackPrimitiveTemplate"
+              DataType="primitives:InclinedCrackPrimitive">
+        <Canvas>
             <!--InclinedCrack-->
             <Line
-    X1="{Binding CrackStartX}"
-    X2="{Binding SectionEndX}"
-    Y1="{Binding SectionStartY}"
-    Y2="{Binding SectionEndY}"
-    StrokeThickness="0.005"
-    Visibility="{Binding InclinedCrackVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"
-    >
+                X1="{Binding CrackStartX}"
+                X2="{Binding SectionEndX}"
+                Y1="{Binding SectionStartY}"
+                Y2="{Binding SectionEndY}"
+                StrokeThickness="0.005"
+                Visibility="{Binding InclinedCrackVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Panel.ZIndex="{Binding VisualProperty.ZIndex}"
+            >
                 <Line.Stroke>
                     <SolidColorBrush Color="{Binding VisualProperty.Color}" Opacity="{Binding VisualProperty.Opacity}"/>
                 </Line.Stroke>

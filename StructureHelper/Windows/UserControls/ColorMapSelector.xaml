@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="StructureHelper.Windows.UserControls.ColorMapSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:StructureHelper.Windows.UserControls"
+             mc:Ignorable="d"
+             x:Name="Root"
+             d:DesignHeight="50"
+             d:DesignWidth="800">
+
+    <Grid>
+        <ComboBox Width="200"
+                  ItemsSource="{Binding ColorMaps, ElementName=Root}"
+                  SelectedItem="{Binding SelectedColorMap,
+                                         ElementName=Root,
+                                         Mode=TwoWay}">
+
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="32">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Rectangle Margin="2"
+                                   Stroke="DarkGray"
+                                   Fill="{Binding GradientBrush}"/>
+
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   Margin="2"
+                                   Text="{Binding Name}"/>
+                    </Grid>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Border Margin="2"
+                Width="140"
+                CornerRadius="2"
+                Background="#FFE2E2E2">
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="7"
+                           Text="Range number"/>
+
+                <ComboBox Margin="4"
+                          Width="40"
+                          ItemsSource="{Binding RangeNumbers, ElementName=Root}"
+                          SelectedItem="{Binding RangeNumber,
+                                                 ElementName=Root,
+                                                 Mode=TwoWay}"
+                          ToolTip="Number of color range"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

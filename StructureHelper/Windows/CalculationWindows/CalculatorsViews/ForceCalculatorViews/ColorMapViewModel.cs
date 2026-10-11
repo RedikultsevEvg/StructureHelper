@@ -3,43 +3,51 @@ using FieldVisualizer.Entities.ColorMaps.Factories;
 using StructureHelper.Infrastructure;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.Text;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
     public class ColorMapViewModel : ViewModelBase
     {
-        private IsoField2DViewerViewModel isoField2DViewerViewModel;
         private IColorMap selectedColorMap;
 
+        public event EventHandler? SelectedColorMapChanged;
+
         public List<IColorMap> ColorMaps { get; set; }
+
         public IColorMap SelectedColorMap
         {
             get => selectedColorMap;
             set
             {
+                if (EqualityComparer<IColorMap>.Default.Equals(
+                    selectedColorMap, value))
+                    return;
+
                 selectedColorMap = value;
-                Refresh();
+
+                OnPropertyChanged(nameof(SelectedColorMap));
+                OnSelectedColorMapChanged();
             }
         }
 
-        public ColorMapViewModel(IsoField2DViewerViewModel isoField2DViewerViewModel)
+        public ColorMapViewModel()
         {
-            this.isoField2DViewerViewModel = isoField2DViewerViewModel;
-            ColorMaps = [];
-            ColorMaps.Add(ColorMapFactory.GetColorMap(ColorMapsTypes.LiraSpectrum));
-            ColorMaps.Add(ColorMapFactory.GetColorMap(ColorMapsTypes.FullSpectrum));
-            ColorMaps.Add(ColorMapFactory.GetColorMap(ColorMapsTypes.RedToWhite));
-            ColorMaps.Add(ColorMapFactory.GetColorMap(ColorMapsTypes.RedToBlue));
-            ColorMaps.Add(ColorMapFactory.GetColorMap(ColorMapsTypes.BlueToWhite));
-            ColorMaps.Add(ColorMapFactory.GetColorMap(ColorMapsTypes.BlackToWhite));
+            ColorMaps =
+            [
+                ColorMapFactory.GetColorMap(ColorMapsTypes.LiraSpectrum),
+                ColorMapFactory.GetColorMap(ColorMapsTypes.FullSpectrum),
+                ColorMapFactory.GetColorMap(ColorMapsTypes.RedToWhite),
+                ColorMapFactory.GetColorMap(ColorMapsTypes.RedToBlue),
+                ColorMapFactory.GetColorMap(ColorMapsTypes.BlueToWhite),
+                ColorMapFactory.GetColorMap(ColorMapsTypes.BlackToWhite)
+            ];
+
             SelectedColorMap = ColorMaps[0];
         }
-        private void Refresh()
-        {
-            isoField2DViewerViewModel.Refresh();
-        }
 
+        protected virtual void OnSelectedColorMapChanged()
+        {
+            SelectedColorMapChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

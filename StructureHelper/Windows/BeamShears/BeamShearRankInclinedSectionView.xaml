@@ -4,11 +4,74 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.BeamShears"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
         xmlns:ucwp="clr-namespace:StructureHelper.Windows.UserControls.WorkPlanes"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:BeamShearRankInclinedSectionViewModel}"
         Title="Inclined cracks viewer" Height="650" Width="1000" MinHeight="600" MinWidth="500" WindowStartupLocation="CenterScreen">
-    <Grid DataContext="{Binding WorkPlaneRoot}">
-        <ucwp:WorkPlaneRoot x:Name="WorkPlaneRootPanel"/>
-    </Grid>
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top" Visibility="{Binding IsToolBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ToolBar>
+                <Button Style="{StaticResource ToolButton}" 
+                        Command="{Binding RebuildCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Rebuild image"
+                                                IconContent="{StaticResource Renew}"
+                                                DescriptionText="Rebuild current image"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource Renew}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+            <ToolBar>
+                <uc:ColorMapSelector
+                    ColorMaps="{Binding ContourColorMap.ColorMap.ColorMaps}"
+                    SelectedColorMap="{Binding ContourColorMap.ColorMap.SelectedColorMap,
+                               Mode=TwoWay}"
+                    RangeNumbers="{Binding ContourColorMap.ContourRange.RangeNumbers}"
+                    RangeNumber="{Binding ContourColorMap.ContourRange.RangeNumber,
+                          Mode=TwoWay}"/>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <ListBox ItemsSource="{Binding MainPrimitives}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="18"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox IsChecked="{Binding VisualProperty.IsVisible}"/>
+                            <Rectangle Grid.Column="1" Height="12" Width="20" Margin="1">
+                                <Rectangle.Fill>
+                                    <SolidColorBrush Color="{Binding VisualProperty.Color}"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <TextBlock Grid.Column="2" Text="{Binding Name}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Grid Grid.Column="1" >
+                <ucwp:WorkPlaneRoot x:Name="WorkPlaneRootPanel" ViewModel="{Binding WorkPlaneRoot}">
+                    <ucwp:WorkPlaneRoot.OverlayContent>
+                        <uc:ContourHorizontalLegend ValueColorRanges="{Binding ContourColorMap.ContourRange.ContourLegend.ValueColorRanges}" Panel.ZIndex="1"/>
+                    </ucwp:WorkPlaneRoot.OverlayContent>
+                </ucwp:WorkPlaneRoot>
+            </Grid>
+            <TabControl Grid.Column="2">
+                <TabItem DataContext="{Binding ContourColorMap.ContourRange}" Header="Contours">
+                    <uc:ContourVerticalLegend ValueColorRanges="{Binding ContourLegend.ValueColorRanges}"/>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
 </Window>

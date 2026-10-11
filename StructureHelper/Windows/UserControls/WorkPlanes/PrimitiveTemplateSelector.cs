@@ -8,6 +8,7 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
     {
         public DataTemplate BeamShearSectionTemplate { get; set; }
         public DataTemplate InclinedSectionTemplate { get; set; }
+        public DataTemplate InclinedCrackTemplate { get; set; }
         public DataTemplate StirrupByRebarTemplate { get; set; }
         public DataTemplate StirrupByDensityTemplate { get; set; }
         public DataTemplate StirrupByInclinedRebarTemplate { get; set; }
@@ -21,6 +22,7 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
             return item switch
             {
                 BeamShearSectionPrimitive => BeamShearSectionTemplate,
+                InclinedCrackPrimitive => InclinedCrackTemplate,
                 InclinedSectionPrimitive => InclinedSectionTemplate,
                 StirrupByRebarPrimitive => StirrupByRebarTemplate,
                 StirrupByDensityPrimitive => StirrupByDensityTemplate,

@@ -45,7 +45,6 @@
                         <ContentControl ContentTemplate="{StaticResource ZoomOut}"/>
                     </Viewbox>
                 </Button>
-
             </ToolBar>
             <ToolBar DataContext="{Binding SaveCopyViewModel}">
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding CopyToClipboardCommand}">
@@ -123,8 +122,9 @@
             <Grid Grid.Column="1">
                 <Grid x:Name="IsoFieldGrid">
                     <local:IsoFieldTitle DataContext="{Binding Title}" Panel.ZIndex="1"/>
-                    <local:IsoFieldHorizontalLegend DataContext="{Binding ContourRange.ContourLegend}" Panel.ZIndex="1"/>
-                    <ucwp:WorkPlaneRoot x:Name="WorkPlaneRoot" DataContext="{Binding WorkPlaneRoot}"/>
+                    <!--<local:IsoFieldHorizontalLegend DataContext="{Binding ContourRange.ContourLegend}" Panel.ZIndex="1"/>-->
+                    <uc:ContourHorizontalLegend x:Name="HorizontalLegend" ValueColorRanges="{Binding ContourRange.ContourLegend.ValueColorRanges}" Panel.ZIndex="1"/>
+                    <ucwp:WorkPlaneRoot x:Name="WorkPlaneRoot" ViewModel="{Binding WorkPlaneRoot}"/>
                 </Grid>
             </Grid>
             <TabControl Grid.Column="2">

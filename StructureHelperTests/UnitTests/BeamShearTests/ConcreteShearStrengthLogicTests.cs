@@ -1,7 +1,6 @@
 ﻿using Moq;
 using NUnit.Framework;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Models;
 using StructureHelperLogics.Models.BeamShears;
 
 namespace StructureHelperTests.UnitTests.BeamShearTests
@@ -13,12 +12,14 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
     {
         private Mock<ISectionEffectiveness> sectionEffectivenessMock;
         private Mock<IInclinedSection> inclinedSectionMock;
+        private Mock<IGetShapeFactorLogic> shapeFactorMock;
 
         [SetUp]
         public void SetUp()
         {
             sectionEffectivenessMock = new Mock<ISectionEffectiveness>();
             inclinedSectionMock = new Mock<IInclinedSection>();
+            shapeFactorMock = new Mock<IGetShapeFactorLogic>();    
         }
 
         [Test]
@@ -36,14 +37,17 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             inclinedSectionMock.SetupGet(s => s.StartCoord).Returns(0.0);
             inclinedSectionMock.SetupGet(s => s.EndCoord).Returns(0.8); // crack length = 0.8m
 
+            shapeFactorMock.Setup(s => s.GetShapeFactor()).Returns(1.2);
+
             var logic = new ConcreteShearStrengthLogic(
                 sectionEffectivenessMock.Object,
                 inclinedSectionMock.Object,
+                shapeFactorMock.Object,
                 null
             );
 
             // Expected shear strength
-            double concreteMoment = 0.9 * 1.1 * 2.5 * 0.3 * 0.5 * 0.5;
+            double concreteMoment = 0.9 * 1.1 * 1.2 * 2.5 * 0.3 * 0.5 * 0.5;
             double expectedShear = concreteMoment / 0.8;
 
             // Act
@@ -68,14 +72,17 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             inclinedSectionMock.SetupGet(s => s.StartCoord).Returns(0.0);
             inclinedSectionMock.SetupGet(s => s.EndCoord).Returns(2.0); // crack length = 2.0m > max
 
+            shapeFactorMock.Setup(s => s.GetShapeFactor()).Returns(1.2);
+
             var logic = new ConcreteShearStrengthLogic(
                 sectionEffectivenessMock.Object,
                 inclinedSectionMock.Object,
+                shapeFactorMock.Object,
                 null
             );
 
             // Expected crack length should be capped to 0.5m
-            double expectedShear = (1.0 * 1.0 * 1.0 * 1.0 * 0.5 * 0.5) / 0.5;
+            double expectedShear = (1.0 * 1.0 * 1.0 * 1.2 * 1.0 * 0.5 * 0.5) / 0.5;
 
             // Act
             double actual = logic.CalculateShearStrength();
@@ -99,14 +106,18 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
             inclinedSectionMock.SetupGet(s => s.StartCoord).Returns(0.0);
             inclinedSectionMock.SetupGet(s => s.EndCoord).Returns(0.1); // crack length = 0.1m < min
 
+            shapeFactorMock.Setup(s => s.GetShapeFactor()).Returns(1.2);
+
+
             var logic = new ConcreteShearStrengthLogic(
                 sectionEffectivenessMock.Object,
                 inclinedSectionMock.Object,
+                shapeFactorMock.Object,
                 null
             );
 
             // Expected crack length should be raised to 0.25m
-            double expectedShear = (1.0 * 1.0 * 1.0 * 1.0 * 0.5 * 0.5) / 0.25;
+            double expectedShear = (1.0 * 1.0 * 1.0 *1.2 * 1.0 * 0.5 * 0.5) / 0.25;
 
             // Act
             double actual = logic.CalculateShearStrength();
@@ -123,7 +134,8 @@ namespace StructureHelperTests.UnitTests.BeamShearTests
 
             var logic = new ConcreteShearStrengthLogic(
                 sectionEffectivenessMock.Object,
-                inclinedSectionMock.Object
+                inclinedSectionMock.Object,
+                shapeFactorMock.Object
             );
 
             // Act & Assert

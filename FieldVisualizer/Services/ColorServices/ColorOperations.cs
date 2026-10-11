@@ -1,5 +1,6 @@
 ﻿using FieldVisualizer.Entities.ColorMaps;
 using FieldVisualizer.Entities.Values;
+using FieldVisualizer.Entities.Values.Primitives;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Services;
 using System;
@@ -60,6 +61,29 @@ namespace FieldVisualizer.Services.ColorServices
                 return GetColorValueIsOutOfRange(valueRange, map, val);
             }
             return GetColorValueIsInRange(valueRange, map, val);
+        }
+
+        /// <summary>
+        /// Obtain color with gray color if value out of range or color range is not active
+        /// </summary>
+        /// <param name="ValueColorRanges">Collection of color ranges</param>
+        /// <param name="range">Range of values where color map stretched</param>
+        /// <param name="map">Color map</param>
+        /// <param name="val">Value</param>
+        /// <returns>Color which is interpolated on color map</returns>
+        public static Color GetColorByValue(IEnumerable<IValueColorRange> ValueColorRanges, IValueRange range, IColorMap map, double val)
+        {
+            Color color = GetColorByValue(range, map, val);
+            foreach (var valueRange in ValueColorRanges)
+            {
+                if (val >= valueRange.ExactValues.BottomValue
+                    & val <= valueRange.ExactValues.TopValue
+                    & (!valueRange.IsActive))
+                {
+                    color = Colors.Gray;
+                }
+            }
+            return color;
         }
 
         private static Color GetColorValueIsOutOfRange(IValueRange range, IColorMap map, double val)

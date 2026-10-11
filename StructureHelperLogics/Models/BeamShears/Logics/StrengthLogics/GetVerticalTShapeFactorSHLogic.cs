@@ -7,7 +7,7 @@ using StructureHelperCommon.Services.Units;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    internal class GetVerticalTShapeFactorSHLogic : IGetShapeFactorLogic
+    public class GetVerticalTShapeFactorSHLogic : IGetShapeFactorLogic
     {
         private const double flangeEffectivenessFactor = 0.5d;
         private const double maxEffectiveFlangeWidthFactor = 3d;
@@ -15,6 +15,8 @@ namespace StructureHelperLogics.Models.BeamShears
         private const double minFlangeHightFactor = 0.1d;
         private const double maxTShapeConsideringFactor = 3d;
         private const double maxFactorValue = 1.25d;
+        private const double minWebWidth = 0.05d;
+        private const double minEffectiveDepth = 0.05d;
         private double effectiveArea;
         private double inclinedSectionLength;
         private double effectiveDepth;
@@ -86,12 +88,12 @@ namespace StructureHelperLogics.Models.BeamShears
 
         private double GetFlangeEffectiveArea(double flangeCantilever)
         {
-            if (flangeHeight < minFlangeHightFactor * effectiveDepth) { return 0; }
-            double effectiveArea;
             if (flangeCantilever < 0d)
             {
                 throw new StructureHelperException($"Flange cantilever must not be less than zero, but was ({flangeWidth} - {webWidth}) / 2 = {flangeCantilever}({UnitsOfSI.Meters})");
             }
+            if (flangeHeight < minFlangeHightFactor * effectiveDepth) { return 0; }
+            double effectiveArea;
             if (flangeCantilever > maxEffectiveFlangeWidthFactor * flangeHeight)
             {
                 effectiveArea = maxEffectiveFlangeWidthFactor * flangeHeight * flangeHeight * flangeEffectivenessFactor;
@@ -106,9 +108,17 @@ namespace StructureHelperLogics.Models.BeamShears
         private void Prepare()
         {
             webWidth = verticalTShape.WebWidth;
+            if (webWidth < minWebWidth)
+            {
+                throw new StructureHelperException($"Web width bf' = {webWidth} must not be less than minimum web width bf',min = {minWebWidth}({UnitsOfSI.Meters})");
+            }
             TraceLogger?.AddMessage($"Web width bw={webWidth}{UnitsOfSI.Meters}");
             flangeOffset = verticalTShape.FlangeXOffset;
             effectiveDepth = inclinedSection.EffectiveDepth;
+            if (effectiveDepth < minEffectiveDepth)
+            {
+                throw new StructureHelperException($"Effective depth d = {effectiveDepth} must not be less than minimum effective depth d,min = {minEffectiveDepth}({UnitsOfSI.Meters})");
+            }
             flangeWidth = verticalTShape.FlangeWidth;
             TraceLogger?.AddMessage($"Flange width bf'={flangeWidth}{UnitsOfSI.Meters}");
             flangeHeight = verticalTShape.FlangeHeight;

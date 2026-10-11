@@ -62,11 +62,19 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             this.ndmPrimitiveSet = ndmPrimitiveSet;
             this.shadedPrimitives = shadedPrimitives;
             SetValues(ndmPrimitiveSet);
-            ColorMapViewModel = new ColorMapViewModel(this);
+            ColorMapViewModel = new ColorMapViewModel();
             if (PrimitiveSets.Count != 0)
             {
                 SelectedPrimitiveSet = PrimitiveSets[0];
             }
+
+            ColorMapViewModel = new ColorMapViewModel();
+            ColorMapViewModel.SelectedColorMapChanged += OnSelectedColorMapChanged;
+            Refresh();
+        }
+
+        private void OnSelectedColorMapChanged(object? sender, EventArgs e)
+        {
             Refresh();
         }
 

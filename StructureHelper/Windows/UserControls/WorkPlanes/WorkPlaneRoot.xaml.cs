@@ -15,6 +15,32 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
         public SaveCopyFWElementViewModel SaveCopyViewModel { get; } = new();
         public Canvas WorkPlaneCanvas => this.RootCanvas;
 
+        public WorkPlaneRootViewModel? ViewModel
+        {
+            get => (WorkPlaneRootViewModel?)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
+        }
+
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register(
+                nameof(ViewModel),
+                typeof(WorkPlaneRootViewModel),
+                typeof(WorkPlaneRoot),
+                new PropertyMetadata(null));
+
+        public object? OverlayContent
+        {
+            get => GetValue(OverlayContentProperty);
+            set => SetValue(OverlayContentProperty, value);
+        }
+
+        public static readonly DependencyProperty OverlayContentProperty =
+            DependencyProperty.Register(
+                nameof(OverlayContent),
+                typeof(object),
+                typeof(WorkPlaneRoot),
+                new PropertyMetadata(null));
+
         public WorkPlaneRoot()
         {
             InitializeComponent();
@@ -22,7 +48,7 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
             this.MouseDown += WorkPlaneRoot_MouseDown;
             this.MouseMove += WorkPlaneRoot_MouseMove;
             this.MouseUp += WorkPlaneRoot_MouseUp;
-            SaveCopyViewModel.FrameWorkElement = WorkPlaneGrid;
+            SaveCopyViewModel.FrameWorkElement =  BackgroundGrid;
         }
 
 
@@ -40,7 +66,7 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
                 var dx = current.X - _lastPanPoint.Value.X;
                 var dy = current.Y - _lastPanPoint.Value.Y;
 
-                if (DataContext is WorkPlaneRootViewModel dc)
+                if (ViewModel is WorkPlaneRootViewModel dc)
                 {
                     if(dc.WorkPlaneConfig.ScaleValue != 1.0)
                     {
@@ -71,7 +97,7 @@ namespace StructureHelper.Windows.UserControls.WorkPlanes
             {
                 var pos = e.GetPosition(this);
 
-                if (DataContext is WorkPlaneRootViewModel dc)
+                if (ViewModel is WorkPlaneRootViewModel dc)
                 {
                     double zoomFactor = e.Delta > 0 ? 1.1 : 0.9;
                     double actualHeight = WorkPlaneGrid.ActualHeight;

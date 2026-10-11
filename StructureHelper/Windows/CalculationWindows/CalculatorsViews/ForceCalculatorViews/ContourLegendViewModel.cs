@@ -1,10 +1,6 @@
 ﻿using FieldVisualizer.Entities.ColorMaps;
 using StructureHelper.Infrastructure;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows.Media.Converters;
 
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews
 {
@@ -18,6 +14,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             OnPropertyChanged(nameof(MaxValue));
             OnPropertyChanged(nameof(MinValue));
+            OnPropertyChanged(nameof(ValueColorRanges));
         }
     }
 }

@@ -251,15 +251,10 @@ namespace FieldVisualizer.Entities.Values.Primitives
         }
         private void ProcessShape(Shape shape, IValuePrimitive valuePrimitive, double addX, double addY, bool addCenter)
         {
-            SolidColorBrush brush = new SolidColorBrush();
-            brush.Color = ColorOperations.GetColorByValue(ValueRange, ColorMap, valuePrimitive.Value);
-            foreach (var valueRange in ValueColorRanges)
+            SolidColorBrush brush = new()
             {
-                if (valuePrimitive.Value >= valueRange.ExactValues.BottomValue & valuePrimitive.Value <= valueRange.ExactValues.TopValue & (!valueRange.IsActive))
-                {
-                    brush.Color = Colors.Gray;
-                }
-            }
+                Color = ColorOperations.GetColorByValue(ValueColorRanges, ValueRange, ColorMap, valuePrimitive.Value)
+            };
             shape.ToolTip = roundLogic.RoundValue(valuePrimitive.Value);
             shape.Tag = valuePrimitive;
             shape.Fill = brush;

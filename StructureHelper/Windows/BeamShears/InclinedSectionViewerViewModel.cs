@@ -10,7 +10,7 @@ namespace StructureHelper.Windows.BeamShears
     public class InclinedSectionViewerViewModel : ViewModelBase
     {
         private IBeamShearSectionLogicResult sectionResult;
-        private IObjectConvertStrategy<List<IGraphicalPrimitive>, IBeamShearSectionLogicResult> logic;
+        private IObjectConvertStrategy<List<IGraphicalPrimitive>, IBeamShearSectionLogicResult> sectionLogic;
 
         public WorkPlaneRootViewModel WorkPlaneRoot { get; private set; }
 
@@ -18,9 +18,9 @@ namespace StructureHelper.Windows.BeamShears
         {
             this.sectionResult = sectionResult;
             WorkPlaneRoot = new();
-            logic = new SectionResultToGraphicalPrimitivesConvertLogic();
-            var primitives = logic.Convert(sectionResult);
-            primitives.ForEach(primitive =>
+            sectionLogic = new SectionResultToGraphicalPrimitivesConvertLogic();
+            var sectionPrimitives = sectionLogic.Convert(this.sectionResult);
+            sectionPrimitives.ForEach(primitive =>
             {
                 WorkPlaneRoot.PrimitiveCollection.Primitives.Add(primitive);
             });

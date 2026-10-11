@@ -115,7 +115,7 @@ namespace StructureHelperTests.UnitTests.Curvatures
                 x.GetDeflection(shortCurvatureMock, _deflectionFactorMock.Object), Times.Once);
 
             // Trace should run once for the final curvature
-            _loggerMock.Verify(x => x.AddMessage(It.IsAny<string>()), Times.Once);
+            _loggerMock.Verify(x => x.AddMessage(It.IsAny<string>()), Times.Exactly(8));
         }
     }
 

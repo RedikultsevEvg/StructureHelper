@@ -9,10 +9,19 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 {
     public class ContoursRangeViewModel : ViewModelBase
     {
-        public List<int> RangeNumbers => [4, 6, 8, 12, 16];
-        public int RangeNumber { get; set; } = 8;
+        public List<int> RangeNumbers { get; } = [4, 6, 8, 12, 16];
+        public int RangeNumber
+        {
+            get => rangeNumber;
+            set
+            {
+                rangeNumber = value;
+                Refresh();
+            }
+        }
         private double userMinValue;
         private double userMaxValue;
+        private int rangeNumber = 8;
 
         public IColorMap? ColorMap { get; set; }
         public IValueRange? ValueRange { get; set; } = new ValueRange();
@@ -54,6 +63,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             }
             OnPropertyChanged(nameof(UserMinValue));
             OnPropertyChanged(nameof(UserMaxValue));
+            OnPropertyChanged(nameof(RangeNumber));
             ContourLegend.Refresh();
         }
     }

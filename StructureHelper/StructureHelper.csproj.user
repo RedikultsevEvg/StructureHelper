@@ -210,6 +210,15 @@
     <Compile Update="Windows\UserControls\ButtonToolTipEh.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\UserControls\ColorMapSelector.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\UserControls\ContourHorizontalLegend.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\UserControls\ContourVerticalLegend.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\UserControls\Forces\FactoredCombination.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
