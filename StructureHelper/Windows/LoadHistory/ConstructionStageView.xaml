@@ -1,0 +1,56 @@
+﻿<Window x:Class="StructureHelper.Windows.LoadHistory.ConstructionStageView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.LoadHistory"
+        d:DataContext="{d:DesignInstance local:ConstructionStageViewModel}"
+        mc:Ignorable="d"
+        Title="Construction Stage" Height="250" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header="Main">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Name"/>
+                    <TextBox Grid.Column="1" Text="{Binding Name}"/>
+                    <TextBlock Grid.Row="1" Text="{Binding SubStepNumberName}"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SubStemNumber, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Force" DataContext="{Binding ForceTuple}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Longitudinal force, N"/>
+                    <TextBox Grid.Column="1" Text="{Binding Nz, Converter={StaticResource ForceConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="1" Text="Moment, Mx"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Nz, Converter={StaticResource ForceConverter}, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="2" Text="Moment, My"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Nz, Converter={StaticResource ForceConverter}, ValidatesOnDataErrors=True}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
+    </Grid>
+</Window>

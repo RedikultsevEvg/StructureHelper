@@ -159,6 +159,12 @@
     <Compile Update="Windows\Graphs\GraphView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\LoadHistory\ConstructionStageView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\LoadHistory\HistoryCalculatorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\MainWindow\AboutView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
