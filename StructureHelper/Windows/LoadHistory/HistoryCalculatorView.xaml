@@ -4,14 +4,118 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructureHelper.Windows.LoadHistory"
-         d:DataContext="{d:DesignInstance local:HistoryCalculatorViewModel}"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        d:DataContext="{d:DesignInstance local:HistoryCalculatorViewModel}"
         mc:Ignorable="d"
-        Title="Load History Calculator" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="{Binding WindowName}" Height="350" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Name"/>
+                <TextBox Grid.Column="1" Text="{Binding Name}"/>
+            </Grid>
+            <DockPanel Grid.Row="1" DataContext="{Binding ConstructionStagesViewModel}">
+                <ToolBarTray DockPanel.Dock="Top">
+                    <ToolBar>
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding Add}">
+                            <Button.ToolTip>
+                                <uc:ButtonToolTipEh HeaderText="Add"
+                                                IconContent="{StaticResource AddEntity}"
+                                                DescriptionText="Adds new constructio stage"/>
+                            </Button.ToolTip>
+                            <Viewbox Height="24" Width="24">
+                                <ContentControl ContentTemplate="{DynamicResource AddEntity}"/>
+                            </Viewbox>
+                        </Button>
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding Copy}">
+                            <Button.ToolTip>
+                                <uc:ButtonToolTipEh HeaderText="Add"
+                                                IconContent="{StaticResource CopyAnalysis}"
+                                                DescriptionText="Adds new constructio stage"/>
+                            </Button.ToolTip>
+                            <Viewbox Height="24" Width="24">
+                                <ContentControl ContentTemplate="{DynamicResource CopyAnalysis}"/>
+                            </Viewbox>
+                        </Button>
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding Edit}">
+                            <Button.ToolTip>
+                                <uc:ButtonToolTipEh HeaderText="Edit"
+                                                IconContent="{StaticResource Settings}"
+                                                DescriptionText="Edit selected span load"/>
+                            </Button.ToolTip>
+                            <Viewbox Height="24" Width="24">
+                                <ContentControl ContentTemplate="{DynamicResource Settings}"/>
+                            </Viewbox>
+                        </Button>
+                        <Button Style="{StaticResource ToolButton24}" Command="{Binding Delete}">
+                            <Button.ToolTip>
+                                <uc:ButtonToolTipEh HeaderText="Delete span load"
+                                                IconContent="{StaticResource DeleteEntity }"
+                                                DescriptionText="Deletes selected span load"/>
+                            </Button.ToolTip>
+                            <Viewbox Height="24" Width="24">
+                                <ContentControl ContentTemplate="{DynamicResource DeleteEntity}"/>
+                            </Viewbox>
+                        </Button>
+                    </ToolBar>
+                </ToolBarTray>
+                <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" MinWidth="200" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Substeps" MinWidth="70" Binding="{Binding SubStepNumber, ValidatesOnDataErrors=True}"/>
+                        <DataGridTextColumn Header="Duration" MinWidth="70" Binding="{Binding Duration, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add" Command="{Binding Add}">
+                                <MenuItem.Icon>
+                                    <Viewbox Width="16" Height="16">
+                                        <ContentControl ContentTemplate="{DynamicResource AddEntity}"/>
+                                    </Viewbox>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Copy" Command="{Binding Copy}">
+                                <MenuItem.Icon>
+                                    <Viewbox Width="16" Height="16">
+                                        <ContentControl ContentTemplate="{DynamicResource CopyAnalysis}"/>
+                                    </Viewbox>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Edit" Command="{Binding Edit}">
+                                <MenuItem.Icon>
+                                    <Viewbox Width="16" Height="16">
+                                        <ContentControl ContentTemplate="{DynamicResource Settings}"/>
+                                    </Viewbox>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Delete" Command="{Binding Delete}">
+                                <MenuItem.Icon>
+                                    <Viewbox Width="16" Height="16">
+                                        <ContentControl ContentTemplate="{DynamicResource DeleteEntity}"/>
+                                    </Viewbox>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </DockPanel>
+        </Grid>
         <ContentControl Grid.Row="1" ContentTemplate="{StaticResource OkCancelButtons}" Content="{Binding}"/>
     </Grid>
 </Window>

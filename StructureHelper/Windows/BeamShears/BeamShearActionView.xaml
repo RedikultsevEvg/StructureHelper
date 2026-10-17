@@ -107,8 +107,7 @@
                                         <ContentControl ContentTemplate="{DynamicResource TrapezoidLoad}"/>
                                     </Viewbox>
                                 </Button>
-                                <Button Style="{StaticResource ToolButton24}" 
-                                    Command="{Binding Add}" CommandParameter="{x:Static enums:LoadTypes.ConcentratedForce}">
+                                <Button Style="{StaticResource ToolButton24}" Command="{Binding Add}" CommandParameter="{x:Static enums:LoadTypes.ConcentratedForce}">
                                     <Button.ToolTip>
                                         <uc:ButtonToolTipEh HeaderText="Add concentrated force"
                                                 IconContent="{StaticResource ConcentratedForce}"
@@ -128,8 +127,7 @@
                                         <ContentControl ContentTemplate="{DynamicResource DeleteEntity}"/>
                                     </Viewbox>
                                 </Button>
-                                <Button Style="{StaticResource ToolButton24}" 
-                                    Command="{Binding Edit}">
+                                <Button Style="{StaticResource ToolButton24}" Command="{Binding Edit}">
                                     <Button.ToolTip>
                                         <uc:ButtonToolTipEh HeaderText="Edit"
                                                 IconContent="{StaticResource Settings}"

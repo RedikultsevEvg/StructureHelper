@@ -1,8 +1,10 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using LoaderCalculator;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperLogics.Models.LoadHistory;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
@@ -70,9 +72,24 @@ namespace DataAccess.DTOs
             {
                 return ProcessCurvatureCalcualtor(curvatureCalculator);
             }
+            if (source is HistoryCalculator historyCalculator)
+            {
+                return ProcessHistoryCalculator(historyCalculator);
+            }
             string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source);
             TraceLogger?.AddMessage(errorString, TraceLogStatuses.Error);
             throw new StructureHelperException(errorString);
+        }
+
+        private ICalculator ProcessHistoryCalculator(HistoryCalculator calculator)
+        {
+            HistoryCalculatorToDTOConvertStrategy convertStrategy = new()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger,
+            };
+            var dictionaryConvertStrategy = new DictionaryConvertStrategy<HistoryCalculatorDTO, IHistoryCalculator>(this, convertStrategy);
+            return dictionaryConvertStrategy.Convert(calculator);
         }
 
         private ICalculator ProcessCurvatureCalcualtor(CurvatureCalculator calculator)

@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperLogics.Models.LoadHistory;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
@@ -14,6 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
         private ICloningStrategy cloningStrategy;
         private IUpdateStrategy<IValueDiagramCalculator> valueDiagramCalculatorStrategy;
         private IUpdateStrategy<ICurvatureCalculator> curvatureCalculatorStrategy;
+        public IUpdateStrategy<IHistoryCalculator> historyCalculatorStrategy;
 
         public IUpdateStrategy<IForceCalculator> ForceCalculatorStrategy => new ForceCalculatorUpdateCloningStrategy(cloningStrategy);
 
@@ -23,6 +25,9 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
 
         public IUpdateStrategy<IValueDiagramCalculator> ValueDiagramCalculatorStrategy => valueDiagramCalculatorStrategy ??= new ValueDiagramCalculatorUpdateCloningStrategy(cloningStrategy);
         public IUpdateStrategy<ICurvatureCalculator> CurvatureCalculatorStrategy => curvatureCalculatorStrategy ??= new CurvatureCalculatorUpdateCloningStrategy(cloningStrategy);
+
+        public IUpdateStrategy<IHistoryCalculator> HistoryCalculatorStrategy => historyCalculatorStrategy ??= new HistoryCalculatorUpdateCloningStrategy(cloningStrategy);
+
         public CalculatorCloningStrategyContainer(ICloningStrategy cloningStrategy)
         {
             this.cloningStrategy = cloningStrategy;

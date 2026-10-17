@@ -74,6 +74,27 @@
         </Canvas>
     </DataTemplate>
 
+    <DataTemplate x:Key="HistoryCalculator">
+        <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonCalculatorRectangle}"/>
+                <Line Margin="4" X1="0" Y1="20" X2="25" Y2="20" StrokeThickness="1.5" Stroke="{DynamicResource CalculatorFrame}"/>
+                <Line Margin="4" X1="4" Y1="0" X2="4" Y2="25" StrokeThickness="1.5" Stroke="{DynamicResource CalculatorFrame}"/>
+                <Path Margin="4" Data="M 0 16 l 8 -4 h 6 l 5 -4 h6" Stroke="{DynamicResource CalculatorFrame}"/>
+                <Line Margin="4" X1="7" Y1="12" X2="7" Y2="2" Stroke="Black"/>
+                <Line Margin="4" X1="7" Y1="12" X2="4" Y2="8" Stroke="Black"/>
+                <Line Margin="4" X1="7" Y1="12" X2="10" Y2="8" Stroke="Black"/>
+                <Line Margin="4" X1="19" Y1="8" X2="19" Y2="0" Stroke="Black"/>
+                <Line Margin="4" X1="19" Y1="8" X2="16" Y2="4" Stroke="Black"/>
+                <Line Margin="4" X1="19" Y1="8" X2="22" Y2="4" Stroke="Black"/>
+                <Ellipse Canvas.Top="16" Canvas.Left="16" Height="12" Width="12" Stroke="{StaticResource CalculatorFrame}" Fill="White"/>
+                <Line X1="20" Y1="23" X2="26" Y2="19" StrokeThickness="0.5" Stroke="Black"/>
+                <Line X1="21" Y1="24" X2="23" Y2="17" StrokeThickness="0.5" Stroke="Black"/>
+                
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
     <DataTemplate x:Key="ValueDiagramCalculator">
         <Canvas Style="{DynamicResource ButtonCalculatorCanvas}">
             <Canvas.Children>

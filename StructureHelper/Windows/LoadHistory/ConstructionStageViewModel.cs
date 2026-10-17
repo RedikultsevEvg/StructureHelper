@@ -1,49 +1,108 @@
-﻿using StructureHelper.Infrastructure;
+﻿using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Windows.ViewModels;
-using StructureHelper.Windows.ViewModels.Forces;
-using StructureHelperLogics.Models.LoadHistoryCalculator;
+using StructureHelperCommon.Models.Forces;
+using StructureHelperLogics.Models.LoadHistory;
+using StructureHelperLogics.NdmCalculations.Primitives;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace StructureHelper.Windows.LoadHistory
 {
-    internal class ConstructionStageViewModel : OkCancelViewModelBase
+    public class ConstructionStageViewModel : OkCancelViewModelBase, IDataErrorInfo
     {
         private const int minSubStepNumber = 3;
-        private readonly IConstructionStage constructionStage;
-        public ForceTupleVM ForceTuple { get; }
+        private const double minDuration = 0d;
+
+        public IConstructionStage ConstructionStage { get; }
+        public SourceTargetVM<PrimitiveBase> PrimitivesViewModel { get; private set; }
+        public SelectItemVM<IForceAction> CombinationsViewModel { get; private set; }
 
         public string Name
         {
-            get => constructionStage.Name;
+            get => ConstructionStage.Name;
             set
             {
-                constructionStage.Name = value;
+                ConstructionStage.Name = value;
                 Refresh();
             }
         }
 
-        public int SubStemNumber
+        public int SubStepNumber
         {
-            get => constructionStage.SubStepNumber;
+            get => ConstructionStage.SubStepNumber;
             set
             {
-                constructionStage.SubStepNumber = value;
+                ConstructionStage.SubStepNumber = Math.Max(value, minSubStepNumber);
             }
         }
 
-        public string WindowName => "Costruction stage: " + constructionStage.Name;
-        public string SubStepNumberName => $"Sub step number (min {minSubStepNumber})";
+        public double Duration
+        {
+            get => ConstructionStage.Duration;
+            set
+            {
+                ConstructionStage.Duration = Math.Max(value, minDuration);
+            }
+        }
+
+        public string WindowName => "Costruction stage: " + ConstructionStage.Name;
+        public static string SubStepNumberName => $"Sub step number (min {minSubStepNumber})";
+
+        public string Error => null;
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = String.Empty;
+                if (columnName == nameof(SubStepNumber))
+                {
+                    if (SubStepNumber < minSubStepNumber)
+                    {
+                        error = $"Substep number must not be less than minimum number n = {minSubStepNumber}";
+                    }
+
+                }
+                if (columnName == nameof(Duration))
+                {
+                    if (Duration < minDuration)
+                    {
+                        error = $"Duration of stage must not be less than minimum duration t = {minDuration}";
+                    }
+
+                }
+                return error;
+            }
+        }
+
+        public int PrimitivesNumber => PrimitivesViewModel.TargetItems.Count;
+        public string ForceActionName => ConstructionStage.ForceAction.Name;
+
+        public override void OkAction()
+        {
+            ConstructionStage.ForceAction = CombinationsViewModel.SelectedItem;
+            Refresh();
+            base.OkAction();
+        }
 
         private void Refresh()
         {
             OnPropertyChanged(nameof(Name));
             OnPropertyChanged(nameof(WindowName));
-            OnPropertyChanged(nameof(SubStemNumber));
+            OnPropertyChanged(nameof(SubStepNumber));
+            OnPropertyChanged(nameof(PrimitivesNumber));
+            OnPropertyChanged(nameof(ForceActionName));
         }
 
-        public ConstructionStageViewModel(IConstructionStage constructionStage)
+        public ConstructionStageViewModel(IConstructionStage constructionStage, IEnumerable<INdmPrimitive> allowedPrimitives, IEnumerable<IForceAction> allowedCombinations)
         {
-            this.constructionStage = constructionStage;
-            ForceTuple = new(this.constructionStage.ForceTuple);
+            this.ConstructionStage = constructionStage;
+            CombinationsViewModel = new([.. allowedCombinations])
+            {
+                SelectedItem = constructionStage.ForceAction
+            };
+            PrimitivesViewModel = SourceTargetFactory.GetSourceTargetVM(allowedPrimitives, constructionStage.Primitives);
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StructureHelperLogics.Models.LoadHistoryCalculator
+namespace StructureHelperLogics.Models.LoadHistory
 {
     internal interface IHistoryCalculatorInputData
     {

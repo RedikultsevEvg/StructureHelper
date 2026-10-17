@@ -13,8 +13,8 @@ namespace DataAccess.DTOs
     {
         private ConvertDirection convertDirection;
         private IProcessLogic<IHasForceActions> forcesLogic;
-        private IProcessLogic<IHasPrimitives> primitivesLogic;
         private IProcessLogic<IHasForceActions> ForcesLogic => forcesLogic ??= new HasForceActionsProcessLogic(convertDirection) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger};
+        private IProcessLogic<IHasPrimitives> primitivesLogic;
         private IProcessLogic<IHasPrimitives> PrimitivesLogic => primitivesLogic ??=new HasPrimitivesProcessLogic(convertDirection) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
         public Dictionary<(Guid id, Type type), ISaveable> ReferenceDictionary { get; set; }
         public IHasForcesAndPrimitives Source { get; set; }

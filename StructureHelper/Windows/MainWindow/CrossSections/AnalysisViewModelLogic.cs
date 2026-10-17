@@ -6,6 +6,7 @@ using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculato
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ValueDiagrams;
 using StructureHelper.Windows.CalculationWindows.ProgressViews;
 using StructureHelper.Windows.Errors;
+using StructureHelper.Windows.LoadHistory;
 using StructureHelper.Windows.MainWindow.CrossSections;
 using StructureHelper.Windows.ViewModels.Calculations.Calculators;
 using StructureHelper.Windows.ViewModels.Errors;
@@ -13,6 +14,7 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.Models.LoadHistory;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.Logics;
@@ -63,10 +65,24 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             {
                 AddCurvatureCalculator();
             }
+            else if (parameterType == CalculatorTypes.HistoryCalculator)
+            {
+                AddHistoryCalculator();
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(parameterType));
             }
+        }
+
+        private void AddHistoryCalculator()
+        {
+            var calculator = new HistoryCalculator(Guid.NewGuid())
+            {
+                Name = "New Load History Calculator",
+                ShowTraceData = false,
+            };
+            NewItem = calculator;
         }
 
         private void AddCurvatureCalculator()
@@ -149,7 +165,16 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             else if (SelectedItem is CrackCalculator crackCalculator) { EditCrackCalculator(crackCalculator);}
             else if (SelectedItem is ValueDiagramCalculator valueDiagramCalculator) {EditValueDiagramCalculator(valueDiagramCalculator);}
             else if (SelectedItem is CurvatureCalculator curvatureCalculator) {EditCurvatureCalculator(curvatureCalculator);}
+            else if (SelectedItem is HistoryCalculator historyCalculator) {EditHistoryCalculator(historyCalculator);}
             else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem)); }
+        }
+
+        private void EditHistoryCalculator(HistoryCalculator sourceCalculator)
+        {
+            var clone = sourceCalculator.Clone() as IHistoryCalculator;
+            var vm = new HistoryCalculatorViewModel(sourceCalculator, repository);
+            var wnd = new HistoryCalculatorView(vm);
+            ShowWindow(sourceCalculator, clone, wnd);
         }
 
         private void EditCurvatureCalculator(CurvatureCalculator sourceCalculator)

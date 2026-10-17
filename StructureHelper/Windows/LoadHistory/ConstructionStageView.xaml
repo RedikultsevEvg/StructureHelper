@@ -22,32 +22,33 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Name"/>
                     <TextBox Grid.Column="1" Text="{Binding Name}"/>
                     <TextBlock Grid.Row="1" Text="{Binding SubStepNumberName}"/>
-                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SubStemNumber, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SubStepNumber, ValidatesOnDataErrors=True}"/>
+                    <TextBlock Grid.Row="2" Text="Duration"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Duration, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Force" DataContext="{Binding ForceTuple}">
+            <TabItem Header="Primitives">
+                <ContentControl ContentTemplate="{StaticResource SourceToTarget}" Content="{Binding PrimitivesViewModel}"/>
+            </TabItem>
+            <TabItem Header="Force">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="25"/>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Longitudinal force, N"/>
-                    <TextBox Grid.Column="1" Text="{Binding Nz, Converter={StaticResource ForceConverter}, ValidatesOnDataErrors=True}"/>
-                    <TextBlock Grid.Row="1" Text="Moment, Mx"/>
-                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Nz, Converter={StaticResource ForceConverter}, ValidatesOnDataErrors=True}"/>
-                    <TextBlock Grid.Row="2" Text="Moment, My"/>
-                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Nz, Converter={StaticResource ForceConverter}, ValidatesOnDataErrors=True}"/>
+                <ComboBox DataContext="{Binding CombinationsViewModel}" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                </ComboBox>
                 </Grid>
             </TabItem>
         </TabControl>

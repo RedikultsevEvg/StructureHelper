@@ -2,7 +2,7 @@
 {
     public enum ConvertDirection
     {
-        FromDTO,
-        ToDTO
+        FromDTO = 0,
+        ToDTO = 1
     }
 }

@@ -4,6 +4,7 @@ using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Services;
+using StructureHelperLogics.Models.LoadHistory;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
@@ -69,6 +70,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 else if (calculator is ICurvatureCalculator curvatureCalculator)
                 {
                     cloningStrategyContainer.CurvatureCalculatorStrategy.Update(newCalculator as ICurvatureCalculator, curvatureCalculator);
+                }
+                else if (calculator is IHistoryCalculator historyCalculator)
+                {
+                    cloningStrategyContainer.HistoryCalculatorStrategy.Update(newCalculator as IHistoryCalculator, historyCalculator);
                 }
                 else
                 {

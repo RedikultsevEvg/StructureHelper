@@ -13,7 +13,6 @@ namespace StructureHelper.Windows.ViewModels.Calculations.Calculators
     public class ForceCalculatorViewModel : OkCancelViewModelBase
     {
         IForceCalculator forcesCalculator;
-        private bool showTraceData;
 
         public string Name
         {

@@ -17,9 +17,14 @@ namespace StructureHelper.Windows.LoadHistory
     /// </summary>
     public partial class HistoryCalculatorView : Window
     {
-        public HistoryCalculatorView()
+        private HistoryCalculatorViewModel vm;
+
+        public HistoryCalculatorView(HistoryCalculatorViewModel vm)
         {
             InitializeComponent();
+            this.vm = vm;
+            vm.ParentWindow = this;
+            this.DataContext = vm;
         }
     }
 }

@@ -8,6 +8,7 @@ using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.BeamShears;
+using StructureHelperLogics.Models.LoadHistory;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
@@ -61,6 +62,18 @@ namespace DataAccess.DTOs
             newList.AddRange(GetFeaMaterialList());
             newList.AddRange(GetValueDiagramList());
             newList.AddRange(GetCurvatureList());
+            newList.AddRange(GetHistoryList());
+            return newList;
+        }
+
+        private static IEnumerable<(Type type, string name)> GetHistoryList()
+        {
+            List<(Type type, string name)> newList = new()
+            {
+                { (typeof(List<IConstructionStage>), "ConstructionStages") },
+                { (typeof(HistoryCalculatorDTO), "HistoryCalculator") },
+                { (typeof(ConstructionStageDTO), "ConstructionStage") },
+            };
             return newList;
         }
 

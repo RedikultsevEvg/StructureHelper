@@ -2,12 +2,13 @@
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
-namespace StructureHelperLogics.Models.LoadHistoryCalculator
+namespace StructureHelperLogics.Models.LoadHistory
 {
-    public interface IConstructionStage : ISaveable, IHasPrimitives
+    public interface IConstructionStage : ISaveable, IHasPrimitives, ICloneable
     {
         string Name { get; set; }
         int SubStepNumber { get; set; }
-        IForceTuple ForceTuple { get; set; }
+        IForceAction ForceAction { get; set; }
+        double Duration { get; set; }
     }
 }

@@ -2,9 +2,6 @@
 using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives.Logics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {
@@ -12,8 +9,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
     {
         private readonly ICloningStrategy cloningStrategy;
         private IUpdateStrategy<IHasForceActions> forcesUpdateStrategy;
-        private IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
         private IUpdateStrategy<IHasForceActions> ForcesUpdateStrategy => forcesUpdateStrategy ??= new HasForceActionUpdateCloningStrategy(cloningStrategy);
+        private IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
         private IUpdateStrategy<IHasPrimitives> PrimitivesUpdateStrategy => primitivesUpdateStrategy ??= new HasPrimitivesUpdateCloningStrategy(cloningStrategy);
 
         public CurvatureCalculatorUpdateCloningStrategy(ICloningStrategy cloningStrategy)
