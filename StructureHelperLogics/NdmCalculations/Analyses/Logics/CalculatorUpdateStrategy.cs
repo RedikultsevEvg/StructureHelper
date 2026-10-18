@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Services;
+using StructureHelperLogics.Models.LoadHistory;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
@@ -42,6 +43,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Logics
             else if (targetObject is ICurvatureCalculator curvatureCalculator)
             {
                 new CurvatureCalculatorUpdateStrategy().Update(curvatureCalculator, (ICurvatureCalculator)sourceObject);
+            }
+            else if (targetObject is IHistoryCalculator historyCalculator)
+            {
+                if (sourceObject is not IHistoryCalculator sourceHistoryCalculator)
+                {
+                    throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(sourceObject));
+                }
+                new HistoryCalculatorUpdateStrategy().Update(historyCalculator, (IHistoryCalculator)sourceObject);
             }
             else
             {

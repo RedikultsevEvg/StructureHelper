@@ -328,6 +328,12 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 var wnd = new CurvatureCalculatorResultView(curvatureResult);
                 wnd.ShowDialog();
             }
+            else if (SelectedItem is HistoryCalculator historyCalculator)
+            {
+                IHistoryCalculatorResult result = historyCalculator.Result as IHistoryCalculatorResult;
+                HistoryCalculatorResultView wnd = new(result);
+                wnd.ShowDialog();
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(SelectedItem));

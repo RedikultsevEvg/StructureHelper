@@ -5,9 +5,9 @@ using System.Text;
 
 namespace StructureHelperLogics.Models.LoadHistory
 {
-    internal interface IHistoryCalculatorResult : IResult
+    public interface IHistoryCalculatorResult : IResult
     {
-        IHistoryCalculatorInputData InputData { get; }
-        List<ISubStageResult> SubStageResults { get; }
+        IHistoryCalculator HistoryCalculator { get; }
+        List<ISubStageResult> StagesResults { get; }
     }
 }

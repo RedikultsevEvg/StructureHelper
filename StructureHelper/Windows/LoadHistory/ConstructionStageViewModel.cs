@@ -1,5 +1,6 @@
 ﻿using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Windows.ViewModels;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.LoadHistory;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -82,6 +83,11 @@ namespace StructureHelper.Windows.LoadHistory
         public override void OkAction()
         {
             ConstructionStage.ForceAction = CombinationsViewModel.SelectedItem;
+            ConstructionStage.Primitives.Clear();
+            foreach (var item in PrimitivesViewModel.GetTargetItems())
+            {
+                ConstructionStage.Primitives.Add(item.GetNdmPrimitive());
+            }
             Refresh();
             base.OkAction();
         }

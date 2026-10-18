@@ -1,7 +1,6 @@
 ﻿using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Infrastructure;
-using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Services.Exports;
 using StructureHelper.Services.Reports;
 using StructureHelper.Services.Reports.CalculationReports;
@@ -18,7 +17,6 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Services.Exports.Factories;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses;
@@ -26,7 +24,6 @@ using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.NdmCalculations.Analyses.Geometry;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelperLogics.NdmCalculations.Triangulations;
 using StructureHelperLogics.Services.NdmPrimitives;
 using System;
 using System.Collections.Generic;
@@ -135,10 +132,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 return showIsoFieldCommand ??
                 (showIsoFieldCommand = new RelayCommand(o =>
                 {
-                    if (SelectPrimitives() == true)
-                    {
-                        ShowIsoField();
-                    }
+                    SafetyProcessor.RunSafeProcess(ShowIsoField, "Error of showing of contours");
                 }, o => SelectedResult != null && SelectedResult.IsValid));
             }
         }
@@ -467,66 +461,24 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private void ShowIsoField()
         {
-            try
+            var logic = new ShowIsoFieldLogic()
             {
-                SelectedPrimitiveSet selectedPrimitiveSet = new()
-                {
-                    AllPrimitives = ndmPrimitives.ToList(),
-                    SelectedPrimitives = selectedNdmPrimitives.ToList(),
-                    StateCalcTermPair = SelectedResult.StateCalcTermPair,
-                    Ndms = [.. ndms],
-                    StrainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.StrainMatrix
-                };
-                IsoField2DReport report = new(selectedPrimitiveSet);
-                report.Show();
-                //IStrainMatrix strainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix;
-                //var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, ForceResultFuncFactory.GetResultFuncs());
-                //isoFieldReport = new IsoFieldReport(primitiveSets);
-                //isoFieldReport.Show();
-            }
-            catch (Exception ex)
-            {
-                var vm = new ErrorProcessor()
-                {
-                    ShortText = "Errors apearred during showing isofield, see detailed information",
-                    DetailText = $"{ex}"
-                };
-                new ErrorMessage(vm).ShowDialog();
-            }
+                Primitives = ndmPrimitives.ToList(),
+                StateCalcTermPair = SelectedResult.StateCalcTermPair,
+                StrainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.StrainMatrix
+            };
+            logic.ShowIsoField2D();
         }
         private void GetNdms()
         {
-            var limitState = SelectedResult.StateCalcTermPair.LimitState;
-            var calcTerm = SelectedResult.StateCalcTermPair.CalcTerm;
-            var triangulationOptions = new TriangulationOptions()
+            var logic = new GetNdmPartLogic()
             {
-                LimiteState = limitState,
-                CalcTerm = calcTerm };
-            var orderedNdmPrimitives = ndmPrimitives.OrderBy(x => x.VisualProperty.ZIndex);
-            var ndmRange = new List<INdm>();
-            foreach (var item in orderedNdmPrimitives)
-            {
-                if (item is IHasDivisionSize hasDivision)
-                {
-
-                    if (hasDivision.DivisionSize.ClearUnderlying == true)
-                    {
-                        ndmRange.RemoveAll(x =>
-                        hasDivision
-                        .IsPointInside(new Point2D()
-                        {
-                            X = x.CenterX, Y = x.CenterY
-                        }
-                        ) == true);
-                    }
-                }
-                if (selectedNdmPrimitives.Contains(item) & item.NdmElement.Triangulate == true)
-                {
-
-                    ndmRange.AddRange(item.GetNdms(triangulationOptions));
-                }
-            }
-            ndms = ndmRange;
+                LimitState = SelectedResult.StateCalcTermPair.LimitState,
+                CalcTerm = SelectedResult.StateCalcTermPair.CalcTerm,
+                Primitives = ndmPrimitives.ToList(),
+                SelectedPrimitives = selectedNdmPrimitives.ToList(),
+            };
+            ndms = logic.GetNdms();
         }
         private bool SelectPrimitives()
         {
@@ -535,7 +487,10 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             wnd.ShowDialog();
             if (wnd.DialogResult == true)
             {
-                selectedNdmPrimitives = vm.Items.CollectionItems.Where(x => x.IsSelected == true).Select(x => x.Item.GetNdmPrimitive());
+                selectedNdmPrimitives = vm.Items
+                    .CollectionItems
+                    .Where(x => x.IsSelected == true)
+                    .Select(x => x.Item.GetNdmPrimitive());
                 GetNdms();
                 return true;
             }

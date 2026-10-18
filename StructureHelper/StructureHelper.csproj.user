@@ -162,6 +162,9 @@
     <Compile Update="Windows\LoadHistory\ConstructionStageView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\LoadHistory\HistoryCalculatorResultView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\LoadHistory\HistoryCalculatorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

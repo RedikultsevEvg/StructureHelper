@@ -1,0 +1,69 @@
+﻿<Window x:Class="StructureHelper.Windows.LoadHistory.HistoryCalculatorResultView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.LoadHistory"
+        xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+        d:DataContext="{d:DesignInstance local:HistoryCalculatorResultViewModel}"
+        mc:Ignorable="d"
+        Title="History Calculator Result" Height="650" Width="800" MaxHeight="900" MaxWidth="1200" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowIsoFieldCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show isofield results"
+                                                IconContent="{StaticResource IsoFieldResult}"
+                                                DescriptionText="Show graphical results with color as function of result value"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource IsoFieldResult}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowGraphsCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show moment-curvature diagram"
+                                                IconContent="{StaticResource MomentCurvatureDiagram}"
+                                                DescriptionText="Show moment-curvature diagram as result of stepped solution"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource MomentCurvatureDiagram}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid>
+            <DataGrid AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding StagesResult}" SelectedItem="{Binding SelectedResult}">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsValid}" Value="false">
+                                <Setter Property="Background" Value="Pink"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Position}" Value="Start">
+                                <Setter Property="Background" Value="LightBlue"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Position}" Value="Finish">
+                                <Setter Property="Background" Value="LightGreen"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Stage" Width="150" Binding="{Binding StageName, Mode=OneWay}"/>
+                    <DataGridCheckBoxColumn Header="Valid" Width="50" Binding="{Binding IsValid, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Position" Width="60" Binding="{Binding Position, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Time" Width="40" Binding="{Binding TotalTime, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Step" Width="40"  Binding="{Binding TotalNumber, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Primitives" Width="70"  Binding="{Binding PrimitivesCount, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Nz" Width="60"  Binding="{Binding Nz, Converter={StaticResource ForceConverter}, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Mx" Width="60"  Binding="{Binding Mx, Converter={StaticResource MomentConverter}, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="My" Width="60"  Binding="{Binding My, Converter={StaticResource MomentConverter}, Mode=OneWay}"/>
+                    <!--<DataGridTextColumn Header="Force" Width="150"  Binding="{Binding ForceTuple, Mode=OneWay}"/>-->
+                    <DataGridTextColumn Header="Description" Width="200"  Binding="{Binding Description, Mode=OneWay}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DockPanel>
+</Window>

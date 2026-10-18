@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.LoadHistory"
         d:DataContext="{d:DesignInstance local:ConstructionStageViewModel}"
         mc:Ignorable="d"
-        Title="Construction Stage" Height="250" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Construction Stage" Height="250" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

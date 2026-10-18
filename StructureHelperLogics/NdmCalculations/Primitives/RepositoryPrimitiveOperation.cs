@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.Models.LoadHistory;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
@@ -40,6 +41,13 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                 else if (calculator is ILimitCurvesCalculator limitCurve)
                 {
                     // skip
+                }
+                else if (calculator is IHistoryCalculator historyCalculator)
+                {
+                    foreach (var item in historyCalculator.ConstructionStages)
+                    {
+                        item.Primitives.Clear();
+                    }
                 }
                 else
                 {
@@ -87,6 +95,13 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                 else if (calculator is ILimitCurvesCalculator limitCurve)
                 {
                     // skip, nothing to do
+                }
+                else if (calculator is IHistoryCalculator historyCalculator)
+                {
+                    foreach (var item in historyCalculator.ConstructionStages)
+                    {
+                        item.Primitives.Remove(entity);
+                    }
                 }
                 else
                 {

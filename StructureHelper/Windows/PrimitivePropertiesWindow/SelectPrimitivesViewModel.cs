@@ -13,13 +13,19 @@ namespace StructureHelper.Windows.PrimitivePropertiesWindow
         public SelectPrimitivesViewModel(IEnumerable<INdmPrimitive> primitives)
         {
             var primitiveViews = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(primitives);
-            Items = new SelectItemsVM<PrimitiveBase>(primitiveViews) { ShowButtons = true };
+            Items = new SelectItemsVM<PrimitiveBase>(primitiveViews)
+            {
+                ShowButtons = true
+            };
             Items.ItemDataTemplate = Application.Current.Resources["ColoredItemTemplate"] as DataTemplate;
         }
 
         public SelectPrimitivesViewModel(IEnumerable<PrimitiveBase> primitives)
         {
-            Items = new SelectItemsVM<PrimitiveBase>(primitives) { ShowButtons = true };
+            Items = new SelectItemsVM<PrimitiveBase>(primitives)
+            {
+                ShowButtons = true
+            };
             Items.ItemDataTemplate = Application.Current.Resources["ColoredItemTemplate"] as DataTemplate;
         }
     }

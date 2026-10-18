@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperLogics.Models.LoadHistory;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
@@ -41,6 +42,16 @@ namespace StructureHelperLogics.Models.CrossSections
                 else if (calc is ICurvatureCalculator curvatureCalculator)
                 {
                     curvatureCalculator.InputData.ForceActions.Remove(entity);
+                }
+                else if (calc is IHistoryCalculator historyCalculator)
+                {
+                    foreach (var item in historyCalculator.ConstructionStages)
+                    {
+                        if (ReferenceEquals(item.ForceAction, entity))
+                        {
+                            item.ForceAction = null;
+                        }
+                    }
                 }
                 else
                 {

@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using LoaderCalculator;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
@@ -51,9 +52,24 @@ namespace DataAccess.DTOs
                 TraceLogger?.AddMessage($"{CalculatorIs} curvature calculator");
                 return GetCurvatureCalculator(curvatureCalculator);
             }
+            if (source is HistoryCalculatorDTO historyCalculator)
+            {
+                TraceLogger?.AddMessage($"{CalculatorIs} load history calculator");
+                return GetHistoryCalculator(historyCalculator);
+            }
             string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source);
             TraceLogger.AddMessage(errorString, TraceLogStatuses.Error);
             throw new StructureHelperException(errorString);
+        }
+
+        private ICalculator GetHistoryCalculator(HistoryCalculatorDTO calculator)
+        {
+            var convertStrategy = new HistoryCalculatorFromDTOConvertStrategy()
+            {
+                ReferenceDictionary = ReferenceDictionary,
+                TraceLogger = TraceLogger,
+            };
+            return convertStrategy.Convert(calculator);
         }
 
         private CurvatureCalculator GetCurvatureCalculator(CurvatureCalculatorDTO calculator)

@@ -25,6 +25,13 @@ namespace StructureHelperLogics.Models.LoadHistory
             CheckObject.ThrowIfNull(sourceObject);
             CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
+            targetObject.ConstructionStages.Clear();
+            foreach (var sourceStage in sourceObject.ConstructionStages)
+            {
+                var cloneStage = sourceStage.Clone() as IConstructionStage;
+                StageCloningStrategy.Update(cloneStage, sourceStage);
+                targetObject.ConstructionStages.Add(cloneStage);
+            }
         }
     }
 }
