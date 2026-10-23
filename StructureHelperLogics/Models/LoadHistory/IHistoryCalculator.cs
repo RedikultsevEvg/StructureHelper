@@ -8,5 +8,6 @@ namespace StructureHelperLogics.Models.LoadHistory
     public interface IHistoryCalculator : ICalculator
     {
         List<IConstructionStage> ConstructionStages { get; }
+        IHistoryCalculatorInputData InputData { get; }
     }
 }

@@ -16,6 +16,7 @@ namespace StructureHelperLogics.Models.BeamShears
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
             targetObject.CompressedGap = sourceObject.CompressedGap;
+            targetObject.CheckMinimumIntensity = sourceObject.CheckMinimumIntensity;
             if (UpdateChildren == true)
             {
                 UpdateTargetChildren(targetObject, sourceObject);

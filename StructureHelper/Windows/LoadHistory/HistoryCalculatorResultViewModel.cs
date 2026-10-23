@@ -39,9 +39,12 @@ namespace StructureHelper.Windows.LoadHistory
         {
             this.result = result;
             StagesResult.Clear();
-            foreach (var item in result.StagesResults)
+            foreach (var stageResult in result.StagesResults)
             {
-                StagesResult.Add(new SubStageResultViewModel(item));
+                foreach (var subStageResult in stageResult.SubStagesResults)
+                {
+                    StagesResult.Add(new SubStageResultViewModel(subStageResult));
+                }
             }
         }
 

@@ -1,0 +1,1024 @@
+{
+  "$id": "1",
+  "$type": "RootObject",
+  "FileVersion": {
+    "Id": "8bbd6d86-686d-4ad2-a84a-7df379f4b0d0",
+    "VersionNumber": 1,
+    "SubVersionNumber": 8
+  },
+  "Project": {
+    "Id": "142ca103-1b48-4c13-a03f-6ee9b782e92c",
+    "VisualAnalyses": {
+      "$id": "2",
+      "$type": "ListOfIVisualAnalysis",
+      "$values": [
+        {
+          "$id": "3",
+          "$type": "VisualAnalysis",
+          "Id": "59bbe64c-36b6-4b24-95fe-786df67e4391",
+          "Analysis": {
+            "$id": "4",
+            "$type": "BeamShearAnalysis",
+            "Id": "33d39bd6-345a-400d-8465-a0b69e3c6302",
+            "Name": "Пример 14_1",
+            "Tags": "#New group",
+            "Comment": "Длина зоны хомутов принята по пособию",
+            "Color": "#FF800000",
+            "VersionProcessor": {
+              "$id": "5",
+              "$type": "VersionProcessor",
+              "Id": "563c29a5-61ef-4b90-a034-e186037d77a7",
+              "Versions": {
+                "$type": "ListOfIDateVersion",
+                "$values": [
+                  {
+                    "$id": "6",
+                    "$type": "DateVersion",
+                    "Id": "1757a1be-9bc6-47f1-bcbd-f5dad198547f",
+                    "DateTime": "2026-01-15T22:11:54.8826037+05:00",
+                    "Comment": "",
+                    "AnalysisVersion": {
+                      "$id": "7",
+                      "$type": "BeamShear",
+                      "Id": "6f182601-d510-412a-9007-a7bd55a599f1",
+                      "Repository": {
+                        "$id": "8",
+                        "$type": "BeamShearRepository",
+                        "Id": "737d1b99-5b77-4920-a5a8-de2fe024b59a",
+                        "Actions": {
+                          "$type": "ListOfBeamShearActions",
+                          "$values": [
+                            {
+                              "$id": "9",
+                              "$type": "BeamShearAction",
+                              "Id": "23b2deab-10d7-4fbc-b8b1-d4d63184854b",
+                              "Name": "New shear action",
+                              "ExternalForce": {
+                                "$id": "10",
+                                "$type": "FactoredForceTuple",
+                                "Id": "8705c87e-0285-46b4-9c15-93ea53af6a9a",
+                                "ForceTuple": {
+                                  "$id": "11",
+                                  "$type": "ForceTuple",
+                                  "Id": "00a32438-2e6f-4cc0-9fa6-1a579f057e0a",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                },
+                                "CombinationProperty": {
+                                  "$id": "12",
+                                  "$type": "ForceFactoredCombinationProperty",
+                                  "Id": "04a7d94f-c7f1-4316-8d67-fd0aeb716454",
+                                  "CalctTerm": 1,
+                                  "LimitState": 1,
+                                  "LongTermFactor": 1.0,
+                                  "ULSFactor": 1.2
+                                }
+                              },
+                              "SupportAction": {
+                                "$id": "13",
+                                "$type": "BeamShearAxisAction",
+                                "Id": "80a4c3df-f775-45d2-ab20-1e4cf945b1c6",
+                                "Name": "",
+                                "SupportForce": {
+                                  "$id": "14",
+                                  "$type": "FactoredForceTuple",
+                                  "Id": "648dc7dc-d5d3-406e-95a8-bb10b4ff5b9c",
+                                  "ForceTuple": {
+                                    "$id": "15",
+                                    "$type": "ForceTuple",
+                                    "Id": "570ab833-cc70-4198-a5b7-d642812740d0",
+                                    "Mx": 0.0,
+                                    "My": 0.0,
+                                    "Nz": 0.0,
+                                    "Qx": 0.0,
+                                    "Qy": 137500.0,
+                                    "Mz": 0.0
+                                  },
+                                  "CombinationProperty": {
+                                    "$id": "16",
+                                    "$type": "ForceFactoredCombinationProperty",
+                                    "Id": "cee8ae6c-71d9-4c8b-9560-2aa2acc40230",
+                                    "CalctTerm": 1,
+                                    "LimitState": 1,
+                                    "LongTermFactor": 0.95,
+                                    "ULSFactor": 1.2
+                                  }
+                                },
+                                "SpanLoads": {
+                                  "$type": "ListOfSpanLoads",
+                                  "$values": [
+                                    {
+                                      "$id": "17",
+                                      "$type": "DistributedLoad",
+                                      "Id": "08be5044-b10d-4e5c-a49a-d234b7dbc7f0",
+                                      "Name": "Distributed load",
+                                      "LoadValue": {
+                                        "$id": "18",
+                                        "$type": "ForceTuple",
+                                        "Id": "df52dec0-ade9-4c1c-b79f-83724da9c71a",
+                                        "Mx": 0.0,
+                                        "My": 0.0,
+                                        "Nz": 0.0,
+                                        "Qx": 0.0,
+                                        "Qy": -14000.0,
+                                        "Mz": 0.0
+                                      },
+                                      "StartCoordinate": 0.0,
+                                      "EndCoordinate": 100.0,
+                                      "RelativeLoadLevel": 0.5,
+                                      "LoadRatio": 1.0,
+                                      "CombinationProperty": {
+                                        "$id": "19",
+                                        "$type": "ForceFactoredCombinationProperty",
+                                        "Id": "39c395d9-0cb2-4bb6-a7ad-b46c0ddb068c",
+                                        "CalctTerm": 2,
+                                        "LimitState": 1,
+                                        "LongTermFactor": 1.0,
+                                        "ULSFactor": 1.2
+                                      }
+                                    },
+                                    {
+                                      "$id": "20",
+                                      "$type": "DistributedLoad",
+                                      "Id": "110d253d-9c4a-4627-9285-7787b4669c86",
+                                      "Name": "Distributed load",
+                                      "LoadValue": {
+                                        "$id": "21",
+                                        "$type": "ForceTuple",
+                                        "Id": "b7c43060-830f-403e-b96e-0e1c94246689",
+                                        "Mx": 0.0,
+                                        "My": 0.0,
+                                        "Nz": 0.0,
+                                        "Qx": 0.0,
+                                        "Qy": -36000.0,
+                                        "Mz": 0.0
+                                      },
+                                      "StartCoordinate": 0.0,
+                                      "EndCoordinate": 100.0,
+                                      "RelativeLoadLevel": 0.5,
+                                      "LoadRatio": 0.5,
+                                      "CombinationProperty": {
+                                        "$id": "22",
+                                        "$type": "ForceFactoredCombinationProperty",
+                                        "Id": "a0bef344-5317-49da-bdf3-0bd756be19f3",
+                                        "CalctTerm": 1,
+                                        "LimitState": 1,
+                                        "LongTermFactor": 1.0,
+                                        "ULSFactor": 1.2
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "Sections": {
+                          "$type": "ListOfBeamShearSections",
+                          "$values": [
+                            {
+                              "$id": "23",
+                              "$type": "BeamShearSection",
+                              "Id": "cda47279-6689-42d8-b9a2-450de900fb8f",
+                              "Name": "New rectangle section",
+                              "Shape": {
+                                "$id": "24",
+                                "$type": "RectangleShape",
+                                "Id": "17afa5f0-2a68-4432-b8c9-f35843d22b48",
+                                "Width": 0.2,
+                                "Height": 0.4
+                              },
+                              "ConcreteMaterial": {
+                                "$id": "25",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "3aa9ac44-fce4-4932-887a-a6bd4ecb8755",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "1cdc3598-c67b-4e35-89ac-3f7c0a9db167",
+                                "SafetyFactors": {
+                                  "$id": "26",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "27",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "406bc5ad-a959-40ab-a55f-f5a1d096c5e1",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "28",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "fd09023d-1b36-49c8-9cc5-6f3859140cf6",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "29",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "f76f9429-e9ee-490b-b8f5-aee050adec98",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "30",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "c40842ad-9929-4c8e-a9d3-51c41355034f",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "31",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "865e0adc-1ef4-4903-b0d2-a02b69525d75",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "32",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "368f5117-db50-43ef-8ed5-be894694b998",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "33",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "a52ece12-17c1-4ac7-9e44-bcc9c0671dc8",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "34",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "cd728b2c-d96a-4c33-9996-27f01a326b19",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "35",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "7e30e275-f6d8-4203-9c20-ff1fad750369",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "36",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "401f73d7-81d7-4b7f-bc38-f5abbae563f5",
+                                      "Name": "New factor",
+                                      "Take": true,
+                                      "Description": "Material safety factor for ...",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "37",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "4974dc13-2ebd-4304-a440-75e14dff45a6",
+                                            "FactorValue": 1.0169,
+                                            "StressState": 0,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "38",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "80e3d76c-9c44-43b3-9ca3-88a9b1319dad",
+                                            "FactorValue": 1.0169,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": true,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              },
+                              "CenterCover": 0.03,
+                              "ReinforcementArea": 0.000157,
+                              "ReinforcementMaterial": {
+                                "$id": "39",
+                                "$type": "ReinforcementLibMaterial",
+                                "Id": "2554dea4-04dd-4414-9cab-0f4f49f6a8d9",
+                                "MaterialEntityId": "c47ebbd7-2e0c-4247-81b6-dc3fbd064bab",
+                                "SafetyFactors": {
+                                  "$id": "40",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                              },
+                              "VisualProperty": {
+                                "$id": "41",
+                                "$type": "PrimitiveVisualProperty",
+                                "Id": "d36fa24d-5c5f-4550-a92a-416a6e044f2d",
+                                "IsVisible": true,
+                                "Color": "#FFA9A9A9",
+                                "Zindex": 0,
+                                "Opacity": 1.0
+                              }
+                            }
+                          ]
+                        },
+                        "Stirrups": {
+                          "$type": "ListOfStirrups",
+                          "$values": [
+                            {
+                              "$id": "42",
+                              "$type": "StirrupGroup",
+                              "Id": "68a66052-b8e2-4725-901a-66f237c975c0",
+                              "Name": "Группа хомутов",
+                              "CompressedGap": 0.0,
+                              "Stirrups": {
+                                "$type": "ListOfStirrups",
+                                "$values": [
+                                  {
+                                    "$id": "43",
+                                    "$type": "StirrupByRebar",
+                                    "Id": "a1f752b2-bf87-47c6-91b0-a81cd027e5fd",
+                                    "Name": "Хомуты вблизи опоры",
+                                    "LegCount": 1.0,
+                                    "Diameter": 0.01,
+                                    "Material": {
+                                      "$id": "44",
+                                      "$type": "ReinforcementLibMaterial",
+                                      "Id": "43fae10d-2137-4856-94af-729e319a6551",
+                                      "MaterialEntityId": "c47ebbd7-2e0c-4247-81b6-dc3fbd064bab",
+                                      "SafetyFactors": {
+                                        "$id": "45",
+                                        "$type": "ListOfMaterialSafetyFactor",
+                                        "$values": []
+                                      },
+                                      "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                                    },
+                                    "Spacing": 0.075,
+                                    "CompressedGap": 0.0,
+                                    "IsSpiral": false,
+                                    "StartCoordinate": 0.0,
+                                    "EndCoordinate": 0.9,
+                                    "VisualProperty": {
+                                      "$id": "46",
+                                      "$type": "PrimitiveVisualProperty",
+                                      "Id": "7999d2c6-2aa5-4dc1-957f-fa3fc86828f5",
+                                      "IsVisible": true,
+                                      "Color": "#FFA52A2A",
+                                      "Zindex": 0,
+                                      "Opacity": 0.5
+                                    },
+                                    "CheckMinimumIntensity": true
+                                  },
+                                  {
+                                    "$id": "47",
+                                    "$type": "StirrupByRebar",
+                                    "Id": "2d13c3a5-4eee-4b5b-b596-4e354f051aa5",
+                                    "Name": "Хомуты в пролете",
+                                    "LegCount": 0.4,
+                                    "Diameter": 0.01,
+                                    "Material": {
+                                      "$id": "48",
+                                      "$type": "ReinforcementLibMaterial",
+                                      "Id": "dbcaefdb-8571-42fa-b0bf-94e5e04368ba",
+                                      "MaterialEntityId": "c47ebbd7-2e0c-4247-81b6-dc3fbd064bab",
+                                      "SafetyFactors": {
+                                        "$id": "49",
+                                        "$type": "ListOfMaterialSafetyFactor",
+                                        "$values": []
+                                      },
+                                      "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                                    },
+                                    "Spacing": 0.05,
+                                    "CompressedGap": 0.0,
+                                    "IsSpiral": false,
+                                    "StartCoordinate": 0.9,
+                                    "EndCoordinate": 1.8,
+                                    "VisualProperty": {
+                                      "$id": "50",
+                                      "$type": "PrimitiveVisualProperty",
+                                      "Id": "d931376d-fa8f-4589-a5e4-5b9b36b34829",
+                                      "IsVisible": true,
+                                      "Color": "#FFDBD04F",
+                                      "Zindex": 0,
+                                      "Opacity": 0.5
+                                    },
+                                    "CheckMinimumIntensity": true
+                                  }
+                                ]
+                              },
+                              "VisualProperty": {
+                                "$id": "51",
+                                "$type": "PrimitiveVisualProperty",
+                                "Id": "80cb737a-6502-4ac0-9bbc-f35a0dd88569",
+                                "IsVisible": true,
+                                "Color": "#FF000000",
+                                "Zindex": 0,
+                                "Opacity": 1.0
+                              },
+                              "CheckMinimumIntensity": false
+                            }
+                          ]
+                        },
+                        "Calculators": {
+                          "$type": "ListOfICalculator",
+                          "$values": [
+                            {
+                              "$id": "52",
+                              "$type": "BeamShearCalculator",
+                              "Id": "d6189f12-3b50-41c4-b56d-4ee6d0e4076b",
+                              "Name": "New shear calculator",
+                              "InputData": {
+                                "$id": "53",
+                                "$type": "BeamShearCalculatorInputData",
+                                "Id": "230b1bc7-7d89-422e-bcaf-50e5b17908bb",
+                                "Actions": {
+                                  "$type": "ListOfBeamShearActions",
+                                  "$values": [
+                                    {
+                                      "$ref": "9"
+                                    }
+                                  ]
+                                },
+                                "Sections": {
+                                  "$type": "ListOfBeamShearSections",
+                                  "$values": [
+                                    {
+                                      "$ref": "23"
+                                    }
+                                  ]
+                                },
+                                "Stirrups": {
+                                  "$type": "ListOfStirrups",
+                                  "$values": [
+                                    {
+                                      "$ref": "42"
+                                    }
+                                  ]
+                                },
+                                "ShearCodeType": 14,
+                                "DesignRangeProperty": {
+                                  "$id": "54",
+                                  "$type": "BeamShearDesignRangeProperty",
+                                  "Id": "f057c086-a810-49d2-9770-c296c6b980b4",
+                                  "AbsoluteRangeValue": 0.0,
+                                  "RelativeEffectiveDepthRangeValue": 3.3,
+                                  "StepCount": 110
+                                }
+                              },
+                              "ShowTraceData": false
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "$id": "55",
+          "$type": "VisualAnalysis",
+          "Id": "13cca767-ab55-4ade-b4dd-28d5bd29ab62",
+          "Analysis": {
+            "$id": "56",
+            "$type": "BeamShearAnalysis",
+            "Id": "ca8a4fc5-7488-4365-8732-2bcae7b21515",
+            "Name": "Пример 14_2",
+            "Tags": "#New group",
+            "Comment": "Длина зоны хомутов принята равной 800мм (в пособии 900мм)",
+            "Color": "#FF800000",
+            "VersionProcessor": {
+              "$id": "57",
+              "$type": "VersionProcessor",
+              "Id": "5ec3a54a-a314-47b5-a9b8-4abba8fbca7d",
+              "Versions": {
+                "$type": "ListOfIDateVersion",
+                "$values": [
+                  {
+                    "$id": "58",
+                    "$type": "DateVersion",
+                    "Id": "91ef96a3-7769-47d9-9da3-a2b0a56d11e7",
+                    "DateTime": "2026-10-19T14:04:17.2704447+05:00",
+                    "Comment": "",
+                    "AnalysisVersion": {
+                      "$id": "59",
+                      "$type": "BeamShear",
+                      "Id": "f12dbb54-641c-4746-979c-9d3143fc410f",
+                      "Repository": {
+                        "$id": "60",
+                        "$type": "BeamShearRepository",
+                        "Id": "d1bd3496-ee26-4d84-a7f4-e9fbddb73657",
+                        "Actions": {
+                          "$type": "ListOfBeamShearActions",
+                          "$values": [
+                            {
+                              "$id": "61",
+                              "$type": "BeamShearAction",
+                              "Id": "5fc7d3bb-5a51-4d7b-9035-599a1f5a6cb2",
+                              "Name": "New shear action",
+                              "ExternalForce": {
+                                "$id": "62",
+                                "$type": "FactoredForceTuple",
+                                "Id": "2ca7c33d-2c1a-4a78-815d-4e66d421bf02",
+                                "ForceTuple": {
+                                  "$id": "63",
+                                  "$type": "ForceTuple",
+                                  "Id": "d874b239-3829-4254-8d67-db86a91c4c55",
+                                  "Mx": 0.0,
+                                  "My": 0.0,
+                                  "Nz": 0.0,
+                                  "Qx": 0.0,
+                                  "Qy": 0.0,
+                                  "Mz": 0.0
+                                },
+                                "CombinationProperty": {
+                                  "$id": "64",
+                                  "$type": "ForceFactoredCombinationProperty",
+                                  "Id": "acbe36b2-da8f-4d6f-b1a9-c3681ee08558",
+                                  "CalctTerm": 1,
+                                  "LimitState": 1,
+                                  "LongTermFactor": 1.0,
+                                  "ULSFactor": 1.2
+                                }
+                              },
+                              "SupportAction": {
+                                "$id": "65",
+                                "$type": "BeamShearAxisAction",
+                                "Id": "b0b987c7-0317-4070-b974-7003afb450b2",
+                                "Name": "",
+                                "SupportForce": {
+                                  "$id": "66",
+                                  "$type": "FactoredForceTuple",
+                                  "Id": "d37f73dc-9118-41a6-9528-f233180c2424",
+                                  "ForceTuple": {
+                                    "$id": "67",
+                                    "$type": "ForceTuple",
+                                    "Id": "433babd2-8592-421d-bc38-e65cb7b22c07",
+                                    "Mx": 0.0,
+                                    "My": 0.0,
+                                    "Nz": 0.0,
+                                    "Qx": 0.0,
+                                    "Qy": 137500.0,
+                                    "Mz": 0.0
+                                  },
+                                  "CombinationProperty": {
+                                    "$id": "68",
+                                    "$type": "ForceFactoredCombinationProperty",
+                                    "Id": "fa454eef-c244-41bf-9faa-1eb976ff05c7",
+                                    "CalctTerm": 1,
+                                    "LimitState": 1,
+                                    "LongTermFactor": 0.95,
+                                    "ULSFactor": 1.2
+                                  }
+                                },
+                                "SpanLoads": {
+                                  "$type": "ListOfSpanLoads",
+                                  "$values": [
+                                    {
+                                      "$id": "69",
+                                      "$type": "DistributedLoad",
+                                      "Id": "91a9f5ab-fdba-49b1-9bb9-9862d12f6633",
+                                      "Name": "Distributed load",
+                                      "LoadValue": {
+                                        "$id": "70",
+                                        "$type": "ForceTuple",
+                                        "Id": "dbbaaeca-5247-43ea-886d-f3908d692088",
+                                        "Mx": 0.0,
+                                        "My": 0.0,
+                                        "Nz": 0.0,
+                                        "Qx": 0.0,
+                                        "Qy": -14000.0,
+                                        "Mz": 0.0
+                                      },
+                                      "StartCoordinate": 0.0,
+                                      "EndCoordinate": 100.0,
+                                      "RelativeLoadLevel": 0.5,
+                                      "LoadRatio": 1.0,
+                                      "CombinationProperty": {
+                                        "$id": "71",
+                                        "$type": "ForceFactoredCombinationProperty",
+                                        "Id": "ff4fd44b-98d2-44d4-a750-7b9891483236",
+                                        "CalctTerm": 2,
+                                        "LimitState": 1,
+                                        "LongTermFactor": 1.0,
+                                        "ULSFactor": 1.2
+                                      }
+                                    },
+                                    {
+                                      "$id": "72",
+                                      "$type": "DistributedLoad",
+                                      "Id": "1a24bcec-e841-46d5-a7b9-5d457ea13550",
+                                      "Name": "Distributed load",
+                                      "LoadValue": {
+                                        "$id": "73",
+                                        "$type": "ForceTuple",
+                                        "Id": "c2496e2c-5232-420c-bbae-ee58eb143f3e",
+                                        "Mx": 0.0,
+                                        "My": 0.0,
+                                        "Nz": 0.0,
+                                        "Qx": 0.0,
+                                        "Qy": -36000.0,
+                                        "Mz": 0.0
+                                      },
+                                      "StartCoordinate": 0.0,
+                                      "EndCoordinate": 100.0,
+                                      "RelativeLoadLevel": 0.5,
+                                      "LoadRatio": 0.5,
+                                      "CombinationProperty": {
+                                        "$id": "74",
+                                        "$type": "ForceFactoredCombinationProperty",
+                                        "Id": "b0650be5-c50a-4f33-acac-3c306f99ef8b",
+                                        "CalctTerm": 1,
+                                        "LimitState": 1,
+                                        "LongTermFactor": 1.0,
+                                        "ULSFactor": 1.2
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "Sections": {
+                          "$type": "ListOfBeamShearSections",
+                          "$values": [
+                            {
+                              "$id": "75",
+                              "$type": "BeamShearSection",
+                              "Id": "09ddd06b-9b23-4cff-b815-c916ea2b5dab",
+                              "Name": "New rectangle section",
+                              "Shape": {
+                                "$id": "76",
+                                "$type": "RectangleShape",
+                                "Id": "cc44e519-03f9-49e3-9d9f-36868f2c9263",
+                                "Width": 0.2,
+                                "Height": 0.4
+                              },
+                              "ConcreteMaterial": {
+                                "$id": "77",
+                                "$type": "ConcreteLibMaterial",
+                                "Id": "7d132322-7e67-4715-8dd0-0117d47195f8",
+                                "RelativeHumidity": 0.55,
+                                "MinAge": 0.0,
+                                "MaxAge": 2207520000.0,
+                                "MaterialEntityId": "1cdc3598-c67b-4e35-89ac-3f7c0a9db167",
+                                "SafetyFactors": {
+                                  "$id": "78",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": [
+                                    {
+                                      "$id": "79",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "c935772f-71b1-4ac9-87d1-635b389c87b2",
+                                      "Name": "Gamma_b1",
+                                      "Take": true,
+                                      "Description": "Coefficient for considering long term calculations",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "80",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "f4315a27-e86d-4038-9961-e7fd366e6c47",
+                                            "FactorValue": 0.9,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "81",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "92333fc6-7bbb-43e6-9025-3b94fa2d0fec",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "82",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "42d98e7d-4226-483e-9809-9d7bb3a0901f",
+                                      "Name": "Gamma_b2",
+                                      "Take": false,
+                                      "Description": "Coefficient for plain concrete structures",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "83",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "d173e64e-876e-4441-b73c-4637837c770a",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "84",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "4618b867-8d8a-4f1d-89dd-3a9ab450818d",
+                                            "FactorValue": 0.9,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "85",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "fcb7ee78-8cdc-40ad-bf97-2dfb4cb445bf",
+                                      "Name": "Gamma_b3",
+                                      "Take": false,
+                                      "Description": "Coefficient for considering bleeding in vertical placement conditionals",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "86",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "3f9bbddd-2d70-49bb-8654-a82387f6bfc5",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "87",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "310e68b4-2181-4e6f-bfee-5313c18c525a",
+                                            "FactorValue": 0.85,
+                                            "StressState": 1,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "$id": "88",
+                                      "$type": "MaterialSafetyFactor",
+                                      "Id": "846b0a8a-e68f-4a50-a130-5357e34c7f01",
+                                      "Name": "New factor",
+                                      "Take": true,
+                                      "Description": "Material safety factor for ...",
+                                      "PartialFactors": {
+                                        "$type": "ListOfMaterialPartialFactor",
+                                        "$values": [
+                                          {
+                                            "$id": "89",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "7543cee2-a067-44d7-9caa-36c2006fd4f0",
+                                            "FactorValue": 1.0169,
+                                            "StressState": 0,
+                                            "CalcTerm": 1,
+                                            "LimitState": 1
+                                          },
+                                          {
+                                            "$id": "90",
+                                            "$type": "MaterialPartialFactor",
+                                            "Id": "80d62ac8-dff8-4c94-9fc3-bfd0886fc7d9",
+                                            "FactorValue": 1.0169,
+                                            "StressState": 0,
+                                            "CalcTerm": 2,
+                                            "LimitState": 1
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "TensionForULS": true,
+                                "TensionForSLS": true,
+                                "MaterialLogicId": "b97e8168-76a1-4e24-ae98-9aa38edd1e9a"
+                              },
+                              "CenterCover": 0.03,
+                              "ReinforcementArea": 0.000157,
+                              "ReinforcementMaterial": {
+                                "$id": "91",
+                                "$type": "ReinforcementLibMaterial",
+                                "Id": "07e2249c-7daa-489c-a126-6bf02c8453c0",
+                                "MaterialEntityId": "c47ebbd7-2e0c-4247-81b6-dc3fbd064bab",
+                                "SafetyFactors": {
+                                  "$id": "92",
+                                  "$type": "ListOfMaterialSafetyFactor",
+                                  "$values": []
+                                },
+                                "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                              },
+                              "VisualProperty": {
+                                "$id": "93",
+                                "$type": "PrimitiveVisualProperty",
+                                "Id": "c5f0d677-8387-4dd6-92b6-526d1789c0da",
+                                "IsVisible": true,
+                                "Color": "#FFA9A9A9",
+                                "Zindex": 0,
+                                "Opacity": 1.0
+                              }
+                            }
+                          ]
+                        },
+                        "Stirrups": {
+                          "$type": "ListOfStirrups",
+                          "$values": [
+                            {
+                              "$id": "94",
+                              "$type": "StirrupGroup",
+                              "Id": "6fb90141-a32e-42a1-ae74-e15142583c2c",
+                              "Name": "Группа хомутов",
+                              "CompressedGap": 0.0,
+                              "Stirrups": {
+                                "$type": "ListOfStirrups",
+                                "$values": [
+                                  {
+                                    "$id": "95",
+                                    "$type": "StirrupByRebar",
+                                    "Id": "ff98de62-adf3-439d-843b-f2d62c6fcff7",
+                                    "Name": "Хомуты вблизи опоры",
+                                    "LegCount": 1.0,
+                                    "Diameter": 0.01,
+                                    "Material": {
+                                      "$id": "96",
+                                      "$type": "ReinforcementLibMaterial",
+                                      "Id": "f19e5b20-663f-4063-a16a-fa6ddebb0da8",
+                                      "MaterialEntityId": "c47ebbd7-2e0c-4247-81b6-dc3fbd064bab",
+                                      "SafetyFactors": {
+                                        "$id": "97",
+                                        "$type": "ListOfMaterialSafetyFactor",
+                                        "$values": []
+                                      },
+                                      "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                                    },
+                                    "Spacing": 0.075,
+                                    "CompressedGap": 0.0,
+                                    "IsSpiral": false,
+                                    "StartCoordinate": 0.0,
+                                    "EndCoordinate": 0.8,
+                                    "VisualProperty": {
+                                      "$id": "98",
+                                      "$type": "PrimitiveVisualProperty",
+                                      "Id": "36e94b51-3d88-47e4-ac2f-014684fd72ef",
+                                      "IsVisible": true,
+                                      "Color": "#FFA52A2A",
+                                      "Zindex": 0,
+                                      "Opacity": 0.5
+                                    },
+                                    "CheckMinimumIntensity": true
+                                  },
+                                  {
+                                    "$id": "99",
+                                    "$type": "StirrupByRebar",
+                                    "Id": "a295ae4f-3435-4242-a178-170f0bcb4db0",
+                                    "Name": "Хомуты в пролете",
+                                    "LegCount": 0.4,
+                                    "Diameter": 0.01,
+                                    "Material": {
+                                      "$id": "100",
+                                      "$type": "ReinforcementLibMaterial",
+                                      "Id": "6b291326-b2aa-48b8-bdc4-5d7836cdf6c5",
+                                      "MaterialEntityId": "c47ebbd7-2e0c-4247-81b6-dc3fbd064bab",
+                                      "SafetyFactors": {
+                                        "$id": "101",
+                                        "$type": "ListOfMaterialSafetyFactor",
+                                        "$values": []
+                                      },
+                                      "MaterialLogicId": "54c4fe40-8f82-4995-8930-81e65e97edb9"
+                                    },
+                                    "Spacing": 0.05,
+                                    "CompressedGap": 0.0,
+                                    "IsSpiral": false,
+                                    "StartCoordinate": 0.8,
+                                    "EndCoordinate": 1.8,
+                                    "VisualProperty": {
+                                      "$id": "102",
+                                      "$type": "PrimitiveVisualProperty",
+                                      "Id": "d3d140ac-c550-440d-b30c-caec2940144b",
+                                      "IsVisible": true,
+                                      "Color": "#FFDBD04F",
+                                      "Zindex": 0,
+                                      "Opacity": 0.5
+                                    },
+                                    "CheckMinimumIntensity": true
+                                  }
+                                ]
+                              },
+                              "VisualProperty": {
+                                "$id": "103",
+                                "$type": "PrimitiveVisualProperty",
+                                "Id": "90e4ba3f-276d-4c44-a0c2-391f43e63f35",
+                                "IsVisible": true,
+                                "Color": "#FF000000",
+                                "Zindex": 0,
+                                "Opacity": 1.0
+                              },
+                              "CheckMinimumIntensity": false
+                            }
+                          ]
+                        },
+                        "Calculators": {
+                          "$type": "ListOfICalculator",
+                          "$values": [
+                            {
+                              "$id": "104",
+                              "$type": "BeamShearCalculator",
+                              "Id": "898b44ef-969d-4479-a3f1-b5503505b92c",
+                              "Name": "New shear calculator",
+                              "InputData": {
+                                "$id": "105",
+                                "$type": "BeamShearCalculatorInputData",
+                                "Id": "979c724d-d214-4e49-b1f2-bf93866a7f65",
+                                "Actions": {
+                                  "$type": "ListOfBeamShearActions",
+                                  "$values": [
+                                    {
+                                      "$ref": "61"
+                                    }
+                                  ]
+                                },
+                                "Sections": {
+                                  "$type": "ListOfBeamShearSections",
+                                  "$values": [
+                                    {
+                                      "$ref": "75"
+                                    }
+                                  ]
+                                },
+                                "Stirrups": {
+                                  "$type": "ListOfStirrups",
+                                  "$values": [
+                                    {
+                                      "$ref": "94"
+                                    }
+                                  ]
+                                },
+                                "ShearCodeType": 14,
+                                "DesignRangeProperty": {
+                                  "$id": "106",
+                                  "$type": "BeamShearDesignRangeProperty",
+                                  "Id": "7ab8ca71-3379-4b01-ac71-02f5b1f0a2a0",
+                                  "AbsoluteRangeValue": 0.0,
+                                  "RelativeEffectiveDepthRangeValue": 3.3,
+                                  "StepCount": 55
+                                }
+                              },
+                              "ShowTraceData": false
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

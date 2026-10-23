@@ -17,6 +17,8 @@ namespace DataAccess.DTOs
         [JsonProperty("ConstructionStages")]
         public List<IConstructionStage> ConstructionStages { get; } = [];
         [JsonIgnore]
+        public IHistoryCalculatorInputData InputData => throw new NotImplementedException();
+        [JsonIgnore]
         public bool ShowTraceData { get; set; }
         [JsonIgnore]
         public IResult Result => throw new NotImplementedException();

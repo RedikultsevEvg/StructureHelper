@@ -9,7 +9,7 @@ namespace StructureHelperLogics.Models.LoadHistory
         public IHistoryCalculator HistoryCalculator { get; }
         public bool IsValid { get; set; } = true;
         public string? Description { get; set; } = string.Empty;
-        public List<ISubStageResult> StagesResults { get; } = [];
+        public List<IStageResult> StagesResults { get; } = [];
 
         public HistoryCalculatorResult(IHistoryCalculator historyCalculator)
         {
