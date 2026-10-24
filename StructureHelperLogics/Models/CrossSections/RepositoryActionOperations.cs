@@ -45,11 +45,11 @@ namespace StructureHelperLogics.Models.CrossSections
                 }
                 else if (calc is IHistoryCalculator historyCalculator)
                 {
-                    foreach (var item in historyCalculator.ConstructionStages)
+                    foreach (var item in historyCalculator.InputData.ConstructionStages)
                     {
-                        if (ReferenceEquals(item.ForceAction, entity))
+                        if (ReferenceEquals(item.InputData.ForceAction, entity))
                         {
-                            item.ForceAction = null;
+                            item.InputData.ForceAction = null;
                         }
                     }
                 }

@@ -4,11 +4,9 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.Models.LoadHistory
 {
-    public interface IConstructionStage : ISaveable, IHasPrimitives, ICloneable
+    public interface IConstructionStage : ISaveable, ICloneable
     {
         string Name { get; set; }
-        int SubStepNumber { get; set; }
-        IForceAction ForceAction { get; set; }
-        double Duration { get; set; }
+        IConstructionStageInputData InputData { get; }
     }
 }

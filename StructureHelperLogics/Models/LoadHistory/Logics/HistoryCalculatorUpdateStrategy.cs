@@ -9,6 +9,8 @@ namespace StructureHelperLogics.Models.LoadHistory
 {
     public class HistoryCalculatorUpdateStrategy : IParentUpdateStrategy<IHistoryCalculator>
     {
+        private IUpdateStrategy<IHistoryCalculatorInputData> inputUpdateStrategy;
+        private IUpdateStrategy<IHistoryCalculatorInputData> InputUpdateStrategy => inputUpdateStrategy ??= new HistoryCalculatorInputDataUpdateStrategy() { UpdateChildren = UpdateChildren};
         public bool UpdateChildren { get; set; } = true;
 
         public void Update(IHistoryCalculator targetObject, IHistoryCalculator sourceObject)
@@ -19,11 +21,7 @@ namespace StructureHelperLogics.Models.LoadHistory
             targetObject.Name = sourceObject.Name;
             if (UpdateChildren == true)
             {
-                targetObject.ConstructionStages.Clear();
-                foreach (var item in sourceObject.ConstructionStages)
-                {
-                    var clone = item.Clone();
-                }
+                InputUpdateStrategy.Update(targetObject.InputData, sourceObject.InputData);
             }
         }
     }

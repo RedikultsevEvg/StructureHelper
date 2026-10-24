@@ -5,9 +5,19 @@ using System.Text;
 
 namespace StructureHelperLogics.Models.LoadHistory
 {
-    internal class HistoryCalculatorInputData : IHistoryCalculatorInputData
+    public class HistoryCalculatorInputData : IHistoryCalculatorInputData
     {
-        public IAccuracy Accuracy { get; set; } = new Accuracy() { IterationAccuracy = 0.001, MaxIterationCount = 1000};
+        public Guid Id { get; }
+        public List<IConstructionStage> ConstructionStages { get; } = [];
+        public IAccuracy Accuracy { get; set; } = new Accuracy() { IterationAccuracy = 0.001, MaxIterationCount = 1000 };
         public bool CheckStainLimit { get; set; } = true;
+
+        public IHistoryCalculator HistoryCalculator { get; }
+
+        public HistoryCalculatorInputData(Guid id, IHistoryCalculator historyCalculator)
+        {
+            Id = id;
+            HistoryCalculator = historyCalculator;
+        }
     }
 }

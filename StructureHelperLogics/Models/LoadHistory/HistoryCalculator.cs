@@ -1,11 +1,11 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services.Forces;
 using StructureHelperLogics.Models.LoadHistory.Logics;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services.NdmPrimitives;
@@ -24,21 +24,20 @@ namespace StructureHelperLogics.Models.LoadHistory
         private int totalNumber = 0;
         private double totalTime = 0;
         private bool isCurrentResultValid;
-        private ISubStageResult lastFinishResult;
         public Guid Id { get; }
         public string Name { get; set; } = string.Empty;
         public bool ShowTraceData { get; set; }
-        public List<IConstructionStage> ConstructionStages { get; } = [];
         public IShiftTraceLogger? TraceLogger { get; set; }
 
         public IResult Result => result;
 
-        public IHistoryCalculatorInputData InputData { get; }
+        public IHistoryCalculatorInputData InputData { get; set; }
 
         public HistoryCalculator(Guid id, IShiftTraceLogger traceLogger = null)
         {
             Id = id;
             TraceLogger = traceLogger;
+            InputData = new HistoryCalculatorInputData(Guid.NewGuid(), this);
         }
         public void Run()
         {
@@ -48,9 +47,9 @@ namespace StructureHelperLogics.Models.LoadHistory
 
         private void ProcessStages()
         {
-            for (int stageNumber = 0; stageNumber < ConstructionStages.Count; stageNumber++)
+            for (int stageNumber = 0; stageNumber < InputData.ConstructionStages.Count; stageNumber++)
             {
-                var stage = ConstructionStages[stageNumber];
+                var stage = InputData.ConstructionStages[stageNumber];
                 StageResult stageResult = new(stage);
                 result.StagesResults.Add(stageResult);
                 IForceTuple startForceTuple;
@@ -60,7 +59,7 @@ namespace StructureHelperLogics.Models.LoadHistory
                 }
                 else
                 {
-                    startForceTuple = GetForceTuple(ConstructionStages[stageNumber-1]);
+                    startForceTuple = GetForceTuple(InputData.ConstructionStages[stageNumber-1]);
                 }
                 IForceTuple endForceTuple = GetForceTuple(stage);
                 if (isCurrentResultValid == false || stageNumber == 0)
@@ -74,9 +73,9 @@ namespace StructureHelperLogics.Models.LoadHistory
                 }
                 var primitives = stageResult.Primitives.Values.ToList();
                 List<INdm> ndms = GetNdms(primitives);
-                double timeIncrement = stage.Duration / stage.SubStepNumber;
+                double timeIncrement = stage.InputData.Duration / stage.InputData.SubStepNumber;
                 double localTime = 0;
-                int subStagesCount = stage.SubStepNumber;
+                int subStagesCount = stage.InputData.SubStepNumber;
                 List<IForceTuple> forceTuples = tupleServiceLogic.InterpolateTuples(startForceTuple, endForceTuple, subStagesCount);
                 for (int subStageNumber = 0; subStageNumber <= subStagesCount; subStageNumber++)
                 {
@@ -109,9 +108,13 @@ namespace StructureHelperLogics.Models.LoadHistory
                     {
                         NdmCollection = ndms,
                         ForceTuple = forceTuples[subStageNumber],
-                        CheckStrainLimit = true
+                        CheckStrainLimit = InputData.CheckStainLimit,
+                        Accuracy = InputData.Accuracy,
                     };
-                    ForceTupleCalculator forceTupleCalculator = new() { InputData = inputData};
+                    ForceTupleCalculator forceTupleCalculator = new()
+                    {
+                        InputData = inputData
+                    };
                     try
                     {
                         forceTupleCalculator.Run();
@@ -142,10 +145,10 @@ namespace StructureHelperLogics.Models.LoadHistory
 
         private void ProcessPrimitivesByCurrentStage(int stageNumber)
         {
-            IConstructionStage currentStage = ConstructionStages[stageNumber];
+            IConstructionStage currentStage = InputData.ConstructionStages[stageNumber];
             IStageResult currentStageResult = result.StagesResults[stageNumber];
             Dictionary<INdmPrimitive, INdmPrimitive> primitives = currentStageResult.Primitives;
-            foreach (var primitive in currentStage.Primitives)
+            foreach (var primitive in currentStage.InputData.Primitives)
             {
                 var primitiveClone = primitive.Clone() as INdmPrimitive;
                 primitiveClone.NdmElement.AutoPrestrain.Clear();
@@ -199,34 +202,70 @@ namespace StructureHelperLogics.Models.LoadHistory
         private void ProcessPrimitivesByPreviousStage(int stageNumber)
         {
             
-            IConstructionStage currentStage = ConstructionStages[stageNumber];
+            IConstructionStage currentStage = InputData.ConstructionStages[stageNumber];
             IStageResult currentStageResult = result.StagesResults[stageNumber];
+            IStageResult previousStageResult = result.StagesResults[stageNumber - 1];
+            ISubStageResult prevStageFinishResult = previousStageResult.SubStagesResults.Single(x => x.StagePosition == StagePosition.Finish);
             Dictionary<INdmPrimitive, INdmPrimitive> currentPrimitives = currentStageResult.Primitives;
-            IStageResult previuosStageResult = result.StagesResults[stageNumber - 1];
-            ISubStageResult prevStageFinishResult = previuosStageResult.SubStagesResults.Single(x => x.StagePosition == StagePosition.Finish);
+            Dictionary<INdmPrimitive, INdmPrimitive> previousPrimitives = previousStageResult.Primitives;
             if (prevStageFinishResult.IsValid == false)
             {
                 ProcessPrimitivesByCurrentStage(stageNumber);
                 return;
             }
-            foreach (var primitive in currentStage.Primitives)
+            foreach (var primitive in currentStage.InputData.Primitives)
             {
-                var primitiveClone = primitive.Clone() as INdmPrimitive;
-                primitiveClone.NdmElement.AutoPrestrain.Clear();
+                ProcessPrimitive(primitive, currentPrimitives, previousPrimitives, prevStageFinishResult);
+            }
+        }
+
+        private INdmPrimitive ProcessPrimitive(INdmPrimitive primitive,
+            Dictionary<INdmPrimitive,INdmPrimitive> currentPrimitives,
+            Dictionary<INdmPrimitive, INdmPrimitive> previousPrimitives,
+            ISubStageResult prevStageFinishResult)
+        {
+            INdmPrimitive primitiveClone;
+            if (currentPrimitives.TryGetValue(primitive, out primitiveClone) == false)
+            {
                 INdmPrimitive previousPrimitive;
-                if (previuosStageResult.Primitives.TryGetValue(primitive, out previousPrimitive) == true)
+                if (previousPrimitives.TryGetValue(primitive, out previousPrimitive) == true)
                 {
-                    AddPrestrain(prevStageFinishResult.StrainTuple, previousPrimitive, primitiveClone);
+                    primitiveClone = previousPrimitive.Clone() as INdmPrimitive;
+                    if (primitiveClone is IHasHostPrimitive hasHostPrimitive)
+                    {
+                        INdmPrimitive hostPrimitive = hasHostPrimitive.HostPrimitive;
+                        var hostPrimitivePrestrain = hostPrimitive.NdmElement.UsersPrestrain;
+                        var currentHost = (primitive as IHasHostPrimitive).HostPrimitive;
+                        INdmPrimitive previousHost;
+                        if(previousPrimitives.TryGetValue(currentHost, out previousHost) == false)
+                        {
+                            throw new StructureHelperException($"Host of primitive {primitive} has not been found in previousStage");
+                        }
+                        INdmPrimitive newHost;
+                        if (currentPrimitives.TryGetValue(currentHost, out newHost) == false)
+                        {
+                            newHost = ProcessPrimitive(currentHost, currentPrimitives, previousPrimitives, prevStageFinishResult);
+                            newHost.NdmElement.UsersPrestrain.Clear();
+                            AddPrestrain(newHost, previousHost.NdmElement.UsersPrestrain);
+                            AddPrestrain(newHost, prevStageFinishResult.StrainTuple);
+                        }
+                        hasHostPrimitive.HostPrimitive = newHost;
+                    }
+                    AddPrestrain(primitiveClone, prevStageFinishResult.StrainTuple);
                 }
-                if (primitive is IHasHostPrimitive hasHostPrimitive)
+                else
                 {
-#error
-                    INdmPrimitive prevHost;
-                    previuosStageResult.Primitives.TryGetValue(primitive, out prevHost);
-                    var hostPrimitiveClone = ProcessHost(currentPrimitives, prevHost as IHasHostPrimitive, primitiveClone, prevStageFinishResult.StrainTuple);
+                    primitiveClone = primitive.Clone() as INdmPrimitive;
+                    if (primitiveClone is IHasHostPrimitive currentStageHost)
+                    {
+                        INdmPrimitive newHost = ProcessPrimitive(currentStageHost.HostPrimitive, currentPrimitives, previousPrimitives, prevStageFinishResult);
+                        currentStageHost.HostPrimitive = newHost;
+                    }
                 }
+                primitiveClone.NdmElement.AutoPrestrain.Clear();
                 AddPrimitiveToDictionary(currentPrimitives, primitive, primitiveClone);
             }
+            return primitiveClone;
         }
 
         private static void AddPrestrain(IForceTuple strainTuple, INdmPrimitive previousPrimitive, INdmPrimitive primitiveClone)
@@ -237,9 +276,16 @@ namespace StructureHelperLogics.Models.LoadHistory
             primitiveClone.NdmElement.UsersPrestrain.My = previousUsersPrestrain.My + strainTuple.My;
         }
 
+        private static void AddPrestrain(INdmPrimitive primitiveClone, IForceTuple strainTuple)
+        {
+            primitiveClone.NdmElement.UsersPrestrain.Nz += strainTuple.Nz;
+            primitiveClone.NdmElement.UsersPrestrain.Mx += strainTuple.Mx;
+            primitiveClone.NdmElement.UsersPrestrain.My += strainTuple.My;
+        }
+
         private IForceTuple GetForceTuple(IConstructionStage stage)
         {
-            var combinations = stage.ForceAction.GetCombinations();
+            var combinations = stage.InputData.ForceAction.GetCombinations();
             var designForces = combinations[0].DesignForces;
             IForceTuple forceTuple = designForces.Single(x => x.LimitState == limitState && x.CalcTerm == calcTerm).ForceTuple;
             return forceTuple;

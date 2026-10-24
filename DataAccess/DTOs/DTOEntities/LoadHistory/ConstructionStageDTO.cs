@@ -14,15 +14,8 @@ namespace DataAccess.DTOs
         public Guid Id { get; }
         [JsonProperty("Name")]
         public string Name { get; set; }
-        [JsonProperty("SubStepNumber")]
-        public int SubStepNumber { get; set; }
-        [JsonProperty("Duration")]
-        public double Duration { get; set; }
-        [JsonProperty("ForceAction")]
-        public IForceAction ForceAction { get; set; }
-        [JsonProperty("Primitives")]
-        public List<INdmPrimitive> Primitives { get; } = [];
-
+        [JsonProperty("InputData")]
+        public IConstructionStageInputData InputData { get; internal set; }
 
         public ConstructionStageDTO(Guid id)
         {
@@ -32,7 +25,7 @@ namespace DataAccess.DTOs
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            return this;
         }
     }
 }

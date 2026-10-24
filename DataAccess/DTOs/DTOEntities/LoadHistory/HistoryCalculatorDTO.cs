@@ -14,10 +14,8 @@ namespace DataAccess.DTOs
         public Guid Id { get; }
         [JsonProperty("Name")]
         public string Name { get; set; }
-        [JsonProperty("ConstructionStages")]
-        public List<IConstructionStage> ConstructionStages { get; } = [];
         [JsonIgnore]
-        public IHistoryCalculatorInputData InputData => throw new NotImplementedException();
+        public IHistoryCalculatorInputData InputData { get; set; }
         [JsonIgnore]
         public bool ShowTraceData { get; set; }
         [JsonIgnore]
@@ -29,6 +27,7 @@ namespace DataAccess.DTOs
         public HistoryCalculatorDTO(Guid id)
         {
             Id = id;
+            InputData = new HistoryCalculatorInputDataDTO(Guid.NewGuid(), this);
         }
 
         public object Clone()

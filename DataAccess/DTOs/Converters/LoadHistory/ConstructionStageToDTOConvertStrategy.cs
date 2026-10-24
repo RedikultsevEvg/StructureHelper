@@ -15,9 +15,8 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<IConstructionStage> updateStrategy;
         private IUpdateStrategy<IConstructionStage> UpdateStrategy => updateStrategy ??= new ConstructionStageUpdateStrategy() { UpdateChildren = false };
-        private IProcessLogic<IHasPrimitives> primitivesLogic;
-        private IProcessLogic<IHasPrimitives> PrimitivesLogic => primitivesLogic ??= new HasPrimitivesProcessLogic(ConvertDirection.ToDTO) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
-        private IConvertStrategy<IForceAction, IForceAction> forceConvertStrategy;
+        private IConvertStrategy<ConstructionStageInputDataDTO, IConstructionStageInputData> inputDataConvertStrategy;
+        private IConvertStrategy<ConstructionStageInputDataDTO, IConstructionStageInputData> InputDataConvertStrategy => inputDataConvertStrategy ??= new ConstructionStageInputDataToDTOConvertStrategy(this) { ConstructionStageDTO = NewItem };
 
         public ConstructionStageToDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
@@ -25,27 +24,13 @@ namespace DataAccess.DTOs
 
         public override ConstructionStageDTO GetNewItem(IConstructionStage source)
         {
+            CheckObject.ThrowIfNull(source);
+            CheckObject.ThrowIfNull(source.InputData);
             ChildClass = this;
             NewItem = new(source.Id);
             UpdateStrategy.Update(NewItem, source);
-            ProcessPrimitives(source);
-            if (source.ForceAction is not null)
-            {
-                forceConvertStrategy = new ForceActionToDTOConvertStrategy()
-                {
-                    ReferenceDictionary = ReferenceDictionary,
-                    TraceLogger = TraceLogger
-                };
-                NewItem.ForceAction = forceConvertStrategy.Convert(source.ForceAction);
-            }
+            NewItem.InputData = InputDataConvertStrategy.Convert(source.InputData);
             return NewItem;
-        }
-
-        private void ProcessPrimitives(IConstructionStage source)
-        {          
-            PrimitivesLogic.Source = source;
-            PrimitivesLogic.Target = NewItem;
-            PrimitivesLogic.Process();
         }
     }
 }

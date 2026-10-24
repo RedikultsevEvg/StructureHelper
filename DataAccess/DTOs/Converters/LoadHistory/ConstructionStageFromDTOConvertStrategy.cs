@@ -1,4 +1,5 @@
 ﻿using DataAccess.DTOs.Converters;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.LoadHistory;
@@ -10,9 +11,9 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<IConstructionStage> updateStrategy;
         private IUpdateStrategy<IConstructionStage> UpdateStrategy => updateStrategy ??= new ConstructionStageUpdateStrategy() { UpdateChildren = false };
-        private IProcessLogic<IHasPrimitives> primitivesLogic;
-        private IProcessLogic<IHasPrimitives> PrimitivesLogic => primitivesLogic ??= new HasPrimitivesProcessLogic(ConvertDirection.FromDTO) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
-        private IConvertStrategy<IForceAction, IForceAction> forceConvertStrategy;
+
+        private IConvertStrategy<ConstructionStageInputData, ConstructionStageInputDataDTO> inputDataConvertStrategy;
+        private IConvertStrategy<ConstructionStageInputData, ConstructionStageInputDataDTO> InputDataConvertStrategy => inputDataConvertStrategy ??= new ConstructionStageInputDataFromDTOConvertStrategy(this) { ConstructionStage = NewItem};
 
         public ConstructionStageFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
@@ -23,24 +24,12 @@ namespace DataAccess.DTOs
             ChildClass = this;
             NewItem = new(source.Id);
             UpdateStrategy.Update(NewItem, source);
-            ProcessPrimitives(source);
-            if (source.ForceAction is not null)
+            if (source.InputData is not ConstructionStageInputDataDTO inputDataDTO)
             {
-                forceConvertStrategy = new ForceActionFromDTOConvertStrategy()
-                {
-                    ReferenceDictionary = ReferenceDictionary,
-                    TraceLogger = TraceLogger
-                };
-                NewItem.ForceAction = forceConvertStrategy.Convert(source.ForceAction);
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source.InputData));
             }
+            NewItem.InputData = InputDataConvertStrategy.Convert(inputDataDTO);
             return NewItem;
-        }
-
-        private void ProcessPrimitives(IConstructionStage source)
-        {
-            PrimitivesLogic.Source = source;
-            PrimitivesLogic.Target = NewItem;
-            PrimitivesLogic.Process();
         }
     }
 }

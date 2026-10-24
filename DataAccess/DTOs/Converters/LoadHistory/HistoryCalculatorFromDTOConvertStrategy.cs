@@ -12,24 +12,20 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<IHistoryCalculator> updateStrategy;
         private IUpdateStrategy<IHistoryCalculator> UpdateStrategy => updateStrategy ??= new HistoryCalculatorUpdateStrategy() { UpdateChildren = false };
-        private IConvertStrategy<ConstructionStage, ConstructionStageDTO> stageConvertStrategy;
-        private IConvertStrategy<ConstructionStage, ConstructionStageDTO> StageConvertStrategy => stageConvertStrategy ??= new ConstructionStageFromDTOConvertStrategy(this);
+        private IConvertStrategy<HistoryCalculatorInputData, HistoryCalculatorInputDataDTO> inputDataConvertStrategy;
+        private IConvertStrategy<HistoryCalculatorInputData, HistoryCalculatorInputDataDTO> InputDataConvertStrategy => inputDataConvertStrategy ??= new HistoryCalculatorInputDataFromDTOConvertStrategy(this) { HistoryCalculator = NewItem};
+
         public override HistoryCalculator GetNewItem(HistoryCalculatorDTO source)
         {
             ChildClass = this;
             NewItem = new(source.Id);
             UpdateStrategy.Update(NewItem, source);
-            CheckObject.ThrowIfNull(source.ConstructionStages);
-            CheckObject.ThrowIfNull(NewItem.ConstructionStages);
-            foreach (var item in source.ConstructionStages)
+            CheckObject.ThrowIfNull(source.InputData);
+            if (source.InputData is not HistoryCalculatorInputDataDTO sourceInputData)
             {
-                if (item is not ConstructionStageDTO constructionStage)
-                {
-                    throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(item) + $": construction stage, id {item.Id}, name = {item.Name}");
-                }
-                var newStage = StageConvertStrategy.Convert(constructionStage);
-                NewItem.ConstructionStages.Add(newStage);
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source.InputData));
             }
+            NewItem.InputData = InputDataConvertStrategy.Convert(sourceInputData);
             return NewItem;
         }
     }

@@ -72,7 +72,9 @@ namespace DataAccess.DTOs
             {
                 { (typeof(List<IConstructionStage>), "ConstructionStages") },
                 { (typeof(HistoryCalculatorDTO), "HistoryCalculator") },
+                { (typeof(HistoryCalculatorInputDataDTO), "HistoryCalculatorInputData") },
                 { (typeof(ConstructionStageDTO), "ConstructionStage") },
+                { (typeof(ConstructionStageInputDataDTO), "ConstructionStageInputData") },
             };
             return newList;
         }

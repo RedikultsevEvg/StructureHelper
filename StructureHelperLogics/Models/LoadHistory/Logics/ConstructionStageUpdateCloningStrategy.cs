@@ -8,8 +8,8 @@ namespace StructureHelperLogics.Models.LoadHistory
     internal class ConstructionStageUpdateCloningStrategy : IUpdateStrategy<IConstructionStage>
     {
         private readonly ICloningStrategy cloningStrategy;
-        private IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
-        private IUpdateStrategy<IHasPrimitives> PrimitivesUpdateStrategy => primitivesUpdateStrategy ??= new HasPrimitivesUpdateCloningStrategy(cloningStrategy);
+        private IUpdateStrategy<IConstructionStageInputData> inputDataUpdateStrategy; 
+        private IUpdateStrategy<IConstructionStageInputData> InputDataUpdateStrategy => inputDataUpdateStrategy ??= new ConstructionStageInputDataUpdateCloningStrategy(); 
 
         public ConstructionStageUpdateCloningStrategy(ICloningStrategy cloningStrategy)
         {
@@ -22,8 +22,7 @@ namespace StructureHelperLogics.Models.LoadHistory
             CheckObject.ThrowIfNull(sourceObject);
             CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            targetObject.ForceAction = cloningStrategy.Clone(sourceObject.ForceAction);
-            PrimitivesUpdateStrategy.Update(targetObject, sourceObject);
+            InputDataUpdateStrategy.Update(targetObject.InputData, sourceObject.InputData);
         }
     }
 }

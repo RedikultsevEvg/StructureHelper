@@ -44,9 +44,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                 }
                 else if (calculator is IHistoryCalculator historyCalculator)
                 {
-                    foreach (var item in historyCalculator.ConstructionStages)
+                    foreach (var item in historyCalculator.InputData.ConstructionStages)
                     {
-                        item.Primitives.Clear();
+                        item.InputData.Primitives.Clear();
                     }
                 }
                 else
@@ -98,9 +98,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                 }
                 else if (calculator is IHistoryCalculator historyCalculator)
                 {
-                    foreach (var item in historyCalculator.ConstructionStages)
+                    foreach (var item in historyCalculator.InputData.ConstructionStages)
                     {
-                        item.Primitives.Remove(entity);
+                        item.InputData.Primitives.Remove(entity);
                     }
                 }
                 else

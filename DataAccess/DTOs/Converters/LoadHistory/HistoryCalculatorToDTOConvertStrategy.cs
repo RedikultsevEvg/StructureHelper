@@ -8,20 +8,16 @@ namespace DataAccess.DTOs
     {
         private IUpdateStrategy<IHistoryCalculator> updateStrategy;
         private IUpdateStrategy<IHistoryCalculator> UpdateStrategy=> updateStrategy ??= new HistoryCalculatorUpdateStrategy() { UpdateChildren = false };
-        private IConvertStrategy<ConstructionStageDTO, IConstructionStage> stageConvertStrategy;
-        private IConvertStrategy<ConstructionStageDTO, IConstructionStage> StageConvertStrategy => stageConvertStrategy ??= new ConstructionStageToDTOConvertStrategy(this);
+        private IConvertStrategy<HistoryCalculatorInputDataDTO, IHistoryCalculatorInputData> inputDataConvertStrategy;
+        private IConvertStrategy<HistoryCalculatorInputDataDTO, IHistoryCalculatorInputData> InputDataConvertStrategy => inputDataConvertStrategy ??= new HistoryCalculatorInputDataToDTOConvertStrategy(this) { HistoryCalculatorDTO = NewItem};
         public override HistoryCalculatorDTO GetNewItem(IHistoryCalculator source)
         {
             ChildClass = this;
+            CheckObject.ThrowIfNull(source);
+            CheckObject.ThrowIfNull(source.InputData);
             NewItem = new(source.Id);
             UpdateStrategy.Update(NewItem, source);
-            CheckObject.ThrowIfNull(source.ConstructionStages);
-            CheckObject.ThrowIfNull(NewItem.ConstructionStages);
-            foreach (var item in source.ConstructionStages)
-            {
-                var newStage = StageConvertStrategy.Convert(item);
-                NewItem.ConstructionStages.Add(newStage);
-            }
+            NewItem.InputData = InputDataConvertStrategy.Convert(source.InputData);
             return NewItem;
         }
     }
