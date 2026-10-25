@@ -20,6 +20,5 @@ namespace StructureHelperCommon.Models.Calculators
         {
             
         }
-
     }
 }

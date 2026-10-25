@@ -1,10 +1,5 @@
 ﻿using Newtonsoft.Json;
-using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.LoadHistory;
-using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccess.DTOs
 {

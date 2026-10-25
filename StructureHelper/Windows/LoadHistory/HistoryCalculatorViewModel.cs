@@ -34,7 +34,7 @@ namespace StructureHelper.Windows.LoadHistory
         public HistoryCalculatorViewModel(IHistoryCalculator sourceCalculator, ICrossSectionRepository repository)
         {
             HistoryCalculator = sourceCalculator;
-            ConstructionStagesViewModel = new(sourceCalculator.ConstructionStages, repository);
+            ConstructionStagesViewModel = new(sourceCalculator.InputData.ConstructionStages, repository);
         }
 
     }

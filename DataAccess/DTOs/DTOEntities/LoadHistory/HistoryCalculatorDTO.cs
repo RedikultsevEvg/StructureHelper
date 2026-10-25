@@ -14,7 +14,7 @@ namespace DataAccess.DTOs
         public Guid Id { get; }
         [JsonProperty("Name")]
         public string Name { get; set; }
-        [JsonIgnore]
+        [JsonProperty("InputData")]
         public IHistoryCalculatorInputData InputData { get; set; }
         [JsonIgnore]
         public bool ShowTraceData { get; set; }

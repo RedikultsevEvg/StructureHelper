@@ -105,7 +105,8 @@ namespace StructureHelperCommon.Infrastructures.Settings
                 //SubVersionNumber = 5 //Add curvature calculator
                 //SubVersionNumber = 6 //Add steel material
                 //SubVersionNumber = 7 //Add t-shape and o-shape
-                SubVersionNumber = 8 //Add t-shape calculation under shear
+                //SubVersionNumber = 8 //Add t-shape calculation under shear
+                SubVersionNumber = 9 //Add load history calculator
             };
         }
     }

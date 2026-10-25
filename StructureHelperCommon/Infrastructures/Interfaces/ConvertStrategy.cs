@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,6 +71,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public abstract T GetNewItem(V source);
         private void Check()
         {
+            CheckObject.ThrowIfNull(ReferenceDictionary);
             var checkLogic = new CheckConvertLogic<T,V>(this);
             checkLogic.Check();
         }

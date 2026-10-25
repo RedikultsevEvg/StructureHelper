@@ -4,6 +4,7 @@ using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.LoadHistory;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StructureHelper.Windows.LoadHistory
 {
@@ -16,16 +17,17 @@ namespace StructureHelper.Windows.LoadHistory
             NewItem = new ConstructionStage(Guid.NewGuid())
             {
                 Name = $"Construction stage {Items.Count + 1}",
-                SubStepNumber = 10,
-                Duration = 1d
             };
+            NewItem.InputData.SubStepNumber = 10;
+            NewItem.InputData.Duration = 1d;
             if (repository.ForceActions.Count > 0)
             {
-                NewItem.ForceAction = repository.ForceActions[0];
+                NewItem.InputData.ForceAction = repository.ForceActions[0];
             }
-            NewItem.Primitives.AddRange(repository.Primitives);
+            NewItem.InputData.Primitives.AddRange(repository.Primitives);
             base.AddMethod(parameter);
         }
+
         public override void EditMethod(object parameter)
         {
             if (SelectedItem is null) { return; }

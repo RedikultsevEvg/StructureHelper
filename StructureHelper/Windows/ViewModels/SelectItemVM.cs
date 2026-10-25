@@ -30,7 +30,15 @@ namespace StructureHelper.Windows.ViewModels
         /// <summary>
         /// Item which selected in visual collection
         /// </summary>
-        public TItem SelectedItem { get; set; }
+        public TItem SelectedItem
+        {
+            get;
+            set
+            {
+                field = value;
+                OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
         /// <summary>
         /// Visual collection of items
         /// </summary>

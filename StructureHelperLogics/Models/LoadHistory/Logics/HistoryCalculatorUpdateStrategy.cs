@@ -10,6 +10,7 @@ namespace StructureHelperLogics.Models.LoadHistory
     public class HistoryCalculatorUpdateStrategy : IParentUpdateStrategy<IHistoryCalculator>
     {
         private IUpdateStrategy<IHistoryCalculatorInputData> inputUpdateStrategy;
+
         private IUpdateStrategy<IHistoryCalculatorInputData> InputUpdateStrategy => inputUpdateStrategy ??= new HistoryCalculatorInputDataUpdateStrategy() { UpdateChildren = UpdateChildren};
         public bool UpdateChildren { get; set; } = true;
 

@@ -7,7 +7,7 @@ namespace StructureHelperLogics.Models.LoadHistory
 {
     public interface IHistoryCalculatorResult : IResult
     {
-        IHistoryCalculator HistoryCalculator { get; }
+        IHistoryCalculatorInputData InputData { get; }
         List<IStageResult> StagesResults { get; }
     }
 }

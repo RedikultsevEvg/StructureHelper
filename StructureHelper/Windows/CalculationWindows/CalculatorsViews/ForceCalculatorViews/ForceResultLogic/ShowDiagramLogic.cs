@@ -45,7 +45,10 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             SafetyProcessor.RunSafeProcess(() =>
             {
-                var series = new Series(arrayParameter) { Name = "Forces and curvatures" };
+                var series = new Series(arrayParameter)
+                {
+                    Name = "Forces and curvatures"
+                };
                 var vm = new GraphViewModel(new List<Series>() { series });
                 var wnd = new GraphView(vm);
                 wnd.ShowDialog();
@@ -55,7 +58,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             validTupleList = tupleList.Where(x => x.IsValid == true).ToList();
 
-            var factory = new DiagramFactory()
+            var factory = new ForceTupleDiagramFactory()
             {
                 TupleResultList = validTupleList,
                 //SetProgress = SetProgress,

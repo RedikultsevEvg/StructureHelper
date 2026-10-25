@@ -6,14 +6,18 @@ namespace StructureHelperLogics.Models.LoadHistory
 {
     internal class HistoryCalculatorResult : IHistoryCalculatorResult
     {
-        public IHistoryCalculator HistoryCalculator { get; }
+        public IHistoryCalculatorInputData InputData { get; }
         public bool IsValid { get; set; } = true;
         public string? Description { get; set; } = string.Empty;
         public List<IStageResult> StagesResults { get; } = [];
 
-        public HistoryCalculatorResult(IHistoryCalculator historyCalculator)
+        public HistoryCalculatorResult()
         {
-            HistoryCalculator = historyCalculator;
+            
+        }
+        public HistoryCalculatorResult(IHistoryCalculatorInputData inputData)
+        {
+            InputData = inputData;
         }
     }
 }

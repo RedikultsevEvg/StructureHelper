@@ -12,6 +12,8 @@ namespace DataAccess.DTOs
 {
     internal class ConstructionStageInputDataToDTOConvertStrategy : ConvertStrategy<ConstructionStageInputDataDTO, IConstructionStageInputData>
     {
+        private IUpdateStrategy<IConstructionStageInputData> updateStrategy;
+        private IUpdateStrategy<IConstructionStageInputData> UpdateStrategy => updateStrategy ??= new ConstructionStageInputDataUpdateStrategy() { UpdateChildren = false };
         private IProcessLogic<IHasPrimitives> primitivesLogic;
         private IProcessLogic<IHasPrimitives> PrimitivesLogic => primitivesLogic ??= new HasPrimitivesProcessLogic(ConvertDirection.ToDTO) { ReferenceDictionary = ReferenceDictionary, TraceLogger = TraceLogger };
         private IConvertStrategy<IForceAction, IForceAction> forceConvertStrategy;
@@ -29,6 +31,7 @@ namespace DataAccess.DTOs
             CheckObject.ThrowIfNull(source.ForceAction);
             ChildClass = this;
             NewItem = new(source.Id, ConstructionStageDTO);
+            UpdateStrategy.Update(NewItem, source);
             ProcessPrimitives(source);
             if (source.ForceAction is not null)
             {

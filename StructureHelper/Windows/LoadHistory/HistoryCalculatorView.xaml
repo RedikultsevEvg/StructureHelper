@@ -75,11 +75,11 @@
                         </Button>
                     </ToolBar>
                 </ToolBarTray>
-                <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+                <DataGrid AutoGenerateColumns="False" IsReadOnly="True"  ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" MinWidth="200" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="Substeps" MinWidth="70" Binding="{Binding SubStepNumber, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="Duration" MinWidth="70" Binding="{Binding Duration, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
+                        <DataGridTextColumn Header="Substeps" MinWidth="70" Binding="{Binding InputData.SubStepNumber, ValidatesOnDataErrors=True}"/>
+                        <DataGridTextColumn Header="Duration" MinWidth="70" Binding="{Binding InputData.Duration, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True}"/>
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>

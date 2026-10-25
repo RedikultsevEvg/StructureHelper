@@ -1,12 +1,12 @@
 ﻿using StructureHelper.Infrastructure;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
+using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.ViewModels.Errors;
-using StructureHelperCommon.Models.States;
+using StructureHelperCommon.Models.Parameters;
 using StructureHelperLogics.Models.LoadHistory;
-using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Windows.Input;
 
 namespace StructureHelper.Windows.LoadHistory
@@ -15,6 +15,7 @@ namespace StructureHelper.Windows.LoadHistory
     {
         private IHistoryCalculatorResult result;
         private RelayCommand showIsoFieldCommand;
+        private RelayCommand showGrapsCommand;
 
         public List<SubStageResultViewModel> StagesResult { get; } = [];
         public SubStageResultViewModel? SelectedResult { get; set;}
@@ -33,6 +34,34 @@ namespace StructureHelper.Windows.LoadHistory
                 SelectedResult.IsValid
                 );
             }
+        }
+
+        public ICommand ShowGraphsCommand
+        {
+            get
+            {
+                return showGrapsCommand ??= new RelayCommand(o =>
+                {
+                    SafetyProcessor.RunSafeProcess(ShowGraphs, "Error of showing of contours");
+                }
+                , o => result.IsValid
+                &&
+                result.StagesResults.Count(x => x.SubStagesResults.Any(y => y.IsValid)) > 0
+                );
+            }
+        }
+
+        private void ShowGraphs()
+        {
+            HistoryCalculatorResultDiagramFactory factory = new () { HistoryCalculatorResult = result};
+            var arrayParameter = factory.GetCommonArray();
+            var series = new Series(arrayParameter)
+            {
+                Name = "Forces and curvatures"
+            };
+            var vm = new GraphViewModel(new List<Series>() { series });
+            var wnd = new GraphView(vm);
+            wnd.ShowDialog();
         }
 
         public HistoryCalculatorResultViewModel(IHistoryCalculatorResult result)

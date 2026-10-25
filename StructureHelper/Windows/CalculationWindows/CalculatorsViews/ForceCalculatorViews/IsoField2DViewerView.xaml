@@ -121,10 +121,14 @@
             </ListBox>
             <Grid Grid.Column="1">
                 <Grid x:Name="IsoFieldGrid">
-                    <local:IsoFieldTitle DataContext="{Binding Title}" Panel.ZIndex="1"/>
-                    <!--<local:IsoFieldHorizontalLegend DataContext="{Binding ContourRange.ContourLegend}" Panel.ZIndex="1"/>-->
-                    <uc:ContourHorizontalLegend x:Name="HorizontalLegend" ValueColorRanges="{Binding ContourRange.ContourLegend.ValueColorRanges}" Panel.ZIndex="1"/>
-                    <ucwp:WorkPlaneRoot x:Name="WorkPlaneRoot" ViewModel="{Binding WorkPlaneRoot}"/>
+                    <ucwp:WorkPlaneRoot x:Name="WorkPlaneRoot" ViewModel="{Binding WorkPlaneRoot}">
+                        <ucwp:WorkPlaneRoot.OverlayContent>
+                            <Grid>
+                                <local:IsoFieldTitle DataContext="{Binding Title}" Panel.ZIndex="1"/>
+                                <uc:ContourHorizontalLegend ValueColorRanges="{Binding ContourRange.ContourLegend.ValueColorRanges}" Panel.ZIndex="1"/>
+                            </Grid>
+                        </ucwp:WorkPlaneRoot.OverlayContent>
+                    </ucwp:WorkPlaneRoot>
                 </Grid>
             </Grid>
             <TabControl Grid.Column="2">

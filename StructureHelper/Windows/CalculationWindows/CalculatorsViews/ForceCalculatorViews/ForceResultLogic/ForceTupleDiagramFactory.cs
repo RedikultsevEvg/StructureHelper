@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews
 {
     /// <summary>
-    /// Create array of common values
+    /// Creates array of common values
     /// </summary>
-    public class DiagramFactory
+    public class ForceTupleDiagramFactory
     {
         IConvertUnitLogic operationLogic = new ConvertUnitLogic();
         IGetUnitLogic unitLogic = new GetUnitLogic();

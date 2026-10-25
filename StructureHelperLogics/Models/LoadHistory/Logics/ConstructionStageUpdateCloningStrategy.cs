@@ -9,7 +9,7 @@ namespace StructureHelperLogics.Models.LoadHistory
     {
         private readonly ICloningStrategy cloningStrategy;
         private IUpdateStrategy<IConstructionStageInputData> inputDataUpdateStrategy; 
-        private IUpdateStrategy<IConstructionStageInputData> InputDataUpdateStrategy => inputDataUpdateStrategy ??= new ConstructionStageInputDataUpdateCloningStrategy(); 
+        private IUpdateStrategy<IConstructionStageInputData> InputDataUpdateStrategy => inputDataUpdateStrategy ??= new ConstructionStageInputDataUpdateCloningStrategy(cloningStrategy); 
 
         public ConstructionStageUpdateCloningStrategy(ICloningStrategy cloningStrategy)
         {

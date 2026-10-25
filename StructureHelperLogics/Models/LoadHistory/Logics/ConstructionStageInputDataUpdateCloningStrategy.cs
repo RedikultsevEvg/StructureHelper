@@ -9,6 +9,12 @@ namespace StructureHelperLogics.Models.LoadHistory
     {
         private readonly ICloningStrategy cloningStrategy;
         private IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
+
+        public ConstructionStageInputDataUpdateCloningStrategy(ICloningStrategy cloningStrategy)
+        {
+            this.cloningStrategy = cloningStrategy;
+        }
+
         private IUpdateStrategy<IHasPrimitives> PrimitivesUpdateStrategy => primitivesUpdateStrategy ??= new HasPrimitivesUpdateCloningStrategy(cloningStrategy);
 
         public void Update(IConstructionStageInputData targetObject, IConstructionStageInputData sourceObject)

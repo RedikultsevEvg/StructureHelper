@@ -7,6 +7,7 @@ using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace StructureHelper.Windows.LoadHistory
 {
@@ -31,19 +32,19 @@ namespace StructureHelper.Windows.LoadHistory
 
         public int SubStepNumber
         {
-            get => ConstructionStage.SubStepNumber;
+            get => ConstructionStage.InputData.SubStepNumber;
             set
             {
-                ConstructionStage.SubStepNumber = Math.Max(value, minSubStepNumber);
+                ConstructionStage.InputData.SubStepNumber = Math.Max(value, minSubStepNumber);
             }
         }
 
         public double Duration
         {
-            get => ConstructionStage.Duration;
+            get => ConstructionStage.InputData.Duration;
             set
             {
-                ConstructionStage.Duration = Math.Max(value, minDuration);
+                ConstructionStage.InputData.Duration = Math.Max(value, minDuration);
             }
         }
 
@@ -78,15 +79,15 @@ namespace StructureHelper.Windows.LoadHistory
         }
 
         public int PrimitivesNumber => PrimitivesViewModel.TargetItems.Count;
-        public string ForceActionName => ConstructionStage.ForceAction.Name;
+        public string ForceActionName => ConstructionStage.InputData.ForceAction.Name;
 
         public override void OkAction()
         {
-            ConstructionStage.ForceAction = CombinationsViewModel.SelectedItem;
-            ConstructionStage.Primitives.Clear();
+            ConstructionStage.InputData.ForceAction = CombinationsViewModel.SelectedItem;
+            ConstructionStage.InputData.Primitives.Clear();
             foreach (var item in PrimitivesViewModel.GetTargetItems())
             {
-                ConstructionStage.Primitives.Add(item.GetNdmPrimitive());
+                ConstructionStage.InputData.Primitives.Add(item.GetNdmPrimitive());
             }
             Refresh();
             base.OkAction();
@@ -106,9 +107,9 @@ namespace StructureHelper.Windows.LoadHistory
             this.ConstructionStage = constructionStage;
             CombinationsViewModel = new([.. allowedCombinations])
             {
-                SelectedItem = constructionStage.ForceAction
+                SelectedItem = allowedCombinations.First(x => x.Id == constructionStage.InputData.ForceAction.Id)
             };
-            PrimitivesViewModel = SourceTargetFactory.GetSourceTargetVM(allowedPrimitives, constructionStage.Primitives);
+            PrimitivesViewModel = SourceTargetFactory.GetSourceTargetVM(allowedPrimitives, constructionStage.InputData.Primitives);
         }
     }
 }

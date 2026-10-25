@@ -104,7 +104,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 result = false;
             }
             TraceMessage(checkPrimitiveCollectionLogic.CheckResult);
-
         }
 
         private void CheckActions()

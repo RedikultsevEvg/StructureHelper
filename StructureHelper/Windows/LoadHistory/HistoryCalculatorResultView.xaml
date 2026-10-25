@@ -38,14 +38,14 @@
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsValid}" Value="false">
-                                <Setter Property="Background" Value="Pink"/>
+                            <DataTrigger Binding="{Binding Position}" Value="Finish">
+                                <Setter Property="Background" Value="LightGreen"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Position}" Value="Start">
                                 <Setter Property="Background" Value="LightBlue"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Position}" Value="Finish">
-                                <Setter Property="Background" Value="LightGreen"/>
+                            <DataTrigger Binding="{Binding IsValid}" Value="false">
+                                <Setter Property="Background" Value="Pink"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

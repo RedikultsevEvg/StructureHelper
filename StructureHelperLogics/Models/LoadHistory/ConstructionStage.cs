@@ -8,7 +8,6 @@ namespace StructureHelperLogics.Models.LoadHistory
     {
         public Guid Id { get; }
         public string Name { get; set; } = string.Empty;
-
         public IConstructionStageInputData InputData { get; set; }
 
         public ConstructionStage(Guid id)

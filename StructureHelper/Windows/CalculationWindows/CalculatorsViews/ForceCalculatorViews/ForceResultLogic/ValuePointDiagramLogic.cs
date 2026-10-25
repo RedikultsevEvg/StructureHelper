@@ -122,7 +122,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         }
         private void PrepareArray()
         {
-            var factory = new DiagramFactory()
+            var factory = new ForceTupleDiagramFactory()
             {
                 TupleResultList = validTuplesList,
                 //SetProgress = SetProgress,

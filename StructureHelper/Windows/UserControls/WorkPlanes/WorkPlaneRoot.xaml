@@ -35,11 +35,11 @@
             </ToolBar>
         </ToolBarTray>
         <Grid Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
             <Grid x:Name="BackgroundGrid" Background="White">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="25"/>
-                </Grid.RowDefinitions>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" Background="White">
                     <Grid x:Name="WorkPlaneGrid" DataContext="{Binding ViewModel, ElementName=Root}" Background="White" SizeChanged="WorkPlaneGrid_SizeChanged">
                         <Canvas x:Name="RootCanvas" Width="{Binding WorkPlaneConfig.CanvasWidth}" Height="{Binding WorkPlaneConfig.CanvasHeight}">
@@ -117,16 +117,15 @@
         HorizontalContentAlignment="Stretch"
         VerticalContentAlignment="Stretch"
         IsHitTestVisible="True"/>
-
-                <StatusBar Grid.Row="1" Visibility="{Binding IsStatusBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <StatusBarItem>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Scale = "/>
-                            <TextBlock Width="50" Text="{Binding WorkPlaneConfig.ScaleValue}"/>
-                        </StackPanel>
-                    </StatusBarItem>
-                </StatusBar>
             </Grid>
+            <StatusBar Grid.Row="1" DataContext="{Binding ViewModel, ElementName=Root}" Visibility="{Binding IsStatusBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StatusBarItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Scale = "/>
+                        <TextBlock Width="50" Text="{Binding WorkPlaneConfig.ScaleValue}"/>
+                    </StackPanel>
+                </StatusBarItem>
+            </StatusBar>
         </Grid>
     </DockPanel>
 </UserControl>
