@@ -22,6 +22,7 @@ namespace StructureHelperLogics.Models.BeamShears
             targetObject.IsSpiral = sourceObject.IsSpiral;
             targetObject.StartCoordinate = sourceObject.StartCoordinate;
             targetObject.EndCoordinate = sourceObject.EndCoordinate;
+            targetObject.CheckMaxSpacing = sourceObject.CheckMaxSpacing;
         }
     }
 }

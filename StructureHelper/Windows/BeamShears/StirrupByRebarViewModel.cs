@@ -107,6 +107,16 @@ namespace StructureHelper.Windows.BeamShears
             }
         }
 
+        public bool CheckMaxSpacing
+        {
+            get => stirrupByRebar.CheckMaxSpacing;
+            set
+            {
+                stirrupByRebar.CheckMaxSpacing = value;
+                OnPropertyChanged(nameof(CheckMaxSpacing));
+            }
+        }
+
         public PrimitiveVisualPropertyViewModel VisualProperty
         {
             get => visual;

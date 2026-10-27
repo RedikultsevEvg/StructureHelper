@@ -32,5 +32,9 @@ namespace StructureHelperLogics.Models.BeamShears
         /// Step of uniformly distibuted stirrup along axis of beam, m
         /// </summary>
         double Spacing { get; set; }
+        /// <summary>
+        /// Flag when checking spacing of rebar is nessesary
+        /// </summary>
+        bool CheckMaxSpacing { get; set; }
     }
 }

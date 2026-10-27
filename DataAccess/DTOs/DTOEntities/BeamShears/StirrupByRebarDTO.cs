@@ -32,6 +32,8 @@ namespace DataAccess.DTOs
         public IPrimitiveVisualProperty VisualProperty { get; set; }
         [JsonProperty("CheckMinimumIntensity")]
         public bool CheckMinimumIntensity { get; set; } = true;
+        [JsonProperty("CheckMaximumSpacing")]
+        public bool CheckMaxSpacing { get; set; } = true;
 
         public StirrupByRebarDTO(Guid id)
         {

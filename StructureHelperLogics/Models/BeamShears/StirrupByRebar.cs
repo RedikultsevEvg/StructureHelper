@@ -72,6 +72,7 @@ namespace StructureHelperLogics.Models.BeamShears
         public IPrimitiveVisualProperty VisualProperty { get; set; }
 
         public bool CheckMinimumIntensity { get; set; } = true;
+        public bool CheckMaxSpacing { get; set; } = true;
 
         public StirrupByRebar(Guid id)
         {
