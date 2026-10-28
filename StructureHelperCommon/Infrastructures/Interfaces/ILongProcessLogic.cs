@@ -1,12 +1,5 @@
-﻿using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace StructureHelperCommon.Infrastructures.Interfaces
 {

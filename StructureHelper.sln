@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FieldVisualizer", "FieldVis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{BB820532-B66E-4876-903D-D6208C2A5352}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StructureHelper.Mcp", "StructureHelper.Mcp\StructureHelper.Mcp.csproj", "{DFB42FEA-8700-4885-92FC-74C2C5D658E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{BB820532-B66E-4876-903D-D6208C2A5352}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB820532-B66E-4876-903D-D6208C2A5352}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB820532-B66E-4876-903D-D6208C2A5352}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFB42FEA-8700-4885-92FC-74C2C5D658E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFB42FEA-8700-4885-92FC-74C2C5D658E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFB42FEA-8700-4885-92FC-74C2C5D658E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFB42FEA-8700-4885-92FC-74C2C5D658E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

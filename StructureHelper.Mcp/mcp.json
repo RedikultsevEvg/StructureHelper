@@ -1,0 +1,9 @@
+{
+  mcpServers {
+    structurehelper {
+      command DReposStructureHelperStructureHelper.McpbinReleasenet10.0-windows7.0publishStructureHelper.Mcp.exe,
+      args [],
+      env {}
+    }
+  }
+}

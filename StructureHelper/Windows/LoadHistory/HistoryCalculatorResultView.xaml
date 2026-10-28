@@ -34,6 +34,10 @@
             </ToolBar>
         </ToolBarTray>
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="22"/>
+            </Grid.RowDefinitions>
             <DataGrid AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding StagesResult}" SelectedItem="{Binding SelectedResult}">
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
@@ -64,6 +68,7 @@
                     <DataGridTextColumn Header="Description" Width="200"  Binding="{Binding Description, Mode=OneWay}"/>
                 </DataGrid.Columns>
             </DataGrid>
+            <ContentControl Grid.Row="1" ContentTemplate="{StaticResource ResultValidness}" Content="{Binding ValidResultCounter}"/>
         </Grid>
     </DockPanel>
 </Window>

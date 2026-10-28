@@ -1,8 +1,8 @@
 ﻿using StructureHelper.Infrastructure;
+using StructureHelper.Windows.CalculationWindows.CalculatorsViews;
 using StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews;
 using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.ViewModels.Errors;
-using StructureHelperCommon.Models.Parameters;
 using StructureHelperLogics.Models.LoadHistory;
 using System;
 using System.Collections.Generic;
@@ -14,11 +14,13 @@ namespace StructureHelper.Windows.LoadHistory
     public class HistoryCalculatorResultViewModel : ViewModelBase
     {
         private IHistoryCalculatorResult result;
+        private List<ISubStageResult> subStageResultCollection;
         private RelayCommand showIsoFieldCommand;
         private RelayCommand showGrapsCommand;
 
         public List<SubStageResultViewModel> StagesResult { get; } = [];
         public SubStageResultViewModel? SelectedResult { get; set;}
+        public ValidResultCounterVM ValidResultCounter { get; }
 
         public ICommand ShowIsoFieldCommand
         {
@@ -46,7 +48,7 @@ namespace StructureHelper.Windows.LoadHistory
                 }
                 , o => result.IsValid
                 &&
-                result.StagesResults.Count(x => x.SubStagesResults.Any(y => y.IsValid)) > 0
+                subStageResultCollection.Count(x => x.IsValid == true) > 0
                 );
             }
         }
@@ -67,6 +69,8 @@ namespace StructureHelper.Windows.LoadHistory
         public HistoryCalculatorResultViewModel(IHistoryCalculatorResult result)
         {
             this.result = result;
+            subStageResultCollection = result.StagesResults.SelectMany(x => x.SubStagesResults).ToList();
+            ValidResultCounter = new(subStageResultCollection);
             StagesResult.Clear();
             foreach (var stageResult in result.StagesResults)
             {
