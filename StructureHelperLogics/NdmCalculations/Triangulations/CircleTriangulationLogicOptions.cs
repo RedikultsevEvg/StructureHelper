@@ -14,13 +14,14 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
         public IPoint2D Center { get; set; }
 
-        public StrainTuple Prestrain { get; set; }
+        public StrainTuple InitialPrestrain { get; set; }
         public ITriangulationOptions TriangulationOptions { get; set; }
         public IHeadMaterial HeadMaterial { get; set; }
         public double RotationAngle { get; set; }
 
         public IDivisionSize DivisionSize { get; }
         public IShape Shape { get; set; }
+        public StrainTuple HistoryPrestrain { get; set; }
 
         public CircleTriangulationLogicOptions(IEllipseNdmPrimitive primitive)
         {
@@ -29,7 +30,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Circle = new CircleShape() { Diameter = primitive.Width };
             DivisionSize = primitive.DivisionSize;
             HeadMaterial = primitive.NdmElement.HeadMaterial;
-            Prestrain = ForceTupleServiceLogic.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
+            InitialPrestrain = primitive.NdmElement.UsersPrestrain as StrainTuple;
+            HistoryPrestrain = ForceTupleServiceLogic.SumTuples(primitive.NdmElement.HistoryPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
         }
     }
 }

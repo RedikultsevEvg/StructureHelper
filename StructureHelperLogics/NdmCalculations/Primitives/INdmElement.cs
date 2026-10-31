@@ -18,6 +18,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// Prestrain assigned from user
         /// </summary>
         IForceTuple UsersPrestrain { get; }
+        IForceTuple HistoryPrestrain { get; }
         /// <summary>
         /// Prestrain assigned from calculations
         /// </summary>

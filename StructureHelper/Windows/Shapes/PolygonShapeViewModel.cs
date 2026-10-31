@@ -1,4 +1,4 @@
-﻿using netDxf.Entities;
+using netDxf.Entities;
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.GraphicalPrimitives;
 using StructureHelper.Services.Exports;
@@ -62,6 +62,7 @@ namespace StructureHelper.Windows.Shapes
         public ICommand AddVertexCommand => addVertexCommand ??= new RelayCommand(AddVertex);
         public ICommand FlipVerticalCommand => flipVerticalCommand ??= new RelayCommand(FlipVertical);
         public ICommand FlipHorizontalCommand => flipHorizontalCommand ??= new RelayCommand(FlipHorizontal);
+        public ICommand RotateCommand => rotateCommand ??= new RelayCommand(RotatePolygon);
 
         public ICommand ImportFromDxfCommand => importFromDxfCommand ??= new RelayCommand(ImportFromDxf);
         public ICommand FileDroppedCommand => fileDroppedCommand ??= new RelayCommand(OnFileDropped);
@@ -172,6 +173,29 @@ namespace StructureHelper.Windows.Shapes
             Redraw(null);
         }
 
+        private void RotatePolygon(object commandParameter)
+        {
+            var angleViewModel = new RotationAngleViewModel();
+            var window = new RotationAngleView(angleViewModel);
+            if (window.ShowDialog() != true)
+            {
+                return;
+            }
+            SafetyProcessor.RunSafeProcess(
+                () => ApplyRotation(angleViewModel.AngleRadians),
+                "Error of rotation of polygon");
+        }
+
+        private void ApplyRotation(double angleRadians)
+        {
+            var rotateStrategy = new LinePolygonRotateStrategy(angleRadians, localCenter.X, localCenter.Y);
+            ILinePolygonShape rotatedPolygon = rotateStrategy.Convert(polygonShape);
+            var updateStrategy = new LinePolygonShapeUpdateStrategy();
+            updateStrategy.Update(polygonShape, rotatedPolygon);
+            ReloadVertices();
+            Redraw(null);
+        }
+
         public ILinePolygonShape GetPolygonShape()
         {
             ILinePolygonShape polygonShape = new LinePolygonShape(Guid.NewGuid());
@@ -250,6 +274,7 @@ namespace StructureHelper.Windows.Shapes
         private RelayCommand deleteVertexCommand;
         private RelayCommand flipVerticalCommand;
         private RelayCommand flipHorizontalCommand;
+        private RelayCommand rotateCommand;
         private static Polyline2D polyline;
         private RelayCommand fileDroppedCommand;
         private string fileName;

@@ -22,9 +22,10 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public IPoint2D Center { get; }
         /// <inheritdoc />
         public double Area { get; }
-        public StrainTuple Prestrain { get; set; }
+        public StrainTuple InitialPrestrain { get; set; }
         public IHeadMaterial HeadMaterial { get; set; }
         public INdmPrimitive HostPrimitive { get; set; }
+        public StrainTuple HistoryPrestrain { get; set; }
 
 
         /// <inheritdoc />
@@ -34,7 +35,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Area = primitive.Area;
             HeadMaterial = primitive.NdmElement.HeadMaterial;
             HostPrimitive = primitive.HostPrimitive;
-            Prestrain = ForceTupleServiceLogic.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
+            InitialPrestrain = primitive.NdmElement.UsersPrestrain as StrainTuple;
+            HistoryPrestrain = ForceTupleServiceLogic.SumTuples(primitive.NdmElement.HistoryPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
         }
     }
 }

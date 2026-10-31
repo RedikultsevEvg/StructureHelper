@@ -32,7 +32,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 Material = options.HeadMaterial.GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm)
             });
             TriangulationService.CommonTransform(ndmCollection, options);
-            TriangulationService.SetPrestrain(ndmCollection, options.Prestrain);
+            TriangulationService.SetPrestrain(ndmCollection, options.InitialPrestrain, PrestrainTypes.Initial);
+            TriangulationService.SetPrestrain(ndmCollection, options.HistoryPrestrain, PrestrainTypes.History);
             return ndmCollection;
         }
 

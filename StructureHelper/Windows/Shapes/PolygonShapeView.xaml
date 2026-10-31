@@ -1,4 +1,4 @@
-﻿<Window x:Class="StructureHelper.Windows.Shapes.PolygonView"
+<Window x:Class="StructureHelper.Windows.Shapes.PolygonView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -92,6 +92,16 @@
                         </Button.ToolTip>
                         <Viewbox>
                             <ContentControl ContentTemplate="{StaticResource FlipHorizontal}"/>
+                        </Viewbox>
+                    </Button>
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding RotateCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Rotate polygon"
+                                        IconContent="{StaticResource RotatePolygon}"
+                                        DescriptionText="Rotates the polygon around its center by the specified angle"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{StaticResource RotatePolygon}"/>
                         </Viewbox>
                     </Button>
                 </ToolBar>

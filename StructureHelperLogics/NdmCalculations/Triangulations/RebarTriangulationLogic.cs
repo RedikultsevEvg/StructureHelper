@@ -39,7 +39,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 Material = options.HeadMaterial.GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm)
             };
             ;
-            NdmTransform.SetPrestrain(rebarNdm, ForceTupleConverter.ConvertToLoaderStrainMatrix(options.Prestrain));
+            NdmTransform.SetPrestrain(rebarNdm, ForceTupleConverter.ConvertToLoaderStrainMatrix(options.InitialPrestrain), PrestrainTypes.Initial);
+            NdmTransform.SetPrestrain(rebarNdm, ForceTupleConverter.ConvertToLoaderStrainMatrix(options.HistoryPrestrain), PrestrainTypes.History);
             return rebarNdm;
         }
 
@@ -52,9 +53,9 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 .HeadMaterial
                 .GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm);
             
-            var prestrain = ForceTupleServiceLogic.SumTuples(hostPrimitive.NdmElement.UsersPrestrain,
-                hostPrimitive.NdmElement.AutoPrestrain)
-                as StrainTuple;
+            var initialPrestrain = hostPrimitive.NdmElement.UsersPrestrain as StrainTuple;
+            var historyPrestrain = ForceTupleServiceLogic.SumTuples(hostPrimitive.NdmElement.UsersPrestrain, hostPrimitive.NdmElement.AutoPrestrain) as StrainTuple;
+
 
             var concreteNdm = new Ndm
             {
@@ -66,7 +67,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 //StressScale = -1d
                 StressScale = 1d//-1d
             };
-            NdmTransform.SetPrestrain(concreteNdm, ForceTupleConverter.ConvertToLoaderStrainMatrix(prestrain));
+            NdmTransform.SetPrestrain(concreteNdm, ForceTupleConverter.ConvertToLoaderStrainMatrix(initialPrestrain), PrestrainTypes.Initial);
+            NdmTransform.SetPrestrain(concreteNdm, ForceTupleConverter.ConvertToLoaderStrainMatrix(historyPrestrain), PrestrainTypes.History);
             return concreteNdm;
         }
 

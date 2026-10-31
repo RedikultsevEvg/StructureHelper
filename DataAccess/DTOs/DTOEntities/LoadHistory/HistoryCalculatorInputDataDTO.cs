@@ -18,7 +18,7 @@ namespace DataAccess.DTOs
         [JsonProperty("Accuracy")]
         public IAccuracy Accuracy { get; set; } = new AccuracyDTO(Guid.NewGuid());
         [JsonProperty("CheckStrainLimit")]
-        public bool CheckStainLimit { get; set; } = true;
+        public bool CheckStrainLimit { get; set; } = true;
 
         public HistoryCalculatorInputDataDTO(Guid id, IHistoryCalculator historyCalculator)
         {

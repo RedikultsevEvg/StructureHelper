@@ -19,7 +19,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private List<(INamedAreaPoint areaPoint, INdmPrimitive ndmPrimitive)> pointCollection;
         private List<IExtendedForceTupleCalculatorResult> validTuplesList;
         private ArrayParameter<double> arrayOfValuesByPoint;
-        private IEnumerable<ForceResultFunc> selectedDelegates;
+        private IEnumerable<ResultFuncByStrainMatrix> selectedDelegates;
         private string exceptionMessage;
 
         public IEnumerable<IExtendedForceTupleCalculatorResult> TupleList { get; set; }
@@ -146,16 +146,23 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 CenterY = valuePoint.areaPoint.Point.Y,
                 Material = material,
             };
-            StrainMatrix prestrainMatrix = new()
+            StrainMatrix initialPrestrainMatrix = new()
             {
-                Kx = (userPrestrain.Mx + autoPrestrain.Mx),
-                Ky = (userPrestrain.My + autoPrestrain.My),
-                EpsZ = userPrestrain.Nz + autoPrestrain.Nz
+                Kx = userPrestrain.Mx,
+                Ky = userPrestrain.My,
+                EpsZ = userPrestrain.Nz
             };
-            ndm.PrestrainLogic.Add(PrestrainTypes.Prestrain, prestrainMatrix);
+            ndm.PrestrainLogic.Add(PrestrainTypes.Initial, initialPrestrainMatrix);
+            StrainMatrix historyPrestrainMatrix = new()
+            {
+                Kx = autoPrestrain.Mx,
+                Ky = autoPrestrain.My,
+                EpsZ = autoPrestrain.Nz
+            };
+            ndm.PrestrainLogic.Add(PrestrainTypes.History, initialPrestrainMatrix);
             return ndm;
         }
-        private List<string> GetValueLabels(IEnumerable<ForceResultFunc> selectedDelegates)
+        private List<string> GetValueLabels(IEnumerable<ResultFuncByStrainMatrix> selectedDelegates)
         {
             List<string> strings = new();
             foreach (var valuePoint in pointCollection)

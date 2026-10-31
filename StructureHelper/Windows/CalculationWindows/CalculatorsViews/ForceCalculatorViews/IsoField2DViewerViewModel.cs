@@ -4,8 +4,6 @@ using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Services.ResultViewers;
 using StructureHelper.Windows.Graphs;
 using StructureHelper.Windows.UserControls.WorkPlanes;
-using StructureHelperCommon.Models.Shapes;
-using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +29,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public IsoField2DViewerView Window { get; internal set; }
         public IsoFieldTitleViewModel Title { get; private set; }
         public IsoFieldSummaryViewModel Summary { get; private set; }
-        public List<IPrimitiveSet> PrimitiveSets { get; set; }
+        public List<IPrimitiveSet> PrimitiveSets { get; set; } = [];
         public IPrimitiveSet SelectedPrimitiveSet
         {
             get => selectedPrimitiveSet;
@@ -45,12 +43,14 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public ContoursRangeViewModel ContourRange { get; set; } = new();
         public ValueLabelViewModel ValueLabel { get; set; } = new() { LabelSize = 8 };
 
+        public List<IShadedPrimitive> ShadedPrimitives { get; set; } = [];
+
         public ICommand RebuildCommand => rebuildCommand ??= new RelayCommand(o => Rebuild());
         public ICommand ZoomInCommand => zoomInCommand ??= new RelayCommand(o => Zoom(1.2));
         public ICommand ZoomOutCommand => zoomOutCommand ??= new RelayCommand(o => Zoom(0.8));
 
 
-        public IsoField2DViewerViewModel(ISelectedPrimitiveSet ndmPrimitiveSet, ISelectedPrimitiveSet shadedPrimitives)
+        public IsoField2DViewerViewModel()
         {
             WorkPlaneRoot = new()
             {
@@ -59,9 +59,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             };
             WorkPlaneRoot.WorkPlaneConfig.ScaleValue = 1.00001;
             SaveCopyViewModel.FrameWorkElementServiseLogic.Dpi = 768;
-            this.ndmPrimitiveSet = ndmPrimitiveSet;
-            this.shadedPrimitives = shadedPrimitives;
-            SetValues(ndmPrimitiveSet);
             ColorMapViewModel = new ColorMapViewModel();
             if (PrimitiveSets.Count != 0)
             {
@@ -78,10 +75,6 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             Refresh();
         }
 
-        private void SetValues(ISelectedPrimitiveSet ndmPrimitiveSet)
-        {
-            PrimitiveSets = ShowIsoFieldResult.GetPrimitiveSets(ndmPrimitiveSet.StrainMatrix, ndmPrimitiveSet.Ndms, ForceResultFuncFactory.GetResultFuncs());
-        }
 
         public void Refresh()
         {
@@ -124,30 +117,14 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             double sizeY = FieldVisualizer.Services.PrimitiveServices.PrimitiveOperations.GetSizeY(SelectedPrimitiveSet.ValuePrimitives) * zoomFactor;
             var logic = new AddPrimitivesToCanvasLogic()
             {
-                WorkPlaneCanvas = WorkPlaneCanvas,
+                Canvas = WorkPlaneCanvas,
                 ValueRange = ContourRange.ValueRange,
                 ColorMap = ColorMapViewModel.SelectedColorMap,
                 ValueColorRanges = ContourRange.ContourLegend.ValueColorRanges,
                 ValueLabelZoomFactor = Math.Max(sizeX, sizeY) * ValueLabel.LabelSize * 0.0001
             };
-            List<IShadedPrimitive> shadedPrimitives1 = GetShadedPrimitives(shadedPrimitives);
-            logic.ProcessShadedPrimitives(shadedPrimitives1);
+            logic.ProcessShadedPrimitives(ShadedPrimitives);
             logic.ProcessValuePrimitives(SelectedPrimitiveSet.ValuePrimitives);
-        }
-
-        private List<IShadedPrimitive> GetShadedPrimitives(ISelectedPrimitiveSet shadedPrimitives)
-        {
-            List<IShadedPrimitive> shadePrimitives = [];
-            foreach (var item in shadedPrimitives.AllPrimitives)
-            {
-                try
-                {
-                    ShadedPrimitive shadePrimitive = new ShadedPrimitive(item.Shape) { Center = item.Center};
-                    shadePrimitives.Add(shadePrimitive);
-                }
-                catch { }
-            }
-            return shadePrimitives;
         }
 
         private void Zoom(double coefficient)

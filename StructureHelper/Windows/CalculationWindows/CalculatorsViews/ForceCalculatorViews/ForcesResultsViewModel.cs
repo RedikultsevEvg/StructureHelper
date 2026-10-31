@@ -156,7 +156,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             try
             {
                 IStrainMatrix strainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.ForceStrainPair.StrainMatrix;
-                var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, ForceResultFuncFactory.GetResultFuncs(), true);
+                var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, NdmStressStrainResultFuncFactory.GetResultFuncs(), true);
                 var report = new IsoField3DReport(primitiveSets);
                 report.Show();
             }
@@ -467,7 +467,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 StateCalcTermPair = SelectedResult.StateCalcTermPair,
                 StrainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.StrainMatrix
             };
-            logic.ShowIsoField2D();
+            logic.ShowStressStrainField2D();
         }
         private void GetNdms()
         {

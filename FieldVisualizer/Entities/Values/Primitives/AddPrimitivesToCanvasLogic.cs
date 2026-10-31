@@ -19,7 +19,7 @@ namespace FieldVisualizer.Entities.Values.Primitives
     {
         private const int zoomFactor = 1000;
         private IMathRoundLogic roundLogic = new SmartRoundLogic() { DigitQuant = 3 };
-        public Canvas WorkPlaneCanvas { get; set; }
+        public Canvas Canvas { get; set; }
         public IValueRange ValueRange { get; set; }
         public IColorMap ColorMap { get; set; }
         public IEnumerable<IValueColorRange> ValueColorRanges { get; set; }
@@ -35,38 +35,38 @@ namespace FieldVisualizer.Entities.Values.Primitives
                 if (item.Shape is IRectangleShape rectangleShape)
                 {
                     Rectangle rectangle = ProcessShadedRectangle(rectangleShape, item.Center);
-                    WorkPlaneCanvas.Children.Add(rectangle);
+                    Canvas.Children.Add(rectangle);
                 }
                 if (item.Shape is IEllipseShape ellipseShape)
                 {
                     Ellipse ellipse = ProcessShadedEllipse(ellipseShape, item.Center);
-                    WorkPlaneCanvas.Children.Add(ellipse);
+                    Canvas.Children.Add(ellipse);
                 }
                 if (item.Shape is ILinePolygonShape polygonShape)
                 {
                     Path path = ProcessShadedPolygon(polygonShape, item.Center);
-                    WorkPlaneCanvas.Children.Add(path);
+                    Canvas.Children.Add(path);
                 }
                 if (item.Shape is IVerticalDoubleTShape doubleTShape)
                 {
                     Path path = ProcessDoubleTShape(item, doubleTShape);
-                    WorkPlaneCanvas.Children.Add(path);
+                    Canvas.Children.Add(path);
                 }
                 if (item.Shape is IVerticalTShape verticalTShape)
                 {
                     Path path = ProcessTShape(item, verticalTShape);
-                    WorkPlaneCanvas.Children.Add(path);
+                    Canvas.Children.Add(path);
                 }
                 if (item.Shape is ITrapezoidShape trapezoidShape)
                 {
                     Path path = ProcessTrapezoidShape(item, trapezoidShape);
-                    WorkPlaneCanvas.Children.Add(path);
+                    Canvas.Children.Add(path);
                 }
                 if (item.Shape is IRingShape ringShape)
                 {
                     var ellipses = ProcessRingShape(ringShape, item.Center);
-                    WorkPlaneCanvas.Children.Add(ellipses.outerEllipse);
-                    WorkPlaneCanvas.Children.Add(ellipses.innerEllipse);
+                    Canvas.Children.Add(ellipses.outerEllipse);
+                    Canvas.Children.Add(ellipses.innerEllipse);
                 }
             }
         }
@@ -175,17 +175,17 @@ namespace FieldVisualizer.Entities.Values.Primitives
                 if (primitive is IRectanglePrimitive rectanglePrimitive)
                 {
                     Rectangle rectangle = ProcessValueRectanglePrimitive(rectanglePrimitive);
-                    WorkPlaneCanvas.Children.Add(rectangle);
+                    Canvas.Children.Add(rectangle);
                 }
                 else if (primitive is ICirclePrimitive circlePrimitive)
                 {
                     Ellipse ellipse = ProcessCirclePrimitive(circlePrimitive);
-                    WorkPlaneCanvas.Children.Add(ellipse);
+                    Canvas.Children.Add(ellipse);
                 }
                 else if (primitive is ITrianglePrimitive triangle)
                 {
                     Path path = ProcessTrianglePrimitive(triangle);
-                    WorkPlaneCanvas.Children.Add(path);
+                    Canvas.Children.Add(path);
                 }
                 else { throw new FieldVisulizerException(ErrorStrings.PrimitiveTypeIsUnknown); }
             }
@@ -304,13 +304,13 @@ namespace FieldVisualizer.Entities.Values.Primitives
             var label = new ValueLabelControl()
             {
                 Value = Convert.ToString(value),
-                ScaleX = WorkPlaneCanvas.Height * ValueLabelZoomFactor,
-                ScaleY = WorkPlaneCanvas.Height * ValueLabelZoomFactor * YZoomFactor * (-1),
+                ScaleX = Canvas.Height * ValueLabelZoomFactor,
+                ScaleY = Canvas.Height * ValueLabelZoomFactor * YZoomFactor * (-1),
                 X = (primitive.CenterX - DX) * zoomFactor,
                 Y = (YZoomFactor * primitive.CenterY + DY) * zoomFactor,
             };
 
-            WorkPlaneCanvas.Children.Add(label);
+            Canvas.Children.Add(label);
         }
 
         private void OnPathClicked(object sender, MouseButtonEventArgs e)

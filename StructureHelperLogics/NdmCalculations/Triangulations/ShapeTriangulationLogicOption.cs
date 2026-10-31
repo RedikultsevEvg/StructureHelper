@@ -20,10 +20,12 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public IPoint2D Center { get; set; }
         public IDivisionSize DivisionSize { get; set; }
         public ITriangulationOptions TriangulationOptions { get; set; }
-        public StrainTuple Prestrain { get; set; }
+        public StrainTuple InitialPrestrain { get; set; }
         public IHeadMaterial HeadMaterial { get; set; }
         public double RotationAngle { get; set; } = 0;
         public IShape Shape { get; set; }
+        public StrainTuple HistoryPrestrain { get; set; }
+
         public ShapeTriangulationLogicOption(IShapeNdmPrimitive primitive, ITriangulationOptions triangulationOptions)
         {
             Center = primitive.Center;
@@ -31,7 +33,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             TriangulationOptions = triangulationOptions;
             Shape = primitive.Shape;
             HeadMaterial = primitive.NdmElement.HeadMaterial;
-            Prestrain = ForceTupleServiceLogic.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
+            InitialPrestrain = primitive.NdmElement.UsersPrestrain as StrainTuple;
+            HistoryPrestrain = ForceTupleServiceLogic.SumTuples(primitive.NdmElement.HistoryPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
         }
     }
 }

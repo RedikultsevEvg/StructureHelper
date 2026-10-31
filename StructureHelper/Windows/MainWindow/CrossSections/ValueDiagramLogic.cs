@@ -17,7 +17,7 @@ namespace StructureHelper.Windows.MainWindow.CrossSections
     internal class ValueDiagramLogic
     {
         private IValueDiagramCalculatorResult valueDiagramResult;
-        private List<ForceResultFunc> resultFuncs = [];
+        private List<ResultFuncByStrainMatrix> resultFuncs = [];
         private List<string> labels;
 
         public ValueDiagramLogic(IValueDiagramCalculatorResult valueDiagramResult)
@@ -27,8 +27,8 @@ namespace StructureHelper.Windows.MainWindow.CrossSections
 
         internal void Show()
         {
-            resultFuncs.AddRange(ForceResultFuncFactory.GetResultFuncs(FuncsTypes.Strain));
-            resultFuncs.AddRange(ForceResultFuncFactory.GetResultFuncs(FuncsTypes.Stress));
+            resultFuncs.AddRange(NdmStressStrainResultFuncFactory.GetResultFuncs(FuncsTypes.Strain));
+            resultFuncs.AddRange(NdmStressStrainResultFuncFactory.GetResultFuncs(FuncsTypes.Stress));
             GetLabels();
             if (valueDiagramResult.IsValid == false ||
                 valueDiagramResult.ForceTupleResults
@@ -209,7 +209,7 @@ namespace StructureHelper.Windows.MainWindow.CrossSections
             }
         }
 
-        private double GetValueByPoint(IStrainMatrix strainMatrix, INdmPrimitive primitive, IPoint2D point, ForceResultFunc resultFunc)
+        private double GetValueByPoint(IStrainMatrix strainMatrix, INdmPrimitive primitive, IPoint2D point, ResultFuncByStrainMatrix resultFunc)
         {
             var logic = new GetMoqNdmLogic();
             var moqNdm = logic.GetMockNdm(primitive, valueDiagramResult.InputData.StateTermPair, point);

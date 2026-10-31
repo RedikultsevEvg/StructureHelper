@@ -1,4 +1,4 @@
-﻿<Window x:Class="StructureHelper.Windows.LoadHistory.HistoryCalculatorResultView"
+<Window x:Class="StructureHelper.Windows.LoadHistory.HistoryCalculatorResultView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -21,6 +21,16 @@
                         <ContentControl ContentTemplate="{DynamicResource IsoFieldResult}"/>
                     </Viewbox>
                 </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowPrestrainFieldCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show prestrain contours"
+                                                IconContent="{StaticResource PrestrainFieldResult}"
+                                                DescriptionText="Show field of prestrain"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource PrestrainFieldResult}"/>
+                    </Viewbox>
+                </Button>
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowGraphsCommand}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Show moment-curvature diagram"
@@ -29,6 +39,38 @@
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource MomentCurvatureDiagram}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+            <ToolBar Name="ResultOperations">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowDetailsCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show details"
+                                                IconContent="{StaticResource InfoTable}"
+                                                DescriptionText="Show achieved accuracy, number of iterations, forces and curvatures of the selected result"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource InfoTable}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding CopyToClipboardCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Copy to clipboard"
+                                                IconContent="{StaticResource CopyToClipboard}"
+                                                DescriptionText="Copy all results, or only the selected result, as tab-separated text"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource CopyToClipboard}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ExportToExcelCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Export to Excel"
+                                                IconContent="{StaticResource ExportToXLS}"
+                                                DescriptionText="Export all results to a new Excel workbook"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource ExportToXLS}"/>
                     </Viewbox>
                 </Button>
             </ToolBar>

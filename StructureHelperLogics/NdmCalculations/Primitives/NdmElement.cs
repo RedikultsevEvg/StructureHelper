@@ -26,6 +26,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// <inheritdoc/>
         public IForceTuple AutoPrestrain { get; } = new StrainTuple();
 
+        public IForceTuple HistoryPrestrain { get; } = new StrainTuple();
+
         public NdmElement(Guid id)
         {
             Id = id;

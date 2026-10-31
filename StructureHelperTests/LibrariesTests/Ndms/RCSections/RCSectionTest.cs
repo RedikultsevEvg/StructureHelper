@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Materials;
+using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Materials.MaterialBuilders;
 using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
@@ -80,7 +80,7 @@ namespace LoaderCalculator.Tests.FunctionalTests.SectionTests
             IStrainMatrix prestrainMatrix = new StrainMatrix { Kx = prestrainKx, Ky = prestrainKy, EpsZ = prestrainEpsZ };
             ndmList.AddRange(GetConcreteNdms(width, height));
             var reinforcement = GetReinforcementNdms(width, height, topArea, bottomArea);
-            NdmTransform.SetPrestrain(reinforcement, prestrainMatrix);
+            NdmTransform.SetPrestrain(reinforcement, prestrainMatrix, PrestrainTypes.Initial);
             ndmList.AddRange(reinforcement);
             var loaderData = new LoaderOptions
             {

@@ -11,6 +11,6 @@ namespace StructureHelperLogics.Models.LoadHistory
         IHistoryCalculator HistoryCalculator { get; }
         List<IConstructionStage> ConstructionStages { get; }
         IAccuracy Accuracy { get; set; }
-        bool CheckStainLimit { get; set; }
+        bool CheckStrainLimit { get; set; }
     }
 }

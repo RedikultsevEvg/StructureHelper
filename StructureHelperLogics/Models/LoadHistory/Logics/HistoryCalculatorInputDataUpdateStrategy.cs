@@ -19,7 +19,7 @@ namespace StructureHelperLogics.Models.LoadHistory
             CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
             CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            targetObject.CheckStainLimit = sourceObject.CheckStainLimit;
+            targetObject.CheckStrainLimit = sourceObject.CheckStrainLimit;
             if (UpdateChildren == true)
             {
                 CheckObject.ThrowIfNull(sourceObject.Accuracy);

@@ -10,7 +10,7 @@ namespace StructureHelperLogics.Models.LoadHistory
         public Guid Id { get; }
         public List<IConstructionStage> ConstructionStages { get; } = [];
         public IAccuracy Accuracy { get; set; } = new Accuracy() { IterationAccuracy = 0.001, MaxIterationCount = 1000 };
-        public bool CheckStainLimit { get; set; } = true;
+        public bool CheckStrainLimit { get; set; } = true;
 
         public IHistoryCalculator HistoryCalculator { get; }
 

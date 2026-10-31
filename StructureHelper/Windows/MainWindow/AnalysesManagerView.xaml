@@ -1,4 +1,4 @@
-﻿<Window x:Class="StructureHelper.Windows.MainWindow.AnalysesManagerView"
+<Window x:Class="StructureHelper.Windows.MainWindow.AnalysesManagerView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -25,6 +25,9 @@
                     <MenuItem Header="Save" Command="{Binding FileSave}"/>
                     <MenuItem Header="Save As" Command="{Binding FileSaveAs}"/>
                     <MenuItem Header="Open Recent file..." Command="{Binding OpenRecentFileCommand}"/>
+                </MenuItem>
+                <MenuItem Header="Tools">
+                    <MenuItem Header="Points..." Command="{Binding ShowPointsCommand}"/>
                 </MenuItem>
             </Menu>
             <ToolBarTray DockPanel.Dock="Top">

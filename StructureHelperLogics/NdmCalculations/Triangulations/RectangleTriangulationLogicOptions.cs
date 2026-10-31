@@ -20,12 +20,13 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public IRectangleShape Rectangle { get; }
 
         /// <inheritdoc />
-        public StrainTuple Prestrain { get; set; }
+        public StrainTuple InitialPrestrain { get; set; } = new StrainTuple();
         public ITriangulationOptions TriangulationOptions { get; set; }
         public IHeadMaterial HeadMaterial { get; set; }
 
         public IDivisionSize DivisionSize { get; } = new DivisionSize(Guid.Empty);
         public IShape Shape { get; set; }
+        public StrainTuple HistoryPrestrain { get; set; } = new StrainTuple();
 
         public RectangleTriangulationLogicOptions(IPoint2D center, IRectangleShape rectangle, double ndmMaxSize, int ndmMinDivision)
         {
@@ -33,7 +34,6 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             Rectangle = rectangle;
             DivisionSize.NdmMaxSize = ndmMaxSize;
             DivisionSize.NdmMinDivision = ndmMinDivision;
-            Prestrain = new StrainTuple();
         }
 
         public RectangleTriangulationLogicOptions(IRectangleNdmPrimitive primitive)
@@ -44,7 +44,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             DivisionSize.NdmMaxSize = primitive.DivisionSize.NdmMaxSize;
             DivisionSize.NdmMinDivision = primitive.DivisionSize.NdmMinDivision;
             HeadMaterial = primitive.NdmElement.HeadMaterial;
-            Prestrain = ForceTupleServiceLogic.SumTuples(primitive.NdmElement.UsersPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
+            InitialPrestrain = primitive.NdmElement.UsersPrestrain as StrainTuple;
+            HistoryPrestrain = ForceTupleServiceLogic.SumTuples(primitive.NdmElement.HistoryPrestrain, primitive.NdmElement.AutoPrestrain) as StrainTuple;
         }
     }
 }

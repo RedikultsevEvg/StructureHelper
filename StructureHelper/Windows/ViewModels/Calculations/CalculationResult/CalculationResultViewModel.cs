@@ -50,7 +50,7 @@ namespace StructureHelper.Windows.ViewModels.Calculations.CalculationResult
         private void ShowIsoField()
         {
             IStrainMatrix strainMatrix = SelectedResult.LoaderResults.ForceStrainPair.StrainMatrix;
-            var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, ForceResultFuncFactory.GetResultFuncs());
+            var primitiveSets = ShowIsoFieldResult.GetPrimitiveSets(strainMatrix, ndms, NdmStressStrainResultFuncFactory.GetResultFuncs());
             isoFieldReport = new IsoFieldReport(primitiveSets);
             isoFieldReport.Show();
         }

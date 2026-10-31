@@ -5,6 +5,7 @@ using StructureHelper.Services.Reports.CalculationReports;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
 using StructureHelperCommon.Models.States;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,13 +20,36 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         public IStateCalcTermPair StateCalcTermPair { get; set; }
         public IStrainMatrix StrainMatrix { get; set; }
 
-        public void ShowIsoField2D()
+        public void ShowStressStrainField2D()
         {
             if (SelectPrimitives() == true)
             {
                 GetNdms();
                 ShowIsoField();
             }
+        }
+
+        public void ShowPrestrainField2D()
+        {
+            if (SelectPrimitives() == true)
+            {
+                GetNdms();
+                ShowPrestrainField();
+            }
+        }
+
+        private void ShowPrestrainField()
+        {
+            SelectedPrimitiveSet selectedPrimitiveSet = new()
+            {
+                AllPrimitives = Primitives,
+                SelectedPrimitives = selectedNdmPrimitives.ToList(),
+                StateCalcTermPair = StateCalcTermPair,
+                Ndms = [.. ndms],
+                StrainMatrix = StrainMatrix
+            };
+            Contour2DNdmPrestrainReport report = new(selectedPrimitiveSet);
+            report.Show();
         }
 
         private void ShowIsoField()
@@ -38,7 +62,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 Ndms = [.. ndms],
                 StrainMatrix = StrainMatrix
             };
-            IsoField2DReport report = new(selectedPrimitiveSet);
+            Contour2DNdmStressStrainReport report = new(selectedPrimitiveSet);
             report.Show();
         }
 

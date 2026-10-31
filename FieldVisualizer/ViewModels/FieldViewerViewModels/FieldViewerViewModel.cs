@@ -220,7 +220,7 @@ namespace FieldVisualizer.ViewModels.FieldViewerViewModels
             WorkPlaneBox.Height = (ScrolHeight - 50);
             var logic = new AddPrimitivesToCanvasLogic()
             {
-                WorkPlaneCanvas = WorkPlaneCanvas,
+                Canvas = WorkPlaneCanvas,
                 DX = dX,
                 DY = dY,
                 ValueRange = valueRange,

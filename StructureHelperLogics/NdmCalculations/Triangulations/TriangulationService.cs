@@ -6,9 +6,16 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 {
     internal static class TriangulationService
     {
-        public static void SetPrestrain(IEnumerable<INdm> ndmCollection, StrainTuple strainTuple)
+        public static void SetPrestrain(IEnumerable<INdm> ndmCollection, StrainTuple strainTuple, PrestrainTypes prestrainType)
         {
-            NdmTransform.SetPrestrain(ndmCollection, new StrainMatrix() { Kx = strainTuple.Mx, Ky = strainTuple.My, EpsZ = strainTuple.Nz });
+            StrainMatrix prestrainMatrix = new() { Kx = strainTuple.Mx, Ky = strainTuple.My, EpsZ = strainTuple.Nz };
+            NdmTransform.SetPrestrain(ndmCollection, prestrainMatrix, prestrainType);
+        }
+
+        public static void SetPrestrain(INdm ndm, StrainTuple strainTuple, PrestrainTypes prestrainType)
+        {
+            StrainMatrix prestrainMatrix = new() { Kx = strainTuple.Mx, Ky = strainTuple.My, EpsZ = strainTuple.Nz };
+            NdmTransform.SetPrestrain(ndm, prestrainMatrix, prestrainType);
         }
 
         public static void CommonTransform(IEnumerable<INdm> ndmCollection, IShapeTriangulationLogicOptions options)

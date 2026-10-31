@@ -11,13 +11,13 @@ namespace StructureHelper.Windows.Forces
 {
     public class ValueDelegatesLogic : ViewModelBase
     {
-        private readonly List<ForceResultFunc> resultFuncs;
-        public SelectItemsVM<ForceResultFunc> ResultFuncs { get; }
+        private readonly List<ResultFuncByStrainMatrix> resultFuncs;
+        public SelectItemsVM<ResultFuncByStrainMatrix> ResultFuncs { get; }
         public ValueDelegatesLogic()
         {
-            resultFuncs = new List<ForceResultFunc>();
-            resultFuncs.AddRange(ForceResultFuncFactory.GetResultFuncs(FuncsTypes.Full));
-            ResultFuncs = new SelectItemsVM<ForceResultFunc>(resultFuncs)
+            resultFuncs = new List<ResultFuncByStrainMatrix>();
+            resultFuncs.AddRange(NdmStressStrainResultFuncFactory.GetResultFuncs(FuncsTypes.Full));
+            ResultFuncs = new SelectItemsVM<ResultFuncByStrainMatrix>(resultFuncs)
             {
                 ShowButtons = true
             };

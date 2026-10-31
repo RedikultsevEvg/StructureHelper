@@ -5,14 +5,8 @@ using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
-using StructureHelperLogics.Models.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Services.NdmPrimitives
 {
@@ -45,7 +39,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
                 var newPrestrain = materialFunc(existingPrestrain) / material.InitModulus;
                 ndm.Material.Diagram = newMaterialFunc;
                 ndm.PrestrainLogic.DeleteAll();
-                ndm.PrestrainLogic.Add(PrestrainTypes.Prestrain, new StrainMatrix() { EpsZ = newPrestrain });
+                ndm.PrestrainLogic.Add(PrestrainTypes.Initial, new StrainMatrix() { EpsZ = newPrestrain });
             }
             return ndms;
         }

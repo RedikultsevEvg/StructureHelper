@@ -26,7 +26,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             TriangulationService.CommonTransform(ndmCollection, options);
             double angle = options.RotationAngle;
             NdmTransform.Rotate(ndmCollection, angle);
-            TriangulationService.SetPrestrain(ndmCollection, options.Prestrain);
+            TriangulationService.SetPrestrain(ndmCollection, options.InitialPrestrain, PrestrainTypes.Initial);
+            TriangulationService.SetPrestrain(ndmCollection, options.HistoryPrestrain, PrestrainTypes.History);
             return ndmCollection;
         }
 

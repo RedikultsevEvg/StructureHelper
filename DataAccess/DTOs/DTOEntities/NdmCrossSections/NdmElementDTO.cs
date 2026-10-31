@@ -17,6 +17,8 @@ namespace DataAccess.DTOs
         public IForceTuple UsersPrestrain { get; set; } = new ForceTupleDTO(Guid.NewGuid());
         [JsonIgnore]
         public IForceTuple AutoPrestrain { get; set; } = new ForceTupleDTO(Guid.NewGuid());
+        [JsonIgnore]
+        public IForceTuple HistoryPrestrain { get; set; } = new ForceTupleDTO(Guid.NewGuid());
 
         public NdmElementDTO(Guid id)
         {

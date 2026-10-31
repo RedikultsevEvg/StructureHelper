@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelper.Services.Reports.CalculationReports
 {
-    interface IIsoFieldReport : IReport
+    interface IContourReport : IReport
     {
     }
 }

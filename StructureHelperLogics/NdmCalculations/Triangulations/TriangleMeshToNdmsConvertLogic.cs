@@ -19,7 +19,8 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 TriangleNdm ndm = GetTriangleNdm(material, triangle);
                 ndmCollection.Add(ndm);
             }
-            TriangulationService.SetPrestrain(ndmCollection, Options.Prestrain);
+            TriangulationService.SetPrestrain(ndmCollection, Options.InitialPrestrain, PrestrainTypes.Initial);
+            TriangulationService.SetPrestrain(ndmCollection, Options.HistoryPrestrain, PrestrainTypes.History);
             return ndmCollection;
         }
 

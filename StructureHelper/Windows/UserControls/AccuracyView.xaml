@@ -1,0 +1,34 @@
+<UserControl x:Class="StructureHelper.Windows.UserControls.AccuracyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels"
+             xmlns:local="clr-namespace:StructureHelper.Windows.UserControls"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance vm:AccuracyViewModel}"
+             d:DesignHeight="120" d:DesignWidth="360">
+    <GroupBox Header="Accuracy" Padding="5">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="170"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Text="Required accuracy" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="5"
+                     Style="{StaticResource ValidatedError}"
+                     Text="{Binding IterationAccuracy, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Grid.Row="1" Text="Maximum iteration count" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="5"
+                     Style="{StaticResource ValidatedError}"
+                     Text="{Binding MaxIterationCount, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+    </GroupBox>
+</UserControl>

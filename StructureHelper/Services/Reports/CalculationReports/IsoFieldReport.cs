@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StructureHelper.Services.Reports.CalculationReports
 {
-    public class IsoFieldReport : IIsoFieldReport
+    public class IsoFieldReport : IContourReport
     {
         private IEnumerable<IPrimitiveSet> primitiveSets;
 

@@ -18,6 +18,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             var calcTerm = stateCalcTermPair.CalcTerm;
             var material = ndmPrimitive.NdmElement.HeadMaterial.GetLoaderMaterial(limitState, calcTerm);
             var userPrestrain = ndmPrimitive.NdmElement.UsersPrestrain;
+            var historyPrestrain = ndmPrimitive.NdmElement.HistoryPrestrain;
             var autoPrestrain = ndmPrimitive.NdmElement.AutoPrestrain;
             var ndm = new Ndm()
             {
@@ -26,13 +27,20 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 CenterY = point.Y,
                 Material = material,
             };
-            StrainMatrix prestrainMatrix = new()
+            StrainMatrix initialPrestrainMatrix = new()
             {
-                Kx = (userPrestrain.Mx + autoPrestrain.Mx),
-                Ky = (userPrestrain.My + autoPrestrain.My),
-                EpsZ = userPrestrain.Nz + autoPrestrain.Nz
+                Kx = userPrestrain.Mx,
+                Ky = userPrestrain.My,
+                EpsZ = userPrestrain.Nz
             };
-            ndm.PrestrainLogic.Add(PrestrainTypes.Prestrain, prestrainMatrix);
+            ndm.PrestrainLogic.Add(PrestrainTypes.Initial, initialPrestrainMatrix);
+            StrainMatrix autoPrestrainMatrix = new()
+            {
+                Kx = historyPrestrain.Mx + autoPrestrain.Mx,
+                Ky = historyPrestrain.My + autoPrestrain.My,
+                EpsZ = historyPrestrain.Nz + autoPrestrain.Nz
+            };
+            ndm.PrestrainLogic.Add(PrestrainTypes.History, autoPrestrainMatrix);
             return ndm;
         }
 
