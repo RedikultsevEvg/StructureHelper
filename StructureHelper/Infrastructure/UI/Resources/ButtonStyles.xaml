@@ -559,12 +559,43 @@
         </Canvas>
     </DataTemplate>
 
+    <DataTemplate x:Key="AllPrimitives">
+        <Canvas>
+            <Canvas.Children>
+                <Rectangle Canvas.Top="2" Canvas.Left="2" Height="10" Width="10" Fill="White" Stroke="DarkGray"/>
+                <Ellipse Canvas.Top="4" Canvas.Left="16" Height="10" Width="10" Fill="DarkGray" Stroke="DarkGray"/>
+                <Path Data="M 12 18 l 5 -5 l 5 5 z" Fill="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="MoveAll">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <ContentControl Canvas.Top="2" Canvas.Left="2" ContentTemplate="{DynamicResource AllPrimitives}"/>
+                <ContentControl Canvas.Top="7" Canvas.Left="4" ContentTemplate="{DynamicResource StraightArrow}"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="MoveSelected">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <CheckBox Canvas.Top="4" Canvas.Left="4" IsEnabled="False" IsChecked="True"/>
+                <ContentControl Canvas.Top="7" Canvas.Left="4" ContentTemplate="{DynamicResource StraightArrow}"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
     <DataTemplate x:Key="OkCancelButtons">
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{StaticResource CancelButton}" Command="{Binding CancelCommand}"/>
             <Button Style="{StaticResource OkButton}" Command="{Binding OkCommand}"/>
         </StackPanel>
     </DataTemplate>
+    
     <DataTemplate x:Key="RotatePolygon">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -574,6 +605,38 @@
             </Canvas.Children>
         </Canvas>
     </DataTemplate>
+
+    <DataTemplate x:Key="OffsetPolygon">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Path Data="M 4 4 L 16 4 L 16 16 L 4 16 Z" Stroke="DarkGray" StrokeThickness="1" Fill="Transparent"/>
+                <Path Data="M 2 2 L 18 2 L 18 18 L 2 18 Z" Stroke="Black" StrokeThickness="1.5" Fill="Transparent"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RotateAll">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <ContentControl Canvas.Top="2" Canvas.Left="2" ContentTemplate="{DynamicResource AllPrimitives}"/>
+                <Path Data="M 16 7 A 9 9 0 1 1 8 16" Stroke="Black" StrokeThickness="2" Fill="Transparent"/>
+                <Path Data="M 12 3 L 18 7 L 12 11 Z" Fill="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RotateSelected">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
+                <CheckBox Canvas.Top="4" Canvas.Left="4" IsEnabled="False" IsChecked="True"/>
+                <Path Data="M 16 7 A 9 9 0 1 1 8 16" Stroke="Black" StrokeThickness="2" Fill="Transparent"/>
+                <Path Data="M 12 3 L 18 7 L 12 11 Z" Fill="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
     <DataTemplate x:Key="PngImage">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
@@ -610,15 +673,14 @@
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
                 <ContentControl ContentTemplate="{DynamicResource IsoFieldResult}"/>
-                <ContentControl Margin="12,12,0,0" ContentTemplate="{DynamicResource Prestrain}">
+                <ContentControl Margin="9,9,0,0" ContentTemplate="{DynamicResource Prestrain}">
+                    <ContentControl.Effect>
+                        <DropShadowEffect Color="Black"/>
+                    </ContentControl.Effect>
                     <ContentControl.RenderTransform>
                         <ScaleTransform CenterX="0" CenterY="0" ScaleX="0.5" ScaleY="0.5"/>
                     </ContentControl.RenderTransform>
                 </ContentControl>
-                <!--<ContentControl ContentTemplate="{DynamicResource ButtonResultRectangle}"/>
-                <Path Margin="4" Data="M 0 0 h 20 A 20 20 90 0 1 0 24 z" Fill="Gray"/>
-                <Path Margin="4" Data="M 0 0 h 16 A 16 16 90 0 1 0 18 z" Fill="DarkGray"/>
-                <Path Margin="4" Data="M 0 0 h 10 A 10 10 90 0 1 0 10 z" Fill="LightGray"/>-->
             </Canvas.Children>
         </Canvas>
     </DataTemplate>

@@ -104,6 +104,16 @@
                             <ContentControl ContentTemplate="{StaticResource RotatePolygon}"/>
                         </Viewbox>
                     </Button>
+                    <Button Style="{DynamicResource ToolButton}" Command="{Binding OffsetCommand}">
+                        <Button.ToolTip>
+                            <uc:ButtonToolTipEh HeaderText="Offset polygon"
+                                        IconContent="{StaticResource OffsetPolygon}"
+                                        DescriptionText="Offsets the polygon edges by the specified distance"/>
+                        </Button.ToolTip>
+                        <Viewbox>
+                            <ContentControl ContentTemplate="{StaticResource OffsetPolygon}"/>
+                        </Viewbox>
+                    </Button>
                 </ToolBar>
                 <ToolBar Name="DxfOperation">
                     <Button Style="{DynamicResource ToolButton}" Command="{Binding ExportToDxfCommand}">

@@ -1,10 +1,12 @@
-﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
 using StructureHelper.Windows.PrimitiveTemplates.Factories;
 using StructureHelper.Windows.Services;
+using StructureHelper.Windows.Shapes;
 using StructureHelper.Windows.ViewModels.Errors;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -71,6 +73,11 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         public ICommand DeleteAllCommand => deletAllCommand ??= new RelayCommand(DeleteAll, o => Items.Count > 0);
 
+        public ICommand MoveAllCommand => moveAllCommand ??= new RelayCommand(MoveAll, o => Items.Count > 0);
+        public ICommand MoveSelectedCommand => moveSelectedCommand ??= new RelayCommand(MoveSelected, o => Items.Count > 0);
+        public ICommand RotateAllCommand => rotateAllCommand ??= new RelayCommand(RotateAll, o => Items.Count > 0);
+        public ICommand RotateSelectedCommand => rotateSelectedCommand ??= new RelayCommand(RotateSelected, o => Items.Count > 0);
+
         private void DeleteAll(object obj)
         {
             var dialogResult = MessageBox.Show("Delete all primitives?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -116,6 +123,96 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         {
             repository.Operations.Primitives.Remove(item.GetNdmPrimitive());
             Items.Remove(item);
+        }
+
+        private void MoveAll(object obj)
+        {
+            MovePrimitives(Items.Select(x => x.NdmPrimitive).ToList());
+        }
+
+        private void MoveSelected(object obj)
+        {
+            List<INdmPrimitive> primitives = GetSelectedPrimitives();
+            if (primitives.Count == 0)
+            {
+                return;
+            }
+            MovePrimitives(primitives);
+        }
+
+        private void MovePrimitives(IReadOnlyList<INdmPrimitive> primitives)
+        {
+            var viewModel = new MovePrimitivesViewModel();
+            var window = new MovePrimitivesView(viewModel);
+            if (window.ShowDialog() != true)
+            {
+                return;
+            }
+
+            foreach (INdmPrimitive primitive in primitives)
+            {
+                primitive.Center.X += viewModel.DeltaX;
+                primitive.Center.Y += viewModel.DeltaY;
+            }
+            Refresh();
+            OnPropertyChanged(nameof(Items));
+        }
+
+        private void RotateAll(object obj)
+        {
+            RotatePrimitives(Items.Select(x => x.NdmPrimitive).ToList());
+        }
+
+        private void RotateSelected(object obj)
+        {
+            List<INdmPrimitive> primitives = GetSelectedPrimitives();
+            if (primitives.Count == 0)
+            {
+                return;
+            }
+            RotatePrimitives(primitives);
+        }
+
+        private void RotatePrimitives(IReadOnlyList<INdmPrimitive> primitives)
+        {
+            var viewModel = new RotationAngleViewModel();
+            var window = new RotationAngleView(viewModel);
+            if (window.ShowDialog() != true)
+            {
+                return;
+            }
+
+            double angle = viewModel.AngleRadians;
+            double centerX = viewModel.CenterX;
+            double centerY = viewModel.CenterY;
+            double cos = Math.Cos(angle);
+            double sin = Math.Sin(angle);
+            foreach (INdmPrimitive primitive in primitives)
+            {
+                double dx = primitive.Center.X - centerX;
+                double dy = primitive.Center.Y - centerY;
+                primitive.Center.X = centerX + dx * cos - dy * sin;
+                primitive.Center.Y = centerY + dx * sin + dy * cos;
+                primitive.RotationAngle += angle;
+            }
+            Refresh();
+            OnPropertyChanged(nameof(Items));
+        }
+
+        private List<INdmPrimitive> GetSelectedPrimitives()
+        {
+            var viewModel = new SelectPrimitivesViewModel(repository.Primitives);
+            var window = new SelectPrimitivesView(viewModel);
+            window.ShowDialog();
+            if (window.DialogResult != true)
+            {
+                return [];
+            }
+
+            return viewModel.Items.CollectionItems
+                .Where(x => x.IsSelected)
+                .Select(x => x.Item.GetNdmPrimitive())
+                .ToList();
         }
 
         private void SetMaterialToPrimitives(object obj)
@@ -266,6 +363,14 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
         }
 
+        public ICommand CopyByAngleCommand => copyByAngleCommand ??= new RelayCommand(
+            CopyByAngle,
+            o => SelectedItem != null);
+
+        public ICommand CopyByArcLengthCommand => copyByArcLengthCommand ??= new RelayCommand(
+            CopyByArcLength,
+            o => SelectedItem != null);
+
         private void CopyToSelectedItem(INdmPrimitive ndmPrimitive)
         {
             var copyByParameterVM = new CopyByParameterViewModel(ndmPrimitive.Center);
@@ -291,6 +396,102 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             OnPropertyChanged(nameof(Items));
             OnPropertyChanged(nameof(PrimitivesCount));
             return primitiveBase;
+        }
+
+        private void CopyByAngle(object commandParameter)
+        {
+            if (SelectedItem is null)
+            {
+                return;
+            }
+
+            var viewModel = new CopyByAngleViewModel();
+            var window = new CopyByAngleView(viewModel);
+            if (window.ShowDialog() != true)
+            {
+                return;
+            }
+
+            SafetyProcessor.RunSafeProcess(
+                () => CopySelectedByAngle(viewModel),
+                "Error of copy by angle");
+        }
+
+        private void CopySelectedByAngle(CopyByAngleViewModel viewModel)
+        {
+            INdmPrimitive source = SelectedItem.NdmPrimitive;
+            double sourceX = source.Center.X;
+            double sourceY = source.Center.Y;
+            double sourceRotation = source.RotationAngle;
+
+            for (int copyIndex = 0; copyIndex < viewModel.CopyCount; copyIndex++)
+            {
+                double angle = viewModel.StartAngleRadians + copyIndex * viewModel.AngleStepRadians;
+                double cos = Math.Cos(angle);
+                double sin = Math.Sin(angle);
+                double dx = sourceX - viewModel.CenterX;
+                double dy = sourceY - viewModel.CenterY;
+
+                PrimitiveBase copy = CopySelectedItem(source);
+                copy.CenterX = viewModel.CenterX + dx * cos - dy * sin;
+                copy.CenterY = viewModel.CenterY + dx * sin + dy * cos;
+                copy.NdmPrimitive.RotationAngle = sourceRotation + angle;
+            }
+
+            Refresh();
+            OnPropertyChanged(nameof(Items));
+        }
+
+        private void CopyByArcLength(object commandParameter)
+        {
+            if (SelectedItem is null)
+            {
+                return;
+            }
+
+            var viewModel = new CopyByArcLengthViewModel();
+            var window = new CopyByArcLengthView(viewModel);
+            if (window.ShowDialog() != true)
+            {
+                return;
+            }
+
+            SafetyProcessor.RunSafeProcess(
+                () => CopySelectedByArcLength(viewModel),
+                "Error of copy along arc");
+        }
+
+        private void CopySelectedByArcLength(CopyByArcLengthViewModel viewModel)
+        {
+            INdmPrimitive source = SelectedItem.NdmPrimitive;
+            double sourceX = source.Center.X;
+            double sourceY = source.Center.Y;
+            double sourceRotation = source.RotationAngle;
+            double dx = sourceX - viewModel.CenterX;
+            double dy = sourceY - viewModel.CenterY;
+            double radius = Math.Sqrt(dx * dx + dy * dy);
+            if (radius <= 1e-12)
+            {
+                throw new StructureHelperException("Rotation center must not coincide with the primitive center.");
+            }
+
+            double direction = viewModel.IsClockwise ? -1d : 1d;
+            double angularStep = direction * viewModel.ArcLength / radius;
+
+            for (int copyIndex = 0; copyIndex < viewModel.CopyCount; copyIndex++)
+            {
+                double angle = viewModel.StartAngleRadians + copyIndex * angularStep;
+                double cos = Math.Cos(angle);
+                double sin = Math.Sin(angle);
+
+                PrimitiveBase copy = CopySelectedItem(source);
+                copy.CenterX = viewModel.CenterX + dx * cos - dy * sin;
+                copy.CenterY = viewModel.CenterY + dx * sin + dy * cos;
+                copy.NdmPrimitive.RotationAngle = sourceRotation + angle;
+            }
+
+            Refresh();
+            OnPropertyChanged(nameof(Items));
         }
 
         public int PrimitivesCount => repository.Primitives.Count();
@@ -375,5 +576,11 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         }
 
         private RelayCommand deleteSelectedCommand;
+        private RelayCommand moveAllCommand;
+        private RelayCommand moveSelectedCommand;
+        private RelayCommand rotateAllCommand;
+        private RelayCommand rotateSelectedCommand;
+        private RelayCommand copyByAngleCommand;
+        private RelayCommand copyByArcLengthCommand;
     }
 }

@@ -19,8 +19,8 @@ namespace StructureHelper.Services.Reports.CalculationReports
         {
             viewModel = new()
             {
-                ShadedPrimitives = GetPrimitivesByNdmPrimitivesLogic.GetShadedPrimitives(primitiveSet.AllPrimitives),
-                PrimitiveSets = ShowIsoFieldResult.GetPrimitiveSets(primitiveSet.StrainMatrix, primitiveSet.Ndms, NdmStressStrainResultFuncFactory.GetResultFuncs())
+                PrimitiveSets = ShowIsoFieldResult.GetPrimitiveSets(primitiveSet.StrainMatrix, primitiveSet.Ndms, NdmStressStrainResultFuncFactory.GetResultFuncs()),
+                ShadedPrimitives = GetPrimitivesByNdmPrimitivesLogic.GetShadedPrimitives(primitiveSet.ContourPrimitives),
             };
             view = new(viewModel);
         }

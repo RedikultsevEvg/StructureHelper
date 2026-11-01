@@ -26,7 +26,7 @@
                     <MenuItem Header="Save As" Command="{Binding FileSaveAs}"/>
                     <MenuItem Header="Open Recent file..." Command="{Binding OpenRecentFileCommand}"/>
                 </MenuItem>
-                <MenuItem Header="Tools">
+                <MenuItem Header="Tools" Visibility="Hidden">
                     <MenuItem Header="Points..." Command="{Binding ShowPointsCommand}"/>
                 </MenuItem>
             </Menu>

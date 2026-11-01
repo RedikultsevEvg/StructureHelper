@@ -63,6 +63,7 @@ namespace StructureHelper.Windows.Shapes
         public ICommand FlipVerticalCommand => flipVerticalCommand ??= new RelayCommand(FlipVertical);
         public ICommand FlipHorizontalCommand => flipHorizontalCommand ??= new RelayCommand(FlipHorizontal);
         public ICommand RotateCommand => rotateCommand ??= new RelayCommand(RotatePolygon);
+        public ICommand OffsetCommand => offsetCommand ??= new RelayCommand(OffsetPolygon);
 
         public ICommand ImportFromDxfCommand => importFromDxfCommand ??= new RelayCommand(ImportFromDxf);
         public ICommand FileDroppedCommand => fileDroppedCommand ??= new RelayCommand(OnFileDropped);
@@ -175,23 +176,46 @@ namespace StructureHelper.Windows.Shapes
 
         private void RotatePolygon(object commandParameter)
         {
-            var angleViewModel = new RotationAngleViewModel();
+            var angleViewModel = new RotationAngleViewModel(localCenter.X, localCenter.Y);
             var window = new RotationAngleView(angleViewModel);
             if (window.ShowDialog() != true)
             {
                 return;
             }
             SafetyProcessor.RunSafeProcess(
-                () => ApplyRotation(angleViewModel.AngleRadians),
+                () => ApplyRotation(angleViewModel.AngleRadians, angleViewModel.CenterX, angleViewModel.CenterY),
                 "Error of rotation of polygon");
         }
 
-        private void ApplyRotation(double angleRadians)
+        private void ApplyRotation(double angleRadians, double centerX, double centerY)
         {
-            var rotateStrategy = new LinePolygonRotateStrategy(angleRadians, localCenter.X, localCenter.Y);
+            var rotateStrategy = new LinePolygonRotateStrategy(angleRadians, centerX, centerY);
             ILinePolygonShape rotatedPolygon = rotateStrategy.Convert(polygonShape);
             var updateStrategy = new LinePolygonShapeUpdateStrategy();
             updateStrategy.Update(polygonShape, rotatedPolygon);
+            ReloadVertices();
+            Redraw(null);
+        }
+
+        private void OffsetPolygon(object commandParameter)
+        {
+            var viewModel = new PolygonOffsetViewModel();
+            var window = new PolygonOffsetView(viewModel);
+            if (window.ShowDialog() != true)
+            {
+                return;
+            }
+            SafetyProcessor.RunSafeProcess(
+                () => ApplyOffset(viewModel.SignedDistance),
+                "Error of offset of polygon");
+        }
+
+        private void ApplyOffset(double distance)
+        {
+            var offsetStrategy = new LinePolygonOffsetStrategy(distance);
+            ILinePolygonShape offsetPolygon = offsetStrategy.Convert(polygonShape);
+            var updateStrategy = new LinePolygonShapeUpdateStrategy();
+            updateStrategy.Update(polygonShape, offsetPolygon);
             ReloadVertices();
             Redraw(null);
         }
@@ -275,6 +299,7 @@ namespace StructureHelper.Windows.Shapes
         private RelayCommand flipVerticalCommand;
         private RelayCommand flipHorizontalCommand;
         private RelayCommand rotateCommand;
+        private RelayCommand offsetCommand;
         private static Polyline2D polyline;
         private RelayCommand fileDroppedCommand;
         private string fileName;

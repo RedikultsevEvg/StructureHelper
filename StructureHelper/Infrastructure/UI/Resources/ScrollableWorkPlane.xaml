@@ -20,6 +20,16 @@
                 <Image Width="16" Height="16" Source="/Windows/MainWindow/Copy.png" />
             </MenuItem.Icon>
         </MenuItem>
+        <MenuItem Header="Copy By Angle" Command="{Binding CopyByAngleCommand}">
+            <MenuItem.Icon>
+                <Image Width="16" Height="16" Source="/Windows/MainWindow/Copy.png" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="Copy By Arc Length" Command="{Binding CopyByArcLengthCommand}">
+            <MenuItem.Icon>
+                <Image Width="16" Height="16" Source="/Windows/MainWindow/Copy.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Delete" Command="{Binding Delete}">
             <MenuItem.Icon>
                 <Image Width="16" Height="16" Source="/Windows/MainWindow/Delete.png" />

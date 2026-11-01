@@ -1,4 +1,4 @@
-﻿<Window x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultsView"
+<Window x:Class="StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalculatorViews.ForceResultsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -109,6 +109,16 @@
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource IsoFieldResult}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowPrestrainFieldCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Show prestrain contours"
+                                                IconContent="{StaticResource PrestrainFieldResult}"
+                                                DescriptionText="Show field of prestrain"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{DynamicResource PrestrainFieldResult}"/>
                     </Viewbox>
                 </Button>
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding ShowIsoField3DCommand}">

@@ -5,7 +5,6 @@ using StructureHelper.Services.Reports.CalculationReports;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
 using StructureHelperCommon.Models.States;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,6 +13,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
     internal class ShowIsoFieldLogic
     {
         private List<INdmPrimitive> selectedNdmPrimitives;
+        private List<INdmPrimitive> selectedContourPrimitives;
         private List<INdm> ndms;
 
         public List<INdmPrimitive> Primitives { get; set; }
@@ -40,28 +40,27 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private void ShowPrestrainField()
         {
-            SelectedPrimitiveSet selectedPrimitiveSet = new()
-            {
-                AllPrimitives = Primitives,
-                SelectedPrimitives = selectedNdmPrimitives.ToList(),
-                StateCalcTermPair = StateCalcTermPair,
-                Ndms = [.. ndms],
-                StrainMatrix = StrainMatrix
-            };
+            SelectedPrimitiveSet selectedPrimitiveSet = GetPrimitiveSet();
             Contour2DNdmPrestrainReport report = new(selectedPrimitiveSet);
             report.Show();
         }
 
-        private void ShowIsoField()
+        private SelectedPrimitiveSet GetPrimitiveSet()
         {
-            SelectedPrimitiveSet selectedPrimitiveSet = new()
+            return new()
             {
                 AllPrimitives = Primitives,
                 SelectedPrimitives = selectedNdmPrimitives.ToList(),
+                ContourPrimitives = selectedContourPrimitives.ToList(),
                 StateCalcTermPair = StateCalcTermPair,
                 Ndms = [.. ndms],
                 StrainMatrix = StrainMatrix
             };
+        }
+
+        private void ShowIsoField()
+        {
+            SelectedPrimitiveSet selectedPrimitiveSet = GetPrimitiveSet();
             Contour2DNdmStressStrainReport report = new(selectedPrimitiveSet);
             report.Show();
         }
@@ -80,12 +79,19 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         private bool SelectPrimitives()
         {
-            var vm = new SelectPrimitivesViewModel(Primitives);
-            var wnd = new SelectPrimitivesView(vm);
+            var vm = new SelectPrimitivesForShowAndContoursViewModel(Primitives);
+            vm.ShowItems.SelectAllCommand.Execute(true);
+            vm.ContoursItems.UnSelectAllCommand.Execute(true);
+            var wnd = new SelectPrimitivesForShowAndContoursView(vm);
             wnd.ShowDialog();
             if (wnd.DialogResult == true)
             {
-                selectedNdmPrimitives = vm.Items
+                selectedNdmPrimitives = vm.ShowItems
+                    .CollectionItems
+                    .Where(x => x.IsSelected == true)
+                    .Select(x => x.Item.GetNdmPrimitive())
+                    .ToList();
+                selectedContourPrimitives = vm.ContoursItems
                     .CollectionItems
                     .Where(x => x.IsSelected == true)
                     .Select(x => x.Item.GetNdmPrimitive())

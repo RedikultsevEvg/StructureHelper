@@ -1,10 +1,13 @@
-﻿using LiveCharts;
+using LiveCharts;
 using LiveCharts.Wpf;
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.Converters.Units;
 using StructureHelper.Models.Materials;
+using StructureHelper.Services.Exports;
 using StructureHelper.Windows.ViewModels;
+using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Services.FileServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +36,7 @@ namespace StructureHelper.Windows.Graphs
         private ICommand getAreaCommand;
         private RelayCommand saveImageCommand;
         private RelayCommand copyToClipboardCommand;
+        private RelayCommand exportToExcelCommand;
         private IFrameWorkElementServiseLogic frameWorkElementServiseLogic = new FrameWorkElementServiseLogic();
 
         //public string MaterialName => material.Name;
@@ -109,6 +113,13 @@ namespace StructureHelper.Windows.Graphs
         public ICommand CopyToClipboardCommand
         {
             get => copyToClipboardCommand ??= new RelayCommand(o => frameWorkElementServiseLogic.CopyImageToClipboard(MainChart));
+        }
+
+        public ICommand ExportToExcelCommand
+        {
+            get => exportToExcelCommand ??= new RelayCommand(
+                o => ExportToExcel(),
+                o => SeriesCollection is not null && SeriesCollection.OfType<LineSeries>().Any());
         }
 
 
@@ -274,6 +285,44 @@ namespace StructureHelper.Windows.Graphs
             SetLines();
             OnPropertyChanged(nameof(SeriesCollection));
             OnPropertyChanged(nameof(Labels));
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+        private void ExportToExcel()
+        {
+            List<LineSeries> series = SeriesCollection?
+                .OfType<LineSeries>()
+                .ToList() ?? new List<LineSeries>();
+            if (series.Count == 0)
+            {
+                return;
+            }
+
+            var saver = new FileDialogSaver
+            {
+                InputData = new SaveDialogInputData
+                {
+                    FilterString = "Excel workbook (*.xlsx)|*.xlsx"
+                }
+            };
+            SaveFileResult saveResult = saver.SaveFile();
+            if (saveResult.IsValid == false || string.IsNullOrWhiteSpace(saveResult.FileName))
+            {
+                return;
+            }
+
+            try
+            {
+                XlsxTableWriter.Write(
+                    saveResult.FileName,
+                    "Material diagrams",
+                    MaterialDiagramTableBuilder.GetHeaders(series),
+                    MaterialDiagramTableBuilder.GetRows(Labels ?? new List<string>(), series));
+            }
+            catch (Exception ex)
+            {
+                SafetyProcessor.ShowMessage("Error of exporting of material diagrams", $"{ex}");
+            }
         }
 
         private bool IsDrawPossible()

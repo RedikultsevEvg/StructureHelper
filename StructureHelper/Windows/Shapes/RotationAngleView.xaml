@@ -6,11 +6,22 @@
         xmlns:local="clr-namespace:StructureHelper.Windows.Shapes"
         d:DataContext="{d:DesignInstance local:RotationAngleViewModel}"
         mc:Ignorable="d"
-        Title="Rotate polygon" Height="150" Width="320"
-        MinHeight="120" MinWidth="280" ResizeMode="NoResize"
+        Title="Rotate" Height="300" Width="440"
+        MinHeight="270" MinWidth="360" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="QuickAngleButton" TargetType="Button" BasedOn="{StaticResource CommandButton}">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="3,0,3,0"/>
+        </Style>
+    </Window.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -22,9 +33,58 @@
         <TextBlock Text="Angle, degrees:" VerticalAlignment="Center"/>
         <TextBox Grid.Column="1" Margin="5"
                  Style="{StaticResource ValidatedError}"
-                 Text="{Binding AngleDegrees, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"/>
+                 KeyDown="NumericTextBox_KeyDown"
+                 Text="{Binding AngleDegrees, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
 
-        <ContentControl Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom"
+        <Grid Grid.Row="1" Grid.Column="1" Margin="0,2,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource QuickAngleButton}" Content="15°" Command="{Binding SetAngleCommand}" CommandParameter="15"/>
+            <Button Grid.Column="1" Style="{StaticResource QuickAngleButton}" Content="30°" Command="{Binding SetAngleCommand}" CommandParameter="30"/>
+            <Button Grid.Column="2" Style="{StaticResource QuickAngleButton}" Content="45°" Command="{Binding SetAngleCommand}" CommandParameter="45"/>
+            <Button Grid.Column="3" Style="{StaticResource QuickAngleButton}" Content="60°" Command="{Binding SetAngleCommand}" CommandParameter="60"/>
+            <Button Grid.Column="4" Style="{StaticResource QuickAngleButton}" Content="75°" Command="{Binding SetAngleCommand}" CommandParameter="75"/>
+            <Button Grid.Column="5" Style="{StaticResource QuickAngleButton}" Content="90°" Command="{Binding SetAngleCommand}" CommandParameter="90"/>
+        </Grid>
+
+        <TextBlock Grid.Row="2" Text="Rotation center:" VerticalAlignment="Top" Margin="0,10,0,0"/>
+        <Grid Grid.Row="2" Grid.Column="1" Margin="5,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="X, mm:" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Margin="0,2,0,2"
+                     Style="{StaticResource ValidatedError}"
+                     KeyDown="NumericTextBox_KeyDown"
+                     Text="{Binding CenterX, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+            <TextBlock Grid.Row="1" Text="Y, mm:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="0,2,0,2"
+                     Style="{StaticResource ValidatedError}"
+                     KeyDown="NumericTextBox_KeyDown"
+                     Text="{Binding CenterY, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        </Grid>
+
+        <TextBlock Grid.Row="3" Text="Direction:" VerticalAlignment="Center" Margin="0,10,0,0"/>
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Vertical" Margin="5,10,0,0">
+            <RadioButton Content="Clock wise" GroupName="RotationDirection" Margin="0,0,20,10"
+                         IsChecked="{Binding IsClockwise, Converter={StaticResource BooleanToRadioButtonConverter}, ConverterParameter=true, Mode=TwoWay}"/>
+            <RadioButton Content="Counter clock wise" GroupName="RotationDirection"
+                         IsChecked="{Binding IsClockwise, Converter={StaticResource BooleanToRadioButtonConverter}, ConverterParameter=false, Mode=TwoWay}"/>
+        </StackPanel>
+
+        <ContentControl Grid.Row="4" Grid.ColumnSpan="2" VerticalAlignment="Bottom"
                         ContentTemplate="{StaticResource OkCancelButtons}"
                         Content="{Binding}"/>
     </Grid>

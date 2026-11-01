@@ -1,4 +1,4 @@
-﻿<Window x:Class="StructureHelper.Windows.MainWindow.Materials.MaterialDiagramView"
+<Window x:Class="StructureHelper.Windows.MainWindow.Materials.MaterialDiagramView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -41,6 +41,16 @@
                     </Button.ToolTip>
                     <Viewbox>
                         <ContentControl ContentTemplate="{DynamicResource PngImage}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding ExportToExcelCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Export diagrams to Excel"
+                                                IconContent="{StaticResource ExportToXLS}"
+                                                DescriptionText="Exports strain and stress values of all diagrams to *.xlsx file"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource ExportToXLS}"/>
                     </Viewbox>
                 </Button>
             </ToolBar>

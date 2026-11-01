@@ -16,4 +16,5 @@
     <convertersUnits:CrackWidth x:Key="CrackWidth"/>
     <convertersUnits:DistributedLoad x:Key="DistributedLoadConverter"/>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <convertersCommon:BooleanToRadioButtonConverter x:Key="BooleanToRadioButtonConverter"/>
 </ResourceDictionary>

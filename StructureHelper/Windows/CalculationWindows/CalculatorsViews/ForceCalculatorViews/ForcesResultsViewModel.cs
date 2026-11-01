@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Matrix;
+using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Infrastructure;
 using StructureHelper.Services.Exports;
@@ -56,6 +56,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
 
         public IExtendedForceTupleCalculatorResult? SelectedResult { get; set; }
         private ICommand? showIsoFieldCommand;
+        private ICommand? showPrestrainFieldCommand;
         private ICommand? exportToCSVCommand;
         private ICommand? interpolateCommand;
         private ICommand? setPrestrainCommand;
@@ -132,7 +133,19 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 return showIsoFieldCommand ??
                 (showIsoFieldCommand = new RelayCommand(o =>
                 {
-                    SafetyProcessor.RunSafeProcess(ShowIsoField, "Error of showing of contours");
+                    SafetyProcessor.RunSafeProcess(ShowStressStrainField, "Error of showing of contours");
+                }, o => SelectedResult != null && SelectedResult.IsValid));
+            }
+        }
+
+        public ICommand ShowPrestrainFieldCommand
+        {
+            get
+            {
+                return showPrestrainFieldCommand ??
+                (showPrestrainFieldCommand = new RelayCommand(o =>
+                {
+                    SafetyProcessor.RunSafeProcess(ShowPrestrainField, "Error of showing of contours");
                 }, o => SelectedResult != null && SelectedResult.IsValid));
             }
         }
@@ -459,7 +472,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             ndmPrimitives = forceCalculator.InputData.Primitives;
         }
 
-        private void ShowIsoField()
+        private void ShowStressStrainField()
         {
             var logic = new ShowIsoFieldLogic()
             {
@@ -468,6 +481,17 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
                 StrainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.StrainMatrix
             };
             logic.ShowStressStrainField2D();
+        }
+
+        private void ShowPrestrainField()
+        {
+            var logic = new ShowIsoFieldLogic()
+            {
+                Primitives = ndmPrimitives.ToList(),
+                StateCalcTermPair = SelectedResult.StateCalcTermPair,
+                StrainMatrix = SelectedResult.ForcesTupleResult.LoaderResults.StrainMatrix
+            };
+            logic.ShowPrestrainField2D();
         }
         private void GetNdms()
         {

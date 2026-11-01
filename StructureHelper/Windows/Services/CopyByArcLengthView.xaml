@@ -1,0 +1,78 @@
+<Window x:Class="StructureHelper.Windows.Services.CopyByArcLengthView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StructureHelper.Windows.Services"
+        d:DataContext="{d:DesignInstance local:CopyByArcLengthViewModel}"
+        mc:Ignorable="d"
+        Title="Copy along arc" Height="300" Width="360"
+        MinHeight="270" MinWidth="320" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="145"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Rotation center:" VerticalAlignment="Top"/>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="X, mm:" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Margin="0,2,0,2"
+                     Style="{StaticResource ValidatedError}"
+                     KeyDown="NumericTextBox_KeyDown"
+                     Text="{Binding CenterX, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+            <TextBlock Grid.Row="1" Text="Y, mm:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="0,2,0,2"
+                     Style="{StaticResource ValidatedError}"
+                     KeyDown="NumericTextBox_KeyDown"
+                     Text="{Binding CenterY, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+        </Grid>
+
+        <TextBlock Grid.Row="1" Text="Start angle, degrees:" VerticalAlignment="Center" Margin="0,8,0,0"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="5,8,0,0"
+                 Style="{StaticResource ValidatedError}"
+                 KeyDown="NumericTextBox_KeyDown"
+                 Text="{Binding StartAngle, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+
+        <TextBlock Grid.Row="2" Text="Arc length, mm:" VerticalAlignment="Center" Margin="0,4,0,0"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="5,4,0,0"
+                 Style="{StaticResource ValidatedError}"
+                 KeyDown="NumericTextBox_KeyDown"
+                 Text="{Binding ArcLength, Converter={StaticResource LengthConverter}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+
+        <TextBlock Grid.Row="3" Text="Direction:" VerticalAlignment="Center" Margin="0,8,0,0"/>
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Vertical" Margin="5,8,0,0">
+            <RadioButton Content="Clock wise" GroupName="ArcCopyDirection" Margin="0,0,20,5"
+                         IsChecked="{Binding IsClockwise, Converter={StaticResource BooleanToRadioButtonConverter}, ConverterParameter=true, Mode=TwoWay}"/>
+            <RadioButton Content="Counter clock wise" GroupName="ArcCopyDirection"
+                         IsChecked="{Binding IsClockwise, Converter={StaticResource BooleanToRadioButtonConverter}, ConverterParameter=false, Mode=TwoWay}"/>
+        </StackPanel>
+
+        <TextBlock Grid.Row="4" Text="Number of copies:" VerticalAlignment="Center" Margin="0,8,0,0"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="5,8,0,0"
+                 Style="{StaticResource ValidatedError}"
+                 KeyDown="NumericTextBox_KeyDown"
+                 Text="{Binding CopyCount, ValidatesOnDataErrors=True}"/>
+
+        <ContentControl Grid.Row="5" Grid.ColumnSpan="2" VerticalAlignment="Bottom"
+                        ContentTemplate="{StaticResource OkCancelButtons}"
+                        Content="{Binding}"/>
+    </Grid>
+</Window>
