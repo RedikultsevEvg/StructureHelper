@@ -75,7 +75,7 @@ namespace StructureHelperLogics.Models.LoadHistory.Logics
                     if (currentPrimitives.TryGetValue(currentHost, out INdmPrimitive? currentHostClone) == false)
                     {
                         newHost = ProcessPrimitive(currentHost, currentPrimitives, previousPrimitives, previousStageFinishResult);
-                        newHost.NdmElement.UsersPrestrain.Clear();
+                        newHost.NdmElement.HistoryPrestrain.Clear();
                         StagePrimitivesLogicHelper.AddPrestrain(newHost, previousHost.NdmElement.HistoryPrestrain);
                         StagePrimitivesLogicHelper.AddPrestrain(newHost, previousStageFinishResult.StrainTuple);
                     }
