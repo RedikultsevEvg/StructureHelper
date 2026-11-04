@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Materials;
@@ -49,6 +49,10 @@ namespace DataAccess.DTOs
             {
                 return GetUserMaterial(userMaterial);
             }
+            else if (source is CustomConcreteHelperMaterialDTO customConcreteMaterial)
+            {
+                return GetCustomConcreteMaterial(customConcreteMaterial);
+            }
             else
             {
                 string errorString = ErrorStrings.ObjectTypeIsUnknownObj(source) + ": helper material type";
@@ -66,6 +70,15 @@ namespace DataAccess.DTOs
             var newItem = strategy.Convert(source);
             strategyContainer.SafetyFactorUpdateStrategy.Update(newItem, source);
             return newItem;
+        }
+
+        private IHelperMaterial GetCustomConcreteMaterial(CustomConcreteHelperMaterialDTO source)
+        {
+            var strategy = StrategyContainer.CustomConcreteConvertStrategy;
+            TraceLogger?.AddMessage(MaterialIs + "Custom concrete material", TraceLogStatuses.Service);
+            strategy.ReferenceDictionary = ReferenceDictionary;
+            strategy.TraceLogger = TraceLogger;
+            return strategy.Convert(source);
         }
 
         private IHelperMaterial GetSteelMaterial(SteelLibMaterialDTO source)

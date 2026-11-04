@@ -128,6 +128,16 @@
                         <ContentControl ContentTemplate="{StaticResource UserMaterial}"/>
                     </Viewbox>
                 </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.CustomConcrete}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add custom concrete material"
+                                                IconContent="{StaticResource ConcreteMaterial}"
+                                                DescriptionText="Adds a custom concrete material with editable stress-strain models"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource ConcreteMaterial}"/>
+                    </Viewbox>
+                </Button>
                 <Button Style="{DynamicResource ToolButton}"  Command="{Binding EditMaterialsCommand}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Show materials"
@@ -464,6 +474,13 @@
                                             <MenuItem.Icon>
                                                 <Viewbox Width="16" Height="16">
                                                     <ContentControl ContentTemplate="{DynamicResource UserMaterial}"/>
+                                                </Viewbox>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Custom concrete" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.CustomConcrete}">
+                                            <MenuItem.Icon>
+                                                <Viewbox Width="16" Height="16">
+                                                    <ContentControl ContentTemplate="{DynamicResource ConcreteMaterial}"/>
                                                 </Viewbox>
                                             </MenuItem.Icon>
                                         </MenuItem>

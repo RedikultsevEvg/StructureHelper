@@ -1,0 +1,70 @@
+<UserControl x:Class="StructureHelper.Windows.Materials.SafetyFactorsCollectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Materials"
+             xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
+             d:DataContext="{d:DesignInstance vm:SafetyFactorsViewModel}"
+             mc:Ignorable="d">
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Style="{StaticResource ToolButton24}" Command="{Binding Add}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Add"
+                                                IconContent="{StaticResource AddEntity}"
+                                                DescriptionText="Adds a new material safety factor"/>
+                    </Button.ToolTip>
+                    <Viewbox Height="24" Width="24">
+                        <ContentControl ContentTemplate="{DynamicResource AddEntity}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource ToolButton24}" Command="{Binding Copy}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Copy"
+                                                IconContent="{StaticResource CopyAnalysis}"
+                                                DescriptionText="Creates a copy of the selected safety factor"/>
+                    </Button.ToolTip>
+                    <Viewbox Height="24" Width="24">
+                        <ContentControl ContentTemplate="{DynamicResource CopyAnalysis}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource ToolButton24}" Command="{Binding Delete}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Delete"
+                                                IconContent="{StaticResource DeleteEntity}"
+                                                DescriptionText="Deletes the selected safety factor"/>
+                    </Button.ToolTip>
+                    <Viewbox Height="24" Width="24">
+                        <ContentControl ContentTemplate="{DynamicResource DeleteEntity}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource ToolButton24}" Command="{Binding ShowPartialFactors}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Partial factors"
+                                                IconContent="{StaticResource Settings}"
+                                                DescriptionText="Edits partial factors of the selected safety factor"/>
+                    </Button.ToolTip>
+                    <Viewbox Height="24" Width="24">
+                        <ContentControl ContentTemplate="{DynamicResource Settings}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+
+        <DataGrid Margin="4"
+                  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  SelectionUnit="FullRow">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Take" Binding="{Binding Take}" Width="55"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="160"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

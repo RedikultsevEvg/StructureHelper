@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace StructureHelperLogics.Models.Materials
             ULSConcreteStrength = 14e6d;
             SumThickness = 0.175e-3d;
             MaterialType = materialType;
-            SafetyFactors.AddRange(PartialCoefficientFactory.GetDefaultFRSafetyFactors(ProgramSetting.FRCodeType, this.MaterialType));
+            SafetyFactors.AddRange(PartialFactorsFactory.GetDefaultFRSafetyFactors(ProgramSetting.FRCodeType, this.MaterialType));
         }
 
         public FRMaterial(MaterialTypes materialType) : this (materialType, Guid.NewGuid())

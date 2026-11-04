@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Services;
@@ -41,7 +41,11 @@ namespace StructureHelperLogics.Models.Materials
             CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             safetyFactorUpdateStrategy.Update(targetObject, sourceObject);
-            if (sourceObject is ILibMaterial)
+            if (sourceObject is ICustomConcreteHelperMaterial customConcreteMaterial)
+            {
+                UpdateCustomConcreteMaterial(targetObject as ICustomConcreteHelperMaterial, customConcreteMaterial);
+            }
+            else if (sourceObject is ILibMaterial)
             {
                 UpdateLibMaterial(targetObject, sourceObject);
             }
@@ -80,6 +84,21 @@ namespace StructureHelperLogics.Models.Materials
             else
             {
                 ErrorCommonProcessor.ObjectTypeIsUnknown(typeof(ILibMaterial), sourceObject.GetType());
+            }
+        }
+
+        private static void UpdateCustomConcreteMaterial(
+            ICustomConcreteHelperMaterial targetObject,
+            ICustomConcreteHelperMaterial sourceObject)
+        {
+            if (targetObject is null)
+            {
+                return;
+            }
+            targetObject.MaterialModels.Clear();
+            foreach (ICustomConcreteModel model in sourceObject.MaterialModels)
+            {
+                targetObject.MaterialModels.Add(model.Clone() as ICustomConcreteModel);
             }
         }
     }

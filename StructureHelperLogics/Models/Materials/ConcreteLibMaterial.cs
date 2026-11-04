@@ -50,7 +50,7 @@ namespace StructureHelperLogics.Models.Materials
             MaterialLogic = materialLogics.First();
             SafetyFactors = new List<IMaterialSafetyFactor>();
             lmOptions = new LMBuilders.ConcreteOptions();
-            SafetyFactors.AddRange(PartialCoefficientFactory.GetDefaultConcreteSafetyFactors(ProgramSetting.CodeType));
+            SafetyFactors.AddRange(PartialFactorsFactory.GetDefaultConcreteSafetyFactors(ProgramSetting.CodeType));
         }
 
         public ConcreteLibMaterial() : this (Guid.NewGuid())

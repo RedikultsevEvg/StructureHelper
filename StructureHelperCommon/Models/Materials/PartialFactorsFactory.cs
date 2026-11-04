@@ -2,15 +2,11 @@
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Models.Materials.Libraries.Factories;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StructureHelperLogics.Models.Materials
+namespace StructureHelperCommon.Models.Materials
 {
-    public static class PartialCoefficientFactory
+    public static class PartialFactorsFactory
     {
         public static List<IMaterialSafetyFactor> GetDefaultConcreteSafetyFactors(CodeTypes codeType)
         {

@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperLogics.Models.Materials;
 
@@ -7,6 +7,7 @@ namespace DataAccess.DTOs
     public interface IHelperMaterialToDTOStrategyContainer
     {
         LibMaterialToDTOConvertStrategy<ConcreteLibMaterialDTO, IConcreteLibMaterial> ConcreteConvertStrategy { get; }
+        IConvertStrategy<CustomConcreteHelperMaterialDTO, ICustomConcreteHelperMaterial> CustomConcreteConvertStrategy { get; }
         IConvertStrategy<ElasticMaterialDTO, IElasticMaterial> ElasticConvertStrategy { get; }
         IConvertStrategy<FRMaterialDTO, IFRMaterial> FrMaterialConvertStrategy { get; }
         LibMaterialToDTOConvertStrategy<ReinforcementLibMaterialDTO, IReinforcementLibMaterial> ReinforcementConvertStrategy { get; }

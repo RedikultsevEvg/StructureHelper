@@ -1,4 +1,4 @@
-﻿using StructureHelper.Models.Materials;
+using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Materials;
@@ -17,6 +17,7 @@ namespace StructureHelperLogics.Models.Materials
         SteelS245 = 6,
         SteelS345 = 7,
         UserMaterial = 8,
+        CustomConcrete = 9,
     }     
 
     public static class HeadMaterialFactory
@@ -37,6 +38,7 @@ namespace StructureHelperLogics.Models.Materials
             else if (type == HeadmaterialType.SteelS245) { return GetSteelS245(); }
             else if (type == HeadmaterialType.SteelS345) { return GetSteelS345(); }
             else if (type == HeadmaterialType.UserMaterial) { return UserMaterial(); }
+            else if (type == HeadmaterialType.CustomConcrete) { return CustomConcrete(); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + nameof(type));
         }
 
@@ -46,6 +48,25 @@ namespace StructureHelperLogics.Models.Materials
             UserMaterial userHelperMaterial = new(Guid.NewGuid());
             material.HelperMaterial = userHelperMaterial;
             return material;
+        }
+
+        private static IHeadMaterial CustomConcrete()
+        {
+            var helperMaterial = new CustomConcreteHelperMaterial(Guid.NewGuid());
+            var model = new CustomConcreteModel(Guid.NewGuid())
+            {
+                Name = "ULS / Short term",
+                IsActive = true
+            };
+            model.StateCalcTermPair.LimitState = LimitStates.ULS;
+            model.StateCalcTermPair.CalcTerm = CalcTerms.ShortTerm;
+            helperMaterial.MaterialModels.Add(model);
+
+            return new HeadMaterial()
+            {
+                Name = "New custom concrete",
+                HelperMaterial = helperMaterial
+            };
         }
 
         private static IHeadMaterial GetSteelS245()

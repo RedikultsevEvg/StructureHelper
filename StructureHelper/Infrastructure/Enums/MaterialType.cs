@@ -1,4 +1,4 @@
-﻿namespace StructureHelper.Infrastructure.Enums
+namespace StructureHelper.Infrastructure.Enums
 {
     internal enum MaterialType
     {
@@ -9,5 +9,6 @@
         GlassFiber = 4,
         Steel = 5,
         UserMaterial = 6,
+        CustomConcrete = 7,
     }
 }

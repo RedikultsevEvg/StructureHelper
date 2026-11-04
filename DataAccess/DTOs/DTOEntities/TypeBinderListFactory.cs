@@ -1,10 +1,11 @@
-﻿using StructureHelper.Models.Materials;
+using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.FeaMaterials;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.BeamShears;
@@ -142,6 +143,11 @@ namespace DataAccess.DTOs
             {
                 { (typeof(List<IMaterialPartialFactor>), "ListOfMaterialPartialFactor") },
                 { (typeof(ConcreteLibMaterialDTO), "ConcreteLibMaterial") },
+                { (typeof(CustomConcreteCompressionOptionsDTO), "CustomConcreteCompressionOptions") },
+                { (typeof(CustomConcreteHelperMaterialDTO), "CustomConcreteHelperMaterial") },
+                { (typeof(CustomConcreteModelDTO), "CustomConcreteModel") },
+                { (typeof(CustomConcreteTensionOptionsDTO), "CustomConcreteTensionOptions") },
+                { (typeof(List<ICustomConcreteModel>), "ListOfCustomConcreteModel") },
                 { (typeof(ElasticMaterialDTO), "ElasticMaterial") },
                 { (typeof(FRMaterialDTO), "FRMaterial") },
                 { (typeof(HeadMaterialDTO), "HeadMaterial") },

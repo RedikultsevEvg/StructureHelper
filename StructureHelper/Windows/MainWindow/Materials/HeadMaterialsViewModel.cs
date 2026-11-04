@@ -1,7 +1,8 @@
-﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.AddMaterialWindow;
 using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelper.Windows.Materials;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Services.ColorServices;
@@ -52,6 +53,13 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         private void Edit()
         {
+            if (SelectedMaterial.HelperMaterial is ICustomConcreteHelperMaterial)
+            {
+                var customConcreteWindow = new CustomConcreteMaterialView(SelectedMaterial);
+                customConcreteWindow.ShowDialog();
+                return;
+            }
+
             var wnd = new HeadMaterialView(SelectedMaterial);
             wnd.ShowDialog();
         }

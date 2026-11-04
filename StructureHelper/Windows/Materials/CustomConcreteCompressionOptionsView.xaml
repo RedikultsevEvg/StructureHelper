@@ -1,0 +1,45 @@
+<UserControl x:Class="StructureHelper.Windows.Materials.CustomConcreteCompressionOptionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Materials"
+             d:DataContext="{d:DesignInstance vm:CustomConcreteCompressionOptionsViewModel}"
+             mc:Ignorable="d">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Peak stress" VerticalAlignment="Center"/>
+        <TextBox Grid.Column="1" Margin="3"
+                 Style="{StaticResource ValidatedError}"
+                 KeyDown="NumericTextBox_KeyDown"
+                 Text="{Binding PeakStress, Converter={StaticResource StressConverter}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+
+        <TextBlock Grid.Row="1" Text="Peak strain" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="3"
+                 Style="{StaticResource ValidatedError}"
+                 KeyDown="NumericTextBox_KeyDown"
+                 Text="{Binding PeakStrain, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+
+        <TextBlock Grid.Row="2" Text="Limit strain" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="3"
+                 Style="{StaticResource ValidatedError}"
+                 KeyDown="NumericTextBox_KeyDown"
+                 Text="{Binding LimitStrain, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+
+        <TextBlock Grid.Row="3" Text="Descending scale factor" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Margin="3"
+                 Style="{StaticResource ValidatedError}"
+                 KeyDown="NumericTextBox_KeyDown"
+                 Text="{Binding DescendingScaleFactor, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+    </Grid>
+</UserControl>

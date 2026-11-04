@@ -1,7 +1,8 @@
-﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Models.Materials;
 using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelper.Windows.Materials;
 using StructureHelper.Windows.PrimitivePropertiesWindow;
 using StructureHelper.Windows.ViewModels.Errors;
 using StructureHelperCommon.Infrastructures.Exceptions;
@@ -53,8 +54,16 @@ namespace StructureHelper.Windows.ViewModels.Materials
             else if (parameterType == MaterialType.GlassFiber) { AddGlassFiber(); }
             else if (parameterType == MaterialType.Steel) { AddSteel(); }
             else if (parameterType == MaterialType.UserMaterial) { AddUserMaterial(); }
+            else if (parameterType == MaterialType.CustomConcrete) { AddCustomConcrete(); }
             else throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $". Expected: {typeof(MaterialType)}, Actual type: {nameof(parameterType)}");
             base.AddMethod(parameter);
+        }
+
+        private void AddCustomConcrete()
+        {
+            var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.CustomConcrete);
+            material.Name = "New custom concrete";
+            NewItem = material;
         }
 
         private void AddUserMaterial()
@@ -90,24 +99,27 @@ namespace StructureHelper.Windows.ViewModels.Materials
         }
         public override void EditMethod(object parameter)
         {
-            //var copyObject = GlobalRepository.Materials.GetById(SelectedItem.Id).Clone() as IHeadMaterial;
             var copyObject = SelectedItem.Clone() as IHeadMaterial;
-            Window wnd;
-            if (SelectedItem.HelperMaterial is ISteelLibMaterial steelHeadMaterial)
+            Window materialWindow;
+            if (SelectedItem.HelperMaterial is ICustomConcreteHelperMaterial)
             {
-                wnd = new SteelMaterialView(SelectedItem);
+                materialWindow = new CustomConcreteMaterialView(SelectedItem);
+            }
+            else if (SelectedItem.HelperMaterial is ISteelLibMaterial steelHeadMaterial)
+            {
+                materialWindow = new SteelMaterialView(SelectedItem);
             }
             else if (SelectedItem.HelperMaterial is IUserMaterial)
             {
                 UserMaterialViewModel viewModel = new(SelectedItem);
-                wnd = new UserMaterialView(viewModel);
+                materialWindow = new UserMaterialView(viewModel);
             }
             else
             {
-                wnd = new HeadMaterialView(SelectedItem);
+                materialWindow = new HeadMaterialView(SelectedItem);
             }
-            wnd.ShowDialog();
-            if (wnd.DialogResult == true)
+            materialWindow.ShowDialog();
+            if (materialWindow.DialogResult == true)
             {
                 //
             }

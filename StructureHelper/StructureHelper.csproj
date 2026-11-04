@@ -110,6 +110,7 @@
     <Folder Include="Resources\" />
     <Folder Include="Services\Settings\" />
     <Folder Include="Windows\UserControls\MultiplyTuples\" />
+    <Folder Include="Windows\ViewModels\Materials\" />
   </ItemGroup>
 
   <ItemGroup>

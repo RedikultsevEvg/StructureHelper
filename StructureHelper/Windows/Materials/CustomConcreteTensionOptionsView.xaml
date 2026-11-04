@@ -1,0 +1,35 @@
+<UserControl x:Class="StructureHelper.Windows.Materials.CustomConcreteTensionOptionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:StructureHelper.Windows.ViewModels.Materials"
+             d:DataContext="{d:DesignInstance vm:CustomConcreteTensionOptionsViewModel}"
+             mc:Ignorable="d">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Grid.Row="0" Text="Strength" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Ft" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="0" Grid.Column="2" Margin="3"
+                 Style="{StaticResource ValidatedError}"
+                 KeyDown="NumericTextBox_KeyDown"
+                 Text="{Binding Strength, Converter={StaticResource StressConverter}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+
+        <TextBlock Grid.Row="1" Text="Ultimate strain" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Eps,tult" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="1" Grid.Column="2" Margin="3"
+                 Style="{StaticResource ValidatedError}"
+                 KeyDown="NumericTextBox_KeyDown"
+                 Text="{Binding UltimateStrain, Converter={StaticResource PlainDouble}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+    </Grid>
+</UserControl>

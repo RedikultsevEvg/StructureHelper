@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
@@ -68,6 +68,10 @@ namespace DataAccess.DTOs
             {
                 return GetUserMaterial(userMaterial);
             }
+            else if (source is ICustomConcreteHelperMaterial customConcreteMaterial)
+            {
+                return ProcessCustomConcrete(customConcreteMaterial);
+            }
             else
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(source));
@@ -80,6 +84,15 @@ namespace DataAccess.DTOs
             strategy.ReferenceDictionary = ReferenceDictionary;
             strategy.TraceLogger = TraceLogger;
             var convertLogic = new DictionaryConvertStrategy<UserMaterialDTO, IUserMaterial>(this, strategy);
+            return convertLogic.Convert(source);
+        }
+
+        private IHelperMaterial ProcessCustomConcrete(ICustomConcreteHelperMaterial source)
+        {
+            var strategy = StrategyContainer.CustomConcreteConvertStrategy;
+            strategy.ReferenceDictionary = ReferenceDictionary;
+            strategy.TraceLogger = TraceLogger;
+            var convertLogic = new DictionaryConvertStrategy<CustomConcreteHelperMaterialDTO, ICustomConcreteHelperMaterial>(this, strategy);
             return convertLogic.Convert(source);
         }
 
