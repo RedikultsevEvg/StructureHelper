@@ -9,5 +9,6 @@ namespace StructureHelperCommon.Models.Materials
     internal interface ICustomConcreteTensionOptionToLoaderConvertStrategy : IObjectConvertStrategy<LD.CustomConcreteTensionOptions, ICustomConcreteTensionOptions>
     {
         bool WorkInTension { get; set; }
+        double StrengthFactor { get; set; }
     }
 }

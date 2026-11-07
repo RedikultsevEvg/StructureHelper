@@ -1,20 +1,18 @@
-﻿using LD = LoaderCalculator.Data.Materials.DiagramTemplates;
-using StructureHelperCommon.Infrastructures.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using StructureHelperCommon.Services;
+﻿using StructureHelperCommon.Services;
+using LD = LoaderCalculator.Data.Materials.DiagramTemplates;
 
 namespace StructureHelperCommon.Models.Materials
 {
-    internal class CustomConcreteCompressionOptionsToLoaderConvertStrategy : IObjectConvertStrategy<LD.CustomConcreteCompressionOptions, ICustomConcreteCompressionOptions>
-    {   
+    internal class CustomConcreteCompressionOptionsToLoaderConvertStrategy : ICustomConcreteCompressionOptionsToLoaderConvertStrategy
+    {
+        public double StrengthFactor { get; set; } = 1d;
         public LD.CustomConcreteCompressionOptions Convert(ICustomConcreteCompressionOptions source)
         {
             CheckObject.ThrowIfNull(source, "source");
             LD.CustomConcreteCompressionOptions options = new()
             {
                 PeakStress = source.PeakStress,
+                StrengthFactor = StrengthFactor,
                 PeakStrain = source.PeakStrain,
                 LimitStrain = source.LimitStrain,
                 DescendingScaleFactor = source.DescendingScaleFactor

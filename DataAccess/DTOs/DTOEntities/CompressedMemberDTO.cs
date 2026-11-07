@@ -11,7 +11,9 @@ namespace DataAccess.DTOs
     public class CompressedMemberDTO : ICompressedMember
     {
         [JsonProperty("Id")]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; }
+
+
         [JsonProperty("Bucling")]
         public bool Buckling { get; set; }
         [JsonProperty("GeometryLength")]
@@ -25,10 +27,14 @@ namespace DataAccess.DTOs
         [JsonProperty("DiagramFactorY")]
         public double DiagramFactorY { get; set; }
 
+        public CompressedMemberDTO(Guid id)
+        {
+            Id = id;
+        }
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            return this;
         }
     }
 }

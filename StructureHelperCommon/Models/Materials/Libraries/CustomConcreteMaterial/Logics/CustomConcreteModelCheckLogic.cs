@@ -44,9 +44,9 @@ namespace StructureHelperCommon.Models.Materials.Logics
             }
             else
             {
-                compressionCheckLogic ??= new CustomConcreteCompressionOptionsCheckLogic();
-                compressionCheckLogic.Entity = Entity.CompressionOptions;
-                compressionCheckLogic.TraceLogger = TraceLogger;
+                CompressionCheckLogic.Entity = Entity.CompressionOptions;
+                CompressionCheckLogic.TraceLogger = TraceLogger;
+                CompressionCheckLogic.YoungsModulus = Entity.YoungModulus;
                 if (!compressionCheckLogic.Check())
                 {
                     TraceMessage(compressionCheckLogic.CheckResult.Trim());

@@ -60,6 +60,15 @@
         </Canvas>
     </DataTemplate>
 
+    <DataTemplate x:Key="CustomConcreteMaterial">
+        <Canvas Style="{DynamicResource ButtonMaterialCanvas}">
+            <Canvas.Children>
+                <ContentControl ContentTemplate="{DynamicResource ConcreteMaterial}"/>
+                <TextBlock Canvas.Top="12" FontSize="10" Text="User" FontWeight="Bold" Margin="5,2,0,0" Foreground="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
     <DataTemplate x:Key="ElasticMaterial">
         <Canvas Style="{DynamicResource ButtonMaterialCanvas}">
             <Canvas.Children>
@@ -105,6 +114,16 @@
                 </Ellipse>
                 <Line X1="18" Y1="19.5" X2="25" Y2="25" Stroke="{StaticResource MaterialFrame}" StrokeThickness="1"/>
                 <TextBlock FontSize="10" Text="Prop" FontWeight="Bold" Margin="5,2,0,0" Foreground="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PartialFactors">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Rectangle Canvas.Top="14" Canvas.Left="2" Height="12" Width="12" Stroke="Black" Fill="DarkGray"/>
+                <Rectangle Canvas.Top="14" Canvas.Left="16" Height="12" Width="12" Stroke="Black" Fill="DarkGray"/>
+                <TextBlock Canvas.Top="0" Canvas.Left="2" FontSize="10" Text="Pf" FontWeight="Bold" Foreground="Black"/>
             </Canvas.Children>
         </Canvas>
     </DataTemplate>

@@ -78,22 +78,26 @@ namespace StructureHelperTests.ViewModelTests
         public void SafetyFactors_ShouldUseCollectionViewModelAndRestoreOriginalValues()
         {
             (Mock<IHeadMaterial> head, ICustomConcreteHelperMaterial helper) = CreateHeadMaterial();
+            int initialCount = helper.SafetyFactors.Count;
             helper.SafetyFactors.Add(new StructureHelperCommon.Models.Materials.Libraries.MaterialSafetyFactor
             {
                 Name = "Original factor"
             });
             var viewModel = new CustomConcreteMaterialViewModel(head.Object);
 
-            Assert.That(viewModel.SafetyFactors.Items, Has.Count.EqualTo(1));
+            Assert.That(viewModel.SafetyFactors.Items, Has.Count.EqualTo(initialCount + 1));
 
             viewModel.SafetyFactors.AddMethod(null);
-            viewModel.SafetyFactors.SelectedItem.Name = "Changed factor";
+            var originalFactor = viewModel.SafetyFactors.Items
+                .First(x => x.Name == "Original factor");
+            viewModel.SafetyFactors.SelectedItem = originalFactor;
+            originalFactor.Name = "Changed factor";
             viewModel.RestoreOriginalState();
 
             Assert.Multiple(() =>
             {
-                Assert.That(viewModel.SafetyFactors.Items, Has.Count.EqualTo(1));
-                Assert.That(viewModel.SafetyFactors.Items[0].Name, Is.EqualTo("Original factor"));
+                Assert.That(viewModel.SafetyFactors.Items, Has.Count.EqualTo(initialCount + 1));
+                Assert.That(viewModel.SafetyFactors.Items.Any(x => x.Name == "Original factor"), Is.True);
             });
         }
 

@@ -7,6 +7,13 @@
              xmlns:uc="clr-namespace:StructureHelper.Windows.UserControls"
              d:DataContext="{d:DesignInstance vm:SafetyFactorsViewModel}"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Infrastructure/UI/Resources/MaterialButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
@@ -18,6 +25,16 @@
                     </Button.ToolTip>
                     <Viewbox Height="24" Width="24">
                         <ContentControl ContentTemplate="{DynamicResource AddEntity}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource ToolButton24}" Command="{Binding Edit}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Edit"
+                                                IconContent="{StaticResource Settings}"
+                                                DescriptionText="Edits the selected safety factor"/>
+                    </Button.ToolTip>
+                    <Viewbox Height="24" Width="24">
+                        <ContentControl ContentTemplate="{DynamicResource Settings}"/>
                     </Viewbox>
                 </Button>
                 <Button Style="{StaticResource ToolButton24}" Command="{Binding Copy}">
@@ -43,28 +60,95 @@
                 <Button Style="{StaticResource ToolButton24}" Command="{Binding ShowPartialFactors}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Partial factors"
-                                                IconContent="{StaticResource Settings}"
+                                                IconContent="{StaticResource PartialFactors}"
                                                 DescriptionText="Edits partial factors of the selected safety factor"/>
                     </Button.ToolTip>
                     <Viewbox Height="24" Width="24">
-                        <ContentControl ContentTemplate="{DynamicResource Settings}"/>
+                        <ContentControl ContentTemplate="{DynamicResource PartialFactors}"/>
                     </Viewbox>
                 </Button>
             </ToolBar>
         </ToolBarTray>
 
-        <DataGrid Margin="4"
-                  ItemsSource="{Binding Items}"
-                  SelectedItem="{Binding SelectedItem}"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  CanUserDeleteRows="False"
-                  SelectionUnit="FullRow">
-            <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Take" Binding="{Binding Take}" Width="55"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="160"/>
-                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Grid Margin="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="24"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="4,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="55"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Take" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="Name" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Text="Description" FontWeight="SemiBold" VerticalAlignment="Center"/>
+            </Grid>
+
+            <ListBox Grid.Row="1"
+                     ItemsSource="{Binding Items}"
+                     SelectedItem="{Binding SelectedItem}"
+                     SelectionMode="Single"
+                     HorizontalContentAlignment="Stretch"
+                     ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                <ListBox.ContextMenu>
+                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                        <MenuItem Header="Add" Command="{Binding Add}">
+                            <MenuItem.Icon>
+                                <Viewbox Width="16" Height="16">
+                                    <ContentControl ContentTemplate="{DynamicResource AddEntity}"/>
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Copy" Command="{Binding Copy}">
+                            <MenuItem.Icon>
+                                <Viewbox Width="16" Height="16">
+                                    <ContentControl ContentTemplate="{DynamicResource CopyAnalysis}"/>
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Edit" Command="{Binding Edit}">
+                            <MenuItem.Icon>
+                                <Viewbox Width="16" Height="16">
+                                    <ContentControl ContentTemplate="{DynamicResource Settings}"/>
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Delete" Command="{Binding Delete}">
+                            <MenuItem.Icon>
+                                <Viewbox Width="16" Height="16">
+                                    <ContentControl ContentTemplate="{DynamicResource DeleteEntity}"/>
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Partial factors" Command="{Binding ShowPartialFactors}">
+                            <MenuItem.Icon>
+                                <Viewbox Width="16" Height="16">
+                                    <ContentControl ContentTemplate="{DynamicResource PartialFactors}"/>
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="55"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Column="0" IsChecked="{Binding Take}"
+                                      IsHitTestVisible="False" Focusable="False"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Description}" VerticalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
     </DockPanel>
 </UserControl>

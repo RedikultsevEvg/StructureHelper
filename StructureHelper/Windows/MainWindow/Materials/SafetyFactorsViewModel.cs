@@ -1,6 +1,7 @@
-﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure;
 using StructureHelper.Windows.AddMaterialWindow;
 using StructureHelper.Windows.MainWindow.Materials;
+using StructureHelper.Windows.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using System.Collections.Generic;
 using System.Windows.Input;
@@ -45,6 +46,18 @@ namespace StructureHelper.Windows.ViewModels.Materials
         {
             NewItem = new MaterialSafetyFactor();
             base.AddMethod(parameter);
+        }
+
+        public override void EditMethod(object parameter)
+        {
+            if (SelectedItem is null)
+            {
+                return;
+            }
+            var viewModel = new SafetyFactorEditViewModel(SelectedItem);
+            var window = new SafetyFactorEditView(viewModel);
+            window.ShowDialog();
+            base.EditMethod(parameter);
         }
 
         public SafetyFactorsViewModel(List<IMaterialSafetyFactor> safetyFactors) : base(safetyFactors)

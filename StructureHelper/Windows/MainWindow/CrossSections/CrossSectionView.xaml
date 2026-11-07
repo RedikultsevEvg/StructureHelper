@@ -131,11 +131,11 @@
                 <Button Style="{DynamicResource ToolButton}" Command="{Binding Add}" CommandParameter="{x:Static enums:MaterialType.CustomConcrete}">
                     <Button.ToolTip>
                         <uc:ButtonToolTipEh HeaderText="Add custom concrete material"
-                                                IconContent="{StaticResource ConcreteMaterial}"
+                                                IconContent="{StaticResource CustomConcreteMaterial}"
                                                 DescriptionText="Adds a custom concrete material with editable stress-strain models"/>
                     </Button.ToolTip>
                     <Viewbox>
-                        <ContentControl ContentTemplate="{StaticResource ConcreteMaterial}"/>
+                        <ContentControl ContentTemplate="{StaticResource CustomConcreteMaterial}"/>
                     </Viewbox>
                 </Button>
                 <Button Style="{DynamicResource ToolButton}"  Command="{Binding EditMaterialsCommand}">

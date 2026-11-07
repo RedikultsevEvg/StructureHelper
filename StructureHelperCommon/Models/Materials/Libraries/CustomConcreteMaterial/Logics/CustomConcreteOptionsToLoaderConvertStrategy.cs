@@ -6,18 +6,23 @@ namespace StructureHelperCommon.Models.Materials
 {
     internal class CustomConcreteOptionsToLoaderConvertStrategy : ICustomConcreteOptionsToLoaderConvertStrategy
     {
-        private IObjectConvertStrategy<LD.CustomConcreteCompressionOptions, ICustomConcreteCompressionOptions> compressionConvertStrategy;
-        private IObjectConvertStrategy<LD.CustomConcreteCompressionOptions, ICustomConcreteCompressionOptions> CompressionConvertStrategy => compressionConvertStrategy ??= new CustomConcreteCompressionOptionsToLoaderConvertStrategy();
+        private ICustomConcreteCompressionOptionsToLoaderConvertStrategy compressionConvertStrategy;
+        private ICustomConcreteCompressionOptionsToLoaderConvertStrategy CompressionConvertStrategy => compressionConvertStrategy ??= new CustomConcreteCompressionOptionsToLoaderConvertStrategy();
         private ICustomConcreteTensionOptionToLoaderConvertStrategy tensionConvertStrategy;
         private ICustomConcreteTensionOptionToLoaderConvertStrategy TensionConvertStrategy => tensionConvertStrategy ??= new CustomConcreteTensionOptionToLoaderConvertStrategy();
 
 
         public bool WorkInTension { get; set; }
+        public double CompressionStrengthFactor { get; set; } = 1d;
+        public double TensionStrengthFactor { get; set; }
+
         public LD.CustomConcreteOptions Convert(ICustomConcreteModel source)
         {
             CheckObject.ThrowIfNull(source);
             CheckObject.ThrowIfNull(source.CompressionOptions);
             CheckObject.ThrowIfNull(source.TensionOptions);
+            CompressionConvertStrategy.StrengthFactor = CompressionStrengthFactor;
+            TensionConvertStrategy.StrengthFactor = TensionStrengthFactor;
             TensionConvertStrategy.WorkInTension = WorkInTension;
             LD.CustomConcreteOptions options = new()
             {

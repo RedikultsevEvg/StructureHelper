@@ -42,16 +42,6 @@
                                     <ContentControl ContentTemplate="{DynamicResource AddEntity}"/>
                                 </Viewbox>
                             </Button>
-                            <Button Style="{StaticResource ToolButton24}" Command="{Binding Models.Edit}">
-                                <Button.ToolTip>
-                                    <uc:ButtonToolTipEh HeaderText="Edit"
-                                                IconContent="{StaticResource Settings}"
-                                                DescriptionText="Edits the selected custom concrete model"/>
-                                </Button.ToolTip>
-                                <Viewbox Height="24" Width="24">
-                                    <ContentControl ContentTemplate="{DynamicResource Settings}"/>
-                                </Viewbox>
-                            </Button>
                             <Button Style="{StaticResource ToolButton24}" Command="{Binding Models.Copy}">
                                 <Button.ToolTip>
                                     <uc:ButtonToolTipEh HeaderText="Copy"
@@ -60,6 +50,16 @@
                                 </Button.ToolTip>
                                 <Viewbox Height="24" Width="24">
                                     <ContentControl ContentTemplate="{DynamicResource CopyAnalysis}"/>
+                                </Viewbox>
+                            </Button>
+                            <Button Style="{StaticResource ToolButton24}" Command="{Binding Models.Edit}">
+                                <Button.ToolTip>
+                                    <uc:ButtonToolTipEh HeaderText="Edit"
+                                                IconContent="{StaticResource Settings}"
+                                                DescriptionText="Edits the selected custom concrete model"/>
+                                </Button.ToolTip>
+                                <Viewbox Height="24" Width="24">
+                                    <ContentControl ContentTemplate="{DynamicResource Settings}"/>
                                 </Viewbox>
                             </Button>
                             <Button Style="{StaticResource ToolButton24}" Command="{Binding Models.Delete}">
@@ -105,6 +105,38 @@
                      SelectionMode="Single"
                      HorizontalContentAlignment="Stretch"
                      ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                            <ListBox.ContextMenu>
+                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <MenuItem Header="Add" Command="{Binding Models.Add}">
+                                        <MenuItem.Icon>
+                                            <Viewbox Width="16" Height="16">
+                                                <ContentControl ContentTemplate="{DynamicResource AddEntity}"/>
+                                            </Viewbox>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Copy" Command="{Binding Models.Copy}">
+                                        <MenuItem.Icon>
+                                            <Viewbox Width="16" Height="16">
+                                                <ContentControl ContentTemplate="{DynamicResource CopyAnalysis}"/>
+                                            </Viewbox>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Edit" Command="{Binding Models.Edit}">
+                                        <MenuItem.Icon>
+                                            <Viewbox Width="16" Height="16">
+                                                <ContentControl ContentTemplate="{DynamicResource Settings}"/>
+                                            </Viewbox>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Delete" Command="{Binding Models.Delete}">
+                                        <MenuItem.Icon>
+                                            <Viewbox Width="16" Height="16">
+                                                <ContentControl ContentTemplate="{DynamicResource DeleteEntity}"/>
+                                            </Viewbox>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </ListBox.ContextMenu>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,2">

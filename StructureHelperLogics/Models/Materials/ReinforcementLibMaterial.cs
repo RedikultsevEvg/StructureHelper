@@ -47,11 +47,13 @@ namespace StructureHelperLogics.Models.Materials
 
         private ReinforcementLogicOptions SetOptions(LimitStates limitState, CalcTerms calcTerm)
         {
-            var options = new ReinforcementLogicOptions();
-            options.SafetyFactors = SafetyFactors;
-            options.MaterialEntity = MaterialEntity;
-            options.LimitState = limitState;
-            options.CalcTerm = calcTerm;
+            var options = new ReinforcementLogicOptions
+            {
+                SafetyFactors = SafetyFactors,
+                MaterialEntity = MaterialEntity,
+                LimitState = limitState,
+                CalcTerm = calcTerm
+            };
             return options;
         }
 

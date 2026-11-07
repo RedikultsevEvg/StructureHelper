@@ -9,6 +9,8 @@ namespace StructureHelperCommon.Models.Materials.Logics
     public class CustomConcreteCompressionOptionsCheckLogic
         : CheckEntityLogic<ICustomConcreteCompressionOptions>
     {
+        public double YoungsModulus { get; internal set; }
+
         public override bool Check()
         {
             CheckResult = string.Empty;
@@ -44,6 +46,12 @@ namespace StructureHelperCommon.Models.Materials.Logics
                 && Entity.LimitStrain <= Entity.PeakStrain)
             {
                 TraceMessage("Compression limit strain must be greater than peak strain");
+                result = false;
+            }
+            double secantModulus = Entity.PeakStress / Entity.PeakStrain;
+            if (YoungsModulus <= secantModulus)
+            {
+                TraceMessage($"Young's modulus of concrete must be greater than seacant modulus fo strain {Entity.PeakStrain}, but was: Ypung's modulus Einit = {YoungsModulus}(Pa), secant modulus Esec = {secantModulus}(Pa)");
                 result = false;
             }
             return result;

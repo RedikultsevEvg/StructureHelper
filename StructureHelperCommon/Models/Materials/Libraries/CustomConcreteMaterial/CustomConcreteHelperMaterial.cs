@@ -57,9 +57,13 @@ namespace StructureHelperCommon.Models.Materials
         private ICrackMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm, bool workInTension)
         {
             ICustomConcreteModel model = GetConcreteModel(limitState, calcTerm);
+            IMaterialFactorLogic factorLogic = new MaterialFactorLogic(SafetyFactors);
+            var factors = factorLogic.GetTotalFactor(LimitStates.ULS, CalcTerms.ShortTerm);
             var convertLogic = new CustomConcreteOptionsToLoaderConvertStrategy()
             {
-                WorkInTension = workInTension
+                WorkInTension = workInTension,
+                CompressionStrengthFactor = factors.Compressive,
+                TensionStrengthFactor = factors.Tensile
             };
             var loaderOptions = convertLogic.Convert(model);
             var factory = new CustomConcreteMaterialFactory();

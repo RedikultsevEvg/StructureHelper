@@ -23,7 +23,7 @@ namespace DataAccess.DTOs
         [JsonProperty("Accuracy")]
         public IAccuracy Accuracy { get; set; }
         [JsonProperty("CompressedMember")]
-        public ICompressedMember CompressedMember { get; set; } = new CompressedMemberDTO();
+        public ICompressedMember CompressedMember { get; set; } = new CompressedMemberDTO(Guid.NewGuid());
         [JsonProperty("CheckStrainLimit")]
         public bool CheckStrainLimit { get; set; } = true;
 

@@ -103,11 +103,13 @@ namespace StructureHelperLogics.Models.Materials
 
         private ConcreteLogicOptions SetOptions(LimitStates limitState, CalcTerms calcTerm)
         {
-            var options = new ConcreteLogicOptions();
-            options.SafetyFactors = SafetyFactors;
-            options.MaterialEntity = MaterialEntity;
-            options.LimitState = limitState;
-            options.CalcTerm = calcTerm;
+            var options = new ConcreteLogicOptions
+            {
+                SafetyFactors = SafetyFactors,
+                MaterialEntity = MaterialEntity,
+                LimitState = limitState,
+                CalcTerm = calcTerm
+            };
             if (limitState == LimitStates.ULS)
             {
                 if (TensionForULS == true)
