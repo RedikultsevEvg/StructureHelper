@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 
@@ -17,10 +17,25 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public Action<IResult> ActionToOutputResults { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
+
+        public ForceTupleCalculator(Guid id)
+            : this()
+        {
+            Id = id;
+        }
 
         public ForceTupleCalculator(ICheckInputDataLogic<IForceTupleInputData> checkInputDataLogic, IForceTupleCalcLogic calcLogic)
+            : this(Guid.NewGuid(), checkInputDataLogic, calcLogic)
         {
+        }
+
+        public ForceTupleCalculator(
+            Guid id,
+            ICheckInputDataLogic<IForceTupleInputData> checkInputDataLogic,
+            IForceTupleCalcLogic calcLogic)
+        {
+            Id = id;
             this.checkInputDataLogic = checkInputDataLogic;
             this.calcLogic = calcLogic;
         }

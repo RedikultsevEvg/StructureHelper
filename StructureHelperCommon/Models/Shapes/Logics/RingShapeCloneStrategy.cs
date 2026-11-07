@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace StructureHelperCommon.Models.Shapes
         private IUpdateStrategy<IRingShape> UpdateStrategy => updateStrategy ??= new RingShapeUpdateStrategy();
 
 
-        public IRingShape GetClone(IRingShape sourceObject)
+        public IRingShape GetClone(IRingShape sourceObject, CloningMode cloningMode)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            RingShape clone = new(Guid.NewGuid());
+            if (cloningMode == CloningMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            RingShape clone = new(id);
             UpdateStrategy.Update(clone, sourceObject);
             return clone;
         }

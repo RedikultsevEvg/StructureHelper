@@ -2,6 +2,8 @@
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
+using StructureHelperLogics.NdmCalculations.Analyses.Logics;
 
 namespace DataAccess.DTOs
 {
@@ -30,7 +32,9 @@ namespace DataAccess.DTOs
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            ForceCalculatorDTO newItem = new(Id);
+            new CalculatorUpdateStrategy().Update(newItem, this);
+            return newItem;
         }
 
         public void Run()

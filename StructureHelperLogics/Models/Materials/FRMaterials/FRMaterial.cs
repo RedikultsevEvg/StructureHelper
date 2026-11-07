@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Materials;
+using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
@@ -27,6 +27,11 @@ namespace StructureHelperLogics.Models.Materials
         public double ULSConcreteStrength { get; set; }
         public double SumThickness { get; set; }
         public double GammaF2 => GetGammaF2();
+
+        public FRMaterial(Guid id)
+            : this(MaterialTypes.CarbonFiber, id)
+        {
+        }
 
         public FRMaterial(MaterialTypes materialType, Guid id)
         {

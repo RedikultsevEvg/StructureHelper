@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
@@ -31,7 +31,7 @@ namespace DataAccess.DTOs
         {
             try
             {
-                Point2DDTO newItem = new() { Id = source.Id };
+                Point2DDTO newItem = new(source.Id);
                 updateStrategy.Update(newItem, source);
                 return newItem;
             }

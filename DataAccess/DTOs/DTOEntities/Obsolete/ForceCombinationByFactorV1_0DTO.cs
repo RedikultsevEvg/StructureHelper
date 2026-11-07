@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
@@ -50,6 +50,16 @@ namespace DataAccess.DTOs
         }
         [JsonIgnore]
         public List<IForceTuple> ForceTuples => new() { ForceTuple};
+
+        public ForceCombinationByFactorV1_0DTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public ForceCombinationByFactorV1_0DTO(Guid id)
+        {
+            Id = id;
+        }
 
         public object Clone()
         {

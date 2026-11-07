@@ -1,17 +1,12 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperLogics.Models.CrossSections;
-using StructureHelperLogics.Models.LoadHistory;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
-using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
-using StructureHelperLogics.NdmCalculations.Cracking;
+using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
     public class RepositoryPrimitiveOperation : IRepositoryOperation<ICrossSectionRepository, INdmPrimitive>
     {
-        private ICrossSectionRepository repository;
+        private readonly ICrossSectionRepository repository;
 
         public RepositoryPrimitiveOperation(ICrossSectionRepository repository)
         {
@@ -20,40 +15,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public void RemoveAll()
         {
-            foreach (var calculator in repository.Calculators)
-            {
-                if (calculator is IForceCalculator forceCalculator)
-                {
-                    forceCalculator.InputData.Primitives.Clear();
-                }
-                else if (calculator is ICrackCalculator crackCalculator)
-                {
-                    crackCalculator.InputData.Primitives.Clear();
-                }
-                else if (calculator is IValueDiagramCalculator valueDiagramCalculator)
-                {
-                    valueDiagramCalculator.InputData.Primitives.Clear();
-                }
-                else if (calculator is ICurvatureCalculator curvatureCalculator)
-                {
-                    curvatureCalculator.InputData.Primitives.Clear();
-                }
-                else if (calculator is ILimitCurvesCalculator limitCurve)
-                {
-                    // skip
-                }
-                else if (calculator is IHistoryCalculator historyCalculator)
-                {
-                    foreach (var item in historyCalculator.InputData.ConstructionStages)
-                    {
-                        item.InputData.Primitives.Clear();
-                    }
-                }
-                else
-                {
-                    throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(calculator) + $": Unsupported calculator type: { calculator.GetType().FullName }");
-                }
-            }
+            CrossSectionCalculatorCleanupLogic.ClearPrimitives(repository);
             repository.Primitives.Clear();
         }
 
@@ -67,47 +29,20 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public void Remove(INdmPrimitive entity)
         {
+            if (entity is null)
+            {
+                return;
+            }
+
             var childPrimitives = repository.Primitives
                 .Where(x => x is IHasHostPrimitive)
-                .Where(x => (x as IHasHostPrimitive).HostPrimitive == entity);
+                .Where(x => (x as IHasHostPrimitive)?.HostPrimitive == entity);
             foreach (var child in childPrimitives)
             {
-                (child as IHasHostPrimitive).HostPrimitive = null;
+                (child as IHasHostPrimitive)!.HostPrimitive = null;
             }
-            foreach (var calculator in repository.Calculators)
-            {
-                if (calculator is IForceCalculator forceCalculator)
-                {
-                    forceCalculator.InputData.Primitives.Remove(entity);
-                }
-                else if (calculator is ICrackCalculator crackCalculator)
-                {
-                    crackCalculator.InputData.Primitives.Remove(entity);
-                }
-                else if (calculator is IValueDiagramCalculator valueDiagramCalculator)
-                {
-                    valueDiagramCalculator.InputData.Primitives.Remove(entity);
-                }
-                else if (calculator is ICurvatureCalculator curvatureCalculator)
-                {
-                    curvatureCalculator.InputData.Primitives.Remove(entity);
-                }
-                else if (calculator is ILimitCurvesCalculator limitCurve)
-                {
-                    // skip, nothing to do
-                }
-                else if (calculator is IHistoryCalculator historyCalculator)
-                {
-                    foreach (var item in historyCalculator.InputData.ConstructionStages)
-                    {
-                        item.InputData.Primitives.Remove(entity);
-                    }
-                }
-                else
-                {
-                    throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(calculator) + $": Unsupported calculator type: {calculator.GetType().FullName}");
-                }
-            }
+
+            CrossSectionCalculatorCleanupLogic.RemovePrimitive(repository, entity);
             repository.Primitives.Remove(entity);
         }
     }

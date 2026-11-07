@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public interface IDesignForcePair : IForceAction
+    public interface IDesignForcePair : IForceAction, ICloneStrategy<IDesignForcePair>
     {
         LimitStates LimitState { get; set; }
         IForceTuple LongForceTuple { get; set; }

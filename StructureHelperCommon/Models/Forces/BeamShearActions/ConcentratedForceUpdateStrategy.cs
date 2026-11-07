@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 
 namespace StructureHelperCommon.Models.Forces.BeamShearActions
@@ -13,7 +13,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeStrategies();
             baseUpdateStrategy.Update(targetObject, sourceObject);
-            targetObject.ForceValue = sourceObject.ForceValue.Clone() as IForceTuple;
+            targetObject.ForceValue = sourceObject.ForceValue.CloneLegacy() as IForceTuple;
             targetObject.ForceCoordinate = sourceObject.ForceCoordinate;
         }
 

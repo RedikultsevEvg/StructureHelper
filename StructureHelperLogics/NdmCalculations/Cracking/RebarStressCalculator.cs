@@ -1,4 +1,4 @@
-﻿using LoaderCalculator;
+using LoaderCalculator;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Logics;
 using StructureHelperCommon.Infrastructures.Enums;
@@ -29,10 +29,22 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
+
+        public RebarStressCalculator(Guid id)
+            : this()
+        {
+            Id = id;
+        }
 
         public RebarStressCalculator(IStressLogic stressLogic)
+            : this(Guid.NewGuid(), stressLogic)
         {
+        }
+
+        public RebarStressCalculator(Guid id, IStressLogic stressLogic)
+        {
+            Id = id;
             this.stressLogic = stressLogic;
             InputData = new RebarStressCalculatorInputData();
         }

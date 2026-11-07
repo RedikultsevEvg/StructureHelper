@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
@@ -19,12 +20,14 @@ namespace StructureHelperLogics.Models.BeamShears
             this.cloningStrategy = cloningStrategy;
         }
 
-        public IBeamShearCalculatorInputData GetClone(IBeamShearCalculatorInputData sourceObject)
+        public IBeamShearCalculatorInputData GetClone(IBeamShearCalculatorInputData sourceObject, CloningMode cloningMode)
         {
             CheckObject.ThrowIfNull(cloningStrategy);
             CheckObject.ThrowIfNull(sourceObject);
+            if (cloningMode == CloningMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
             InitializeStrategies();
-            BeamShearCalculatorInputData inputData = new(Guid.NewGuid());
+            BeamShearCalculatorInputData inputData = new(id);
             actionUpdateStrategy.Update(inputData, sourceObject);
             sectionUpdateStrategy.Update(inputData, sourceObject);
             stirrupUpdateStrategy.Update(inputData, sourceObject);

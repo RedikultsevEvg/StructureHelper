@@ -1,5 +1,7 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes.Logics;
+using StructureHelperCommon.Services;
 using System;
 
 
@@ -34,8 +36,19 @@ namespace StructureHelperCommon.Models.Shapes
 
         public object Clone()
         {
-            var newItem = new Point2D();
-            updateStrategy.Update(newItem, this);
+            return GetClone(this, CloningMode.NewEntity);
+        }
+
+        public IPoint2D GetClone(IPoint2D sourceObject, CloningMode cloningMode)
+        {
+            if (cloningMode == CloningMode.Reference)
+            {
+                return sourceObject;
+            }
+
+            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            var newItem = new Point2D(id);
+            updateStrategy.Update(newItem, sourceObject);
             return newItem;
         }
     }

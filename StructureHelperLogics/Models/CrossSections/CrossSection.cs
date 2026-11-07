@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.WorkPlanes;
 using System;
 using System.Collections.Generic;
@@ -27,8 +27,12 @@ namespace StructureHelperLogics.Models.CrossSections
 
         public object Clone()
         {
-            ICloneStrategy<ICrossSection>  cloneStrategy = new CrossSectionCloneStrategy();
-            return cloneStrategy.GetClone(this);
+            return GetClone(this, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
+        }
+
+        public ICrossSection GetClone(ICrossSection sourceObject, StructureHelperCommon.Infrastructures.Enums.CloningMode cloningMode)
+        {
+            return new CrossSectionCloneStrategy().GetClone(sourceObject, cloningMode);
         }
     }
 }

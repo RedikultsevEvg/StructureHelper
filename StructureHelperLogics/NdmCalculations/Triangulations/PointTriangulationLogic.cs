@@ -21,7 +21,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
                 CenterX = options.Center.X,
                 CenterY = options.Center.Y,
                 Area = options.Area,
-                Material = options.HeadMaterial.GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm)
+                Material = options.HeadMaterial.HelperMaterial.GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm)
             };
             List<INdm> ndmCollection = new () { ndm};
             TriangulationService.SetPrestrain(ndmCollection, options.InitialPrestrain, PrestrainTypes.Initial);

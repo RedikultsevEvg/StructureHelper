@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
 
@@ -35,10 +35,7 @@ namespace DataAccess.DTOs
         {
             TraceLogger?.AddMessage("Date version converting is started", TraceLogStatuses.Debug);
             InitializeStrategies();
-            NewItem = new()
-            {
-                Id = source.Id
-            };
+            NewItem = new(source.Id);
             updateStrategy.Update(NewItem, source);
             NewItem.AnalysisVersion = convertStrategy.Convert(source.AnalysisVersion);
             TraceLogger?.AddMessage("Date version converting has been finished", TraceLogStatuses.Service);

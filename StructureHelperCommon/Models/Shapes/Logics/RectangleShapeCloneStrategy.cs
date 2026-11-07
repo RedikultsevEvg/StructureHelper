@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +13,12 @@ namespace StructureHelperCommon.Models.Shapes
     {
         IUpdateStrategy<IRectangleShape> updateStrategy;
         IUpdateStrategy<IRectangleShape> UpdateStrategy => updateStrategy ??= new RectangleShapeUpdateStrategy();
-        public IRectangleShape GetClone(IRectangleShape sourceObject)
+        public IRectangleShape GetClone(IRectangleShape sourceObject, CloningMode cloningMode)
         {
-            RectangleShape clone = new RectangleShape(Guid.NewGuid());
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloningMode == CloningMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            RectangleShape clone = new(id);
             UpdateStrategy.Update(clone, sourceObject);
             return clone;
         }

@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Loggers;
@@ -17,12 +17,27 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         public Action<IResult> ActionToOutputResults { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
+
+        public RebarCrackCalculator(Guid id)
+            : this()
+        {
+            Id = id;
+        }
 
         public RebarCrackCalculator(ICheckInputDataLogic<IRebarCrackCalculatorInputData> checkInputDataLogic,
             ICrackWidthCalculationLogic crackWidthCalculationLogic,
             IShiftTraceLogger? traceLogger)
+            : this(Guid.NewGuid(), checkInputDataLogic, crackWidthCalculationLogic, traceLogger)
         {
+        }
+
+        public RebarCrackCalculator(Guid id,
+            ICheckInputDataLogic<IRebarCrackCalculatorInputData> checkInputDataLogic,
+            ICrackWidthCalculationLogic crackWidthCalculationLogic,
+            IShiftTraceLogger? traceLogger)
+        {
+            Id = id;
             this.checkInputDataLogic = checkInputDataLogic;
             this.crackWidthCalculationLogic = crackWidthCalculationLogic;
             this.TraceLogger = traceLogger;

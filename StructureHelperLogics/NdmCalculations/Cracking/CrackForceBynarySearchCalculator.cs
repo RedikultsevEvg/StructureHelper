@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
@@ -33,13 +33,29 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
+
+        public CrackForceBynarySearchCalculator(Guid id)
+            : this()
+        {
+            Id = id;
+        }
 
         public CrackForceBynarySearchCalculator(
             IIsSectionCrackedByFactorLogic crackedByFactorLogic,
             ICheckInputDataLogic<ICrackForceCalculatorInputData> checkInputDataLogic
             )
+            : this(Guid.NewGuid(), crackedByFactorLogic, checkInputDataLogic)
         {
+        }
+
+        public CrackForceBynarySearchCalculator(
+            Guid id,
+            IIsSectionCrackedByFactorLogic crackedByFactorLogic,
+            ICheckInputDataLogic<ICrackForceCalculatorInputData> checkInputDataLogic
+            )
+        {
+            Id = id;
             this.crackedByFactorLogic = crackedByFactorLogic;
             this.checkInputDataLogic = checkInputDataLogic;
             InputData = new CrackForceCalculatorInputData();

@@ -1,8 +1,9 @@
-﻿using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
-    public interface ISurroundData : ICloneable
+    public interface ISurroundData : ICloneStrategy<ISurroundData>
     {
         double ConstZ { get; set; }
         ConstOneDirectionConverter ConvertLogicEntity { get; set; }

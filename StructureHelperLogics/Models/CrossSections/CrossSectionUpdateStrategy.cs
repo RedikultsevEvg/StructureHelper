@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.WorkPlanes;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -50,10 +50,6 @@ namespace StructureHelperLogics.Models.CrossSections
         {
             CheckObject.ThrowIfNull(targetObject.SectionRepository);
             CheckObject.ThrowIfNull(sourceObject.SectionRepository);
-            targetObject.SectionRepository.Calculators.Clear();
-            targetObject.SectionRepository.Primitives.Clear();
-            targetObject.SectionRepository.ForceActions.Clear();
-            targetObject.SectionRepository.HeadMaterials.Clear();
             repositoryUpdateStrategy ??= new CrossSectionRepositoryUpdateStrategy();
             repositoryUpdateStrategy.Update(targetObject.SectionRepository, sourceObject.SectionRepository);
         }

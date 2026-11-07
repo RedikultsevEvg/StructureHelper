@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
@@ -45,14 +45,26 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             {
                 primitive.CrossSection = section;
             }
-            repository.HeadMaterials.AddRange(materials);
-            repository.Primitives.AddRange(primitives);
+            foreach (var material in materials)
+            {
+                repository.AddHeadMaterial(material);
+            }
+            foreach (var primitive in primitives)
+            {
+                repository.AddPrimitive(primitive);
+            }
             combinations = forceLogic.GetCombinationList();
-            repository.ForceActions.AddRange(combinations);
+            foreach (var combination in combinations)
+            {
+                repository.AddForceAction(combination);
+            }
             calculators = calculatorLogic.GetNdmCalculators();
             AddAllForcesToCalculators();
             AddAllPrimitivesToCalculator();
-            repository.Calculators.AddRange(calculators);
+            foreach (var calculator in calculators)
+            {
+                repository.AddCalculator(calculator);
+            }
             return section;
         }
 

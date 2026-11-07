@@ -1,10 +1,10 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using System;
 
 namespace StructureHelperCommon.Models.FeaMaterials
 {
     /// <inheritdoc/>
-    public class ConcreteFeaMaterial : IConcreteFeaMaterial, ICloneable
+    public class ConcreteFeaMaterial : IConcreteFeaMaterial
     {
         private double youngsModulus = 30e9;
         private double poissonsRatio = 0.2;
@@ -58,7 +58,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
         public object Clone()
         {
             var cloneStrategy = new ConcreteFeaMaterialCloneStrategy();
-            var clone = cloneStrategy.GetClone(this);
+            var clone = cloneStrategy.GetClone(this, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
             return clone;
         }
     }

@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Ndms;
+using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
@@ -30,7 +30,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         {
             var primitive = new ShapeNdmPrimitive(Guid.NewGuid());
             var logic = new ShapeCloneStrategy();
-            IShape polygon = logic.GetClone(Shape);
+            IShape polygon = logic.GetClone(Shape, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
             primitive.SetShape(polygon);
             updateStrategy ??= new ShapeNdmPrimitiveUpdateStrategy() { UpdateChildren = true};
             updateStrategy.Update(primitive, this);

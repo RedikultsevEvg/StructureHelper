@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,12 @@ namespace StructureHelperCommon.Models.Shapes
     {
         private IUpdateStrategy<IVerticalDoubleTShape> updateStrategy;
         private IUpdateStrategy<IVerticalDoubleTShape> UpdateStrategy => updateStrategy ??= new VerticalDoubleTShapeUpdateStrategy();
-        public IVerticalDoubleTShape GetClone(IVerticalDoubleTShape sourceObject)
+        public IVerticalDoubleTShape GetClone(IVerticalDoubleTShape sourceObject, CloningMode cloningMode)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            VerticalDoubleTShape clone = new(Guid.NewGuid());
+            if (cloningMode == CloningMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            VerticalDoubleTShape clone = new(id);
             UpdateStrategy.Update(clone, sourceObject);
             return clone;
         }

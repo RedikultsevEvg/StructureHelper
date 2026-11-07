@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models;
 using System;
@@ -23,12 +23,23 @@ namespace StructureHelperCommon.Models.Soils
         public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IShiftTraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
 
         public bool ShowTraceData { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public AnchorCalculator(SoilAnchor soilAnchor, IAnchorSoilProperties anchorSoilProperties)
+        public AnchorCalculator(Guid id)
+            : this(id, null!, null!)
         {
+        }
+
+        public AnchorCalculator(SoilAnchor soilAnchor, IAnchorSoilProperties anchorSoilProperties)
+            : this(Guid.NewGuid(), soilAnchor, anchorSoilProperties)
+        {
+        }
+
+        public AnchorCalculator(Guid id, SoilAnchor soilAnchor, IAnchorSoilProperties anchorSoilProperties)
+        {
+            Id = id;
             Anchor = soilAnchor;
             Soil = anchorSoilProperties;
         }

@@ -1,10 +1,10 @@
-﻿using StructureHelper.Models.Materials;
+using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public interface INdmElement : ISaveable, ICloneable
+    public interface INdmElement : ISaveable, ICloneStrategy<INdmElement>
     {
         /// <summary>
         /// Material of primitive

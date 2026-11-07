@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Materials;
+using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Logics;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
@@ -15,7 +15,18 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
         private ICurvatureTermCalculator calculator;
 
         public CurvatureForceCalculator(IShiftTraceLogger? traceLogger)
+            : this(Guid.NewGuid(), traceLogger)
         {
+        }
+
+        public CurvatureForceCalculator(Guid id)
+            : this(id, null)
+        {
+        }
+
+        public CurvatureForceCalculator(Guid id, IShiftTraceLogger? traceLogger)
+        {
+            Id = id;
             TraceLogger = traceLogger;
         }
 
@@ -25,7 +36,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
 
         public object Clone()
         {

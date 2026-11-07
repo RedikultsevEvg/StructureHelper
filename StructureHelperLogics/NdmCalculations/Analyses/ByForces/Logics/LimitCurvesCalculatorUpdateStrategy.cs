@@ -1,17 +1,11 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
 {
-    internal class LimitCurvesCalculatorUpdateStrategy : IUpdateStrategy<LimitCurvesCalculator>
+    internal class LimitCurvesCalculatorUpdateStrategy : IUpdateStrategy<ILimitCurvesCalculator>
     {
         LimitCurveInputDataUpdateStrategy inputDataUpdateStrategy => new();
-        public void Update(LimitCurvesCalculator targetObject, LimitCurvesCalculator sourceObject)
+        public void Update(ILimitCurvesCalculator targetObject, ILimitCurvesCalculator sourceObject)
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;

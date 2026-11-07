@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Logics.Geometry;
+using LoaderCalculator.Logics.Geometry;
 using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.UI.DataContexts;
 using StructureHelper.Models.Materials;
@@ -144,7 +144,10 @@ namespace StructureHelper.Windows.MainWindow
             importService.Import();
             var ndmPrimitives = logic.Primitives;
             var primitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(ndmPrimitives);
-            repository.Primitives.AddRange(ndmPrimitives);
+            foreach (var ndmPrimitive in ndmPrimitives)
+            {
+                repository.AddPrimitive(ndmPrimitive);
+            }
             PrimitiveLogic.AddItems(primitives);
             PrimitiveLogic.Refresh();
         }
@@ -203,7 +206,10 @@ namespace StructureHelper.Windows.MainWindow
             importFromFileLogic.Import();
             var ndmPrimitives = importFromFileLogic.Primitives;
             var primitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(ndmPrimitives);
-            repository.Primitives.AddRange(ndmPrimitives);
+            foreach (var ndmPrimitive in ndmPrimitives)
+            {
+                repository.AddPrimitive(ndmPrimitive);
+            }
             PrimitiveLogic.AddItems(primitives);
             PrimitiveLogic.Refresh();
         }
@@ -366,10 +372,22 @@ namespace StructureHelper.Windows.MainWindow
             }
                 var newSection = new SectionTemplate(geometryLogic).GetCrossSection();
                 var newRepository = newSection.SectionRepository;
-                repository.HeadMaterials.AddRange(newRepository.HeadMaterials);
-                repository.Primitives.AddRange(newRepository.Primitives);
-                repository.ForceActions.AddRange(newRepository.ForceActions);
-                repository.Calculators.AddRange(newRepository.Calculators);
+                foreach (var material in newRepository.HeadMaterials)
+                {
+                    repository.AddHeadMaterial(material);
+                }
+                foreach (var primitive in newRepository.Primitives)
+                {
+                    repository.AddPrimitive(primitive);
+                }
+                foreach (var action in newRepository.ForceActions)
+                {
+                    repository.AddForceAction(action);
+                }
+                foreach (var calculator in newRepository.Calculators)
+                {
+                    repository.AddCalculator(calculator);
+                }
                 OnPropertyChanged(nameof(HeadMaterials));
                 CombinationsLogic.AddItems(newRepository.ForceActions);
                 CalculatorsLogic.AddItems(newRepository.Calculators);

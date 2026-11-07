@@ -24,7 +24,10 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
         public IEnumerable<INdm> GetNdmCollection()
         {
             IMesh mesh = GetMesh();
-            var material = options.HeadMaterial.GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm);
+            var material = options
+                .HeadMaterial
+                .HelperMaterial
+                .GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm);
             List<INdm> ndms = GetNdmsByMesh(mesh, material);
             return ndms;
         }

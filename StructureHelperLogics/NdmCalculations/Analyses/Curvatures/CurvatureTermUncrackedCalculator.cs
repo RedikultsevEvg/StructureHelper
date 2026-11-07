@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Ndms;
+using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
@@ -18,7 +18,18 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
         private List<INdm> shortTermNdms;
 
         public CurvatureTermUncrackedCalculator(IShiftTraceLogger? traceLogger)
+            : this(Guid.NewGuid(), traceLogger)
         {
+        }
+
+        public CurvatureTermUncrackedCalculator(Guid id)
+            : this(id, null)
+        {
+        }
+
+        public CurvatureTermUncrackedCalculator(Guid id, IShiftTraceLogger? traceLogger)
+        {
+            Id = id;
             TraceLogger = traceLogger;
         }
 
@@ -28,7 +39,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
 
         public object Clone()
         {

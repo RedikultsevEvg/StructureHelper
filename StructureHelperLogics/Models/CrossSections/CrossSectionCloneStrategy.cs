@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.WorkPlanes;
 using StructureHelperCommon.Services;
 
@@ -8,7 +9,6 @@ namespace StructureHelperLogics.Models.CrossSections
     {
         private ICloneStrategy<ICrossSectionRepository> repositoryCloneStrategy;
         private IUpdateStrategy<IWorkPlaneProperty> workPlaneUpdateStrategy;
-        private CrossSection targetObject;
 
         public CrossSectionCloneStrategy(ICloneStrategy<ICrossSectionRepository> repositoryCloneStrategy,
             IUpdateStrategy<IWorkPlaneProperty> workPlaneUpdateStrategy)
@@ -19,11 +19,14 @@ namespace StructureHelperLogics.Models.CrossSections
 
         public CrossSectionCloneStrategy()  {   }
 
-        public ICrossSection GetClone(ICrossSection sourceObject)
+        public ICrossSection GetClone(ICrossSection sourceObject, CloningMode cloningMode)
         {
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloningMode == CloningMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
             repositoryCloneStrategy ??= new CrossSectionRepositoryCloneStrategy(new DeepCloningStrategy());
-            ICrossSectionRepository newRepository = repositoryCloneStrategy.GetClone(sourceObject.SectionRepository);
-            targetObject = new()
+            ICrossSectionRepository newRepository = repositoryCloneStrategy.GetClone(sourceObject.SectionRepository, cloningMode);
+            var targetObject = new CrossSection(id)
             {
                 SectionRepository = newRepository
             };

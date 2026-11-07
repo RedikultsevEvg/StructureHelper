@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace StructureHelperCommon.Models.Shapes
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             if (UpdateChildren == true)
             {
-                var newPoint = sourceObject.Point.Clone() as IPoint2D;
+                var newPoint = sourceObject.Point.CloneLegacy() as IPoint2D;
                 targetObject.Point = newPoint;
             }
         }

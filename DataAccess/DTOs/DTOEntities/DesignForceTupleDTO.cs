@@ -1,14 +1,12 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Forces.Logics;
 
 namespace DataAccess.DTOs
 {
     public class DesignForceTupleDTO : IDesignForceTuple
     {
-        private IUpdateStrategy<IDesignForceTuple> updateStrategy;
-
         [JsonProperty("Id")]
         public Guid Id { get; set; }
         [JsonProperty("LimitState")]
@@ -18,11 +16,21 @@ namespace DataAccess.DTOs
         [JsonProperty("ForceTuple")]
         public IForceTuple ForceTuple { get; set; } = new ForceTupleDTO(Guid.NewGuid());
 
+        public DesignForceTupleDTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public DesignForceTupleDTO(Guid id)
+        {
+            Id = id;
+        }
+
 
         public object Clone()
         {
-            DesignForceTupleDTO newItem = new();
-            updateStrategy.Update(newItem, this);
+            var newItem = new DesignForceTupleDTO(Id);
+            new DesignForceTupleUpdateStrategy().Update(newItem, this);
             return newItem;
         }
     }

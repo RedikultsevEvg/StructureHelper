@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Services;
@@ -32,7 +32,7 @@ namespace StructureHelperCommon.Models.Projects
             targetObject.VisualAnalyses.Clear();
             foreach (var item in sourceObject.VisualAnalyses)
             {
-                targetObject.VisualAnalyses.Add(item.Clone() as IVisualAnalysis);
+                targetObject.VisualAnalyses.Add(item.CloneLegacy() as IVisualAnalysis);
             }
         }
     }

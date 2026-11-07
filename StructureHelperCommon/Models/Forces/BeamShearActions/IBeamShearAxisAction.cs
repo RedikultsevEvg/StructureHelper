@@ -1,4 +1,5 @@
-﻿using System;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Implement properties of shear loads on beam
     /// </summary>
-    public interface IBeamShearAxisAction : IAction
+    public interface IBeamShearAxisAction : IAction, ICloneStrategy<IBeamShearAxisAction>
     {
         /// <summary>
         /// Internal force at support point

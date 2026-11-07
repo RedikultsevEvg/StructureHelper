@@ -1,6 +1,7 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services;
+using StructureHelperLogics.Models.CrossSections;
 
 namespace DataAccess.DTOs
 {
@@ -21,7 +22,14 @@ namespace DataAccess.DTOs
             foreach (var item in sourceObject.ForceActions)
             {
                 var newItem = convertStrategy.Convert(item);
-                targetObject.ForceActions.Add(newItem);
+                if (targetObject is ICrossSectionRepository repository)
+                {
+                    repository.AddForceAction(newItem);
+                }
+                else
+                {
+                    targetObject.ForceActions.Add(newItem);
+                }
             }
         }
     }

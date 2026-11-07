@@ -1,4 +1,4 @@
-﻿using DataAccess.DTOs.Converters;
+using DataAccess.DTOs.Converters;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
@@ -63,10 +63,7 @@ namespace DataAccess.DTOs
 
         private CrossSectionRepositoryDTO GetNewRepository(ICrossSectionRepository source)
         {
-            CrossSectionRepositoryDTO newItem = new()
-            {
-                Id = source.Id
-            };
+            CrossSectionRepositoryDTO newItem = new(source.Id);
             ProcessForceActions(newItem, source);
             List<IHeadMaterial> materials = ProcessMaterials(source);
             newItem.HeadMaterials.AddRange(materials);

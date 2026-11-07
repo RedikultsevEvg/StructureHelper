@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using System.Collections.Generic;
 
 namespace StructureHelperCommon.Models.Shapes
 {

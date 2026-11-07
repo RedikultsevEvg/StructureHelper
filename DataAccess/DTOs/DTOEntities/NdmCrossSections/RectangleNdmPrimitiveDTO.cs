@@ -1,14 +1,9 @@
-﻿using LoaderCalculator.Data.Ndms;
+using LoaderCalculator.Data.Ndms;
 using Newtonsoft.Json;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
@@ -45,9 +40,21 @@ namespace DataAccess.DTOs
         [JsonIgnore]
         public ICrossSection? CrossSection { get; set; }
 
+        public RectangleNdmPrimitiveDTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public RectangleNdmPrimitiveDTO(Guid id)
+        {
+            Id = id;
+        }
+
         public object Clone()
         {
-            throw new NotImplementedException();
+            RectangleNdmPrimitiveDTO newItem = new RectangleNdmPrimitiveDTO(Id);
+            new NdmPrimitiveUpdateStrategy().Update(newItem, this);
+            return newItem;
         }
 
         public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)

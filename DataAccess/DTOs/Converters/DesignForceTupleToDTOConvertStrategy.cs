@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.Logics;
@@ -52,7 +52,7 @@ namespace DataAccess.DTOs
 
         private DesignForceTupleDTO GetNewDesignForceTuple(IDesignForceTuple source)
         {
-            DesignForceTupleDTO newItem = new() { Id = source.Id };
+            DesignForceTupleDTO newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
             forceTupleConvertStrategy.ReferenceDictionary = ReferenceDictionary;
             forceTupleConvertStrategy.TraceLogger = TraceLogger;

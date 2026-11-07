@@ -6,6 +6,7 @@ using StructureHelper.Windows.Materials;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Services.ColorServices;
+using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System.Collections.Generic;
@@ -42,8 +43,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         {
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Elastic200);
             material.Name = "New Elastic Material";
-            HeadMaterials.Add(material);
-            headMaterials.Add(material);
+            AddMaterial(material);
             SelectedMaterial = material;
         }
 
@@ -178,6 +178,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         public HeadMaterialsViewModel(IHasHeadMaterials parent) : this(parent.HeadMaterials)
         {
+            this.parent = parent;
         }
 
         public HeadMaterialsViewModel(List<IHeadMaterial> _headMaterials)
@@ -197,8 +198,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         private void CopyMaterial()
         {
             var material = SelectedMaterial.Clone() as IHeadMaterial;
-            HeadMaterials.Add(material);
-            headMaterials.Add(material);
+            AddMaterial(material);
             SelectedMaterial = material;
         }
 
@@ -221,8 +221,15 @@ namespace StructureHelper.Windows.ViewModels.Materials
             var dialogResult = MessageBox.Show("Delete material?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                headMaterials.Remove(SelectedMaterial);
-                HeadMaterials.Remove(SelectedMaterial);    
+                if (parent is ICrossSectionRepository repository)
+                {
+                    repository.RemoveHeadMaterial(SelectedMaterial);
+                }
+                else
+                {
+                    headMaterials.Remove(SelectedMaterial);
+                }
+                HeadMaterials.Remove(SelectedMaterial);
             }
         }
 
@@ -239,8 +246,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         {
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Concrete40);
             material.Name = "New Concrete";
-            HeadMaterials.Add(material);
-            headMaterials.Add(material);
+            AddMaterial(material);
             SelectedMaterial = material;
         }
 
@@ -248,9 +254,21 @@ namespace StructureHelper.Windows.ViewModels.Materials
         {
             var material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforcement400);
             material.Name = "New Reinforcement";
-            HeadMaterials.Add(material);
-            headMaterials.Add(material);
+            AddMaterial(material);
             SelectedMaterial = material;
+        }
+
+        private void AddMaterial(IHeadMaterial material)
+        {
+            if (parent is ICrossSectionRepository repository)
+            {
+                repository.AddHeadMaterial(material);
+            }
+            else
+            {
+                headMaterials.Add(material);
+            }
+            HeadMaterials.Add(material);
         }
     }
 }

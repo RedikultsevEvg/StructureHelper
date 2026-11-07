@@ -1,4 +1,4 @@
-﻿using StructureHelper.Windows.Shapes;
+using StructureHelper.Windows.Shapes;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Shapes;
 
@@ -26,7 +26,7 @@ namespace StructureHelper.Windows.PrimitivePropertiesWindow
             else if (shape is IVerticalTShape tShape)
             {
                 var logic = new VerticalTShapeCloneStrategy();
-                IVerticalTShape tShapeClone = logic.GetClone(tShape);
+                IVerticalTShape tShapeClone = logic.GetClone(tShape, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
                 var window = new VerticalTShapeView(tShape);
                 window.ShowDialog();
                 if (window.DialogResult != true)
@@ -38,7 +38,7 @@ namespace StructureHelper.Windows.PrimitivePropertiesWindow
             else if (shape is IVerticalDoubleTShape doubleTShape)
             {
                 var logic = new VerticalDoubleTShapeCloneStrategy();
-                IVerticalDoubleTShape shapeClone = logic.GetClone(doubleTShape);
+                IVerticalDoubleTShape shapeClone = logic.GetClone(doubleTShape, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
                 var window = new VerticalDoubleTShapeView(doubleTShape);
                 window.ShowDialog();
                 if (window.DialogResult != true)
@@ -50,7 +50,7 @@ namespace StructureHelper.Windows.PrimitivePropertiesWindow
             else if (shape is ITrapezoidShape trapezoidShape)
             {
                 var logic = new TrapezoidShapeCloneStrategy();
-                ITrapezoidShape shapeClone = logic.GetClone(trapezoidShape);
+                ITrapezoidShape shapeClone = logic.GetClone(trapezoidShape, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
                 var window = new TrapezoidShapeView(trapezoidShape);
                 window.ShowDialog();
                 if (window.DialogResult != true)
@@ -62,7 +62,7 @@ namespace StructureHelper.Windows.PrimitivePropertiesWindow
             else if (shape is IRingShape ringShape)
             {
                 var logic = new RingShapeCloneStrategy();
-                IRingShape ringShapeClone = logic.GetClone(ringShape);
+                IRingShape ringShapeClone = logic.GetClone(ringShape, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
                 var window = new RingShapeView(ringShape);
                 window.ShowDialog();
                 if (window.DialogResult != true)

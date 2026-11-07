@@ -1,4 +1,4 @@
-﻿using DataAccess.DTOs.Converters;
+using DataAccess.DTOs.Converters;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.WorkPlanes;
@@ -61,10 +61,7 @@ namespace DataAccess.DTOs
         private void GetNewItemBySource(ICrossSection source)
         {
             Check();
-            NewItem = new()
-            {
-                Id = source.Id
-            };
+            NewItem = new(source.Id);
             convertLogic = new DictionaryConvertStrategy<CrossSectionRepositoryDTO, ICrossSectionRepository>(this, convertRepositoryStrategy);
             NewItem.SectionRepository = convertLogic.Convert(source.SectionRepository);
             NewItem.WorkPlaneProperty = workPlanePropertyConvertStrategy.Convert(source.WorkPlaneProperty);

@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.Models.Materials;
@@ -27,7 +27,7 @@ namespace DataAccess.DTOs
             Check();
             try
             {
-                FRMaterialDTO newItem = new() { Id = source.Id };
+                FRMaterialDTO newItem = new(source.Id);
                 updateStrategy.Update(newItem, source);
                 return newItem;
             }

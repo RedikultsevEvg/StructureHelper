@@ -8,5 +8,6 @@ namespace StructureHelperCommon.Infrastructures.Enums
     {
         NewEntity = 0,
         PreserveIdentity = 1,
+        Reference = 2,
     }
 }

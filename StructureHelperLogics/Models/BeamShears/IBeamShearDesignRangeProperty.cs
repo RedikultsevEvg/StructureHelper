@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <summary>
     /// Implements properties for calculting maximum range for considering of inclined sections
     /// </summary>
-    public interface IBeamShearDesignRangeProperty : ISaveable, ICloneable
+    public interface IBeamShearDesignRangeProperty : ISaveable, ICloneStrategy<IBeamShearDesignRangeProperty>
     {
         /// <summary>
         /// Absolute value of range in metres

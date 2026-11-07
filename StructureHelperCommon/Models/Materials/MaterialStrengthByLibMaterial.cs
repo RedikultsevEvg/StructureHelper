@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +11,11 @@ namespace StructureHelperCommon.Models.Materials
     {
         public Guid Id { get; }
         public ILibMaterial LibMaterial { get; }
+
+        public MaterialStrengthByLibMaterial(Guid id)
+            : this(id, null!)
+        {
+        }
 
         public MaterialStrengthByLibMaterial(Guid id, ILibMaterial libMaterial)
         {

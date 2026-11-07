@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -43,7 +43,7 @@ namespace DataAccess.DTOs
 
         private DivisionSizeDTO GetNewDivisionSize(IDivisionSize source)
         {
-            DivisionSizeDTO newItem = new() { Id = source.Id };
+            DivisionSizeDTO newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
             return newItem;
         }

@@ -54,9 +54,11 @@ namespace StructureHelperCommon.Models.Forces
             IThermalActionTimeIndependend thermalAction)
         {
             CheckObject.ThrowIfNull(thermalAction, nameof(thermalAction));
-            if (thermalAction is ICloneable cloneable)
+            if (thermalAction is ICloneStrategy cloneStrategy)
             {
-                return (IThermalActionTimeIndependend)cloneable.Clone();
+                return (IThermalActionTimeIndependend)cloneStrategy.GetClone(
+                    thermalAction,
+                    StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
             }
             throw new StructureHelperException(
                 $"{nameof(IThermalActionTimeIndependend)} implementation does not support cloning.");

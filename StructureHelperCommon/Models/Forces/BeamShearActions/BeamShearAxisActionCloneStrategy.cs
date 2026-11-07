@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,32 +11,28 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
 {
     internal class BeamShearAxisActionCloneStrategy : ICloneStrategy<IBeamShearAxisAction>
     {
-        private ICloningStrategy cloningStrategy;
-        private IUpdateStrategy<IBeamShearAxisAction> updateStrategy; 
+        private readonly ICloningStrategy cloningStrategy;
+        private IUpdateStrategy<IBeamShearAxisAction> updateStrategy;
 
         public BeamShearAxisActionCloneStrategy(ICloningStrategy cloningStrategy)
         {
             this.cloningStrategy = cloningStrategy;
         }
 
-        private BeamShearAxisAction targetObject;
-
-        public IBeamShearAxisAction GetClone(IBeamShearAxisAction sourceObject)
+        public IBeamShearAxisAction GetClone(IBeamShearAxisAction sourceObject, CloningMode cloningMode)
         {
-            InitializeStrategies();
-            targetObject = new(Guid.NewGuid());
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloningMode == CloningMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            updateStrategy ??= new BeamShearAxisActionUpdateStrategy();
+            var targetObject = new BeamShearAxisAction(id);
             updateStrategy.Update(targetObject, sourceObject);
             targetObject.ShearLoads.Clear();
             foreach (var shearLoad in sourceObject.ShearLoads)
             {
-                targetObject.ShearLoads.Add(cloningStrategy.Clone(shearLoad));
+                targetObject.ShearLoads.Add(cloningStrategy.Clone(shearLoad, null, cloningMode));
             }
             return targetObject;
-        }
-
-        private void InitializeStrategies()
-        {
-            updateStrategy ??= new BeamShearAxisActionUpdateStrategy();
         }
     }
 }

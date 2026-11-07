@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +14,11 @@ namespace StructureHelperCommon.Models.Codes
         public string Name { get; set; }
         public string FullName { get; set; }
 
+
+        public CodeEntity(Guid id)
+            : this(id, default)
+        {
+        }
 
         public CodeEntity(Guid id, NatSystems natSystem)
         {

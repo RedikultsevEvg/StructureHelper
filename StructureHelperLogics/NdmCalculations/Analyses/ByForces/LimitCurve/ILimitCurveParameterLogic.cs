@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Shapes;
 using System;
@@ -12,7 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     /// <summary>
     /// Find parameter by point and predicate
     /// </summary>
-    public interface ILimitCurveParameterLogic : IHasActionByResult, ICloneable
+    public interface ILimitCurveParameterLogic : IHasActionByResult, ICloneStrategy<ILimitCurveParameterLogic>
     {
         Predicate<Point2D> LimitPredicate { get; set; }
         IPoint2D CurrentPoint { get; set; }

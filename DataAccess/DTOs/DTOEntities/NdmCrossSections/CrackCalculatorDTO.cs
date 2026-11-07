@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperLogics.NdmCalculations.Analyses.Logics;
 using StructureHelperLogics.NdmCalculations.Cracking;
 
 namespace DataAccess.DTOs
@@ -27,7 +28,9 @@ namespace DataAccess.DTOs
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            CrackCalculatorDTO newItem = new(Id);
+            new CalculatorUpdateStrategy().Update(newItem, this);
+            return newItem;
         }
 
         public void Run()

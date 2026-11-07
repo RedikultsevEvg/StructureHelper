@@ -1,31 +1,33 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelperLogics.NdmCalculations.Primitives.Logics;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {
     public class CurvatureCalculatorUpdateCloningStrategy : IUpdateStrategy<ICurvatureCalculator>
     {
         private readonly ICloningStrategy cloningStrategy;
-        private IUpdateStrategy<IHasForceActions> forcesUpdateStrategy;
-        private IUpdateStrategy<IHasForceActions> ForcesUpdateStrategy => forcesUpdateStrategy ??= new HasForceActionUpdateCloningStrategy(cloningStrategy);
-        private IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
-        private IUpdateStrategy<IHasPrimitives> PrimitivesUpdateStrategy => primitivesUpdateStrategy ??= new HasPrimitivesUpdateCloningStrategy(cloningStrategy);
+        private readonly ICollectionCloneStrategy<IForceAction> forcesCloneStrategy;
+        private readonly ICollectionCloneStrategy<INdmPrimitive> primitivesCloneStrategy;
 
         public CurvatureCalculatorUpdateCloningStrategy(ICloningStrategy cloningStrategy)
+            : this(
+                cloningStrategy,
+                new HasForceActionsCloneStrategy(cloningStrategy),
+                new HasPrimitivesCloneStrategy(cloningStrategy))
         {
-            this.cloningStrategy = cloningStrategy;
         }
 
         public CurvatureCalculatorUpdateCloningStrategy(
             ICloningStrategy cloningStrategy,
-            IUpdateStrategy<IHasForceActions> forcesUpdateStrategy,
-            IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy)
+            ICollectionCloneStrategy<IForceAction> forcesCloneStrategy,
+            ICollectionCloneStrategy<INdmPrimitive> primitivesCloneStrategy)
         {
             this.cloningStrategy = cloningStrategy;
-            this.forcesUpdateStrategy = forcesUpdateStrategy;
-            this.primitivesUpdateStrategy = primitivesUpdateStrategy;
+            this.forcesCloneStrategy = forcesCloneStrategy;
+            this.primitivesCloneStrategy = primitivesCloneStrategy;
         }
 
         public void Update(ICurvatureCalculator targetObject, ICurvatureCalculator sourceObject)
@@ -36,8 +38,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             var sourceData = sourceObject.InputData;
             var targetData = targetObject.InputData;
-            PrimitivesUpdateStrategy.Update(targetData, sourceData);
-            ForcesUpdateStrategy.Update(targetData, sourceData);
+            primitivesCloneStrategy.GetClone(targetData.Primitives, sourceData.Primitives, CloningMode.NewEntity);
+            forcesCloneStrategy.GetClone(targetData.ForceActions, sourceData.ForceActions, CloningMode.NewEntity);
         }
     }
 }

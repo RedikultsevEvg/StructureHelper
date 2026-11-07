@@ -1,16 +1,11 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
     public class StirrupGroupCloneStrategy : ICloneStrategy<IStirrupGroup>
     {
-        private IUpdateStrategy<IStirrupGroup> updateStrategy;
-        private IUpdateStrategy<IHasStirrups> hasStirrupsUpdateStrategy;
         private readonly ICloningStrategy cloningStrategy;
 
         public StirrupGroupCloneStrategy(ICloningStrategy cloningStrategy)
@@ -18,15 +13,11 @@ namespace StructureHelperLogics.Models.BeamShears
             this.cloningStrategy = cloningStrategy;
         }
 
-        public IStirrupGroup GetClone(IStirrupGroup sourceObject)
+        public IStirrupGroup GetClone(IStirrupGroup sourceObject, CloningMode cloningMode)
         {
-            //updateStrategy ??= new StirrupGroupUpdateStrategy() { UpdateChildren = false };
-            //hasStirrupsUpdateStrategy ??= new HasStirrupsUpdateCloneStrategy(cloningStrategy);
-            //StirrupGroup newItem = new(Guid.NewGuid());
-            //updateStrategy.Update(newItem,sourceObject);
-            //hasStirrupsUpdateStrategy.Update(newItem,sourceObject);
-            //return newItem;
-            return cloningStrategy.Clone(sourceObject);
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloningMode == CloningMode.Reference) { return sourceObject; }
+            return cloningStrategy.Clone(sourceObject, null, cloningMode);
         }
     }
 }

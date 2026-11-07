@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Materials;
+using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Models.Forces;
@@ -34,7 +34,13 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public bool Triangulate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public LinePrimitive()
+            : this(Guid.NewGuid())
         {
+        }
+
+        public LinePrimitive(Guid id)
+        {
+            Id = id;
             StartPoint = new Point2D();
             EndPoint = new Point2D();
 

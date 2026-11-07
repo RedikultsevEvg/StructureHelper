@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +16,11 @@ namespace StructureHelperCommon.Models.Shapes
         public double Radius { get; }
         public double StartAngle { get; }
         public double SweepAngle { get; }
+        public PolygonArcSegment(Guid id)
+            : this(id, new Vertex(Guid.NewGuid()), new Vertex(Guid.NewGuid()), 0d, 0d, 0d)
+        {
+        }
+
         public PolygonArcSegment(Guid id, IVertex startVertex, IVertex center, double radius, double startAngleDeg, double sweepAngleDeg)
         {
             Id = id;

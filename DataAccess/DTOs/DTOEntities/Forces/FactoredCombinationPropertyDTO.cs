@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Forces.Logics;
 
 namespace DataAccess.DTOs
 {
@@ -23,7 +24,9 @@ namespace DataAccess.DTOs
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            var newItem = new FactoredCombinationPropertyDTO(Id);
+            new FactoredCombinationPropertyUpdateStrategy().Update(newItem, this);
+            return newItem;
         }
     }
 }

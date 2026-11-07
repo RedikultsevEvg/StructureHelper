@@ -44,8 +44,8 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                     {
                         try
                         {
-                            var material = headMaterial.GetLoaderMaterial(limitState, calcTerm);
-                            material = headMaterial.GetCrackedLoaderMaterial(limitState, calcTerm);
+                            var material = headMaterial.HelperMaterial.GetLoaderMaterial(limitState, calcTerm);
+                            material = headMaterial.HelperMaterial.GetCrackedLoaderMaterial(limitState, calcTerm);
                         }
                         catch (Exception ex)
                         {

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
 using System;
@@ -19,5 +19,15 @@ namespace DataAccess.DTOs
         public string Comment { get; set; } = string.Empty;
         [JsonProperty("AnalysisVersion")]
         public ISaveable AnalysisVersion { get; set; }
+
+        public DateVersionDTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public DateVersionDTO(Guid id)
+        {
+            Id = id;
+        }
     }
 }

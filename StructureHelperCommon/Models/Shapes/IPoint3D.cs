@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace StructureHelperCommon.Models.Shapes
     /// <summary>
     /// Interface for geometry point in 3D space
     /// </summary>
-    public interface IPoint3D : ISaveable, ICloneable
+    public interface IPoint3D : ISaveable, ICloneStrategy<IPoint3D>
     {
         /// <summary>
         /// Coordinate along X-axis

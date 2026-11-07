@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +20,11 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public double Factor { get; set; } = 1d;
 
+        public ColumnFileProperty(Guid id)
+            : this(id, string.Empty)
+        {
+        }
+
         public ColumnFileProperty(Guid id, string name)
         {
             Id = id;
@@ -33,7 +38,7 @@ namespace StructureHelperCommon.Models.Forces
         public object Clone()
         {
             var cloneLogic = new ColumnFilePropertyCloningStrategy();
-            return cloneLogic.GetClone(this);
+            return cloneLogic.GetClone(this, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
         }
     }
 }

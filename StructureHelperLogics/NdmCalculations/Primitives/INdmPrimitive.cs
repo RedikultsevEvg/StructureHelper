@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Ndms;
+using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
@@ -9,7 +9,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     /// <summary>
     /// Geometrical primitive which generates ndm elemtntary part
     /// </summary>
-    public interface INdmPrimitive : ISaveable, IHasCenter2D, ICloneable
+    public interface INdmPrimitive : ISaveable, IHasCenter2D, ICloneStrategy<INdmPrimitive>
     {
         /// <summary>
         /// Name of primitive

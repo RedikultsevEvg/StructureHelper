@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         private readonly Dictionary<object, object> _clonedObjects = new();
 
         /// <inheritdoc/>
-        public T Clone<T>(T original, ICloneStrategy<T>? cloneStrategy = null) where T : class
+        public T Clone<T>(T original, ICloneStrategy<T>? cloneStrategy = null, CloningMode cloningMode = CloningMode.NewEntity) where T : class
         {
             if (original == null) return null;
 
@@ -28,12 +29,11 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
             T clone;
             if (cloneStrategy is not null)
             {
-                clone = cloneStrategy.GetClone(original);
+                clone = cloneStrategy.GetClone(original, cloningMode);
             }
-            // Check if the object implements ICloneable (or IClone) and use that method
-            else if (original is ICloneable cloneable)
+            else if (original is ICloneStrategy selfCloneStrategy)
             {
-                clone = cloneable.Clone() as T; // Use the ICloneable interface's Clone method
+                clone = (T)selfCloneStrategy.GetClone(original, cloningMode);
             }
             else
             {
@@ -41,7 +41,6 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
 
             }
             _clonedObjects[original] = clone;
-
             return clone;
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace StructureHelperCommon.Models.Shapes
+using StructureHelperCommon.Infrastructures.Interfaces;
+
+namespace StructureHelperCommon.Models.Shapes
 {
     public interface IRectangleShape : IShape
     {

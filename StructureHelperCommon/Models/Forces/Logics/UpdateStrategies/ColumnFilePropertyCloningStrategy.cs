@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
@@ -22,14 +23,16 @@ namespace StructureHelperCommon.Models.Forces
             
         }
 
-        public IColumnFileProperty GetClone(IColumnFileProperty sourceObject)
+        public IColumnFileProperty GetClone(IColumnFileProperty sourceObject, CloningMode cloningMode)
         {
             CheckObject.ThrowIfNull(sourceObject);
+            if (cloningMode == CloningMode.Reference) { return sourceObject; }
             if (updateStrategy is null)
             {
                 updateStrategy = new ColumnFilePropertyUpdateStrategy();
             }
-            ColumnFileProperty newItem = new(sourceObject.Name);
+            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            ColumnFileProperty newItem = new(id, sourceObject.Name);
             updateStrategy.Update(newItem, sourceObject);
             return newItem;
         }

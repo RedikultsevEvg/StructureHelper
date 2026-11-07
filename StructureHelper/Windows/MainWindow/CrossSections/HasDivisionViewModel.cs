@@ -1,4 +1,4 @@
-﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
@@ -44,8 +44,19 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         }
 
 
-        public HasDivisionViewModel(IDivisionSize primitive)
+        public HasDivisionViewModel(Guid id)
+            : this(id, new DivisionSize(Guid.NewGuid()))
         {
+        }
+
+        public HasDivisionViewModel(IDivisionSize primitive)
+            : this(Guid.NewGuid(), primitive)
+        {
+        }
+
+        public HasDivisionViewModel(Guid id, IDivisionSize primitive)
+        {
+            Id = id;
             this.primitive = primitive;
         }
 

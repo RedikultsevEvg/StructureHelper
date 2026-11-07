@@ -1,5 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
+using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace DataAccess.DTOs.Converters
@@ -21,7 +22,14 @@ namespace DataAccess.DTOs.Converters
             foreach (var item in sourceObject.Primitives)
             {
                 var newItem = convertStrategy.Convert(item);
-                targetObject.Primitives.Add(newItem);
+                if (targetObject is ICrossSectionRepository repository)
+                {
+                    repository.AddPrimitive(newItem);
+                }
+                else
+                {
+                    targetObject.Primitives.Add(newItem);
+                }
             }
         }
     }

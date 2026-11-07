@@ -1,4 +1,4 @@
-﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure;
 using StructureHelper.Windows.Forces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.Calculations.CalculationProperties;
@@ -41,7 +41,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         {
             var item = new ForceCombinationList() { Name = "New Force Combination" };
             Items.Add(item);
-            repository.ForceActions.Add(item);
+            repository.AddForceAction(item);
         }
         private ICommand deleteForceCombinationCommand;
         public ICommand Delete
@@ -62,7 +62,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             var dialogResult = MessageBox.Show("Delete action?", "Please, confirm deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                repository.ForceActions.Remove(SelectedItem);
+                repository.RemoveForceAction(SelectedItem);
             }
         }
         private ICommand editForceCombinationCommand;
@@ -93,7 +93,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 copyCommand = new RelayCommand(o =>
                 {
                     var item = SelectedItem.Clone() as IForceCombinationList;
-                    repository.ForceActions.Add(item);
+                    repository.AddForceAction(item);
                     Items.Add(item);
                     OnPropertyChanged(nameof(Items));
                 }, o => SelectedItem != null));

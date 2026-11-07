@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 using System;
 
@@ -8,10 +9,12 @@ namespace StructureHelperCommon.Models.Shapes
     {
         private IUpdateStrategy<ITrapezoidShape> updateStrategy;
         private IUpdateStrategy<ITrapezoidShape> UpdateStrategy => updateStrategy ??= new TrapezoidShapeUpdateStrategy();
-        public ITrapezoidShape GetClone(ITrapezoidShape sourceObject)
+        public ITrapezoidShape GetClone(ITrapezoidShape sourceObject, CloningMode cloningMode)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            TrapezoidShape clone = new(Guid.NewGuid());
+            if (cloningMode == CloningMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            TrapezoidShape clone = new(id);
             UpdateStrategy.Update(clone, sourceObject);
             return clone;
         }

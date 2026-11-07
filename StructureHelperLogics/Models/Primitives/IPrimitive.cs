@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Ndms;
+using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.Primitives
 {
-    public interface IPrimitive : ISaveable, ICloneable
+    public interface IPrimitive : ISaveable, ICloneStrategy<IPrimitive>
     {
         string Name { get; set; }
         IPoint2D Center { get; }

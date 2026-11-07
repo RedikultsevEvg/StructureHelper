@@ -1,4 +1,5 @@
-﻿using System;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Implement properties for concentrated load in beam
     /// </summary>
-    public interface IConcentratedForce : IBeamSpanLoad
+    public interface IConcentratedForce : IBeamSpanLoad, ICloneStrategy<IConcentratedForce>
     {
         /// <summary>
         /// Coordinate of location of force along beam, m

@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
 using System;
@@ -11,6 +11,11 @@ namespace StructureHelperCommon.Models.Analyses
         public Guid Id { get; }
         public IAnalysis Analysis { get; set; }
         public Action ActionToRun { get; set; }
+
+        public VisualAnalysis(Guid id)
+            : this(id, null!)
+        {
+        }
 
         public VisualAnalysis(Guid id, IAnalysis analysis)
         {
@@ -30,7 +35,7 @@ namespace StructureHelperCommon.Models.Analyses
 
         public object Clone()
         {
-                var newAnalysis = Analysis.Clone() as IAnalysis;
+                var newAnalysis = Analysis.CloneLegacy() as IAnalysis;
                 VisualAnalysis newItem = new(newAnalysis);
                 return newItem;
         }

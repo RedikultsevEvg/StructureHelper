@@ -6,7 +6,7 @@ using System.Text;
 
 namespace StructureHelperCommon.Models.Materials
 {
-    public interface ICustomConcreteModel : ISaveable, ICloneable
+    public interface ICustomConcreteModel : ISaveable, ICloneStrategy<ICustomConcreteModel>
     {
         bool IsActive { get; set; }
         string Name { get; set; }

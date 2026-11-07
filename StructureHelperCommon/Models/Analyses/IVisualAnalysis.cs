@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Analyses
 {
-    public interface IVisualAnalysis : ISaveable, ICloneable
+    public interface IVisualAnalysis : ISaveable, ICloneStrategy<IVisualAnalysis>
     {
         IAnalysis Analysis { get; set; }
         Action ActionToRun { get; set; }

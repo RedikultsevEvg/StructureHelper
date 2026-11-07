@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Settings for extracting force combination from MSExcel file
     /// </summary>
-    public interface IColumnedFileProperty : IFileProperty
+    public interface IColumnedFileProperty : IFileProperty, ICloneStrategy<IColumnedFileProperty>
     {
         /// <summary>
         /// Count of rows before header

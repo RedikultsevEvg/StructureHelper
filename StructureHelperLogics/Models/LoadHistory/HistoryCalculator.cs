@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Ndms;
+using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
@@ -27,7 +27,12 @@ namespace StructureHelperLogics.Models.LoadHistory
 
         public IHistoryCalculatorInputData InputData { get; set; }
 
-        public HistoryCalculator(Guid id, IShiftTraceLogger traceLogger = null)
+        public HistoryCalculator(Guid id)
+            : this(id, null)
+        {
+        }
+
+        public HistoryCalculator(Guid id, IShiftTraceLogger traceLogger)
         {
             Id = id;
             TraceLogger = traceLogger;

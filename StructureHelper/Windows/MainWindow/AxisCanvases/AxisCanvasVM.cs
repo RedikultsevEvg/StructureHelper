@@ -1,4 +1,4 @@
-﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure;
 using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Models.WorkPlanes;
@@ -17,7 +17,18 @@ namespace StructureHelper.Windows.MainWindow
         private IWorkPlaneProperty workPlaneProperty;
 
         public AxisCanvasVM(IWorkPlaneProperty workPlaneProperty)
+            : this(Guid.NewGuid(), workPlaneProperty)
         {
+        }
+
+        public AxisCanvasVM(Guid id)
+            : this(id, new WorkPlaneProperty(Guid.NewGuid()))
+        {
+        }
+
+        public AxisCanvasVM(Guid id, IWorkPlaneProperty workPlaneProperty)
+        {
+            Id = id;
             this.workPlaneProperty = workPlaneProperty;
         }
         private Color xAxisColor = Colors.Red;
@@ -111,6 +122,6 @@ namespace StructureHelper.Windows.MainWindow
             }
         }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
     }
 }

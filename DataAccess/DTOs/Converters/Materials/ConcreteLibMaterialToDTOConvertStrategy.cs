@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperLogics.Models.Materials;
 
 namespace DataAccess.DTOs
@@ -10,10 +10,7 @@ namespace DataAccess.DTOs
 
         public override ConcreteLibMaterialDTO GetMaterialDTO(IConcreteLibMaterial source)
         {
-            ConcreteLibMaterialDTO newItem = new()
-            {
-                Id = source.Id
-            };
+            ConcreteLibMaterialDTO newItem = new(source.Id);
             return newItem;
         }
     }

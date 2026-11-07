@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 
 namespace StructureHelperCommon.Models.Forces.BeamShearActions
@@ -12,7 +12,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.Name = sourceObject.Name;
-            targetObject.ExternalForce = sourceObject.ExternalForce.Clone() as IFactoredForceTuple;
+            targetObject.ExternalForce = sourceObject.ExternalForce.CloneLegacy() as IFactoredForceTuple;
             InitializeStrategies();
             CheckObject.ThrowIfNull(sourceObject.SupportAction);
             CheckObject.ThrowIfNull(targetObject.SupportAction);

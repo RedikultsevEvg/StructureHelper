@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.LoadHistory;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -22,6 +22,11 @@ namespace DataAccess.DTOs
         public IForceAction ForceAction { get; set; }
         [JsonProperty("Primitives")]
         public List<INdmPrimitive> Primitives { get; } = [];
+
+        public ConstructionStageInputDataDTO(Guid id)
+            : this(id, null!)
+        {
+        }
 
         public ConstructionStageInputDataDTO(Guid id, IConstructionStage constructionStage)
         {

@@ -1,9 +1,9 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 
 namespace StructureHelperCommon.Models.Calculators
 {
-    public interface ILogicCalculator : ILogic, ISaveable, ICloneable
+    public interface ILogicCalculator : ILogic, ISaveable, ICloneStrategy<ILogicCalculator>
     {
         /// <summary>
         /// Method for calculating

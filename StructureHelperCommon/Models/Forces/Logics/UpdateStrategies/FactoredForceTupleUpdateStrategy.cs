@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
@@ -16,9 +16,9 @@ namespace StructureHelperCommon.Models.Forces
             CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.ThrowIfNull(sourceObject.ForceTuple);
-            targetObject.ForceTuple = sourceObject.ForceTuple.Clone() as IForceTuple;
+            targetObject.ForceTuple = sourceObject.ForceTuple.CloneLegacy() as IForceTuple;
             CheckObject.ThrowIfNull(sourceObject.CombinationProperty);
-            targetObject.CombinationProperty = sourceObject.CombinationProperty.Clone() as IFactoredCombinationProperty;
+            targetObject.CombinationProperty = sourceObject.CombinationProperty.CloneLegacy() as IFactoredCombinationProperty;
         }
     }
 }

@@ -1,5 +1,6 @@
-﻿using StructureHelper.Models.Materials;
+using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,14 @@ namespace DataAccess.DTOs
             foreach (var item in sourceObject.HeadMaterials)
             {
                 var newItem = convertStrategy.Convert(item);
-                targetObject.HeadMaterials.Add(newItem);
+                if (targetObject is ICrossSectionRepository repository)
+                {
+                    repository.AddHeadMaterial(newItem);
+                }
+                else
+                {
+                    targetObject.HeadMaterials.Add(newItem);
+                }
             }
         }
     }

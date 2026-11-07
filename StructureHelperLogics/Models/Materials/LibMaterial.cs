@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Materials;
+using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Materials;
@@ -28,10 +28,24 @@ namespace StructureHelperLogics.Models.Materials
 
         public List<IMaterialLogic> MaterialLogics => throw new NotImplementedException();
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
+
+        public LibMaterial(Guid id)
+        {
+            Id = id;
+            MaterialType = MaterialTypes.Concrete;
+            codeType = CodeTypes.SP63_2018;
+            Name = "New material";
+        }
 
         public LibMaterial(MaterialTypes materialType, CodeTypes codeType, string name, double mainStrength)
+            : this(Guid.NewGuid(), materialType, codeType, name, mainStrength)
         {
+        }
+
+        public LibMaterial(Guid id, MaterialTypes materialType, CodeTypes codeType, string name, double mainStrength)
+        {
+            Id = id;
             this.MaterialType = materialType;
             this.codeType = codeType;
             Name = name;

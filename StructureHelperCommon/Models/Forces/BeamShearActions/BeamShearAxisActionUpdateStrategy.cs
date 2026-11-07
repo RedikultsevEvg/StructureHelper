@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Services;
 
@@ -17,13 +17,13 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             InitializeStrategies();
             targetObject.Name = sourceObject.Name;
-            targetObject.SupportForce = sourceObject.SupportForce.Clone() as IFactoredForceTuple;
+            targetObject.SupportForce = sourceObject.SupportForce.CloneLegacy() as IFactoredForceTuple;
             CheckObject.ThrowIfNull(targetObject.ShearLoads);
             targetObject.ShearLoads.Clear();
             CheckObject.ThrowIfNull(sourceObject.ShearLoads);
             foreach (var item in sourceObject.ShearLoads)
             {
-                IBeamSpanLoad beamShearLoad = item.Clone() as IBeamSpanLoad;
+                IBeamSpanLoad beamShearLoad = item.CloneLegacy() as IBeamSpanLoad;
                 targetObject.ShearLoads.Add(beamShearLoad);
             }
         }

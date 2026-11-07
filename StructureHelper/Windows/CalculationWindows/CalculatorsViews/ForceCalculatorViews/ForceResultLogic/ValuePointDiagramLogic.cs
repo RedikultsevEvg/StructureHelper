@@ -136,7 +136,12 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         {
             var limitState = tupleResult.StateCalcTermPair.LimitState;
             var calcTerm = tupleResult.StateCalcTermPair.CalcTerm;
-            var material = valuePoint.ndmPrimitive.NdmElement.HeadMaterial.GetLoaderMaterial(limitState, calcTerm);
+            var material = valuePoint
+                .ndmPrimitive
+                .NdmElement
+                .HeadMaterial
+                .HelperMaterial
+                .GetLoaderMaterial(limitState, calcTerm);
             var userPrestrain = valuePoint.ndmPrimitive.NdmElement.UsersPrestrain;
             var autoPrestrain = valuePoint.ndmPrimitive.NdmElement.AutoPrestrain;
             var ndm = new Ndm()

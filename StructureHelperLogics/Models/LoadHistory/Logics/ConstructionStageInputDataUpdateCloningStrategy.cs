@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Primitives.Logics;
@@ -8,14 +9,13 @@ namespace StructureHelperLogics.Models.LoadHistory
     internal class ConstructionStageInputDataUpdateCloningStrategy : IUpdateStrategy<IConstructionStageInputData>
     {
         private readonly ICloningStrategy cloningStrategy;
-        private IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
+        private readonly ICollectionCloneStrategy<INdmPrimitive> primitivesCloneStrategy;
 
         public ConstructionStageInputDataUpdateCloningStrategy(ICloningStrategy cloningStrategy)
         {
             this.cloningStrategy = cloningStrategy;
+            primitivesCloneStrategy = new HasPrimitivesCloneStrategy(cloningStrategy);
         }
-
-        private IUpdateStrategy<IHasPrimitives> PrimitivesUpdateStrategy => primitivesUpdateStrategy ??= new HasPrimitivesUpdateCloningStrategy(cloningStrategy);
 
         public void Update(IConstructionStageInputData targetObject, IConstructionStageInputData sourceObject)
         {
@@ -24,7 +24,7 @@ namespace StructureHelperLogics.Models.LoadHistory
             CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.ForceAction = cloningStrategy.Clone(sourceObject.ForceAction);
-            PrimitivesUpdateStrategy.Update(targetObject, sourceObject);
+            primitivesCloneStrategy.GetClone(targetObject.Primitives, sourceObject.Primitives, CloningMode.NewEntity);
         }
     }
 }

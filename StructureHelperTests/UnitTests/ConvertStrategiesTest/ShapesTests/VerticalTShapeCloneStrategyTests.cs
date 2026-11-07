@@ -1,5 +1,6 @@
-﻿using Moq;
+using Moq;
 using NUnit.Framework;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
@@ -26,7 +27,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
                 var sut = new VerticalTShapeCloneStrategy(updateStrategyMock.Object);
 
                 // Act
-                var clone = sut.GetClone(sourceMock.Object);
+                var clone = sut.GetClone(sourceMock.Object, CloningMode.NewEntity);
 
                 // Assert
                 Assert.That(clone, Is.Not.Null);
@@ -40,7 +41,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
                 var sut = new VerticalTShapeCloneStrategy(updateStrategyMock.Object);
 
                 // Act
-                var clone = sut.GetClone(sourceMock.Object);
+                var clone = sut.GetClone(sourceMock.Object, CloningMode.NewEntity);
 
                 // Assert
                 updateStrategyMock.Verify(
@@ -55,7 +56,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
                 var sut = new VerticalTShapeCloneStrategy(updateStrategyMock.Object);
 
                 // Act & Assert
-                Assert.Throws<StructureHelperException>(() => sut.GetClone(null));
+                Assert.Throws<StructureHelperException>(() => sut.GetClone(null, CloningMode.NewEntity));
                 // If CheckObject.ThrowIfNull throws StructureHelperException,
                 // replace Exception with StructureHelperException.
             }
@@ -73,7 +74,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
                 var sourceObject = source.Object;
 
                 // Act
-                var clone = sut.GetClone(sourceObject);
+                var clone = sut.GetClone(sourceObject, CloningMode.NewEntity);
 
                 // Assert
                 Assert.That(clone, Is.Not.Null);

@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Forces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace StructureHelperCommon.Models.Sections.Logics
         }
         public IForceTuple GetValue()
         {
-            return InputForceTuple.Clone() as IForceTuple;
+            return InputForceTuple.CloneLegacy() as IForceTuple;
         }
     }
 }

@@ -1,7 +1,8 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelperLogics.NdmCalculations.Primitives.Logics;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
 {
@@ -11,21 +12,24 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
     public class ForceCalculatorUpdateCloningStrategy : IUpdateStrategy<IForceCalculator>
     {
         private readonly ICloningStrategy cloningStrategy;
-        private readonly IUpdateStrategy<IHasForceActions> forcesUpdateStrategy;
-        private readonly IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy;
-        public ForceCalculatorUpdateCloningStrategy(ICloningStrategy cloningStrategy,
-            IUpdateStrategy<IHasForceActions> forcesUpdateStrategy,
-            IUpdateStrategy<IHasPrimitives> primitivesUpdateStrategy)
+        private readonly ICollectionCloneStrategy<IForceAction> forcesCloneStrategy;
+        private readonly ICollectionCloneStrategy<INdmPrimitive> primitivesCloneStrategy;
+
+        public ForceCalculatorUpdateCloningStrategy(
+            ICloningStrategy cloningStrategy,
+            ICollectionCloneStrategy<IForceAction> forcesCloneStrategy,
+            ICollectionCloneStrategy<INdmPrimitive> primitivesCloneStrategy)
         {
             this.cloningStrategy = cloningStrategy;
-            this.forcesUpdateStrategy = forcesUpdateStrategy;
-            this.primitivesUpdateStrategy = primitivesUpdateStrategy;
+            this.forcesCloneStrategy = forcesCloneStrategy;
+            this.primitivesCloneStrategy = primitivesCloneStrategy;
         }
 
-        public ForceCalculatorUpdateCloningStrategy(ICloningStrategy cloningStrategy) : this (
-            cloningStrategy,
-            new HasForceActionUpdateCloningStrategy(cloningStrategy),
-            new HasPrimitivesUpdateCloningStrategy(cloningStrategy))
+        public ForceCalculatorUpdateCloningStrategy(ICloningStrategy cloningStrategy)
+            : this(
+                cloningStrategy,
+                new HasForceActionsCloneStrategy(cloningStrategy),
+                new HasPrimitivesCloneStrategy(cloningStrategy))
         {
         }
 
@@ -37,8 +41,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             var sourceData = sourceObject.InputData;
             var targetData = targetObject.InputData;
-            primitivesUpdateStrategy.Update(targetData, sourceData);
-            forcesUpdateStrategy.Update(targetData, sourceData);
+            primitivesCloneStrategy.GetClone(targetData.Primitives, sourceData.Primitives, CloningMode.NewEntity);
+            forcesCloneStrategy.GetClone(targetData.ForceActions, sourceData.ForceActions, CloningMode.NewEntity);
         }
     }
 }

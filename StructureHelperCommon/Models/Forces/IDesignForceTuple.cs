@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.CodeDom;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public interface IDesignForceTuple : ISaveable, ICloneable
+    public interface IDesignForceTuple : ISaveable, ICloneStrategy<IDesignForceTuple>
     {
         LimitStates LimitState { get; set; }
         CalcTerms CalcTerm { get; set; }

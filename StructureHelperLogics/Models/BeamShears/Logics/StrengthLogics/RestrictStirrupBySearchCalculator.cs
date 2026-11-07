@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Models;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.Models.BeamShears
@@ -6,8 +6,18 @@ namespace StructureHelperLogics.Models.BeamShears
     public class RestrictStirrupBySearchCalculator : IRestrictStirrupCalculator
     {
         RestrictCalculatorResult result;
-        public Guid Id => Guid.Empty;
+        public Guid Id { get; }
         public IShiftTraceLogger? TraceLogger { get; set; }
+
+        public RestrictStirrupBySearchCalculator()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public RestrictStirrupBySearchCalculator(Guid id)
+        {
+            Id = id;
+        }
 
         public IResult Result => result;
 

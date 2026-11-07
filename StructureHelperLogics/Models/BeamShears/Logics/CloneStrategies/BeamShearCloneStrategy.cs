@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -6,18 +8,20 @@ namespace StructureHelperLogics.Models.BeamShears
     {
         private ICloningStrategy cloningStrategy;
         private ICloneStrategy<IBeamShearRepository> cloneStrategy;
-        private BeamShear beamShear;
         public BeamShearCloneStrategy(ICloningStrategy cloningStrategy)
         {
             this.cloningStrategy = cloningStrategy;
         }
 
-        public IBeamShear GetClone(IBeamShear sourceObject)
+        public IBeamShear GetClone(IBeamShear sourceObject, CloningMode cloningMode)
         {
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloningMode == CloningMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
             InitializeStrategies();
-            beamShear = new(Guid.NewGuid())
+            var beamShear = new BeamShear(id)
             {
-                Repository = cloneStrategy.GetClone(sourceObject.Repository)
+                Repository = cloneStrategy.GetClone(sourceObject.Repository, cloningMode)
             };
             return beamShear;
         }

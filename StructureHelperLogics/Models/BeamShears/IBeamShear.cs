@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public interface IBeamShear : ISaveable, ICloneable
+    public interface IBeamShear : ISaveable, ICloneStrategy<IBeamShear>
     {
         IBeamShearRepository Repository { get; set; }
     }

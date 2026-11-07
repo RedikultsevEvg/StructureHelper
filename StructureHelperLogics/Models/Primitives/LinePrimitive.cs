@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
@@ -16,8 +16,13 @@ namespace StructureHelperLogics.Models.Primitives
         public IShape Shape { get; }   
 
         public LinePrimitive()
+            : this(Guid.NewGuid())
         {
+        }
 
+        public LinePrimitive(Guid id)
+        {
+            Id = id;
         }
 
         public IEnumerable<INdmPrimitive> GetNdmPrimitives()

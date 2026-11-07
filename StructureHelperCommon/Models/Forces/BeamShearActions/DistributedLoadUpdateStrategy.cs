@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 
 namespace StructureHelperCommon.Models.Forces.BeamShearActions
@@ -21,7 +21,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             if (UpdateChildren == true)
             {
                 CheckObject.ThrowIfNull(sourceObject.LoadValue);
-                targetObject.LoadValue = sourceObject.LoadValue.Clone() as IForceTuple;
+                targetObject.LoadValue = sourceObject.LoadValue.CloneLegacy() as IForceTuple;
             }
         }
     }

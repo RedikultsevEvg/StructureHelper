@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Ndms;
+using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
@@ -20,6 +20,17 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private LimitCurvesCalculatorUpdateStrategy updateStrategy => new();
 
         public Guid Id { get; }
+
+        public LimitCurvesCalculator()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public LimitCurvesCalculator(Guid id)
+        {
+            Id = id;
+        }
+
         public string Name { get; set; } = "New calculator";
         public ILimitCurvesCalculatorInputData InputData { get; set; } = new LimitCurvesCalculatorInputData();
         public IResult Result => result;

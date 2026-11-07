@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 
 //Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
@@ -6,7 +6,7 @@ using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    public interface IBeamShearRepository : ISaveable, IHasBeamShearActions, IHasBeamShearSections, IHasStirrups,IHasCalculators, ICloneable
+    public interface IBeamShearRepository : ISaveable, IHasBeamShearActions, IHasBeamShearSections, IHasStirrups,IHasCalculators, ICloneStrategy<IBeamShearRepository>
     {
         
     }

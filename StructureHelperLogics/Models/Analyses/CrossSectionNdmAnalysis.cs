@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogics.Models.Analyses;
@@ -40,8 +41,13 @@ namespace StructureHelperLogic.Models.Analyses
             CrossSectionNdmAnalysis newAnalysis = new();
             updateStrategy.Update(newAnalysis, this);
             newAnalysis.VersionProcessor.Versions.Clear();
-            var currentVersion = VersionProcessor.GetCurrentVersion().AnalysisVersion as ICloneable;
-            ISaveable newCrossSection = currentVersion.Clone() as ISaveable;
+            var currentVersion = VersionProcessor.GetCurrentVersion().AnalysisVersion;
+            ISaveable newCrossSection = currentVersion is ICloneStrategy cloneStrategy
+                ? (ISaveable)cloneStrategy.GetClone(
+                    currentVersion,
+                    StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity)
+                : throw new StructureHelperException(
+                    $"{nameof(ISaveable)} implementation does not support cloning.");
             newAnalysis.VersionProcessor.AddVersion(newCrossSection);
             return newAnalysis;
         }

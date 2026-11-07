@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace StructureHelperLogics.Models.Materials
     /// <summary>
     /// Implements properies of cross-section of reinforcement bar
     /// </summary>
-    public interface IRebarSection : ISaveable, ICloneable
+    public interface IRebarSection : ISaveable, ICloneStrategy<IRebarSection>
     {
         /// <summary>
         /// Material of rebar

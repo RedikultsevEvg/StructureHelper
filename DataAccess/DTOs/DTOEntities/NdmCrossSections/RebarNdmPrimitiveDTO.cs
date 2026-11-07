@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Ndms;
+using LoaderCalculator.Data.Ndms;
 using Newtonsoft.Json;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
@@ -36,9 +36,21 @@ namespace DataAccess.DTOs
 
         public INdmPrimitive? HostPrimitive { get; set; }
 
+        public RebarNdmPrimitiveDTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public RebarNdmPrimitiveDTO(Guid id)
+        {
+            Id = id;
+        }
+
         public object Clone()
         {
-            throw new NotImplementedException();
+            RebarNdmPrimitiveDTO newItem = new(Id);
+            new NdmPrimitiveUpdateStrategy().Update(newItem, this);
+            return newItem;
         }
 
         public Ndm GetConcreteNdm(ITriangulationOptions triangulationOptions)

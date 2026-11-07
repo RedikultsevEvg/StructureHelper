@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
@@ -14,6 +14,16 @@ namespace StructureHelper.Models.Calculators
         public string Name { get; set; }
         public bool ShowTraceData { get; set; } = false;
         public IResult Result => result;
+
+        public LimitCurveVisualCalculator()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public LimitCurveVisualCalculator(Guid id)
+        {
+            Id = id;
+        }
 
         public IShiftTraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 

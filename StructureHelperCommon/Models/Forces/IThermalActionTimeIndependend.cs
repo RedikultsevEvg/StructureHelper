@@ -1,3 +1,4 @@
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperCommon.Models.Forces
@@ -7,7 +8,7 @@ namespace StructureHelperCommon.Models.Forces
     /// and changes linearly along the local X and Y axes.
     /// Temperatures are expressed in kelvins, gradients in kelvins per metre.
     /// </summary>
-    public interface IThermalActionTimeIndependend : IThermalAction
+    public interface IThermalActionTimeIndependend : IThermalAction, ICloneStrategy<IThermalActionTimeIndependend>
     {
         /// <summary>
         /// Point where the temperature is assigned

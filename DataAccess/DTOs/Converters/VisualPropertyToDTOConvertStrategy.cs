@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -25,7 +25,7 @@ namespace DataAccess.DTOs
         {
             try
             {
-                VisualPropertyDTO newItem = new() { Id = source.Id };
+                VisualPropertyDTO newItem = new(source.Id);
                 updateStrategy.Update(newItem, source);
                 return newItem;
             }

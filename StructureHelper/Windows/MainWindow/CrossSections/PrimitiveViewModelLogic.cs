@@ -277,7 +277,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             PrimitiveBase viewPrimitive = PrimitiveBaseFactory.GetPrimitive(primitiveType);
             INdmPrimitive ndmPrimitive = viewPrimitive.GetNdmPrimitive();
             viewPrimitive.OnNext(this);
-            repository.Primitives.Add(ndmPrimitive);
+            repository.AddPrimitive(ndmPrimitive);
             ndmPrimitive.CrossSection = section;
             Items.Add(viewPrimitive);
             OnPropertyChanged(nameof(Items));
@@ -390,7 +390,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         {
             PrimitiveBase primitiveBase = PrimitiveBaseCloneFactory.GetCloneByNdmPrimitive(oldPrimitive);
             INdmPrimitive newNdmPrimitive = primitiveBase.GetNdmPrimitive();
-            repository.Primitives.Add(newNdmPrimitive);
+            repository.AddPrimitive(newNdmPrimitive);
             primitiveBase.OnNext(this);
             Items.Add(primitiveBase);
             OnPropertyChanged(nameof(Items));
@@ -539,7 +539,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         public double Angle { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
 
         public void AddItems(IEnumerable<PrimitiveBase> items)
         {
@@ -568,8 +568,20 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             throw new NotImplementedException();
         }
 
-        public PrimitiveViewModelLogic(ICrossSection section)
+        public PrimitiveViewModelLogic(Guid id)
         {
+            Id = id;
+            Items = new ObservableCollection<PrimitiveBase>();
+        }
+
+        public PrimitiveViewModelLogic(ICrossSection section)
+            : this(Guid.NewGuid(), section)
+        {
+        }
+
+        public PrimitiveViewModelLogic(Guid id, ICrossSection section)
+        {
+            Id = id;
             this.section = section;
             Items = new ObservableCollection<PrimitiveBase>();
             AddItems(PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(this.repository.Primitives));

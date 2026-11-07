@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Shapes;
@@ -22,17 +22,28 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public Action<IResult> ActionToOutputResults { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
 
-        public LimitCurveCalculator(ILimitCurveLogic limitCurveLogic)
+        public LimitCurveCalculator(Guid id)
+            : this(id, null!)
         {
+        }
+
+        public LimitCurveCalculator(Guid id, ILimitCurveLogic limitCurveLogic)
+        {
+            Id = id;
             this.limitCurveLogic = limitCurveLogic;
             SurroundData = new SurroundData();
             SurroundProcLogic = new RectSurroundProc();
         }
 
+        public LimitCurveCalculator(ILimitCurveLogic limitCurveLogic)
+            : this(Guid.NewGuid(), limitCurveLogic)
+        {
+        }
+
         public LimitCurveCalculator(ILimitCurveParameterLogic parameterLogic)
-            : this(new LimitCurveLogic(parameterLogic))
+            : this(Guid.NewGuid(), new LimitCurveLogic(parameterLogic))
         {
         }
 

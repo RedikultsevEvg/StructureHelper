@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
@@ -32,7 +32,9 @@ namespace DataAccess.DTOs
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            var newItem = new ForceFactoredListDTO(Id);
+            new ForceFactoredListUpdateStrategy().Update(newItem, this);
+            return newItem;
         }
 
         public IForceCombinationList GetCombination()

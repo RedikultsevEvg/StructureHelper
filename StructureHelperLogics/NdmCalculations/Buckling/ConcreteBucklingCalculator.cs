@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Materials;
+using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Logics;
 using LoaderCalculator.Logics.Geometry;
@@ -33,7 +33,13 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         public Action<IResult> ActionToOutputResults { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
+
+        public ConcreteBucklingCalculator(Guid id)
+        {
+            Id = id;
+            Accuracy = new Accuracy();
+        }
 
         private (double EtaAlongX, double EtaAlongY) GetBucklingCoefficients()
         {
@@ -49,7 +55,13 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         }
 
         public ConcreteBucklingCalculator(IConcreteBucklingOptions options, IAccuracy accuracy)
+            : this(Guid.NewGuid(), options, accuracy)
         {
+        }
+
+        public ConcreteBucklingCalculator(Guid id, IConcreteBucklingOptions options, IAccuracy accuracy)
+        {
+            Id = id;
             this.options = options;
             Accuracy = accuracy;
 

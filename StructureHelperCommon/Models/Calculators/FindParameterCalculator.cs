@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using System;
@@ -29,10 +29,16 @@ namespace StructureHelperCommon.Models.Calculators
         public Action<IResult> ActionToOutputResults { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
 
         public FindParameterCalculator()
+            : this(Guid.NewGuid())
         {
+        }
+
+        public FindParameterCalculator(Guid id)
+        {
+            Id = id;
             InputData = new FindParameterCalculatorInputData();
             Accuracy = new Accuracy()
             {

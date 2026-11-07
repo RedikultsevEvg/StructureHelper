@@ -213,7 +213,9 @@ namespace StructureHelper.Windows.Graphs
                 {
                     foreach (var material in materials)
                     {
-                        var loaderMaterial = material.GetLoaderMaterial(limitState.LimitState, calcTerm.CalcTerm);
+                        var loaderMaterial = material
+                            .HelperMaterial
+                            .GetLoaderMaterial(limitState.LimitState, calcTerm.CalcTerm);
                         for (double s = minValue; s < maxValue; s += step)
                         {
                             double strain = s * factor;
@@ -252,7 +254,9 @@ namespace StructureHelper.Windows.Graphs
                 {
                     foreach (var material in materials)
                     {
-                        var loaderMaterial = material.GetLoaderMaterial(limitState.LimitState, calcTerm.CalcTerm);
+                        var loaderMaterial = material
+                            .HelperMaterial
+                            .GetLoaderMaterial(limitState.LimitState, calcTerm.CalcTerm);
                         var lineSeries = new LineSeries()
                         {
                             Title = $"{material.Name} ({calcTerm.ShortName} {limitState.ShortName})",

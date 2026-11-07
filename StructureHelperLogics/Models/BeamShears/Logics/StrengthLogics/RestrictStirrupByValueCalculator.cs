@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Models;
+using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 
 namespace StructureHelperLogics.Models.BeamShears
@@ -6,8 +6,18 @@ namespace StructureHelperLogics.Models.BeamShears
     public class RestrictStirrupByValueCalculator : IRestrictStirrupCalculator
     {
         RestrictCalculatorResult result;
-        public Guid Id => Guid.Empty;
+        public Guid Id { get; }
         public double RestrictionValue { get; set; } = double.PositiveInfinity;
+
+        public RestrictStirrupByValueCalculator()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public RestrictStirrupByValueCalculator(Guid id)
+        {
+            Id = id;
+        }
         public IBeamShearSectionLogicInputData InputData { get; set; }
         public ISectionEffectiveness SectionEffectiveness { get; set; }
 

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
@@ -18,6 +18,16 @@ namespace DataAccess.DTOs
         public int NdmMinDivision { get; set; }
         [JsonProperty("ClearUnderlying")]
         public bool ClearUnderlying { get; set; }
+
+        public DivisionSizeDTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public DivisionSizeDTO(Guid id)
+        {
+            Id = id;
+        }
 
     }
 }

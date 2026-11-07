@@ -1,8 +1,8 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 {
-    public interface IValueDiagramEntity : ISaveable, ICloneable
+    public interface IValueDiagramEntity : ISaveable, ICloneStrategy<IValueDiagramEntity>
     {
         string Name { get; set; }
         bool IsTaken { get; set; }

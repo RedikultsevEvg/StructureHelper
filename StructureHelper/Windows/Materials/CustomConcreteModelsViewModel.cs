@@ -1,5 +1,6 @@
 using StructureHelper.Windows.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Materials;
 using System;
 using System.Collections.Generic;
@@ -51,8 +52,10 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         public override void CopyMethod(object parameter)
         {
-            if (SelectedItem is not ICloneable cloneable
-                || cloneable.Clone() is not ICustomConcreteModel copy)
+            ICustomConcreteModel? copy = SelectedItem is ICloneStrategy cloneStrategy
+                ? cloneStrategy.GetClone(SelectedItem, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity) as ICustomConcreteModel
+                : null;
+            if (copy is null)
             {
                 return;
             }

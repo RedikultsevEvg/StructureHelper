@@ -1,8 +1,9 @@
-﻿using LoaderCalculator.Data.Materials;
+using LoaderCalculator.Data.Materials;
 using Newtonsoft.Json;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials;
+using StructureHelperLogics.Models.Materials;
 using System.Windows.Media;
 
 namespace DataAccess.DTOs
@@ -20,19 +21,31 @@ namespace DataAccess.DTOs
         public IHelperMaterial HelperMaterial { get; set; }
 
 
-        public object Clone()
+        public HeadMaterialDTO()
+            : this(Guid.NewGuid())
         {
-            throw new NotImplementedException();
         }
 
-        public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        public HeadMaterialDTO(Guid id)
         {
-            throw new NotImplementedException();
+            Id = id;
         }
 
-        public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
-        {
-            throw new NotImplementedException();
-        }
+        //public object Clone()
+        //{
+        //    HeadMaterialDTO newItem = new(Id);
+        //    new HeadMaterialUpdateStrategy().Update(newItem, this);
+        //    return newItem;
+        //}
+
+        //public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

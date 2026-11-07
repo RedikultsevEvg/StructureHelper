@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Ndms;
+using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
@@ -41,18 +41,41 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
 
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
 
-        public TupleCrackCalculator(ICheckInputDataLogic<TupleCrackInputData> checkInputDataLogic,
-            ILengthBetweenCracksLogic lengthLogic, ICrackedSectionTriangulationLogic triangulationLogic, ITupleRebarsCrackSolver solver)
+        public TupleCrackCalculator(Guid id)
+            : this()
         {
+            Id = id;
+        }
+
+        public TupleCrackCalculator(
+            ICheckInputDataLogic<TupleCrackInputData> checkInputDataLogic,
+            ILengthBetweenCracksLogic lengthLogic,
+            ICrackedSectionTriangulationLogic triangulationLogic,
+            ITupleRebarsCrackSolver solver)
+            : this(Guid.NewGuid(), checkInputDataLogic, lengthLogic, triangulationLogic, solver)
+        {
+        }
+
+        public TupleCrackCalculator(
+            Guid id,
+            ICheckInputDataLogic<TupleCrackInputData> checkInputDataLogic,
+            ILengthBetweenCracksLogic lengthLogic,
+            ICrackedSectionTriangulationLogic triangulationLogic,
+            ITupleRebarsCrackSolver solver)
+        {
+            Id = id;
             this.checkInputDataLogic = checkInputDataLogic;
             this.lengthLogic = lengthLogic;
             this.triangulationLogic = triangulationLogic;
             this.crackSolver = solver;
         }
 
-        public TupleCrackCalculator() { }
+        public TupleCrackCalculator()
+        {
+            Id = Guid.NewGuid();
+        }
 
         public void Run()
         {

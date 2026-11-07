@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace StructureHelperCommon.Models.VisualProperties
     /// <summary>
     /// Implements visual settings for graphical primetives
     /// </summary>
-    public interface IPrimitiveVisualProperty : ISaveable, ICloneable
+    public interface IPrimitiveVisualProperty : ISaveable, ICloneStrategy<IPrimitiveVisualProperty>
     {
         /// <summary>
         /// Flag of visibility

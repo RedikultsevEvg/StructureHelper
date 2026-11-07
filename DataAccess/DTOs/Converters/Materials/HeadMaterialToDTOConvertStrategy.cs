@@ -1,4 +1,4 @@
-﻿using StructureHelper.Models.Materials;
+using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
@@ -46,10 +46,7 @@ namespace DataAccess.DTOs.Converters
         private HeadMaterialDTO GetMaterial(IHeadMaterial source)
         {
             TraceLogger?.AddMessage($"Convert material Id={source.Id}, name is {source.Name}");
-            HeadMaterialDTO newItem = new()
-            {
-                Id = source.Id
-            };
+            HeadMaterialDTO newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
             convertStrategy.ReferenceDictionary = ReferenceDictionary;
             var convertLogic = new DictionaryConvertStrategy<IHelperMaterial, IHelperMaterial>(this, convertStrategy);

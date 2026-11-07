@@ -1,10 +1,10 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Factories
 {
-    public interface IGetPredicateLogic : ILogic, ICloneable
+    public interface IGetPredicateLogic : ILogic, ICloneStrategy<IGetPredicateLogic>
     {
         string Name { get; set; }
         Predicate<IPoint2D> GetPredicate();

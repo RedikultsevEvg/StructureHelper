@@ -1,5 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperLogics.Models.CrossSections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,14 @@ namespace DataAccess.DTOs.Converters
             foreach (var item in sourceObject.Calculators)
             {
                 var newItem = convertStrategy.Convert(item);
-                targetObject.Calculators.Add(newItem);
+                if (targetObject is ICrossSectionRepository repository)
+                {
+                    repository.AddCalculator(newItem);
+                }
+                else
+                {
+                    targetObject.Calculators.Add(newItem);
+                }
             }
         }
     }

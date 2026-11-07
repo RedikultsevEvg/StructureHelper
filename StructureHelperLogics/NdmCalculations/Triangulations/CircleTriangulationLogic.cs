@@ -29,7 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
             var logic = LoaderCalculator.Triangulations.Triangulation.GetLogicInstance(logicOptions);
             var ndmCollection = logic.GetNdmCollection(new LoaderCalculator.Data.Planes.CirclePlane
             {
-                Material = options.HeadMaterial.GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm)
+                Material = options.HeadMaterial.HelperMaterial.GetLoaderMaterial(options.TriangulationOptions.LimiteState, options.TriangulationOptions.CalcTerm)
             });
             TriangulationService.CommonTransform(ndmCollection, options);
             TriangulationService.SetPrestrain(ndmCollection, options.InitialPrestrain, PrestrainTypes.Initial);

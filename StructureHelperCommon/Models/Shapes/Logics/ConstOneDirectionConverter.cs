@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,10 +35,21 @@ namespace StructureHelperCommon.Models.Shapes
         }
 
 
-        public ConstOneDirectionConverter(Directions direction, Guid guid)
+        public ConstOneDirectionConverter(Guid id)
+            : this(id, default)
         {
-            Id = guid;
+        }
+
+        public ConstOneDirectionConverter(Guid id, Directions direction)
+        {
+            Id = id;
+            Direction = direction;
             convertLogic = new ConstOneDirectionLogic(direction, 0d);
+        }
+
+        public ConstOneDirectionConverter(Directions direction, Guid guid)
+            : this(guid, direction)
+        {
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 
 namespace StructureHelperCommon.Models.Materials.Libraries
 {
-    public interface IMaterialSafetyFactor : ISaveable, ICloneable
+    public interface IMaterialSafetyFactor : ISaveable, ICloneStrategy<IMaterialSafetyFactor>
     {
         string Name { get; set; }
         bool Take { get; set; }

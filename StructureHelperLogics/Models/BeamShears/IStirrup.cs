@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.VisualProperties;
 
 //Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
@@ -9,7 +9,7 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <summary>
     /// Implement properties of stirrups
     /// </summary>
-    public interface IStirrup : ISaveable, ICloneable, IHasVisualProperty
+    public interface IStirrup : ISaveable, ICloneStrategy<IStirrup>, IHasVisualProperty
     {
         string? Name { get; set; }
         /// <summary>

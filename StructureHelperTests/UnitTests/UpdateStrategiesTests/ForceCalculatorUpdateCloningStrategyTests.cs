@@ -1,91 +1,87 @@
-﻿using Moq;
+using Moq;
 using NUnit.Framework;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.NdmCalculations.Primitives;
+using System.Collections.Generic;
 
 namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
 {
-
-
     [TestFixture]
     public class ForceCalculatorUpdateCloningStrategyTests
     {
         private Mock<ICloningStrategy> _cloningStrategyMock;
-        private Mock<IUpdateStrategy<IHasForceActions>> _forcesUpdateStrategyMock;
-        private Mock<IUpdateStrategy<IHasPrimitives>> _primitivesUpdateStrategyMock;
+        private Mock<ICollectionCloneStrategy<IForceAction>> _forcesCloneStrategyMock;
+        private Mock<ICollectionCloneStrategy<INdmPrimitive>> _primitivesCloneStrategyMock;
         private ForceCalculatorUpdateCloningStrategy _strategy;
 
         [SetUp]
         public void SetUp()
         {
             _cloningStrategyMock = new Mock<ICloningStrategy>();
-            _forcesUpdateStrategyMock = new Mock<IUpdateStrategy<IHasForceActions>>();
-            _primitivesUpdateStrategyMock = new Mock<IUpdateStrategy<IHasPrimitives>>();
+            _forcesCloneStrategyMock = new Mock<ICollectionCloneStrategy<IForceAction>>();
+            _primitivesCloneStrategyMock = new Mock<ICollectionCloneStrategy<INdmPrimitive>>();
 
             _strategy = new ForceCalculatorUpdateCloningStrategy(
                 _cloningStrategyMock.Object,
-                _forcesUpdateStrategyMock.Object,
-                _primitivesUpdateStrategyMock.Object
-            );
+                _forcesCloneStrategyMock.Object,
+                _primitivesCloneStrategyMock.Object);
         }
 
         [Test]
         public void Update_WithNullSourceObject_ThrowsException()
         {
-            // Arrange
-            var targetObject = Mock.Of<IForceCalculator>();
-
-            // Act & Assert
-            Assert.Throws<StructureHelperException>(() => _strategy.Update(targetObject, null));
+            Assert.Throws<StructureHelperException>(() => _strategy.Update(Mock.Of<IForceCalculator>(), null));
         }
 
         [Test]
         public void Update_WithNullTargetObject_ThrowsException()
         {
-            // Arrange
-            var sourceObject = Mock.Of<IForceCalculator>();
-
-            // Act & Assert
-            Assert.Throws<StructureHelperException>(() => _strategy.Update(null, sourceObject));
+            Assert.Throws<StructureHelperException>(() => _strategy.Update(null, Mock.Of<IForceCalculator>()));
         }
 
         [Test]
         public void Update_WithSameSourceAndTarget_DoesNothing()
         {
-            // Arrange
             var sourceObject = Mock.Of<IForceCalculator>();
-
-            // Act
             _strategy.Update(sourceObject, sourceObject);
 
-            // Assert
-            _forcesUpdateStrategyMock.VerifyNoOtherCalls();
-            _primitivesUpdateStrategyMock.VerifyNoOtherCalls();
+            _forcesCloneStrategyMock.VerifyNoOtherCalls();
+            _primitivesCloneStrategyMock.VerifyNoOtherCalls();
         }
 
         [Test]
-        public void Update_InvokesUpdateStrategiesOnInputData()
+        public void Update_InvokesCollectionCloneStrategiesOnInputData()
         {
-            // Arrange
+            var sourceActions = new List<IForceAction>();
+            var targetActions = new List<IForceAction>();
+            var sourcePrimitives = new List<INdmPrimitive>();
+            var targetPrimitives = new List<INdmPrimitive>();
+
             var sourceDataMock = new Mock<IForceCalculatorInputData>();
+            sourceDataMock.SetupGet(x => x.ForceActions).Returns(sourceActions);
+            sourceDataMock.SetupGet(x => x.Primitives).Returns(sourcePrimitives);
             var targetDataMock = new Mock<IForceCalculatorInputData>();
+            targetDataMock.SetupGet(x => x.ForceActions).Returns(targetActions);
+            targetDataMock.SetupGet(x => x.Primitives).Returns(targetPrimitives);
 
             var sourceObjectMock = new Mock<IForceCalculator>();
-            sourceObjectMock.Setup(s => s.InputData).Returns(sourceDataMock.Object);
-
+            sourceObjectMock.SetupGet(x => x.InputData).Returns(sourceDataMock.Object);
             var targetObjectMock = new Mock<IForceCalculator>();
-            targetObjectMock.Setup(t => t.InputData).Returns(targetDataMock.Object);
+            targetObjectMock.SetupGet(x => x.InputData).Returns(targetDataMock.Object);
 
-            // Act
             _strategy.Update(targetObjectMock.Object, sourceObjectMock.Object);
 
-            // Assert
-            _primitivesUpdateStrategyMock.Verify(ps => ps.Update(targetDataMock.Object, sourceDataMock.Object), Times.Once);
-            _forcesUpdateStrategyMock.Verify(fs => fs.Update(targetDataMock.Object, sourceDataMock.Object), Times.Once);
+            _primitivesCloneStrategyMock.Verify(
+                x => x.GetClone(targetPrimitives, sourcePrimitives, CloningMode.NewEntity),
+                Times.Once);
+            _forcesCloneStrategyMock.Verify(
+                x => x.GetClone(targetActions, sourceActions, CloningMode.NewEntity),
+                Times.Once);
         }
     }
-
 }

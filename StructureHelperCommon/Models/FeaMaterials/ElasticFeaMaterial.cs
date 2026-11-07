@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 
 namespace StructureHelperCommon.Models.FeaMaterials
 {
     /// <inheritdoc/>
-    public class ElasticFeaMaterial : IElasticFeaMaterial, ICloneable
+    public class ElasticFeaMaterial : IElasticFeaMaterial
     {
         /// <inheritdoc/>
         public Guid Id { get; }
@@ -23,7 +23,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
         public object Clone()
         {
             var cloneStrategy = new ElasticFeaMaterialCloneStrategy();
-            return cloneStrategy.GetClone(this);
+            return cloneStrategy.GetClone(this, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
         }
     }
 }

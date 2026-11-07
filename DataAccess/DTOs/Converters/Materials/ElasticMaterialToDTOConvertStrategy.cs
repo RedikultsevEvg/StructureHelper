@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.Loggers;
@@ -40,7 +40,7 @@ namespace DataAccess.DTOs
             Check();
             try
             {
-                ElasticMaterialDTO newItem = new() { Id = source.Id };
+                ElasticMaterialDTO newItem = new(source.Id);
                 updateStrategy.Update(newItem, source);
                 return newItem;
             }

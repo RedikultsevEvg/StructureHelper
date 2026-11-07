@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Ndms;
+using LoaderCalculator.Data.Ndms;
 using Newtonsoft.Json;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
@@ -34,6 +34,16 @@ namespace DataAccess.DTOs
         [JsonIgnore]
         public IShape Shape { get; set; }
 
+
+        public PointNdmPrimitiveDTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public PointNdmPrimitiveDTO(Guid id)
+        {
+            Id = id;
+        }
 
         public object Clone()
         {

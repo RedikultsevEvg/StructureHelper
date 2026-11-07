@@ -1,6 +1,8 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
+using System;
 
 namespace StructureHelperCommon.Models.FeaMaterials
 {
@@ -10,16 +12,18 @@ namespace StructureHelperCommon.Models.FeaMaterials
         private ICloneStrategy<IElasticFeaMaterial> elasticCloneStrategy;
         private ICloneStrategy<IConcreteFeaMaterial> ConcreteCloneStrategy => concreteCloneStrategy ??= new ConcreteFeaMaterialCloneStrategy();
         private ICloneStrategy<IElasticFeaMaterial> ElasticCloneStrategy => elasticCloneStrategy ??= new ElasticFeaMaterialCloneStrategy();
-        public IFeaMaterial GetClone(IFeaMaterial sourceObject)
+
+        public IFeaMaterial GetClone(IFeaMaterial sourceObject, CloningMode cloningMode)
         {
             CheckObject.ThrowIfNull(sourceObject);
+            if (cloningMode == CloningMode.Reference) { return sourceObject; }
             if (sourceObject is IElasticFeaMaterial elasticFeaMaterial)
             {
-                return ElasticCloneStrategy.GetClone(elasticFeaMaterial);
+                return ElasticCloneStrategy.GetClone(elasticFeaMaterial, cloningMode);
             }
             else if (sourceObject is IConcreteFeaMaterial concreteFea)
             {
-                return ConcreteCloneStrategy.GetClone(concreteFea);
+                return ConcreteCloneStrategy.GetClone(concreteFea, cloningMode);
             }
             else
             {

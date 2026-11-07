@@ -1,4 +1,4 @@
-﻿using DataAccess.DTOs.Converters;
+using DataAccess.DTOs.Converters;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
@@ -59,7 +59,7 @@ namespace DataAccess.DTOs
 
         private PointNdmPrimitiveDTO GetNewPrimitive(IPointNdmPrimitive source)
         {
-            PointNdmPrimitiveDTO newItem = new() { Id = source.Id};
+            PointNdmPrimitiveDTO newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
             newItem.NdmElement = ndmElementConvertStrategy.Convert(source.NdmElement);
             newItem.Center = pointConvertStrategy.Convert(source.Center);

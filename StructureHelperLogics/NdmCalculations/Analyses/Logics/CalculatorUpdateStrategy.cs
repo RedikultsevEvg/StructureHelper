@@ -24,17 +24,17 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Logics
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);
-            if (targetObject is ForceCalculator target)
+            if (targetObject is IForceCalculator target)
             {
-                new ForceCalculatorUpdateStrategy().Update(target, (ForceCalculator)sourceObject);
+                new ForceCalculatorUpdateStrategy().Update(target, (IForceCalculator)sourceObject);
             }
-            else if (targetObject is LimitCurvesCalculator limitCurves)
+            else if (targetObject is ILimitCurvesCalculator limitCurves)
             {
-                new LimitCurvesCalculatorUpdateStrategy().Update(limitCurves, (LimitCurvesCalculator)sourceObject);
+                new LimitCurvesCalculatorUpdateStrategy().Update(limitCurves, (ILimitCurvesCalculator)sourceObject);
             }
-            else if (targetObject is CrackCalculator crackCalculator)
+            else if (targetObject is ICrackCalculator crackCalculator)
             {
-                new CrackCalculatorUpdateStrategy().Update(crackCalculator, (CrackCalculator)sourceObject);
+                new CrackCalculatorUpdateStrategy().Update(crackCalculator, (ICrackCalculator)sourceObject);
             }
             else if (targetObject is IValueDiagramCalculator diagramCalculator)
             {

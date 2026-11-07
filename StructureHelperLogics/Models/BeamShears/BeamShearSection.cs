@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperLogics.Models.Materials;
@@ -36,7 +36,7 @@ namespace StructureHelperLogics.Models.BeamShears
         public object Clone()
         {
             var cloneStrategy = new ShapeCloneStrategy();
-            IShape shapeClone = cloneStrategy.GetClone(Shape);
+            IShape shapeClone = cloneStrategy.GetClone(Shape, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
             BeamShearSection newItem = new(Guid.NewGuid()) { Shape = shapeClone};
             updateStrategy ??= new BeamShearSectionUpdateStrategy();
             updateStrategy.Update(newItem, this);

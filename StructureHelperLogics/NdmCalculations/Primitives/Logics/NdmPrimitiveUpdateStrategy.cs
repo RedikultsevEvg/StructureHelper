@@ -11,21 +11,21 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         {
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.CompareTypes(targetObject, sourceObject);
-            if (targetObject is PointNdmPrimitive point)
+            if (targetObject is IPointNdmPrimitive point)
             {
-                new PointNdmPrimitiveUpdateStrategy().Update(point, (PointNdmPrimitive)sourceObject);
+                new PointNdmPrimitiveUpdateStrategy().Update(point, (IPointNdmPrimitive)sourceObject);
             }
-            else if (targetObject is RebarNdmPrimitive rebar)
+            else if (targetObject is IRebarNdmPrimitive rebar)
             {
-                new RebarNdmPrimitiveUpdateStrategy().Update(rebar, (RebarNdmPrimitive)sourceObject);
+                new RebarNdmPrimitiveUpdateStrategy().Update(rebar, (IRebarNdmPrimitive)sourceObject);
             }
-            else if (targetObject is RectangleNdmPrimitive rectangle)
+            else if (targetObject is IRectangleNdmPrimitive rectangle)
             {
-                new RectanglePrimitiveUpdateStrategy().Update(rectangle, (RectangleNdmPrimitive)sourceObject);
+                new RectanglePrimitiveUpdateStrategy().Update(rectangle, (IRectangleNdmPrimitive)sourceObject);
             }
-            else if (targetObject is EllipseNdmPrimitive circle)
+            else if (targetObject is IEllipseNdmPrimitive circle)
             {
-                new EllipsePrimitiveUpdateStrategy().Update(circle, (EllipseNdmPrimitive)sourceObject);
+                new EllipsePrimitiveUpdateStrategy().Update(circle, (IEllipseNdmPrimitive)sourceObject);
             }
             else if (targetObject is IShapeNdmPrimitive shapePrimitive)
             {

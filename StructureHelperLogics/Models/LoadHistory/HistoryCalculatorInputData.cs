@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Models.Calculators;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +13,11 @@ namespace StructureHelperLogics.Models.LoadHistory
         public bool CheckStrainLimit { get; set; } = true;
 
         public IHistoryCalculator HistoryCalculator { get; }
+
+        public HistoryCalculatorInputData(Guid id)
+            : this(id, null!)
+        {
+        }
 
         public HistoryCalculatorInputData(Guid id, IHistoryCalculator historyCalculator)
         {

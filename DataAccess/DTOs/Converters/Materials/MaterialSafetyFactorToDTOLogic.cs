@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Models.Materials.Libraries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +11,13 @@ namespace DataAccess.DTOs
     {
         public IMaterialSafetyFactor GetNewSafetyFactorByOld(IMaterialSafetyFactor safetyFactor)
         {
-            MaterialSafetyFactorDTO newSafetyFactor = new()
-            {
-                Id = safetyFactor.Id
-            };
+            MaterialSafetyFactorDTO newSafetyFactor = new(safetyFactor.Id);
             return newSafetyFactor;
         }
 
         public IMaterialPartialFactor GetNewPartialFactorByOld(IMaterialPartialFactor partialFactor)
         {
-            MaterialPartialFactorDTO newPartialFactor = new()
-            {
-                Id = partialFactor.Id
-            };
+            MaterialPartialFactorDTO newPartialFactor = new(partialFactor.Id);
             return newPartialFactor;
         }
     }

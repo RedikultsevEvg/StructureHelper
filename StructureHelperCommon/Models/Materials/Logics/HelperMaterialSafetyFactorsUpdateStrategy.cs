@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Services;
 
@@ -20,7 +20,7 @@ namespace StructureHelperCommon.Models.Materials
                 targetObject.SafetyFactors.Clear();
                 foreach (var item in sourceObject.SafetyFactors)
                 {
-                    targetObject.SafetyFactors.Add(item.Clone() as IMaterialSafetyFactor);
+                    targetObject.SafetyFactors.Add(item.CloneLegacy() as IMaterialSafetyFactor);
                 }
             }
         }

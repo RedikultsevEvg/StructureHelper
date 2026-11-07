@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials.Libraries;
 using System;
@@ -22,6 +22,16 @@ namespace DataAccess.DTOs
         [JsonProperty("PartialFactors")]
         public List<IMaterialPartialFactor> PartialFactors { get; } = new();
 
+
+        public MaterialSafetyFactorDTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public MaterialSafetyFactorDTO(Guid id)
+        {
+            Id = id;
+        }
 
         public object Clone()
         {

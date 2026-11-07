@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 
 namespace StructureHelperCommon.Models.Forces
@@ -26,7 +26,7 @@ namespace StructureHelperCommon.Models.Forces
             targetObject.ColumnProperties.Clear();
             foreach (var item in sourceObject.ColumnProperties)
             {
-                IColumnFileProperty clone = (IColumnFileProperty)item.Clone();
+                IColumnFileProperty clone = (IColumnFileProperty)item.CloneLegacy();
                 targetObject.ColumnProperties.Add(clone);
             }
         }

@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public interface IFactoredForceTuple : ISaveable, ICloneable
+    public interface IFactoredForceTuple : ISaveable, ICloneStrategy<IFactoredForceTuple>
     {
         /// <summary>
         /// Combination of internal forces for bar

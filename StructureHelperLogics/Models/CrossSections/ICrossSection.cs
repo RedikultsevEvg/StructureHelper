@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.WorkPlanes;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.CrossSections
 {
-    public interface ICrossSection : ISaveable, ICloneable
+    public interface ICrossSection : ISaveable, ICloneStrategy<ICrossSection>
     {
         ICrossSectionRepository SectionRepository { get; set; }
         IWorkPlaneProperty WorkPlaneProperty { get; set; }

@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace StructureHelperCommon.Models.Materials.Libraries
             targetObject.PartialFactors.Clear();
             foreach (var item in sourceObject.PartialFactors)
             {
-                targetObject.PartialFactors.Add(item.Clone() as IMaterialPartialFactor);
+                targetObject.PartialFactors.Add(item.CloneLegacy() as IMaterialPartialFactor);
             }
         }
     }

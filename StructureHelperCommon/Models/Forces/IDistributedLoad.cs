@@ -1,9 +1,11 @@
-﻿namespace StructureHelperCommon.Models.Forces
+using StructureHelperCommon.Infrastructures.Interfaces;
+
+namespace StructureHelperCommon.Models.Forces
 {
     /// <summary>
     /// Implement properties of uniformly distributed beam span load
     /// </summary>
-    public interface IDistributedLoad : IDistributedBeamSpanLoad
+    public interface IDistributedLoad : IDistributedBeamSpanLoad, ICloneStrategy<IDistributedLoad>
     {
         /// <summary>
         /// Value of uniformly distributed load, N/m

@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials.Libraries;
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,16 @@ namespace DataAccess.DTOs
         public StressStates StressState { get; set; }
         public CalcTerms CalcTerm { get; set; }
         public LimitStates LimitState { get; set; }
+
+        public MaterialPartialFactorDTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public MaterialPartialFactorDTO(Guid id)
+        {
+            Id = id;
+        }
 
         public object Clone()
         {

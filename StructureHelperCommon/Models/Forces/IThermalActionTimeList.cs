@@ -1,3 +1,4 @@
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System.Collections.Generic;
 
 namespace StructureHelperCommon.Models.Forces
@@ -6,7 +7,7 @@ namespace StructureHelperCommon.Models.Forces
     /// Thermal action whose temperature state changes with time. The state is defined by a set of
     /// (time, temperature field) pairs and is interpolated between them.
     /// </summary>
-    public interface IThermalActionTimeList : IThermalAction
+    public interface IThermalActionTimeList : IThermalAction, ICloneStrategy<IThermalActionTimeList>
     {
         /// <summary>
         /// Temperature states ordered by time. The order of the collection is not required to be sorted.

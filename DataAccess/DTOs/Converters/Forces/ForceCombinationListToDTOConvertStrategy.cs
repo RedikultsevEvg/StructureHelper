@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Loggers;
@@ -39,7 +39,7 @@ namespace DataAccess.DTOs
         private ForceCombinationListDTO GetNewForceCombinationList(IForceCombinationList source)
         {
             InitializeStrategies();
-            ForceCombinationListDTO newItem = new() { Id = source.Id};
+            ForceCombinationListDTO newItem = new(source.Id);
             baseUpdateStrategy.Update(newItem, source);
             updateStrategy.Update(newItem, source);
             convertStrategy.ReferenceDictionary = ReferenceDictionary;

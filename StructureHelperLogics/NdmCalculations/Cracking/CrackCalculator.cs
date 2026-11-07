@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
@@ -42,6 +42,11 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             this.checkInputDataLogic = checkInputDataLogic;
             this.updateStrategy = updateStrategy;
             this.TraceLogger = traceLogger;
+        }
+
+        public CrackCalculator(Guid id)
+            : this(id, null)
+        {
         }
 
         public CrackCalculator(Guid id, IShiftTraceLogger traceLogger)

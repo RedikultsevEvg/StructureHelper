@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
@@ -69,7 +69,7 @@ namespace DataAccess.DTOs.Converters
 
         private RectangleNdmPrimitiveDTO GetNewPrimitive(IRectangleNdmPrimitive source)
         {
-            RectangleNdmPrimitiveDTO newItem = new() { Id = source.Id };
+            RectangleNdmPrimitiveDTO newItem = new(source.Id);
             updateStrategy.Update(newItem, source);
             newItem.NdmElement = ndmElementConvertStrategy.Convert(source.NdmElement);
             newItem.RectangleShape = rectangleShapeConvertStrategy.Convert(source.Shape as IRectangleShape);

@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 using System;
 
@@ -18,10 +19,12 @@ namespace StructureHelperCommon.Models.Shapes
             
         }
 
-        public IVerticalTShape GetClone(IVerticalTShape sourceObject)
+        public IVerticalTShape GetClone(IVerticalTShape sourceObject, CloningMode cloningMode)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            VerticalTShape clone = new(Guid.NewGuid());
+            if (cloningMode == CloningMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            VerticalTShape clone = new(id);
             UpdateStrategy.Update(clone, sourceObject);
             return clone;
         }

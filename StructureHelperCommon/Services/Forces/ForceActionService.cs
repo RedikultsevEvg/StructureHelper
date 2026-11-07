@@ -1,5 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace StructureHelperCommon.Services.Forces
                 var pair = new DesignForcePair()
                 {
                     Name = combinations.Name,
-                    ForcePoint = (IPoint2D)combinations.ForcePoint.Clone(),
+                    ForcePoint = (IPoint2D)combinations.ForcePoint.CloneLegacy(),
                     SetInGravityCenter = combinations.SetInGravityCenter,
                     LimitState = limitState,
                     FullForceTuple = tuples[0],
@@ -56,7 +57,7 @@ namespace StructureHelperCommon.Services.Forces
                 var pair = new DesignForcePair()
                 {
                     Name = combinations.Name,
-                    ForcePoint = (IPoint2D)combinations.ForcePoint.Clone(),
+                    ForcePoint = (IPoint2D)combinations.ForcePoint.CloneLegacy(),
                     SetInGravityCenter = combinations.SetInGravityCenter,
                     LimitState = limitState,
                     FullForceTuple = tuples[0],

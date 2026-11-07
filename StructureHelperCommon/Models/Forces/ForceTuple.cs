@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using StructureHelperCommon.Services.Forces;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -49,8 +51,19 @@ namespace StructureHelperCommon.Models.Forces
         /// <inheritdoc/>
         public object Clone()
         {
-            var newItem = new ForceTuple();
-            updateStrategy.Update(newItem, this);
+            return GetClone(this, CloningMode.NewEntity);
+        }
+
+        public IForceTuple GetClone(IForceTuple sourceObject, CloningMode cloningMode)
+        {
+            if (cloningMode == CloningMode.Reference)
+            {
+                return sourceObject;
+            }
+
+            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            var newItem = new ForceTuple(id);
+            updateStrategy.Update(newItem, sourceObject);
             return newItem;
         }
         public static ForceTuple operator +(ForceTuple first) => first;

@@ -1,0 +1,1 @@
+global using StructureHelperCommon.Infrastructures.Interfaces;

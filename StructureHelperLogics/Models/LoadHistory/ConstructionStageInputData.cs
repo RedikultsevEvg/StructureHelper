@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 using System.Collections.Generic;
@@ -34,6 +34,11 @@ namespace StructureHelperLogics.Models.LoadHistory
             }
         }
 
+
+        public ConstructionStageInputData(Guid id)
+            : this(id, null!)
+        {
+        }
 
         public ConstructionStageInputData(Guid id, IConstructionStage constructionStage)
         {

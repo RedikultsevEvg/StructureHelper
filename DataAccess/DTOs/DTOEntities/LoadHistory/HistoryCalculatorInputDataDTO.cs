@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.Models.LoadHistory;
 using System;
@@ -19,6 +19,11 @@ namespace DataAccess.DTOs
         public IAccuracy Accuracy { get; set; } = new AccuracyDTO(Guid.NewGuid());
         [JsonProperty("CheckStrainLimit")]
         public bool CheckStrainLimit { get; set; } = true;
+
+        public HistoryCalculatorInputDataDTO(Guid id)
+            : this(id, null!)
+        {
+        }
 
         public HistoryCalculatorInputDataDTO(Guid id, IHistoryCalculator historyCalculator)
         {

@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Materials;
+using LoaderCalculator.Data.Materials;
 using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials.Libraries;
@@ -19,6 +19,16 @@ namespace DataAccess.DTOs
         [JsonProperty("SafetyFactors")]
         public List<IMaterialSafetyFactor> SafetyFactors { get; set; } = [];
 
+
+        public ElasticMaterialDTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public ElasticMaterialDTO(Guid id)
+        {
+            Id = id;
+        }
 
         public object Clone()
         {

@@ -1,4 +1,4 @@
-﻿using StructureHelper.Infrastructure;
+using StructureHelper.Infrastructure;
 using StructureHelper.Windows.ViewModels;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
@@ -174,8 +174,11 @@ namespace StructureHelper.Windows.MainWindow.Analyses
 
         private void AddVersion()
         {
-            var selectedItem = SelectedItem.AnalysisVersion as ICloneable;
-            versionProcessor.AddVersion(selectedItem.Clone() as ISaveable);
+            var selectedItem = SelectedItem.AnalysisVersion;
+            ISaveable? clone = selectedItem is ICloneStrategy cloneStrategy
+                ? cloneStrategy.GetClone(selectedItem, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity) as ISaveable
+                : null;
+            versionProcessor.AddVersion(clone);
             Refresh();
         }
 

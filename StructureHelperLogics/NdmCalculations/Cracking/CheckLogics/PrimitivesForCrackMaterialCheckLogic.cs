@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.NdmCalculations.Cracking.CheckLogics
@@ -23,8 +24,11 @@ namespace StructureHelperLogics.NdmCalculations.Cracking.CheckLogics
             CheckResult = string.Empty;
 
             bool hasCrackMaterial = Entity.Any(primitive =>
-                primitive?.NdmElement?.HeadMaterial?
-                    .GetLoaderMaterial(LimitStates.SLS, CalcTerms.ShortTerm)
+                primitive?
+                .NdmElement?
+                .HeadMaterial?
+                .HelperMaterial?
+                .GetLoaderMaterial(LimitStates.SLS, CalcTerms.ShortTerm)
                 is ICrackMaterial);
 
             if (!hasCrackMaterial)

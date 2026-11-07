@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System.Windows.Media;
 
@@ -18,6 +18,16 @@ namespace DataAccess.DTOs
         public int ZIndex { get; set; }
         [JsonProperty("Opacity")]
         public double Opacity { get; set; }
+
+        public VisualPropertyDTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public VisualPropertyDTO(Guid id)
+        {
+            Id = id;
+        }
 
         public object Clone()
         {

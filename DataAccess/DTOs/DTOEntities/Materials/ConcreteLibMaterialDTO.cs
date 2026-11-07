@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Materials;
+using LoaderCalculator.Data.Materials;
 using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
@@ -61,6 +61,16 @@ namespace DataAccess.DTOs
         public IMaterialLogic MaterialLogic { get; set; }
         [JsonIgnore]
         public List<IMaterialLogic> MaterialLogics { get; } = ProgramSetting.MaterialLogics.Where(x => x.MaterialType == materialType).ToList();
+
+        public ConcreteLibMaterialDTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public ConcreteLibMaterialDTO(Guid id)
+        {
+            Id = id;
+        }
 
         public object Clone()
         {

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -19,9 +19,21 @@ namespace DataAccess.DTOs
         public double Y { get; set; }
 
 
+        public Point2DDTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public Point2DDTO(Guid id)
+        {
+            Id = id;
+        }
+
         public object Clone()
         {
-            throw new NotImplementedException();
+            var newItem = new Point2DDTO(Id);
+            new Point2DUpdateStrategy().Update(newItem, this);
+            return newItem;
         }
     }
 }

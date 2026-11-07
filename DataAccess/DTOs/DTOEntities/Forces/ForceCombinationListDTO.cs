@@ -1,11 +1,6 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
@@ -22,9 +17,22 @@ namespace DataAccess.DTOs
         [JsonProperty("DesignForces")]
         public List<IDesignForceTuple> DesignForces { get; set; } = new();
 
+        public ForceCombinationListDTO()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        public ForceCombinationListDTO(Guid id)
+        {
+            Id = id;
+        }
+
         public object Clone()
         {
-            throw new NotImplementedException();
+            var newItem = new ForceCombinationListDTO(Id);
+            new ForceActionBaseUpdateStrategy().Update(newItem, this);
+            new ForceCombinationListUpdateStrategy().Update(newItem, this);
+            return newItem;
         }
 
         public IForceCombinationList GetCombination()

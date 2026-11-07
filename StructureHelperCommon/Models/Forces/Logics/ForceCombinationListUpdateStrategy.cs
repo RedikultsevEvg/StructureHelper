@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Services;
 using System;
@@ -30,7 +30,7 @@ namespace StructureHelperCommon.Models.Forces
             targetObject.DesignForces.Clear();
             foreach (var item in sourceObject.DesignForces)
             {
-                targetObject.DesignForces.Add((IDesignForceTuple)item.Clone());
+                targetObject.DesignForces.Add((IDesignForceTuple)item.CloneLegacy());
             }
         }
     }

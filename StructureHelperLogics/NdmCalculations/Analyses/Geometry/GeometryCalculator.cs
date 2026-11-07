@@ -1,4 +1,4 @@
-﻿using LoaderCalculator.Data.Matrix;
+using LoaderCalculator.Data.Matrix;
 using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
@@ -16,11 +16,22 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Geometry
         public Action<IResult> ActionToOutputResults { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IShiftTraceLogger? TraceLogger { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Guid Id => throw new NotImplementedException();
+        public Guid Id { get; }
+
+        public GeometryCalculator(Guid id)
+            : this(id, null!)
+        {
+        }
+
+        public GeometryCalculator(Guid id, IParametersLogic parametersLogic)
+        {
+            Id = id;
+            this.parametersLogic = parametersLogic;
+        }
 
         public GeometryCalculator(IParametersLogic parametersLogic)
+            : this(Guid.NewGuid(), parametersLogic)
         {
-            this.parametersLogic = parametersLogic;
         }
 
         public void Run()

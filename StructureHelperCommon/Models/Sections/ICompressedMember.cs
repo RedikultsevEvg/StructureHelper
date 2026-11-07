@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 
 namespace StructureHelperCommon.Models.Sections
@@ -10,7 +10,7 @@ namespace StructureHelperCommon.Models.Sections
     /// <summary>
     /// Interface of properties for compressed strucrue members
     /// </summary>
-    public interface ICompressedMember : ISaveable, ICloneable
+    public interface ICompressedMember : ISaveable, ICloneStrategy<ICompressedMember>
     {
         /// <summary>
         /// Flag of considering of buckling

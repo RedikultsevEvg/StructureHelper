@@ -1,4 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Settingth for column reading from MSExcel file
     /// </summary>
-    public interface IColumnFileProperty : ISaveable, ICloneable
+    public interface IColumnFileProperty : ISaveable, ICloneStrategy<IColumnFileProperty>
     {
         /// <summary>
         /// Name of column

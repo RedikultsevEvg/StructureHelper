@@ -1,4 +1,5 @@
-﻿using System;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,7 +8,7 @@ namespace StructureHelperCommon.Models.FeaMaterials
     /// <summary>
     /// Concrete mate
     /// </summary>
-    public interface IConcreteFeaMaterial : IFeaMaterial
+    public interface IConcreteFeaMaterial : IFeaMaterial, ICloneStrategy<IConcreteFeaMaterial>
     {
         /// <summary>
         /// Young's moduus (modulus of elasticity) of concrete, Pa

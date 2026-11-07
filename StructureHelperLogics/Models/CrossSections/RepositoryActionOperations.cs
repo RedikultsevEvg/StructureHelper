@@ -1,18 +1,11 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
-using StructureHelperLogics.Models.LoadHistory;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
-using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
-using StructureHelperLogics.NdmCalculations.Cracking;
 
 namespace StructureHelperLogics.Models.CrossSections
 {
     public class RepositoryActionOperations : IRepositoryOperation<ICrossSectionRepository, IForceAction>
     {
-        private ICrossSectionRepository repository;
+        private readonly ICrossSectionRepository repository;
 
         public RepositoryActionOperations(ICrossSectionRepository repository)
         {
@@ -21,43 +14,12 @@ namespace StructureHelperLogics.Models.CrossSections
 
         public void Remove(IForceAction entity)
         {
-            foreach (var calc in repository.Calculators)
+            if (entity is null)
             {
-                if (calc is IForceCalculator forceCalculator)
-                {
-                    forceCalculator.InputData.ForceActions.Remove(entity);
-                }
-                else if (calc is ICrackCalculator crackCalculator)
-                {
-                    crackCalculator.InputData.ForceActions.Remove(entity);
-                }
-                else if (calc is ILimitCurvesCalculator)
-                {
-                    //nothing to do
-                }
-                else if (calc is IValueDiagramCalculator diagramCalculator)
-                {
-                    diagramCalculator.InputData.ForceActions.Remove(entity);
-                }
-                else if (calc is ICurvatureCalculator curvatureCalculator)
-                {
-                    curvatureCalculator.InputData.ForceActions.Remove(entity);
-                }
-                else if (calc is IHistoryCalculator historyCalculator)
-                {
-                    foreach (var item in historyCalculator.InputData.ConstructionStages)
-                    {
-                        if (ReferenceEquals(item.InputData.ForceAction, entity))
-                        {
-                            item.InputData.ForceAction = null;
-                        }
-                    }
-                }
-                else
-                {
-                    throw new StructureHelperException(ErrorStrings.ExpectedWas(typeof(ICalculator), calc));
-                }
+                return;
             }
+
+            CrossSectionCalculatorCleanupLogic.RemoveAction(repository, entity);
             repository.ForceActions.Remove(entity);
         }
 
@@ -71,7 +33,8 @@ namespace StructureHelperLogics.Models.CrossSections
 
         public void RemoveAll()
         {
-            throw new NotImplementedException();
+            CrossSectionCalculatorCleanupLogic.ClearActions(repository);
+            repository.ForceActions.Clear();
         }
     }
 }

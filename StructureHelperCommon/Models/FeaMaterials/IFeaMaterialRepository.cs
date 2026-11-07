@@ -1,9 +1,9 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using System.Collections.Generic;
 
 namespace StructureHelperCommon.Models.FeaMaterials
 {
-    public interface IFeaMaterialRepository : ISaveable
+    public interface IFeaMaterialRepository : ISaveable, ICloneStrategy<IFeaMaterialRepository>
     {
         List<IFeaMaterial> FeaMaterials { get; }
     }
