@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces.Logics;
+using StructureHelperCommon.Services;
 using System;
 
 namespace StructureHelperCommon.Models.Forces
@@ -24,9 +25,10 @@ namespace StructureHelperCommon.Models.Forces
         {
         }
 
-        public object Clone()
+        public IDesignForceTuple GetClone(IDesignForceTuple sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            var newTuple = new DesignForceTuple(Guid.NewGuid());
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            DesignForceTuple newTuple = new(id);
             updateStrategy.Update(newTuple, this);
             return newTuple;
         }

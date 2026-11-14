@@ -15,7 +15,10 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
         {
             public TestCloneable? CloneResult { get; set; }
 
-            public TestCloneable GetClone(TestCloneable sourceObject, CloningMode cloningMode)
+            public TestCloneable GetClone(
+                TestCloneable sourceObject,
+                CloneMode cloneMode = CloneMode.NewEntity,
+                CloneDepth cloneDepth = CloneDepth.Deep)
                 => CloneResult ?? sourceObject;
         }
 
@@ -54,12 +57,12 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             var expectedClone = new TestCloneable();
 
             var cloneStrategyMock = new Mock<ICloneStrategy<TestCloneable>>();
-            cloneStrategyMock.Setup(cs => cs.GetClone(original, CloningMode.NewEntity)).Returns(expectedClone);
+            cloneStrategyMock.Setup(cs => cs.GetClone(original, CloneMode.NewEntity)).Returns(expectedClone);
 
             var result = _strategy.Clone(original, cloneStrategyMock.Object);
 
             Assert.That(result, Is.SameAs(expectedClone));
-            cloneStrategyMock.Verify(cs => cs.GetClone(original, CloningMode.NewEntity), Times.Once);
+            cloneStrategyMock.Verify(cs => cs.GetClone(original, CloneMode.NewEntity), Times.Once);
         }
 
         [Test]

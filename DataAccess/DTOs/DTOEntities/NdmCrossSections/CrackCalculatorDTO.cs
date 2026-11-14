@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Analyses.Logics;
 using StructureHelperLogics.NdmCalculations.Cracking;
 
@@ -26,16 +28,17 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
-        {
-            CrackCalculatorDTO newItem = new(Id);
-            new CalculatorUpdateStrategy().Update(newItem, this);
-            return newItem;
-        }
-
         public void Run()
         {
             throw new NotImplementedException();
+        }
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            CrackCalculatorDTO newItem = new(id);
+            new CalculatorUpdateStrategy().Update(newItem, this);
+            return newItem;
         }
     }
 }

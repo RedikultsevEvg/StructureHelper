@@ -10,11 +10,11 @@ namespace StructureHelperCommon.Models.FeaMaterials
         private IUpdateStrategy<IElasticFeaMaterial> updateStrategy;
         private IUpdateStrategy<IElasticFeaMaterial> UpdateStrategy => updateStrategy ??= new ElasticFeaMaterialUpdateStrategy();
 
-        public IElasticFeaMaterial GetClone(IElasticFeaMaterial sourceObject, CloningMode cloningMode)
+        public IElasticFeaMaterial GetClone(IElasticFeaMaterial sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             ElasticFeaMaterial clone = new(id);
             UpdateStrategy.Update(clone, sourceObject);
             return clone;

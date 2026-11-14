@@ -15,7 +15,7 @@ namespace StructureHelperLogics.Models.BeamShears
             baseUpdateStrategy ??= new StirrupBaseUpdateStrategy();
             baseUpdateStrategy.Update(targetObject, sourceObject);
             CheckObject.ThrowIfNull(sourceObject.Material);
-            targetObject.Material = sourceObject.Material.Clone() as IReinforcementLibMaterial;
+            targetObject.Material = sourceObject.Material.GetClone() as IReinforcementLibMaterial;
             targetObject.Diameter = sourceObject.Diameter;
             targetObject.LegCount = sourceObject.LegCount;
             targetObject.Spacing = sourceObject.Spacing;

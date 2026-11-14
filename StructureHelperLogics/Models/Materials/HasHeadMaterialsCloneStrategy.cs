@@ -25,7 +25,7 @@ namespace StructureHelperLogics.Models.Materials
         public void GetClone(
             IHasHeadMaterials target,
             IHasHeadMaterials source,
-            CloningMode mode = CloningMode.NewEntity)
+            CloneMode mode = CloneMode.NewEntity)
         {
             CheckObject.ThrowIfNull(target);
             CheckObject.ThrowIfNull(source);

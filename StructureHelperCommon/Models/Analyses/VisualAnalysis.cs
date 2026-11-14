@@ -1,6 +1,8 @@
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Services;
 using System;
 
 namespace StructureHelperCommon.Models.Analyses
@@ -33,11 +35,14 @@ namespace StructureHelperCommon.Models.Analyses
             ActionToRun?.Invoke();
         }
 
-        public object Clone()
+        public IVisualAnalysis GetClone(IVisualAnalysis sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-                var newAnalysis = Analysis.CloneLegacy() as IAnalysis;
-                VisualAnalysis newItem = new(newAnalysis);
-                return newItem;
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            var newAnalysis = sourceObject.Analysis.GetClone(sourceObject.Analysis, cloneMode, cloneDepth);
+            VisualAnalysis newItem = new(newAnalysis);
+            return newItem;
         }
     }
 }

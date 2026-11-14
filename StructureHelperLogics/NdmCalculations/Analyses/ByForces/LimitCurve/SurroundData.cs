@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models.Shapes;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 ConvertLogicEntity = ConvertLogics.ConverterLogics[0],
             };
             return newItem;
+        }
+
+        public ISurroundData GetClone(ISurroundData sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

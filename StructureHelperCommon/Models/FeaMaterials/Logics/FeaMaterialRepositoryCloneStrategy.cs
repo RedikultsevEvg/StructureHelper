@@ -1,5 +1,4 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 using System;
 
@@ -10,11 +9,11 @@ namespace StructureHelperCommon.Models.FeaMaterials
         private IUpdateStrategy<IFeaMaterialRepository> updateStrategy;
         private IUpdateStrategy<IFeaMaterialRepository> UpdateStrategy => updateStrategy ??= new FeaMaterialRepositoryUpdateStrategy() { UpdateChildren = true};
 
-        public IFeaMaterialRepository GetClone(IFeaMaterialRepository sourceObject, CloningMode cloningMode)
+        public IFeaMaterialRepository GetClone(IFeaMaterialRepository sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject, "FEA material repository");
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             FeaMaterialRepository clone = new(id);
             UpdateStrategy.Update(clone, sourceObject);
             return clone;

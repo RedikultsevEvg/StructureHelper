@@ -25,7 +25,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public void GetClone(
             IHasForceActions target,
             IHasForceActions source,
-            CloningMode mode = CloningMode.NewEntity)
+            CloneMode mode = CloneMode.NewEntity)
         {
             CheckObject.ThrowIfNull(target);
             CheckObject.ThrowIfNull(source);

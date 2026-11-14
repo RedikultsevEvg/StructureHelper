@@ -12,7 +12,7 @@ namespace DataAccess.DTOs
         [JsonProperty("Id")]
         public Guid Id { get; }
         [JsonIgnore]
-        public IHistoryCalculator HistoryCalculator { get; }
+        public IHistoryCalculator HistoryCalculator { get; set; }
         [JsonProperty("ConstructionStages")]
         public List<IConstructionStage> ConstructionStages { get; } = [];
         [JsonProperty("Accuracy")]
@@ -21,14 +21,7 @@ namespace DataAccess.DTOs
         public bool CheckStrainLimit { get; set; } = true;
 
         public HistoryCalculatorInputDataDTO(Guid id)
-            : this(id, null!)
         {
-        }
-
-        public HistoryCalculatorInputDataDTO(Guid id, IHistoryCalculator historyCalculator)
-        {
-            Id = id;
-            HistoryCalculator = historyCalculator;
         }
     }
 }

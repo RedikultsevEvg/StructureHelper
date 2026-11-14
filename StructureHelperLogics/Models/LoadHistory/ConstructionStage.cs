@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
@@ -22,6 +23,11 @@ namespace StructureHelperLogics.Models.LoadHistory
             ConstructionStage newItem = new(Guid.NewGuid());
             updateStrategy.Update(newItem, this);
             return newItem;
+        }
+
+        public IConstructionStage GetClone(IConstructionStage sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

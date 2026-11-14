@@ -1,5 +1,5 @@
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.WorkPlanes;
 using StructureHelperCommon.Services;
 
@@ -8,32 +8,27 @@ namespace StructureHelperLogics.Models.CrossSections
     public class CrossSectionCloneStrategy : ICloneStrategy<ICrossSection>
     {
         private ICloneStrategy<ICrossSectionRepository> repositoryCloneStrategy;
+        private ICloneStrategy<ICrossSectionRepository> RepositoryCloneStrategy => repositoryCloneStrategy ??= new CrossSectionRepositoryCloneStrategy(new DeepCloningStrategy());
         private IUpdateStrategy<IWorkPlaneProperty> workPlaneUpdateStrategy;
+        private IUpdateStrategy<IWorkPlaneProperty> WorkPlaneUpdateStrategy => workPlaneUpdateStrategy ??= new WorkPlanePropertyUpdateStrategy();
 
-        public CrossSectionCloneStrategy(ICloneStrategy<ICrossSectionRepository> repositoryCloneStrategy,
-            IUpdateStrategy<IWorkPlaneProperty> workPlaneUpdateStrategy)
+        public CrossSectionCloneStrategy(ICloneStrategy<ICrossSectionRepository> repositoryCloneStrategy)
         {
             this.repositoryCloneStrategy = repositoryCloneStrategy;
-            this.workPlaneUpdateStrategy = workPlaneUpdateStrategy;
         }
 
-        public CrossSectionCloneStrategy()  {   }
 
-        public ICrossSection GetClone(ICrossSection sourceObject, CloningMode cloningMode)
+        public ICrossSection GetClone(ICrossSection sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
-            repositoryCloneStrategy ??= new CrossSectionRepositoryCloneStrategy(new DeepCloningStrategy());
-            ICrossSectionRepository newRepository = repositoryCloneStrategy.GetClone(sourceObject.SectionRepository, cloningMode);
-            var targetObject = new CrossSection(id)
-            {
-                SectionRepository = newRepository
-            };
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            var targetObject = new CrossSection(id);
+            ICrossSectionRepository newRepository = RepositoryCloneStrategy.GetClone(sourceObject.SectionRepository, cloneMode, cloneDepth);
+            targetObject.SectionRepository = newRepository;
             CheckObject.ThrowIfNull(targetObject.WorkPlaneProperty);
             CheckObject.ThrowIfNull(sourceObject.WorkPlaneProperty);
-            workPlaneUpdateStrategy ??= new WorkPlanePropertyUpdateStrategy();
-            workPlaneUpdateStrategy.Update(targetObject.WorkPlaneProperty, sourceObject.WorkPlaneProperty);
+            WorkPlaneUpdateStrategy.Update(targetObject.WorkPlaneProperty, sourceObject.WorkPlaneProperty);
             return targetObject;
         }
     }

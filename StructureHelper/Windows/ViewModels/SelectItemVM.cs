@@ -1,6 +1,4 @@
 using StructureHelper.Infrastructure;
-using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -98,21 +96,21 @@ namespace StructureHelper.Windows.ViewModels
         /// </summary>
         public virtual void CopyMethod(object parameter)
         {
-            TItem? newItem = SelectedItem is ICloneStrategy cloneStrategy
-                ? cloneStrategy.GetClone(SelectedItem, CloningMode.NewEntity) as TItem
-                : null;
-            if (newItem is null)
-            {
-                return;
-            }
-            if (SelectedItem is ILogic sourceLogic
-                && newItem is ILogic targetLogic
-                && sourceLogic.TraceLogger is not null)
-            {
-                targetLogic.TraceLogger = sourceLogic.TraceLogger.GetSimilarTraceLogger();
-            }
-            NewItem = newItem;
-            AddItem(newItem);
+            //TItem? newItem = SelectedItem is ICloneStrategy cloneStrategy
+            //    ? cloneStrategy.GetClone(SelectedItem, CloneMode.NewEntity) as TItem
+            //    : null;
+            //if (newItem is null)
+            //{
+            //    return;
+            //}
+            //if (SelectedItem is ILogic sourceLogic
+            //    && newItem is ILogic targetLogic
+            //    && sourceLogic.TraceLogger is not null)
+            //{
+            //    targetLogic.TraceLogger = sourceLogic.TraceLogger.GetSimilarTraceLogger();
+            //}
+            //NewItem = newItem;
+            //AddItem(newItem);
         }
 
         public ICommand MoveUpCommand => moveUpCommand ??= new RelayCommand(o => MoveUp(), o => CanMoveUp());

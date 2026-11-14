@@ -8,9 +8,10 @@ namespace StructureHelperCommon.Models.FeaMaterials
     /// <inheritdoc/>
     public class FeaMaterialRepository : IFeaMaterialRepository
     {
-        public IFeaMaterialRepository GetClone(IFeaMaterialRepository sourceObject, CloningMode cloningMode)
+
+        public IFeaMaterialRepository GetClone(IFeaMaterialRepository sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return new FeaMaterialRepositoryCloneStrategy().GetClone(sourceObject, cloningMode);
+            return new FeaMaterialRepositoryCloneStrategy().GetClone(sourceObject, cloneMode);
         }
 
         /// <inheritdoc/>

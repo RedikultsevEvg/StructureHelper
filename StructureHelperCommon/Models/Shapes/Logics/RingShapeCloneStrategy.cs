@@ -12,12 +12,11 @@ namespace StructureHelperCommon.Models.Shapes
         private IUpdateStrategy<IRingShape> updateStrategy;
         private IUpdateStrategy<IRingShape> UpdateStrategy => updateStrategy ??= new RingShapeUpdateStrategy();
 
-
-        public IRingShape GetClone(IRingShape sourceObject, CloningMode cloningMode)
+        public IRingShape GetClone(IRingShape sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             RingShape clone = new(id);
             UpdateStrategy.Update(clone, sourceObject);
             return clone;

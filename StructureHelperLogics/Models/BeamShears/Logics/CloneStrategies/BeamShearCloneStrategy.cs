@@ -13,15 +13,15 @@ namespace StructureHelperLogics.Models.BeamShears
             this.cloningStrategy = cloningStrategy;
         }
 
-        public IBeamShear GetClone(IBeamShear sourceObject, CloningMode cloningMode)
+        public IBeamShear GetClone(IBeamShear sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             InitializeStrategies();
             var beamShear = new BeamShear(id)
             {
-                Repository = cloneStrategy.GetClone(sourceObject.Repository, cloningMode)
+                Repository = cloneStrategy.GetClone(sourceObject.Repository, cloneMode, cloneDepth)
             };
             return beamShear;
         }

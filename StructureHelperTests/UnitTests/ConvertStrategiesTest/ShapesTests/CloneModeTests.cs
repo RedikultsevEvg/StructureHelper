@@ -13,11 +13,11 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
         public void Point2D_ShouldSupportAllCloneModesThroughDefaultStrategy()
         {
             var source = new Point2D(Guid.NewGuid()) { X = 1, Y = 2 };
-            var strategy = (ICloneStrategy)source;
+            var strategy = (ICloneStrategy<IPoint2D>)source;
 
-            var reference = strategy.GetClone(source, CloningMode.Reference);
-            var preserved = (IPoint2D)strategy.GetClone(source, CloningMode.PreserveIdentity);
-            var newEntity = (IPoint2D)strategy.GetClone(source, CloningMode.NewEntity);
+            var reference = strategy.GetClone(source, CloneMode.Reference, CloneDepth.Deep);
+            var preserved = strategy.GetClone(source, CloneMode.PreserveIdentity, CloneDepth.Deep);
+            var newEntity = strategy.GetClone(source, CloneMode.NewEntity, CloneDepth.Deep);
 
             Assert.Multiple(() =>
             {
@@ -34,7 +34,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
             var source = new RectangleShape(Guid.NewGuid());
             var strategy = new RectangleShapeCloneStrategy();
 
-            var clone = strategy.GetClone(source, CloningMode.Reference);
+            var clone = strategy.GetClone(source, CloneMode.Reference);
 
             Assert.That(clone, Is.SameAs(source));
         }
@@ -45,7 +45,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
             var source = new RectangleShape(Guid.NewGuid());
             var strategy = new RectangleShapeCloneStrategy();
 
-            var clone = strategy.GetClone(source, CloningMode.PreserveIdentity);
+            var clone = strategy.GetClone(source, CloneMode.PreserveIdentity);
 
             Assert.Multiple(() =>
             {
@@ -60,7 +60,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
             var source = new RectangleShape(Guid.NewGuid());
             var strategy = new RectangleShapeCloneStrategy();
 
-            var clone = strategy.GetClone(source, CloningMode.NewEntity);
+            var clone = strategy.GetClone(source, CloneMode.NewEntity);
 
             Assert.Multiple(() =>
             {

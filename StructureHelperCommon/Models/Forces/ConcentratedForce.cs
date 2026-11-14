@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces.BeamShearActions;
+using StructureHelperCommon.Services;
 using System;
 
 namespace StructureHelperCommon.Models.Forces
@@ -41,13 +42,18 @@ namespace StructureHelperCommon.Models.Forces
             Id = id;
         }
 
-        /// <inheritdoc/>
-        public object Clone()
+        public IConcentratedForce GetClone(IConcentratedForce sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            ConcentratedForce concentratedForce = new(Guid.NewGuid());
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ConcentratedForce newItem = new(id);
             updateStrategy ??= new ConcentratedForceUpdateStrategy();
-            updateStrategy.Update(concentratedForce, this);
-            return concentratedForce;
+            updateStrategy.Update(newItem, this);
+            return newItem;
+        }
+
+        public IBeamSpanLoad GetClone(IBeamSpanLoad sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

@@ -1,4 +1,4 @@
-using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
@@ -232,7 +232,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             return true;
         }
 
-        public object Clone()
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             throw new NotImplementedException();
         }

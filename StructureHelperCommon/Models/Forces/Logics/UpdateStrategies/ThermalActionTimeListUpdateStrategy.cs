@@ -28,25 +28,19 @@ namespace StructureHelperCommon.Models.Forces
         public void Update(IThermalActionTimeList targetObject, IThermalActionTimeList sourceObject)
         {
             CheckObject.ThrowIfNull(targetObject, sourceObject);
-            if (ReferenceEquals(targetObject, sourceObject))
-            {
-                return;
-            }
-
+            if (ReferenceEquals(targetObject, sourceObject)) { return;}
             targetObject.Name = sourceObject.Name;
 
-            if (UpdateChildren == false)
+            if (UpdateChildren == true)
             {
-                return;
-            }
-
-            targetObject.TimePairs.Clear();
-            foreach (IThermalActionTimePair sourcePair in sourceObject.TimePairs)
-            {
-                IThermalActionTimeIndependend thermalAction = CloneThermalAction(sourcePair.ThermalAction);
-                var targetPair = new ThermalActionTimePair(sourcePair.Time, thermalAction);
-                pairUpdateStrategy.Update(targetPair, sourcePair);
-                targetObject.TimePairs.Add(targetPair);
+                targetObject.TimePairs.Clear();
+                foreach (IThermalActionTimePair sourcePair in sourceObject.TimePairs)
+                {
+                    IThermalActionTimeIndependend thermalAction = CloneThermalAction(sourcePair.ThermalAction);
+                    var targetPair = new ThermalActionTimePair(Guid.NewGuid(), sourcePair.Time, thermalAction);
+                    pairUpdateStrategy.Update(targetPair, sourcePair);
+                    targetObject.TimePairs.Add(targetPair);
+                }
             }
         }
 
@@ -54,11 +48,11 @@ namespace StructureHelperCommon.Models.Forces
             IThermalActionTimeIndependend thermalAction)
         {
             CheckObject.ThrowIfNull(thermalAction, nameof(thermalAction));
-            if (thermalAction is ICloneStrategy cloneStrategy)
+            if (thermalAction is ICloneStrategy<IThermalActionTimeIndependend> cloneStrategy)
             {
                 return (IThermalActionTimeIndependend)cloneStrategy.GetClone(
                     thermalAction,
-                    StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
+                    StructureHelperCommon.Infrastructures.Enums.CloneMode.NewEntity);
             }
             throw new StructureHelperException(
                 $"{nameof(IThermalActionTimeIndependend)} implementation does not support cloning.");

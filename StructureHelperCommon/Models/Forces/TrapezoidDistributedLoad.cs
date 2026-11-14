@@ -1,4 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Services;
 using System;
 
 namespace StructureHelperCommon.Models.Forces
@@ -32,11 +34,17 @@ namespace StructureHelperCommon.Models.Forces
             Id = id;
         }
 
-        public object Clone()
+        public IBeamSpanLoad GetClone(IBeamSpanLoad sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            TrapezoidDistributedLoad newItem = new(Guid.NewGuid());
-            var updateStrategy = new TrapezoidDistributedLoadUpdateStrategy();
-            updateStrategy.Update(newItem, this);
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            TrapezoidDistributedLoad newItem = new(id);
+            if (sourceObject is not ITrapezoidDistributedLoad trapezoid)
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(sourceObject));
+            }
+            new TrapezoidDistributedLoadUpdateStrategy().Update(newItem, trapezoid);
             return newItem;
         }
     }

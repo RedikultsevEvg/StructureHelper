@@ -1,3 +1,4 @@
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using System;
 
@@ -55,10 +56,10 @@ namespace StructureHelperCommon.Models.FeaMaterials
             TensionProperties = new ConcreteFeaTension();
         }
 
-        public object Clone()
+        public IConcreteFeaMaterial GetClone(IConcreteFeaMaterial sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             var cloneStrategy = new ConcreteFeaMaterialCloneStrategy();
-            var clone = cloneStrategy.GetClone(this, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
+            var clone = cloneStrategy.GetClone(this, cloneMode);
             return clone;
         }
     }

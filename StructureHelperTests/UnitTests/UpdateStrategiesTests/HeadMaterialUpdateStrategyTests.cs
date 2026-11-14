@@ -1,8 +1,9 @@
-﻿using LoaderCalculator.Data.Materials;
+using LoaderCalculator.Data.Materials;
 using NUnit.Framework;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
@@ -92,13 +93,30 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
 
             public Guid Id => throw new NotImplementedException();
 
+            public IHeadMaterial GetClone(
+                IHeadMaterial sourceObject,
+                CloneMode cloneMode = CloneMode.NewEntity,
+                CloneDepth cloneDepth = CloneDepth.Deep)
+            {
+                if (cloneMode == CloneMode.Reference)
+                {
+                    return sourceObject;
+                }
+                return new MockHeadMaterial
+                {
+                    Name = sourceObject.Name,
+                    Color = sourceObject.Color,
+                    HelperMaterial = sourceObject.HelperMaterial?.GetClone(sourceObject.HelperMaterial, cloneMode, cloneDepth)
+                };
+            }
+
             public object Clone()
             {
                 return new MockHeadMaterial
                 {
                     Name = this.Name,
                     Color = this.Color,
-                    HelperMaterial = this.HelperMaterial?.Clone() as IHelperMaterial
+                    HelperMaterial = this.HelperMaterial?.GetClone(this.HelperMaterial, CloneMode.NewEntity, CloneDepth.Deep)
                 };
             }
 
@@ -120,6 +138,22 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             public Guid Id => throw new NotImplementedException();
 
             public List<IMaterialSafetyFactor> SafetyFactors { get; set; }
+
+            public IHelperMaterial GetClone(
+                IHelperMaterial sourceObject,
+                CloneMode cloneMode = CloneMode.NewEntity,
+                CloneDepth cloneDepth = CloneDepth.Deep)
+            {
+                if (cloneMode == CloneMode.Reference)
+                {
+                    return sourceObject;
+                }
+                return new MockHelperMaterial
+                {
+                    Property = (sourceObject as MockHelperMaterial)?.Property,
+                    SafetyFactors = sourceObject.SafetyFactors
+                };
+            }
 
             public object Clone()
             {

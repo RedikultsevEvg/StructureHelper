@@ -1,4 +1,5 @@
-﻿using StructureHelper.Infrastructure;
+﻿using NLog.LayoutRenderers.Wrappers;
+using StructureHelper.Infrastructure;
 using StructureHelper.Infrastructure.Enums;
 using StructureHelper.Windows.Forces;
 using StructureHelper.Windows.ViewModels.Errors;
@@ -76,7 +77,8 @@ namespace StructureHelper.Windows.ViewModels.Forces
 
         public override void CopyMethod(object parameter)
         {
-            NewItem = SelectedItem.Clone() as IForceAction;
+            ForceActionCloneStrategy cloneStrategy = new(); 
+            NewItem = cloneStrategy.GetClone(SelectedItem);
             NewItem.Name = $"{NewItem.Name} copy";
             //GlobalRepository.Actions.Create(NewItem);
             Collection.Add(NewItem);
@@ -86,8 +88,8 @@ namespace StructureHelper.Windows.ViewModels.Forces
 
         public override void EditMethod(object parameter)
         {
-            //var copyObject = GlobalRepository.Actions.GetById(SelectedItem.Id).Clone() as IAction;
-            var copyObject = SelectedItem.Clone() as IAction;
+            ForceActionCloneStrategy cloneStrategy = new();
+            var copyObject = cloneStrategy.GetClone(SelectedItem);
             System.Windows.Window modelEditorWindow;
             if (SelectedItem is IForceCombinationList combinationList)
             {

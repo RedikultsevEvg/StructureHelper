@@ -5,7 +5,7 @@ using System.Text;
 
 namespace StructureHelperCommon.Models.Materials
 {
-    public interface ICustomConcreteCompressionOptions : ISaveable, ICloneStrategy<ICustomConcreteCompressionOptions>
+    public interface ICustomConcreteCompressionOptions : ISaveable, ISelfCloneStrategy<ICustomConcreteCompressionOptions>
     {
         double PeakStress { get; set; }
         double PeakStrain { get; set; }

@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
@@ -37,9 +37,9 @@ namespace DataAccess.DTOs
         [JsonIgnore]        
         public IRepositoryOperationsLogic Operations => operations ??= new RepositoryOperationsLogic(this);
 
-        public ICrossSectionRepository GetClone(ICrossSectionRepository sourceObject, CloningMode cloningMode)
+        public ICrossSectionRepository GetClone(ICrossSectionRepository sourceObject, CloneMode cloningMode)
         {
-            if (cloningMode == CloningMode.Reference)
+            if (cloningMode == CloneMode.Reference)
             {
                 return sourceObject;
             }
@@ -50,7 +50,7 @@ namespace DataAccess.DTOs
 
             foreach (var material in sourceObject.HeadMaterials)
             {
-                clone.HeadMaterials.Add(material.GetClone(material, cloningMode));
+                clone.HeadMaterials.Add(material.GetClone(cloningMode));
             }
             foreach (var action in sourceObject.ForceActions)
             {
@@ -131,6 +131,11 @@ namespace DataAccess.DTOs
         public void ClearAll()
         {
             StructureHelperLogics.Models.CrossSections.CrossSectionRepositoryMutationLogic.ClearAll(this);
+        }
+
+        public ICrossSectionRepository GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            throw new NotImplementedException();
         }
     }
 }

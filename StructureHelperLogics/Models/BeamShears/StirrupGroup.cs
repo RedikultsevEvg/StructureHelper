@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Models.VisualProperties;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.VisualProperties;
 using System.Windows.Media;
 
 namespace StructureHelperLogics.Models.BeamShears
@@ -29,5 +30,9 @@ namespace StructureHelperLogics.Models.BeamShears
             return newItem;
         }
 
+        public IStirrup GetClone(IStirrup sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+        }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using LoaderCalculator.Data.Ndms;
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 
@@ -36,14 +39,6 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                 
         }
 
-        public object Clone()
-        {
-            var primitive = new RectangleNdmPrimitive();
-            updateStrategy ??= new();
-            updateStrategy.Update(primitive, this);
-            return primitive;
-        }
-
         public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
         {
             var ndms = new List<INdm>();
@@ -77,7 +72,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             newPoint = new NamedAreaPoint()
             {
                 Name = "Center",
-                Point = Center.Clone() as Point2D
+                Point = Center.GetClone(Center) as Point2D
             };
             points.Add(newPoint);
             newPoint = new NamedAreaPoint()
@@ -105,6 +100,20 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             };
             points.Add(newPoint);
             return points;
+        }
+
+        public INdmPrimitive GetClone(INdmPrimitive sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            RectangleNdmPrimitive primitive = new (id);
+            if (sourceObject is not IRectangleNdmPrimitive sourceRectangle)
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(sourceObject));
+            }
+            new RectanglePrimitiveUpdateStrategy().Update(primitive, sourceRectangle);
+            return primitive;
         }
     }
 }

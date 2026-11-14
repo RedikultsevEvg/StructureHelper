@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,16 +36,17 @@ namespace StructureHelperCommon.Models.Forces
             throw new NotImplementedException();
         }
 
-        public object Clone()
-        {
-            var newItem = new DesignForcePair();
-            updateStrategy.Update(newItem, this);
-            return newItem;
-        }
-
         public List<IForceCombinationList> GetCombinations()
         {
             throw new NotImplementedException();
+        }
+
+        public IDesignForcePair GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            DesignForcePair newItem = new(id);
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

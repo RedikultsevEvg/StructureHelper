@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Sections;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,11 @@ namespace DataAccess.DTOs
         public object Clone()
         {
             return this;
+        }
+
+        public ICompressedMember GetClone(ICompressedMember sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

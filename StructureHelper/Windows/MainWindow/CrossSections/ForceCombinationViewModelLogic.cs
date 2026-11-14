@@ -92,7 +92,8 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
                 (
                 copyCommand = new RelayCommand(o =>
                 {
-                    var item = SelectedItem.Clone() as IForceCombinationList;
+                    IForceCombinationList selectedItem = (IForceCombinationList)SelectedItem;
+                    var item = selectedItem.GetClone();
                     repository.AddForceAction(item);
                     Items.Add(item);
                     OnPropertyChanged(nameof(Items));

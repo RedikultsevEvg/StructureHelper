@@ -11,16 +11,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     /// </summary>
     public class CalculatorCloneStrategy : ICloneStrategy<ICalculator>
     {
-        public ICalculator GetClone(ICalculator sourceObject, CloningMode cloningMode)
+        public ICalculator GetClone(ICalculator sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference)
+            if (cloneMode == CloneMode.Reference)
             {
                 return sourceObject;
             }
-
-            var clone = (ICalculator)LegacyCloneHelper.Clone(sourceObject, cloningMode);
-            CloneIdSynchronizer.Synchronize(sourceObject, clone, cloningMode);
+            var clone = (ICalculator)sourceObject.GetClone(cloneMode, cloneDepth);
             return clone;
         }
     }

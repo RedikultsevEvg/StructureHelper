@@ -13,17 +13,17 @@ namespace StructureHelperCommon.Models.FeaMaterials
         private ICloneStrategy<IConcreteFeaMaterial> ConcreteCloneStrategy => concreteCloneStrategy ??= new ConcreteFeaMaterialCloneStrategy();
         private ICloneStrategy<IElasticFeaMaterial> ElasticCloneStrategy => elasticCloneStrategy ??= new ElasticFeaMaterialCloneStrategy();
 
-        public IFeaMaterial GetClone(IFeaMaterial sourceObject, CloningMode cloningMode)
+        public IFeaMaterial GetClone(IFeaMaterial sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
             if (sourceObject is IElasticFeaMaterial elasticFeaMaterial)
             {
-                return ElasticCloneStrategy.GetClone(elasticFeaMaterial, cloningMode);
+                return ElasticCloneStrategy.GetClone(elasticFeaMaterial, cloneMode);
             }
             else if (sourceObject is IConcreteFeaMaterial concreteFea)
             {
-                return ConcreteCloneStrategy.GetClone(concreteFea, cloningMode);
+                return ConcreteCloneStrategy.GetClone(concreteFea, cloneMode);
             }
             else
             {

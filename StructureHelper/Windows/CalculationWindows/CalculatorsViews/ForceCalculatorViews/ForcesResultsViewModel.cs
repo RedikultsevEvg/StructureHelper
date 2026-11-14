@@ -264,7 +264,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             showCrackResultLogic.CalcTerm = CalcTerms.ShortTerm;
             showCrackResultLogic.ForceTuple = SelectedResult.ForcesTupleResult.InputData.ForceTuple;
             showCrackResultLogic.ndmPrimitives = ndmPrimitives;
-            showCrackResultLogic.Show(SelectedResult.ForcesTupleResult.InputData.ForceTuple.Clone() as IForceTuple);
+            IForceTuple forceTuple = SelectedResult.ForcesTupleResult.InputData.ForceTuple;
+            showCrackResultLogic.Show(forceTuple.GetClone(forceTuple));
         }
 
         public ICommand InterpolateCommand
@@ -328,7 +329,8 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
         private void ShowInterpolationWindow(out InterpolateTuplesViewModel interploateTuplesViewModel, out InterpolateTuplesView wndTuples)
         {
             ForceTuple startTuple = new();
-            IForceTuple endTuple = SelectedResult.ForcesTupleResult.InputData.ForceTuple.Clone() as IForceTuple;
+            IForceTuple forceTuple = SelectedResult.ForcesTupleResult.InputData.ForceTuple;
+            IForceTuple endTuple = forceTuple.GetClone(forceTuple) as IForceTuple;
             interploateTuplesViewModel = new InterpolateTuplesViewModel(startTuple, endTuple, 100);
             wndTuples = new InterpolateTuplesView(interploateTuplesViewModel);
             wndTuples.ShowDialog();

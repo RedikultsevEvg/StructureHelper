@@ -1,3 +1,4 @@
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
@@ -32,10 +33,9 @@ namespace StructureHelper.Models.Calculators
             throw new NotImplementedException();
         }
 
-        public object Clone()
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             throw new NotImplementedException();
         }
-
     }
 }

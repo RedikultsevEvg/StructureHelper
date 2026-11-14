@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.Logics;
@@ -27,6 +27,11 @@ namespace DataAccess.DTOs
             var newItem = new FactoredCombinationPropertyDTO(Id);
             new FactoredCombinationPropertyUpdateStrategy().Update(newItem, this);
             return newItem;
+        }
+
+        public IFactoredCombinationProperty GetClone(IFactoredCombinationProperty sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

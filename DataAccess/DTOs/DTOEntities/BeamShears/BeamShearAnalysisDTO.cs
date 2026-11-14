@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogics.Models.Analyses;
 using System.Windows.Media;
@@ -27,6 +28,11 @@ namespace DataAccess.DTOs
         public object Clone()
         {
             throw new NotImplementedException();
+        }
+
+        public IAnalysis GetClone(IAnalysis sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

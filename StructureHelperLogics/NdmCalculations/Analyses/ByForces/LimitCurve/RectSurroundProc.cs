@@ -54,7 +54,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 x = SurroundData.XMin + xStep * i;
                 surroundList.Add(new Point2D() { X = x, Y = y });
             }
-            surroundList.Add(surroundList[0].Clone() as IPoint2D);
+            surroundList.Add(surroundList[0].GetClone(surroundList[0]) as IPoint2D);
             return surroundList;
         }
 

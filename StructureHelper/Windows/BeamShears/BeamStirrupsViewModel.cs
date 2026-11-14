@@ -53,7 +53,7 @@ namespace StructureHelper.Windows.BeamShears
         private void EditStirrup()
         {
             Window window;
-            IStirrup temporaryStirrup = SelectedItem.Clone() as IStirrup;
+            IStirrup temporaryStirrup = SelectedItem.GetClone(SelectedItem) as IStirrup;
             if (SelectedItem is IStirrupGroup stirrupGroup)
             {
                 window = new StirrupGroupView(stirrupGroup);

@@ -9,11 +9,12 @@ namespace StructureHelperCommon.Models.Shapes
     {
         IUpdateStrategy<IEllipseShape> updateStrategy;
         IUpdateStrategy<IEllipseShape> UpdateStrategy => updateStrategy ??= new EllipseShapeUpdateStrategy();
-        public IEllipseShape GetClone(IEllipseShape sourceObject, CloningMode cloningMode)
+
+        public IEllipseShape GetClone(IEllipseShape sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             EllipseShape clone = new(id);
             UpdateStrategy.Update(clone, sourceObject);
             return clone;

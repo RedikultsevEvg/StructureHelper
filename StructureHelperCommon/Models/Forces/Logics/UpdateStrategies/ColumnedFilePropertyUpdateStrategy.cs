@@ -26,7 +26,7 @@ namespace StructureHelperCommon.Models.Forces
             targetObject.ColumnProperties.Clear();
             foreach (var item in sourceObject.ColumnProperties)
             {
-                IColumnFileProperty clone = (IColumnFileProperty)item.CloneLegacy();
+                IColumnFileProperty clone = item.GetClone(item);
                 targetObject.ColumnProperties.Add(clone);
             }
         }

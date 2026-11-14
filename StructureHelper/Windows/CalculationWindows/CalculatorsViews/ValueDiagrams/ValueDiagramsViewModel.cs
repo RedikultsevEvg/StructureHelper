@@ -27,7 +27,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ValueDiagr
         public override void EditMethod(object parameter)
         {
             if (SelectedItem is null) { return; }
-            IValueDiagramEntity cloneDiagram = (IValueDiagramEntity)SelectedItem.Clone();
+            IValueDiagramEntity cloneDiagram = SelectedItem.GetClone(SelectedItem);
             var vm = new ValueDiagramEntityViewModel(SelectedItem);
             var wnd = new ValueDiagramEntityView(vm);
             wnd.ShowDialog();

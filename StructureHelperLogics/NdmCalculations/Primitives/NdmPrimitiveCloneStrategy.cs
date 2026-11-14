@@ -26,24 +26,21 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             materialCloneStrategy = new HeadMaterialCloneStrategy();
         }
 
-        public INdmPrimitive GetClone(INdmPrimitive sourceObject, CloningMode cloningMode)
+        public INdmPrimitive GetClone(INdmPrimitive sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference)
-            {
-                return sourceObject;
-            }
+            if (cloneMode == CloneMode.Reference) { return sourceObject;}
 
-            var clone = (INdmPrimitive)LegacyCloneHelper.Clone(sourceObject, cloningMode);
+            var clone = sourceObject.GetClone(sourceObject, cloneMode);
 
             if (sourceObject.NdmElement?.HeadMaterial is not null)
             {
                 clone.NdmElement.HeadMaterial = cloningStrategy is null
-                    ? materialCloneStrategy.GetClone(sourceObject.NdmElement.HeadMaterial, cloningMode)
-                    : (IHeadMaterial)cloningStrategy.Clone(
+                    ? materialCloneStrategy.GetClone(sourceObject.NdmElement.HeadMaterial, cloneMode)
+                    : cloningStrategy.Clone(
                         sourceObject.NdmElement.HeadMaterial,
                         materialCloneStrategy,
-                        cloningMode);
+                        cloneMode);
             }
 
             if (sourceObject is IHasHostPrimitive sourceHost
@@ -51,11 +48,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                 && clone is IHasHostPrimitive cloneHost)
             {
                 cloneHost.HostPrimitive = cloningStrategy is null
-                    ? GetClone(sourceHost.HostPrimitive, cloningMode)
-                    : (INdmPrimitive)cloningStrategy.Clone(sourceHost.HostPrimitive, this, cloningMode);
+                    ? GetClone(sourceHost.HostPrimitive, cloneMode)
+                    : cloningStrategy.Clone(sourceHost.HostPrimitive, this, cloneMode);
             }
-
-            CloneIdSynchronizer.Synchronize(sourceObject, clone, cloningMode);
             return clone;
         }
     }

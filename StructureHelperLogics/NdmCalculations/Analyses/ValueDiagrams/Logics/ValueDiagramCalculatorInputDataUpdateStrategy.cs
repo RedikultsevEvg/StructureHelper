@@ -23,7 +23,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
                 targetObject.Diagrams.Clear();
                 foreach (var entity in sourceObject.Diagrams)
                 {
-                    var newItem = entity.Clone() as IValueDiagramEntity;
+                    var newItem = entity.GetClone(entity);
                     targetObject.Diagrams.Add(newItem);
                 }
             }

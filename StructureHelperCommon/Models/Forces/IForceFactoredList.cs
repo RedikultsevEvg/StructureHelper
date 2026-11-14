@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public interface IForceFactoredList : IForceFactoredCombination, ICloneStrategy<IForceFactoredList>
+    public interface IForceFactoredList : IForceFactoredCombination, ISelfCloneStrategy<IForceFactoredList>
     {
         List<IForceTuple> ForceTuples { get;}
     }

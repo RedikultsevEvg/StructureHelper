@@ -1,16 +1,12 @@
-using LoaderCalculator.Data.Materials;
+﻿using LoaderCalculator.Data.Materials;
 using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.Materials;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
@@ -72,11 +68,6 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
-        {
-            return this;
-        }
-
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
             throw new NotImplementedException();
@@ -90,6 +81,30 @@ namespace DataAccess.DTOs
         public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
         {
             throw new NotImplementedException();
+        }
+
+        public IHelperMaterial GetClone(IHelperMaterial sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            ConcreteLibMaterialDTO newItem = new(id);
+            if (sourceObject is not IConcreteLibMaterial concrete)
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(sourceObject));
+            }
+            new ConcreteLibUpdateStrategy().Update(newItem, concrete);
+            return newItem;
+        }
+
+        public IHelperMaterial GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ConcreteLibMaterialDTO newItem = new(id);
+            var updateStragy = new ConcreteLibUpdateStrategy();
+            updateStragy.Update(newItem, this);
+            return newItem;
         }
     }
 }

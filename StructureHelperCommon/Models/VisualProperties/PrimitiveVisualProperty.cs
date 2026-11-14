@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Services.ColorServices;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services;
+using StructureHelperCommon.Services.ColorServices;
 using System;
 using System.Windows.Media;
 
@@ -43,10 +45,13 @@ namespace StructureHelperCommon.Models.VisualProperties
             Id = id;
         }
 
-        public object Clone()
+        public IPrimitiveVisualProperty GetClone(IPrimitiveVisualProperty sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            PrimitiveVisualProperty newItem = new(id);
             var logic = new PrimitiveVisualPropertyUpdateStrategy();
-            PrimitiveVisualProperty newItem = new(Guid.NewGuid());
             logic.Update(newItem, this);
             return newItem;
         }

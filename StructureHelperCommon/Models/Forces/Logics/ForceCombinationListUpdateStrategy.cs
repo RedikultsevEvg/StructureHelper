@@ -30,7 +30,7 @@ namespace StructureHelperCommon.Models.Forces
             targetObject.DesignForces.Clear();
             foreach (var item in sourceObject.DesignForces)
             {
-                targetObject.DesignForces.Add((IDesignForceTuple)item.CloneLegacy());
+                targetObject.DesignForces.Add(item.GetClone(item));
             }
         }
     }

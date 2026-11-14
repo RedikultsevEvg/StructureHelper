@@ -29,7 +29,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
         public PointTriangulationLogicOptions(IPointNdmPrimitive primitive)
         {
-            Center = primitive.Center.Clone() as Point2D;
+            Center = primitive.Center.GetClone(primitive.Center) as Point2D;
             Area = primitive.Area;
             HeadMaterial = primitive.NdmElement.HeadMaterial;
             InitialPrestrain = primitive.NdmElement.UsersPrestrain as StrainTuple;

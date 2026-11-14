@@ -1,3 +1,4 @@
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System.Collections.Generic;
 
@@ -12,7 +13,7 @@ namespace StructureHelperLogics.Models.LoadHistory.Logics
             Dictionary<INdmPrimitive, INdmPrimitive> primitives = stageResult.Primitives;
             foreach (INdmPrimitive primitive in stage.InputData.Primitives)
             {
-                INdmPrimitive primitiveClone = (INdmPrimitive)primitive.Clone();
+                INdmPrimitive primitiveClone = primitive.GetClone(primitive, CloneMode.PreserveIdentity, CloneDepth.Shallow);
                 primitiveClone.NdmElement.AutoPrestrain.Clear();
                 primitiveClone.NdmElement.HistoryPrestrain.Clear();
                 if (primitive is IHasHostPrimitive hasHostPrimitive)
@@ -38,8 +39,7 @@ namespace StructureHelperLogics.Models.LoadHistory.Logics
                 ((IHasHostPrimitive)primitiveClone).HostPrimitive = existingHostClone;
                 return existingHostClone!;
             }
-
-            INdmPrimitive hostPrimitiveClone = (INdmPrimitive)hostPrimitive.Clone();
+            INdmPrimitive hostPrimitiveClone = hostPrimitive.GetClone(hostPrimitive, CloneMode.PreserveIdentity, CloneDepth.Shallow);
             hostPrimitiveClone.NdmElement.AutoPrestrain.Clear();
             primitives.Add(hostPrimitive, hostPrimitiveClone);
             ((IHasHostPrimitive)primitiveClone).HostPrimitive = hostPrimitiveClone;

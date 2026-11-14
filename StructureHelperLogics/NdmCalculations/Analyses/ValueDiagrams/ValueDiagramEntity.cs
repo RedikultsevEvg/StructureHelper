@@ -1,4 +1,6 @@
-﻿namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
+﻿using StructureHelperCommon.Infrastructures.Enums;
+
+namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 {
     public class ValueDiagramEntity : IValueDiagramEntity
     {
@@ -19,6 +21,11 @@
             var updateStrategy = new ValueDiagramEntityUpdateStrategy();
             updateStrategy.Update(newItem, this);
             return newItem;
+        }
+
+        public IValueDiagramEntity GetClone(IValueDiagramEntity sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

@@ -1,12 +1,8 @@
 ﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
-using StructureHelperLogics.Models.Materials;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.Materials
 {
@@ -36,17 +32,24 @@ namespace StructureHelperLogics.Models.Materials
             return material;
         }
 
-        public object Clone()
-        {
-            var newItem = new ElasticMaterial();
-            var updateStrategy = new ElasticUpdateStrategy();
-            updateStrategy.Update(newItem, this);
-            return newItem;
-        }
-
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
             return GetLoaderMaterial(limitState, calcTerm);
+        }
+
+        public IHelperMaterial GetClone(IHelperMaterial sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+        }
+
+        public IHelperMaterial GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ElasticMaterial newItem = new(id);
+            var updateStrategy = new ElasticUpdateStrategy();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

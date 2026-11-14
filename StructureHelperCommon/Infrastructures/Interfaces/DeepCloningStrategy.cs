@@ -17,7 +17,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         private readonly Dictionary<object, object> _clonedObjects = new();
 
         /// <inheritdoc/>
-        public T Clone<T>(T original, ICloneStrategy<T>? cloneStrategy = null, CloningMode cloningMode = CloningMode.NewEntity) where T : class
+        public T Clone<T>(T original, ICloneStrategy<T>? cloneStrategy = null, CloneMode cloningMode = CloneMode.NewEntity) where T : class
         {
             if (original == null) return null;
 
@@ -31,13 +31,13 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
             {
                 clone = cloneStrategy.GetClone(original, cloningMode);
             }
-            else if (original is ICloneStrategy selfCloneStrategy)
+            else if (original is ISelfCloneStrategy<T> selfCloneStrategy)
             {
-                clone = (T)selfCloneStrategy.GetClone(original, cloningMode);
+                clone = (T)selfCloneStrategy.GetClone(cloningMode);
             }
             else
             {
-                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": object is not IClonable and cloning strategy is null");
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": object is not ISelfCloneStrategy and cloning strategy is null");
 
             }
             _clonedObjects[original] = clone;

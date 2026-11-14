@@ -1,3 +1,4 @@
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 
@@ -28,11 +29,6 @@ namespace StructureHelperLogics.Models.BeamShears
         public double ConcreteFactor { get; set; } = 1.0;
         public double StirrupFactor { get; set; } = 1.0;
 
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Run()
         {
             result = new();
@@ -56,6 +52,11 @@ namespace StructureHelperLogics.Models.BeamShears
                 TraceLogger?.AddMessage(ex.Message, TraceLogStatuses.Error);
                 result.Description += ex.Message;
             }
+        }
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            throw new NotImplementedException();
         }
     }
 }

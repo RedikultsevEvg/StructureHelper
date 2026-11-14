@@ -5,7 +5,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 
 namespace StructureHelperCommon.Models.Materials.Libraries
 {
-    public interface IMaterialSafetyFactor : ISaveable, ICloneStrategy<IMaterialSafetyFactor>
+    public interface IMaterialSafetyFactor : ISaveable, ISelfCloneStrategy<IMaterialSafetyFactor>
     {
         string Name { get; set; }
         bool Take { get; set; }

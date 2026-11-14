@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Services;
 
 namespace DataAccess.DTOs
 {
@@ -21,12 +22,6 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-
-        public object Clone()
-        {
-            return this;
-        }
-
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
             throw new NotImplementedException();
@@ -35,6 +30,19 @@ namespace DataAccess.DTOs
         public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
             throw new NotImplementedException();
+        }
+
+        public IHelperMaterial GetClone(IHelperMaterial sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+        }
+
+        public IHelperMaterial GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            UserMaterialDTO newItem = new(id);
+            return newItem;
         }
     }
 }

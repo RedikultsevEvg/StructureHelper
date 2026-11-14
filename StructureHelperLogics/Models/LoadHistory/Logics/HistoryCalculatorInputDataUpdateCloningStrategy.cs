@@ -6,7 +6,7 @@ using System.Text;
 
 namespace StructureHelperLogics.Models.LoadHistory.Logics
 {
-    internal class HistoryCalculatorInputDataUpdateCloningStrategy : IUpdateStrategy<IHistoryCalculatorInputData>
+    internal class HistoryCalculatorInputDataUpdateCloningStrategy : IParentUpdateStrategy<IHistoryCalculatorInputData>
     {
         private readonly ICloningStrategy cloningStrategy;
         private IUpdateStrategy<IConstructionStage> stageCloningStrategy;
@@ -16,6 +16,8 @@ namespace StructureHelperLogics.Models.LoadHistory.Logics
             this.cloningStrategy = cloningStrategy;
         }
 
+        public bool UpdateChildren { get; set; } = true;
+
         private IUpdateStrategy<IConstructionStage> StageCloningStrategy => stageCloningStrategy ??= new ConstructionStageUpdateCloningStrategy(cloningStrategy);
         public void Update(IHistoryCalculatorInputData targetObject, IHistoryCalculatorInputData sourceObject)
         {
@@ -23,12 +25,15 @@ namespace StructureHelperLogics.Models.LoadHistory.Logics
             CheckObject.ThrowIfNull(sourceObject);
             CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            targetObject.ConstructionStages.Clear();
-            foreach (var sourceStage in sourceObject.ConstructionStages)
+            if (UpdateChildren == true)
             {
-                var cloneStage = sourceStage.Clone() as IConstructionStage;
-                StageCloningStrategy.Update(cloneStage, sourceStage);
-                targetObject.ConstructionStages.Add(cloneStage);
+                targetObject.ConstructionStages.Clear();
+                foreach (var sourceStage in sourceObject.ConstructionStages)
+                {
+                    var cloneStage = sourceStage.GetClone(sourceStage);
+                    StageCloningStrategy.Update(cloneStage, sourceStage);
+                    targetObject.ConstructionStages.Add(cloneStage);
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 
 namespace StructureHelperCommon.Models.Materials.Libraries
@@ -8,7 +9,8 @@ namespace StructureHelperCommon.Models.Materials.Libraries
     public class MaterialPartialFactor : IMaterialPartialFactor
     {
         private double factorValue;
-        private IUpdateStrategy<IMaterialPartialFactor> updateStrategy = new MaterialPartialFactorUpdateStrategy();
+        private IUpdateStrategy<IMaterialPartialFactor> updateStrategy;
+        private IUpdateStrategy<IMaterialPartialFactor> UpdateStrategy => updateStrategy = new MaterialPartialFactorUpdateStrategy();
 
         public Guid Id { get; }
         public StressStates StressState { get; set; } = StressStates.Compression;
@@ -37,10 +39,13 @@ namespace StructureHelperCommon.Models.Materials.Libraries
         public MaterialPartialFactor() : this (Guid.NewGuid())
         { }
 
-        public object Clone()
+
+        public IPartialFactor GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            var newItem = new MaterialPartialFactor();
-            updateStrategy.Update(newItem, this);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var newItem = new MaterialPartialFactor(id);
+            UpdateStrategy.Update(newItem, this);
             return newItem;
         }
     }

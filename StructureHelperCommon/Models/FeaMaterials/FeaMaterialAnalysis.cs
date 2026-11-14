@@ -1,6 +1,8 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Services;
 using System;
 using System.Windows.Media;
 
@@ -25,16 +27,21 @@ namespace StructureHelperCommon.Models.FeaMaterials
             FeaMaterialRepository repository = new(Guid.NewGuid());
             VersionProcessor.AddVersion(repository);
         }
-        
-        public object Clone()
+
+        public IAnalysis GetClone(IAnalysis sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            var currentVersion = VersionProcessor.GetCurrentVersion().AnalysisVersion;
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            FeaMaterialAnalysis analysisClone = new(id);
+            var currentVersion = sourceObject.VersionProcessor.GetCurrentVersion().AnalysisVersion;
             if (currentVersion is not IFeaMaterialRepository feaMaterialRepository)
             {
                 throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(currentVersion));
             }
-            var clone = CloneStrategy.GetClone(feaMaterialRepository);
-            return clone;
+            ISaveable repositoryClone = CloneStrategy.GetClone(feaMaterialRepository, cloneMode);
+            analysisClone.VersionProcessor.AddVersion(repositoryClone);
+            return analysisClone;
         }
     }
 }

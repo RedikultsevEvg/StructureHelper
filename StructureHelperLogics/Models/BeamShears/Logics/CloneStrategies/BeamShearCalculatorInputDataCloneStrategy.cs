@@ -1,6 +1,8 @@
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
+using StructureHelperLogics.NdmCalculations.Analyses.Logics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,18 +22,45 @@ namespace StructureHelperLogics.Models.BeamShears
             this.cloningStrategy = cloningStrategy;
         }
 
-        public IBeamShearCalculatorInputData GetClone(IBeamShearCalculatorInputData sourceObject, CloningMode cloningMode)
+        public IBeamShearCalculatorInputData GetClone(IBeamShearCalculatorInputData sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(cloningStrategy);
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
-            InitializeStrategies();
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             BeamShearCalculatorInputData inputData = new(id);
-            actionUpdateStrategy.Update(inputData, sourceObject);
-            sectionUpdateStrategy.Update(inputData, sourceObject);
-            stirrupUpdateStrategy.Update(inputData, sourceObject);
+            AddChildrenClones(sourceObject, cloneMode, cloneDepth, inputData);
             return inputData;
+        }
+
+        private void AddChildrenClones(IBeamShearCalculatorInputData sourceObject, CloneMode cloneMode, CloneDepth cloneDepth, BeamShearCalculatorInputData inputData)
+        {
+            if (cloneDepth == CloneDepth.Deep)
+            {
+                foreach (var action in sourceObject.Actions)
+                {
+                    inputData.Actions.Add(action.GetClone(action, cloneMode, cloneDepth));
+                }
+                foreach (var section in sourceObject.Sections)
+                {
+                    inputData.Sections.Add(section.GetClone(section, cloneMode, cloneDepth));
+                }
+                foreach (var stirrup in sourceObject.Stirrups)
+                {
+                    inputData.Stirrups.Add(stirrup.GetClone(stirrup, cloneMode, cloneDepth));
+                }
+            }
+            else if (cloneDepth == CloneDepth.PreserveReference)
+            {
+                InitializeStrategies();
+                actionUpdateStrategy.Update(inputData, sourceObject);
+                sectionUpdateStrategy.Update(inputData, sourceObject);
+                stirrupUpdateStrategy.Update(inputData, sourceObject);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(cloneDepth) + ": cloning depth is not right");
+            }
         }
 
         private void InitializeStrategies()

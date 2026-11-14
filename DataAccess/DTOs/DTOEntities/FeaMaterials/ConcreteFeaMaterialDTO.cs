@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.FeaMaterials;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,11 @@ namespace DataAccess.DTOs
         public ConcreteFeaMaterialDTO(Guid id)
         {
             Id = id;
+        }
+
+        public IConcreteFeaMaterial GetClone(IConcreteFeaMaterial sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

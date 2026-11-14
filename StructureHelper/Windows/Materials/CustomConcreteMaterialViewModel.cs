@@ -99,7 +99,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
                 .Select(x => new CustomConcreteModelSnapshot(x))
                 .ToList();
             originalSafetyFactors = HelperMaterial.SafetyFactors
-                .Select(x => x.Clone() as IMaterialSafetyFactor)
+                .Select(x => x.GetClone())
                 .ToList();
             originalTensionForULS = HelperMaterial.TensionForULS;
             originalTensionForSLS = HelperMaterial.TensionForSLS;

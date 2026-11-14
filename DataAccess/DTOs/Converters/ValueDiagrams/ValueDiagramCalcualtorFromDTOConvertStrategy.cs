@@ -1,8 +1,4 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 
 namespace DataAccess.DTOs
 {

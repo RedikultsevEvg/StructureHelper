@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StructureHelperCommon.Infrastructures.Enums;
 
 namespace StructureHelperCommon.Models.Soils
 {
@@ -126,6 +127,16 @@ namespace StructureHelperCommon.Models.Soils
             if (Anchor.DurabilityType == DurabilityType.Temporary) { return 1.2d; }
             else if (Anchor.DurabilityType == DurabilityType.Eturnal) { return 1.4d; }
             else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $": {Anchor.DurabilityType}"); }
+        }
+
+        public ILogicCalculator GetClone(ILogicCalculator sourceObject, CloneMode cloningMode, CloneDepth cloneDepth)
+        {
+            return CloneFallback.GetClone(sourceObject, cloningMode, cloneDepth);
+        }
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,8 +1,9 @@
-using LoaderCalculator.Data.Materials;
+﻿using LoaderCalculator.Data.Materials;
 using Newtonsoft.Json;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.Materials;
 using System.Windows.Media;
 
@@ -31,21 +32,13 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        //public object Clone()
-        //{
-        //    HeadMaterialDTO newItem = new(Id);
-        //    new HeadMaterialUpdateStrategy().Update(newItem, this);
-        //    return newItem;
-        //}
-
-        //public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public IHeadMaterial GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            HeadMaterialDTO newItem = new(id);
+            new HeadMaterialUpdateStrategy().Update(newItem, this);
+            return newItem;
+        }
     }
 }

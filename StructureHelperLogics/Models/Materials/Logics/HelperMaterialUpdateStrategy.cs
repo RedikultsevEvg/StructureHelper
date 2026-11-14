@@ -1,3 +1,4 @@
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Materials;
@@ -98,7 +99,7 @@ namespace StructureHelperLogics.Models.Materials
             targetObject.MaterialModels.Clear();
             foreach (ICustomConcreteModel model in sourceObject.MaterialModels)
             {
-                targetObject.MaterialModels.Add(model.Clone() as ICustomConcreteModel);
+                targetObject.MaterialModels.Add(model.GetClone(CloneMode.NewEntity, CloneDepth.Deep));
             }
         }
     }

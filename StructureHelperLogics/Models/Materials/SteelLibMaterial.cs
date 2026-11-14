@@ -4,6 +4,7 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.Materials.Logics;
 
 namespace StructureHelperLogics.Models.Materials
@@ -32,15 +33,6 @@ namespace StructureHelperLogics.Models.Materials
         {
             Id = id;
             MaterialLogic = materialLogics.First();
-        }
-
-
-        public object Clone()
-        {
-            SteelLibMaterial newItem = new(Guid.NewGuid());
-            var logic = new SteelLibMaterialUpdateStrategy();
-            logic.Update(newItem, this);
-            return newItem;
         }
 
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
@@ -90,6 +82,16 @@ namespace StructureHelperLogics.Models.Materials
             }
             double strength = baseStength * ThicknessFactor / factor;
             return (strength * compressionFactor, strength * tensionFactor);
+        }
+
+        public IHelperMaterial GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            SteelLibMaterial newItem = new(id);
+            var logic = new SteelLibMaterialUpdateStrategy();
+            logic.Update(newItem, this);
+            return newItem;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperLogics.Models.BeamShears;
 using System.Windows.Media;
@@ -28,8 +29,19 @@ namespace StructureHelperLogics.Models.Analyses
             VersionProcessor.AddVersion(beamShear);
         }
 
-        /// <inheritdoc/>
-        public object Clone()
+        private IBeamShear GetCloneOfCurrentVersion()
+        {
+            IBeamShear currentVersionOfSource = VersionProcessor.GetCurrentVersion().AnalysisVersion as IBeamShear;
+            IBeamShear newVersion = currentVersionOfSource.GetClone(currentVersionOfSource, CloneMode.NewEntity, CloneDepth.PreserveReference);
+            return newVersion;
+        }
+
+        private void InitializeStrategies()
+        {
+            updateStrategy ??= new BeamShearAnalysisUpdateStrategy();
+        }
+
+        public IAnalysis GetClone(IAnalysis sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             InitializeStrategies();
             BeamShearAnalysis newAnalysis = new(Guid.NewGuid());
@@ -38,18 +50,6 @@ namespace StructureHelperLogics.Models.Analyses
             IBeamShear newVersion = GetCloneOfCurrentVersion();
             newAnalysis.VersionProcessor.AddVersion(newVersion);
             return newAnalysis;
-        }
-
-        private IBeamShear GetCloneOfCurrentVersion()
-        {
-            IBeamShear currentVersionOfSource = VersionProcessor.GetCurrentVersion().AnalysisVersion as IBeamShear;
-            IBeamShear newVersion = currentVersionOfSource.Clone() as IBeamShear;
-            return newVersion;
-        }
-
-        private void InitializeStrategies()
-        {
-            updateStrategy ??= new BeamShearAnalysisUpdateStrategy();
         }
     }
 }

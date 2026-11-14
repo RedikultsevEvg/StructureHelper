@@ -38,8 +38,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             var sourceData = sourceObject.InputData;
             var targetData = targetObject.InputData;
-            primitivesCloneStrategy.GetClone(targetData.Primitives, sourceData.Primitives, CloningMode.NewEntity);
-            forcesCloneStrategy.GetClone(targetData.ForceActions, sourceData.ForceActions, CloningMode.NewEntity);
+            primitivesCloneStrategy.GetClone(targetData.Primitives, sourceData.Primitives, CloneMode.NewEntity);
+            forcesCloneStrategy.GetClone(targetData.ForceActions, sourceData.ForceActions, CloneMode.NewEntity);
         }
     }
 }

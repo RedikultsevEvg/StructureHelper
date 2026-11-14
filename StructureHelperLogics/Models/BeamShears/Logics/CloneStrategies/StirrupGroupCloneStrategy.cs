@@ -1,4 +1,5 @@
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 
@@ -13,11 +14,25 @@ namespace StructureHelperLogics.Models.BeamShears
             this.cloningStrategy = cloningStrategy;
         }
 
-        public IStirrupGroup GetClone(IStirrupGroup sourceObject, CloningMode cloningMode)
+
+        public IStirrupGroup GetClone(IStirrupGroup sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
-            return cloningStrategy.Clone(sourceObject, null, cloningMode);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            IStirrupGroup newItem;
+            if (cloneDepth == CloneDepth.Deep)
+            {
+                newItem = (IStirrupGroup)sourceObject.GetClone(sourceObject, cloneMode, cloneDepth);
+            }
+            else if (cloneDepth == CloneDepth.PreserveReference)
+            {
+                newItem = cloningStrategy.Clone(sourceObject, null, cloneMode);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(cloneDepth) + ": cloning depth is not right");
+            }
+            return newItem;
         }
     }
 }

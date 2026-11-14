@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Models;
 using System;
@@ -90,6 +91,18 @@ namespace StructureHelperTests.Infrastructures.ShTables
         public double Y { get; set; }
 
         public Guid Id => throw new NotImplementedException();
+
+        public IPoint2D GetClone(
+            IPoint2D sourceObject,
+            CloneMode cloneMode = CloneMode.NewEntity,
+            CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference)
+            {
+                return sourceObject;
+            }
+            return new MockPoint2D(sourceObject.X, sourceObject.Y);
+        }
 
         public object Clone()
         {

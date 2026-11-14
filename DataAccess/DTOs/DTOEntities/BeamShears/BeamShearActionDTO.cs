@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 
 //Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
@@ -25,6 +26,11 @@ namespace DataAccess.DTOs
         public object Clone()
         {
             return this;
+        }
+
+        public IBeamShearAction GetClone(IBeamShearAction sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace DataAccess.DTOs
             CheckObject.ThrowIfNull(source.Primitives);
             CheckObject.ThrowIfNull(source.ForceAction);
             ChildClass = this;
-            NewItem = new(source.Id, ConstructionStageDTO);
+            NewItem = new(source.Id) { ConstructionStage = ConstructionStageDTO };
             UpdateStrategy.Update(NewItem, source);
             ProcessPrimitives(source);
             if (source.ForceAction is not null)

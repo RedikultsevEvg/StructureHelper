@@ -18,7 +18,7 @@ namespace StructureHelperLogics.Models.CrossSections
             }
 
             var cloneStrategy = new CrossSectionRepositoryCloneStrategy(new DeepCloningStrategy());
-            cloneStrategy.Populate(targetObject, sourceObject, CloningMode.NewEntity);
+            cloneStrategy.Populate(targetObject, sourceObject, CloneMode.NewEntity, CloneDepth.PreserveReference);
         }
     }
 }

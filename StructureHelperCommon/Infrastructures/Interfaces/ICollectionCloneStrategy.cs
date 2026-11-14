@@ -10,6 +10,6 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         void GetClone(
         ICollection<T> target,
         IEnumerable<T> source,
-        CloningMode mode = CloningMode.NewEntity);
+        CloneMode mode = CloneMode.NewEntity);
     }
 }

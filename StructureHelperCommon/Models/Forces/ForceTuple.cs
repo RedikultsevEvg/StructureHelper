@@ -48,24 +48,15 @@ namespace StructureHelperCommon.Models.Forces
             Mz = 0d;
         }
 
-        /// <inheritdoc/>
-        public object Clone()
+        public IForceTuple GetClone(IForceTuple sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return GetClone(this, CloningMode.NewEntity);
-        }
-
-        public IForceTuple GetClone(IForceTuple sourceObject, CloningMode cloningMode)
-        {
-            if (cloningMode == CloningMode.Reference)
-            {
-                return sourceObject;
-            }
-
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            if (cloneMode == CloneMode.Reference) { return sourceObject;}
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             var newItem = new ForceTuple(id);
             updateStrategy.Update(newItem, sourceObject);
             return newItem;
         }
+
         public static ForceTuple operator +(ForceTuple first) => first;
         public static ForceTuple operator +(ForceTuple first, ForceTuple second)
         {

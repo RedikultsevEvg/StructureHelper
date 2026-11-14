@@ -1,4 +1,4 @@
-using StructureHelperCommon.Infrastructures.Enums;
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
@@ -53,19 +53,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             Id = id;
             TraceLogger = traceLogger;
-        }
-
-        public object Clone()
-        {
-            CrackCalculatorInputData crackInputData = new CrackCalculatorInputData();
-            var checkDataLogic = new CheckCrackCalculatorInputDataLogic()
-            {
-                Entity = InputData
-            };
-            var newItem = new CrackCalculator(checkDataLogic, new CrackCalculatorUpdateStrategy(), new ShiftTraceLogger());
-            newItem.InputData = crackInputData;
-            UpdateStrategy.Update(newItem, this);
-            return newItem;
         }
 
         public void Run()
@@ -165,6 +152,24 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
                 IsValid = true,
                 Description = string.Empty
             };
+        }
+
+        public ILogicCalculator GetClone(ILogicCalculator sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+        }
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            CrackCalculatorInputData crackInputData = new();
+            var checkDataLogic = new CheckCrackCalculatorInputDataLogic()
+            {
+                Entity = InputData
+            };
+            var newItem = new CrackCalculator(checkDataLogic, new CrackCalculatorUpdateStrategy(), new ShiftTraceLogger());
+            newItem.InputData = crackInputData;
+            UpdateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

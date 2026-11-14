@@ -18,7 +18,7 @@ namespace StructureHelperCommon.Models.Shapes
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             if (UpdateChildren == true)
             {
-                var newPoint = sourceObject.Point.CloneLegacy() as IPoint2D;
+                var newPoint = sourceObject.Point.GetClone(sourceObject.Point);
                 targetObject.Point = newPoint;
             }
         }

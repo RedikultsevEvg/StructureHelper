@@ -1,3 +1,4 @@
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
@@ -91,6 +92,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             var parameterResult = calcResult as FindParameterResult;
             result.IterationNumber = parameterResult.IterationNumber;
             ActionToOutputResults?.Invoke(result);
+        }
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            throw new NotImplementedException();
         }
     }
 }

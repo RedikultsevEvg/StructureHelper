@@ -15,11 +15,6 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             this.triangulationLogicLoc = triangulationLogicLoc;
         }
 
-        //public RebarCrackInputDataFactory(TupleCrackInputData inputData) : this (new CrackedSectionTriangulationLogic(inputData.Primitives))
-        //{
-            
-        //}
-
         public RebarCrackInputDataFactory()
         {
             
@@ -37,8 +32,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             INdm concreteNdmUnderRebar;
             RebarNdmPrimitive rebarCopy = null;
 
-            rebarCopy = Rebar.Clone() as RebarNdmPrimitive;
-            rebarCopy.NdmElement.HeadMaterial = rebarCopy.NdmElement.HeadMaterial.Clone() as IHeadMaterial;
+            rebarCopy = Rebar.GetClone(Rebar) as RebarNdmPrimitive;
+            rebarCopy.NdmElement.HeadMaterial = rebarCopy.NdmElement.HeadMaterial.GetClone();
             triangulationLogicLoc = new CrackedSectionTriangulationLogic(InputData.Primitives, CalcTerms.ShortTerm);
             crackableNdmsLoc = triangulationLogicLoc.GetNdmCollection();
             crackedNdmsLoc = triangulationLogicLoc.GetCrackedNdmCollection();
@@ -47,14 +42,14 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             {
                 CrackableNdmCollection = crackableNdmsLoc,
                 CrackedNdmCollection = crackedNdmsLoc,
-                ForceTuple = InputData.LongTermTuple.Clone() as ForceTuple,
+                ForceTuple = InputData.LongTermTuple.GetClone(InputData.LongTermTuple) as ForceTuple,
                 LengthBeetwenCracks = LongLength
             };
             var shortRebarData = new RebarCrackInputData()
             {
                 CrackableNdmCollection = crackableNdmsLoc,
                 CrackedNdmCollection = crackedNdmsLoc,
-                ForceTuple = InputData.ShortTermTuple.Clone() as ForceTuple,
+                ForceTuple = InputData.ShortTermTuple.GetClone(InputData.ShortTermTuple) as ForceTuple,
                 LengthBeetwenCracks = ShortLength
             };
             var rebarCalculatorData = new RebarCrackCalculatorInputData()

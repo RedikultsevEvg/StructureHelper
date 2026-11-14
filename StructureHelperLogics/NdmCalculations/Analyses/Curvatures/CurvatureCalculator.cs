@@ -1,6 +1,8 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 {
@@ -26,14 +28,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
         public CurvatureCalculator(Guid id)
         {
             Id = id;
-        }
-
-        public object Clone()
-        {
-            var updateStrategy = new CurvatureCalculatorUpdateStrategy();
-            CurvatureCalculator newItem = new(Guid.NewGuid());
-            updateStrategy.Update(newItem, this);
-            return newItem;
         }
 
         public void Run()
@@ -76,6 +70,20 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
                 return false;
             }
             return true;
+        }
+
+        public ILogicCalculator GetClone(ILogicCalculator sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+        }
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            CurvatureCalculator newItem = new(id);
+            var updateStrategy = new CurvatureCalculatorUpdateStrategy();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

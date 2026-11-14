@@ -11,8 +11,10 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
 {
-    public class LimitCurvesCalculatorInputDataUpdateStrategy : IUpdateStrategy<ILimitCurvesCalculatorInputData>
+    public class LimitCurvesCalculatorInputDataUpdateStrategy : IParentUpdateStrategy<ILimitCurvesCalculatorInputData>
     {
+        public bool UpdateChildren { get; set; } = true;
+
         public void Update(ILimitCurvesCalculatorInputData targetObject, ILimitCurvesCalculatorInputData sourceObject)
         {
             CheckObject.ThrowIfNull(targetObject, sourceObject, "Limit curve calculator input data");
@@ -24,19 +26,22 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
             targetObject.LimitStates.AddRange(sourceObject.LimitStates);
             targetObject.CalcTerms.AddRange(sourceObject.CalcTerms);
             targetObject.PredicateEntries.AddRange(sourceObject.PredicateEntries);
-            targetObject.SurroundData = sourceObject.SurroundData.Clone() as ISurroundData;
+            targetObject.SurroundData = sourceObject.SurroundData.GetClone(sourceObject.SurroundData) as ISurroundData;
             targetObject.PointCount = sourceObject.PointCount;
-            foreach (var item in sourceObject.PrimitiveSeries)
+            if (UpdateChildren == true)
             {
-                var collection = item.Collection.ToList();
-                targetObject.PrimitiveSeries.Add
-                    (
-                    new NamedCollection<INdmPrimitive>()
-                    {
-                        Name = item.Name,
-                        Collection = collection
-                    }
-                    );
+                foreach (var item in sourceObject.PrimitiveSeries)
+                {
+                    var collection = item.Collection.ToList();
+                    targetObject.PrimitiveSeries.Add
+                        (
+                        new NamedCollection<INdmPrimitive>()
+                        {
+                            Name = item.Name,
+                            Collection = collection
+                        }
+                        );
+                }
             }
         }
     }

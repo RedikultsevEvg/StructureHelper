@@ -20,7 +20,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
             this.cloneStrategy = cloneStrategy;
         }
 
-        public void GetClone(ICollection<T> target, IEnumerable<T> source, CloningMode mode = CloningMode.NewEntity)
+        public void GetClone(ICollection<T> target, IEnumerable<T> source, CloneMode mode = CloneMode.NewEntity)
         {
             CheckObject.ThrowIfNull(target);
             CheckObject.ThrowIfNull(source);

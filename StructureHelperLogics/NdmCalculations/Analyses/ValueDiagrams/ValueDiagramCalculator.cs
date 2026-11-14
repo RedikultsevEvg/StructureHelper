@@ -1,8 +1,7 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams.Logics;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 {
@@ -35,14 +34,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
             checkInputDataLogic = new ValueDiagramInputDataCheckLogic();
         }
 
-        public object Clone()
-        {
-            ValueDiagramCalculator newItem = new ValueDiagramCalculator(Guid.NewGuid());
-            var updateLogic = new ValueDiagramCalculatorUpdateStrategy();
-            updateLogic.Update(newItem, this);
-            return newItem;
-        }
-
         public void Run()
         {
             checkInputDataLogic.Entity = InputData;
@@ -57,6 +48,15 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
             }
             valueDiagramCalculatorLogic.InputData = InputData;
             result = valueDiagramCalculatorLogic.GetResult();
+        }
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ValueDiagramCalculator newItem = new(id);
+            var updateLogic = new ValueDiagramCalculatorUpdateStrategy();
+            updateLogic.Update(newItem, this);
+            return newItem;
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
@@ -68,9 +70,15 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             Result = ForceCalculatorLogic.GetForcesResults();
         }
 
-        public object Clone()
+        public ILogicCalculator GetClone(ILogicCalculator sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            var newCalculator = new ForceCalculator(Guid.NewGuid());
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+        }
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ForceCalculator newCalculator = new(id);
             UpdateStrategy.Update(newCalculator, this);
             return newCalculator;
         }

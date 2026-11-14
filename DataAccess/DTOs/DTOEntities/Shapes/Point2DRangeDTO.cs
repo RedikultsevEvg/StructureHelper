@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Shapes;
 
 namespace DataAccess.DTOs
@@ -21,6 +22,11 @@ namespace DataAccess.DTOs
         public object Clone()
         {
             return this;
+        }
+
+        public IPoint2DRange GetClone(IPoint2DRange sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

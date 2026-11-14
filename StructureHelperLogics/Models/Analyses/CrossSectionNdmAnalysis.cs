@@ -1,7 +1,7 @@
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Models.WorkPlanes;
 using StructureHelperLogics.Models.Analyses;
 using StructureHelperLogics.Models.CrossSections;
 using System.Windows.Media;
@@ -35,21 +35,25 @@ namespace StructureHelperLogic.Models.Analyses
             VersionProcessor.AddVersion(crossSection);
         }
 
-        public object Clone()
+        public IAnalysis GetClone(IAnalysis sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             updateStrategy ??= new CrossSectionNdmAnalysisUpdateStrategy();
             CrossSectionNdmAnalysis newAnalysis = new();
             updateStrategy.Update(newAnalysis, this);
             newAnalysis.VersionProcessor.Versions.Clear();
-            var currentVersion = VersionProcessor.GetCurrentVersion().AnalysisVersion;
-            ISaveable newCrossSection = currentVersion is ICloneStrategy cloneStrategy
-                ? (ISaveable)cloneStrategy.GetClone(
-                    currentVersion,
-                    StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity)
-                : throw new StructureHelperException(
-                    $"{nameof(ISaveable)} implementation does not support cloning.");
+            var currentVersion = VersionProcessor.GetCurrentVersion().AnalysisVersion as ICrossSection;
+            ICrossSection newCrossSection = GetCrossSectionClone(cloneMode, cloneDepth, currentVersion);
             newAnalysis.VersionProcessor.AddVersion(newCrossSection);
             return newAnalysis;
+        }
+
+        private static ICrossSection GetCrossSectionClone(CloneMode cloneMode, CloneDepth cloneDepth, ICrossSection? currentVersion)
+        {
+            var deepCloningStrategy = new DeepCloningStrategy();
+            CrossSectionRepositoryCloneStrategy repositoryCloneStrategy = new(deepCloningStrategy);
+            CrossSectionCloneStrategy cloneStrategy = new(repositoryCloneStrategy);
+            ICrossSection newCrossSection = cloneStrategy.GetClone(currentVersion, cloneMode, cloneDepth);
+            return newCrossSection;
         }
     }
 }

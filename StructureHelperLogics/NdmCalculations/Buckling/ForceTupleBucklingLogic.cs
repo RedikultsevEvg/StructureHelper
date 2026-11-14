@@ -33,7 +33,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
         {
             TraceLogger?.AddMessage(LoggerStrings.LogicType(this), TraceLogStatuses.Service);
 
-            var tuple = bucklingInputData.ForceTuple.Clone() as IForceTuple;
+            var tuple = bucklingInputData.ForceTuple.GetClone(bucklingInputData.ForceTuple);
             
             var bucklingResult = ProcessBuckling(bucklingInputData);
 
@@ -126,7 +126,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
 
         private ForceTuple CalculateBuckling(IForceTuple calcTuple, IConcreteBucklingResult bucklingResult)
         {
-            var newTuple = calcTuple.Clone() as ForceTuple;
+            var newTuple = calcTuple.GetClone(calcTuple) as ForceTuple;
             newTuple.Mx *= bucklingResult.EtaFactorAlongY;
             newTuple.My *= bucklingResult.EtaFactorAlongX;
             return newTuple;

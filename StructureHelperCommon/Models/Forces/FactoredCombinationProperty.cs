@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces.Logics;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,9 +30,10 @@ namespace StructureHelperCommon.Models.Forces
             Id = id;
         }
 
-        public object Clone()
+        public IFactoredCombinationProperty GetClone(IFactoredCombinationProperty sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            FactoredCombinationProperty factoredCombinationProperty = new(Guid.NewGuid());
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            FactoredCombinationProperty factoredCombinationProperty = new(id);
             updateStrategy ??= new FactoredCombinationPropertyUpdateStrategy();
             updateStrategy.Update(factoredCombinationProperty, this);
             return factoredCombinationProperty;

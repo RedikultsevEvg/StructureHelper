@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 using StructureHelperCommon.Services.Forces;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace StructureHelperCommon.Models.Forces
     /// <inheritdoc/>
     public class ForceCombinationList : IForceCombinationList
     {
-        readonly IUpdateStrategy<IAction> updateStrategy = new ActionUpdateStrategy();
+        private IUpdateStrategy<IAction> updateStrategy;
+        private IUpdateStrategy<IAction> UpdateStrategy => updateStrategy ??= new ActionUpdateStrategy();
         private IForceTupleServiceLogic forceTupleServiceLogic;
         private IForceTupleServiceLogic ForceTupleServiceLogic => forceTupleServiceLogic ??= new ForceTupleServiceLogic();
         /// <inheritdoc/>
@@ -60,17 +62,11 @@ namespace StructureHelperCommon.Models.Forces
         }
 
         public ForceCombinationList() : this (Guid.NewGuid()) { }
-        /// <inheritdoc/>
-        public object Clone()
-        {
-            var newItem = new ForceCombinationList();
-            updateStrategy.Update(newItem, this);
-            return newItem;
-        }
+        
         /// <inheritdoc/>
         public IForceCombinationList GetCombination()
         {
-            var result = Clone() as IForceCombinationList;
+            var result = GetClone(CloneMode.NewEntity, CloneDepth.Deep);
             result.DesignForces.Clear();
             var limitStates = new List<LimitStates>() { LimitStates.ULS, LimitStates.SLS };
             var calcTerms = new List<CalcTerms>() { CalcTerms.ShortTerm, CalcTerms.LongTerm };
@@ -97,6 +93,15 @@ namespace StructureHelperCommon.Models.Forces
                 GetCombination()
             };
             return listResult;
+        }
+
+        public IForceCombinationList GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var newItem = new ForceCombinationList(id);
+            UpdateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

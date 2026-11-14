@@ -1,5 +1,6 @@
-using StructureHelperCommon.Infrastructures.Enums;
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,13 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
+        public IPartialFactor GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            throw new NotImplementedException();
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            MaterialPartialFactorDTO newItem = new(id);
+            new MaterialPartialFactorUpdateStrategy().Update(newItem, this);
+            return newItem;
         }
     }
 }

@@ -136,7 +136,7 @@ namespace StructureHelperTests.ViewModelTests
                 HelperMaterial = helper
             };
 
-            var clone = original.Clone() as IHeadMaterial;
+            var clone = original.GetClone(original, CloneMode.NewEntity, CloneDepth.Deep) as IHeadMaterial;
 
             Assert.Multiple(() =>
             {

@@ -1,5 +1,6 @@
-using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator.Data.Ndms;
 using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -70,6 +71,11 @@ namespace DataAccess.DTOs
         public bool IsPointInside(IPoint2D point)
         {
             throw new NotImplementedException();
+        }
+
+        public INdmPrimitive GetClone(INdmPrimitive sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

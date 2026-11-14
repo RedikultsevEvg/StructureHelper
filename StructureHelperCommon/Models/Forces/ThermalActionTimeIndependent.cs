@@ -1,5 +1,7 @@
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 using System;
 
 namespace StructureHelperCommon.Models.Forces
@@ -44,16 +46,18 @@ namespace StructureHelperCommon.Models.Forces
             
         }
 
-
-        /// <inheritdoc/>
-        public object Clone()
+        public IThermalActionTimeIndependend GetClone(IThermalActionTimeIndependend sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            updateStrategy ??= new ThermalActionTimeIndependentUpdateStrategy();
-            var clone = new ThermalActionTimeIndependent
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloneMode == CloneMode.Reference) { return sourceObject;}
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            updateStrategy ??= new ThermalActionTimeIndependentUpdateStrategy() { UpdateChildren = false };
+            ThermalActionTimeIndependent clone = new(id)
             {
                 Name = Name
             };
             updateStrategy.Update(clone, this);
+            clone.ReferencePoint = sourceObject.ReferencePoint.GetClone(sourceObject.ReferencePoint, cloneMode, cloneDepth); //always create deep clone of point
             return clone;
         }
     }

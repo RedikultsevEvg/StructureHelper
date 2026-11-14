@@ -1,3 +1,5 @@
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services;
 using System;
 
 namespace StructureHelperCommon.Models.FeaMaterials
@@ -20,10 +22,10 @@ namespace StructureHelperCommon.Models.FeaMaterials
             Id = id;
         }
 
-        public object Clone()
+        public IElasticFeaMaterial GetClone(IElasticFeaMaterial sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             var cloneStrategy = new ElasticFeaMaterialCloneStrategy();
-            return cloneStrategy.GetClone(this, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
+            return cloneStrategy.GetClone(this, cloneMode);
         }
     }
 }

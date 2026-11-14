@@ -52,8 +52,8 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         public override void CopyMethod(object parameter)
         {
-            ICustomConcreteModel? copy = SelectedItem is ICloneStrategy cloneStrategy
-                ? cloneStrategy.GetClone(SelectedItem, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity) as ICustomConcreteModel
+            ICustomConcreteModel? copy = SelectedItem is ICloneStrategy<ICustomConcreteModel> cloneStrategy
+                ? cloneStrategy.GetClone(SelectedItem, CloneMode.NewEntity)
                 : null;
             if (copy is null)
             {

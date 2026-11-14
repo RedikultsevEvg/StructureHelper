@@ -1,4 +1,5 @@
 ﻿using StructureHelper.Models.Materials;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
@@ -42,6 +43,11 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public object Clone()
         {
             throw new NotImplementedException();
+        }
+
+        public INdmElement GetClone(INdmElement sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

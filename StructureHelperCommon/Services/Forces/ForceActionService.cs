@@ -29,7 +29,7 @@ namespace StructureHelperCommon.Services.Forces
                 var pair = new DesignForcePair()
                 {
                     Name = combinations.Name,
-                    ForcePoint = (IPoint2D)combinations.ForcePoint.CloneLegacy(),
+                    ForcePoint = combinations.ForcePoint.GetClone(combinations.ForcePoint),
                     SetInGravityCenter = combinations.SetInGravityCenter,
                     LimitState = limitState,
                     FullForceTuple = tuples[0],
@@ -57,7 +57,7 @@ namespace StructureHelperCommon.Services.Forces
                 var pair = new DesignForcePair()
                 {
                     Name = combinations.Name,
-                    ForcePoint = (IPoint2D)combinations.ForcePoint.CloneLegacy(),
+                    ForcePoint = combinations.ForcePoint.GetClone(combinations.ForcePoint),
                     SetInGravityCenter = combinations.SetInGravityCenter,
                     LimitState = limitState,
                     FullForceTuple = tuples[0],

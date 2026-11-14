@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Projects
 {
-    public class ProjectUpdateStrategy : IUpdateStrategy<IProject>
+    public class ProjectUpdateStrategy : IParentUpdateStrategy<IProject>
     {
         private IUpdateStrategy<IVisualAnalysis> updateStrategy;
+
+        public bool UpdateChildren { get; set; } = true;
 
         public ProjectUpdateStrategy(IUpdateStrategy<IVisualAnalysis> updateStrategy)
         {
@@ -29,10 +31,13 @@ namespace StructureHelperCommon.Models.Projects
             CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
             CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            targetObject.VisualAnalyses.Clear();
-            foreach (var item in sourceObject.VisualAnalyses)
+            if (UpdateChildren == true)
             {
-                targetObject.VisualAnalyses.Add(item.CloneLegacy() as IVisualAnalysis);
+                targetObject.VisualAnalyses.Clear();
+                foreach (var item in sourceObject.VisualAnalyses)
+                {
+                    targetObject.VisualAnalyses.Add(item.GetClone(item));
+                }
             }
         }
     }

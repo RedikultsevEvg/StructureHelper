@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Services;
 using LoaderMaterialLogics = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
 
 namespace StructureHelperLogics.Models.Materials
@@ -27,14 +28,6 @@ namespace StructureHelperLogics.Models.Materials
             Id = id;
             materialLogics = ProgramSetting.MaterialLogics.Where(x => x.MaterialType == materialType).ToList();
             MaterialLogic = materialLogics.First();
-        }
-
-        public object Clone()
-        {
-            var newItem = new ReinforcementLibMaterial(Guid.NewGuid());
-            var updateStrategy = new ReinforcementLibUpdateStrategy();
-            updateStrategy.Update(newItem, this);
-            return newItem;
         }
 
         public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
@@ -90,6 +83,20 @@ namespace StructureHelperLogics.Models.Materials
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
             return GetLoaderMaterial(limitState, calcTerm);
+        }
+
+        public IHelperMaterial GetClone(IHelperMaterial sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+        }
+
+        public IHelperMaterial GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var newItem = new ReinforcementLibMaterial(id);
+            new ReinforcementLibUpdateStrategy().Update(newItem, this);
+            return newItem;
         }
     }
 }

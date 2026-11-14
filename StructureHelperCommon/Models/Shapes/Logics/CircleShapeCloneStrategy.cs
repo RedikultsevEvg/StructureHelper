@@ -8,11 +8,12 @@ namespace StructureHelperCommon.Models.Shapes
     internal class CircleShapeCloneStrategy : ICloneStrategy<ICircleShape>
     {
         IUpdateStrategy<ICircleShape> updateStrategy;
-        public ICircleShape GetClone(ICircleShape sourceObject, CloningMode cloningMode)
+
+        public ICircleShape GetClone(ICircleShape sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             updateStrategy ??= new CircleShapeUpdateStrategy();
             CircleShape clone = new(id);
             updateStrategy.Update(clone, sourceObject);

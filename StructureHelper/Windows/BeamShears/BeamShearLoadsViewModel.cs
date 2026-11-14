@@ -41,7 +41,7 @@ namespace StructureHelper.Windows.BeamShears
         {
             if (SelectedItem is null) { return; }
             Window window;
-            IBeamSpanLoad temporaryShearLoad = SelectedItem.Clone() as IBeamSpanLoad;
+            IBeamSpanLoad temporaryShearLoad = SelectedItem.GetClone(SelectedItem) as IBeamSpanLoad;
             if (SelectedItem is IDistributedLoad distributedLoad)
             {
                 window = new DistributedLoadView(distributedLoad);

@@ -80,10 +80,10 @@ namespace StructureHelperTests.UnitTests.ValueDiagramsTests
             _strategy.Update(targetObjectMock.Object, sourceObjectMock.Object);
 
             _primitivesCloneMock.Verify(
-                x => x.GetClone(targetPrimitives, sourcePrimitives, CloningMode.NewEntity),
+                x => x.GetClone(targetPrimitives, sourcePrimitives, CloneMode.NewEntity),
                 Times.Once);
             _forcesCloneMock.Verify(
-                x => x.GetClone(targetActions, sourceActions, CloningMode.NewEntity),
+                x => x.GetClone(targetActions, sourceActions, CloneMode.NewEntity),
                 Times.Once);
         }
     }

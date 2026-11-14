@@ -1,4 +1,4 @@
-using LoaderCalculator.Data.Materials;
+﻿using LoaderCalculator.Data.Materials;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Logics;
 using LoaderCalculator.Logics.Geometry;
@@ -8,9 +8,7 @@ using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Loggers;
 using StructureHelperCommon.Models.Shapes;
-using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.Services;
 using StructureHelperLogics.Services.NdmPrimitives;
 
@@ -264,7 +262,7 @@ namespace StructureHelperLogics.NdmCalculations.Buckling
             return result;
         }
 
-        public object Clone()
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             throw new NotImplementedException();
         }

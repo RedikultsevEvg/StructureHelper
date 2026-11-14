@@ -13,7 +13,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     /// <summary>
     /// Find parameter by point and predicate
     /// </summary>
-    public interface ILimitCurveParameterLogic : IHasActionByResult, ICloneStrategy<ILimitCurveParameterLogic>
+    public interface ILimitCurveParameterLogic : ISaveable, IHasActionByResult, ICloneStrategy<ILimitCurveParameterLogic>
     {
         Predicate<Point2D> LimitPredicate { get; set; }
         IPoint2D CurrentPoint { get; set; }

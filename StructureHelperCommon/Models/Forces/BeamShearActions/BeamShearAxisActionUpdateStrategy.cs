@@ -1,3 +1,4 @@
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Services;
@@ -7,30 +8,31 @@ using StructureHelperCommon.Services;
 
 namespace StructureHelperCommon.Models.Forces.BeamShearActions
 {
-    public class BeamShearAxisActionUpdateStrategy : IUpdateStrategy<IBeamShearAxisAction>
+    public class BeamShearAxisActionUpdateStrategy : IParentUpdateStrategy<IBeamShearAxisAction>
     {
         private IUpdateStrategy<IFactoredCombinationProperty> combinationUpdateStrategy;
+        private IUpdateStrategy<IFactoredCombinationProperty> CombinationUpdateStrategy => combinationUpdateStrategy ??= new FactoredCombinationPropertyUpdateStrategy();
+
+        public bool UpdateChildren { get; set; } = true;
+
         public void Update(IBeamShearAxisAction targetObject, IBeamShearAxisAction sourceObject)
         {
             CheckObject.ThrowIfNull(targetObject);
             CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            InitializeStrategies();
             targetObject.Name = sourceObject.Name;
-            targetObject.SupportForce = sourceObject.SupportForce.CloneLegacy() as IFactoredForceTuple;
-            CheckObject.ThrowIfNull(targetObject.ShearLoads);
-            targetObject.ShearLoads.Clear();
-            CheckObject.ThrowIfNull(sourceObject.ShearLoads);
-            foreach (var item in sourceObject.ShearLoads)
+            if (UpdateChildren == true)
             {
-                IBeamSpanLoad beamShearLoad = item.CloneLegacy() as IBeamSpanLoad;
-                targetObject.ShearLoads.Add(beamShearLoad);
+                targetObject.SupportForce = sourceObject.SupportForce.GetClone(sourceObject.SupportForce) as IFactoredForceTuple;
+                CheckObject.ThrowIfNull(targetObject.ShearLoads);
+                CheckObject.ThrowIfNull(sourceObject.ShearLoads);
+                targetObject.ShearLoads.Clear();
+                foreach (var item in sourceObject.ShearLoads)
+                {
+                    IBeamSpanLoad beamShearLoad = item.GetClone(item, CloneMode.NewEntity, CloneDepth.Deep);
+                    targetObject.ShearLoads.Add(beamShearLoad);
+                }
             }
-        }
-
-        private void InitializeStrategies()
-        {
-            combinationUpdateStrategy ??= new FactoredCombinationPropertyUpdateStrategy(); 
         }
     }
 }

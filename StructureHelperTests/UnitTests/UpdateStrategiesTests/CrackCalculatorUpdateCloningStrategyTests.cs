@@ -78,10 +78,10 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             _strategy.Update(targetObjectMock.Object, sourceObjectMock.Object);
 
             _primitivesCloneStrategyMock.Verify(
-                x => x.GetClone(targetPrimitives, sourcePrimitives, CloningMode.NewEntity),
+                x => x.GetClone(targetPrimitives, sourcePrimitives, CloneMode.NewEntity),
                 Times.Once);
             _forcesCloneStrategyMock.Verify(
-                x => x.GetClone(targetActions, sourceActions, CloningMode.NewEntity),
+                x => x.GetClone(targetActions, sourceActions, CloneMode.NewEntity),
                 Times.Once);
         }
     }

@@ -11,10 +11,12 @@ using System.Threading.Tasks;
 
 namespace StructureHelperLogics.Models.CrossSections
 {
-    public class CrossSectionUpdateStrategy : IUpdateStrategy<ICrossSection>
+    public class CrossSectionUpdateStrategy : IParentUpdateStrategy<ICrossSection>
     {
         private IUpdateStrategy<ICrossSectionRepository> repositoryUpdateStrategy;
         private IUpdateStrategy<IWorkPlaneProperty> workPlaneUpdateStrategy;
+
+        public bool UpdateChildren { get; set; } = true;
 
         public CrossSectionUpdateStrategy(IUpdateStrategy<ICrossSectionRepository> repositoryUpdateStrategy,
             IUpdateStrategy<IWorkPlaneProperty> workPlaneUpdateStrategy)
@@ -30,8 +32,11 @@ namespace StructureHelperLogics.Models.CrossSections
             CheckObject.ThrowIfNull(targetObject);
             CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            UpdateRepository(targetObject, sourceObject);
-            UpdateWorkPlane(targetObject, sourceObject);
+            if (UpdateChildren == true)
+            {
+                UpdateRepository(targetObject, sourceObject);
+                UpdateWorkPlane(targetObject, sourceObject);
+            }
         }
 
         private void UpdateWorkPlane(ICrossSection targetObject, ICrossSection sourceObject)

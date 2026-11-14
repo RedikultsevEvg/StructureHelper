@@ -1,11 +1,6 @@
 ﻿using Newtonsoft.Json;
-using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Analyses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
@@ -31,6 +26,11 @@ namespace DataAccess.DTOs
         public void Run()
         {
             throw new NotImplementedException();
+        }
+
+        public IVisualAnalysis GetClone(IVisualAnalysis sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace DataAccess.DTOs
             Dictionary<(Guid id, Type type), ISaveable> refDictinary,
             IShiftTraceLogger? traceLogger)
             : this(
-                new ProjectUpdateStrategy(),
+                new ProjectUpdateStrategy() { UpdateChildren = false },
                 new DictionaryConvertStrategy<IVisualAnalysis, IVisualAnalysis>(
                     refDictinary,
                     new VisualAnaysisFromDTOConvertStrategy(refDictinary, traceLogger),

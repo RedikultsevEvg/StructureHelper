@@ -1,4 +1,4 @@
-using LoaderCalculator;
+﻿using LoaderCalculator;
 using LoaderCalculator.Data.Ndms;
 using LoaderCalculator.Logics;
 using StructureHelperCommon.Infrastructures.Enums;
@@ -125,8 +125,9 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             concreteNdm.StressScale = 1d;
             rebarNdm = InputData.RebarPrimitive.GetRebarNdm(options);
         }
+
         /// <inheritdoc/>
-        public object Clone()
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             throw new NotImplementedException();
         }

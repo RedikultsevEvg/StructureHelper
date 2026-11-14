@@ -1,7 +1,9 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -13,7 +15,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public Action<IResult> ActionToOutputResults { get; set; }
         public IShiftTraceLogger? TraceLogger { get; set; }
 
-        public LimitCurveParameterLogic()
+        public Guid Id { get; }
+
+        public LimitCurveParameterLogic(Guid id)
+        {
+            Id = id;
+        }
+
+        public LimitCurveParameterLogic() : this(Guid.NewGuid())
         {
             
         }
@@ -54,11 +63,15 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             return LimitPredicate(newPoint);
         }
 
-        public object Clone()
+        public ILimitCurveParameterLogic GetClone(ILimitCurveParameterLogic sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            var newItem = new LimitCurveParameterLogic();
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            var newItem = new LimitCurveParameterLogic(id);
             newItem.LimitPredicate = LimitPredicate;
-            newItem.CurrentPoint = (CurrentPoint ?? new Point2D()).Clone() as IPoint2D;
+            IPoint2D point2D = CurrentPoint ?? new Point2D();
+            newItem.CurrentPoint = point2D.GetClone(point2D);
             newItem.ActionToOutputResults = ActionToOutputResults;
             return newItem;
         }

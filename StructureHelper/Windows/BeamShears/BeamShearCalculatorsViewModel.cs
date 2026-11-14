@@ -82,7 +82,7 @@ namespace StructureHelper.Windows.BeamShears
             Window window; 
             if (SelectedItem is IBeamShearCalculator beamShearCalculator)
             {
-                var tmpCalculator = beamShearCalculator.Clone() as IBeamShearCalculator;
+                var tmpCalculator = beamShearCalculator.GetClone() as IBeamShearCalculator;
                 var viewModel = new BeamShearCalculatorViewModel(shearRepository, beamShearCalculator);
                 window = new BeamShearCalculatorView(viewModel);
                 window.ShowDialog();

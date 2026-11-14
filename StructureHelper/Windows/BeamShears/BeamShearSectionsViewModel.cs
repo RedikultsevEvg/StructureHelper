@@ -76,7 +76,7 @@ namespace StructureHelper.Windows.BeamShears
         private void EditSection()
         {
             Window window;
-            IBeamShearSection temporarySection = SelectedItem.Clone() as IBeamShearSection;
+            IBeamShearSection temporarySection = SelectedItem.GetClone(SelectedItem) as IBeamShearSection;
             window = new SectionView(SelectedItem);
             window.ShowDialog();
             if (window.DialogResult != true)

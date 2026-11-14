@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using StructureHelper.Models.Materials;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
@@ -28,6 +29,11 @@ namespace DataAccess.DTOs
         public object Clone()
         {
             throw new NotImplementedException();
+        }
+
+        public INdmElement GetClone(INdmElement sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

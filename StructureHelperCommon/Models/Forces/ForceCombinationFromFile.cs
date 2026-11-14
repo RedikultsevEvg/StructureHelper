@@ -1,12 +1,9 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
@@ -37,13 +34,6 @@ namespace StructureHelperCommon.Models.Forces
         public IFactoredCombinationProperty CombinationProperty { get; set; } = new FactoredCombinationProperty(Guid.NewGuid());
         public bool SkipWrongRows { get; set; } = false;
 
-        public object Clone()
-        {
-            ForceCombinationFromFile newItem = new();
-            updateStrategy ??= new ForceCombinationFromFileUpdateStrategy();
-            updateStrategy.Update(newItem, this);
-            return newItem;
-        }
 
         public List<IForceCombinationList> GetCombinations()
         {
@@ -63,6 +53,16 @@ namespace StructureHelperCommon.Models.Forces
                 factoredCombination.ForceTuples.AddRange(tuples);
             }
             return factoredCombination.GetCombinations();
+        }
+
+        public IForceCombinationFromFile GetClone(CloneMode cloningMode, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloningMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloningMode);
+            ForceCombinationFromFile newItem = new(id);
+            updateStrategy ??= new ForceCombinationFromFileUpdateStrategy();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using LoaderCalculator.Data.Materials;
 using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.Materials;
 
 namespace DataAccess.DTOs
@@ -48,11 +50,6 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
-        {
-            return this;
-        }
-
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
             throw new NotImplementedException();
@@ -66,6 +63,28 @@ namespace DataAccess.DTOs
         public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
         {
             throw new NotImplementedException();
+        }
+
+        public IHelperMaterial GetClone(IHelperMaterial sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            ReinforcementLibMaterialDTO newItem = new(id);
+            if (sourceObject is not IReinforcementLibMaterial reinforcement)
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(sourceObject));
+            }
+            new ReinforcementLibUpdateStrategy().Update(newItem, reinforcement);
+            return newItem;
+        }
+
+        public IHelperMaterial GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ReinforcementLibMaterialDTO newItem = new(id);
+            return newItem;
         }
     }
 }

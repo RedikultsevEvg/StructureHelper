@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 
 namespace StructureHelperCommon.Models.Forces
@@ -16,10 +18,11 @@ namespace StructureHelperCommon.Models.Forces
             Id = id;
         }
 
-        public object Clone()
+        public IFactoredForceTuple GetClone(IFactoredForceTuple sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            FactoredForceTuple newItem = new(id);
             updateStrategy ??= new FactoredForceTupleUpdateStrategy();
-            FactoredForceTuple newItem = new(Guid.NewGuid());
             updateStrategy.Update(newItem, this);
             return newItem;
         }

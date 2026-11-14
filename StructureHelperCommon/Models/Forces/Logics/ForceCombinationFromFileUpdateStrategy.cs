@@ -1,19 +1,15 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Models.Forces.Logics;
+﻿using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public class ForceCombinationFromFileUpdateStrategy : IUpdateStrategy<IForceCombinationFromFile>
+    public class ForceCombinationFromFileUpdateStrategy : IParentUpdateStrategy<IForceCombinationFromFile>
     {
         private IUpdateStrategy<IForceAction> baseUpdateStrategy;
         private IUpdateStrategy<IColumnedFileProperty> filePropertyUpdateStrategy;
         private IUpdateStrategy<IFactoredCombinationProperty> combinationPropertyUpdateStrategy;
+
+        public bool UpdateChildren { get; set; } = true;
 
         public ForceCombinationFromFileUpdateStrategy(IUpdateStrategy<IForceAction> baseUpdateStrategy,
             IUpdateStrategy<IColumnedFileProperty> filePropertyUpdateStrategy,
@@ -39,12 +35,15 @@ namespace StructureHelperCommon.Models.Forces
             CheckObject.ThrowIfNull(targetObject.CombinationProperty, "Target object combination property");
             CheckObject.ThrowIfNull(sourceObject.CombinationProperty, "Source object combination property");
             combinationPropertyUpdateStrategy.Update(targetObject.CombinationProperty, sourceObject.CombinationProperty);
-            targetObject.ForceFiles.Clear();
-            foreach (var file in sourceObject.ForceFiles)
+            if (UpdateChildren == true)
             {
-                ColumnedFileProperty newProperty = new();
-                filePropertyUpdateStrategy.Update(newProperty, file);
-                targetObject.ForceFiles.Add(newProperty);
+                targetObject.ForceFiles.Clear();
+                foreach (var file in sourceObject.ForceFiles)
+                {
+                    ColumnedFileProperty newProperty = new();
+                    filePropertyUpdateStrategy.Update(newProperty, file);
+                    targetObject.ForceFiles.Add(newProperty);
+                }
             }
         }
 

@@ -8,19 +8,25 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Materials.Libraries
 {
-    public class MaterialSafetyFactorUpdateStrategy : IUpdateStrategy<IMaterialSafetyFactor>
+    public class MaterialSafetyFactorUpdateStrategy : IParentUpdateStrategy<IMaterialSafetyFactor>
     {
         private IUpdateStrategy<IMaterialSafetyFactor> baseUpdateStrategy = new MaterialSafetyFactorBaseUpdateStrategy();
+
+        public bool UpdateChildren { get; set; } = true;
+
         public void Update(IMaterialSafetyFactor targetObject, IMaterialSafetyFactor sourceObject)
         {
             CheckObject.ThrowIfNull(sourceObject);
             CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             baseUpdateStrategy.Update(targetObject, sourceObject);
-            targetObject.PartialFactors.Clear();
-            foreach (var item in sourceObject.PartialFactors)
+            if (UpdateChildren == true)
             {
-                targetObject.PartialFactors.Add(item.CloneLegacy() as IMaterialPartialFactor);
+                targetObject.PartialFactors.Clear();
+                foreach (var item in sourceObject.PartialFactors)
+                {
+                    targetObject.PartialFactors.Add(item.GetClone() as IMaterialPartialFactor);
+                }
             }
         }
     }

@@ -1,3 +1,5 @@
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,9 +26,12 @@ namespace StructureHelperCommon.Models.Materials
             Id = id;
         }
 
-        public object Clone()
+
+        public ICustomConcreteTensionOptions GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            CustomConcreteTensionOptions newItem = new(Guid.NewGuid());
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            CustomConcreteTensionOptions newItem = new(id);
             var updateLogic = new CustomConcreteTensionOptionsUpdateStrategy();
             updateLogic.Update(newItem, this);
             return newItem;

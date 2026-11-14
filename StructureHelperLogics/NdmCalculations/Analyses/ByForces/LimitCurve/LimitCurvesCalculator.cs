@@ -1,7 +1,9 @@
-using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator.Data.Ndms;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve.Factories;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.Services.NdmPrimitives;
@@ -16,8 +18,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         private LimitCurvesResult result;
         private int curvesIterationCount;
         private ITriangulatePrimitiveLogic triangulateLogic;
-
-        private LimitCurvesCalculatorUpdateStrategy updateStrategy => new();
 
         public Guid Id { get; }
 
@@ -137,13 +137,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             return calculator;
         }
 
-        public object Clone()
-        {
-            var newItem = new LimitCurvesCalculator();
-            updateStrategy.Update(newItem, this);
-            return newItem;
-        }
-
         private void SetCurveCount(IResult locResult)
         {
             var curveResult = locResult as IiterationResult;
@@ -168,5 +161,13 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             return false;
         }
 
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            LimitCurvesCalculator newItem = new (id);
+            LimitCurvesCalculatorUpdateStrategy updateStrategy = new();
+            updateStrategy.Update(newItem, this);
+            return newItem;
+        }
     }
 }

@@ -1,8 +1,9 @@
+using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Materials.Logics;
 using StructureHelperCommon.Models.States;
+using StructureHelperCommon.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StructureHelperCommon.Models.Materials
 {
@@ -15,20 +16,35 @@ namespace StructureHelperCommon.Models.Materials
 
         public IStateCalcTermPair StateCalcTermPair { get; } = new StateCalcTermPair();
 
-        public ICustomConcreteCompressionOptions CompressionOptions { get; } = new CustomConcreteCompressionOptions(Guid.NewGuid());
+        public ICustomConcreteCompressionOptions CompressionOptions { get; private set; } = new CustomConcreteCompressionOptions(Guid.NewGuid());
 
-        public ICustomConcreteTensionOptions TensionOptions { get; } = new CustomConcreteTensionOptions(Guid.NewGuid());
+        public ICustomConcreteTensionOptions TensionOptions { get; private set; } = new CustomConcreteTensionOptions(Guid.NewGuid());
 
         public CustomConcreteModel(Guid id)
         {
             Id = id;
         }
 
-        public object Clone()
+        public ICustomConcreteModel GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            var clone = new CustomConcreteModel(Guid.NewGuid());
-            var updateLogic = new CustomConcreteModelUpdateStrategy() { UpdateChildren = true };
-            updateLogic.Update(clone, this);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            CustomConcreteModel clone = new(id);
+            CustomConcreteModelUpdateStrategy updateStrategy = new() { UpdateChildren = false };
+            if (cloneDepth == CloneDepth.Shallow || cloneDepth == CloneDepth.Deep)
+            {
+                clone.CompressionOptions = CompressionOptions.GetClone(cloneMode, cloneDepth);
+                clone.TensionOptions = TensionOptions.GetClone(cloneMode, cloneDepth);
+            }
+            else if (cloneDepth == CloneDepth.DeleteChildren)
+            {
+                //Skip
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(cloneDepth));
+            }
+
             return clone;
         }
     }

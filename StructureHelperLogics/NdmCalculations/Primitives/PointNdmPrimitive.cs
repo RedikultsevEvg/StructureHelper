@@ -1,5 +1,6 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelper.Models.Materials;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
@@ -57,11 +58,16 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             var newPoint = new NamedAreaPoint()
             {
                 Name = "Center",
-                Point = Center.Clone() as Point2D,
+                Point = Center.GetClone(Center) as Point2D,
                 Area = Area
             };
             points.Add(newPoint);
             return points;
+        }
+
+        public INdmPrimitive GetClone(INdmPrimitive sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

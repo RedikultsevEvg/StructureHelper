@@ -136,7 +136,7 @@ namespace StructureHelper.Windows.FeaMaterials
             if (SelectedItem is IElasticFeaMaterial elastic)
             {
                 var cloneLogic = new ElasticFeaMaterialCloneStrategy();
-                var clone = cloneLogic.GetClone(elastic, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
+                var clone = cloneLogic.GetClone(elastic, StructureHelperCommon.Infrastructures.Enums.CloneMode.NewEntity);
                 var window = new ElasticFeaMaterialView(elastic);
                 window.ShowDialog();
                 if (window.DialogResult != true)
@@ -148,7 +148,7 @@ namespace StructureHelper.Windows.FeaMaterials
             else if (SelectedItem is IConcreteFeaMaterial concrete)
             {
                 var cloneLogic = new ConcreteFeaMaterialCloneStrategy();
-                var clone = cloneLogic.GetClone(concrete, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
+                var clone = cloneLogic.GetClone(concrete, StructureHelperCommon.Infrastructures.Enums.CloneMode.NewEntity);
                 var window = new ConcreteFeaMaterialView(concrete);
                 window.ShowDialog();
                 if (window.DialogResult != true)

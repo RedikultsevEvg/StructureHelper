@@ -1,4 +1,4 @@
-using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
@@ -38,11 +38,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
         public IShiftTraceLogger? TraceLogger { get; set; }
 
         public Guid Id { get; }
-
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
 
         public void Run()
         {
@@ -102,6 +97,12 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
         private void PrepareNewResult()
         {
             result = new();
+        }
+
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            throw new NotImplementedException();
         }
     }
 }

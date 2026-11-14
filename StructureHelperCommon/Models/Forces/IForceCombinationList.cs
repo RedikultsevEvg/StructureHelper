@@ -5,7 +5,7 @@ using StructureHelperCommon.Models.Shapes;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public interface IForceCombinationList : IForceAction, ICloneStrategy<IForceCombinationList>
+    public interface IForceCombinationList : IForceAction, ISelfCloneStrategy<IForceCombinationList>
     {
         List<IDesignForceTuple> DesignForces { get; set; }
     }

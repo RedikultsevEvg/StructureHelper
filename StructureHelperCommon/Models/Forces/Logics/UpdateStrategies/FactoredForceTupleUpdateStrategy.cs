@@ -16,9 +16,9 @@ namespace StructureHelperCommon.Models.Forces
             CheckObject.ThrowIfNull(sourceObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             CheckObject.ThrowIfNull(sourceObject.ForceTuple);
-            targetObject.ForceTuple = sourceObject.ForceTuple.CloneLegacy() as IForceTuple;
+            targetObject.ForceTuple = sourceObject.ForceTuple.GetClone(sourceObject.ForceTuple);
             CheckObject.ThrowIfNull(sourceObject.CombinationProperty);
-            targetObject.CombinationProperty = sourceObject.CombinationProperty.CloneLegacy() as IFactoredCombinationProperty;
+            targetObject.CombinationProperty = sourceObject.CombinationProperty.GetClone(sourceObject.CombinationProperty);
         }
     }
 }

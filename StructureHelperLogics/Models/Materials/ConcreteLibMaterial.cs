@@ -5,6 +5,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Services;
 using LMBuilders = LoaderCalculator.Data.Materials.MaterialBuilders;
 using LMLogic = LoaderCalculator.Data.Materials.MaterialBuilders.MaterialLogics;
 
@@ -57,15 +58,6 @@ namespace StructureHelperLogics.Models.Materials
         {
             
         }
-
-        public object Clone()
-        {
-            var newItem = new ConcreteLibMaterial();
-            updateStrategy.Update(newItem, this);
-            return newItem;
-        }
-
-
 
         public (double Compressive, double Tensile) GetStrength(LimitStates limitState, CalcTerms calcTerm)
         {
@@ -147,6 +139,20 @@ namespace StructureHelperLogics.Models.Materials
             }
             options.RelativeHumidity = RelativeHumidity;
             return options;
+        }
+
+        public IHelperMaterial GetClone(IHelperMaterial sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+        }
+
+        public IHelperMaterial GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) {return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ConcreteLibMaterial newItem = new(id);
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

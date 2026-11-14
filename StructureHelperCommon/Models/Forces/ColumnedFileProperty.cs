@@ -1,10 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
@@ -35,10 +32,11 @@ namespace StructureHelperCommon.Models.Forces
             
         }
 
-        public object Clone()
+        public IColumnedFileProperty GetClone(IColumnedFileProperty sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ColumnedFileProperty newItem = new(id);
             updateStrategy ??= new ColumnedFilePropertyUpdateStrategy();
-            ColumnedFileProperty newItem = new();
             updateStrategy.Update(newItem, this);
             return newItem;
         }

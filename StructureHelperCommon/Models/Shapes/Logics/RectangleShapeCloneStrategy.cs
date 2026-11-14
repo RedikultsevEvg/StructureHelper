@@ -13,11 +13,12 @@ namespace StructureHelperCommon.Models.Shapes
     {
         IUpdateStrategy<IRectangleShape> updateStrategy;
         IUpdateStrategy<IRectangleShape> UpdateStrategy => updateStrategy ??= new RectangleShapeUpdateStrategy();
-        public IRectangleShape GetClone(IRectangleShape sourceObject, CloningMode cloningMode)
+
+        public IRectangleShape GetClone(IRectangleShape sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             RectangleShape clone = new(id);
             UpdateStrategy.Update(clone, sourceObject);
             return clone;

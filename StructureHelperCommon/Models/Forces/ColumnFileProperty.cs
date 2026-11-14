@@ -1,8 +1,5 @@
+using StructureHelperCommon.Infrastructures.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
@@ -35,10 +32,10 @@ namespace StructureHelperCommon.Models.Forces
             
         }
 
-        public object Clone()
+        public IColumnFileProperty GetClone(IColumnFileProperty sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             var cloneLogic = new ColumnFilePropertyCloningStrategy();
-            return cloneLogic.GetClone(this, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
+            return cloneLogic.GetClone(this, cloneMode);
         }
     }
 }

@@ -197,7 +197,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
 
         private void CopyMaterial()
         {
-            var material = SelectedMaterial.Clone() as IHeadMaterial;
+            var material = SelectedMaterial.GetClone() as IHeadMaterial;
             AddMaterial(material);
             SelectedMaterial = material;
         }

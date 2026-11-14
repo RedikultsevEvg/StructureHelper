@@ -19,18 +19,18 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             this.cloningStrategy = cloningStrategy;
         }
 
-        public IBeamShearAxisAction GetClone(IBeamShearAxisAction sourceObject, CloningMode cloningMode)
+        public IBeamShearAxisAction GetClone(IBeamShearAxisAction sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             updateStrategy ??= new BeamShearAxisActionUpdateStrategy();
             var targetObject = new BeamShearAxisAction(id);
             updateStrategy.Update(targetObject, sourceObject);
             targetObject.ShearLoads.Clear();
             foreach (var shearLoad in sourceObject.ShearLoads)
             {
-                targetObject.ShearLoads.Add(cloningStrategy.Clone(shearLoad, null, cloningMode));
+                targetObject.ShearLoads.Add(cloningStrategy.Clone(shearLoad, null, cloneMode));
             }
             return targetObject;
         }

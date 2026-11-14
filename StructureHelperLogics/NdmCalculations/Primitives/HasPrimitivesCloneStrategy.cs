@@ -1,5 +1,4 @@
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
@@ -24,7 +23,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public void GetClone(
             IHasPrimitives target,
             IHasPrimitives source,
-            CloningMode mode = CloningMode.NewEntity)
+            CloneMode mode = CloneMode.NewEntity)
         {
             CheckObject.ThrowIfNull(target);
             CheckObject.ThrowIfNull(source);

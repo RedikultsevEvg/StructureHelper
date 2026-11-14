@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 
 namespace DataAccess.DTOs
@@ -34,6 +36,15 @@ namespace DataAccess.DTOs
         public void Run()
         {
             throw new NotImplementedException();
+        }
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ValueDiagramCalculatorDTO newItem = new (id);
+            var updateStrategy = new ValueDiagramCalculatorUpdateStrategy() { UpdateChildren = false };
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

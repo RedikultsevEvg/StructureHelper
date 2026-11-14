@@ -1,5 +1,6 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Moq;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Models.Materials;
@@ -55,8 +56,8 @@ namespace StructureHelperTests.UnitTests.UpdateStrategiesTests
             var targetSafetyFactors = new List<IMaterialSafetyFactor>();
 
             mockSourceMaterial.Setup(s => s.SafetyFactors).Returns(safetyFactors);
-            mockSafetyFactor1.Setup(f => f.Clone()).Returns(mockSafetyFactor1.Object);
-            mockSafetyFactor2.Setup(f => f.Clone()).Returns(mockSafetyFactor2.Object);
+            mockSafetyFactor1.Setup(f => f.GetClone(It.IsAny<IMaterialSafetyFactor>(), It.IsAny<CloneMode>(), It.IsAny<CloneDepth>())).Returns(mockSafetyFactor1.Object);
+            mockSafetyFactor2.Setup(f => f.GetClone(It.IsAny<IMaterialSafetyFactor>(), It.IsAny<CloneMode>(), It.IsAny<CloneDepth>())).Returns(mockSafetyFactor2.Object);
 
             mockTargetMaterial.Setup(t => t.SafetyFactors).Returns(targetSafetyFactors);
 

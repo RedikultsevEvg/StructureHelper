@@ -335,7 +335,7 @@ namespace StructureHelper.Windows.ViewModels.PrimitiveProperties
             {
                 var host = item as IHasDivisionSize;
                 var reinforcement = ndm as RebarNdmPrimitive;
-                bool checkWhenPointLocatedInsideOfItsHost = host.IsPointInside(reinforcement.Center.Clone() as IPoint2D);
+                bool checkWhenPointLocatedInsideOfItsHost = host.IsPointInside(reinforcement.Center.GetClone(reinforcement.Center) as IPoint2D);
                 if (checkWhenPointLocatedInsideOfItsHost
                     && reinforcement.HostPrimitive is null)
                 {

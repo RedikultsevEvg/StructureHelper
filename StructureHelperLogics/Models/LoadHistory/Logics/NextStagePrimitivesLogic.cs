@@ -1,3 +1,4 @@
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System.Collections.Generic;
@@ -62,7 +63,7 @@ namespace StructureHelperLogics.Models.LoadHistory.Logics
             INdmPrimitive primitiveClone;
             if (previousPrimitives.TryGetValue(primitive, out INdmPrimitive? previousPrimitive))
             {
-                primitiveClone = (INdmPrimitive)previousPrimitive.Clone();
+                primitiveClone = previousPrimitive.GetClone(previousPrimitive, CloneMode.PreserveIdentity, CloneDepth.Shallow);
                 if (primitiveClone is IHasHostPrimitive hasHostPrimitive)
                 {
                     INdmPrimitive currentHost = ((IHasHostPrimitive)primitive).HostPrimitive!;
@@ -89,7 +90,7 @@ namespace StructureHelperLogics.Models.LoadHistory.Logics
             }
             else
             {
-                primitiveClone = (INdmPrimitive)primitive.Clone();
+                primitiveClone = (INdmPrimitive)primitive.GetClone(primitive, CloneMode.PreserveIdentity, CloneDepth.Shallow);
                 if (primitiveClone is IHasHostPrimitive currentStageHost)
                 {
                     INdmPrimitive newHost = ProcessPrimitive(

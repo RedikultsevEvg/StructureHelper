@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
@@ -54,6 +55,24 @@ namespace StructureHelperTests.UnitTests.ForcesTests
             public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
             public Guid Id => throw new NotImplementedException();
+
+            public IThermalActionTimeIndependend GetClone(
+                IThermalActionTimeIndependend sourceObject,
+                CloneMode cloneMode = CloneMode.NewEntity,
+                CloneDepth cloneDepth = CloneDepth.Deep)
+            {
+                if (cloneMode == CloneMode.Reference)
+                {
+                    return sourceObject;
+                }
+                return new ThermalActionStub
+                {
+                    ReferencePoint = sourceObject.ReferencePoint.GetClone(sourceObject.ReferencePoint, cloneMode, cloneDepth),
+                    RefPointTemperature = sourceObject.RefPointTemperature,
+                    GradientX = sourceObject.GradientX,
+                    GradientY = sourceObject.GradientY
+                };
+            }
 
             public object Clone()
             {

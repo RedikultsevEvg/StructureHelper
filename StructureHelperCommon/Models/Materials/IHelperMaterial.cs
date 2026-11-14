@@ -5,7 +5,7 @@ using System;
 
 namespace StructureHelperCommon.Models.Materials
 {
-    public interface IHelperMaterial : ISaveable, IHasSafetyFactors, ICloneStrategy<IHelperMaterial>
+    public interface IHelperMaterial : ISaveable, IHasSafetyFactors, ISelfCloneStrategy<IHelperMaterial>
     {
         IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm);
         IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm);

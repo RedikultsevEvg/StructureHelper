@@ -92,11 +92,11 @@ namespace StructureHelperCommon.Models.Materials.Logics
             {
                 return new CustomConcreteModel(sourceObject.Id);
             }
-            if (sourceObject is ICloneStrategy cloneStrategy)
+            if (sourceObject is ICloneStrategy<ICustomConcreteModel> cloneStrategy)
             {
                 if (cloneStrategy.GetClone(
                         sourceObject,
-                        StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity) is ICustomConcreteModel clone)
+                        StructureHelperCommon.Infrastructures.Enums.CloneMode.NewEntity) is ICustomConcreteModel clone)
                 {
                     return clone;
                 }

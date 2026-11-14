@@ -22,7 +22,7 @@ namespace DataAccess.DTOs
         public override HistoryCalculatorInputDataDTO GetNewItem(IHistoryCalculatorInputData source)
         {
             ChildClass = this;
-            NewItem = new(source.Id, HistoryCalculatorDTO);
+            NewItem = new(source.Id) { HistoryCalculator = HistoryCalculatorDTO};
             UpdateStrategy.Update(NewItem, source);
             CheckObject.ThrowIfNull(source.ConstructionStages);
             CheckObject.ThrowIfNull(NewItem.ConstructionStages);

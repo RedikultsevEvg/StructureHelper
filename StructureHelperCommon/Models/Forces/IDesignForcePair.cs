@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public interface IDesignForcePair : IForceAction, ICloneStrategy<IDesignForcePair>
+    public interface IDesignForcePair : IForceAction, ISelfCloneStrategy<IDesignForcePair>
     {
         LimitStates LimitState { get; set; }
         IForceTuple LongForceTuple { get; set; }

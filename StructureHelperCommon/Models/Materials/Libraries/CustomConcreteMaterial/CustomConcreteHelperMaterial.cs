@@ -5,6 +5,7 @@ using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Models.Materials.Logics;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,6 +85,45 @@ namespace StructureHelperCommon.Models.Materials
             }
             ICustomConcreteModel model = models.First();
             return model;
+        }
+
+        public IHelperMaterial GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var clone = new CustomConcreteHelperMaterial(id);
+            var logic = new CustomConcreteHelperMaterialUpdateStrategy() { UpdateChildren = false };
+            logic.Update(clone, this);
+            clone.SafetyFactors.Clear();
+            clone.MaterialModels.Clear();
+            if (cloneDepth == CloneDepth.Deep)
+            {
+                foreach (var safetyFactor in SafetyFactors)
+                {
+                    IMaterialSafetyFactor safetyFactorClone = safetyFactor.GetClone(cloneMode, cloneDepth);
+                    clone.SafetyFactors.Add(safetyFactorClone);
+                }
+                foreach (var concreteModel in MaterialModels)
+                {
+                    ICustomConcreteModel modelClone = concreteModel.GetClone(cloneMode, cloneDepth);
+                    clone.MaterialModels.Add(modelClone);
+                }
+            }
+            else if (cloneDepth == CloneDepth.Shallow)
+            {
+                foreach (var safetyFactor in SafetyFactors)
+                {
+                    clone.SafetyFactors.Add(safetyFactor);
+                }
+                foreach (var concreteModel in MaterialModels)
+                {
+                    clone.MaterialModels.Add(concreteModel);
+                }
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(cloneDepth));
+            }
+            return clone;
         }
     }
 }

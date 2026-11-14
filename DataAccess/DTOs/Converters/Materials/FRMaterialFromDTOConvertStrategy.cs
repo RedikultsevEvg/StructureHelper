@@ -26,7 +26,7 @@ namespace DataAccess.DTOs
         public override FRMaterial GetNewItem(FRMaterialDTO source)
         {
             TraceLogger?.AddMessage("Fiber reinforcement material converting is started", TraceLogStatuses.Service);
-            FRMaterial newItem = new(source.MaterialType, source.Id);
+            FRMaterial newItem = new(source.Id, source.MaterialType);
             updateStrategy.Update(newItem, source);
             TraceLogger?.AddMessage("FiberReinforcement material converting has been finished successfully", TraceLogStatuses.Service);
             return newItem;

@@ -171,7 +171,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void EditHistoryCalculator(HistoryCalculator sourceCalculator)
         {
-            var clone = sourceCalculator.Clone() as IHistoryCalculator;
+            var clone = sourceCalculator.GetClone() as IHistoryCalculator;
             var vm = new HistoryCalculatorViewModel(sourceCalculator, repository);
             var wnd = new HistoryCalculatorView(vm);
             ShowWindow(sourceCalculator, clone, wnd);
@@ -179,7 +179,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void EditCurvatureCalculator(CurvatureCalculator sourceCalculator)
         {
-            var clone = sourceCalculator.Clone() as ICurvatureCalculator;
+            var clone = sourceCalculator.GetClone() as ICurvatureCalculator;
             var vm = new CurvatureCalculatorViewModel(sourceCalculator, repository);
             var wnd = new CurvatureCalculatorView(vm);
             ShowWindow(sourceCalculator, clone, wnd);
@@ -187,7 +187,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void EditValueDiagramCalculator(IValueDiagramCalculator sourceCalculator)
         {
-            var calculatorClone = sourceCalculator.Clone() as IValueDiagramCalculator;
+            var calculatorClone = sourceCalculator.GetClone() as IValueDiagramCalculator;
             var vm = new ValueDiagramCalculatorViewModel(repository, sourceCalculator);
             var wnd = new ValueDiagramCalculatorView(vm);
             ShowWindow(sourceCalculator, calculatorClone, wnd);
@@ -195,7 +195,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void EditCrackCalculator(CrackCalculator calculator)
         {
-            var calculatorCopy = calculator.Clone() as CrackCalculator;
+            var calculatorCopy = calculator.GetClone() as CrackCalculator;
             var vm = new CrackCalculatorInputDataViewModel(repository.Primitives, repository.ForceActions, calculator);
             var wnd = new CrackCalculatorInputDataView(vm);
             ShowWindow(calculator, calculatorCopy, wnd);
@@ -203,7 +203,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
 
         private void EditLimitCurveCalculator(LimitCurvesCalculator calculator)
         {
-            var calculatorCopy = calculator.Clone() as LimitCurvesCalculator;
+            var calculatorCopy = calculator.GetClone() as LimitCurvesCalculator;
             var vm = new LimitCurveCalculatorViewModel(calculator, repository.Primitives);
             var wnd = new LimitCurveCalculatorView(vm);
             ShowWindow(calculator, calculatorCopy, wnd);
@@ -212,7 +212,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private void EditForceCalculator(ForceCalculator calculator)
         {
 
-            var calculatorCopy = (ICalculator)calculator.Clone();
+            var calculatorCopy = (ICalculator)calculator.GetClone();
             var vm = new ForceCalculatorViewModel(repository.Primitives, repository.ForceActions, calculator);
             var wnd = new ForceCalculatorView(vm);
             ShowWindow(calculator, calculatorCopy, wnd);

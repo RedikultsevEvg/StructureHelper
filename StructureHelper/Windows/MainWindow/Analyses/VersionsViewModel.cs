@@ -105,7 +105,7 @@ namespace StructureHelper.Windows.MainWindow.Analyses
         private void ProcessCrossSectionAnalysis(ICrossSection oldCrossSection)
         {
             string newComment = "Exported version from: " + SelectedItem.DateTime;
-            ICrossSection newCrossSection = oldCrossSection.Clone() as ICrossSection;
+            ICrossSection newCrossSection = oldCrossSection.GetClone() as ICrossSection;
             ICrossSectionNdmAnalysis newAnalysis = new CrossSectionNdmAnalysis()
             {
                 Name = "New NDM Analysis",
@@ -175,8 +175,8 @@ namespace StructureHelper.Windows.MainWindow.Analyses
         private void AddVersion()
         {
             var selectedItem = SelectedItem.AnalysisVersion;
-            ISaveable? clone = selectedItem is ICloneStrategy cloneStrategy
-                ? cloneStrategy.GetClone(selectedItem, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity) as ISaveable
+            ISaveable? clone = selectedItem is ICloneStrategy<ISaveable> cloneStrategy
+                ? cloneStrategy.GetClone(selectedItem, StructureHelperCommon.Infrastructures.Enums.CloneMode.NewEntity) as ISaveable
                 : null;
             versionProcessor.AddVersion(clone);
             Refresh();

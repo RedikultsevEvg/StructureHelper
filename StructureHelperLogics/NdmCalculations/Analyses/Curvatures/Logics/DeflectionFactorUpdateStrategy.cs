@@ -21,8 +21,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
                 CheckObject.ThrowIfNull(targetObject.DeflectionFactors);
                 CheckObject.ThrowIfNull(sourceObject.MaxDeflections);
                 CheckObject.ThrowIfNull(targetObject.MaxDeflections);
-                targetObject.DeflectionFactors = sourceObject.DeflectionFactors.Clone() as IForceTuple;
-                targetObject.MaxDeflections = sourceObject.MaxDeflections.Clone() as IForceTuple;
+                targetObject.DeflectionFactors = sourceObject.DeflectionFactors.GetClone(sourceObject.DeflectionFactors);
+                targetObject.MaxDeflections = sourceObject.MaxDeflections.GetClone(sourceObject.MaxDeflections);
             }
         }
     }

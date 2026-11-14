@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccess.DTOs
 {
@@ -27,15 +26,16 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-
-        public object Clone()
+        public void Run()
         {
             throw new NotImplementedException();
         }
 
-        public void Run()
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            throw new NotImplementedException();
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            CurvatureCalculatorDTO newItem = new(id);
+            return newItem;
         }
     }
 }

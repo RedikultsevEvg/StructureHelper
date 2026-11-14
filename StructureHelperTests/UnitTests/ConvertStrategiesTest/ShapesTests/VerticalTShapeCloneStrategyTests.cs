@@ -27,7 +27,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
                 var sut = new VerticalTShapeCloneStrategy(updateStrategyMock.Object);
 
                 // Act
-                var clone = sut.GetClone(sourceMock.Object, CloningMode.NewEntity);
+                var clone = sut.GetClone(sourceMock.Object, CloneMode.NewEntity);
 
                 // Assert
                 Assert.That(clone, Is.Not.Null);
@@ -41,7 +41,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
                 var sut = new VerticalTShapeCloneStrategy(updateStrategyMock.Object);
 
                 // Act
-                var clone = sut.GetClone(sourceMock.Object, CloningMode.NewEntity);
+                var clone = sut.GetClone(sourceMock.Object, CloneMode.NewEntity);
 
                 // Assert
                 updateStrategyMock.Verify(
@@ -56,7 +56,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
                 var sut = new VerticalTShapeCloneStrategy(updateStrategyMock.Object);
 
                 // Act & Assert
-                Assert.Throws<StructureHelperException>(() => sut.GetClone(null, CloningMode.NewEntity));
+                Assert.Throws<StructureHelperException>(() => sut.GetClone(null, CloneMode.NewEntity));
                 // If CheckObject.ThrowIfNull throws StructureHelperException,
                 // replace Exception with StructureHelperException.
             }
@@ -74,7 +74,7 @@ namespace StructureHelperTests.UnitTests.ConvertStrategiesTest.ShapesTests
                 var sourceObject = source.Object;
 
                 // Act
-                var clone = sut.GetClone(sourceObject, CloningMode.NewEntity);
+                var clone = sut.GetClone(sourceObject, CloneMode.NewEntity);
 
                 // Assert
                 Assert.That(clone, Is.Not.Null);

@@ -1,6 +1,7 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials.Libraries;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,14 +34,18 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
+        public double GetFactor(StressStates stressState, CalcTerms calcTerm, LimitStates limitStates)
         {
             throw new NotImplementedException();
         }
 
-        public double GetFactor(StressStates stressState, CalcTerms calcTerm, LimitStates limitStates)
+        public IMaterialSafetyFactor GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            throw new NotImplementedException();
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            MaterialSafetyFactor newItem = new(id);
+            new MaterialSafetyFactorUpdateStrategy() { UpdateChildren = false, }.Update(newItem, this);
+            return newItem;
         }
     }
 }

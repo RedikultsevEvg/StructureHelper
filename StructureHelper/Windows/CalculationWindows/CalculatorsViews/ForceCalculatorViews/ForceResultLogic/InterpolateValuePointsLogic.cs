@@ -40,7 +40,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ForceCalcu
             inputData = new ValuePointsInterpolationInputData()
             {
                 StartForceTuple = new ForceTuple(),
-                FinishForceTuple = endTuple.Clone() as IForceTuple,
+                FinishForceTuple = endTuple.GetClone(endTuple) as IForceTuple,
                 StateCalcTermPair = SelectedResult.StateCalcTermPair,
             };
             inputData.PrimitiveBases.AddRange(PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(NdmPrimitives));

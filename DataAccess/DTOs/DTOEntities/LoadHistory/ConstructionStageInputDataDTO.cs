@@ -13,7 +13,7 @@ namespace DataAccess.DTOs
         [JsonProperty("Id")]
         public Guid Id { get; }
         [JsonIgnore]
-        public IConstructionStage ConstructionStage { get; }
+        public IConstructionStage ConstructionStage { get; internal set; }
         [JsonProperty("SubStepNumber")]
         public int SubStepNumber { get; set; }
         [JsonProperty("Duration")]
@@ -24,15 +24,7 @@ namespace DataAccess.DTOs
         public List<INdmPrimitive> Primitives { get; } = [];
 
         public ConstructionStageInputDataDTO(Guid id)
-            : this(id, null!)
         {
         }
-
-        public ConstructionStageInputDataDTO(Guid id, IConstructionStage constructionStage)
-        {
-            Id = id;
-            ConstructionStage = constructionStage;
-        }
-
     }
 }

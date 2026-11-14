@@ -1,7 +1,9 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Loggers;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -28,14 +30,6 @@ namespace StructureHelperLogics.Models.BeamShears
         public BeamShearCalculator(Guid id)
         {
             Id = id;
-        }
-
-        public object Clone()
-        {
-            BeamShearCalculator newItem = new(Guid.NewGuid());
-            updateStrategy ??= new BeamShearCalculatorUpdateStrategy();
-            updateStrategy.Update(newItem, this);
-            return newItem;
         }
 
         public void Run()
@@ -104,6 +98,15 @@ namespace StructureHelperLogics.Models.BeamShears
                 Description = string.Empty,
                 InputData = InputData
             };
+        }
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            BeamShearCalculator newItem = new(id);
+            updateStrategy ??= new BeamShearCalculatorUpdateStrategy();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

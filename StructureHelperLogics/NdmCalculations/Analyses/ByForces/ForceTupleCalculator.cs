@@ -1,6 +1,8 @@
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -54,11 +56,6 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             }
             CalculateResult();
         }
-        public object Clone()
-        {
-            var newItem = new ForceTupleCalculator();
-            return newItem;
-        }
 
         private void CalculateResult()
         {
@@ -92,7 +89,11 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             return true;
         }
 
-        
-
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ForceTupleCalculator newItem = new(id);
+            return newItem;
+        }
     }
 }

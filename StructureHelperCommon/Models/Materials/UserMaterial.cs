@@ -2,8 +2,10 @@
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperCommon.Models.Materials.Logics;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace StructureHelperCommon.Models.Materials
 {
@@ -16,14 +18,6 @@ namespace StructureHelperCommon.Models.Materials
         public UserMaterial(Guid id)
         {
             Id = id;
-        }
-
-        public object Clone()
-        {
-            UserMaterial newItem = new(Guid.NewGuid());
-            var updateStrategy = new UserMaterialUpdateStrategy();
-            updateStrategy.Update(newItem, this);
-            return newItem;
         }
 
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
@@ -43,6 +37,22 @@ namespace StructureHelperCommon.Models.Materials
                 NegativeStressFactor = factors.Compressive,
             };
             return convertLogic.Convert(property);
+        }
+
+        public IHelperMaterial GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            UserMaterial newItem = new(id);
+            var updateStrategy = new UserMaterialUpdateStrategy() { UpdateChildren = false };
+            updateStrategy.Update(newItem, this);
+            newItem.SafetyFactors.Clear();
+            foreach (var item in SafetyFactors)
+            {
+                var itemClone = item.GetClone(cloneMode);
+                newItem.SafetyFactors.Add(itemClone);
+            }
+            return newItem;
         }
     }
 }

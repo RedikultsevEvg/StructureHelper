@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
@@ -69,7 +70,7 @@ namespace StructureHelperTests.UnitTests.ForcesTests
                 referenceY: 2d);
             action.Name = "Thermal action";
 
-            var clone = (ThermalActionTimeIndependent)action.Clone();
+            var clone = (ThermalActionTimeIndependent)action.GetClone(action, CloneMode.NewEntity, CloneDepth.Deep);
 
             Assert.Multiple(() =>
             {

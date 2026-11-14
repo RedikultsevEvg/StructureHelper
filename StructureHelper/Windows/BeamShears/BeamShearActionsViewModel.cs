@@ -1,4 +1,5 @@
 ﻿using StructureHelper.Windows.ViewModels;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.BeamShearActions;
@@ -25,7 +26,7 @@ namespace StructureHelper.Windows.BeamShears
         public override void EditMethod(object parameter)
         {
             if (SelectedItem is null) { return; }
-            IBeamShearAction temporaryShearAction = SelectedItem.Clone() as IBeamShearAction;
+            IBeamShearAction temporaryShearAction = SelectedItem.GetClone(SelectedItem, CloneMode.PreserveIdentity, CloneDepth.Deep);
             var window = new BeamShearActionView(SelectedItem);
             window.ShowDialog();
             if (window.DialogResult != true)

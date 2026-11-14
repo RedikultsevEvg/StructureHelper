@@ -9,6 +9,7 @@ namespace DataAccess.DTOs.Converters
     public class CrossSectionNdmAnalysisFromDTOConvertStrategy : ConvertStrategy<ICrossSectionNdmAnalysis, ICrossSectionNdmAnalysis>
     {
         private IUpdateStrategy<ICrossSectionNdmAnalysis> updateStrategy;
+        private IUpdateStrategy<ICrossSectionNdmAnalysis> UpdateStrategy => updateStrategy ??= new CrossSectionNdmAnalysisUpdateStrategy();
 
         public CrossSectionNdmAnalysisFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
@@ -24,9 +25,8 @@ namespace DataAccess.DTOs.Converters
         private void GetAnalysis(ICrossSectionNdmAnalysis source)
         {
             TraceLogger?.AddMessage("Cross-section analysis converting has been started");
-            updateStrategy ??= new CrossSectionNdmAnalysisUpdateStrategy();
             NewItem = new CrossSectionNdmAnalysis(source.Id);
-            updateStrategy.Update(NewItem, source);
+            UpdateStrategy.Update(NewItem, source);
             TraceLogger?.AddMessage("Cross-section analysis has been finished successfully");
         }
 

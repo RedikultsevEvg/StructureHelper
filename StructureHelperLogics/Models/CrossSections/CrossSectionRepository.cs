@@ -1,20 +1,15 @@
+using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelper.Models.Materials;
 
 namespace StructureHelperLogics.Models.CrossSections
 {
     public class CrossSectionRepository : ICrossSectionRepository
     {
-        public ICrossSectionRepository GetClone(ICrossSectionRepository sourceObject, CloningMode cloningMode)
-        {
-            return new CrossSectionRepositoryCloneStrategy(new DeepCloningStrategy())
-                .GetClone(sourceObject, cloningMode);
-        }
-
         private readonly List<IForceAction> forceActions = [];
         private readonly List<IHeadMaterial> headMaterials = [];
         private readonly List<INdmPrimitive> primitives = [];
@@ -101,6 +96,14 @@ namespace StructureHelperLogics.Models.CrossSections
         public void ClearAll()
         {
             CrossSectionRepositoryMutationLogic.ClearAll(this);
+        }
+
+        public ICrossSectionRepository GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            var deepCloningStrategy = new DeepCloningStrategy();
+            var cloneStrategy = new CrossSectionRepositoryCloneStrategy(deepCloningStrategy);
+            return cloneStrategy.GetClone(this, cloneMode, cloneDepth);
         }
     }
 }

@@ -1,4 +1,5 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.WorkPlanes;
 using StructureHelperLogics.Models.CrossSections;
 
@@ -23,7 +24,7 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
+        public ICrossSection GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             throw new NotImplementedException();
         }

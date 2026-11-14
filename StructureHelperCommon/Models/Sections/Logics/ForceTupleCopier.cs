@@ -18,7 +18,7 @@ namespace StructureHelperCommon.Models.Sections.Logics
         }
         public IForceTuple GetValue()
         {
-            return InputForceTuple.CloneLegacy() as IForceTuple;
+            return InputForceTuple.GetClone(InputForceTuple);
         }
     }
 }

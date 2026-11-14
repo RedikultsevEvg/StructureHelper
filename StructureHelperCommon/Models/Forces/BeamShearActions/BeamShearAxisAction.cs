@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 
@@ -25,12 +27,13 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             Id = id;
         }
 
-        public object Clone()
+        public IBeamShearAxisAction GetClone(IBeamShearAxisAction sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            BeamShearAxisAction beamShearAxisAction = new(Guid.NewGuid());
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            BeamShearAxisAction newItem = new(id);
             updateStrategy ??= new BeamShearAxisActionUpdateStrategy();
-            updateStrategy.Update(beamShearAxisAction, this);
-            return beamShearAxisAction;
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

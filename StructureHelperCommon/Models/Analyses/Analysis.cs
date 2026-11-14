@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,6 +24,7 @@ namespace StructureHelperCommon.Models.Analyses
             VersionProcessor.AddVersion(fstVersion);
         }
 
-        public abstract object Clone();
+        public abstract IAnalysis GetClone(IAnalysis sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep);
+        
     }
 }

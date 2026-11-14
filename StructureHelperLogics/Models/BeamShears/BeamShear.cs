@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -12,7 +13,7 @@ namespace StructureHelperLogics.Models.BeamShears
             Id = id;
         }
 
-        public object Clone()
+        public IBeamShear GetClone(IBeamShear sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             var cloningStrategy = new DeepCloningStrategy();
             cloneStrategy = new BeamShearCloneStrategy(cloningStrategy);

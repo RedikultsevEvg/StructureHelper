@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
@@ -41,7 +42,7 @@ namespace StructureHelperTests.UnitTests.ForcesTests
             action.TimePairs.Add(ThermalActionTestData.CreatePair(0d, 293.15d));
             action.TimePairs.Add(ThermalActionTestData.CreatePair(10d, 303.15d));
 
-            var clone = (ThermalActionTimeList)action.Clone();
+            var clone = (ThermalActionTimeList)action.GetClone(action, CloneMode.NewEntity, CloneDepth.Deep);
 
             Assert.Multiple(() =>
             {

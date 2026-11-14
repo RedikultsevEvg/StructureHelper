@@ -34,19 +34,14 @@ namespace StructureHelperCommon.Models.Shapes
             Y = y;
         }
 
-        public object Clone()
+        public IPoint2D GetClone(IPoint2D sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return GetClone(this, CloningMode.NewEntity);
-        }
-
-        public IPoint2D GetClone(IPoint2D sourceObject, CloningMode cloningMode)
-        {
-            if (cloningMode == CloningMode.Reference)
+            if (cloneMode == CloneMode.Reference)
             {
                 return sourceObject;
             }
 
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             var newItem = new Point2D(id);
             updateStrategy.Update(newItem, sourceObject);
             return newItem;

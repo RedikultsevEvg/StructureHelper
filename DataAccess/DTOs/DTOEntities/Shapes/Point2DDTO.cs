@@ -1,4 +1,5 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,11 @@ namespace DataAccess.DTOs
             var newItem = new Point2DDTO(Id);
             new Point2DUpdateStrategy().Update(newItem, this);
             return newItem;
+        }
+
+        public IPoint2D GetClone(IPoint2D sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

@@ -1,6 +1,8 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 
 namespace DataAccess.DTOs
 {
@@ -27,14 +29,6 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
-        {
-            var newItem = new ForceCombinationListDTO(Id);
-            new ForceActionBaseUpdateStrategy().Update(newItem, this);
-            new ForceCombinationListUpdateStrategy().Update(newItem, this);
-            return newItem;
-        }
-
         public IForceCombinationList GetCombination()
         {
             throw new NotImplementedException();
@@ -43,6 +37,15 @@ namespace DataAccess.DTOs
         public List<IForceCombinationList> GetCombinations()
         {
             throw new NotImplementedException();
+        }
+
+
+        public IForceCombinationList GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ForceCombinationListDTO neItem = new(id);
+            return neItem;
         }
     }
 }

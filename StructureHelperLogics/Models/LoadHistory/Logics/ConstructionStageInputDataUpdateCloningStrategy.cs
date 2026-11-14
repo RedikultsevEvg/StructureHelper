@@ -24,7 +24,7 @@ namespace StructureHelperLogics.Models.LoadHistory
             CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
             targetObject.ForceAction = cloningStrategy.Clone(sourceObject.ForceAction);
-            primitivesCloneStrategy.GetClone(targetObject.Primitives, sourceObject.Primitives, CloningMode.NewEntity);
+            primitivesCloneStrategy.GetClone(targetObject.Primitives, sourceObject.Primitives, CloneMode.NewEntity);
         }
     }
 }

@@ -1,5 +1,4 @@
-using LoaderCalculator.Data.Materials;
-using LoaderCalculator.Logics;
+﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
@@ -38,7 +37,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
 
         public Guid Id { get; }
 
-        public object Clone()
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             throw new NotImplementedException();
         }

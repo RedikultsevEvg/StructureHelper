@@ -17,7 +17,7 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         public void GetClone(
             ICollection<T> target,
             IEnumerable<T> source,
-            CloningMode mode = CloningMode.NewEntity)
+            CloneMode mode = CloneMode.NewEntity)
         {
             var clones = source
                 .Select(item => _itemCloner.GetClone(item, mode))

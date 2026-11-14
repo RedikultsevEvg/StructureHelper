@@ -56,7 +56,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
         {
             TraceLogger?.AddMessage($"Primitive {Primitive.Name} is rebar primitive", TraceLogStatuses.Service);
             var newPrimititve = rebar.Clone() as RebarNdmPrimitive;
-            var newHostPrimitive = rebar.HostPrimitive.Clone() as INdmPrimitive;
+            var newHostPrimitive = rebar.HostPrimitive.GetClone(rebar.HostPrimitive) as INdmPrimitive;
             SetNewMaterial(newHostPrimitive);
             newPrimititve.HostPrimitive = newHostPrimitive;
             List<INdm> ndms = GetNdms(newPrimititve);
@@ -66,7 +66,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
         private void ProcessICracked(List<INdm> ndmCollection)
         {
             TraceLogger?.AddMessage($"Primitive {Primitive.Name} is crackable primitive", TraceLogStatuses.Service);
-            var newPrimititve = Primitive.Clone() as INdmPrimitive;
+            var newPrimititve = Primitive.GetClone(Primitive) as INdmPrimitive;
             SetNewMaterial(newPrimititve);
             List<INdm> ndms = GetNdms(newPrimititve);
             ndmCollection.AddRange(ndms);
@@ -75,8 +75,8 @@ namespace StructureHelperLogics.Services.NdmPrimitives
         private void SetNewMaterial(INdmPrimitive? newPrimititve)
         {
             TraceLogger?.AddMessage($"Process material {newPrimititve.NdmElement.HeadMaterial.Name} has started");
-            var newHeadMaterial = newPrimititve.NdmElement.HeadMaterial.Clone() as IHeadMaterial;
-            var newMaterial = newHeadMaterial.HelperMaterial.Clone() as ICrackedMaterial;
+            var newHeadMaterial = newPrimititve.NdmElement.HeadMaterial.GetClone();
+            var newMaterial = newHeadMaterial.HelperMaterial.GetClone() as ICrackedMaterial;
             TraceLogger?.AddMessage($"Set work in tension zone for material {newPrimititve.NdmElement.HeadMaterial.Name}");
             newMaterial.TensionForSLS = false;
             newHeadMaterial.HelperMaterial = newMaterial as IHelperMaterial;

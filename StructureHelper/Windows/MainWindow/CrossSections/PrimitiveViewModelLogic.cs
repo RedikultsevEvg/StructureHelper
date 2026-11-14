@@ -323,7 +323,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private void EditSelectedItem()
         {
             var ndmPrimitive = SelectedItem.GetNdmPrimitive();
-            var primitiveCopy = ndmPrimitive.Clone() as INdmPrimitive;
+            var primitiveCopy = ndmPrimitive.GetClone(ndmPrimitive) as INdmPrimitive;
             var wnd = new PrimitivePropertiesView(SelectedItem, repository);
             wnd.ShowDialog();
             if (wnd.DialogResult == true)

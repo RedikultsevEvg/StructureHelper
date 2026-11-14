@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperCommon.Services.ColorServices;
 using System;
 using System.Collections.Generic;
@@ -45,6 +47,11 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public object Clone()
         {
             throw new NotImplementedException();
+        }
+
+        public IPrimitiveVisualProperty GetClone(IPrimitiveVisualProperty sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         public void GetClone(
             IHasCalculators target,
             IHasCalculators source,
-            CloningMode mode = CloningMode.NewEntity)
+            CloneMode mode = CloneMode.NewEntity)
         {
             CheckObject.ThrowIfNull(target);
             CheckObject.ThrowIfNull(source);

@@ -1,5 +1,4 @@
-using LoaderCalculator.Data.Matrix;
-using LoaderCalculator.Data.Ndms;
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperLogics.Services.NdmPrimitives;
@@ -40,13 +39,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Geometry
             geometryResult.TextParameters = parametersLogic.GetTextParameters();
         }
 
-        public object Clone()
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             throw new NotImplementedException();
         }
-
-
-
-
     }
 }

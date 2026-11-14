@@ -12,6 +12,7 @@ namespace StructureHelperCommon.Models.Forces
     public class ColumnFilePropertyCloningStrategy : ICloneStrategy<IColumnFileProperty>
     {
         private IUpdateStrategy<IColumnFileProperty> updateStrategy;
+        private IUpdateStrategy<IColumnFileProperty> UpdateStrategy => updateStrategy ??= new ColumnFilePropertyUpdateStrategy();
 
         public ColumnFilePropertyCloningStrategy(IUpdateStrategy<IColumnFileProperty> updateStrategy)
         {
@@ -23,17 +24,13 @@ namespace StructureHelperCommon.Models.Forces
             
         }
 
-        public IColumnFileProperty GetClone(IColumnFileProperty sourceObject, CloningMode cloningMode)
+        public IColumnFileProperty GetClone(IColumnFileProperty sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
-            if (updateStrategy is null)
-            {
-                updateStrategy = new ColumnFilePropertyUpdateStrategy();
-            }
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             ColumnFileProperty newItem = new(id, sourceObject.Name);
-            updateStrategy.Update(newItem, sourceObject);
+            UpdateStrategy.Update(newItem, sourceObject);
             return newItem;
         }
     }

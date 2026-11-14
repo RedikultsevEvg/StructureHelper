@@ -1,6 +1,9 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Models.Materials.Logics;
 using StructureHelperCommon.Models.States;
+using StructureHelperCommon.Services;
 
 namespace DataAccess.DTOs
 {
@@ -39,9 +42,13 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
+        public ICustomConcreteModel GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return this;
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            CustomConcreteModelDTO newModel = new(id);
+            new CustomConcreteModelUpdateStrategy() { UpdateChildren = false, }.Update(newModel, this);
+            return newModel;
         }
     }
 }

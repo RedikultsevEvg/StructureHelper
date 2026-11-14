@@ -1,3 +1,4 @@
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Models.VisualProperties;
@@ -36,11 +37,16 @@ namespace StructureHelperLogics.Models.BeamShears
         public object Clone()
         {
             var cloneStrategy = new ShapeCloneStrategy();
-            IShape shapeClone = cloneStrategy.GetClone(Shape, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
+            IShape shapeClone = cloneStrategy.GetClone(Shape, StructureHelperCommon.Infrastructures.Enums.CloneMode.NewEntity);
             BeamShearSection newItem = new(Guid.NewGuid()) { Shape = shapeClone};
             updateStrategy ??= new BeamShearSectionUpdateStrategy();
             updateStrategy.Update(newItem, this);
             return newItem;
+        }
+
+        public IBeamShearSection GetClone(IBeamShearSection sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

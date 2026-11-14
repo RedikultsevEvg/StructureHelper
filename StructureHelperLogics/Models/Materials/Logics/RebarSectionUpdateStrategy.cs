@@ -12,11 +12,11 @@ namespace StructureHelperLogics.Models.Materials
             CheckObject.ThrowIfNull(sourceObject);
             CheckObject.ThrowIfNull(targetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; }
-            CheckObject.ThrowIfNull(sourceObject.Material);
             targetObject.Diameter = sourceObject.Diameter;
-            if (UpdateChildren)
+            if (UpdateChildren == true)
             {
-                targetObject.Material = sourceObject.Material.Clone() as IReinforcementLibMaterial;
+                CheckObject.ThrowIfNull(sourceObject.Material);
+                targetObject.Material = sourceObject.Material.GetClone() as IReinforcementLibMaterial;
             }
         }
     }

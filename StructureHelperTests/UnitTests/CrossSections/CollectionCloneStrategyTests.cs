@@ -2,9 +2,11 @@ using NUnit.Framework;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using System;
 
@@ -14,6 +16,70 @@ namespace StructureHelperTests.UnitTests.CrossSections
     public class CollectionCloneStrategyTests
     {
         [Test]
+        public void Repository_PreserveReference_ShouldCreateIndependentGraphWithSharedMaterial()
+        {
+            var source = new CrossSectionRepository(Guid.NewGuid());
+            var material = new HeadMaterial(Guid.NewGuid())
+            {
+                Name = "Shared material",
+                HelperMaterial = new ElasticMaterial(Guid.NewGuid())
+            };
+            var primitive = new PointNdmPrimitive(Guid.NewGuid());
+            primitive.NdmElement.HeadMaterial = material;
+            source.AddHeadMaterial(material);
+            source.AddPrimitive(primitive);
+
+            var strategy = new CrossSectionRepositoryCloneStrategy(new DeepCloningStrategy());
+            var clone = strategy.GetClone(source, CloneMode.NewEntity, CloneDepth.PreserveReference);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(clone, Is.Not.SameAs(source));
+                Assert.That(clone.HeadMaterials, Has.Count.EqualTo(1));
+                Assert.That(clone.Primitives, Has.Count.EqualTo(1));
+                Assert.That(clone.HeadMaterials[0], Is.Not.SameAs(material));
+                Assert.That(clone.Primitives[0], Is.Not.SameAs(primitive));
+                Assert.That(clone.Primitives[0].NdmElement.HeadMaterial, Is.SameAs(clone.HeadMaterials[0]));
+                Assert.That(clone.HeadMaterials[0].Id, Is.Not.EqualTo(material.Id));
+            });
+        }
+
+        [Test]
+        public void Repository_PreserveReference_ShouldRewireCalculatorInputToClonedItems()
+        {
+            var source = new CrossSectionRepository(Guid.NewGuid());
+            var material = new HeadMaterial(Guid.NewGuid())
+            {
+                HelperMaterial = new ElasticMaterial(Guid.NewGuid())
+            };
+            var primitive = new PointNdmPrimitive(Guid.NewGuid());
+            primitive.NdmElement.HeadMaterial = material;
+            var action = new ForceCombinationList(Guid.NewGuid());
+            var calculator = new ForceCalculator(Guid.NewGuid());
+            var input = new ForceCalculatorInputData(Guid.NewGuid());
+            input.Primitives.Add(primitive);
+            input.ForceActions.Add(action);
+            calculator.InputData = input;
+
+            source.AddHeadMaterial(material);
+            source.AddPrimitive(primitive);
+            source.AddForceAction(action);
+            source.AddCalculator(calculator);
+
+            var strategy = new CrossSectionRepositoryCloneStrategy(new DeepCloningStrategy());
+            var clone = strategy.GetClone(source, CloneMode.NewEntity, CloneDepth.PreserveReference);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(clone.Calculators, Has.Count.EqualTo(1));
+                var clonedCalculator = (ForceCalculator)clone.Calculators[0];
+                Assert.That(clonedCalculator.InputData.Primitives[0], Is.SameAs(clone.Primitives[0]));
+                Assert.That(clonedCalculator.InputData.ForceActions[0], Is.SameAs(clone.ForceActions[0]));
+                Assert.That(clonedCalculator.InputData.Primitives[0].NdmElement.HeadMaterial, Is.SameAs(clone.HeadMaterials[0]));
+            });
+        }
+
+        [Test]
         public void ForceActionsCollection_ShouldCloneItemsAndPreserveMode()
         {
             var source = new CrossSectionRepository(Guid.NewGuid());
@@ -22,7 +88,7 @@ namespace StructureHelperTests.UnitTests.CrossSections
             var target = new CrossSectionRepository(Guid.NewGuid());
             var strategy = new HasForceActionsCloneStrategy(new DeepCloningStrategy());
 
-            strategy.GetClone(target, source, CloningMode.NewEntity);
+            strategy.GetClone(target, source, CloneMode.NewEntity);
 
             Assert.Multiple(() =>
             {
@@ -41,7 +107,7 @@ namespace StructureHelperTests.UnitTests.CrossSections
             var target = new CrossSectionRepository(Guid.NewGuid());
             var strategy = new HasForceActionsCloneStrategy(new DeepCloningStrategy());
 
-            strategy.GetClone(target, source, CloningMode.PreserveIdentity);
+            strategy.GetClone(target, source, CloneMode.PreserveIdentity);
 
             var clonedAction = (ForceCombinationList)target.ForceActions[0];
             Assert.Multiple(() =>
@@ -65,7 +131,7 @@ namespace StructureHelperTests.UnitTests.CrossSections
             var target = new CrossSectionRepository(Guid.NewGuid());
             var strategy = new HasForceActionsCloneStrategy(new DeepCloningStrategy());
 
-            strategy.GetClone(target, source, CloningMode.Reference);
+            strategy.GetClone(target, source, CloneMode.Reference);
 
             Assert.That(target.ForceActions[0], Is.SameAs(sourceAction));
         }
@@ -83,7 +149,7 @@ namespace StructureHelperTests.UnitTests.CrossSections
             var target = new CrossSectionRepository(Guid.NewGuid());
             var strategy = new HasHeadMaterialsCloneStrategy(new DeepCloningStrategy());
 
-            strategy.GetClone(target, source, CloningMode.PreserveIdentity);
+            strategy.GetClone(target, source, CloneMode.PreserveIdentity);
 
             Assert.Multiple(() =>
             {
@@ -107,7 +173,7 @@ namespace StructureHelperTests.UnitTests.CrossSections
             var target = new CrossSectionRepository(Guid.NewGuid());
             var strategy = new HasPrimitivesCloneStrategy(new DeepCloningStrategy());
 
-            strategy.GetClone(target, source, CloningMode.NewEntity);
+            strategy.GetClone(target, source, CloneMode.NewEntity);
 
             Assert.Multiple(() =>
             {

@@ -14,6 +14,6 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
         /// <param name="original">Source object</param>
         /// <param name="cloneStrategy">Strategy for cloning of object of specified type</param>
         /// <returns></returns>
-        T Clone<T>(T original, ICloneStrategy<T>? cloneStrategy = null, CloningMode cloningMode = CloningMode.NewEntity) where T : class;
+        T Clone<T>(T original, ICloneStrategy<T>? cloneStrategy = null, CloneMode cloningMode = CloneMode.NewEntity) where T : class;
     }
 }

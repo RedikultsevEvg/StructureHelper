@@ -1,3 +1,4 @@
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
 
@@ -39,6 +40,11 @@ namespace StructureHelperLogics.Models.BeamShears
             result = new();
             result.InclinedCrack = SourceSection;
             result.StirrupStrength = Math.Min(SourceStirrupStrength, RestrictionValue);
+        }
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            throw new NotImplementedException();
         }
     }
 }

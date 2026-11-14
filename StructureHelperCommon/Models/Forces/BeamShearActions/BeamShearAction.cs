@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using System;
 
 //Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
@@ -24,8 +26,11 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             Id = id;
         }
 
-        public object Clone()
+        public IBeamShearAction GetClone(IBeamShearAction sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             BeamShearAction newItem = new(Guid.NewGuid());
             updateStrategy ??= new BeamShearActionUpdateStrategy();
             updateStrategy.Update(newItem, this);

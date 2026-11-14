@@ -25,7 +25,7 @@ namespace StructureHelperLogics.NdmCalculations.Triangulations
 
         public CircleTriangulationLogicOptions(IEllipseNdmPrimitive primitive)
         {
-            Center = primitive.Center.Clone() as Point2D;
+            Center = primitive.Center.GetClone(primitive.Center) as Point2D;
             //to do change to ellipse
             Circle = new CircleShape() { Diameter = primitive.Width };
             DivisionSize = primitive.DivisionSize;

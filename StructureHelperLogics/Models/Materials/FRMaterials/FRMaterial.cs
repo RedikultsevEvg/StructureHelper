@@ -1,15 +1,10 @@
-using LoaderCalculator.Data.Materials;
+﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.Materials
 {
@@ -29,11 +24,11 @@ namespace StructureHelperLogics.Models.Materials
         public double GammaF2 => GetGammaF2();
 
         public FRMaterial(Guid id)
-            : this(MaterialTypes.CarbonFiber, id)
+            : this(id, MaterialTypes.CarbonFiber)
         {
         }
 
-        public FRMaterial(MaterialTypes materialType, Guid id)
+        public FRMaterial(Guid id, MaterialTypes materialType)
         {
             if (materialType != MaterialTypes.CarbonFiber &
                     materialType != MaterialTypes.GlassFiber)
@@ -47,16 +42,9 @@ namespace StructureHelperLogics.Models.Materials
             SafetyFactors.AddRange(PartialFactorsFactory.GetDefaultFRSafetyFactors(ProgramSetting.FRCodeType, this.MaterialType));
         }
 
-        public FRMaterial(MaterialTypes materialType) : this (materialType, Guid.NewGuid())
+        public FRMaterial(MaterialTypes materialType) : this (Guid.NewGuid(), materialType)
         {
             
-        }
-
-        public object Clone()
-        {
-            var newItem = new FRMaterial(this.MaterialType);
-            updateStrategy.Update(newItem, this);
-            return newItem;
         }
 
         public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
@@ -85,6 +73,20 @@ namespace StructureHelperLogics.Models.Materials
             gammaF2 = 0.4d / epsUlt * Math.Sqrt(ULSConcreteStrength / (Modulus * SumThickness * 1e3d));
             gammaF2 = Math.Min(gammaF2, gammaF2Max);
             return gammaF2;
+        }
+
+        public IHelperMaterial GetClone(IHelperMaterial sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+        }
+
+        public IHelperMaterial GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var newItem = new FRMaterial(id, MaterialType);
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

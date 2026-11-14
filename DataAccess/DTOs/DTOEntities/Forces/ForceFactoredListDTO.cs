@@ -1,12 +1,8 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StructureHelperCommon.Services;
 
 namespace DataAccess.DTOs
 {
@@ -45,6 +41,25 @@ namespace DataAccess.DTOs
         public List<IForceCombinationList> GetCombinations()
         {
             throw new NotImplementedException();
+        }
+
+        public IForceFactoredList GetClone(IForceFactoredList sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+        }
+
+        public IAction GetClone(IAction sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+        }
+
+        public IForceFactoredList GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var newItem = new ForceFactoredListDTO(id);
+            new ForceFactoredListUpdateStrategy().Update(newItem, this);
+            return newItem;
         }
     }
 }

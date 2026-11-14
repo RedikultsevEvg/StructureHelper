@@ -1,6 +1,7 @@
-using LoaderCalculator.Data.Materials;
+﻿using LoaderCalculator.Data.Materials;
 using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Models.Materials;
 using StructureHelperCommon.Models.Materials.Libraries;
 using StructureHelperLogics.Models.Materials;
 using System;
@@ -43,17 +44,17 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
-
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
             throw new NotImplementedException();
         }
 
         public IMaterial GetLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IHelperMaterial GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             throw new NotImplementedException();
         }

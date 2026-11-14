@@ -18,10 +18,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve
             
         }
 
-        public ILimitCurvesCalculatorInputData GetClone(ILimitCurvesCalculatorInputData sourceObject, CloningMode cloningMode)
+        public ILimitCurvesCalculatorInputData GetClone(ILimitCurvesCalculatorInputData sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
             LimitCurvesCalculatorInputData newItem = new();
             updateStrategy.Update(newItem, sourceObject);
             return newItem;

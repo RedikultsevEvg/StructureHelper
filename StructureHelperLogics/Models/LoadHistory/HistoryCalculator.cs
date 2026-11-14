@@ -1,15 +1,8 @@
-using LoaderCalculator.Data.Ndms;
-using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Forces;
-using StructureHelperCommon.Services.Forces;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.LoadHistory.Logics;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces;
-using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelperLogics.Services.NdmPrimitives;
 
 namespace StructureHelperLogics.Models.LoadHistory
 {
@@ -59,13 +52,13 @@ namespace StructureHelperLogics.Models.LoadHistory
             };
         }
 
-        public object Clone()
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            HistoryCalculatorUpdateStrategy updateStrategy = new() { UpdateChildren = true };
-            HistoryCalculator newItem = new(Guid.NewGuid());
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            HistoryCalculator newItem = new(id);
+            HistoryCalculatorUpdateStrategy updateStrategy = new();
             updateStrategy.Update(newItem, this);
             return newItem;
         }
-
     }
 }

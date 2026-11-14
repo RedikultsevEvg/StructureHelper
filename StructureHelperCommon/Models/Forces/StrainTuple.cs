@@ -1,4 +1,6 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Services;
 using StructureHelperCommon.Services.Forces;
 using System;
 
@@ -45,13 +47,18 @@ namespace StructureHelperCommon.Models.Forces
             Mz = 0d;
         }
 
-        /// <inheritdoc/>
-        public object Clone()
+        public IForceTuple GetClone(IForceTuple sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            var newItem = new StrainTuple();
+            if (cloneMode == CloneMode.Reference)
+            {
+                return sourceObject;
+            }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            var newItem = new StrainTuple(id);
             updateStrategy.Update(newItem, this);
             return newItem;
         }
+
         public static StrainTuple operator +(StrainTuple first) => first;
         public static StrainTuple operator +(StrainTuple first, ForceTuple second)
         {

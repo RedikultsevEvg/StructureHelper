@@ -1,3 +1,4 @@
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
@@ -68,10 +69,6 @@ namespace StructureHelperCommon.Models.Calculators
                 result.Description += ex;
             }
         }
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
 
         private void FindMinimumValue()
         {
@@ -127,6 +124,11 @@ namespace StructureHelperCommon.Models.Calculators
                 result.Description = "Parameter was not found succefully: \n";
                 throw new StructureHelperException(ErrorStrings.DataIsInCorrect + ": violation of iteration count");
             }
+        }
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            throw new NotImplementedException();
         }
     }
 }

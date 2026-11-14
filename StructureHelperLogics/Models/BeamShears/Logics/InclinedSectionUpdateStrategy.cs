@@ -1,11 +1,14 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
-    internal class InclinedSectionUpdateStrategy : IUpdateStrategy<IInclinedSection>
+    internal class InclinedSectionUpdateStrategy : IParentUpdateStrategy<IInclinedSection>
     {
+        public bool UpdateChildren { get; set; } = true;
+
         public void Update(IInclinedSection targetObject, IInclinedSection sourceObject)
         {
             CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
@@ -20,7 +23,7 @@ namespace StructureHelperLogics.Models.BeamShears
             targetObject.ConcreteCompressionStrength = sourceObject.ConcreteCompressionStrength;
             targetObject.ConcreteTensionStrength = sourceObject.ConcreteTensionStrength;
             targetObject.WebWidth = sourceObject.WebWidth;
-            targetObject.BeamShearSection = sourceObject.BeamShearSection.Clone() as IBeamShearSection;
+            targetObject.BeamShearSection = sourceObject.BeamShearSection.GetClone(sourceObject.BeamShearSection, CloneMode.Reference);
         }
     }
 }

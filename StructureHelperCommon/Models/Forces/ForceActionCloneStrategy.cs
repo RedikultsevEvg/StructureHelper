@@ -1,7 +1,6 @@
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Services;
-using System;
 
 namespace StructureHelperCommon.Models.Forces
 {
@@ -10,17 +9,47 @@ namespace StructureHelperCommon.Models.Forces
     /// </summary>
     public class ForceActionCloneStrategy : ICloneStrategy<IForceAction>
     {
-        public IForceAction GetClone(IForceAction sourceObject, CloningMode cloningMode)
+        private IUpdateStrategy<IForceAction> updateStrategy;
+        private IUpdateStrategy<IForceAction> UpdateStrategy => updateStrategy ??= new ForceActionBaseUpdateStrategy();
+
+        public IForceAction GetClone(IForceAction sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference)
+            if (cloneMode == CloneMode.Reference)
             {
                 return sourceObject;
             }
-
-            var clone = (IForceAction)LegacyCloneHelper.Clone(sourceObject, cloningMode);
-            CloneIdSynchronizer.Synchronize(sourceObject, clone, cloningMode);
+            IForceAction clone = GetChildClone(sourceObject, cloneMode, cloneDepth);
+            UpdateStrategy.Update(clone, sourceObject);
+            if (cloneMode == CloneMode.PreserveIdentity)
+            {
+                CloneFallback.SynchronizeIds(sourceObject, clone);
+            }
             return clone;
+        }
+
+        private IForceAction GetChildClone(IForceAction sourceObject, CloneMode cloningMode, CloneDepth cloneDepth)
+        {
+            if (sourceObject is IDesignForcePair pair)
+            {
+                return pair.GetClone(cloningMode, cloneDepth);
+            }
+            else if (sourceObject is IForceFactoredList combination)
+            {
+                return combination.GetClone(cloningMode, cloneDepth);
+            }
+            else if (sourceObject is IForceCombinationList forceCombinationList)
+            {
+                return forceCombinationList.GetClone(cloningMode, cloneDepth);
+            }
+            else if (sourceObject is IForceCombinationFromFile fileCombination)
+            {
+                return fileCombination.GetClone(cloningMode, cloneDepth);
+            }
+            else
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(sourceObject));
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.Logics;
@@ -32,6 +32,11 @@ namespace DataAccess.DTOs
             var newItem = new DesignForceTupleDTO(Id);
             new DesignForceTupleUpdateStrategy().Update(newItem, this);
             return newItem;
+        }
+
+        public IDesignForceTuple GetClone(IDesignForceTuple sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

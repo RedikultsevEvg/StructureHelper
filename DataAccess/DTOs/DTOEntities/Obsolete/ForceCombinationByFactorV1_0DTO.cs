@@ -1,12 +1,7 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DTOs
 {
@@ -72,6 +67,16 @@ namespace DataAccess.DTOs
         }
 
         public List<IForceCombinationList> GetCombinations()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAction GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            throw new NotImplementedException();
+        }
+
+        IForceFactoredList ISelfCloneStrategy<IForceFactoredList>.GetClone(CloneMode cloneMode, CloneDepth cloneDepth)
         {
             throw new NotImplementedException();
         }

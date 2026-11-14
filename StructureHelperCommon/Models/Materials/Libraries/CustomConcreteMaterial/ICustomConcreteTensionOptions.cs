@@ -1,14 +1,9 @@
-using StructureHelperCommon.Infrastructures.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace StructureHelperCommon.Models.Materials
 {
     /// <summary>
     /// Implements options for dreating tension part of concrete material diagram
     /// </summary>
-    public interface ICustomConcreteTensionOptions : ISaveable, ICloneStrategy<ICustomConcreteTensionOptions>
+    public interface ICustomConcreteTensionOptions : ISaveable, ISelfCloneStrategy<ICustomConcreteTensionOptions>
     {
         /// <summary>
         /// Strength, Pa (positive in tenssion)

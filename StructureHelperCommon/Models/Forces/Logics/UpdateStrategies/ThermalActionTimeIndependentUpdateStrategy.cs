@@ -27,11 +27,7 @@ namespace StructureHelperCommon.Models.Forces
         public void Update(IThermalActionTimeIndependend targetObject, IThermalActionTimeIndependend sourceObject)
         {
             CheckObject.ThrowIfNull(targetObject, sourceObject);
-            if (ReferenceEquals(targetObject, sourceObject))
-            {
-                return;
-            }
-
+            if (ReferenceEquals(targetObject, sourceObject)) { return;}
             targetObject.RefPointTemperature = sourceObject.RefPointTemperature;
             targetObject.GradientX = sourceObject.GradientX;
             targetObject.GradientY = sourceObject.GradientY;

@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 
@@ -25,6 +26,11 @@ namespace StructureHelperLogics.Models.BeamShears
             cloneStrategy = new BeamShearRepositoryCloneStrategy(cloningStrategy);
             var newItem = cloneStrategy.GetClone(this);
             return newItem;
+        }
+
+        public IBeamShearRepository GetClone(IBeamShearRepository sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

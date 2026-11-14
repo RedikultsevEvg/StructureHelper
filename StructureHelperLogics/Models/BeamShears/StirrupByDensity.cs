@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.VisualProperties;
 using System.Windows.Media;
 
@@ -41,6 +42,11 @@ namespace StructureHelperLogics.Models.BeamShears
             updateStrategy ??= new StirrupByDensityUpdateStrategy();
             updateStrategy.Update(newItem, this);
             return newItem;
+        }
+
+        public IStirrup GetClone(IStirrup sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

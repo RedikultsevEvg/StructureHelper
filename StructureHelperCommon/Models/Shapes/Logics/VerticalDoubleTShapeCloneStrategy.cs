@@ -11,11 +11,12 @@ namespace StructureHelperCommon.Models.Shapes
     {
         private IUpdateStrategy<IVerticalDoubleTShape> updateStrategy;
         private IUpdateStrategy<IVerticalDoubleTShape> UpdateStrategy => updateStrategy ??= new VerticalDoubleTShapeUpdateStrategy();
-        public IVerticalDoubleTShape GetClone(IVerticalDoubleTShape sourceObject, CloningMode cloningMode)
+
+        public IVerticalDoubleTShape GetClone(IVerticalDoubleTShape sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             VerticalDoubleTShape clone = new(id);
             UpdateStrategy.Update(clone, sourceObject);
             return clone;

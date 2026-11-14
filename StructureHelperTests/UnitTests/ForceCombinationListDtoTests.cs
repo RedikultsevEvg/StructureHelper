@@ -1,5 +1,6 @@
 using DataAccess.DTOs;
 using NUnit.Framework;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using System;
 
@@ -28,7 +29,7 @@ namespace StructureHelperTests.UnitTests
                 }
             };
 
-            var clone = (ForceCombinationListDTO)source.Clone();
+            var clone = (ForceCombinationListDTO)source.GetClone(source, CloneMode.NewEntity, CloneDepth.Deep);
 
             Assert.Multiple(() =>
             {
@@ -61,7 +62,7 @@ namespace StructureHelperTests.UnitTests
             };
             source.ForceTuples.Add(new ForceTupleDTO(Guid.NewGuid()) { Nz = 200d });
 
-            var clone = (ForceFactoredListDTO)source.Clone();
+            var clone = (ForceFactoredListDTO)source.GetClone(source, CloneMode.NewEntity, CloneDepth.Deep);
 
             Assert.Multiple(() =>
             {

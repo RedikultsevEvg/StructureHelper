@@ -1,3 +1,4 @@
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models;
@@ -209,7 +210,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
         {
             result.IsValid = true;
             result.FactorOfCrackAppearance = 0d;
-            result.TupleOfCrackAppearance = (IForceTuple)InputData.StartTuple.Clone();
+            result.TupleOfCrackAppearance = InputData.StartTuple.GetClone(InputData.StartTuple);
             softeningLogic.ForceRatio = result.FactorOfCrackAppearance;
             result.PsiS = softeningLogic.GetSofteningFactor();
             result.CrackedStrainTuple = result.ReducedStrainTuple = GetStrainTuple(InputData.EndTuple);
@@ -248,7 +249,8 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             }
             return true;
         }
-        public object Clone()
+
+        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             throw new NotImplementedException();
         }

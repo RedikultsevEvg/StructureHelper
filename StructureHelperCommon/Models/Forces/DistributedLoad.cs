@@ -1,6 +1,8 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces.BeamShearActions;
+using StructureHelperCommon.Services;
 using System;
 
 //Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
@@ -40,11 +42,17 @@ namespace StructureHelperCommon.Models.Forces
             Id = id;
         }
 
-        public object Clone()
+        public IBeamSpanLoad GetClone(IBeamSpanLoad sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            DistributedLoad newItem = new(Guid.NewGuid());
-            updateStrategy ??= new DistributedLoadUpdateStrategy();
-            updateStrategy.Update(newItem, this);
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            DistributedLoad newItem = new(id);
+            if (sourceObject is not IDistributedLoad distributed)
+            {
+                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(sourceObject));
+            }
+            new DistributedLoadUpdateStrategy().Update(newItem, distributed);
             return newItem;
         }
     }

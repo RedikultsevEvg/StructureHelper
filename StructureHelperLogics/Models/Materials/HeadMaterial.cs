@@ -1,6 +1,7 @@
 ﻿using LoaderCalculator.Data.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Materials;
+using StructureHelperCommon.Services;
 using StructureHelperCommon.Services.ColorServices;
 using StructureHelperLogics.Models.Materials;
 using System.ComponentModel;
@@ -44,17 +45,20 @@ namespace StructureHelper.Models.Materials
             return HelperMaterial.GetLoaderMaterial(limitState, calcTerm);
         }
 
-        public object Clone()
-        {
-            var newItem = new HeadMaterial();
-            newItem.HelperMaterial = HelperMaterial.Clone() as IHelperMaterial;
-            updateStrategy.Update(newItem, this);
-            return newItem;
-        }
-
         public IMaterial GetCrackedLoaderMaterial(LimitStates limitState, CalcTerms calcTerm)
         {
             return HelperMaterial.GetCrackedLoaderMaterial(limitState, calcTerm);
+        }
+
+
+        public IHeadMaterial GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var newItem = new HeadMaterial(id);
+            updateStrategy.Update(newItem, this);
+            newItem.HelperMaterial = HelperMaterial.GetClone(CloneMode.NewEntity, CloneDepth.Deep);
+            return newItem;
         }
     }
 }

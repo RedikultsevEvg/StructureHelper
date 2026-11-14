@@ -120,7 +120,7 @@ namespace StructureHelper.Windows.Forces
 
         private void InvertForces()
         {
-            var tmpForce = StartDesignForce.Clone() as IForceTuple;
+            var tmpForce = StartDesignForce.GetClone(StartDesignForce) as IForceTuple;
             StartDesignForce = FinishDesignForce;
             FinishDesignForce = tmpForce;
             StepCountVisible = true;
@@ -130,13 +130,13 @@ namespace StructureHelper.Windows.Forces
 
         private void CopyStartToFinish()
         {
-            FinishDesignForce = StartDesignForce.Clone() as IForceTuple;
+            FinishDesignForce = StartDesignForce.GetClone(StartDesignForce) as IForceTuple;
             RefreshFinishTuple();
         }
 
         private void CopyFinishToStart()
         {
-            StartDesignForce = FinishDesignForce.Clone() as IForceTuple;
+            StartDesignForce = FinishDesignForce.GetClone(FinishDesignForce) as IForceTuple;
             RefreshStartTuple();
         }
 

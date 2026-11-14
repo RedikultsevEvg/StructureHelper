@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperLogics.Models.LoadHistory;
@@ -116,7 +117,7 @@ namespace StructureHelperTests.UnitTests.LoadHistory
             var hostPrimitive = LoadHistoryTestData.CreatePointPrimitive();
             var hostedPrimitive = LoadHistoryTestData.CreateRebarPrimitive(hostPrimitive);
             var previousStageResult = LoadHistoryTestData.CreatePreviousStageResult(new ForceTuple());
-            previousStageResult.Primitives.Add(hostedPrimitive, (INdmPrimitive)hostedPrimitive.Clone());
+            previousStageResult.Primitives.Add(hostedPrimitive, (INdmPrimitive)hostedPrimitive.GetClone(hostedPrimitive, CloneMode.NewEntity, CloneDepth.Deep));
             var (stage, stageResult) = LoadHistoryTestData.CreateStageWith(hostedPrimitive);
             var logic = new NextStagePrimitivesLogic();
 
@@ -134,12 +135,12 @@ namespace StructureHelperTests.UnitTests.LoadHistory
             var finishStrain = new ForceTuple { Nz = 0.05d, Mx = 0.005d, My = 0.006d };
             var previousStageResult = LoadHistoryTestData.CreatePreviousStageResult(finishStrain);
 
-            var previousHost = (INdmPrimitive)hostPrimitive.Clone();
+            var previousHost = (INdmPrimitive)hostPrimitive.GetClone(hostPrimitive, CloneMode.NewEntity, CloneDepth.Deep);
             previousHost.NdmElement.UsersPrestrain.Nz = 0.10d;
             previousHost.NdmElement.UsersPrestrain.Mx = 0.01d;
             previousHost.NdmElement.AutoPrestrain.Nz = 0.70d;
 
-            var previousHosted = (INdmPrimitive)hostedPrimitive.Clone();
+            var previousHosted = (INdmPrimitive)hostedPrimitive.GetClone(hostedPrimitive, CloneMode.NewEntity, CloneDepth.Deep);
             previousHosted.NdmElement.UsersPrestrain.Nz = 0.20d;
             previousHosted.NdmElement.UsersPrestrain.Mx = 0.02d;
             previousHosted.NdmElement.AutoPrestrain.Nz = 0.80d;

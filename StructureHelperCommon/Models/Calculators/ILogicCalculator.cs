@@ -3,7 +3,7 @@ using System;
 
 namespace StructureHelperCommon.Models.Calculators
 {
-    public interface ILogicCalculator : ILogic, ISaveable, ICloneStrategy<ILogicCalculator>
+    public interface ILogicCalculator : ILogic, ISaveable, ISelfCloneStrategy<ILogicCalculator>
     {
         /// <summary>
         /// Method for calculating

@@ -1,4 +1,5 @@
-﻿using StructureHelperCommon.Infrastructures.Exceptions;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Services;
@@ -28,7 +29,8 @@ namespace StructureHelperLogics.Models.LoadHistory
                 targetObject.ConstructionStages.Clear();
                 foreach (var item in sourceObject.ConstructionStages)
                 {
-                    var clone = item.Clone();
+                    var clone = item.GetClone(item, CloneMode.NewEntity, CloneDepth.Shallow);
+                    targetObject.ConstructionStages.Add(clone);
                 }
             }
         }

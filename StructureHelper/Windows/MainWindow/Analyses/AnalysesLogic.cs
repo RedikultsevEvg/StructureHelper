@@ -142,7 +142,7 @@ namespace StructureHelper.Windows.MainWindow
         {
             if (SelectedAnalysis is not null)
             {
-                var newAnalysis = SelectedAnalysis.Clone() as IVisualAnalysis;
+                var newAnalysis = SelectedAnalysis.GetClone(SelectedAnalysis) as IVisualAnalysis;
                 newAnalysis.Analysis.Name += " - copy";
                 ProgramSetting.CurrentProject.VisualAnalyses.Add(newAnalysis);
                 Refresh();
@@ -167,7 +167,7 @@ namespace StructureHelper.Windows.MainWindow
         {
             if (SelectedAnalysis is not null)
             {
-                var tmpItem = SelectedAnalysis.Analysis.Clone() as IAnalysis;
+                var tmpItem = SelectedAnalysis.Analysis.GetClone(SelectedAnalysis.Analysis);
                 var wnd = new AnalysisView(SelectedAnalysis);
                 wnd.ShowDialog();
                 if (wnd.DialogResult != true)

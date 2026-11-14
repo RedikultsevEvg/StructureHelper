@@ -3,7 +3,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Pair of a time moment and a temperature state which is defined at that moment.
     /// </summary>
-    public interface IThermalActionTimePair
+    public interface IThermalActionTimePair : ISaveable, ICloneStrategy<IThermalActionTimePair>
     {
         /// <summary>
         /// Time of the state, in seconds

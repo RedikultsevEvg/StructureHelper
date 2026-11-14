@@ -61,7 +61,7 @@ namespace StructureHelper.Windows.Forces
         private void OpenSettingsWindow()
         {
             if (SelectedItem is null) { return; }
-            var clone = (IColumnedFileProperty)SelectedItem.Clone();
+            var clone = SelectedItem.GetClone(SelectedItem);
             var wnd = new ForceFilePropertyView(SelectedItem);
             wnd.ShowDialog();
             if (! (bool)wnd.DialogResult)

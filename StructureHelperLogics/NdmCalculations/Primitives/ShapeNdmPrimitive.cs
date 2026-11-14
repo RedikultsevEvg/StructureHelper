@@ -1,4 +1,5 @@
-using LoaderCalculator.Data.Ndms;
+﻿using LoaderCalculator.Data.Ndms;
+using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
@@ -30,7 +31,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         {
             var primitive = new ShapeNdmPrimitive(Guid.NewGuid());
             var logic = new ShapeCloneStrategy();
-            IShape polygon = logic.GetClone(Shape, StructureHelperCommon.Infrastructures.Enums.CloningMode.NewEntity);
+            IShape polygon = logic.GetClone(Shape, StructureHelperCommon.Infrastructures.Enums.CloneMode.NewEntity);
             primitive.SetShape(polygon);
             updateStrategy ??= new ShapeNdmPrimitiveUpdateStrategy() { UpdateChildren = true};
             updateStrategy.Update(primitive, this);
@@ -51,7 +52,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             newPoint = new NamedAreaPoint
             {
                 Name = "Center",
-                Point = Center.Clone() as Point2D,
+                Point = Center.GetClone(Center) as Point2D,
                 Area = 0d
             };
             points.Add(newPoint);
@@ -63,7 +64,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
                     newPoint = new NamedAreaPoint
                     {
                         Name = $"Vertex {i}",
-                        Point = item.Point.Clone() as IPoint2D,
+                        Point = item.Point.GetClone(item.Point) as IPoint2D,
                         Area = 0d
                     };
                     points.Add(newPoint);
@@ -82,6 +83,11 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public void SetShape(IShape shape)
         {
             this.shape = shape;
+        }
+
+        public INdmPrimitive GetClone(INdmPrimitive sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

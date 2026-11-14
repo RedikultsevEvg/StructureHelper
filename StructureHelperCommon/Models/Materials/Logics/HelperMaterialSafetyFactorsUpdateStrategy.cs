@@ -20,7 +20,7 @@ namespace StructureHelperCommon.Models.Materials
                 targetObject.SafetyFactors.Clear();
                 foreach (var item in sourceObject.SafetyFactors)
                 {
-                    targetObject.SafetyFactors.Add(item.CloneLegacy() as IMaterialSafetyFactor);
+                    targetObject.SafetyFactors.Add(item.GetClone() as IMaterialSafetyFactor);
                 }
             }
         }

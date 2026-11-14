@@ -34,7 +34,7 @@ namespace StructureHelperLogics.Models.Materials
             baseUpdateStrategy.Update(targetObject, sourceObject);
             if (UpdateChildren == true)
             {
-                targetObject.HelperMaterial = sourceObject.HelperMaterial.Clone() as IHelperMaterial;
+                targetObject.HelperMaterial = sourceObject.HelperMaterial.GetClone();
                 helperMaterialUpdateStrategy.Update(targetObject.HelperMaterial, sourceObject.HelperMaterial);
             }
         }

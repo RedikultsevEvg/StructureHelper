@@ -11,17 +11,14 @@ namespace StructureHelperLogics.Models.Materials
     /// </summary>
     public class HeadMaterialCloneStrategy : ICloneStrategy<IHeadMaterial>
     {
-        public IHeadMaterial GetClone(IHeadMaterial sourceObject, CloningMode cloningMode)
+        public IHeadMaterial GetClone(IHeadMaterial sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CheckObject.ThrowIfNull(sourceObject);
-            if (cloningMode == CloningMode.Reference)
+            if (cloneMode == CloneMode.Reference)
             {
                 return sourceObject;
             }
-            Guid id = GuidService.GetGuid(sourceObject, cloningMode);
-
-            var clone = (IHeadMaterial)LegacyCloneHelper.Clone(sourceObject, cloningMode);
-            CloneIdSynchronizer.Synchronize(sourceObject, clone, cloningMode);
+            var clone = sourceObject.GetClone(cloneMode, cloneDepth);
             return clone;
         }
     }

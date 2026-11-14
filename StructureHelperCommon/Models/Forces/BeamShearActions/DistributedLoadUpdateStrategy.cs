@@ -21,7 +21,7 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             if (UpdateChildren == true)
             {
                 CheckObject.ThrowIfNull(sourceObject.LoadValue);
-                targetObject.LoadValue = sourceObject.LoadValue.CloneLegacy() as IForceTuple;
+                targetObject.LoadValue = sourceObject.LoadValue.GetClone(sourceObject.LoadValue);
             }
         }
     }

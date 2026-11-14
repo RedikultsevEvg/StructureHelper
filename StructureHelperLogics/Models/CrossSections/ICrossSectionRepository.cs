@@ -1,17 +1,15 @@
-using StructureHelperCommon.Infrastructures.Interfaces;
+using StructureHelper.Models.Materials;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
-using StructureHelper.Models.Materials;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.NdmCalculations.Primitives;
-using System;
 
 namespace StructureHelperLogics.Models.CrossSections
 {
     /// <summary>
     /// Repository of members of cross-section
     /// </summary>
-    public interface ICrossSectionRepository : ISaveable, IHasHeadMaterials, IHasForcesAndPrimitives, IHasCalculators, ICloneStrategy<ICrossSectionRepository>
+    public interface ICrossSectionRepository : ISaveable, IHasHeadMaterials, IHasForcesAndPrimitives, IHasCalculators, ISelfCloneStrategy<ICrossSectionRepository>
     {
         /// <summary>
         /// Operations for removing force actions and NDM primitives

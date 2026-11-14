@@ -47,5 +47,10 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             return newItem;
 
         }
+
+        public ILimitCurvesCalculatorInputData GetClone(ILimitCurvesCalculatorInputData sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+        }
     }
 }

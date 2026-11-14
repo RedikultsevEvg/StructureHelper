@@ -1,6 +1,8 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces.Logics;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 
@@ -31,12 +33,7 @@ namespace StructureHelperCommon.Models.Forces
             Id = id;
         }
         public ForceFactoredList() : this (Guid.NewGuid()) { }
-        public object Clone()
-        {
-            var newItem = new ForceFactoredList();
-            updateStrategy.Update(newItem, this);
-            return newItem;
-        }
+
         /// <inheritdoc/>
         public List<IForceCombinationList> GetCombinations()
         {
@@ -55,6 +52,15 @@ namespace StructureHelperCommon.Models.Forces
         {
             getCombinationLogic.SourceForceTuple = forceTuple;
             result.Add(getCombinationLogic.GetCombinationList());
+        }
+
+        public IForceFactoredList GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var newItem = new ForceFactoredList(id);
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

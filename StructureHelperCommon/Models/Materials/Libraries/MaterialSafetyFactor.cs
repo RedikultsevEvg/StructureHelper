@@ -1,7 +1,8 @@
-﻿using System;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using StructureHelperCommon.Infrastructures.Enums;
 
 namespace StructureHelperCommon.Models.Materials.Libraries
 {
@@ -37,11 +38,18 @@ namespace StructureHelperCommon.Models.Materials.Libraries
             return result;
         }
 
-        public object Clone()
+        public IMaterialSafetyFactor GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            var newItem = new MaterialSafetyFactor();
-            var updateSrategy = new MaterialSafetyFactorUpdateStrategy();
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var newItem = new MaterialSafetyFactor(id);
+            var updateSrategy = new MaterialSafetyFactorUpdateStrategy() { UpdateChildren = false };
             updateSrategy.Update(newItem, this);
+            newItem.PartialFactors.Clear();
+            foreach (var item in this.PartialFactors)
+            {
+                newItem.PartialFactors.Add((IMaterialPartialFactor)item.GetClone(cloneMode));
+            }
             return newItem;
         }
     }

@@ -99,7 +99,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         }
         public override void EditMethod(object parameter)
         {
-            var copyObject = SelectedItem.Clone() as IHeadMaterial;
+            var copyObject = SelectedItem.GetClone() as IHeadMaterial;
             Window materialWindow;
             if (SelectedItem.HelperMaterial is ICustomConcreteHelperMaterial)
             {
@@ -132,7 +132,7 @@ namespace StructureHelper.Windows.ViewModels.Materials
         }
         public override void CopyMethod(object parameter)
         {
-            NewItem = SelectedItem.Clone() as IHeadMaterial;
+            NewItem = SelectedItem.GetClone() as IHeadMaterial;
             NewItem.Name = $"{NewItem.Name} copy";
             Collection.Add(NewItem);
             Items.Add(NewItem);

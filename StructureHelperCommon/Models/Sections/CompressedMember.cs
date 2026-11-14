@@ -1,4 +1,6 @@
-﻿using System;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services;
+using System;
 
 namespace StructureHelperCommon.Models.Sections
 {
@@ -34,9 +36,11 @@ namespace StructureHelperCommon.Models.Sections
         {
         }
 
-
-        public object Clone()
+        public ICompressedMember GetClone(ICompressedMember sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             var newItem = new CompressedMember();
             updateStrategy.Update(newItem, this);
             return newItem;

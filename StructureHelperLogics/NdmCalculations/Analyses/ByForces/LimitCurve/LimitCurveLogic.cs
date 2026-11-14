@@ -103,8 +103,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
                 GetPredicateLogic.TraceLogger = newLogger;
                 limitPredicate = GetPredicateLogic.GetPredicate();
             }
-            var localCurrentPoint = point.Clone() as IPoint2D;
-            var logic = ParameterLogic.Clone() as ILimitCurveParameterLogic;
+            var localCurrentPoint = point.GetClone(point);
+            var logic = ParameterLogic.GetClone(ParameterLogic);
             logic.TraceLogger = newLogger;
             logic.CurrentPoint = localCurrentPoint;
             logic.LimitPredicate = limitPredicate;

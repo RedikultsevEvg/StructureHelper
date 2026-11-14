@@ -9,15 +9,15 @@ namespace StructureHelperCommon.Services
 {
     public static class GuidService
     {
-        public static Guid GetGuid(ISaveable sourceObject, CloningMode cloningMode)
+        public static Guid GetGuid(ISaveable sourceObject, CloneMode cloningMode)
         {
             CheckObject.ThrowIfNull(sourceObject);
             Guid guid;
-            if (cloningMode == CloningMode.NewEntity)
+            if (cloningMode == CloneMode.NewEntity)
             {
                 return Guid.NewGuid();
             }
-            else if (cloningMode == CloningMode.PreserveIdentity)
+            else if (cloningMode == CloneMode.PreserveIdentity)
             {
                 return sourceObject.Id;
             }

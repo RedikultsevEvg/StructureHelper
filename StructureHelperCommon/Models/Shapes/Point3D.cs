@@ -1,5 +1,7 @@
-﻿using StructureHelperCommon.Infrastructures.Interfaces;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes.Logics;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,9 +35,12 @@ namespace StructureHelperCommon.Models.Shapes
 
         public Point3D() : this(Guid.NewGuid()) { }
 
-        public object Clone()
+        public IPoint3D GetClone(IPoint3D sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            var newItem = new Point3D();
+            CheckObject.ThrowIfNull(sourceObject);
+            if (cloneMode == CloneMode.Reference) { return sourceObject; }
+            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            var newItem = new Point3D(id);
             updateStrategy.Update(newItem, this);
             return newItem;
         }
