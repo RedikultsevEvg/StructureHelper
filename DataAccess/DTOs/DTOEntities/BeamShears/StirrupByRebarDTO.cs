@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.VisualProperties;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.Models.Materials;
 using System.Windows.Media;
@@ -46,14 +47,12 @@ namespace DataAccess.DTOs
             };
         }
 
-        public object Clone()
+        public IStirrup GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return this;
-        }
-
-        public IStirrup GetClone(IStirrup sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            StirrupByRebarDTO newItem = new(id);
+            return newItem;
         }
     }
 }

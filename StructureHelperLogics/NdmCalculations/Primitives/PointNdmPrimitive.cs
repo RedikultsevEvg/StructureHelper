@@ -4,6 +4,7 @@ using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
@@ -20,7 +21,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
 
         public IVisualProperty VisualProperty { get; } = new VisualProperty();
 
-        public ICrossSection? CrossSection { get; set; }
+        public ICrossSectionRepository? CrossSectionRepository { get; set; }
 
         public INdmElement NdmElement { get; } = new NdmElement();
 
@@ -37,13 +38,6 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         }
         public PointNdmPrimitive() : this (Guid.NewGuid())
         {}
-
-        public object Clone()
-        { 
-            var primitive = new PointNdmPrimitive();
-            updateStrategy.Update(primitive, this);
-            return primitive;
-        }
 
         public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
         {
@@ -65,9 +59,13 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             return points;
         }
 
-        public INdmPrimitive GetClone(INdmPrimitive sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public INdmPrimitive GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var primitive = new PointNdmPrimitive(id);
+            updateStrategy.Update(primitive, this);
+            return primitive;
         }
     }
 }

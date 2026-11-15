@@ -7,7 +7,7 @@ namespace StructureHelperCommon.Models.Analyses
     /// <summary>
     /// Implements propertis of analysis
     /// </summary>
-    public interface IAnalysis : ISaveable, ICloneStrategy<IAnalysis>
+    public interface IAnalysis : ISaveable, ISelfCloneStrategy<IAnalysis>
     {
         string Name { get; set; }
         string Tags { get; set; }

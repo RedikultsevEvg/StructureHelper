@@ -9,7 +9,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
     /// <summary>
     /// Geometrical primitive which generates ndm elemtntary part
     /// </summary>
-    public interface INdmPrimitive : ISaveable, IHasCenter2D, ICloneStrategy<INdmPrimitive>
+    public interface INdmPrimitive : ISaveable, IHasCenter2D, ISelfCloneStrategy<INdmPrimitive>
     {
         /// <summary>
         /// Name of primitive
@@ -21,9 +21,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// </summary>
         INdmElement NdmElement { get;}
         /// <summary>
-        /// Host cross-section for primitive
+        /// Host cross-section rep for primitive
         /// </summary>
-        ICrossSection? CrossSection { get; set; }
+        ICrossSectionRepository? CrossSectionRepository { get; set; }
         /// <summary>
         /// Visual settings
         /// </summary>

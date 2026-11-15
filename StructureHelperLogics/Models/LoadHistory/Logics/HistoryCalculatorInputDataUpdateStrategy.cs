@@ -29,7 +29,7 @@ namespace StructureHelperLogics.Models.LoadHistory
                 targetObject.ConstructionStages.Clear();
                 foreach (var item in sourceObject.ConstructionStages)
                 {
-                    var clone = item.GetClone(item, CloneMode.NewEntity, CloneDepth.Shallow);
+                    var clone = item.GetClone(CloneMode.NewEntity, CloneDepth.Shallow);
                     targetObject.ConstructionStages.Add(clone);
                 }
             }

@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.VisualProperties;
+using StructureHelperCommon.Services;
 using System.Windows.Media;
 
 namespace StructureHelperLogics.Models.BeamShears
@@ -22,17 +23,14 @@ namespace StructureHelperLogics.Models.BeamShears
             };
         }
 
-        public object Clone()
+        public IStirrup GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
             var updateStrategy = new StirrupGroupUpdateStrategy();
             StirrupGroup newItem = new(Guid.NewGuid());
             updateStrategy.Update(newItem, this);
             return newItem;
-        }
-
-        public IStirrup GetClone(IStirrup sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

@@ -5,6 +5,7 @@ using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 
@@ -39,7 +40,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// <inheritdoc/>
         public double Height { get => ellipseShape.Height; set => ellipseShape.Height = value; }
         /// <inheritdoc/>
-        public ICrossSection? CrossSection { get; set; }
+        public ICrossSectionRepository? CrossSectionRepository { get; set; }
         /// <inheritdoc/>
         public INdmElement NdmElement { get; } = new NdmElement();
         /// <inheritdoc/>
@@ -55,13 +56,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             Name = "New Circle";
         }
         public EllipseNdmPrimitive() : this (Guid.NewGuid())  {}
-        /// <inheritdoc/>
-        public object Clone()
-        {
-            var primitive = new EllipseNdmPrimitive();
-            updateStrategy.Update(primitive, this);
-            return primitive;
-        }
+
         /// <inheritdoc/>
         public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
         {
@@ -126,9 +121,13 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             return points;
         }
 
-        public INdmPrimitive GetClone(INdmPrimitive sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public INdmPrimitive GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var primitive = new EllipseNdmPrimitive(id);
+            updateStrategy.Update(primitive, this);
+            return primitive;
         }
     }
 }

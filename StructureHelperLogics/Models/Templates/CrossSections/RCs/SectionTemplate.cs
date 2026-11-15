@@ -43,7 +43,7 @@ namespace StructureHelperLogics.Models.Templates.CrossSections.RCs
             primitives = geometryLogic.GetNdmPrimitives();
             foreach (var primitive in primitives)
             {
-                primitive.CrossSection = section;
+                primitive.CrossSectionRepository = section.SectionRepository;
             }
             foreach (var material in materials)
             {

@@ -46,7 +46,7 @@ namespace DataAccess.DTOs
             return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
 
-        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public ICalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             //if (cloneDepth != CloneDepth.DeleteChildren)
             //{

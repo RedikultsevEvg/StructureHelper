@@ -25,8 +25,9 @@ namespace StructureHelperCommon.Models.Forces
         {
         }
 
-        public IDesignForceTuple GetClone(IDesignForceTuple sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public IDesignForceTuple GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
+            if (cloneMode == CloneMode.Reference) { return this; }
             Guid id = GuidService.GetGuid(this, cloneMode);
             DesignForceTuple newTuple = new(id);
             updateStrategy.Update(newTuple, this);

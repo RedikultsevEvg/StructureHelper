@@ -63,7 +63,7 @@ namespace StructureHelperLogics.Models.LoadHistory.Logics
             INdmPrimitive primitiveClone;
             if (previousPrimitives.TryGetValue(primitive, out INdmPrimitive? previousPrimitive))
             {
-                primitiveClone = previousPrimitive.GetClone(previousPrimitive, CloneMode.PreserveIdentity, CloneDepth.Shallow);
+                primitiveClone = previousPrimitive.GetClone(CloneMode.PreserveIdentity, CloneDepth.Shallow);
                 if (primitiveClone is IHasHostPrimitive hasHostPrimitive)
                 {
                     INdmPrimitive currentHost = ((IHasHostPrimitive)primitive).HostPrimitive!;
@@ -90,7 +90,7 @@ namespace StructureHelperLogics.Models.LoadHistory.Logics
             }
             else
             {
-                primitiveClone = (INdmPrimitive)primitive.GetClone(primitive, CloneMode.PreserveIdentity, CloneDepth.Shallow);
+                primitiveClone = (INdmPrimitive)primitive.GetClone(CloneMode.PreserveIdentity, CloneDepth.Shallow);
                 if (primitiveClone is IHasHostPrimitive currentStageHost)
                 {
                     INdmPrimitive newHost = ProcessPrimitive(

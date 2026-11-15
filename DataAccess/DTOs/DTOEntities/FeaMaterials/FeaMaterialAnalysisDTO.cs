@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.FeaMaterials;
+using StructureHelperCommon.Services;
 using System.Windows.Media;
 
 namespace DataAccess.DTOs
@@ -27,14 +28,12 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
+        public IAnalysis GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return this;
-        }
-
-        public IAnalysis GetClone(IAnalysis sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            FeaMaterialAnalysisDTO newitem = new(id);
+            return newitem;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace DataAccess.DTOs
         [JsonProperty("Id")]
         public Guid Id { get; }
         [JsonProperty("StateTermPair")]
-        public IStateCalcTermPair StateTermPair { get; set; } = new StateCalcTermPairDTO();
+        public IStateCalcTermPair StateTermPair { get; set; } = new StateCalcTermPairDTO(Guid.NewGuid());
         [JsonProperty("Diagrams")]
         public List<IValueDiagramEntity> Diagrams { get; } = [];
         [JsonProperty("CheckStrainLimits")]

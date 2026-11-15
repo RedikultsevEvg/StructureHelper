@@ -9,7 +9,7 @@ namespace StructureHelper.Windows.PrimitiveTemplates.Factories
     {
         public PrimitiveBase GetCloneByNdmPrimitive(INdmPrimitive ndmPrimitive)
         {
-            var newPrimitive = ndmPrimitive.GetClone(ndmPrimitive) as INdmPrimitive;
+            var newPrimitive = ndmPrimitive.GetClone() as INdmPrimitive;
             newPrimitive.Name += " copy";
             PrimitiveBase primitiveBase;
             if (newPrimitive is IRectangleNdmPrimitive rectangle)

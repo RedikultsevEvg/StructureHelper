@@ -17,6 +17,8 @@ namespace StructureHelperLogics.Models.CrossSections
         private RepositoryOperationsLogic? operations;
 
         public Guid Id { get; }
+        public ICrossSection CrossSection { get; set; }
+
         public List<IForceAction> ForceActions => forceActions;
         public List<IHeadMaterial> HeadMaterials => headMaterials;
         public List<INdmPrimitive> Primitives => primitives;
@@ -29,8 +31,10 @@ namespace StructureHelperLogics.Models.CrossSections
             Id = id;
         }
 
-        public CrossSectionRepository() : this(Guid.NewGuid())
+        public CrossSectionRepository(Guid id, ICrossSection crossSection) : this (id)
         {
+            CheckObject.ThrowIfNull(crossSection);
+            CrossSection = crossSection;
         }
 
         public void AddHeadMaterial(IHeadMaterial item)

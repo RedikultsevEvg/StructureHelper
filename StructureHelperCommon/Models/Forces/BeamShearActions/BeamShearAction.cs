@@ -26,12 +26,11 @@ namespace StructureHelperCommon.Models.Forces.BeamShearActions
             Id = id;
         }
 
-        public IBeamShearAction GetClone(IBeamShearAction sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public IBeamShearAction GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            CheckObject.ThrowIfNull(sourceObject);
-            if (cloneMode == CloneMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
-            BeamShearAction newItem = new(Guid.NewGuid());
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            BeamShearAction newItem = new(id);
             updateStrategy ??= new BeamShearActionUpdateStrategy();
             updateStrategy.Update(newItem, this);
             return newItem;

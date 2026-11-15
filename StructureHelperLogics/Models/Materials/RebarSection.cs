@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,17 +43,19 @@ namespace StructureHelperLogics.Models.Materials
             Material = HeadMaterialFactory.GetHeadMaterial(HeadmaterialType.Reinforcement400).HelperMaterial as IReinforcementLibMaterial;
         }
 
-        public object Clone()
-        {
-            var newItem = new RebarSection(Guid.NewGuid());
-            var logic = new RebarSectionUpdateStrategy();
-            logic.Update(newItem, this);
-            return newItem;
-        }
-
         public IRebarSection GetClone(IRebarSection sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+        }
+
+        public IRebarSection GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var newItem = new RebarSection(id);
+            var logic = new RebarSectionUpdateStrategy();
+            logic.Update(newItem, this);
+            return newItem;
         }
     }
 }

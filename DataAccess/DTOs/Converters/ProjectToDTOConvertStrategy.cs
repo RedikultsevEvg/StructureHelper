@@ -7,7 +7,10 @@ namespace DataAccess.DTOs
     public class ProjectToDTOConvertStrategy : ConvertStrategy<ProjectDTO, IProject>
     {
         private IUpdateStrategy<IProject> updateStrategy;
+        private IUpdateStrategy<IProject> UpdateStrategy => updateStrategy ??= new ProjectUpdateStrategy() { UpdateChildren = false};
         private IConvertStrategy<VisualAnalysisDTO, IVisualAnalysis> convertLogic;
+        private IConvertStrategy<VisualAnalysisDTO, IVisualAnalysis> ConvertLogic => convertLogic ??= new DictionaryConvertStrategy<VisualAnalysisDTO, IVisualAnalysis>
+                (this, new VisualAnalysisToDTOConvertStrategy(this));
 
 
         public ProjectToDTOConvertStrategy()
@@ -25,23 +28,15 @@ namespace DataAccess.DTOs
 
         public override ProjectDTO GetNewItem(IProject source)
         {
-            InitializeStrategies();
             ProjectDTO newItem = new(source.Id);
-            updateStrategy.Update(newItem, source);
+            UpdateStrategy.Update(newItem, source);
             newItem.VisualAnalyses.Clear();
             foreach (var item in source.VisualAnalyses)
             {
-                var newVisualAnalysis = convertLogic.Convert(item);
+                var newVisualAnalysis = ConvertLogic.Convert(item);
                 newItem.VisualAnalyses.Add(newVisualAnalysis);
             }
             return newItem;
-        }
-
-        private void InitializeStrategies()
-        {
-            updateStrategy ??= new ProjectUpdateStrategy();
-            convertLogic ??= new DictionaryConvertStrategy<VisualAnalysisDTO, IVisualAnalysis>
-                (this, new VisualAnalysisToDTOConvertStrategy(this));
         }
     }
 }

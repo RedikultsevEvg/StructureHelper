@@ -3,7 +3,7 @@ using System;
 
 namespace StructureHelperCommon.Models.Calculators
 {
-    public interface ICalculator : ILogicCalculator
+    public interface ICalculator : ILogicCalculator, ISelfCloneStrategy<ICalculator>
     {      
         string Name { get; set; }
         /// <summary>

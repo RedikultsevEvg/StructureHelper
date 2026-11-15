@@ -3,6 +3,7 @@ using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.CrossSections;
 using System;
 using System.Collections.Generic;
@@ -39,15 +40,13 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             
         }
 
-        /// <inheritdoc/>
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
 
-        public INdmElement GetClone(INdmElement sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public INdmElement GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            NdmElement newItem = new(id);
+            return newItem;
         }
     }
 }

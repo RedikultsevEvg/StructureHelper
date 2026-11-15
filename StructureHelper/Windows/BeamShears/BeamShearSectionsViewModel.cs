@@ -76,7 +76,7 @@ namespace StructureHelper.Windows.BeamShears
         private void EditSection()
         {
             Window window;
-            IBeamShearSection temporarySection = SelectedItem.GetClone(SelectedItem) as IBeamShearSection;
+            IBeamShearSection temporarySection = SelectedItem.GetClone() as IBeamShearSection;
             window = new SectionView(SelectedItem);
             window.ShowDialog();
             if (window.DialogResult != true)
@@ -95,6 +95,13 @@ namespace StructureHelper.Windows.BeamShears
                 base.DeleteMethod(parameter);
             }
             
+        }
+
+        public override void CopyMethod(object parameter)
+        {
+            AutoCopy();
+            NewItem.Name += " copy";
+            SelectedItem = NewItem;
         }
     }
 }

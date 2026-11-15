@@ -40,7 +40,7 @@ namespace StructureHelperCommon.Models.Analyses
             CheckObject.ThrowIfNull(sourceObject);
             if (cloneMode == CloneMode.Reference) { return sourceObject; }
             Guid id = GuidService.GetGuid(sourceObject, cloneMode);
-            var newAnalysis = sourceObject.Analysis.GetClone(sourceObject.Analysis, cloneMode, cloneDepth);
+            var newAnalysis = sourceObject.Analysis.GetClone(cloneMode, cloneDepth);
             VisualAnalysis newItem = new(newAnalysis);
             return newItem;
         }

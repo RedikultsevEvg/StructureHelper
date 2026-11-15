@@ -7,11 +7,16 @@ using StructureHelperLogics.Models.CrossSections;
 
 namespace StructureHelperLogics.Models.Analyses
 {
-    public class CrossSectionNdmAnalysisUpdateStrategy : IUpdateStrategy<ICrossSectionNdmAnalysis>
+    public class CrossSectionNdmAnalysisUpdateStrategy : IParentUpdateStrategy<ICrossSectionNdmAnalysis>
     {
         private IUpdateStrategy<IAnalysis> analysisUpdateStrategy;
+        private IUpdateStrategy<IAnalysis> AnalysisUpdateStrategy => analysisUpdateStrategy ??= new AnalysisUpdateStrategy();
         private IUpdateStrategy<ICrossSection> crossSectionUpdateStrategy;
+        private IUpdateStrategy<ICrossSection> CrossSectionUpdateStrategy => crossSectionUpdateStrategy ??= new CrossSectionUpdateStrategy();
         private IUpdateStrategy<IDateVersion> dateUpdateStrategy;
+        private IUpdateStrategy<IDateVersion> DateUpdateStrategy => dateUpdateStrategy ??= new DateVersionUpdateStrategy();
+
+        public bool UpdateChildren { get; set; } = true;
 
         public CrossSectionNdmAnalysisUpdateStrategy(IUpdateStrategy<IAnalysis> analysisUpdateStrategy,
             IUpdateStrategy<ICrossSection> crossSectionUpdateStrategy,
@@ -22,20 +27,22 @@ namespace StructureHelperLogics.Models.Analyses
             this.dateUpdateStrategy = dateUpdateStrategy;
         }
 
-        public CrossSectionNdmAnalysisUpdateStrategy() : this(
-            new AnalysisUpdateStrategy(),
-            new CrossSectionUpdateStrategy(),
-            new DateVersionUpdateStrategy())
-        {
-                
-        }
+        public CrossSectionNdmAnalysisUpdateStrategy() { }
 
         public void Update(ICrossSectionNdmAnalysis targetObject, ICrossSectionNdmAnalysis sourceObject)
         {
             CheckObject.ThrowIfNull(sourceObject, ErrorStrings.SourceObject);
             CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
-            analysisUpdateStrategy.Update(targetObject, sourceObject);
+            AnalysisUpdateStrategy.Update(targetObject, sourceObject);
+            if (UpdateChildren == true)
+            {
+                updateChildren(targetObject, sourceObject);
+            }
+        }
+
+        private void updateChildren(ICrossSectionNdmAnalysis targetObject, ICrossSectionNdmAnalysis sourceObject)
+        {
             targetObject.VersionProcessor.Versions.Clear();
             foreach (var version in sourceObject.VersionProcessor.Versions)
             {
@@ -53,9 +60,9 @@ namespace StructureHelperLogics.Models.Analyses
         private void updateVersion(ICrossSectionNdmAnalysis targetObject, IDateVersion version, ICrossSection crossSection)
         {
             DateVersion newVersion = new();
-            dateUpdateStrategy.Update(newVersion, version);
+            DateUpdateStrategy.Update(newVersion, version);
             CrossSection newCrossection = new();
-            crossSectionUpdateStrategy.Update(newCrossection, crossSection);
+            CrossSectionUpdateStrategy.Update(newCrossection, crossSection);
             newVersion.AnalysisVersion = newCrossection;
             targetObject.VersionProcessor.Versions.Add(newVersion);
         }

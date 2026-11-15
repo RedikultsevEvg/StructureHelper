@@ -14,20 +14,17 @@ namespace StructureHelperLogics.Models.CrossSections
     public class CrossSection : ICrossSection
     {
         public Guid Id { get; private set; }
-        public ICrossSectionRepository SectionRepository { get; set; } = new CrossSectionRepository();
+        public ICrossSectionRepository SectionRepository { get; set; }
 
         public IWorkPlaneProperty WorkPlaneProperty { get; set; } = new WorkPlaneProperty(Guid.NewGuid());
 
         public CrossSection(Guid id)
         {
             Id = id;
+            SectionRepository = new CrossSectionRepository(Guid.NewGuid(), this);
         }
 
-        public CrossSection() : this(Guid.NewGuid())
-        {
-            
-        }
-
+        public CrossSection() : this(Guid.NewGuid()) { }
 
         public ICrossSection GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
@@ -39,6 +36,7 @@ namespace StructureHelperLogics.Models.CrossSections
             {
                 CheckObject.ThrowIfNull(SectionRepository);
                 ICrossSectionRepository repository = SectionRepository.GetClone(cloneMode, cloneDepth);
+                repository.CrossSection = newItem;
                 newItem.SectionRepository = repository;
             }
             else

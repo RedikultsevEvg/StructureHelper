@@ -45,11 +45,10 @@ namespace StructureHelperCommon.Models.VisualProperties
             Id = id;
         }
 
-        public IPrimitiveVisualProperty GetClone(IPrimitiveVisualProperty sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public IPrimitiveVisualProperty GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            CheckObject.ThrowIfNull(sourceObject);
-            if (cloneMode == CloneMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
             PrimitiveVisualProperty newItem = new(id);
             var logic = new PrimitiveVisualPropertyUpdateStrategy();
             logic.Update(newItem, this);

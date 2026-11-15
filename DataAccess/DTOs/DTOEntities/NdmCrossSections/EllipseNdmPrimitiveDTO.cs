@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
@@ -44,16 +45,19 @@ namespace DataAccess.DTOs
         [JsonIgnore]
         public double Height {get; set; }
         [JsonIgnore]
-        public ICrossSection? CrossSection { get; set; }
+        public ICrossSectionRepository? CrossSectionRepository { get; set; }
 
         public object Clone()
         {
             return this;
         }
 
-        public INdmPrimitive GetClone(INdmPrimitive sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public INdmPrimitive GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            EllipseNdmPrimitiveDTO newItem = new(id);
+            return newItem;
         }
 
         public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)

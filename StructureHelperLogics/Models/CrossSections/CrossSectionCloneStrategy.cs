@@ -25,6 +25,7 @@ namespace StructureHelperLogics.Models.CrossSections
             Guid id = GuidService.GetGuid(sourceObject, cloneMode);
             var targetObject = new CrossSection(id);
             ICrossSectionRepository newRepository = RepositoryCloneStrategy.GetClone(sourceObject.SectionRepository, cloneMode, cloneDepth);
+            newRepository.CrossSection = targetObject;
             targetObject.SectionRepository = newRepository;
             CheckObject.ThrowIfNull(targetObject.WorkPlaneProperty);
             CheckObject.ThrowIfNull(sourceObject.WorkPlaneProperty);

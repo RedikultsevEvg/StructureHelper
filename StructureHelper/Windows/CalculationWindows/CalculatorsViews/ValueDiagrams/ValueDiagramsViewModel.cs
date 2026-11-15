@@ -27,7 +27,7 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ValueDiagr
         public override void EditMethod(object parameter)
         {
             if (SelectedItem is null) { return; }
-            IValueDiagramEntity cloneDiagram = SelectedItem.GetClone(SelectedItem);
+            IValueDiagramEntity cloneDiagram = SelectedItem.GetClone();
             var vm = new ValueDiagramEntityViewModel(SelectedItem);
             var wnd = new ValueDiagramEntityView(vm);
             wnd.ShowDialog();
@@ -45,6 +45,13 @@ namespace StructureHelper.Windows.CalculationWindows.CalculatorsViews.ValueDiagr
             {
                 base.DeleteMethod(parameter);
             }
+        }
+
+        public override void CopyMethod(object parameter)
+        {
+            AutoCopy();
+            NewItem.Name += " copy";
+            SelectedItem = NewItem;
         }
         public ValueDiagramsViewModel(List<IValueDiagramEntity> collection) : base(collection)
         {

@@ -30,7 +30,7 @@ namespace StructureHelperLogics.Models.LoadHistory.Logics
                 targetObject.ConstructionStages.Clear();
                 foreach (var sourceStage in sourceObject.ConstructionStages)
                 {
-                    var cloneStage = sourceStage.GetClone(sourceStage);
+                    var cloneStage = sourceStage.GetClone();
                     StageCloningStrategy.Update(cloneStage, sourceStage);
                     targetObject.ConstructionStages.Add(cloneStage);
                 }

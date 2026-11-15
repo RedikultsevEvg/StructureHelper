@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Primitives;
 using StructureHelperLogics.NdmCalculations.Triangulations;
@@ -19,7 +20,7 @@ namespace DataAccess.DTOs
         [JsonProperty("NdmElement")]
         public INdmElement NdmElement { get; set; } = new NdmElementDTO(Guid.Empty);
         [JsonIgnore]
-        public ICrossSection? CrossSection { get; set; }
+        public ICrossSectionRepository? CrossSectionRepository { get; set; }
         [JsonProperty("VisualProperty")]
         public IVisualProperty VisualProperty { get; set; } = new VisualPropertyDTO();
         [JsonProperty("Center")]
@@ -69,9 +70,12 @@ namespace DataAccess.DTOs
             throw new NotImplementedException();
         }
 
-        public INdmPrimitive GetClone(INdmPrimitive sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public INdmPrimitive GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            RebarNdmPrimitiveDTO newItem = new(id);
+            return newItem;
         }
     }
 }

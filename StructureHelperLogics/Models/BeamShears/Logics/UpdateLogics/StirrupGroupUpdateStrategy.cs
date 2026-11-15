@@ -34,7 +34,7 @@ namespace StructureHelperLogics.Models.BeamShears
             targetObject.Stirrups.Clear();
             foreach (var item in sourceObject.Stirrups)
             {
-                IStirrup? newItem = item.GetClone(item);
+                IStirrup? newItem = item.GetClone();
                 targetObject.Stirrups.Add(newItem);
             }
         }

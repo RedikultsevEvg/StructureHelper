@@ -1,17 +1,11 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Interfaces;
-using StructureHelperCommon.Infrastructures.Settings;
 using StructureHelperCommon.Models.Calculators;
-using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.LoadHistory;
-using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
-using StructureHelperLogics.NdmCalculations.Primitives;
-using StructureHelperLogics.NdmCalculations.Primitives.Logics;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
@@ -21,21 +15,19 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
     public class HasCalculatorsUpdateCloningStrategy : IUpdateStrategy<IHasCalculators>
     {
         private ICloningStrategy cloningStrategy;
-        private ICalculatorCloningStrategyContainer cloningStrategyContainer;
+        private ICloneStrategy<ICalculator> calculatorCloneStrategy;
+        private ICloneStrategy<ICalculator> CalculatorCloneStrategy => calculatorCloneStrategy ??= new CalculatorCloningStrategy(cloningStrategy);
 
 
         public HasCalculatorsUpdateCloningStrategy(
             ICloningStrategy cloningStrategy,
-            ICalculatorCloningStrategyContainer cloningStrategyContainer)
+            ICloneStrategy<ICalculator> calculatorCloneStrategy)
         {
             this.cloningStrategy = cloningStrategy;
-            this.cloningStrategyContainer = cloningStrategyContainer;
+            this.calculatorCloneStrategy = calculatorCloneStrategy;
         }
 
-        public HasCalculatorsUpdateCloningStrategy(ICloningStrategy cloningStrategy) : this(
-            cloningStrategy,
-            new CalculatorCloningStrategyContainer(cloningStrategy)
-            )
+        public HasCalculatorsUpdateCloningStrategy(ICloningStrategy cloningStrategy)
         {
         }
 
@@ -49,36 +41,8 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             foreach (var calculator in sourceObject.Calculators)
             {
                 //to do Change to cloning strategy
-                var newCalculator = cloningStrategy.Clone(calculator);
+                var newCalculator = CalculatorCloneStrategy.GetClone(calculator);
                 //var newCalculator = calculator.Clone() as ICalculator;
-                if (calculator is IForceCalculator forceCalculator)
-                {
-                    cloningStrategyContainer.ForceCalculatorStrategy.Update(newCalculator as IForceCalculator, forceCalculator);
-                }
-                else if (calculator is ICrackCalculator crackCalculator)
-                {
-                    cloningStrategyContainer.CrackCalculatorStrategy.Update(newCalculator as ICrackCalculator, crackCalculator);
-                }
-                else if (calculator is ILimitCurvesCalculator limitCalculator)
-                {
-                    cloningStrategyContainer.LimitCurvesCalculatorStrategy.Update(newCalculator as ILimitCurvesCalculator, limitCalculator);
-                }
-                else if (calculator is IValueDiagramCalculator valueDiagramCalculator)
-                {
-                    cloningStrategyContainer.ValueDiagramCalculatorStrategy.Update(newCalculator as IValueDiagramCalculator, valueDiagramCalculator);
-                }
-                else if (calculator is ICurvatureCalculator curvatureCalculator)
-                {
-                    cloningStrategyContainer.CurvatureCalculatorStrategy.Update(newCalculator as ICurvatureCalculator, curvatureCalculator);
-                }
-                else if (calculator is IHistoryCalculator historyCalculator)
-                {
-                    cloningStrategyContainer.HistoryCalculatorStrategy.Update(newCalculator as IHistoryCalculator, historyCalculator);
-                }
-                else
-                {
-                    throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(calculator));
-                }
                 targetObject.Calculators.Add(newCalculator);
             }
         }

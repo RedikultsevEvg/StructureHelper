@@ -14,7 +14,14 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
     /// </summary>
     public class DeepCloningStrategy : ICloningStrategy
     {
-        private readonly Dictionary<object, object> _clonedObjects = new();
+        private readonly Dictionary<object, object> _clonedObjects = [];
+        public void AddSelfReference(IEnumerable<object> objects)
+        {
+            foreach (var item in objects)
+            {
+                _clonedObjects.Add(item, item);
+            }
+        }
 
         /// <inheritdoc/>
         public T Clone<T>(T original, ICloneStrategy<T>? cloneStrategy = null, CloneMode cloningMode = CloneMode.NewEntity) where T : class

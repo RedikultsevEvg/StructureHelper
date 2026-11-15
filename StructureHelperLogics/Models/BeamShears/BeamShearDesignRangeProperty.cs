@@ -1,5 +1,6 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.Models.BeamShears
 {
@@ -63,18 +64,14 @@ namespace StructureHelperLogics.Models.BeamShears
             Id = id;
         }
 
-        /// <inheritdoc>
-        public object Clone()
+        public IBeamShearDesignRangeProperty GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            BeamShearDesignRangeProperty newitem = new(id);
             var updateStrategy = new BeamShearDesignRangePropertyUpdateStrategy();
-            BeamShearDesignRangeProperty newitem = new(Guid.NewGuid());
             updateStrategy.Update(newitem, this);
             return newitem;
-        }
-
-        public IBeamShearDesignRangeProperty GetClone(IBeamShearDesignRangeProperty sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

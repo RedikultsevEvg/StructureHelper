@@ -1,5 +1,4 @@
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Services;
 
@@ -18,7 +17,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
         }
 
         public HasCalculatorsCloneStrategy(ICloningStrategy cloningStrategy)
-            : this(cloningStrategy, new CalculatorCloneStrategy())
+            : this(cloningStrategy, new CalculatorCloneStrategy(cloningStrategy))
         {
         }
 

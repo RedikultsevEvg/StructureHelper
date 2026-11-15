@@ -1,5 +1,4 @@
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Primitives;

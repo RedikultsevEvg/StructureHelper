@@ -6,6 +6,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Parameters;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.Models.Primitives;
@@ -38,7 +39,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         /// <inheritdoc/>
         public INdmPrimitive HostPrimitive { get; set; }
         /// <inheritdoc/>
-        public ICrossSection? CrossSection { get; set; }
+        public ICrossSectionRepository? CrossSectionRepository { get; set; }
 
         public INdmElement NdmElement { get; } = new NdmElement();
 
@@ -56,13 +57,6 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public RebarNdmPrimitive() : this(Guid.NewGuid())
         {
 
-        }
-
-        public object Clone()
-        {
-            var primitive = new RebarNdmPrimitive();
-            updateStrategy.Update(primitive, this);
-            return primitive;
         }
 
         public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
@@ -110,9 +104,13 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             return points;
         }
 
-        public INdmPrimitive GetClone(INdmPrimitive sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public INdmPrimitive GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var primitive = new RebarNdmPrimitive(id);
+            updateStrategy.Update(primitive, this);
+            return primitive;
         }
     }
 }

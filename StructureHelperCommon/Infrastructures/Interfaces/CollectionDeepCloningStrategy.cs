@@ -29,7 +29,6 @@ namespace StructureHelperCommon.Infrastructures.Interfaces
                 .ToList();
 
             target.Clear();
-
             foreach (var clone in clones)
             {
                 target.Add(clone);

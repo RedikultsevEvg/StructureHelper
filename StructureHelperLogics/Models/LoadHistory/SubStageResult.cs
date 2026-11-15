@@ -23,7 +23,7 @@ namespace StructureHelperLogics.Models.LoadHistory
         public IForceTuple StrainTuple { get; set; } = new ForceTuple();
         public List<INdmPrimitive> Primitives { get; set; }
         public IForceTupleCalculatorResult ForcesTupleResult { get; set; }
-        public StateCalcTermPair StateCalcTermPair { get; set; } = new();
+        public StateCalcTermPair StateCalcTermPair { get; set; } = new(Guid.NewGuid());
 
         public SubStageResult(IConstructionStage constructionStage)
         {

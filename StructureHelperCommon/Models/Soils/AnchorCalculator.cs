@@ -129,12 +129,7 @@ namespace StructureHelperCommon.Models.Soils
             else { throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknown + $": {Anchor.DurabilityType}"); }
         }
 
-        public ILogicCalculator GetClone(ILogicCalculator sourceObject, CloneMode cloningMode, CloneDepth cloneDepth)
-        {
-            return CloneFallback.GetClone(sourceObject, cloningMode, cloneDepth);
-        }
-
-        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public ICalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             throw new NotImplementedException();
         }

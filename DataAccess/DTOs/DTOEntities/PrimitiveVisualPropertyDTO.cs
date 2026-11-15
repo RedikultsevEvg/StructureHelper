@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.VisualProperties;
+using StructureHelperCommon.Services;
 using StructureHelperCommon.Services.ColorServices;
 using System.Windows.Media;
 
@@ -30,9 +31,14 @@ namespace DataAccess.DTOs
             return this;
         }
 
-        public IPrimitiveVisualProperty GetClone(IPrimitiveVisualProperty sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public IPrimitiveVisualProperty GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            PrimitiveVisualPropertyDTO newItem = new(id);
+            var logic = new PrimitiveVisualPropertyUpdateStrategy();
+            logic.Update(newItem, this);
+            return newItem;
         }
     }
 }

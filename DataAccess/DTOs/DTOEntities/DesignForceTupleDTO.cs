@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Models.Forces.Logics;
+using StructureHelperCommon.Services;
 
 namespace DataAccess.DTOs
 {
@@ -27,16 +28,14 @@ namespace DataAccess.DTOs
         }
 
 
-        public object Clone()
+        public IDesignForceTuple GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            var newItem = new DesignForceTupleDTO(Id);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var newItem = new DesignForceTupleDTO(id);
             new DesignForceTupleUpdateStrategy().Update(newItem, this);
             return newItem;
-        }
 
-        public IDesignForceTuple GetClone(IDesignForceTuple sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

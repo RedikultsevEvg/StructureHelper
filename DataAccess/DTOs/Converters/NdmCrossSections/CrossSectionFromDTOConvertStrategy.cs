@@ -48,6 +48,7 @@ namespace DataAccess.DTOs
             TraceLogger?.AddMessage("Cross-Section converting is started", TraceLogStatuses.Service);
             CrossSection newItem = new(source.Id);
             newItem.SectionRepository = GetNewCrossSectionRepository(source.SectionRepository);
+            newItem.SectionRepository.CrossSection = newItem;
             TraceLogger?.AddMessage("Cross-Section converting has been finished successfully", TraceLogStatuses.Service);
             if (source.WorkPlaneProperty is null)
             {

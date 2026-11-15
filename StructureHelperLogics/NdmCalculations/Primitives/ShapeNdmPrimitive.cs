@@ -1,8 +1,7 @@
 ﻿using LoaderCalculator.Data.Ndms;
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.CrossSections;
 using StructureHelperLogics.NdmCalculations.Triangulations;
 
@@ -18,24 +17,13 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public IPoint2D Center { get; set; } = new Point2D();
         public IShape Shape => shape;
         public INdmElement NdmElement { get; set; } = new NdmElement(Guid.NewGuid());
-        public ICrossSection? CrossSection { get; set; }
+        public ICrossSectionRepository? CrossSectionRepository { get; set; }
         public IVisualProperty VisualProperty { get; set; } = new VisualProperty { Opacity = 0.8d };
         public double RotationAngle { get; set; }
         public IDivisionSize DivisionSize { get; set; } = new DivisionSize(Guid.NewGuid());
         public ShapeNdmPrimitive(Guid id)
         {
             Id = id;
-        }
-
-        public object Clone()
-        {
-            var primitive = new ShapeNdmPrimitive(Guid.NewGuid());
-            var logic = new ShapeCloneStrategy();
-            IShape polygon = logic.GetClone(Shape, StructureHelperCommon.Infrastructures.Enums.CloneMode.NewEntity);
-            primitive.SetShape(polygon);
-            updateStrategy ??= new ShapeNdmPrimitiveUpdateStrategy() { UpdateChildren = true};
-            updateStrategy.Update(primitive, this);
-            return primitive;
         }
 
         public IEnumerable<INdm> GetNdms(ITriangulationOptions triangulationOptions)
@@ -85,9 +73,17 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             this.shape = shape;
         }
 
-        public INdmPrimitive GetClone(INdmPrimitive sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public INdmPrimitive GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            var primitive = new ShapeNdmPrimitive(id);
+            var logic = new ShapeCloneStrategy();
+            IShape polygon = logic.GetClone(Shape, StructureHelperCommon.Infrastructures.Enums.CloneMode.NewEntity);
+            primitive.SetShape(polygon);
+            updateStrategy ??= new ShapeNdmPrimitiveUpdateStrategy() { UpdateChildren = true };
+            updateStrategy.Update(primitive, this);
+            return primitive;
         }
     }
 }

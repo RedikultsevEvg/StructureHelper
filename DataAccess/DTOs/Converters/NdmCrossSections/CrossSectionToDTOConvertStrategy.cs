@@ -64,6 +64,7 @@ namespace DataAccess.DTOs
             NewItem = new(source.Id);
             convertLogic = new DictionaryConvertStrategy<CrossSectionRepositoryDTO, ICrossSectionRepository>(this, convertRepositoryStrategy);
             NewItem.SectionRepository = convertLogic.Convert(source.SectionRepository);
+            NewItem.SectionRepository.CrossSection = NewItem;
             NewItem.WorkPlaneProperty = workPlanePropertyConvertStrategy.Convert(source.WorkPlaneProperty);
         }
     }

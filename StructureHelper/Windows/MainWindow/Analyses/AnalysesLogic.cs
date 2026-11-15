@@ -167,7 +167,7 @@ namespace StructureHelper.Windows.MainWindow
         {
             if (SelectedAnalysis is not null)
             {
-                var tmpItem = SelectedAnalysis.Analysis.GetClone(SelectedAnalysis.Analysis);
+                var tmpItem = SelectedAnalysis.Analysis.GetClone();
                 var wnd = new AnalysisView(SelectedAnalysis);
                 wnd.ShowDialog();
                 if (wnd.DialogResult != true)

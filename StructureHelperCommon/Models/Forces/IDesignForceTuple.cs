@@ -5,7 +5,7 @@ using StructureHelperCommon.Infrastructures.Interfaces;
 
 namespace StructureHelperCommon.Models.Forces
 {
-    public interface IDesignForceTuple : ISaveable, ICloneStrategy<IDesignForceTuple>
+    public interface IDesignForceTuple : ISaveable, ISelfCloneStrategy<IDesignForceTuple>
     {
         LimitStates LimitState { get; set; }
         CalcTerms CalcTerm { get; set; }

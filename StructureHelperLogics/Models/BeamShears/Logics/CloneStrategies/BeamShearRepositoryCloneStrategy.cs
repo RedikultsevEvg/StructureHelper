@@ -39,15 +39,15 @@ namespace StructureHelperLogics.Models.BeamShears
             {
                 foreach (var action in sourceObject.Actions)
                 {
-                    targetObject.Actions.Add(action.GetClone(action, cloneMode, cloneDepth));
+                    targetObject.Actions.Add(action.GetClone(cloneMode, cloneDepth));
                 }
                 foreach (var section in sourceObject.Sections)
                 {
-                    targetObject.Sections.Add(section.GetClone(section, cloneMode, cloneDepth));
+                    targetObject.Sections.Add(section.GetClone(cloneMode, cloneDepth));
                 }
                 foreach (var stirrup in sourceObject.Stirrups)
                 {
-                    targetObject.Stirrups.Add(stirrup.GetClone(stirrup, cloneMode, cloneDepth));
+                    targetObject.Stirrups.Add(stirrup.GetClone(cloneMode, cloneDepth));
                 }
             }
             else if (cloneDepth == CloneDepth.PreserveReference)

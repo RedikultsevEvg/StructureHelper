@@ -77,7 +77,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.Curvatures
             return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
 
-        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public ICalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             Guid id = GuidService.GetGuid(this, cloneMode);
             CurvatureCalculator newItem = new(id);

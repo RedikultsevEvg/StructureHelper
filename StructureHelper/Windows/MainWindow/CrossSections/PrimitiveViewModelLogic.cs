@@ -278,7 +278,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             INdmPrimitive ndmPrimitive = viewPrimitive.GetNdmPrimitive();
             viewPrimitive.OnNext(this);
             repository.AddPrimitive(ndmPrimitive);
-            ndmPrimitive.CrossSection = section;
+            ndmPrimitive.CrossSectionRepository = section.SectionRepository;
             Items.Add(viewPrimitive);
             OnPropertyChanged(nameof(Items));
             OnPropertyChanged(nameof(PrimitivesCount));
@@ -323,7 +323,7 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
         private void EditSelectedItem()
         {
             var ndmPrimitive = SelectedItem.GetNdmPrimitive();
-            var primitiveCopy = ndmPrimitive.GetClone(ndmPrimitive) as INdmPrimitive;
+            var primitiveCopy = ndmPrimitive.GetClone() as INdmPrimitive;
             var wnd = new PrimitivePropertiesView(SelectedItem, repository);
             wnd.ShowDialog();
             if (wnd.DialogResult == true)

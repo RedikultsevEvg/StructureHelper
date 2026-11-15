@@ -57,6 +57,21 @@ namespace StructureHelper.Windows.BeamShears
             }
         }
 
+        public override void CopyMethod(object parameter)
+        {
+            if (SelectedItem is null) { return; }
+            DeepCloningStrategy cloningStrategy = new();
+            cloningStrategy.AddSelfReference(shearRepository.Actions);
+            cloningStrategy.AddSelfReference(shearRepository.Stirrups);
+            cloningStrategy.AddSelfReference(shearRepository.Sections);
+            CalculatorCloneStrategy calculatorCloneStrategy = new(cloningStrategy);
+            NewItem = calculatorCloneStrategy.GetClone(SelectedItem);
+            NewItem.Name = SelectedItem.Name + " copy";
+            shearRepository.Calculators.Add(NewItem);
+            Items.Add(NewItem);
+            base.CopyMethod(parameter);
+        }
+
         public BeamShearCalculatorsViewModel(IBeamShearRepository shearRepository) : base(shearRepository.Calculators)
         {
             this.shearRepository = shearRepository;

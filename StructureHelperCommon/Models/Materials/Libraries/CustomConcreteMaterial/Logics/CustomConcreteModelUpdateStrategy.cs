@@ -36,49 +36,26 @@ namespace StructureHelperCommon.Models.Materials.Logics
         public void Update(ICustomConcreteModel targetObject, ICustomConcreteModel sourceObject)
         {
             CheckObject.ThrowIfNull(targetObject, sourceObject);
-            if (ReferenceEquals(targetObject, sourceObject))
-            {
-                return;
-            }
+            if (ReferenceEquals(targetObject, sourceObject)) {  return; }
 
             targetObject.Name = sourceObject.Name;
             targetObject.IsActive = sourceObject.IsActive;
             targetObject.YoungModulus = sourceObject.YoungModulus;
 
-            if (!UpdateChildren)
+            if (UpdateChildren == true)
             {
-                return;
+            CheckObject.ThrowIfNull(sourceObject.StateCalcTermPair, $"{nameof(sourceObject)}.{nameof(sourceObject.StateCalcTermPair)}");
+            CheckObject.ThrowIfNull(targetObject.StateCalcTermPair, $"{nameof(targetObject)}.{nameof(targetObject.StateCalcTermPair)}");
+            stateCalcTermPairUpdateStrategy.Update(targetObject.StateCalcTermPair, sourceObject.StateCalcTermPair);
+
+            CheckObject.ThrowIfNull(sourceObject.CompressionOptions, $"{nameof(sourceObject)}.{nameof(sourceObject.CompressionOptions)}");
+            CheckObject.ThrowIfNull(targetObject.CompressionOptions, $"{nameof(targetObject)}.{nameof(targetObject.CompressionOptions)}");
+            compressionOptionsUpdateStrategy.Update(targetObject.CompressionOptions,sourceObject.CompressionOptions);
+
+            CheckObject.ThrowIfNull(sourceObject.TensionOptions, $"{nameof(sourceObject)}.{nameof(sourceObject.TensionOptions)}");
+            CheckObject.ThrowIfNull(targetObject.TensionOptions, $"{nameof(targetObject)}.{nameof(targetObject.TensionOptions)}");
+            tensionOptionsUpdateStrategy.Update(targetObject.TensionOptions, sourceObject.TensionOptions);
             }
-
-            CheckObject.ThrowIfNull(
-                sourceObject.StateCalcTermPair,
-                $"{nameof(sourceObject)}.{nameof(sourceObject.StateCalcTermPair)}");
-            CheckObject.ThrowIfNull(
-                targetObject.StateCalcTermPair,
-                $"{nameof(targetObject)}.{nameof(targetObject.StateCalcTermPair)}");
-            stateCalcTermPairUpdateStrategy.Update(
-                targetObject.StateCalcTermPair,
-                sourceObject.StateCalcTermPair);
-
-            CheckObject.ThrowIfNull(
-                sourceObject.CompressionOptions,
-                $"{nameof(sourceObject)}.{nameof(sourceObject.CompressionOptions)}");
-            CheckObject.ThrowIfNull(
-                targetObject.CompressionOptions,
-                $"{nameof(targetObject)}.{nameof(targetObject.CompressionOptions)}");
-            compressionOptionsUpdateStrategy.Update(
-                targetObject.CompressionOptions,
-                sourceObject.CompressionOptions);
-
-            CheckObject.ThrowIfNull(
-                sourceObject.TensionOptions,
-                $"{nameof(sourceObject)}.{nameof(sourceObject.TensionOptions)}");
-            CheckObject.ThrowIfNull(
-                targetObject.TensionOptions,
-                $"{nameof(targetObject)}.{nameof(targetObject.TensionOptions)}");
-            tensionOptionsUpdateStrategy.Update(
-                targetObject.TensionOptions,
-                sourceObject.TensionOptions);
         }
     }
 }

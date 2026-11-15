@@ -9,7 +9,7 @@ namespace DataAccess.DTOs.Converters
     public class CrossSectionNdmAnalysisFromDTOConvertStrategy : ConvertStrategy<ICrossSectionNdmAnalysis, ICrossSectionNdmAnalysis>
     {
         private IUpdateStrategy<ICrossSectionNdmAnalysis> updateStrategy;
-        private IUpdateStrategy<ICrossSectionNdmAnalysis> UpdateStrategy => updateStrategy ??= new CrossSectionNdmAnalysisUpdateStrategy();
+        private IUpdateStrategy<ICrossSectionNdmAnalysis> UpdateStrategy => updateStrategy ??= new CrossSectionNdmAnalysisUpdateStrategy() { UpdateChildren = false };
 
         public CrossSectionNdmAnalysisFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {

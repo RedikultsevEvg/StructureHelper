@@ -10,7 +10,7 @@ namespace StructureHelperLogics.Models.Materials
     /// <summary>
     /// Implements properies of cross-section of reinforcement bar
     /// </summary>
-    public interface IRebarSection : ISaveable, ICloneStrategy<IRebarSection>
+    public interface IRebarSection : ISaveable, ISelfCloneStrategy<IRebarSection>
     {
         /// <summary>
         /// Material of rebar

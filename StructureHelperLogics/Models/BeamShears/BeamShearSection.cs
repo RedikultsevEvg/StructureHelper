@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Models.VisualProperties;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.Materials;
 using System.Windows.Media;
 
@@ -34,19 +35,16 @@ namespace StructureHelperLogics.Models.BeamShears
             };
         }
 
-        public object Clone()
+        public IBeamShearSection GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
             var cloneStrategy = new ShapeCloneStrategy();
-            IShape shapeClone = cloneStrategy.GetClone(Shape, StructureHelperCommon.Infrastructures.Enums.CloneMode.NewEntity);
-            BeamShearSection newItem = new(Guid.NewGuid()) { Shape = shapeClone};
+            IShape shapeClone = cloneStrategy.GetClone(Shape, CloneMode.NewEntity);
+            BeamShearSection newItem = new(id) { Shape = shapeClone };
             updateStrategy ??= new BeamShearSectionUpdateStrategy();
             updateStrategy.Update(newItem, this);
             return newItem;
-        }
-
-        public IBeamShearSection GetClone(IBeamShearSection sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

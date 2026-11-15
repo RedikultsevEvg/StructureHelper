@@ -291,6 +291,20 @@ namespace StructureHelper.Windows.ViewModels.NdmCrossSections
             }
         }
 
+        public override void CopyMethod(object parameter)
+        {
+            if (SelectedItem is null) {  return; }
+            var deepCloneStrategy = new DeepCloningStrategy();
+            deepCloneStrategy.AddSelfReference(repository.ForceActions);
+            deepCloneStrategy.AddSelfReference(repository.HeadMaterials);
+            deepCloneStrategy.AddSelfReference(repository.Primitives);
+            var cloneLogic = new CalculatorCloningStrategy(deepCloneStrategy);
+            NewItem = cloneLogic.GetClone(SelectedItem);
+            repository.AddCalculator(NewItem);
+            Items.Add(NewItem);
+            base.CopyMethod(parameter);
+        }
+
         private void ShowInteractionDiagramByInputData(LimitCurvesCalculator calculator)
         {
             interactionDiagramLogic = new(calculator.InputData);

@@ -22,7 +22,7 @@ namespace StructureHelperLogics.Models.BeamShears
             IStirrupGroup newItem;
             if (cloneDepth == CloneDepth.Deep)
             {
-                newItem = (IStirrupGroup)sourceObject.GetClone(sourceObject, cloneMode, cloneDepth);
+                newItem = (IStirrupGroup)sourceObject.GetClone(cloneMode, cloneDepth);
             }
             else if (cloneDepth == CloneDepth.PreserveReference)
             {

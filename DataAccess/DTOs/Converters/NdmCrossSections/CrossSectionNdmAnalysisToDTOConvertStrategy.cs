@@ -42,7 +42,7 @@ namespace DataAccess.DTOs
 
         private void InitializeStrategies()
         {
-            updateStrategy ??= new CrossSectionNdmAnalysisUpdateStrategy();
+            updateStrategy ??= new CrossSectionNdmAnalysisUpdateStrategy() { UpdateChildren = false };
             convertStrategy = new DictionaryConvertStrategy<VersionProcessorDTO, IVersionProcessor>()
             {
                 ReferenceDictionary = ReferenceDictionary,

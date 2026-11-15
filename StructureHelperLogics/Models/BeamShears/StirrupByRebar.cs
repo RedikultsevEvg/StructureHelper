@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.VisualProperties;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.Materials;
 using System.Windows.Media;
 
@@ -86,17 +87,14 @@ namespace StructureHelperLogics.Models.BeamShears
             };
         }
 
-        public object Clone()
+        public IStirrup GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            StirrupByRebar stirrupByRebar = new(Guid.NewGuid());
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            StirrupByRebar stirrupByRebar = new(id);
             updateStrategy ??= new StirrupByRebarUpdateStrategy();
-            updateStrategy.Update(stirrupByRebar, this); 
+            updateStrategy.Update(stirrupByRebar, this);
             return stirrupByRebar;
-        }
-
-        public IStirrup GetClone(IStirrup sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace StructureHelper.Windows.BeamShears
         public override void EditMethod(object parameter)
         {
             if (SelectedItem is null) { return; }
-            IBeamShearAction temporaryShearAction = SelectedItem.GetClone(SelectedItem, CloneMode.PreserveIdentity, CloneDepth.Deep);
+            IBeamShearAction temporaryShearAction = SelectedItem.GetClone(CloneMode.PreserveIdentity, CloneDepth.Deep);
             var window = new BeamShearActionView(SelectedItem);
             window.ShowDialog();
             if (window.DialogResult != true)
@@ -44,6 +44,13 @@ namespace StructureHelper.Windows.BeamShears
                 BeamShearRepositoryService.DeleteAction(shearRepository, SelectedItem);
                 base.DeleteMethod(parameter);
             }
+        }
+
+        public override void CopyMethod(object parameter)
+        {
+            AutoCopy();
+            NewItem.Name += " copy";
+            SelectedItem = NewItem;
         }
     }
 }

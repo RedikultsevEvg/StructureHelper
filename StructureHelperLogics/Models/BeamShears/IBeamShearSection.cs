@@ -8,7 +8,7 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <summary>
     /// Properties of RC cross-section for shear strength of beam
     /// </summary>
-    public interface IBeamShearSection : ISaveable, ICloneStrategy<IBeamShearSection>, IHasVisualProperty
+    public interface IBeamShearSection : ISaveable, ISelfCloneStrategy<IBeamShearSection>, IHasVisualProperty
     {
         string? Name { get; set; }
         /// <summary>

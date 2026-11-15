@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Services;
 
 //Copyright (c) 2025 Redikultsev Evgeny, Ekaterinburg, Russia
 //All rights reserved.
@@ -23,14 +24,12 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
+        public IBeamShearAction GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return this;
-        }
-
-        public IBeamShearAction GetClone(IBeamShearAction sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            BeamShearActionDTO newItem = new(id);
+            return newItem;
         }
     }
 }

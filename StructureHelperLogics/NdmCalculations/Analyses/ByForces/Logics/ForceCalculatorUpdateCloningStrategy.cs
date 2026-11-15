@@ -1,10 +1,9 @@
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
-namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
+namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     /// <summary>
     /// Creates deep copy of force calculator

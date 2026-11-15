@@ -37,7 +37,7 @@ namespace StructureHelper.Windows.LoadHistory
 
         private void EditSelectedItem()
         {
-            var clone = SelectedItem.GetClone(SelectedItem) as IConstructionStage;
+            var clone = SelectedItem.GetClone();
             ConstructionStageViewModel vm = new(SelectedItem, repository.Primitives, repository.ForceActions);
             ConstructionStageView wnd = new(vm);
             wnd.ShowDialog();

@@ -13,7 +13,7 @@ namespace StructureHelperCommon.Models.Forces
     /// <summary>
     /// Implements properties of force at the and of bar
     /// </summary>
-    public interface IBeamShearAction : IAction, ICloneStrategy<IBeamShearAction>
+    public interface IBeamShearAction : IAction, ISelfCloneStrategy<IBeamShearAction>
     {
         /// <summary>
         /// External force at the end of bar

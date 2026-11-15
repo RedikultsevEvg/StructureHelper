@@ -22,7 +22,7 @@ namespace DataAccess.DTOs
         public double YoungModulus { get; set; }
 
         [JsonProperty("StateCalcTermPair")]
-        public IStateCalcTermPair StateCalcTermPair { get; set; } = new StateCalcTermPairDTO();
+        public IStateCalcTermPair StateCalcTermPair { get; set; } = new StateCalcTermPairDTO(Guid.NewGuid());
 
         [JsonProperty("CompressionOptions")]
         public ICustomConcreteCompressionOptions CompressionOptions { get; set; } =

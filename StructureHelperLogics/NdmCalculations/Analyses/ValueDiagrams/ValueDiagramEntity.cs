@@ -1,4 +1,5 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services;
 
 namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
 {
@@ -15,17 +16,14 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
             Id = id;
         }
 
-        public object Clone()
+        public IValueDiagramEntity GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            ValueDiagramEntity newItem = new ValueDiagramEntity(Guid.NewGuid());
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ValueDiagramEntity newItem = new ValueDiagramEntity(id);
             var updateStrategy = new ValueDiagramEntityUpdateStrategy();
             updateStrategy.Update(newItem, this);
             return newItem;
-        }
-
-        public IValueDiagramEntity GetClone(IValueDiagramEntity sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

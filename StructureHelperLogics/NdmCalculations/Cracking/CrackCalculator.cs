@@ -154,12 +154,7 @@ namespace StructureHelperLogics.NdmCalculations.Cracking
             };
         }
 
-        public ILogicCalculator GetClone(ILogicCalculator sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
-        }
-
-        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public ICalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             CrackCalculatorInputData crackInputData = new();
             var checkDataLogic = new CheckCrackCalculatorInputDataLogic()

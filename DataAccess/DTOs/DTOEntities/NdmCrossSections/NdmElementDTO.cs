@@ -2,6 +2,7 @@
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace DataAccess.DTOs
@@ -26,14 +27,12 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
+        public INdmElement GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            throw new NotImplementedException();
-        }
-
-        public INdmElement GetClone(INdmElement sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            NdmElementDTO newItem = new(id);
+            return newItem;
         }
     }
 }

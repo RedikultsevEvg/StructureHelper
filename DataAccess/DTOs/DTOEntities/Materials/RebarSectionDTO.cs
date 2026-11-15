@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.Materials;
 
 namespace DataAccess.DTOs
@@ -19,14 +20,14 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
+        public IRebarSection GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            throw new NotImplementedException();
-        }
-
-        public IRebarSection GetClone(IRebarSection sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            RebarSectionDTO newItem = new (id);
+            var logic = new RebarSectionUpdateStrategy();
+            logic.Update(newItem, this);
+            return newItem;
         }
     }
 }

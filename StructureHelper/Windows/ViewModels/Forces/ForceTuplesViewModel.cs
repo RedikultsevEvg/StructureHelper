@@ -1,11 +1,6 @@
-﻿using StructureHelper.Properties;
-using StructureHelperCommon.Infrastructures.Enums;
+﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Forces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureHelper.Windows.ViewModels.Forces
 {
@@ -15,6 +10,12 @@ namespace StructureHelper.Windows.ViewModels.Forces
         {
             NewItem = new DesignForceTuple() { LimitState=LimitStates.ULS, CalcTerm=CalcTerms.ShortTerm};
             base.AddMethod(parameter);
+        }
+
+        public override void CopyMethod(object parameter)
+        {
+            AutoCopy();
+            SelectedItem = NewItem;
         }
 
         public ForceTuplesViewModel(List<IDesignForceTuple> collection) : base(collection)

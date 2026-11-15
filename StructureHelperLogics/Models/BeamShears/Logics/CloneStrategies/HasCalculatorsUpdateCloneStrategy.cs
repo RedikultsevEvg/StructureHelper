@@ -1,5 +1,4 @@
 ﻿using StructureHelperCommon.Infrastructures.Exceptions;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Services;
 
@@ -8,7 +7,8 @@ namespace StructureHelperLogics.Models.BeamShears
     internal class HasCalculatorsUpdateCloneStrategy : IUpdateStrategy<IHasCalculators>
     {
         private readonly ICloningStrategy cloningStrategy;
-        private ICloneStrategy<IBeamShearCalculator> beamShearCalculatorCloneStrategy;
+        private ICloneStrategy<ICalculator> calculatorCloneStrategy;
+        private ICloneStrategy<ICalculator> CalculatorCloneStrategy => calculatorCloneStrategy ??= new CalculatorCloneStrategy(cloningStrategy);
 
         public HasCalculatorsUpdateCloneStrategy(ICloningStrategy cloningStrategy)
         {
@@ -25,15 +25,7 @@ namespace StructureHelperLogics.Models.BeamShears
             foreach (var calculator in sourceObject.Calculators)
             {
                 ICalculator newCalculator;
-                if (calculator is IBeamShearCalculator shearCalculator)
-                {
-                    beamShearCalculatorCloneStrategy ??= new BeamShearCalculatorCloneStrategy(cloningStrategy);
-                    newCalculator = beamShearCalculatorCloneStrategy.GetClone(shearCalculator);
-                }
-                else
-                {
-                    throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(calculator));
-                }
+                newCalculator = CalculatorCloneStrategy.GetClone(calculator);
                 targetObject.Calculators.Add(newCalculator);
             }
         }

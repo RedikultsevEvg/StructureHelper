@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Forces;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Primitives;
 
 namespace StructureHelperLogics.Models.LoadHistory
@@ -17,17 +18,14 @@ namespace StructureHelperLogics.Models.LoadHistory
             InputData = new ConstructionStageInputData(Guid.NewGuid(), this);
         }
 
-        public object Clone()
+        public IConstructionStage GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            ConstructionStageUpdateStrategy updateStrategy  = new() { UpdateChildren = true };
-            ConstructionStage newItem = new(Guid.NewGuid());
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ConstructionStage newItem = new(id);
+            ConstructionStageUpdateStrategy updateStrategy = new() { UpdateChildren = true };
             updateStrategy.Update(newItem, this);
             return newItem;
-        }
-
-        public IConstructionStage GetClone(IConstructionStage sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
         }
     }
 }

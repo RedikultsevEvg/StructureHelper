@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using StructureHelper.Models.Materials;
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Calculators;
 using StructureHelperCommon.Models.Forces;
 using StructureHelperCommon.Services;
@@ -24,10 +23,8 @@ namespace DataAccess.DTOs
         public List<INdmPrimitive> Primitives { get; } = [];
         [JsonProperty("Calculators")]        
         public List<ICalculator> Calculators { get; } = [];
-        public CrossSectionRepositoryDTO()
-            : this(Guid.NewGuid())
-        {
-        }
+        [JsonIgnore]        
+        public ICrossSection CrossSection { get; set; }
 
         public CrossSectionRepositoryDTO(Guid id)
         {
@@ -36,6 +33,7 @@ namespace DataAccess.DTOs
 
         [JsonIgnore]        
         public IRepositoryOperationsLogic Operations => operations ??= new RepositoryOperationsLogic(this);
+
 
         public ICrossSectionRepository GetClone(ICrossSectionRepository sourceObject, CloneMode cloningMode)
         {
@@ -58,7 +56,7 @@ namespace DataAccess.DTOs
             }
             foreach (var primitive in sourceObject.Primitives)
             {
-                clone.Primitives.Add(primitive.GetClone(primitive, cloningMode));
+                clone.Primitives.Add(primitive.GetClone(cloningMode));
             }
             foreach (var calculator in sourceObject.Calculators)
             {

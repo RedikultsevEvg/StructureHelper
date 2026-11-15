@@ -31,7 +31,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             CheckObject.ThrowIfNull(sourceObject);
             if (cloneMode == CloneMode.Reference) { return sourceObject;}
 
-            var clone = sourceObject.GetClone(sourceObject, cloneMode);
+            var clone = sourceObject.GetClone(cloneMode);
 
             if (sourceObject.NdmElement?.HeadMaterial is not null)
             {

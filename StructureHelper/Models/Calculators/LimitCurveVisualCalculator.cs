@@ -33,7 +33,7 @@ namespace StructureHelper.Models.Calculators
             throw new NotImplementedException();
         }
 
-        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public ICalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             throw new NotImplementedException();
         }

@@ -53,7 +53,7 @@ namespace StructureHelper.Windows.BeamShears
         private void EditStirrup()
         {
             Window window;
-            IStirrup temporaryStirrup = SelectedItem.GetClone(SelectedItem) as IStirrup;
+            IStirrup temporaryStirrup = SelectedItem.GetClone() as IStirrup;
             if (SelectedItem is IStirrupGroup stirrupGroup)
             {
                 window = new StirrupGroupView(stirrupGroup);
@@ -155,6 +155,13 @@ namespace StructureHelper.Windows.BeamShears
                 }
                 base.DeleteMethod(parameter);
             }
+        }
+
+        public override void CopyMethod(object parameter)
+        {
+            AutoCopy();
+            NewItem.Name += " copy";
+            SelectedItem = NewItem;
         }
     }
 }

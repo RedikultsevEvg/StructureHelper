@@ -23,7 +23,7 @@ namespace StructureHelperLogics.Models.BeamShears
             targetObject.ConcreteCompressionStrength = sourceObject.ConcreteCompressionStrength;
             targetObject.ConcreteTensionStrength = sourceObject.ConcreteTensionStrength;
             targetObject.WebWidth = sourceObject.WebWidth;
-            targetObject.BeamShearSection = sourceObject.BeamShearSection.GetClone(sourceObject.BeamShearSection, CloneMode.Reference);
+            targetObject.BeamShearSection = sourceObject.BeamShearSection.GetClone(CloneMode.Reference);
         }
     }
 }

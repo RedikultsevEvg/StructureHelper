@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperLogics.Models.LoadHistory;
 using StructureHelperLogics.NdmCalculations.Analyses.ByForces.LimitCurve;
+using StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics;
 using StructureHelperLogics.NdmCalculations.Analyses.Curvatures;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 using StructureHelperLogics.NdmCalculations.Cracking;
@@ -8,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces.Logics
+namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
 {
     public class CalculatorCloningStrategyContainer : ICalculatorCloningStrategyContainer
     {

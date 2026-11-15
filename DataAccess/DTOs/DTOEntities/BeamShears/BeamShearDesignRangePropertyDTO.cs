@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.BeamShears;
 
 namespace DataAccess.DTOs
@@ -20,14 +21,12 @@ namespace DataAccess.DTOs
             Id = id;
         }
 
-        public object Clone()
+        public IBeamShearDesignRangeProperty GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return this;
-        }
-
-        public IBeamShearDesignRangeProperty GetClone(IBeamShearDesignRangeProperty sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            BeamShearDesignRangePropertyDTO newItem = new(id);
+            return newItem;
         }
     }
 }

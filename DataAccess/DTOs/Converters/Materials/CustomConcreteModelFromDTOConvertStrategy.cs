@@ -9,9 +9,9 @@ namespace DataAccess.DTOs
     public class CustomConcreteModelFromDTOConvertStrategy
         : ConvertStrategy<CustomConcreteModel, CustomConcreteModelDTO>
     {
-        public CustomConcreteModelFromDTOConvertStrategy()
+
+        public CustomConcreteModelFromDTOConvertStrategy(IBaseConvertStrategy baseConvertStrategy) : base(baseConvertStrategy)
         {
-            ReferenceDictionary = new Dictionary<(Guid id, Type type), ISaveable>();
         }
 
         public override CustomConcreteModel GetNewItem(CustomConcreteModelDTO source)

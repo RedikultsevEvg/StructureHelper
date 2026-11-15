@@ -17,7 +17,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
         public double Width { get => rectangleShape.Width; set => rectangleShape.Width = value; }
         public double Height { get => rectangleShape.Height; set => rectangleShape.Height = value; }
         public IVisualProperty VisualProperty { get; } = new VisualProperty() { Opacity = 0.8d };
-        public ICrossSection? CrossSection { get; set; }
+        public ICrossSectionRepository? CrossSectionRepository { get; set; }
 
         public IPoint2D Center { get; set; } = new Point2D();
 
@@ -102,17 +102,12 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             return points;
         }
 
-        public INdmPrimitive GetClone(INdmPrimitive sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public INdmPrimitive GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            CheckObject.ThrowIfNull(sourceObject);
-            if (cloneMode == CloneMode.Reference) { return sourceObject; }
-            Guid id = GuidService.GetGuid(sourceObject, cloneMode);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
             RectangleNdmPrimitive primitive = new (id);
-            if (sourceObject is not IRectangleNdmPrimitive sourceRectangle)
-            {
-                throw new StructureHelperException(ErrorStrings.ObjectTypeIsUnknownObj(sourceObject));
-            }
-            new RectanglePrimitiveUpdateStrategy().Update(primitive, sourceRectangle);
+            new RectanglePrimitiveUpdateStrategy().Update(primitive, this);
             return primitive;
         }
     }

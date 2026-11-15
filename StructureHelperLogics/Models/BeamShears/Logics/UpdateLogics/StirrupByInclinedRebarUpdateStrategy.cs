@@ -27,7 +27,7 @@ namespace StructureHelperLogics.Models.BeamShears
             if (UpdateChildren == true)
             {
                 CheckObject.ThrowIfNull(sourceObject.RebarSection, "Rebar section");
-                targetObject.RebarSection = sourceObject.RebarSection.GetClone(sourceObject.RebarSection, CloneMode.NewEntity, CloneDepth.Shallow);
+                targetObject.RebarSection = sourceObject.RebarSection.GetClone(CloneMode.NewEntity, CloneDepth.Shallow);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams;
 
 namespace DataAccess.DTOs
@@ -26,9 +27,12 @@ namespace DataAccess.DTOs
             return this;
         }
 
-        public IValueDiagramEntity GetClone(IValueDiagramEntity sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public IValueDiagramEntity GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ValueDiagramEntityDTO newItem = new(id);
+            return newItem;
         }
     }
 }

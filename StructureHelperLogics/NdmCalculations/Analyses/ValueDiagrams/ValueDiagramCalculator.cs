@@ -50,7 +50,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
             result = valueDiagramCalculatorLogic.GetResult();
         }
 
-        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public ICalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             Guid id = GuidService.GetGuid(this, cloneMode);
             ValueDiagramCalculator newItem = new(id);

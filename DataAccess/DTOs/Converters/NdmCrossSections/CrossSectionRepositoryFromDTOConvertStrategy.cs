@@ -63,6 +63,7 @@ namespace DataAccess.DTOs
             ForcesAndPrimitivesLogic.Source = source;
             ForcesAndPrimitivesLogic.Target = newRepository;
             ForcesAndPrimitivesLogic.Process();
+            newRepository.Primitives.ForEach(x  => x.CrossSectionRepository = newRepository);
         }
 
         private void ProcessMaterials(IHasHeadMaterials source)

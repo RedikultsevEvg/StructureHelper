@@ -2,6 +2,7 @@
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Shapes;
 using StructureHelperCommon.Models.VisualProperties;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.BeamShears;
 using StructureHelperLogics.Models.Materials;
 using System.Windows.Media;
@@ -38,14 +39,12 @@ namespace DataAccess.DTOs
             };
         }
 
-        public object Clone()
+        public IBeamShearSection GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return this;
-        }
-
-        public IBeamShearSection GetClone(IBeamShearSection sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            BeamShearSectionDTO newItem = new(id);
+            return newItem;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace StructureHelperCommon.Models.Materials
         public string Name { get; set; } = string.Empty;
         public double YoungModulus { get; set; } = 3e10;
 
-        public IStateCalcTermPair StateCalcTermPair { get; } = new StateCalcTermPair();
+        public IStateCalcTermPair StateCalcTermPair { get; set; } = new StateCalcTermPair(Guid.NewGuid());
 
         public ICustomConcreteCompressionOptions CompressionOptions { get; private set; } = new CustomConcreteCompressionOptions(Guid.NewGuid());
 
@@ -31,8 +31,10 @@ namespace StructureHelperCommon.Models.Materials
             Guid id = GuidService.GetGuid(this, cloneMode);
             CustomConcreteModel clone = new(id);
             CustomConcreteModelUpdateStrategy updateStrategy = new() { UpdateChildren = false };
+            updateStrategy.Update(clone, this);
             if (cloneDepth == CloneDepth.Shallow || cloneDepth == CloneDepth.Deep)
             {
+                clone.StateCalcTermPair = StateCalcTermPair.GetClone(cloneMode);
                 clone.CompressionOptions = CompressionOptions.GetClone(cloneMode, cloneDepth);
                 clone.TensionOptions = TensionOptions.GetClone(cloneMode, cloneDepth);
             }

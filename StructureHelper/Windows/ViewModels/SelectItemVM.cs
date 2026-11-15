@@ -1,4 +1,5 @@
 using StructureHelper.Infrastructure;
+using StructureHelperCommon.Infrastructures.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -111,6 +112,17 @@ namespace StructureHelper.Windows.ViewModels
             //}
             //NewItem = newItem;
             //AddItem(newItem);
+        }
+
+        public void AutoCopy()
+        {
+            if (SelectedItem is null) { return; }
+            if (SelectedItem is not ISelfCloneStrategy<TItem> sourceObject)
+            {
+                throw new StructureHelperException(ErrorStrings.DataIsInCorrect + $": selected item type is not {typeof(ISelfCloneStrategy<>)}");
+            }
+            NewItem = sourceObject.GetClone();
+            AddItem(NewItem);
         }
 
         public ICommand MoveUpCommand => moveUpCommand ??= new RelayCommand(o => MoveUp(), o => CanMoveUp());

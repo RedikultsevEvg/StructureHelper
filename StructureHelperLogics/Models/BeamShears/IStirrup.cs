@@ -9,7 +9,7 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <summary>
     /// Implement properties of stirrups
     /// </summary>
-    public interface IStirrup : ISaveable, ICloneStrategy<IStirrup>, IHasVisualProperty
+    public interface IStirrup : ISaveable, ISelfCloneStrategy<IStirrup>, IHasVisualProperty
     {
         string? Name { get; set; }
         /// <summary>

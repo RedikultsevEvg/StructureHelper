@@ -4,7 +4,7 @@ using StructureHelperCommon.Models.Forces;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
 {
-    public interface INdmElement : ISaveable, ICloneStrategy<INdmElement>
+    public interface INdmElement : ISaveable, ISelfCloneStrategy<INdmElement>
     {
         /// <summary>
         /// Material of primitive

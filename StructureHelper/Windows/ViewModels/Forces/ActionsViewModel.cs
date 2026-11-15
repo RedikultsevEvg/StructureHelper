@@ -80,7 +80,6 @@ namespace StructureHelper.Windows.ViewModels.Forces
             ForceActionCloneStrategy cloneStrategy = new(); 
             NewItem = cloneStrategy.GetClone(SelectedItem);
             NewItem.Name = $"{NewItem.Name} copy";
-            //GlobalRepository.Actions.Create(NewItem);
             Collection.Add(NewItem);
             Items.Add(NewItem);
             SelectedItem = NewItem;

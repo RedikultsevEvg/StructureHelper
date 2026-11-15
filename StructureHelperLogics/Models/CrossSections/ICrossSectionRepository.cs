@@ -11,6 +11,7 @@ namespace StructureHelperLogics.Models.CrossSections
     /// </summary>
     public interface ICrossSectionRepository : ISaveable, IHasHeadMaterials, IHasForcesAndPrimitives, IHasCalculators, ISelfCloneStrategy<ICrossSectionRepository>
     {
+        ICrossSection CrossSection { get; set; }
         /// <summary>
         /// Operations for removing force actions and NDM primitives
         /// </summary>

@@ -60,6 +60,13 @@ namespace StructureHelper.Windows.ViewModels.Materials
             base.EditMethod(parameter);
         }
 
+        public override void CopyMethod(object parameter)
+        {
+            AutoCopy();
+            NewItem.Name += " copy";
+            SelectedItem = NewItem;
+        }
+
         public SafetyFactorsViewModel(List<IMaterialSafetyFactor> safetyFactors) : base(safetyFactors)
         {
             this.safetyFactors = safetyFactors;

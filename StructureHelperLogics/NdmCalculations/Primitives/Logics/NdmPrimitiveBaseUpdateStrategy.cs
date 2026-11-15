@@ -21,7 +21,7 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             InitializeStrategies();
             targetObject.Name = sourceObject.Name;
             targetObject.RotationAngle = sourceObject.RotationAngle;
-            targetObject.CrossSection = sourceObject.CrossSection;
+            targetObject.CrossSectionRepository = sourceObject.CrossSectionRepository;
             if (UpdateChildren == true)
             {
                 point2DUpdateStrategy.Update(targetObject.Center, sourceObject.Center);

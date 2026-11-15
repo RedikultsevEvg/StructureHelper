@@ -2,6 +2,7 @@ using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Analyses;
 using StructureHelperCommon.Models.WorkPlanes;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.Analyses;
 using StructureHelperLogics.Models.CrossSections;
 using System.Windows.Media;
@@ -11,6 +12,7 @@ namespace StructureHelperLogic.Models.Analyses
     public class CrossSectionNdmAnalysis : ICrossSectionNdmAnalysis
     {
         private IUpdateStrategy<ICrossSectionNdmAnalysis> updateStrategy;
+        private IUpdateStrategy<ICrossSectionNdmAnalysis> UpdateStrategy => updateStrategy ??= new CrossSectionNdmAnalysisUpdateStrategy() { UpdateChildren = false };
         public Guid Id { get; private set; }
         public string Name { get; set; }
         public string Tags { get; set; }
@@ -31,15 +33,16 @@ namespace StructureHelperLogic.Models.Analyses
 
         public CrossSectionNdmAnalysis() : this(Guid.NewGuid(), new VersionProcessor(Guid.NewGuid()))
         {
-            CrossSection crossSection = new();
+            CrossSection crossSection = new(Guid.NewGuid());
             VersionProcessor.AddVersion(crossSection);
         }
 
-        public IAnalysis GetClone(IAnalysis sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public IAnalysis GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            updateStrategy ??= new CrossSectionNdmAnalysisUpdateStrategy();
-            CrossSectionNdmAnalysis newAnalysis = new();
-            updateStrategy.Update(newAnalysis, this);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            CrossSectionNdmAnalysis newAnalysis = new(id);
+            UpdateStrategy.Update(newAnalysis, this);
             newAnalysis.VersionProcessor.Versions.Clear();
             var currentVersion = VersionProcessor.GetCurrentVersion().AnalysisVersion as ICrossSection;
             ICrossSection newCrossSection = GetCrossSectionClone(cloneMode, cloneDepth, currentVersion);

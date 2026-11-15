@@ -11,7 +11,7 @@ namespace StructureHelperCommon.Models.VisualProperties
     /// <summary>
     /// Implements visual settings for graphical primetives
     /// </summary>
-    public interface IPrimitiveVisualProperty : ISaveable, ICloneStrategy<IPrimitiveVisualProperty>
+    public interface IPrimitiveVisualProperty : ISaveable, ISelfCloneStrategy<IPrimitiveVisualProperty>
     {
         /// <summary>
         /// Flag of visibility

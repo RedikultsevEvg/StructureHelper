@@ -70,12 +70,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ByForces
             Result = ForceCalculatorLogic.GetForcesResults();
         }
 
-        public ILogicCalculator GetClone(ILogicCalculator sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
-        }
-
-        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public ICalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             Guid id = GuidService.GetGuid(this, cloneMode);
             ForceCalculator newCalculator = new(id);

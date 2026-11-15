@@ -22,7 +22,7 @@ namespace StructureHelperLogics.NdmCalculations.Analyses.ValueDiagrams
         public List<IForceAction> ForceActions { get; } = [];
         /// <inheritdoc/>
         public List<INdmPrimitive> Primitives { get; } = [];
-        public IStateCalcTermPair StateTermPair { get; set; } = new StateCalcTermPair() { LimitState = LimitStates.ULS, CalcTerm = CalcTerms.ShortTerm};
+        public IStateCalcTermPair StateTermPair { get; set; } = new StateCalcTermPair(Guid.NewGuid()) { LimitState = LimitStates.ULS, CalcTerm = CalcTerms.ShortTerm};
         public bool CheckStrainLimit { get; set; } = true;
 
         public ValueDiagramCalculatorInputData(Guid id)

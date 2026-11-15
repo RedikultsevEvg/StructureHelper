@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.LoadHistory;
 
 namespace DataAccess.DTOs
@@ -19,14 +20,12 @@ namespace DataAccess.DTOs
         }
 
 
-        public object Clone()
+        public IConstructionStage GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return this;
-        }
-
-        public IConstructionStage GetClone(IConstructionStage sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
-        {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            ConstructionStageDTO newItem = new(id);
+            return newItem;
         }
     }
 }

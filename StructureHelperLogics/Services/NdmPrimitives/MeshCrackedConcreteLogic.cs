@@ -55,8 +55,8 @@ namespace StructureHelperLogics.Services.NdmPrimitives
         private void ProcessRebar(List<INdm> ndmCollection, RebarNdmPrimitive rebar)
         {
             TraceLogger?.AddMessage($"Primitive {Primitive.Name} is rebar primitive", TraceLogStatuses.Service);
-            var newPrimititve = rebar.Clone() as RebarNdmPrimitive;
-            var newHostPrimitive = rebar.HostPrimitive.GetClone(rebar.HostPrimitive) as INdmPrimitive;
+            var newPrimititve = rebar.GetClone() as RebarNdmPrimitive;
+            var newHostPrimitive = rebar.HostPrimitive.GetClone() as INdmPrimitive;
             SetNewMaterial(newHostPrimitive);
             newPrimititve.HostPrimitive = newHostPrimitive;
             List<INdm> ndms = GetNdms(newPrimititve);
@@ -66,7 +66,7 @@ namespace StructureHelperLogics.Services.NdmPrimitives
         private void ProcessICracked(List<INdm> ndmCollection)
         {
             TraceLogger?.AddMessage($"Primitive {Primitive.Name} is crackable primitive", TraceLogStatuses.Service);
-            var newPrimititve = Primitive.GetClone(Primitive) as INdmPrimitive;
+            var newPrimititve = Primitive.GetClone();
             SetNewMaterial(newPrimititve);
             List<INdm> ndms = GetNdms(newPrimititve);
             ndmCollection.AddRange(ndms);

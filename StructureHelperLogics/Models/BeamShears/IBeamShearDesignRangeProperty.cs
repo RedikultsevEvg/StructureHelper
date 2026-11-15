@@ -10,7 +10,7 @@ namespace StructureHelperLogics.Models.BeamShears
     /// <summary>
     /// Implements properties for calculting maximum range for considering of inclined sections
     /// </summary>
-    public interface IBeamShearDesignRangeProperty : ISaveable, ICloneStrategy<IBeamShearDesignRangeProperty>
+    public interface IBeamShearDesignRangeProperty : ISaveable, ISelfCloneStrategy<IBeamShearDesignRangeProperty>
     {
         /// <summary>
         /// Absolute value of range in metres

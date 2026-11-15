@@ -2,11 +2,6 @@
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.VisualProperties;
 using StructureHelperCommon.Services.ColorServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace StructureHelperLogics.NdmCalculations.Primitives
@@ -49,9 +44,9 @@ namespace StructureHelperLogics.NdmCalculations.Primitives
             throw new NotImplementedException();
         }
 
-        public IPrimitiveVisualProperty GetClone(IPrimitiveVisualProperty sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public IPrimitiveVisualProperty GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
-            return CloneFallback.GetClone(sourceObject, cloneMode, cloneDepth);
+            throw new NotImplementedException();
         }
     }
 }

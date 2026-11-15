@@ -1,6 +1,7 @@
 ﻿using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.BeamShears;
 using System.Windows.Media;
 
@@ -41,10 +42,12 @@ namespace StructureHelperLogics.Models.Analyses
             updateStrategy ??= new BeamShearAnalysisUpdateStrategy();
         }
 
-        public IAnalysis GetClone(IAnalysis sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public IAnalysis GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            BeamShearAnalysis newAnalysis = new(id);
             InitializeStrategies();
-            BeamShearAnalysis newAnalysis = new(Guid.NewGuid());
             updateStrategy.Update(newAnalysis, this);
             newAnalysis.VersionProcessor.Versions.Clear();
             IBeamShear newVersion = GetCloneOfCurrentVersion();

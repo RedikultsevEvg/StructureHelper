@@ -24,7 +24,7 @@ namespace StructureHelperCommon.Models.Analyses
             VersionProcessor.AddVersion(fstVersion);
         }
 
-        public abstract IAnalysis GetClone(IAnalysis sourceObject, CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep);
+        public abstract IAnalysis GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep);
         
     }
 }

@@ -33,7 +33,7 @@ namespace DataAccess.DTOs
             throw new NotImplementedException();
         }
 
-        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public ICalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             Guid id = GuidService.GetGuid(this, cloneMode);
             CrackCalculatorDTO newItem = new(id);

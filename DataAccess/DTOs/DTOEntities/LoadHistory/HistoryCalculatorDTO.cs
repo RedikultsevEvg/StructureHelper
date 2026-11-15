@@ -58,7 +58,7 @@ namespace DataAccess.DTOs
             return newItem;
         }
 
-        public ILogicCalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        public ICalculator GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
         {
             Guid id = GuidService.GetGuid(this, cloneMode);
             HistoryCalculatorDTO newItem = new(id);
