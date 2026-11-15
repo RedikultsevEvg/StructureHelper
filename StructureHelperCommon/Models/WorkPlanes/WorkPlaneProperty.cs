@@ -1,4 +1,6 @@
-﻿using System;
+﻿using StructureHelperCommon.Infrastructures.Enums;
+using StructureHelperCommon.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +21,16 @@ namespace StructureHelperCommon.Models.WorkPlanes
         public WorkPlaneProperty(Guid id)
         {
             Id = id;
+        }
+
+        public IWorkPlaneProperty GetClone(CloneMode cloneMode = CloneMode.NewEntity, CloneDepth cloneDepth = CloneDepth.Deep)
+        {
+            if (cloneMode == CloneMode.Reference) { return this; }
+            Guid id = GuidService.GetGuid(this, cloneMode);
+            WorkPlaneProperty newItem = new(id);
+            WorkPlanePropertyUpdateStrategy updateStrategy = new();
+            updateStrategy.Update(newItem, this);
+            return newItem;
         }
     }
 }

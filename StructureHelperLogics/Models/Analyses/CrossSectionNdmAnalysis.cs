@@ -1,7 +1,5 @@
 using StructureHelperCommon.Infrastructures.Enums;
-using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Models.Analyses;
-using StructureHelperCommon.Models.WorkPlanes;
 using StructureHelperCommon.Services;
 using StructureHelperLogics.Models.Analyses;
 using StructureHelperLogics.Models.CrossSections;

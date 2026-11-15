@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Models.Projects;
 
 namespace DataAccess.DTOs
 {
@@ -9,10 +10,13 @@ namespace DataAccess.DTOs
     
         [JsonProperty("Id")]
         public Guid Id { get;}
+        [JsonIgnore]
+        public IProject Project { get; set; }
         [JsonProperty("Analysis")]
         public IAnalysis Analysis { get; set; }
         [JsonIgnore]
         public Action ActionToRun { get; set; }
+
 
         public VisualAnalysisDTO(Guid id)
         {

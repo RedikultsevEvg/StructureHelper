@@ -12,9 +12,11 @@ using StructureHelper.Windows.ViewModels.Materials;
 using StructureHelper.Windows.ViewModels.NdmCrossSections;
 using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
+using StructureHelperCommon.Infrastructures.History;
 using StructureHelperCommon.Services.Exports;
 using StructureHelperCommon.Services.Exports.Factories;
 using StructureHelperLogics.Models.CrossSections;
+using StructureHelperLogics.Models.Materials;
 using StructureHelperLogics.Models.Templates.CrossSections.RCs;
 using StructureHelperLogics.Models.Templates.RCs;
 using StructureHelperLogics.NdmCalculations.Primitives;
@@ -37,9 +39,36 @@ namespace StructureHelper.Windows.MainWindow
 {
     public class CrossSectionViewModel : ViewModelBase
     {
+        private IUndoRedoService? undoRedoService;
+        private readonly Guid? analysisId;
+        private RelayCommand? undoCommand;
+        private RelayCommand? redoCommand;
+
         public ICrossSection Section { get; set; }
         private ICrossSectionRepository repository => Section.SectionRepository;
         private ITriangulatePrimitiveLogic triangulateLogic;
+
+        /// <summary>
+        /// Optional project-level history service supplied by the application host.
+        /// When it is null, Undo and Redo are disabled.
+        /// </summary>
+        public IUndoRedoService? UndoRedoService
+        {
+            get => undoRedoService;
+            set
+            {
+                undoRedoService = value;
+                CommandManager.InvalidateRequerySuggested();
+            }
+        }
+
+        public ICommand UndoCommand => undoCommand ??= new RelayCommand(
+            _ => ExecuteUndo(),
+            _ => undoRedoService?.CanUndo == true);
+
+        public ICommand RedoCommand => redoCommand ??= new RelayCommand(
+            _ => ExecuteRedo(),
+            _ => undoRedoService?.CanRedo == true);
 
         public CrossSectionVisualPropertyVM VisualProperty { get; private set; }
 
@@ -215,8 +244,15 @@ namespace StructureHelper.Windows.MainWindow
         }
 
         public CrossSectionViewModel(ICrossSection section)
+            : this(section, null, null)
+        {
+        }
+
+        public CrossSectionViewModel(ICrossSection section, IUndoRedoService? undoRedoService, Guid? analysisId = null)
         {
             Section = section;
+            this.undoRedoService = undoRedoService;
+            this.analysisId = analysisId;
             VisualProperty = new CrossSectionVisualPropertyVM(Section.WorkPlaneProperty)
             {
                 ScaleValue = 500d,
@@ -296,6 +332,112 @@ namespace StructureHelper.Windows.MainWindow
         private void AfterMaterialEdit(SelectItemVM<IHeadMaterial> sender, CRUDVMEventArgs e)
         {
             PrimitiveLogic.Refresh();
+        }
+
+        private void ExecuteUndo()
+        {
+            if (undoRedoService is null || !undoRedoService.CanUndo)
+            {
+                return;
+            }
+
+            undoRedoService.Undo();
+            RefreshAfterHistoryRestore();
+        }
+
+        private void ExecuteRedo()
+        {
+            if (undoRedoService is null || !undoRedoService.CanRedo)
+            {
+                return;
+            }
+
+            undoRedoService.Redo();
+            RefreshAfterHistoryRestore();
+        }
+
+        private void RefreshAfterHistoryRestore()
+        {
+            // The host is responsible for restoring the project document.
+            // These refreshes keep the current editor consistent with that document.
+            PrimitiveLogic.Refresh();
+            MaterialsLogic.Refresh();
+            OnPropertyChanged(nameof(HeadMaterials));
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+        private IUndoTransaction BeginExampleTransaction(string name)
+        {
+            if (undoRedoService is null)
+            {
+                throw new InvalidOperationException(
+                    "An undo/redo service must be supplied by the application host.");
+            }
+
+            return analysisId is Guid id
+                ? undoRedoService.BeginTransaction(
+                    name,
+                    HistoryScope.Analysis,
+                    new[] { id })
+                : undoRedoService.BeginTransaction(name, HistoryScope.Project);
+        }
+
+        /// <summary>
+        /// Example of an operation wrapped in an explicit undo transaction.
+        /// When the host supplies an analysis ID, the transaction is analysis-scoped.
+        /// </summary>
+        public void AddExampleMaterial()
+        {
+            if (undoRedoService is null)
+            {
+                throw new InvalidOperationException(
+                    "An undo/redo service must be supplied by the application host.");
+            }
+
+            var transaction = BeginExampleTransaction("Add example material");
+
+            try
+            {
+                var material = new HeadMaterial(Guid.NewGuid())
+                {
+                    Name = "Example material",
+                    HelperMaterial = new ElasticMaterial(Guid.NewGuid())
+                };
+                repository.AddHeadMaterial(material);
+                transaction.Commit();
+                RefreshAfterHistoryRestore();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Example of a command that should be wrapped in an explicit transaction.
+        /// </summary>
+        public void DeleteExampleMaterial(IHeadMaterial material)
+        {
+            if (undoRedoService is null)
+            {
+                throw new InvalidOperationException(
+                    "An undo/redo service must be supplied by the application host.");
+            }
+
+            var transaction = BeginExampleTransaction("Delete example material");
+
+            try
+            {
+                repository.RemoveHeadMaterial(material);
+                transaction.Commit();
+                RefreshAfterHistoryRestore();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         private bool CheckMaterials()
@@ -393,16 +535,7 @@ namespace StructureHelper.Windows.MainWindow
                 CalculatorsLogic.AddItems(newRepository.Calculators);
                 var primitives = PrimitiveOperations.ConvertNdmPrimitivesToPrimitiveBase(newRepository.Primitives);
                 PrimitiveLogic.Refresh();
-            //foreach (var item in newRepository.HeadMaterials)
-            //{
-            //    GlobalRepository.Materials.Create(item);
-            //}
-            //foreach (var item in newRepository.ForceActions)
-            //{
-            //    GlobalRepository.Actions.Create(item);
-            //}
             return primitives;
-            //WorkPlane
         }
     }
 }

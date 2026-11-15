@@ -12,6 +12,7 @@ namespace StructureHelperCommon.Models.Analyses
             CheckObject.ThrowIfNull(targetObject, ErrorStrings.TargetObject);
             if (ReferenceEquals(targetObject, sourceObject)) { return; };
             targetObject.DateTime = sourceObject.DateTime;
+            targetObject.Comment = sourceObject.Comment;
         }
     }
 }

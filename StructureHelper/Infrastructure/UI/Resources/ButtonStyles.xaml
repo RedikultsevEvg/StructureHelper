@@ -426,7 +426,6 @@
                 <ContentControl ContentTemplate="{DynamicResource Back}">
                     <ContentControl.RenderTransform>
                         <TransformGroup>
-                            <TranslateTransform Y="-5"/>
                             <ScaleTransform ScaleX="-1" CenterX="15" CenterY="8"/>
                         </TransformGroup>
                     </ContentControl.RenderTransform>
@@ -739,6 +738,18 @@
         </Canvas>
     </DataTemplate>
     <DataTemplate x:Key="Print">
+        <Canvas Style="{DynamicResource ButtonResultCanvas}">
+            <Canvas.Children>
+                <Rectangle Margin="9,8,0,0" Height="8" Width="15" Fill="White" Stroke="Black"/>
+                <Rectangle Margin="5,15,0,0" Height="10" Width="23" Fill="DarkGray" Stroke="Black"/>
+                <Ellipse Margin="8,18,0,0" Height="2" Width="2" Fill="Black" Stroke="Black"/>
+                <Ellipse Margin="12,18,0,0" Height="2" Width="2" Fill="Black" Stroke="Black"/>
+                <Ellipse Margin="16,18,0,0" Height="2" Width="2" Fill="Black" Stroke="Black"/>
+                <Rectangle Margin="9,22,0,0" Height="6" Width="15"  Fill="White" Stroke="Black"/>
+            </Canvas.Children>
+        </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="Undo">
         <Canvas Style="{DynamicResource ButtonResultCanvas}">
             <Canvas.Children>
                 <Rectangle Margin="9,8,0,0" Height="8" Width="15" Fill="White" Stroke="Black"/>

@@ -8,7 +8,7 @@ namespace StructureHelperCommon.Models.WorkPlanes
     /// <summary>
     /// Implements properties of work plane
     /// </summary>
-    public interface IWorkPlaneProperty : ISaveable, IRectangleShape
+    public interface IWorkPlaneProperty : ISaveable, IRectangleShape, ISelfCloneStrategy<IWorkPlaneProperty>
     {
         /// <summary>
         /// Size of grid of work plane

@@ -2,6 +2,7 @@ using StructureHelperCommon.Infrastructures.Enums;
 using StructureHelperCommon.Infrastructures.Exceptions;
 using StructureHelperCommon.Infrastructures.Interfaces;
 using StructureHelperCommon.Models.Analyses;
+using StructureHelperCommon.Models.Projects;
 using StructureHelperCommon.Services;
 using System;
 
@@ -11,8 +12,10 @@ namespace StructureHelperCommon.Models.Analyses
     {
         private IUpdateStrategy<IVisualAnalysis> updateStrategy = new VisualAnalysisUpdateStrategy();
         public Guid Id { get; }
+        public IProject Project { get; set; }
         public IAnalysis Analysis { get; set; }
         public Action ActionToRun { get; set; }
+
 
         public VisualAnalysis(Guid id)
             : this(id, null!)

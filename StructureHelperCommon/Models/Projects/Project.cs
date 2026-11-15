@@ -14,7 +14,7 @@ namespace StructureHelperCommon.Models.Projects
         public Guid Id { get; }
         public string FullFileName { get; set; } = string.Empty;
         public bool IsActual { get; set; } = true;
-        public List<IVisualAnalysis> VisualAnalyses { get; } = new();
+        public List<IVisualAnalysis> VisualAnalyses { get; } = [];
         public string FileName => Path.GetFileName(FullFileName);
 
         public Project(Guid id)

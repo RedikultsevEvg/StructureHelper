@@ -43,6 +43,28 @@
     </Window.Resources>
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar ToolTip="History">
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding UndoCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Undo"
+                                                IconContent="{StaticResource Restore}"
+                                                DescriptionText="Undo last operation"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource Restore}"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource ToolButton}" Command="{Binding RedoCommand}">
+                    <Button.ToolTip>
+                        <uc:ButtonToolTipEh HeaderText="Redo"
+                                                IconContent="{StaticResource Forward}"
+                                                DescriptionText="Redo last undone operation"/>
+                    </Button.ToolTip>
+                    <Viewbox>
+                        <ContentControl ContentTemplate="{StaticResource Forward}"/>
+                    </Viewbox>
+                </Button>
+            </ToolBar>
             <ToolBar DataContext="{Binding CombinationsLogic}" ToolTip="Actions">
                 <Button Style="{StaticResource ToolButton}" 
                         Command="{Binding Add}"
